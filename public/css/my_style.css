@@ -1,0 +1,54 @@
+.table-item{
+    height: 5rem;
+    background-color: white;
+    box-shadow: darkgrey;
+    border-bottom: 2px solid darkgrey;
+    cursor: pointer;
+}
+.table-item-hover{
+    background-color: #d7d7d7;
+}
+.upper-menu{
+    box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+}
+.block-shadow{
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+.table-title{
+    font-size: 16pt;
+    background-color: #e8e8e8;
+    font-weight: bold;
+    border-bottom: 2px dotted lightgrey;
+}
+.table-subtitle{
+    font-size: 14pt;
+    background-color: #f3f3f3;
+    font-weight: bold;
+
+}
+.edit{
+    color: steelblue;
+    margin: 10px;
+}
+.delete{
+    color: darkred;
+    margin: 10px;
+}
+.white-block{
+    background-color: white;
+}
+input[type="text"], textarea {
+    /*background-color : #f8f8f8;*/
+    border: solid 1px darkgrey;
+}
+.block-border{
+    border: 2px solid darkgrey;
+    border-collapse: collapse;
+}
+.row-terminator{
+    margin-bottom: 20px;
+}
+.separate-row{
+    line-height: 200px;
+    background-color: darkgrey;
+}

@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-lg-12 ">
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <div class="m-1">
+                        <a href="{{ path("app_profile_edit") }}">
+                            <button class="btn btn-info">
+                                <div class="fa fa-edit"></div>
+                                Редактировать
+                            </button>
+                        </a>
+                    </div>
+                    <div>
+                        <table class="table block-shadow white-bg">
+                            <thead>
+                            <tr >
+                                <th class="col-lg-4">Общие сведения</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td>
+                                    Субъект РФ
+                                </td>
+                                <td>
+                                    {{ user_info.getRfSubject().getName() }}
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Наименование организации грантополучателя
+                                </td>
+                                <td>
+                                    {{ user_info.getOrganization() }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Наименование базовой образовательной организации
+                                </td>
+                                <td>
+                                    {{ user_info.getEducationalOrganization() }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Наименование кластера
+                                </td>
+                                <td>
+                                    {{ user_info.getCluster() }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Заявленная отрасль
+                                </td>
+                                <td>
+                                    {{ user_info.getDeclaredIndustry() }}
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

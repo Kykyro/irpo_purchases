@@ -1,0 +1,89 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div>
+            <div class="">
+                <div class="widget yellow-bg p-lg text-center">
+                    <div class="m-b-md">
+                        <i class="fa fa-warning fa-4x"></i>
+                        <h1 class="m-xs">Предупреждение</h1>
+                        <h3 class="font-bold no-margins">
+                            Заполните общие данные!
+                        </h3>
+                        <button class="btn btn-danger m-2">
+                            Заполнить
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class="ibox-content block-shadow">
+{#                <div>#}
+{#                    <input>#}
+{#                    <button class="btn btn-info">#}
+{#                        <div class="fa fa-search"></div>#}
+{#                        Найти#}
+{#                    </button>#}
+{#                </div>#}
+                <a href="{{ path("app_purchases_add") }}">
+                    <button class="btn btn-success col-lg-12">
+                        <div class="fa fa-plus"></div>
+                        Добавить закупку
+                    </button>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-10 offset-lg-1">
+        <div class="wrapper wrapper-content">
+
+            <div class="row">
+                <h2>
+                    Список закупок
+                </h2>
+                <table class="table block-shadow white-bg">
+                    <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Код</th>
+                        <th>Объект закупки</th>
+                        <th>Заказчик</th>
+                        <th>ГРБС</th>
+                        <th>Статус</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for i in procurement_procedures %}
+                        <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
+                            <td>{{ i.getId() }}</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                        </tr>
+                    {% endfor %}
+
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
