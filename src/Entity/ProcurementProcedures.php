@@ -332,7 +332,7 @@ class ProcurementProcedures
         return $this->supplierKPP;
     }
 
-    public function setSupplierKPP(string $supplierKPP): self
+    public function setSupplierKPP(?string $supplierKPP): self
     {
         $this->supplierKPP = $supplierKPP;
 

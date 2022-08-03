@@ -54,11 +54,10 @@
                 <table class="table block-shadow white-bg">
                     <thead>
                     <tr>
-                        <th>№</th>
-                        <th>Код</th>
+                        <th>ID</th>
+                        <th>Номер закупки</th>
                         <th>Объект закупки</th>
-                        <th>Заказчик</th>
-                        <th>ГРБС</th>
+                        <th>Поставщик</th>
                         <th>Статус</th>
 
                     </tr>
@@ -67,12 +66,21 @@
 
                     {% for i in procurement_procedures %}
                         <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
-                            <td>{{ i.getId() }}</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
+                            <td>
+                                {{ i.getId() }}
+                            </td>
+                            <td>
+                                {{ i.getPurchaseNumber() }}
+                            </td>
+                            <td>
+                                {{ i.getPurchaseObject() }}
+                            </td>
+                            <td>
+                                {{ i.getSupplierName() }}
+                            </td>
+                            <td>
+                                (статус)
+                            </td>
                         </tr>
                     {% endfor %}
 
