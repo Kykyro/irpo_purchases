@@ -25,7 +25,9 @@
                                     Субъект РФ
                                 </td>
                                 <td>
-                                    {{ user_info.getRfSubject().getName() }}
+                                    {% if  user_info.getRfSubject() %}
+                                        {{ user_info.getRfSubject().getName() }}
+                                    {% endif %}
 
                                 </td>
                             </tr>

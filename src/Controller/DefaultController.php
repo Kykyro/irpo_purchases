@@ -308,6 +308,8 @@ class DefaultController extends AbstractController
 
         $form = $this->createFormBuilder($user_info)
             ->add("rf_subject", EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
                 'class' => RfSubject::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('sub')
@@ -315,10 +317,26 @@ class DefaultController extends AbstractController
                 },
                 'choice_label' => 'name',
             ])
-            ->add("organization", TextType::class)
-            ->add("educational_organization", TextType::class)
-            ->add("cluster", TextType::class)
-            ->add("declared_industry", TextType::class)
+            ->add("organization", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false
+                ])
+            ->add("educational_organization", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false
+                ])
+            ->add("cluster", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false
+                ])
+            ->add("declared_industry", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false
+                ])
             ->getForm();
 
         $form->handleRequest($request);
