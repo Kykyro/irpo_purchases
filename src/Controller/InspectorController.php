@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class InspectorController
  * @package App\Controller
- * @Route("/inspector", name="app_inspector")
+ * @Route("/inspector")
  */
 class InspectorController extends AbstractController
 {
@@ -18,6 +18,12 @@ class InspectorController extends AbstractController
      */
     public function index(): Response
     {
+
+
+
+
+
+
         return $this->render('inspector/index.html.twig', [
             'controller_name' => 'InspectorController',
         ]);
