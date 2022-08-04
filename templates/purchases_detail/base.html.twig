@@ -3,3 +3,34 @@
 {{ include('purchases_detail/templates/table_add.html.twig') }}
 
 {{ include('default/footer.html.twig') }}
+
+
+<script>
+    $(document).ready(function () {
+        let initialSum = 0;
+
+        $(".initial").each(function (i) {
+            let value = $(this).val();
+            initialSum += Number(value);
+        }).promise().done(function () {
+            let sum = initialSum.toString();
+            sum = sum + "₽";
+            $(".sum_initial").html(sum);
+            initialSum = 0;
+        });
+
+        $(".initial").change(function() {
+            $(".initial").each(function (i) {
+                let value = $(this).val();
+                initialSum += Number(value);
+            }).promise().done(function () {
+                let sum = initialSum.toString();
+                sum = sum + "₽";
+                $(".sum_initial").html(sum);
+                initialSum = 0;
+            });
+        });
+
+    });
+
+</script>

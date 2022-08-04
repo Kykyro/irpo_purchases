@@ -110,6 +110,16 @@
 
                         </tr>
 
+                        <tr>
+                            <td>
+                                Сумма
+                            </td>
+                            <td>
+                                <p class="sum_initial"></p>
+
+                            </td>
+                        </tr>
+
                         <tr class="separate-row">
                             <td colspan="2"></td>
                         </tr>
@@ -347,16 +357,9 @@
                     {% if save %}
                         <input type="submit" class="btn btn-success" value="Сохранить">
 
-{#                        <a href="{{ app.request.headers.get('referer') }}">#}
-{#                            <button class="btn btn-danger">#}
-{#                                <div class="fa fa-trash"></div>#}
-{#                                Отмена#}
-{#                            </button>#}
-{#                        </a>#}
+
                     {% endif %}
 {{ form_end(form) }}
-
-
                 </div>
 
 

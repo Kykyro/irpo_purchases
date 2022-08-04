@@ -131,7 +131,7 @@ class DefaultController extends AbstractController
             ->add("initialFederalFunds", TextType::class,
                 [
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control initial',
                         'step' => '.001',
                         'min' => '0',
                         'max' => '99999999999'
@@ -142,7 +142,7 @@ class DefaultController extends AbstractController
             ->add("initialFundsOfSubject", TextType::class,
                 [
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control initial',
                         'step' => '.001',
                         'min' => '0',
                         'max' => '99999999999'
@@ -153,7 +153,7 @@ class DefaultController extends AbstractController
             ->add("initialEmployersFunds", TextType::class,
                 [
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control initial',
                         'step' => '.001',
                         'min' => '0',
                         'max' => '99999999999'
@@ -164,7 +164,7 @@ class DefaultController extends AbstractController
            ->add("initialEducationalOrgFunds", TextType::class,
                     [
                         'attr' => [
-                            'class' => 'form-control',
+                            'class' => 'form-control initial',
                             'step' => '.001',
                             'min' => '0',
                             'max' => '99999999999'

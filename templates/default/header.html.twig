@@ -44,9 +44,12 @@
                 <li>
                     <a href="{{ path("app_main") }}"><i class="fa fa-home"></i> <span class="nav-label">Главная</span></a>
                 </li>
-                <li > {# class="active" #}
-                    <a href="{{ path("app_purchases") }}"><i class="fa fa-archive "></i> <span class="nav-label">Закупки</span></a>
-                </li>
+                {% if is_granted('ROLE_INSPECTOR') %}
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_purchases") }}"><i class="fa fa-archive "></i> <span class="nav-label">Закупки</span></a>
+                    </li>
+                {% endif %}
+
 
 
             </ul>
