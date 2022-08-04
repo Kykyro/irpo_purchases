@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"uuid"}, message="There is already an account with this uuid")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -24,7 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private $uuid;
 
     /**
      * @ORM\Column(type="json")
@@ -37,14 +37,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
+
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $isVerified = false;
+    private $Name;
 
     /**
      * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user_info;
 
@@ -53,17 +53,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getUuid(): ?string
     {
-        return $this->email;
+        return $this->uuid;
     }
 
-    public function setEmail(string $email): self
+    public function setUuid(string $uuid): self
     {
-        $this->email = $email;
+        $this->uuid = $uuid;
 
         return $this;
     }
+
+
+    function __construct() {
+        $this->setUserInfo(new UserInfo());
+    }
+
 
     /**
      * A visual identifier that represents this user.
@@ -72,7 +78,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string) $this->uuid;
     }
 
     /**
@@ -80,7 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->uuid;
     }
 
     /**
@@ -137,14 +143,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function isVerified(): bool
+
+
+    public function getName(): ?string
     {
-        return $this->isVerified;
+        return $this->Name;
     }
 
-    public function setIsVerified(bool $isVerified): self
+    public function setName(?string $Name): self
     {
-        $this->isVerified = $isVerified;
+        $this->Name = $Name;
 
         return $this;
     }
@@ -154,7 +162,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->user_info;
     }
 
-    public function setUserInfo(UserInfo $user_info): self
+    public function setUserInfo(?UserInfo $user_info): self
     {
         $this->user_info = $user_info;
 

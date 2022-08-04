@@ -1,93 +1,42 @@
-<!DOCTYPE html>
-<html>
 
-<head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Log in!{% endblock %}
 
-    <title>Login</title>
+{% block body %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
-</head>
-
-<body class="gray-bg">
-
-    <div class="middle-box text-center loginscreen animated fadeInDown">
-        <div>
-            <div>
-
-                <h1 class="logo-name">Добро пожаловать!</h1>
-
-            </div>
-{#            <h3>Добро пожаловать в ?</h3>#}
-
-{#            <p></p>#}
-{#            <form class="m-t" role="form" action="/purchases">#}
-{#                <div class="form-group">#}
-{#                    <input type="email" class="form-control" placeholder="Логин" required="">#}
-{#                </div>#}
-{#                <div class="form-group">#}
-{#                    <input type="password" class="form-control" placeholder="Пароль" required="">#}
-{#                </div>#}
-{#                <button type="submit" class="btn btn-primary block full-width m-b">Login</button>#}
-
-{#                <a href="#"><small>Забыли пароль?</small></a>#}
-{#            </form>#}
-{#                  ========================================================                #}
-            <form method="post" class="m-t" role="form">
-                <div class="form-group">
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
-
-                    {% if app.user %}
-                        <div class="mb-3">
-                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                        </div>
-                    {% endif %}
-
-                    <div class="form-group">
-                        <label for="inputEmail">Email</label>
-                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword">Password</label>
-                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-                    </div>
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('authenticate') }}"
-                    >
-
-                    {#
-                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                    See https://symfony.com/doc/current/security/remember_me.html
-
-                    <div class="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" name="_remember_me"> Remember me
-                        </label>
-                    </div>
-                    #}
-
-                    <button class="btn btn-lg btn-primary" type="submit">
-                        Войти
-                    </button>
-                </div>
-            </form>
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
-    </div>
+    {% endif %}
 
-    <!-- Mainly scripts -->
-{#    <script src="js/jquery-3.1.1.min.js"></script>#}
-{#    <script src="js/popper.min.js"></script>#}
-    <script src="js/bootstrap.js"></script>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputUuid">Uuid</label>
+    <input type="text" value="{{ last_username }}" name="uuid" id="inputUuid" class="form-control" autocomplete="username" required autofocus>
+    <label for="inputPassword">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
-</body>
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
 
-</html>
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    #}
+
+    <button class="btn btn-lg btn-primary" type="submit">
+        Sign in
+    </button>
+</form>
+{% endblock %}

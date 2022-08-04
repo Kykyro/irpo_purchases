@@ -2,6 +2,9 @@ security:
     role_hierarchy:
         ROLE_ADMIN: [ ROLE_USER, ROLE_INSPECTOR, ROLE_REGION ]
         ROLE_SUPERADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+        ROLE_USER: [ ROLE_USER ]
+        ROLE_INSPECTOR: [ ROLE_INSPECTOR ]
+        ROLE_REGION: [ ROLE_REGION ]
 
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
@@ -13,7 +16,8 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: email
+                property: uuid
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -21,7 +25,8 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\LoginFormAuthenticator
+            custom_authenticator:
+                - App\Security\AuthAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
