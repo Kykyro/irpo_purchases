@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\ProcurementProcedures;
+use App\Entity\RfSubject;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +39,24 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByYearAndRegion(int $year, RfSubject $rfSubject, $users) : array
+    {
+
+        $arr = [];
+        foreach ($users as &$value) {
+            $a = $this->createQueryBuilder('p')
+                ->andWhere('p.user = :val')
+                ->setParameter('val', $value->getId())
+                ->orderBy('p.id', 'ASC')
+                ->getQuery()
+                ->getResult()
+            ;
+            array_push($arr, $a);
+        }
+
+        return $arr;
     }
 
 //    /**
