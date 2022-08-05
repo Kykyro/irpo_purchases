@@ -52,3 +52,54 @@ input[type="text"], textarea {
     line-height: 200px;
     background-color: darkgrey;
 }
+.main-bg{
+    background: white;
+}
+.edge {
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    -ms-interpolation-mode: nearest-neighbor;  /* IE */
+    image-rendering: crisp-edges; /* Стандартное свойство */
+}
+
+/*Отступ логотипа*/
+.pct-login {
+    margin-bottom: 100px;
+}
+
+/*Тень границы*/
+.borderElement {
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+    border-radius: 10px;
+}
+
+/*Анимация BG*/
+.gradient-bg {
+    background: linear-gradient(45deg, #b8bdfc, #616bff, #b8bdfc, #cccaca);
+    background-size: 400% 400%;
+    animation: gradient 100s ease infinite;
+    transform: translate3d(0, 0, 0);
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.transform-center {
+    position: relative;
+    top: 16%;
+    transform: translateY(-50%);
+}
+
+.btn-purple{
+    color: white;
+    font-weight: bold;
+    background-color: #616bff;
+}
