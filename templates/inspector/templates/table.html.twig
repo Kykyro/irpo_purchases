@@ -3,10 +3,11 @@
         <div class="wrapper wrapper-content">
 
             <div class="row">
+                {% if  purchases is defined%}
                 <table class="table block-shadow white-bg">
                     <thead>
                         <tr>
-                            <th>№</th>
+                            <th>id</th>
                             <th>Код</th>
                             <th>Объект закупки</th>
                             <th>Заказчик</th>
@@ -17,22 +18,25 @@
                     </thead>
                     <tbody>
 
-                    {% for i in range(low=1, high=10, step=1) %}
-                        <tr class="table-item" href="{{ path("app_purchases_detail", {id: i}) }}">
-                            <td>Пункт {{ i }}</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                        </tr>
-                    {% endfor %}
+                        {% for i in purchases %}
+                            <tr class="table-item" href="#">
+                                <td>Пункт </td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                            </tr>
+                        {% endfor %}
+
 
 
 
 
                     </tbody>
                 </table>
+                {% endif %}
+
             </div>
         </div>
 
