@@ -44,11 +44,16 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
     public function findByYearAndRegion(int $year, RfSubject $rfSubject, $users) : array
     {
 
+        $startDate = new \DateTimeImmutable("$year-01-01T00:00:00");
+        $endDate = $startDate->modify('last day of this year')->setTime(23, 59, 59);
         $arr = [];
         foreach ($users as &$value) {
             $a = $this->createQueryBuilder('p')
                 ->andWhere('p.user = :val')
+                ->andWhere('p.publicationDate BETWEEN :start AND :end')
                 ->setParameter('val', $value->getId())
+                ->setParameter('start', $startDate->format('Y-m-d H:i:s'))
+                ->setParameter('end', $endDate->format('Y-m-d H:i:s'))
                 ->orderBy('p.id', 'ASC')
                 ->getQuery()
                 ->getResult()
