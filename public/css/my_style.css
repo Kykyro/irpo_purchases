@@ -74,7 +74,7 @@ input[type="text"], textarea {
 
 /*Анимация BG*/
 .gradient-bg {
-    background: linear-gradient(45deg, #b8bdfc, #616bff, #b8bdfc, #cccaca);
+    background: linear-gradient(45deg, #b8bdfc, #454dc4, #b8bdfc, #454dc4);
     background-size: 400% 400%;
     animation: gradient 100s ease infinite;
     transform: translate3d(0, 0, 0);
@@ -102,4 +102,24 @@ input[type="text"], textarea {
     color: white;
     font-weight: bold;
     background-color: #616bff;
+}
+
+.left-bar-color-bg{
+    background-color: #454dc4;
+}
+
+.left-bar-color-text{
+    color: white;
+}
+
+.top-bar-color-bg{
+    background-color: #5961ff;
+}
+
+.mid-color-bg{
+    background-color: #FF616B;
+}
+
+.warning-color-bg{
+    background-color: #bbbbbd;
 }
