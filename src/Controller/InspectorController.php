@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
+use App\Form\InspectorPurchasesFindFormType;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\ProcurementProcedures;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -26,43 +27,24 @@ class InspectorController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $entity_manager = $this->getDoctrine()->getManager();
+        $form = $this->createForm(InspectorPurchasesFindFormType::class);
 
-        $defaultData = [];
-        $form = $this->createFormBuilder($defaultData)
-            ->add('year', ChoiceType::class, [
-                'choices'  => [
-                    '2021' => 2021,
-                    '2022' => 2022,
-                    '2023' => 2023,
-                    '2024' => 2024,
-                    '2025' => 2025,
-                    '2026' => 2026,
-                    '2027' => 2027,
-                    '2028' => 2028,
-                    '2029' => 2029,
-                    '2030' => 2030,
-                ],
-            ])
-            ->add("rf_subject", EntityType::class, [
-                'attr' => ['class' => 'form-control'],
-                'required'   => false,
-                'class' => RfSubject::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('sub')
-                        ->orderBy('sub.name', 'ASC');
-                },
-                'choice_label' => 'name',
-            ])
-            ->getForm();
+
+
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            return $this->redirectToRoute('app_inspector_research',
+                [
+                    'rf_sub' => $data['rf_subject']->getid(),
+                    'year' => $data['year'],
+                ]);
+
+
+
             $repository = $this->getDoctrine()->getRepository(ProcurementProcedures::class);
-
-
 //            найти нужных пользователей
             $repositoryUI = $this->getDoctrine()->getRepository(UserInfo::class);
             $users_info = $repositoryUI->findBy(
@@ -93,6 +75,80 @@ class InspectorController extends AbstractController
         return $this->render('inspector/index.html.twig', [
             'controller_name' => 'InspectorController',
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/organization_research/{rf_sub}/{year}", name="app_inspector_research", methods="GET|POST")
+     */
+    public function orgResearch(Request $request, int $rf_sub, int $year): Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $defaultData = [];
+        $queryBuilder = function (EntityRepository $er, $rf_s, $y){
+            return $er->createQueryBuilder('sub')
+                ->where("sub.rf_subject_id LIKE 70")
+                ->where('sub.organization IS NOT NULL')
+                ->orderBy('sub.organization', 'ASC');
+        };
+        $RFSub = $entity_manager->find(RfSubject::class, $rf_sub);
+        $orgForm = $this->createFormBuilder($defaultData)
+            ->add("orgName", EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => true,
+                'class' => UserInfo::class,
+                'query_builder' => function (EntityRepository $er) use($rf_sub)
+                {
+                    return $er->createQueryBuilder('sub')
+                        ->andWhere("sub.rf_subject = :rf_sub")
+                        ->setParameter('rf_sub', $rf_sub)
+                        ->andWhere('sub.organization IS NOT NULL')
+
+                        ->orderBy('sub.organization', 'ASC');
+                },
+                'choice_label' => 'organization',
+            ])
+            ->getForm();;
+
+        $orgForm->handleRequest($request);
+        if ($orgForm->isSubmitted() && $orgForm->isValid()) {
+
+            $repository = $this->getDoctrine()->getRepository(ProcurementProcedures::class);
+
+            $repositoryUI = $this->getDoctrine()->getRepository(UserInfo::class);
+            $users_info = $repositoryUI->findBy(
+                [
+                    'rf_subject' => $RFSub
+                ]
+            );
+            $repositoryUser = $this->getDoctrine()->getRepository(User::class);
+            $users = $repositoryUser->findBy(
+                [
+                    'user_info' => $users_info
+                ]
+            );
+
+            $prodProc = $repository->findByYearAndRegion($year, $RFSub, $users);
+            $prodProc = $prodProc[0];
+//            dd($prodProc);
+
+            return $this->render('inspector/orgSearch.html.twig', [
+                'controller_name' => 'InspectorController',
+                'form' => $orgForm->createView(),
+                'RFsubject' => $RFSub,
+                'year' => $year,
+                'prodProc' => $prodProc
+
+            ]);
+        }
+
+        return $this->render('inspector/orgSearch.html.twig', [
+            'controller_name' => 'InspectorController',
+            'form' => $orgForm->createView(),
+            'RFsubject' => $RFSub,
+            'year' => $year
+
         ]);
     }
 }

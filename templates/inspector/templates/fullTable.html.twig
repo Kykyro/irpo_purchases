@@ -1,0 +1,206 @@
+{% if  prodProc is defined%}
+    <div class="container-fluid">
+        <div class="row  flex-row flex-nowrap">
+            <style>
+                table{
+
+                }
+                table tr td{
+                    border: 1px black solid;
+                }
+            </style>
+            <div>
+                <table class="table text-center">
+                    <thead>
+                    <tr>
+                        <td rowspan="3">
+                            №
+                        </td>
+                        <td rowspan="3">
+                            Наименование / Объект закупки
+                            (В соответсвии с извещением о проведении закупки)Наименование / Объект закупки
+                            (В соответсвии с извещением о проведении закупки)
+                        </td>
+                        <td rowspan="3">
+                            Способ определения поставщика (подрядчика, исполнителя)
+                        </td>
+                        <td colspan="5">
+                            Начальная (максимальная) цена контракта (РУБЛИ)
+                        </td>
+
+                        <td colspan="3" rowspan="2">
+                            Срок размещения закупки в ЕИС / ЭМ
+                        </td>
+                        <td rowspan="3">
+                            Ссылка на закупку на портале zakupki.gov.ru, прочие площадки
+                        </td>
+                        <td rowspan="3">
+                            Номер закупки
+                        </td>
+                        <td colspan="2" rowspan="2">
+                            Перенос срока размещения закупки в ЕИС / ЭМ
+                        </td>
+
+                        <td rowspan="3">
+                            Дата заключения контракта / договора
+                        </td>
+                        <td colspan="3" rowspan="2">
+                            Поставщик (подрядчик, исполнитель)
+                        </td>
+                        <td colspan="5">
+                            Цена контракта / договора (РУБЛИ)
+                        </td>
+
+                        <td rowspan="3">
+                            Срок поставки (подписание акта), дата
+                        </td>
+                        <td rowspan="3">
+                            Комментарии / Примечания
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">
+                            Всего
+                        </td>
+                        <td rowspan="2">
+                            средства федерального бюджета
+                        </td>
+                        <td rowspan="2">
+                            средства субъекта РФ
+                        </td>
+                        <td colspan="2" >
+                            внебюджетные средства
+                        </td>
+                        <td rowspan="2">
+                            ВСЕГО
+                        </td>
+                        <td rowspan="2">
+                            средства федерального бюджета
+                        </td>
+                        <td rowspan="2">
+                            средства субъекта РФ
+                        </td>
+                        <td colspan="2">
+                            внебюджетные средства
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            средства работодателей
+                        </td>
+                        <td>
+                            средства образовательной организации
+                        </td>
+                        <td>
+                            Дата публикации извещения
+                        </td>
+                        <td>
+                            Дата окончания подачи заявок
+                        </td>
+                        <td>
+                            Дата подведения итогов
+                        </td>
+                        <td>
+                            дата
+                        </td>
+                        <td>
+                            причина (обоснование)
+                        </td>
+                        <td>
+                            Наименование организации-поставщика (подрядчика, исполнителя)
+                        </td>
+                        <td>
+                            ИНН
+                        </td>
+                        <td>
+                            КПП
+                        </td>
+                        <td>
+                            средства работодателей
+                        </td>
+                        <td>
+                            средства образовательной организации
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td>9</td>
+                        <td>10</td>
+                        <td>11</td>
+                        <td>12</td>
+                        <td>13</td>
+                        <td>14</td>
+                        <td>15</td>
+                        <td>16</td>
+                        <td>17</td>
+                        <td>18</td>
+                        <td>19</td>
+                        <td>20</td>
+                        <td>21</td>
+                        <td>22</td>
+                        <td>23</td>
+                        <td>24</td>
+                        <td>25</td>
+                        <td>26</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in prodProc %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ i.getPurchaseObject() }}</td>
+                            <td>{{ i.getMethodOfDetermining() }}</td>
+                            <td>%sum%</td>
+                            <td>{{ i.getinitialFederalFunds() }}</td>
+                            <td>{{ i.getinitialFundsOfSubject() }}</td>
+                            <td>{{ i.getinitialEmployersFunds() }}</td>
+                            <td>{{ i.getinitialEducationalOrgFunds() }}</td>
+                            <td>{{ i.getpublicationDate().format('d/m/Y') }}</td>
+                            <td>{{ i.getdeadlineDate().format('d/m/Y') }}</td>
+                            <td>{{ i.getdateOfSummingUp().format('d/m/Y') }}</td>
+                            <td>{{ i.getPurchaseLink() }}</td>
+                            <td>{{ i.getPurchaseNumber() }}</td>
+                            <td>{{ i.getpostponementDate().format('d/m/Y') }}</td>
+                            <td>{{ i.getpostonementComment() }}</td>
+                            <td>{{ i.getpostonementComment() }}</td> {# дата заключения контракта #}
+                            <td>{{ i.getsupplierName() }}</td>
+                            <td>{{ i.getsupplierINN() }}</td>
+                            <td>{{ i.getsupplierKPP() }}</td>
+                            <td>%sum%</td>
+                            <td>{{ i.getfinFederalFunds() }}</td>
+                            <td>{{ i.getfinFundsOfSubject() }}</td>
+                            <td>{{ i.getfinFundsOfEducationalOrg() }}</td>
+                            <td>{{ i.getfinEmployersFunds() }}</td>
+                            <td>{{ i.getDeliveryTime().format('d/m/Y') }}</td>
+                            <td>{{ i.getComments() }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <a href="#">
+                <button class="btn btn-success">
+                    <div class="fa fa-table"></div>
+                    Скачать таблицу
+                </button>
+            </a>
+        </div>
+    </div>
+{% endif %}
