@@ -113,13 +113,15 @@ class DefaultController extends AbstractController
                     'disabled' => $is_disabled
                 ])
             ->add("DateOfConclusion", DateType::class,[
-                'widget' => 'choice',
-                'disabled' => $is_disabled
+                'widget' => 'single_text',
+                'disabled' => $is_disabled,
+                'required'   => false,
 
                 ])
             ->add("DeliveryTime", DateType::class,[
-                'widget' => 'choice',
-                'disabled' => $is_disabled
+                'widget' => 'single_text',
+                'disabled' => $is_disabled,
+                'required'   => false,
 
                 ])
             ->add("Comments", TextType::class,
@@ -235,23 +237,27 @@ class DefaultController extends AbstractController
                     'disabled' => $is_disabled
                 ])
             ->add("publicationDate", DateType::class,[
-                'widget' => 'choice',
-                'disabled' => $is_disabled
+                'widget' => 'single_text',
+                'disabled' => $is_disabled,
+                'required'   => false,
 
             ])
             ->add("deadlineDate", DateType::class,[
-                'widget' => 'choice',
-                'disabled' => $is_disabled
+                'widget' => 'single_text',
+                'disabled' => $is_disabled,
+                'required'   => false,
 
             ])
             ->add("dateOfSummingUp", DateType::class,[
-                'widget' => 'choice',
-                'disabled' => $is_disabled
+                'widget' => 'single_text',
+                'disabled' => $is_disabled,
+                'required'   => false,
 
             ])
             ->add("postponementDate", DateType::class,[
-                'widget' => 'choice',
-                'disabled' => $is_disabled
+                'widget' => 'single_text',
+                'disabled' => $is_disabled,
+                'required'   => false,
 
             ])
             ->add("postonementComment", TextType::class,
@@ -370,5 +376,6 @@ class DefaultController extends AbstractController
             'procurement_procedures' => $procurement_procedures
         ]);
     }
+
 
 }
