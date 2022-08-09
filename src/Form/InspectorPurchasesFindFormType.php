@@ -48,6 +48,7 @@ class InspectorPurchasesFindFormType extends AbstractType
                 '2030' => 2030,
             ],
             'required'   => true,
+            'attr' => ['class' => 'form-control'],
         ]);
 
 

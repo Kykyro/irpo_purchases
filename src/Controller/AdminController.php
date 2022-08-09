@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,10 +16,12 @@ class AdminController extends AbstractController
      */
     public function adminPanel(): Response
     {
-
+        $entity_manager = $this->getDoctrine()->getManager();
+        $users = $this->getDoctrine()->getRepository(\App\Entity\User::class)->findAll();
 
         return $this->render('admin/base.html.twig', [
             'controller_name' => 'DefaultController',
+            'users' => $users,
         ]);
     }
 }
