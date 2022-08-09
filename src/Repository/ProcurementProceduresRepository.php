@@ -45,7 +45,7 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
     {
 
         $startDate = new \DateTimeImmutable("$year-01-01T00:00:00");
-        $endDate = $startDate->modify('last day of this year')->setTime(23, 59, 59);
+        $endDate =  new \DateTimeImmutable("$year-12-31T23:59:59");
         $arr = [];
         foreach ($users as &$value) {
             $a = $this->createQueryBuilder('p')
@@ -60,6 +60,25 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
             ;
             array_push($arr, $a);
         }
+
+        return $arr;
+    }
+    public function findByUserAndYear(User $user, int $year) : array
+    {
+        $startDate = new \DateTimeImmutable("$year-01-01T00:00:00");
+        $endDate =  new \DateTimeImmutable("$year-12-31T23:59:59");
+
+        $arr = $this->createQueryBuilder('p')
+            ->andWhere('p.user = :val')
+            ->andWhere('p.publicationDate BETWEEN :start AND :end')
+            ->setParameter('val', $user->getId())
+            ->setParameter('start', $startDate->format('Y-m-d H:i:s'))
+            ->setParameter('end', $endDate->format('Y-m-d H:i:s'))
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+
 
         return $arr;
     }

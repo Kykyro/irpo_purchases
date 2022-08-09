@@ -446,4 +446,40 @@ class ProcurementProcedures
 
         return $this;
     }
+
+    public function getAsRow(): array
+    {
+        $row = [];
+        array_push($row,
+        $this->getPurchaseObject(),
+        $this->getMethodOfDetermining(),
+        null,
+        $this->getInitialFederalFunds(),
+        $this->getInitialFundsOfSubject(),
+        $this->getInitialEmployersFunds(),
+        $this->getInitialFederalFunds(),
+        $this->getPublicationDate(),
+        $this->getDeadlineDate(),
+        $this->getDateOfSummingUp(),
+        $this->getPurchaseLink(),
+        $this->getPurchaseNumber(),
+        $this->getpostponementDate(),
+        $this->getPostonementComment(),
+        $this->getDateOfConclusion(),
+        $this->getSupplierName(),
+        $this->getSupplierINN(),
+        $this->getSupplierKPP(),
+        null,
+        $this->getfinFederalFunds(),
+        $this->getfinFundsOfSubject(),
+        $this->getfinFundsOfEducationalOrg(),
+        $this->getfinEmployersFunds(),
+        $this->getDeliveryTime(),
+        $this->getComments()
+        );
+
+
+        return $row;
+    }
+
 }

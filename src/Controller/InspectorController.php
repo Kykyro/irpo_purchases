@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Services\XlsxService;
 
 /**
  * Class InspectorController
@@ -86,12 +87,7 @@ class InspectorController extends AbstractController
         $entity_manager = $this->getDoctrine()->getManager();
 
         $defaultData = [];
-        $queryBuilder = function (EntityRepository $er, $rf_s, $y){
-            return $er->createQueryBuilder('sub')
-                ->where("sub.rf_subject_id LIKE 70")
-                ->where('sub.organization IS NOT NULL')
-                ->orderBy('sub.organization', 'ASC');
-        };
+
         $RFSub = $entity_manager->find(RfSubject::class, $rf_sub);
         $orgForm = $this->createFormBuilder($defaultData)
             ->add("orgName", EntityType::class, [
@@ -113,13 +109,23 @@ class InspectorController extends AbstractController
 
         $orgForm->handleRequest($request);
         if ($orgForm->isSubmitted() && $orgForm->isValid()) {
-
+            $form_data = $orgForm->getData();
+            if($form_data['orgName'] === null)
+            {
+                return $this->render('inspector/orgSearch.html.twig', [
+                    'controller_name' => 'InspectorController',
+                    'form' => $orgForm->createView(),
+                    'RFsubject' => $RFSub,
+                    'year' => $year
+                ]);
+            }
             $repository = $this->getDoctrine()->getRepository(ProcurementProcedures::class);
 
             $repositoryUI = $this->getDoctrine()->getRepository(UserInfo::class);
             $users_info = $repositoryUI->findBy(
                 [
-                    'rf_subject' => $RFSub
+                    'rf_subject' => $RFSub,
+                    'educational_organization' => $form_data['orgName']->getEducationalOrganization()
                 ]
             );
             $repositoryUser = $this->getDoctrine()->getRepository(User::class);
@@ -131,7 +137,6 @@ class InspectorController extends AbstractController
 
             $prodProc = $repository->findByYearAndRegion($year, $RFSub, $users);
             $prodProc = $prodProc[0];
-//            dd($prodProc);
 
             return $this->render('inspector/orgSearch.html.twig', [
                 'controller_name' => 'InspectorController',
@@ -139,7 +144,6 @@ class InspectorController extends AbstractController
                 'RFsubject' => $RFSub,
                 'year' => $year,
                 'prodProc' => $prodProc
-
             ]);
         }
 
@@ -148,7 +152,14 @@ class InspectorController extends AbstractController
             'form' => $orgForm->createView(),
             'RFsubject' => $RFSub,
             'year' => $year
-
         ]);
+    }
+
+    /**
+     * @Route("/get/xlsx/{user_id}/{year}", name="download_xlsx")
+     */
+    public function download(XlsxService $xlsxService, int $user_id, int $year): Response
+    {
+        return $xlsxService->generatePurchasesProcedure($user_id, $year);
     }
 }
