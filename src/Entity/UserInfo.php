@@ -106,4 +106,22 @@ class UserInfo
 
         return $this;
     }
+
+    public function isAllFull() : bool
+    {
+
+        if(is_null($this->getRfSubject()))
+            return false;
+
+        if(is_null($this->organization))
+            return false;
+        if(is_null($this->educational_organization))
+            return false;
+        if(is_null($this->cluster))
+            return false;
+        if(is_null($this->Declared_industry))
+            return false;
+
+        return true;
+    }
 }
