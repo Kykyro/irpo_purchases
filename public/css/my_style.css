@@ -129,3 +129,8 @@ input[type="text"], textarea {
     color: black;
     border-color: #dfdfdf;
 }
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
