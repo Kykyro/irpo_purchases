@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-10 offset-lg-1">
         <div class="wrapper wrapper-content">
-            <div class="row">
+            <div class="row d-flex justify-content-center m-3">
                 <div>
                     <h2>
                         <nav>{{ title }}</nav>
@@ -22,7 +22,7 @@
             {% endif %}
 
 
-            <div class="row">
+            <div class="row d-flex justify-content-center">
 {{ form_start(form) }}
                     <table class="table block-shadow white-bg block-border">
                         <thead>
@@ -356,7 +356,7 @@
                         </tbody>
                     </table>
                     {% if save %}
-                        <input type="submit" class="btn btn-success" value="Сохранить">
+                        <input type="submit" class="btn btn-outline-success m-1" value="Сохранить">
 
 
                     {% endif %}
