@@ -123,3 +123,9 @@ input[type="text"], textarea {
 .warning-color-bg{
     background-color: #bbbbbd;
 }
+
+.btn-gray-all{
+    background-color: #dfdfdf;
+    color: black;
+    border-color: #dfdfdf;
+}
