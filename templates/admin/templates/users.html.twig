@@ -2,118 +2,92 @@
 {% extends "admin/base.html.twig" %}
 
 {% block content %}
-<div class="row">
-    <div class="col-sm-12">
-<div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center">
     <div class="col-sm-8">
-        <div class="row">
-            <div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-12">
 
-
-                <div class="clients-list">
-                    <div>
-                        <a href="{{ path('app_admin_user_add') }}">
-                            <button class="btn btn-success">
-                                <div class="fa fa-plug"></div>
-                                Добавить пользователя
-                            </button>
-                        </a>
-                    </div>
-                    <span class="float-right small text-muted">1406 Elements</span>
-                <div class="ibox">
-                    <div class="ibox-content">
-                        <span class="text-muted small float-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014</span>
-                        <h2>Clients</h2>
-                        <p>
-                            All clients need to be verified before you can send email and set a project.
-                        </p>
-                        <div class="input-group">
-                            <input type="text" placeholder="Search client " class="input form-control">
-                            <span class="input-group-append">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <span class="text-muted small float-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014</span>
+                    <h2>Clients</h2>
+                    <p>
+                        All clients need to be verified before you can send email and set a project.
+                    </p>
+                    <div class="input-group">
+                        <input type="text" placeholder="Search client " class="input form-control">
+                        <span class="input-group-append">
                                                 <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
                                         </span>
+                    </div>
+
+                    <div class="clients-list">
+                        <div>
+                            <a href="{{ path('app_admin_user_add') }}">
+                                <button class="btn btn-success">
+                                    <div class="fa fa-plug"></div>
+                                    Добавить пользователя
+                                </button>
+                            </a>
                         </div>
-                        <div class="clients-list">
-                            <div>
-                                <a href="{{ path('app_admin_user_add') }}">
-                                    <button class="btn btn-success">
-                                        <div class="fa fa-plug"></div>
-                                        Добавить пользователя
-                                    </button>
-                                </a>
-                            </div>
-                            <span class="float-right small text-muted">1406 Elements</span>
+                        <span class="float-right small text-muted">1406 Elements</span>
 
-                            <div class="tab-content">
+                        <div class="tab-content">
 
-                                                <td>
-                                                    <a href="{{ path('app_admin_user_edit', {'id': i.getId()}) }}">
-                                                        <button class="btn btn-success">
-                                                            <div class="fa fa-edit"></div>
-                                                        </button>
-                                                    </a>
-
-                                                </td>
+                            <div class="slimScrollDiv" style="position: relative; width: auto; height: 100%;">
+                                <div class="full-height-scroll" style=" width: auto; height: 100%;">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <td>id</td>
+                                                <td>UUID</td>
+                                                <td>Субъект РФ</td>
+                                                <td>Наименование организации грантополучателя</td>
+                                                <td>Наименование базовой образовательной организации</td>
+                                                <td>Наименование кластера</td>
+                                                <td>Заявленная отрасль</td>
+                                                <td>Действия</td>
                                             </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for i in users %}
+                                                {% set userInfo = i.getUserInfo() %}
+                                                <tr>
+                                                    <td>{{ i.getId() }}</td>
+                                                    <td>{{ i.getUsername() }}</td>
+                                                    {% if  userInfo.getRfSubject() %}
+                                                        <td>{{ userInfo.getRfSubject().getName() }}</td>
+                                                    {% else %}
+                                                        <td></td>
+                                                    {% endif %}
+                                                    <td>{{ userInfo.getOrganization() }}</td>
+                                                    <td>{{ userInfo.getEducationalOrganization() }}</td>
+                                                    <td>{{ userInfo.getCluster() }}</td>
+                                                    <td>{{ userInfo.getDeclaredIndustry() }}</td>
+
+                                                    <td>
+                                                        <a href="{{ path('app_admin_user_edit', {'id': i.getId()}) }}">
+                                                            <button class="btn btn-success">
+                                                                <div class="fa fa-edit"></div>
+                                                            </button>
+                                                        </a>
+
+                                                    </td>
+                                                </tr>
                                             {% endfor %}
+
+
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                    <div class="slimScrollDiv" style="position: relative; width: auto; height: 100%;">
-                                        <div class="full-height-scroll" style=" width: auto; height: 100%;">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>id</td>
-                                                            <td>UUID</td>
-                                                            <td>Субъект РФ</td>
-                                                            <td>Наименование организации грантополучателя</td>
-                                                            <td>Наименование базовой образовательной организации</td>
-                                                            <td>Наименование кластера</td>
-                                                            <td>Заявленная отрасль</td>
-                                                            <td>Действия</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% for i in users %}
-                                                        {% set userInfo = i.getUserInfo() %}
-                                                    <tr>
-                                                        <td>{{ i.getId() }}</td>
-                                                        <td>{{ i.getUsername() }}</td>
-                                                        {% if  userInfo.getRfSubject() %}
-                                                            <td>{{ userInfo.getRfSubject().getName() }}</td>
-                                                        {% else %}
-                                                            <td></td>
-                                                        {% endif %}
-                                                        <td>{{ userInfo.getOrganization() }}</td>
-                                                        <td>{{ userInfo.getEducationalOrganization() }}</td>
-                                                        <td>{{ userInfo.getCluster() }}</td>
-                                                        <td>{{ userInfo.getDeclaredIndustry() }}</td>
-
-                                                        <td>
-                                                            <a href="{{ path('app_admin_user_edit', {'id': i.getId()}) }}">
-                                                                <button class="btn btn-success">
-                                                                    <div class="fa fa-edit"></div>
-                                                                </button>
-                                                            </a>
-
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
                             </div>
 
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
-</div>
 {% endblock %}
