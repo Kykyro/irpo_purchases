@@ -81,7 +81,7 @@ class DefaultController extends AbstractController
             ->add("PurchaseObject", TextType::class,
                 [
                     'attr' => ['class' => 'form-control'],
-                    'required'   => false,
+                    'required'   => true,
                     'disabled' => $is_disabled
                 ])
             ->add("MethodOfDetermining", ChoiceType::class,
@@ -89,7 +89,7 @@ class DefaultController extends AbstractController
                     'attr' => [
                         'class' => 'form-control'
                     ],
-                    'required'   => false,
+                    'required'   => true,
                     'disabled' => $is_disabled,
                     'choices'  => [
                         'Единственный поставщик' => 'Единственный поставщик',

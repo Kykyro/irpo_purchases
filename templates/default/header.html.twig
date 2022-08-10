@@ -36,7 +36,7 @@
                     <div class="dropdown profile-element">
                         <a href="{{ path("app_profile") }}" >
                             <span class="block m-t-xs font-bold left-bar-color-text">{{ app.user.getUsername() }}</span>
-                            {% if app.user.getUserInfo().getRfSubject().getName() %}
+                            {% if  app.user.getUserInfo().getRfSubject().getName() is  defined %}
                                 <span class="small text-xs block">{{ app.user.getUserInfo().getRfSubject().getName() }} </span>
                             {% else %}
                                 <span class="small text-xs block">?</span>
