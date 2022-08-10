@@ -52,7 +52,7 @@ class AdminController extends AbstractController
         $users = $this->getDoctrine()->getRepository(\App\Entity\User::class)->find($id);
 
 
-        return $this->render('admin/templates/usersEdit.html.twig', [
+        return $this->render('admin/templates/userEdit.html.twig', [
             'controller_name' => 'AdminController',
 
         ]);
