@@ -1,5 +1,5 @@
 {% if  prodProc is defined%}
-    <div class="container-fluid">
+    <div class="container-fluid scrolling-wrapper">
 
         <div class="flex-row flex-nowrap">
             <style>
@@ -241,9 +241,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="m-3">
+        <div class="row col-lg-5 m-4">
             <a href="{{ path('download_xlsx', {'user_id': prodProc[0].getUser().getId(), 'year': year}) }}">
-                <button class="btn btn-success">
+                <button class="btn-gray-all btn btn-outline-success">
                     <div class="fa fa-table"></div>
                     Скачать таблицу
                 </button>
