@@ -1,4 +1,4 @@
-{% if  prodProc is defined%}
+{% if  prodProc[0] is defined%}
     <div class="container-fluid scrolling-wrapper">
 
         <div class="flex-row flex-nowrap">
@@ -236,6 +236,7 @@
 
 
                 </table>
+
             </div>
 
         </div>
@@ -250,4 +251,6 @@
             </a>
         </div>
     </div>
+{% else %}
+    ничего не найдено
 {% endif %}
