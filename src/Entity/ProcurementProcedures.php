@@ -458,14 +458,14 @@ class ProcurementProcedures
         $this->getInitialFundsOfSubject(),
         $this->getInitialEmployersFunds(),
         $this->getInitialFederalFunds(),
-        $this->getPublicationDate(),
-        $this->getDeadlineDate(),
-        $this->getDateOfSummingUp(),
+        (is_null($this->getPublicationDate())) ? '' : $this->getPublicationDate()->format('d.m.Y'),
+        (is_null($this->getDeadlineDate())) ? '' : $this->getDeadlineDate()->format('d.m.Y'),
+        (is_null($this->getDateOfSummingUp())) ? '' : $this->getDateOfSummingUp()->format('d.m.Y'),
         $this->getPurchaseLink(),
         $this->getPurchaseNumber(),
-        $this->getpostponementDate(),
+        (is_null($this->getpostponementDate())) ? '' : $this->getpostponementDate()->format('d.m.Y'),
         $this->getPostonementComment(),
-        $this->getDateOfConclusion(),
+        (is_null($this->getDateOfConclusion())) ? '' : $this->getDateOfConclusion()->format('d.m.Y'),
         $this->getSupplierName(),
         $this->getSupplierINN(),
         $this->getSupplierKPP(),
@@ -474,7 +474,7 @@ class ProcurementProcedures
         $this->getfinFundsOfSubject(),
         $this->getfinFundsOfEducationalOrg(),
         $this->getfinEmployersFunds(),
-        $this->getDeliveryTime(),
+        (is_null($this->getDeliveryTime())) ? '' : $this->getDeliveryTime()->format('d.m.Y'),
         $this->getComments()
         );
 
