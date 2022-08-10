@@ -1,11 +1,11 @@
-{% extends "admin/base.html" %}
+{% extends "admin/base.html.twig" %}
 
 {% block content %}
 <div class="row">
     <div>
         <ul>
             <li>
-                <a href="#">
+                <a href="{{ path('app_admin_users') }}" >
                     <button class="btn btn-success">
                         <div class="fa fa-trash"></div>
                         Пользователи

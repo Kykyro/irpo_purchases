@@ -1,10 +1,10 @@
-<<<<<<< HEAD
+
+{% extends "admin/base.html.twig" %}
+{% block content %}
 <div class="row">
     <div class="col-sm-12">
-=======
 <div class="row d-flex justify-content-center">
     <div class="col-sm-8">
->>>>>>> 652de36 (Режактирование стиля кнопок)
         <div class="ibox">
             <div class="ibox-content">
                 <span class="text-muted small float-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014</span>
@@ -20,6 +20,14 @@
                 </div>
 
                 <div class="clients-list">
+                    <div>
+                        <a href="{{ path('app_admin_user_add') }}">
+                            <button class="btn btn-success">
+                                <div class="fa fa-plug"></div>
+                                Добавить пользователя
+                            </button>
+                        </a>
+                    </div>
                     <span class="float-right small text-muted">1406 Elements</span>
 
                     <div class="tab-content">
@@ -57,25 +65,24 @@
                                                 <td>{{ userInfo.getDeclaredIndustry() }}</td>
 
                                                 <td>
-                                                    <button class="btn btn-success">
-                                                        <div class="fa fa-edit"></div>
-                                                    </button>
+                                                    <a href="{{ path('app_admin_user_edit', {'id': i.getId()}) }}">
+                                                        <button class="btn btn-success">
+                                                            <div class="fa fa-edit"></div>
+                                                        </button>
+                                                    </a>
+
                                                 </td>
                                             </tr>
                                             {% endfor %}
-
-
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-
-
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
     </div>
 </div>
+{% endblock %}

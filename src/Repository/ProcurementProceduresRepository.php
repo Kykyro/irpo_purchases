@@ -50,14 +50,18 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
         foreach ($users as &$value) {
             $a = $this->createQueryBuilder('p')
                 ->andWhere('p.user = :val')
+                ->andWhere('p.MethodOfDetermining != :method')
                 ->andWhere('p.publicationDate BETWEEN :start AND :end')
+                ->orWhere('p.MethodOfDetermining = :method  AND p.DateOfConclusion BETWEEN :start AND :end')
                 ->setParameter('val', $value->getId())
+                ->setParameter('method', 'Единственный поставщик')
                 ->setParameter('start', $startDate->format('Y-m-d H:i:s'))
                 ->setParameter('end', $endDate->format('Y-m-d H:i:s'))
                 ->orderBy('p.id', 'ASC')
                 ->getQuery()
                 ->getResult()
             ;
+
             array_push($arr, $a);
         }
 
@@ -70,8 +74,11 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
 
         $arr = $this->createQueryBuilder('p')
             ->andWhere('p.user = :val')
+            ->andWhere('p.MethodOfDetermining != :method')
             ->andWhere('p.publicationDate BETWEEN :start AND :end')
+            ->orWhere('p.MethodOfDetermining = :method  AND p.DateOfConclusion BETWEEN :start AND :end')
             ->setParameter('val', $user->getId())
+            ->setParameter('method', 'Единственный поставщик')
             ->setParameter('start', $startDate->format('Y-m-d H:i:s'))
             ->setParameter('end', $endDate->format('Y-m-d H:i:s'))
             ->orderBy('p.id', 'ASC')
