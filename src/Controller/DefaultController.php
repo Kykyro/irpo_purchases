@@ -287,6 +287,20 @@ class DefaultController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/purchases-delete/{id}", name="app_purchases_delete")
+     */
+    public function deletePurchases(Request $request, int $id) : Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $pp = $entity_manager->find(ProcurementProcedures::class, $id);
+        $pp->setIsDeleted(true);
+        $entity_manager->persist($pp);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_main');
+    }
 
     /**
      * @Route("/profile", name="app_profile")
@@ -368,7 +382,10 @@ class DefaultController extends AbstractController
         $user_id = $user->getId();
         $repository = $this->getDoctrine()->getRepository(ProcurementProcedures::class);
         $procurement_procedures = $repository->findBy(
-            ['user' => $user_id]
+            [
+                'user' => $user_id,
+                'isDeleted' => false
+            ]
         );
 
         return $this->render('index/base.html.twig', [

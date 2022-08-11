@@ -142,6 +142,15 @@ class ProcurementProcedures
      */
     private $postonementComment;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 0}, nullable=true)
+     */
+    private $isDeleted;
+
+    function __construct() {
+        $this->setIsDeleted(false);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -480,6 +489,18 @@ class ProcurementProcedures
 
 
         return $row;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
     }
 
 }

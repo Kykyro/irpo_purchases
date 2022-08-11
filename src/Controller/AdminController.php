@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
 use App\Form\UserEditFormType;
 use App\Form\RegistrationFormType;
@@ -134,7 +135,7 @@ class AdminController extends AbstractController
             $entity_manager->flush();
         }
 
-            
+
 
         return $this->render('admin/templates/userEdit.html.twig', [
 
@@ -177,5 +178,57 @@ class AdminController extends AbstractController
         return $this->render('admin/templates/userAdd.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/user-purchases-show/{id}", name="app_admin_user_purchases_show")
+     */
+    public function showPurchasesByUser(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()->getRepository(\App\Entity\User::class)->find($id);
+        $pp = $this->getDoctrine()->getRepository(ProcurementProcedures::class)->findBy(
+            [ 'user' => $user]
+        );
+
+
+        return $this->render('admin/templates/purchasesShow.html.twig', [
+            'pp' => $pp
+        ]);
+    }
+
+    /**
+     * @Route("/user-purchases-repair/{id}", name="app_admin_purchases_repair")
+     */
+    public function repairPurchases(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $pp = $entity_manager->find(ProcurementProcedures::class, $id);
+        $pp->setIsDeleted(false);
+        $entity_manager->persist($pp);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_admin_user_purchases_show',
+            [
+                'id' => $pp->getuser()->getID()
+            ]);
+    }
+    /**
+     * @Route("/user-purchases-delite/{id}", name="app_admin_purchases_delete")
+     */
+    public function deletePurchases(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $pp = $entity_manager->find(ProcurementProcedures::class, $id);
+        $pp->setIsDeleted(true);
+        $entity_manager->persist($pp);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_admin_user_purchases_show',
+            [
+                'id' => $pp->getuser()->getID()
+            ]);
     }
 }

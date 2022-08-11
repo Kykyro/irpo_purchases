@@ -42,6 +42,7 @@
                                             <tr>
                                                 <td>id</td>
                                                 <td>UUID</td>
+                                                <td>Роль</td>
                                                 <td>Субъект РФ</td>
                                                 <td>Наименование организации грантополучателя</td>
                                                 <td>Наименование базовой образовательной организации</td>
@@ -56,6 +57,7 @@
                                                 <tr>
                                                     <td>{{ i.getId() }}</td>
                                                     <td>{{ i.getUsername() }}</td>
+                                                    <td>{{ i.getRoles()|join(' | ') }}</td>
                                                     {% if  userInfo.getRfSubject() %}
                                                         <td>{{ userInfo.getRfSubject().getName() }}</td>
                                                     {% else %}
@@ -70,9 +72,16 @@
                                                         <a href="{{ path('app_admin_user_edit', {'id': i.getId()}) }}">
                                                             <button class="btn btn-success">
                                                                 <div class="fa fa-edit"></div>
+                                                                Редактированть
                                                             </button>
                                                         </a>
 
+                                                        <a href="{{ path('app_admin_user_purchases_show', {'id': i.getId()}) }}">
+                                                            <button class="btn btn-primary">
+                                                                <div class="fa fa-leaf"></div>
+                                                                Закупки
+                                                            </button>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
