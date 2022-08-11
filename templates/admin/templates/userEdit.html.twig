@@ -1,32 +1,102 @@
 {% extends "admin/base.html.twig" %}
 
 {% block content %}
-    <div class="row">
-        <div>
-            <a href="{{ path('app_admin_users') }}">Назад</a>
+<div class="row d-flex justify-content-center">
+    <div class="bg-white">
+        <div class="row m-3">
+            <div>
+                <a href="{{ path('app_admin_users') }}">Назад</a>
+            </div>
+        </div>
+        <div class="ibox-content block-shadow">
+            <div class="form-group row m-3">
+                <div class="col-lg-12 col-form-label text-left">
+                    <strong>
+                {{ form_start(userForm) }}
+                    {{ form_row(userForm.roles,{
+                        label: 'Роли',
+                        attr: {
+                            class: 'col-lg-12'
+                        }
+                    }) }}
+                    </strong>
+                </div>
+                <div class="col-lg-12">
+                    <strong>
+                        <button type="submit" class="col-lg-12 btn btn-gray-all btn-outline-success">Обновить</button>
+                    {{ form_end(userForm) }}
+                    </strong>
+                </div>
+                </div>
+        </div>
+        <div class="ibox-content block-shadow">
+            <div class="form-group row">
+                {{ form_start(passwordForm) }}
+                    </strong>
+                </div>
+                <div class="col-sm-5 col-form-label text-left m-3">
+                    <strong>
+                    {{ form_widget(passwordForm.password,{'attr':{'class':'form-row'}}) }}
+                    </strong>
+                </div>
+                <div class="col-sm-5 col-form-label text-left">
+                    <strong>
+                    {{ form_errors(passwordForm.password) }}
+                    </strong>
+                </div>
+                <div class="col-lg-12 m-2 row">
+                    {{ form_widget(passwordForm.submit, {
+                        label: 'Изменить',
+                        attr: {
+                            class: 'col-lg-12 btn btn-gray-all btn-outline-success'
+                        }
+                    }) }}
+                    {{ form_end(passwordForm) }}
+                    </strong>
+                </div>
+                </div>
+
+        <div class="ibox-content block-shadow">
+            <div class="col-sm-12 col-form-label text-left">
+                <strong>
+                    {{ form_start(userInfoForm) }}
+                        {{ form_row(userInfoForm.rf_subject, {
+                            label: 'Субъект РФ',
+                            attr: {
+                                class: 'col-lg-12'
+                            }
+                        }) }}
+                        {{ form_row(userInfoForm.organization, {
+                            label: 'Наименование организации грантополучателя ',
+                            attr: {
+                                class: 'col-lg-12'
+                            }
+                        }) }}
+                        {{ form_row(userInfoForm.educational_organization, {
+                            label: 'Наименование базовой образовательной организации ',
+                            attr: {
+                                class: 'col-lg-12'
+                            }
+                        }) }}
+                        {{ form_row(userInfoForm.cluster, {
+                            label: 'Наименование кластера ',
+                            attr: {
+                                class: 'col-lg-12'
+                            }
+                        }) }}
+                        {{ form_row(userInfoForm.declared_industry, {
+                            label: 'Заявленная отрасль ',
+                            attr: {
+                                class: 'col-lg-12'
+                            }
+                        }) }}
+                    <div class="col-sm-5 col-form-label text-left row">
+                        <button type="submit" class="col-lg-4 btn btn-gray-all btn-outline-success">Обновить</button>
+                    </div>
+                    {{ form_end(userInfoForm) }}
+                </strong>
+            </div>
         </div>
     </div>
-
-    {{ form_start(userForm) }}
-
-        {{ form_row(userForm.roles) }}
-        <button type="submit" class="btn">Обновить</button>
-    {{ form_end(userForm) }}
-
-    {{ form_start(passwordForm) }}
-        {{ form_widget(passwordForm.password,{'attr':{'class':'form-row'}}) }}
-        {{ form_errors(passwordForm.password) }}
-        {{ form_widget(passwordForm.submit) }}
-
-    {{ form_end(passwordForm) }}
-
-
-    {{ form_start(userInfoForm) }}
-        {{ form_row(userInfoForm.rf_subject) }}
-        {{ form_row(userInfoForm.organization) }}
-        {{ form_row(userInfoForm.educational_organization) }}
-        {{ form_row(userInfoForm.cluster) }}
-        {{ form_row(userInfoForm.declared_industry) }}
-        <button type="submit" class="btn">Обновить</button>
-    {{ form_end(userInfoForm) }}
+</div>
 {% endblock %}
