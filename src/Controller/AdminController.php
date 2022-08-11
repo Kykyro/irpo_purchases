@@ -106,6 +106,7 @@ class AdminController extends AbstractController
             $data = $formUser->getData();
 
 
+
             $user->setRoles($data->getRoles());
             $entity_manager->persist($user);
             $entity_manager->flush();
@@ -133,7 +134,10 @@ class AdminController extends AbstractController
             $entity_manager->flush();
         }
 
-            return $this->render('admin/templates/userEdit.html.twig', [
+            
+
+        return $this->render('admin/templates/userEdit.html.twig', [
+
             'controller_name' => 'AdminController',
             'userForm' => $formUser->createView(),
             'passwordForm' => $formPassword->createView(),
