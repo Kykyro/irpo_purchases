@@ -2,11 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\RfSubject;
+use App\Form\UserEditFormType;
 use App\Form\RegistrationFormType;
+use App\Form\UserPasswordEditFormType;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use http\Client\Curl\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -14,6 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\FormFactoryInterface;
 /**
  *
  * @Route("/admin")
@@ -47,14 +58,86 @@ class AdminController extends AbstractController
     /**
      * @Route("/users-edit/{id}", name="app_admin_user_edit", methods="GET|POST")
      */
-    public function adminPanelUsersEdit(Request $request, int $id): Response
+    public function adminPanelUsersEdit(Request $request, int $id, UserPasswordHasherInterface $passwordHasher, FormFactoryInterface $formFactory): Response
     {
-        $users = $this->getDoctrine()->getRepository(\App\Entity\User::class)->find($id);
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $user = $this->getDoctrine()->getRepository(\App\Entity\User::class)->find($id);
+        $formUser = $formFactory->createNamed('userForm', UserEditFormType::class, $user);
+        $formPassword = $formFactory->createNamed('passwordForm', UserPasswordEditFormType::class, $user);
+
+        $userInfo = $user->getUserInfo();
+        $formUserInfo = $this->createFormBuilder($userInfo)
+            ->add("rf_subject", EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'class' => RfSubject::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('sub')
+                        ->orderBy('sub.name', 'ASC');
+                },
+                'choice_label' => 'name',
+            ])
+            ->add("organization", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false
+                ])
+            ->add("educational_organization", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false
+                ])
+            ->add("cluster", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false
+                ])
+            ->add("declared_industry", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false
+                ])
+            ->getForm();
+
+        $formUser->handleRequest($request);
+        if($formUser->isSubmitted() && $formUser->isValid())
+        {
+            $data = $formUser->getData();
 
 
-        return $this->render('admin/templates/usersEdit.html.twig', [
+            $user->setRoles($data->getRoles());
+            $entity_manager->persist($user);
+            $entity_manager->flush();
+        }
+
+        $formPassword->handleRequest($request);
+        if ($formPassword->isSubmitted() && $formPassword->isValid()) {
+            $plaintextPassword = $formPassword->getData()->getPassword();
+
+            $hashedPassword = $passwordHasher->hashPassword(
+                $user,
+                $plaintextPassword
+            );
+            $user->setPassword($hashedPassword);
+
+            $entity_manager->persist($user);
+            $entity_manager->flush();
+        }
+
+        $formUserInfo->handleRequest($request);
+        if($formUserInfo->isSubmitted() && $formUserInfo->isValid())
+        {
+            $user->setUserInfo($userInfo);
+            $entity_manager->persist($user);
+            $entity_manager->flush();
+        }
+
+            return $this->render('admin/templates/userEdit.html.twig', [
             'controller_name' => 'AdminController',
-
+            'userForm' => $formUser->createView(),
+            'passwordForm' => $formPassword->createView(),
+            'userInfoForm' => $formUserInfo->createView()
         ]);
     }
     /**

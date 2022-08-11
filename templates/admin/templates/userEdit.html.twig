@@ -1,7 +1,32 @@
 {% extends "admin/base.html.twig" %}
 
 {% block content %}
+    <div class="row">
+        <div>
+            <a href="{{ path('app_admin_users') }}">Назад</a>
+        </div>
+    </div>
 
-    Редактирование пользователя
+    {{ form_start(userForm) }}
 
+        {{ form_row(userForm.roles) }}
+        <button type="submit" class="btn">Обновить</button>
+    {{ form_end(userForm) }}
+
+    {{ form_start(passwordForm) }}
+        {{ form_widget(passwordForm.password,{'attr':{'class':'form-row'}}) }}
+        {{ form_errors(passwordForm.password) }}
+        {{ form_widget(passwordForm.submit) }}
+
+    {{ form_end(passwordForm) }}
+
+
+    {{ form_start(userInfoForm) }}
+        {{ form_row(userInfoForm.rf_subject) }}
+        {{ form_row(userInfoForm.organization) }}
+        {{ form_row(userInfoForm.educational_organization) }}
+        {{ form_row(userInfoForm.cluster) }}
+        {{ form_row(userInfoForm.declared_industry) }}
+        <button type="submit" class="btn">Обновить</button>
+    {{ form_end(userInfoForm) }}
 {% endblock %}
