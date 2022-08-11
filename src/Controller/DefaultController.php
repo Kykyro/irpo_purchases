@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
- * @Route("/system")
+ * @Route("/region")
  */
 class DefaultController extends AbstractController
 {
