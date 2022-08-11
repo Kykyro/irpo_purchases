@@ -49,12 +49,12 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
         $arr = [];
         foreach ($users as &$value) {
             $a = $this->createQueryBuilder('p')
-                ->andWhere('p.user = :val')
                 ->andWhere('p.MethodOfDetermining != :method')
                 ->andWhere('p.publicationDate BETWEEN :start AND :end')
                 ->orWhere('p.MethodOfDetermining = :method  AND p.DateOfConclusion BETWEEN :start AND :end')
                 ->andWhere('p.isDeleted = FALSE')
-                ->setParameter('val', $value->getId())
+                ->andWhere('p.user = :val')
+                ->setParameter('val', $value)
                 ->setParameter('method', 'Единственный поставщик')
                 ->setParameter('start', $startDate->format('Y-m-d H:i:s'))
                 ->setParameter('end', $endDate->format('Y-m-d H:i:s'))
@@ -74,12 +74,12 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
         $endDate =  new \DateTimeImmutable("$year-12-31T23:59:59");
 
         $arr = $this->createQueryBuilder('p')
-            ->andWhere('p.user = :val')
             ->andWhere('p.MethodOfDetermining != :method')
             ->andWhere('p.publicationDate BETWEEN :start AND :end')
             ->orWhere('p.MethodOfDetermining = :method  AND p.DateOfConclusion BETWEEN :start AND :end')
             ->andWhere('p.isDeleted = FALSE')
-            ->setParameter('val', $user->getId())
+            ->andWhere('p.user = :val')
+            ->setParameter('val', $user)
             ->setParameter('method', 'Единственный поставщик')
             ->setParameter('start', $startDate->format('Y-m-d H:i:s'))
             ->setParameter('end', $endDate->format('Y-m-d H:i:s'))
@@ -87,7 +87,6 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-
 
         return $arr;
     }

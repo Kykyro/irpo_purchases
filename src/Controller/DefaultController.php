@@ -195,7 +195,7 @@ class DefaultController extends AbstractController
             ->add("finFederalFunds", TextType::class,
                 [
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control fin',
                         'step' => '.001',
                         'min' => '0',
                         'max' => '99999999999'
@@ -206,7 +206,7 @@ class DefaultController extends AbstractController
             ->add("finFundsOfSubject", TextType::class,
                 [
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control fin',
                         'step' => '.001',
                         'min' => '0',
                         'max' => '99999999999'
@@ -217,7 +217,7 @@ class DefaultController extends AbstractController
             ->add("finEmployersFunds", TextType::class,
                 [
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control fin',
                         'step' => '.001',
                         'min' => '0',
                         'max' => '99999999999'
@@ -228,7 +228,7 @@ class DefaultController extends AbstractController
             ->add("finFundsOfEducationalOrg", TextType::class,
                 [
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control fin',
                         'step' => '.001',
                         'min' => '0',
                         'max' => '99999999999'
