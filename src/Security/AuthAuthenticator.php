@@ -49,7 +49,19 @@ class AuthAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
+        $user = $token->getUser();
+        if(in_array('ROLE_INSPECTOR', $user->getRoles(), true))
+        {
+            return new RedirectResponse($this->urlGenerator->generate('app_inspector_main'));
+        }
+        if(in_array('ROLE_REGION', $user->getRoles(), true))
+        {
+            return new RedirectResponse($this->urlGenerator->generate('app_main'));
+        }
+        if(in_array('ROLE_ADMIN', $user->getRoles(), true) or in_array('ROLE_SUPERADMIN', $user->getRoles(), true))
+        {
+            return new RedirectResponse($this->urlGenerator->generate('app_admin'));
+        }
         return new RedirectResponse($this->urlGenerator->generate('app_main'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
