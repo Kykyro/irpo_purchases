@@ -52,7 +52,8 @@ class XlsxService extends AbstractController
         $sheet->setCellValue('C4', $userInfo->getRfSubject()->getName());
         $sheet->setCellValue('C5', $userInfo->getOrganization());
         $sheet->setCellValue('C6', $userInfo->getEducationalOrganization());
-        $sheet->setCellValue('C7', $userInfo->getDeclaredIndustry());
+        $sheet->setCellValue('C7', $userInfo->getCluster());
+        $sheet->setCellValue('C8', $userInfo->getDeclaredIndustry());
         // Инфо о процедурах
         $index = 1;
         foreach ($procedures as &$val) {
