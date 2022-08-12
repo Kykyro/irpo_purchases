@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -96,6 +97,8 @@ class DefaultController extends AbstractController
                         'Аукцион в электронной форме' => 'Аукцион в электронной форме',
                         'Открытый конкурс' => 'Открытый конкурс',
                         'Запрос котировок' => 'Запрос котировок',
+                        'Электронный магазин' => 'Электронный магазин',
+                        'Другое' => 'Другое',
                     ],
                 ])
             ->add("PurchaseLink", TextType::class,
