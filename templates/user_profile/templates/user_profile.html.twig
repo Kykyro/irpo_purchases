@@ -66,6 +66,14 @@
                                     Редактировать
                                 </button>
                             </a>
+                            {% if not app.user.getUserInfo().isNOTAllFull() %}
+                                <a href="{{ path("app_purchases_add") }}">
+                                    <button class="btn-gray-all btn btn-outline-success ">
+                                        <div class="fa fa-plus"></div>
+                                        Добавить закупку
+                                    </button>
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
