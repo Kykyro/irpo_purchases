@@ -33,7 +33,7 @@ class ProcurementProcedures
     private $PurchaseLink;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $PurchaseNumber;
 
@@ -192,12 +192,12 @@ class ProcurementProcedures
         return $this;
     }
 
-    public function getPurchaseNumber(): ?int
+    public function getPurchaseNumber(): ?string
     {
         return $this->PurchaseNumber;
     }
 
-    public function setPurchaseNumber(?int $PurchaseNumber): self
+    public function setPurchaseNumber(?string $PurchaseNumber): self
     {
         $this->PurchaseNumber = $PurchaseNumber;
 
