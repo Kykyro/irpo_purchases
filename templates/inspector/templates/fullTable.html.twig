@@ -219,8 +219,9 @@
                             </td>
                             <td>{{ i.getfinFederalFunds() }}</td>
                             <td>{{ i.getfinFundsOfSubject() }}</td>
-                            <td>{{ i.getfinFundsOfEducationalOrg() }}</td>
                             <td>{{ i.getfinEmployersFunds() }}</td>
+                            <td>{{ i.getfinFundsOfEducationalOrg() }}</td>
+
 
                             {% if  i.getDeliveryTime() is not null %}
                                 <td>{{ i.getDeliveryTime().format('d/m/Y') }}</td>

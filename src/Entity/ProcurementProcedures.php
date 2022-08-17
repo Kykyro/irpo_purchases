@@ -466,7 +466,7 @@ class ProcurementProcedures
         $this->getInitialFederalFunds(),
         $this->getInitialFundsOfSubject(),
         $this->getInitialEmployersFunds(),
-        $this->getInitialFederalFunds(),
+        $this->getInitialEducationalOrgFunds(),
         (is_null($this->getPublicationDate())) ? '' : $this->getPublicationDate()->format('d.m.Y'),
         (is_null($this->getDeadlineDate())) ? '' : $this->getDeadlineDate()->format('d.m.Y'),
         (is_null($this->getDateOfSummingUp())) ? '' : $this->getDateOfSummingUp()->format('d.m.Y'),
@@ -481,8 +481,8 @@ class ProcurementProcedures
         null,
         $this->getfinFederalFunds(),
         $this->getfinFundsOfSubject(),
-        $this->getfinFundsOfEducationalOrg(),
         $this->getfinEmployersFunds(),
+        $this->getfinFundsOfEducationalOrg(),
         (is_null($this->getDeliveryTime())) ? '' : $this->getDeliveryTime()->format('d.m.Y'),
         $this->getComments()
         );

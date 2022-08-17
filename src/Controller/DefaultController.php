@@ -5,6 +5,8 @@ namespace App\Controller;
 //use Doctrine\DBAL\Types\TextType;
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
+use App\Form\ChoiceInputType;
+use App\Form\purchasesFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +37,27 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @param int $id
+     * @return Response
      * @Route("/purchases/{id}", name="app_purchases_detail", methods="GET")
+     */
+    public function purchasesView(Request $request, int $id) : Response
+    {
+        $title = 'Просмотр';
+        $purchase = $this->getDoctrine()
+            ->getRepository(ProcurementProcedures::class)
+            ->find($id);
+
+        return $this->render('purchases_detail/templates/table_view.html.twig', [
+            'controller_name' => 'DefaultController',
+            'title' => $title,
+            'purchase' => $purchase->getAsRow()
+        ]);
+    }
+
+    /**
+     *
      * @Route("/purchases-edit/{id}", name="app_purchases_edit", methods="GET|POST")
      * @Route("/purchases-add", name="app_purchases_add", methods="GET|POST")
      */
@@ -45,20 +67,15 @@ class DefaultController extends AbstractController
         $routeName = $request->attributes->get('_route');
 
         // Настраиваем переменные в зависимости от операции
-        if($routeName == 'app_purchases_detail'){
-            $title = 'Просмотр';
-            $is_disabled = true;
-            $isSave = false;
-        }
-        else if($routeName == 'app_purchases_edit'){
+        if ($routeName == 'app_purchases_edit'){
             $title = 'Редактирование';
             $is_disabled = false;
-            $isSave = true;
+            $isEdit = true;
         }
         else{
             $title = 'Добавление';
             $is_disabled = false;
-            $isSave = true;
+            $isEdit = false;
         }
 
 
@@ -77,216 +94,36 @@ class DefaultController extends AbstractController
             $id = $procurement_procedure->getId();
         }
 
+//        $arr = $this->json($procurement_procedure)->getContent();
+//        $arr = json_decode($arr, true);
+//        var_dump($arr);
         // генерируем форму
-        $form = $this->createFormBuilder($procurement_procedure)
-            ->add("PurchaseObject", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => true,
-                    'disabled' => $is_disabled
-                ])
-            ->add("MethodOfDetermining", ChoiceType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control'
-                    ],
-                    'required'   => true,
-                    'disabled' => $is_disabled,
-                    'choices'  => [
-                        'Единственный поставщик' => 'Единственный поставщик',
-                        'Аукцион в электронной форме' => 'Аукцион в электронной форме',
-                        'Открытый конкурс' => 'Открытый конкурс',
-                        'Запрос котировок' => 'Запрос котировок',
-                        'Электронный магазин' => 'Электронный магазин',
-                        'Другое' => 'Другое',
-                    ],
-                ])
-            ->add("PurchaseLink", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("PurchaseNumber", TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control'
-                    ],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("DateOfConclusion", DateType::class,[
-                'widget' => 'single_text',
-                'disabled' => $is_disabled,
-                'required'   => false,
-
-                ])
-            ->add("DeliveryTime", DateType::class,[
-                'widget' => 'single_text',
-                'disabled' => $is_disabled,
-                'required'   => false,
-
-                ])
-            ->add("Comments", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("initialFederalFunds", TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control initial',
-                        'step' => '.001',
-                        'min' => '0',
-                        'max' => '99999999999'
-                        ],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("initialFundsOfSubject", TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control initial',
-                        'step' => '.001',
-                        'min' => '0',
-                        'max' => '99999999999'
-                        ],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("initialEmployersFunds", TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control initial',
-                        'step' => '.001',
-                        'min' => '0',
-                        'max' => '99999999999'
-                        ],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-           ->add("initialEducationalOrgFunds", TextType::class,
-                    [
-                        'attr' => [
-                            'class' => 'form-control initial',
-                            'step' => '.001',
-                            'min' => '0',
-                            'max' => '99999999999'
-                            ],
-                        'required'   => false,
-                        'disabled' => $is_disabled
-                    ])
-            ->add("supplierName", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("supplierINN", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("supplierKPP", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("finFederalFunds", TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control fin',
-                        'step' => '.001',
-                        'min' => '0',
-                        'max' => '99999999999'
-                    ],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("finFundsOfSubject", TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control fin',
-                        'step' => '.001',
-                        'min' => '0',
-                        'max' => '99999999999'
-                    ],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("finEmployersFunds", TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control fin',
-                        'step' => '.001',
-                        'min' => '0',
-                        'max' => '99999999999'
-                    ],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("finFundsOfEducationalOrg", TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control fin',
-                        'step' => '.001',
-                        'min' => '0',
-                        'max' => '99999999999'
-                    ],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->add("publicationDate", DateType::class,[
-                'widget' => 'single_text',
-                'disabled' => $is_disabled,
-                'required'   => false,
-
-            ])
-            ->add("deadlineDate", DateType::class,[
-                'widget' => 'single_text',
-                'disabled' => $is_disabled,
-                'required'   => false,
-
-            ])
-            ->add("dateOfSummingUp", DateType::class,[
-                'widget' => 'single_text',
-                'disabled' => $is_disabled,
-                'required'   => false,
-
-            ])
-            ->add("postponementDate", DateType::class,[
-                'widget' => 'single_text',
-                'disabled' => $is_disabled,
-                'required'   => false,
-
-            ])
-            ->add("postonementComment", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false,
-                    'disabled' => $is_disabled
-                ])
-            ->getForm();
+        $form = $this->createForm(purchasesFormType::class, $procurement_procedure);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+
+            if($procurement_procedure->getMethodOfDetermining() === 'Другое')
+            {
+                $procurement_procedure->setMethodOfDetermining($form['anotherMethodOfDetermining']->getData());
+            }
+//            dd($procurement_procedure);
             $entity_manager->persist($procurement_procedure);
             $entity_manager->flush();
 
-            if($routeName == 'app_purchases_add')
-                return $this->redirectToRoute("app_main");
+            $nextAction = $form->get('saveAndAddNew')->isClicked()
+                ? 'app_purchases_add'
+                : 'app_main';
 
-            return $this->redirectToRoute("app_purchases_detail", ['id' => $id]);
+            return $this->redirectToRoute($nextAction);
         }
 
-        return $this->render('purchases_detail/base.html.twig', [
+        return $this->render('purchases_detail/templates/table_add.html.twig', [
             'controller_name' => 'DefaultController',
             'form' => $form->createView(),
-            'save' => $isSave,
-            'title' => $title
+            'edit' => $isEdit,
+            'title' => $title,
+            'method' => $procurement_procedure->getMethodOfDetermining()
         ]);
     }
 

@@ -1,33 +1,63 @@
 // ToDo: провести рефакторинг!
 $(document).ready(function () {
+    function soloSupplier(isThis){
+        if(isThis)
+        {
+            $('#purchases_form_publicationDate').val('');
+            $('#purchases_form_deadlineDate').val('');
+            $('#purchases_form_dateOfSummingUp').val('');
+            $('#purchases_form_PurchaseLink').val('');
+            $('#purchases_form_PurchaseNumber').val('');
+            $('#purchases_form_postponementDate').val('');
+            $('#purchases_form_postonementComment').val('');
+        }
+        // required
+        $('#purchases_form_DateOfConclusion').prop('required',isThis);
+        $('#purchases_form_publicationDate').prop('required', !isThis);
+        // disabled
+        $('#purchases_form_publicationDate').prop('disabled',isThis);
+        $('#purchases_form_deadlineDate').prop('disabled',isThis);
+        $('#purchases_form_dateOfSummingUp').prop('disabled',isThis);
+        $('#purchases_form_PurchaseLink').prop('disabled',isThis);
+        $('#purchases_form_PurchaseNumber').prop('disabled',isThis);
+        $('#purchases_form_postponementDate').prop('disabled',isThis);
+        $('#purchases_form_postonementComment').prop('disabled',isThis);
 
+    }
+    function anotherMethodOfDeterminingFunc(isThis)
+    {
+        if(isThis)
+        {
+            anotherMethodOfDetermining.show(1000);
+        }
+        else
+        {
+            $('#purchases_form_anotherMethodOfDetermining').val('');
+            anotherMethodOfDetermining.hide('fast', ()=>{})
+        }
+    }
+    var methodOfDetermining = $('.MethodOfDetermining option[value="Другое"]');
+    var methodOfDeterminingInput =  $("#purchases_form_anotherMethodOfDetermining");
     let initialSum = 0;
     let finSum = 0;
     let initialSumFull = false;
-    let method = $('#form_MethodOfDetermining').find(":selected").text();
-    if(method === 'Единственный поставщик')
+    let method = $('#purchases_form_MethodOfDetermining').find(":selected").text();
+    var anotherMethodOfDetermining = $('#anotherMethodOfDetermining')
+    if(method === 'Другое')
     {
-        $('#form_DateOfConclusion').prop('required',true);
-        $('#form_publicationDate').prop('required',false);
-        $('#form_publicationDate').prop('disabled',"disabled");
-        $('#form_deadlineDate').prop('disabled',"disabled");
-        $('#form_dateOfSummingUp').prop('disabled',"disabled");
-        $('#form_PurchaseLink').prop('disabled',"disabled");
-        $('#form_PurchaseNumber').prop('disabled',"disabled");
-        $('#form_postponementDate').prop('disabled',"disabled");
-        $('#form_postonementComment').prop('disabled',"disabled");
+        anotherMethodOfDeterminingFunc(true);
     }
     else
     {
-        $('#form_DateOfConclusion').prop('required',false);
-        $('#form_publicationDate').prop('required',true);
-        $('#form_publicationDate').prop('disabled',false);
-        $('#form_deadlineDate').prop('disabled',false);
-        $('#form_dateOfSummingUp').prop('disabled',false);
-        $('#form_PurchaseLink').prop('disabled',false);
-        $('#form_PurchaseNumber').prop('disabled',false);
-        $('#form_postponementDate').prop('disabled',false);
-        $('#form_postonementComment').prop('disabled',false);
+        anotherMethodOfDeterminingFunc(false);
+    }
+    if(method === 'Единственный поставщик')
+    {
+        soloSupplier(true);
+    }
+    else
+    {
+        soloSupplier(false);
     }
 
     // начальная сумма
@@ -95,89 +125,82 @@ $(document).ready(function () {
     });
 
     // изменения при выборе способова закупки
-    $('#form_MethodOfDetermining').change(() => {
+    $('#purchases_form_MethodOfDetermining').change(() => {
+        console.log('aaaaa');
         let method = $(this).find(":selected").text();
         if(method === 'Единственный поставщик')
         {
-            $('#form_DateOfConclusion').prop('required',true);
-            $('#form_publicationDate').prop('required',false);
-            $('#form_publicationDate').prop('disabled',"disabled");
-            $('#form_deadlineDate').prop('disabled',"disabled");
-            $('#form_dateOfSummingUp').prop('disabled',"disabled");
-            $('#form_PurchaseLink').prop('disabled',"disabled");
-            $('#form_PurchaseNumber').prop('disabled',"disabled");
-            $('#form_postponementDate').prop('disabled',"disabled");
-            $('#form_postonementComment').prop('disabled',"disabled");
+            soloSupplier(true);
         }
         else
         {
-            $('#form_DateOfConclusion').prop('required',false);
-            $('#form_publicationDate').prop('required',true);
-            $('#form_publicationDate').prop('disabled',false);
-            $('#form_deadlineDate').prop('disabled',false);
-            $('#form_dateOfSummingUp').prop('disabled',false);
-            $('#form_PurchaseLink').prop('disabled',false);
-            $('#form_PurchaseNumber').prop('disabled',false);
-            $('#form_postponementDate').prop('disabled',false);
-            $('#form_postonementComment').prop('disabled',false);
+            soloSupplier(false);
         }
-
+        // Если выбрано "другое"
+        if(method === 'Другое')
+        {
+            anotherMethodOfDeterminingFunc(true);
+        }
+        else
+        {
+            anotherMethodOfDeterminingFunc(false);
+        }
     });
     // Проверка дат
 
     // блокировка финальных цен
-    $('#form_initialFederalFunds').val() == 0 ?
-        $('#form_finFederalFunds').prop('disabled', true) : $('#form_finFederalFunds').prop('disabled', false);
+    $('#purchases_form_finFederalFunds').val() == 0 ?
+        $('#purchases_form_finFederalFunds').prop('disabled', true) : $('#purchases_form_finFederalFunds').prop('disabled', false);
 
-    $('#form_initialFederalFunds').change(() => {
-        let val = $('#form_initialFederalFunds').val();
-
-        if(val == 0)
-        {
-            $('#form_finFederalFunds').prop('disabled', true);
-        }
-        else{
-            $('#form_finFederalFunds').prop('disabled', false);
-        }
-    });
-    $('#form_initialFundsOfSubject').val() == 0 ?
-        $('#form_finFundsOfSubject').prop('disabled', true) :  $('#form_finFundsOfSubject').prop('disabled', false);
-    $('#form_initialFundsOfSubject').change(() => {
-        let val = $('#form_initialFundsOfSubject').val();
+    $('#purchases_form_initialFederalFunds').change(() => {
+        let val = $('#purchases_form_initialFederalFunds').val();
 
         if(val == 0)
         {
-            $('#form_finFundsOfSubject').prop('disabled', true);
+            $('#purchases_form_finFederalFunds').prop('disabled', true).val('');
         }
         else{
-            $('#form_finFundsOfSubject').prop('disabled', false);
+            $('#purchases_form_finFederalFunds').prop('disabled', false);
+        }
+    });
+    $('#purchases_form_initialFundsOfSubject').val() == 0 ?
+        $('#purchases_form_finFundsOfSubject').prop('disabled', true) :  $('#form_finFundsOfSubject').prop('disabled', false);
+    $('#purchases_form_initialFundsOfSubject').change(() => {
+        let val = $('#purchases_form_initialFundsOfSubject').val();
+
+        if(val == 0)
+        {
+            $('#purchases_form_finFundsOfSubject').prop('disabled', true).val('');
+        }
+        else{
+            $('#purchases_form_finFundsOfSubject').prop('disabled', false);
         }
     });
 
-    $('#form_initialEmployersFunds').val() == 0 ?
-        $('#form_finEmployersFunds').prop('disabled', true) : $('#form_finEmployersFunds').prop('disabled', false);
-    $('#form_initialEmployersFunds').change(() => {
+    $('#purchases_form_initialEmployersFunds').val() == 0 ?
+        $('#purchases_form_finEmployersFunds').prop('disabled', true) : $('#form_finEmployersFunds').prop('disabled', false);
+    $('#purchases_form_initialEmployersFunds').change(() => {
         let val = $('#form_initialEmployersFunds').val();
 
         if(val == 0)
         {
-            $('#form_finEmployersFunds').prop('disabled', true);
+            $('#form_finEmployersFunds').prop('disabled', true).val();
         }
         else{
             $('#form_finEmployersFunds').prop('disabled', false);
         }
     });
-    $('#form_initialEducationalOrgFunds').val() == 0 ?
-        $('#form_finFundsOfEducationalOrg').prop('disabled', true) : $('#form_finFundsOfEducationalOrg').prop('disabled', false);
-    $('#form_initialEducationalOrgFunds').change(() => {
+    $('#purchases_form_initialEducationalOrgFunds').val() == 0 ?
+        $('#purchases_form_finFundsOfEducationalOrg').prop('disabled', true) : $('#form_finFundsOfEducationalOrg').prop('disabled', false);
+    $('#purchases_form_initialEducationalOrgFunds').change(() => {
         let val = $('#form_initialEducationalOrgFunds').val();
 
         if(val == 0)
         {
-            $('#form_finFundsOfEducationalOrg').prop('disabled', true);
+            $('#purchases_form_finFundsOfEducationalOrg').prop('disabled', true).val('');
         }
         else{
-            $('#form_finFundsOfEducationalOrg').prop('disabled', false);
+            $('#purchases_form_finFundsOfEducationalOrg').prop('disabled', false);
         }
     });
 

@@ -1,8 +1,6 @@
 {% extends "purchases_detail/base.html.twig" %}
 
-
 {% block content %}
-
 <style>
     input[type='number'] {
         -moz-appearance:textfield;
@@ -11,6 +9,9 @@
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
+    }
+    td{
+        border-right: 2px dotted lightgrey;
     }
 </style>
 <div class="row">
@@ -24,9 +25,21 @@
                 </div>
             </div>
 
+            <div class="row d-flex justify-content-center m-3">
+                <div class="m-2">
+                    <a href="{{ path("app_purchases_edit", {id: app.request.get("id")}) }}">
+                        <button class="btn-gray-all btn btn-outline-success ">
+                            <div class="fa fa-edit"></div>
+                            Редактировать
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+
 
             <div class="row d-flex justify-content-center">
-{{ form_start(form) }}
+
                     <table class="table block-shadow white-bg block-border">
                         <thead>
                         <tr>
@@ -40,7 +53,7 @@
 
 
                             <td>
-                                {{ form_widget(form.PurchaseObject) }}
+                                {{ purchase[0] }}
                             </td>
 
                         </tr>
@@ -49,17 +62,7 @@
 
 
                             <td>
-                                {{ form_widget(form.MethodOfDetermining) }}
-                            </td>
-
-                        </tr>
-                        <tr id="anotherMethodOfDetermining">
-                            <td>
-                                Другое
-                            </td>
-                            <td>
-                                {{ form_widget(form.anotherMethodOfDetermining,
-                                    {attr: {'value' : method}}) }}
+                                {{ purchase[1] }}
                             </td>
 
                         </tr>
@@ -73,16 +76,11 @@
                                     Начальная (максимальная) цена контракта (РУБЛИ)
                                 </strong>
                             </td>
-
-
                         </tr>
-
                         <tr>
                             <td>средства федерального бюджета</td>
-
-
                             <td>
-                                {{ form_widget(form.initialFederalFunds, {"type":"number"}) }}
+                                {{ purchase[3] }}₽
                             </td>
 
                         </tr>
@@ -91,7 +89,7 @@
 
 
                             <td>
-                                {{ form_widget(form.initialFundsOfSubject, {"type":"number"}) }}
+                                {{ purchase[4] }}₽
                             </td>
 
                         </tr>
@@ -108,7 +106,7 @@
                         <tr>
                             <td>средства работодателей</td>
                             <td>
-                                {{ form_widget(form.initialEmployersFunds, {"type":"number"}) }}
+                                {{ purchase[5] }}₽
                             </td>
 
                         </tr>
@@ -117,7 +115,7 @@
 
 
                             <td>
-                                {{ form_widget(form.initialEducationalOrgFunds, {"type":"number"}) }}
+                                {{ purchase[6] }}₽
                             </td>
 
                         </tr>
@@ -127,7 +125,7 @@
                                 Сумма
                             </td>
                             <td>
-                                <p class="sum_initial"></p>
+                                <p>{{ purchase[3]+purchase[4]+purchase[5]+purchase[6] }}₽</p>
 
                             </td>
                         </tr>
@@ -150,7 +148,7 @@
 
 
                             <td>
-                                {{ form_widget(form.publicationDate) }}
+                                {{ purchase[7] }}
                             </td>
 
                         </tr>
@@ -159,7 +157,7 @@
 
 
                             <td>
-                                {{ form_widget(form.deadlineDate) }}
+                                {{ purchase[8] }}
                             </td>
 
                         </tr>
@@ -168,7 +166,7 @@
 
 
                             <td>
-                                {{ form_widget(form.dateOfSummingUp) }}
+                                {{ purchase[9] }}
                             </td>
 
                         </tr>
@@ -182,7 +180,7 @@
 
 
                             <td>
-                                {{ form_widget(form.PurchaseLink) }}
+                                {{ purchase[10] }}
                             </td>
 
                         </tr>
@@ -191,7 +189,7 @@
 
 
                             <td>
-                                {{ form_widget(form.PurchaseNumber, {'type':'number'}) }}
+                                {{ purchase[11] }}
                             </td>
 
                         </tr>
@@ -212,17 +210,14 @@
 
 
                             <td>
-                                {{ form_widget(form.postponementDate) }}
-
+                                {{ purchase[12] }}
                             </td>
 
                         </tr>
                         <tr>
                             <td>причина (обоснование)</td>
-
-
                             <td>
-                                {{ form_widget(form.postonementComment) }}
+                                {{ purchase[13] }}
                             </td>
 
                         </tr>
@@ -241,7 +236,7 @@
 
 
                             <td>
-                                {{ form_widget(form.DateOfConclusion) }}
+                                {{ purchase[14] }}
                             </td>
 
                         </tr>
@@ -259,28 +254,22 @@
                         </tr>
                         <tr>
                             <td>Наименование организации-поставщика (подрядчика, исполнителя)</td>
-
-
                             <td>
-                                {{ form_widget(form.supplierName) }}
+                                {{ purchase[15] }}
                             </td>
 
                         </tr>
                         <tr>
                             <td>ИНН</td>
-
-
                             <td>
-                                {{ form_widget(form.supplierINN) }}
+                                {{ purchase[16] }}
                             </td>
 
                         </tr>
                         <tr>
                             <td>КПП</td>
-
-
                             <td>
-                                {{ form_widget(form.supplierKPP) }}
+                                {{ purchase[17] }}
                             </td>
 
                         </tr>
@@ -293,24 +282,18 @@
                                     Цена контракта / договора (РУБЛИ)
                                 </strong>
                             </td>
-
-
                         </tr>
                         <tr>
                             <td>средства федерального бюджета</td>
-
-
                             <td>
-                                {{ form_widget(form.finFederalFunds, {"type":"number"}) }}
+                                {{ purchase[19] }}₽
                             </td>
 
                         </tr>
                         <tr>
                             <td>средства субъекта РФ</td>
-
-
                             <td>
-                                {{ form_widget(form.finFundsOfSubject, {"type":"number"}) }}
+                                {{ purchase[20] }}₽
                             </td>
 
                         </tr>
@@ -320,25 +303,17 @@
                                     внебюджетные средства
                                 </strong>
                             </td>
-
-
-
                         </tr>
                         <tr>
                             <td>средства работодателей</td>
-
-
                             <td>
-                                {{ form_widget(form.finEmployersFunds, {"type":"number"}) }}
+                                {{ purchase[21] }}₽
                             </td>
-
                         </tr>
                         <tr>
                             <td>средства образовательной организации</td>
-
-
                             <td>
-                                {{ form_widget(form.finFundsOfEducationalOrg, {"type":"number"}) }}
+                                {{ purchase[22] }}₽
                             </td>
 
                         </tr>
@@ -347,7 +322,7 @@
                                 Сумма
                             </td>
                             <td>
-                                <p class="sum_fin"></p>
+                                <p> {{ purchase[19]+purchase[20]+purchase[21]+purchase[22] }}₽</p>
 
                             </td>
                         </tr>
@@ -356,52 +331,27 @@
                         </tr>
                         <tr>
                             <td>Срок поставки (подписание акта), дата</td>
-
-
                             <td>
-                                {{ form_widget(form.DeliveryTime) }}
+                                {{ purchase[23] }}
                             </td>
-
                         </tr>
                         <tr>
                             <td>Комментарии / Примечания</td>
-
-
                             <td>
-                                {{ form_widget(form.Comments) }}
+                                {{ purchase[24] }}
                             </td>
 
                         </tr>
                         <tr>
-                            <td>Добавить файл при необходимости</td>
-
-
+                            <td>Файл</td>
                             <td>
 
                             </td>
-
                         </tr>
-
                         </tbody>
                     </table>
-
-                <div>
-                    {{ form_widget(form.save) }}
-                    {% if edit %}
-                        {{ form_widget(form.saveAndAddNew,
-                            {'attr': {
-                                'hidden': true
-                            }}) }}
-                    {% else %}
-                        {{ form_widget(form.saveAndAddNew) }}
-                    {% endif %}
                 </div>
-{{ form_end(form) }}
-                </div>
-
-
         </div>
-
     </div>
 </div>
 {% endblock %}
