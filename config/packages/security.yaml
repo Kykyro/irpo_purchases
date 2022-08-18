@@ -45,6 +45,8 @@ security:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/region, roles: ROLE_REGION }
          - { path: ^/inspector, roles: ROLE_INSPECTOR }
+         - { path: ^/download, roles: ROLE_INSPECTOR }
+         - { path: ^/download, roles: ROLE_REGION }
 
 when@test:
     security:

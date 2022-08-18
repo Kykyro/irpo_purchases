@@ -203,6 +203,6 @@ $(document).ready(function () {
             $('#purchases_form_finFundsOfEducationalOrg').prop('disabled', false);
         }
     });
-
+    
 
 });

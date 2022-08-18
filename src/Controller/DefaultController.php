@@ -7,6 +7,7 @@ use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
 use App\Form\ChoiceInputType;
 use App\Form\purchasesFormType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/region")
@@ -52,7 +54,8 @@ class DefaultController extends AbstractController
         return $this->render('purchases_detail/templates/table_view.html.twig', [
             'controller_name' => 'DefaultController',
             'title' => $title,
-            'purchase' => $purchase->getAsRow()
+            'purchase' => $purchase->getAsRow(),
+            'file' => $purchase->getFileDir()
         ]);
     }
 
@@ -61,7 +64,7 @@ class DefaultController extends AbstractController
      * @Route("/purchases-edit/{id}", name="app_purchases_edit", methods="GET|POST")
      * @Route("/purchases-add", name="app_purchases_add", methods="GET|POST")
      */
-    public function purchasesDetail(Request $request, int $id = null): Response
+    public function purchasesDetail(Request $request, SluggerInterface $slugger, int $id = null): Response
     {
         $entity_manager = $this->getDoctrine()->getManager();
         $routeName = $request->attributes->get('_route');
@@ -102,12 +105,29 @@ class DefaultController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-
+            $file = $form->get('file')->getData();
             if($procurement_procedure->getMethodOfDetermining() === 'Другое')
             {
                 $procurement_procedure->setMethodOfDetermining($form['anotherMethodOfDetermining']->getData());
             }
-//            dd($procurement_procedure);
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $this->getParameter('purchases_files_directory'),
+                        $newFilename
+                    );
+                    $procurement_procedure->setFileDir($newFilename);
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+            }
+
             $entity_manager->persist($procurement_procedure);
             $entity_manager->flush();
 

@@ -162,4 +162,12 @@ class InspectorController extends AbstractController
     {
         return $xlsxService->generatePurchasesProcedure($user_id, $year);
     }
+//    /**
+//     * @Route("/a", name="a")
+//     */
+//    public function purchases(Request $request): Response
+//    {
+//
+//
+//    }
 }

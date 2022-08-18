@@ -58,6 +58,9 @@
                             <td rowspan="3">
                                 Комментарии / Примечания
                             </td>
+                            <td rowspan="3">
+                                Приложенный файл
+                            </td>
                         </tr>
                         <tr>
                             <td rowspan="2">
@@ -152,6 +155,7 @@
                             <td>24</td>
                             <td>25</td>
                             <td>26</td>
+                            <td>27</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -230,7 +234,14 @@
                             {% endif %}
 
                             <td>{{ i.getComments() }}</td>
+                            {% set file = i.getFileDir() %}
+                            {% if file != "" %}
 
+                                <td><a href="{{ path('app_download_purchases_file', {'file': file}) }}">{{ file }}</a></td>
+{#                                    <td>{{ i.getFileDir() }}</td>#}
+                            {% else %}
+                                <td></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
