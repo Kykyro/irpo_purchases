@@ -149,7 +149,7 @@ $(document).ready(function () {
     // Проверка дат
 
     // блокировка финальных цен
-    $('#purchases_form_finFederalFunds').val() == 0 ?
+    $('#purchases_form_initialFederalFunds').val() == 0 ?
         $('#purchases_form_finFederalFunds').prop('disabled', true) : $('#purchases_form_finFederalFunds').prop('disabled', false);
 
     $('#purchases_form_initialFederalFunds').change(() => {
@@ -164,7 +164,7 @@ $(document).ready(function () {
         }
     });
     $('#purchases_form_initialFundsOfSubject').val() == 0 ?
-        $('#purchases_form_finFundsOfSubject').prop('disabled', true) :  $('#form_finFundsOfSubject').prop('disabled', false);
+        $('#purchases_form_finFundsOfSubject').prop('disabled', true) :  $('#purchases_form_finFundsOfSubject').prop('disabled', false);
     $('#purchases_form_initialFundsOfSubject').change(() => {
         let val = $('#purchases_form_initialFundsOfSubject').val();
 
