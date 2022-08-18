@@ -203,6 +203,47 @@ $(document).ready(function () {
             $('#purchases_form_finFundsOfEducationalOrg').prop('disabled', false);
         }
     });
-    
+    // Проверка корректности дат
+    function checkDate(date1, date2){
+        if(date1.val() > date2.val() && date2.val() !== ""){
+            date2.addClass( "red-bg" ).focus();
+            return false;
+        }
+        else {
+            date2.removeClass( "red-bg" );
+            return true;
+        }
+    }
+    $('form[name="purchases_form"]').submit((event) => {
+        let publicationDate = $('#purchases_form_publicationDate');
+        let deadlineDate = $('#purchases_form_deadlineDate');
+        let dateOfSummingUp = $('#purchases_form_dateOfSummingUp');
+        let postponementDate = $('#purchases_form_postponementDate');
+        let DateOfConclusion = $('#purchases_form_DateOfConclusion');
+        let DeliveryTime = $('#purchases_form_DeliveryTime');
+        let isValid = true;
+        let validArr = [];
+
+        validArr.push(checkDate(publicationDate, deadlineDate));
+        validArr.push(checkDate(deadlineDate, dateOfSummingUp));
+        validArr.push(checkDate(dateOfSummingUp, postponementDate));
+        validArr.push(checkDate(dateOfSummingUp, DateOfConclusion));
+        validArr.push(checkDate(DateOfConclusion, DeliveryTime));
+
+        for (let i = 0; i < validArr.length; i++) {
+            if(validArr[i] === false){
+                isValid = false;
+                break;
+            }
+            else {
+                isValid = true;
+            }
+        }
+
+        if(isValid)
+            return
+
+        event.preventDefault();
+    })
 
 });
