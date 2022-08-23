@@ -147,8 +147,25 @@ class ProcurementProcedures
      */
     private $isDeleted;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createDate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $changeTime;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $version;
+
     function __construct() {
         $this->setIsDeleted(false);
+        $this->setCreateDate(new \DateTime('@'.strtotime('now')));
+        $this->setVersion(1);
     }
 
     public function getId(): ?int
@@ -503,4 +520,58 @@ class ProcurementProcedures
         return $this;
     }
 
+    public function getCreateDate(): ?\DateTimeInterface
+    {
+        return $this->createDate;
+    }
+
+    public function setCreateDate(?\DateTimeInterface $createDate): self
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    public function getChangeTime(): ?\DateTimeInterface
+    {
+        return $this->changeTime;
+    }
+
+    public function setChangeTime(?\DateTimeInterface $changeTime): self
+    {
+        $this->changeTime = $changeTime;
+
+        return $this;
+    }
+
+    public function getVersion(): ?int
+    {
+        return $this->version;
+    }
+
+    public function setVersion(?int $version): self
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+    public function getVersionInfoAndDate(): array
+    {
+        $arr = [
+            'createDate' => is_null($this->getCreateDate()) ? '' : $this->getCreateDate()->format('r'),
+            'changeTime' => is_null($this->getChangeTime()) ? '' : $this->getChangeTime()->format('r'),
+            'version' => $this->getVersion()
+        ];
+        return $arr;
+    }
+    public function UpdateVersion()
+    {
+        if(is_null($this->version))
+        {
+            $this->version = 1;
+        }
+        else{
+            $this->version += 1;
+        }
+    }
 }

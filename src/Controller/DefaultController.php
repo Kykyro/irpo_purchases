@@ -55,7 +55,9 @@ class DefaultController extends AbstractController
             'controller_name' => 'DefaultController',
             'title' => $title,
             'purchase' => $purchase->getAsRow(),
-            'file' => $purchase->getFileDir()
+            'file' => $purchase->getFileDir(),
+            'versionInfo' => $purchase->getVersionInfoAndDate(),
+
         ]);
     }
 
@@ -127,7 +129,9 @@ class DefaultController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
             }
-
+            $procurement_procedure->setChangeTime(new \DateTime('now'));
+            $procurement_procedure->UpdateVersion();
+            
             $entity_manager->persist($procurement_procedure);
             $entity_manager->flush();
 
