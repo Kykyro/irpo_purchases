@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProcurementProceduresRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Annotations\Log;
 /**
  * @ORM\Entity(repositoryClass=ProcurementProceduresRepository::class)
  */
@@ -19,126 +19,151 @@ class ProcurementProcedures
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Log
      */
     private $PurchaseObject;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
      */
     private $MethodOfDetermining;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
      */
     private $PurchaseLink;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Log
      */
     private $PurchaseNumber;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Log
      */
     private $DateOfConclusion;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Log
      */
     private $DeliveryTime;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Log
      */
     private $Comments;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
      */
     private $fileDir;
 
     /**
      * @ORM\ManyToOne(targetEntity=user::class)
+     * @Log
      */
     private $user;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @Log
      */
     private $initialFederalFunds;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @Log
      */
     private $initialFundsOfSubject;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @Log
      */
     private $initialEmployersFunds;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @Log
      */
     private $initialEducationalOrgFunds;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
      */
     private $supplierName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
      */
     private $supplierINN;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
      */
     private $supplierKPP;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @Log
      */
     private $finFederalFunds;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @Log
      */
     private $finFundsOfSubject;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @Log
      */
     private $finEmployersFunds;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @Log
      */
     private $finFundsOfEducationalOrg;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Log
      */
     private $publicationDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Log
      */
     private $deadlineDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Log
      */
     private $dateOfSummingUp;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Log
      */
     private $postponementDate;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Log
      */
     private $postonementComment;
 

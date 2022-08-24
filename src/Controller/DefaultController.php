@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 //use Doctrine\DBAL\Types\TextType;
+use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
 use App\Form\ChoiceInputType;
@@ -148,6 +149,26 @@ class DefaultController extends AbstractController
             'edit' => $isEdit,
             'title' => $title,
             'method' => $procurement_procedure->getMethodOfDetermining()
+        ]);
+    }
+    /**
+     * @Route("/purchases-history/{id}", name="app_purchases_history")
+     */
+    public function historyPurchases(Request $request, int $id) : Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getRepository(Log::class);
+        $history = $repository->findBy([
+           'object_class' => 'ProcurementProcedures',
+           'foreign_key' => $id,
+        ], [
+            'version' => 'DESC'
+        ]);
+
+
+        return $this->render('purchases_detail/templates/history.html.twig', [
+            'controller_name' => 'DefaultController',
+            'history' => $history
         ]);
     }
 
