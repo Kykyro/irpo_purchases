@@ -1,0 +1,42 @@
+{% extends "journalist/index.html.twig" %}
+
+
+
+
+{% block content %}
+    <ul>
+        <li>
+            <a href="{{ path('app_list_article') }}">
+                <button class="btn btn-primary">
+                    <div class="fa fa-list"></div>
+                    Список новостей
+                </button>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('app_new_article') }}">
+                <button class="btn btn-primary">
+                    <div class="fa fa-plus"></div>
+                    Создать статью
+                </button>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('app_cropper') }}">
+                <button class="btn btn-primary">
+                    <div class="fa fa-image"></div>
+                    Редактировать картинку
+                </button>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('app_map_edit') }}">
+                <button class="btn btn-primary">
+                    <div class="fa fa-compass"></div>
+                    Редактировать карту
+                </button>
+            </a>
+        </li>
+
+    </ul>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "journalist/index.html.twig" %}
+
+
+
+
+{% block content %}
+    <h1>Список статей</h1>
+{#    <div class="row">#}
+{#        <label>Поиск</label>#}
+{#        <input type="text">#}
+{#        <button class="btn btn-primary">#}
+{#            <div class="fa fa-search"></div>#}
+{#            Найти#}
+{#        </button>#}
+{#    </div>#}
+    <div class="row">
+
+        <table class="table m3">
+            <thead>
+            <tr>
+                <td>
+                    ID
+                </td>
+                <td>
+                    Картинка
+                </td>
+                <td>
+                    Заголовок
+                </td>
+                <td>
+                    Действия
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in pagination  %}
+                <tr>
+                    <td> {{ i.getId() }} </td>
+                    <td><img src="{{ asset('/uploads/articleTitles/' ~ i.getImg()) }}" alt="нет картинки" style="height: 200px"></td>
+                    <td>{{ i.GetTitle() }}</td>
+                    <td>
+                        <a href="{{ path('app_edit_article', {'id': i.getId()}) }}">
+                            <button class="btn">
+                                <div class="fa fa-edit"></div>
+                                Редактировать
+                            </button>
+                        </a>
+                        <a href="{{ path('app_view_article', {'id': i.getId()}) }}">
+                            <button class="btn">
+                                <div class="fa fa-search"></div>
+                                Просмотр
+                            </button>
+                        </a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="navigation">
+            {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+        </div>
+    </div>
+
+{#    <div class="m-5">#}
+
+{#    </div>#}
+{% endblock %}

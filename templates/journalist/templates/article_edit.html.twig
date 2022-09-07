@@ -1,0 +1,19 @@
+{% extends "journalist/index.html.twig" %}
+
+
+{% block content %}
+    <h1>Редактор статей</h1>
+    <div class="m-2">
+        {{ form_start(form) }}
+            <label> Заголовок </label>
+            {{ form_widget(form.title) }}
+            <label> Картинка для статьи </label>
+            {{ form_widget(form.imgTitle) }}
+
+            {{ form_widget(form.content) }}
+
+            {{ form_widget(form.submit) }}
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "journalist/index.html.twig" %}
+
+
+
+
+{% block content %}
+    <div class="row">
+        <h1>
+            {{ article.getTitle() }}
+        </h1>
+    </div>
+
+    <div class="row">
+        <div>
+            {{ article.getContent()| raw }}
+        </div>
+    </div>
+{% endblock %}

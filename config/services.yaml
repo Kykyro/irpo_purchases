@@ -8,6 +8,7 @@ parameters:
     asset.request_context.secure: true
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
     purchases_files_directory: '%kernel.project_dir%/public/uploads/purchasesFiles'
+    article_title_img_directory: '%kernel.project_dir%/public/uploads/articleTitles'
 
 services:
     # default configuration for services in *this* file

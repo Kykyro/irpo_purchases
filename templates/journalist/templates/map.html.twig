@@ -1,0 +1,51 @@
+{% extends "journalist/index.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        {% if map is defined %}
+            <ul>
+
+            {% for i in map %}
+                <li class="m-1">
+                    <a href="{{ path('app_map_edit', {'id': i.getId}) }}">
+                        <button class="btn btn-primary">
+                            {{ i.getName() }}
+                        </button>
+                    </a>
+                </li>
+            {% endfor %}
+
+            </ul>
+        {% endif %}
+
+
+    </div>
+    {% if form is defined %}
+        <div class="row">
+            <a href="{{ path('app_map_edit') }}">
+                <button class="btn btn-primary">
+                    Назад
+                </button>
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {{ form_start(form) }}
+                    <label> Название региона </label>
+                    {{ form_widget(form.name) }}
+                    <label> Номер региона </label>
+                    {{ form_widget(form.ident) }}
+                    <label> Организации </label>
+                    {{ form_widget(form.organization) }}
+                    <div>
+                        <strong>Текущее значение организаций: </strong>
+                        {{ orgContent }}
+                    </div>
+                    {{ form_widget(form.submit) }}
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock %}
