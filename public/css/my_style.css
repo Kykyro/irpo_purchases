@@ -133,3 +133,37 @@ input[type="text"], textarea {
     overflow-x: scroll;
     overflow-y: hidden;
 }
+
+.btn_position{
+    display: flex;
+    align-items: center;
+}
+
+/*Форма кнопок главной страницы*/
+
+.btn_smooth_border {
+    border-radius: 35px;
+}
+
+.btn_hard_border {
+    border-radius: 0px;
+}
+
+.btn-start-landing{
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    background-color: #fff;
+    font-size: 13px;
+    letter-spacing: 3px;
+    font-weight: 400;
+    border: 0 solid transparent;
+    border-radius: 0;
+    line-height: 50px;
+}
+
+
+
+
+
+
+
