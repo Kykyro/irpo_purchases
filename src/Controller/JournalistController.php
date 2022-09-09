@@ -124,6 +124,7 @@ class JournalistController extends AbstractController
     {
         $query = $em->getRepository(Article::class)
             ->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
             ->getQuery();
 
         $pagination = $paginator->paginate(

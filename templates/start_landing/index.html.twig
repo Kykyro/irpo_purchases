@@ -45,6 +45,108 @@
     <!-- JS -->
     <script type="text/javascript" src="{{ asset('landing/js/modernizr.js') }}"></script>
 
+    <style>
+        #russian-map{
+
+        }
+        #hint-region {
+            /*display: none;*/
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999999;
+            border: 1px solid black;
+            padding: 4px;
+            width: 350px;
+            pointer-events:none;
+        }
+        #region-title{
+            font-size: 16pt;
+            font-weight: bold;
+            text-align: center;
+        }
+        #org-list{
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .org-year{
+            font-size: 14pt;
+            font-weight: bold;
+        }
+        .organization{
+            margin-left: 10px;
+            padding-left: 3px;
+            list-style-type: '-';
+        }
+    </style>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="{{ asset('js/map/raphael-min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/map/russian-map.js') }}"></script>
+    <script>
+        // запрос на получение json регионов
+        window.onload = function() {
+            fetch('http://localhost:8080/api/map').then(function(response) {
+                response.json().then(function(data) {
+                    $('#year-select').change(() => {
+
+                    })
+                    var hint = document.getElementById('hint-region');
+                    data = JSON.parse(data);
+
+                    new RussianMap({
+                        viewPort: "-65 0 1134 620",
+                        mapId: 'russian-map',
+                        width: 1300,
+                        height: 800,
+                        // дефолтовые атрибуты для контуров регионов
+                        defaultAttr: {
+                            fill: '#d8d8d8', // цвет которым закрашивать
+                            stroke: '#000', // цвет границы
+                            'stroke-width': 0.2, // ширина границы
+                            'stroke-linejoin': 'round' // скруглять углы
+                        },
+                        mouseMoveAttr: {
+                            fill: '#55d450',
+                        },
+                        onMouseMove: function(e) {
+                            $('#region-title').html(this.region.name)
+                            if(this.region.organization) {
+                                let organization = JSON.parse(this.region.organization);
+                                let year = $('#year-select option:selected').text();
+                                for (var org in organization[year]) {
+                                    let orgElem = "<li class='organization'>" + organization[year][org] + "</li>";
+                                    $("#org-list").append(orgElem)
+                                }
+
+                            }
+                            hint.style.display = 'inline-block';
+                            if( e.pageX + hint.offsetWidth < document.body.offsetWidth ){
+
+                                hint.style.top = e.pageY - 100 + 'px';
+                                hint.style.left = e.pageX - 100 + 'px';
+                                console.log(hint.style.top)
+                                console.log(e.pageY)
+                            } else {
+                                hint.style.top = e.pageY - 100 + 'px';
+                                hint.style.left = e.pageX - hint.offsetWidth - 100 + 'px';
+                            }
+
+                        },
+                        onMouseOut: function(event) {
+                            hint.style.display = 'none';
+                            $("#org-list").html("");
+                        },
+                        onMouseClick: function(event) {
+
+                        },
+
+                    }, data);
+                });
+            });
+        };
+    </script>
+
     <!-- Faviconss -->
 {#    <link rel="shortcut icon" href="favicon.ico">#}
 {#    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">#}
@@ -176,150 +278,25 @@
             </div>
             <div class="container">
                 <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
-                    <article class="carousel-item portfolio-item web">
-                        <div class="project-container mb-0">
-                            <a>
-                                <img src="{{ asset('/img/img_start_landing/1.png') }}" alt>
-                                <div class="overlay">
-                                    <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                    {% for i in news %}
+                        <article class="carousel-item portfolio-item web">
+                            <div class="project-container mb-0">
+                                <a>
+                                    <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
+                                    <div class="overlay">
+                                        <div class="overlay-wrapper">
+                                            <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                            <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                        </div>
                                     </div>
+                                </a>
+                                <div class="project-details">
+                                    <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
                                 </div>
-                            </a>
-                            <div class="project-details">
-                                <h4 class="h5 project-title heading-uppercase">Мероприятия1</h4>
                             </div>
-                        </div>
-                    </article>
-                    <article class="carousel-item portfolio-item brand">
-                        <div class="project-container mb-0">
-                            <a>
-                                <img src="{{ asset('/img/img_start_landing/2.png') }}" alt>
-                                <div class="overlay">
-                                    <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="project-details">
-                                <h4 class="h5 project-title heading-uppercase">Мероприятия2</h4>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="carousel-item portfolio-item web">
-                        <div class="project-container mb-0">
-                            <a>
-                                <img src="{{ asset('/img/img_start_landing/3.jpg') }}" alt>
-                                <div class="overlay">
-                                    <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="project-details">
-                                <h4 class="h5 project-title heading-uppercase">Мероприятия3</h4>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="carousel-item portfolio-item design">
-                        <div class="project-container mb-0">
-                            <a>
-                                <img src="{{ asset('/img/img_start_landing/4.jpg') }}" alt>
-                                <div class="overlay">
-                                    <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="project-details">
-                                <h4 class="h5 project-title heading-uppercase">Мероприятия4</h4>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="carousel-item portfolio-item web">
-                        <div class="project-container mb-0">
-                            <a>
-                                <img src="{{ asset('/img/img_start_landing/5.jpg') }}" alt>
-                                <div class="overlay">
-                                    <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="project-details">
-                                <h4 class="h5 project-title heading-uppercase">Мероприятия5</h4>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="carousel-item portfolio-item web">
-                        <div class="project-container mb-0">
-                            <a>
-                                <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt>
-                                <div class="overlay">
-                                    <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="project-details">
-                                <h4 class="h5 project-title heading-uppercase">Мероприятия6</h4>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="carousel-item portfolio-item web">
-                        <div class="project-container mb-0">
-                            <a>
-                                <img src="{{ asset('/img/img_start_landing/7.jpg') }}" alt>
-                                <div class="overlay">
-                                    <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="project-details">
-                                <h4 class="h5 project-title heading-uppercase">Мероприятия7</h4>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="carousel-item portfolio-item web">
-                        <div class="project-container mb-0">
-                            <a>
-                                <img src="{{ asset('/img/img_start_landing/1.png') }}" alt>
-                                <div class="overlay">
-                                    <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="project-details">
-                                <h4 class="h5 project-title heading-uppercase">Мероприятия8</h4>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="carousel-item portfolio-item web">
-                        <div class="project-container mb-0">
-                            <a>
-                                <img src="{{ asset('/img/img_start_landing/2.png') }}" alt>
-                                <div class="overlay">
-                                    <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="project-details">
-                                <h4 class="h5 project-title heading-uppercase">Новость9</h4>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
+                    {% endfor %}
+
                 </div>
             </div>
         </section>
@@ -330,15 +307,23 @@
                 <div class="divider divider-alt divider-center divider-light"></div>
                 <p class="lead mb-50 text-center text-white">Я ничего не понимаю, кто я?</p>
                 <div class="row">
-                    <div class="col-md-6">
-{#                        <p class="text-white mb-0">Важную задача количественный задач. Организационной рост равным нашей постоянный активности организации, деятельности отношении важную образом соображения занимаемых условий. Условий. А дальнейших условий. Активности развития. Выполнять высшего сложившаяся и прогрессивного активизации. Обучения задания активности показывает, дальнейших развития. Высшего требуют что отношении и количественный и выполнять структура отношении показывает, условий соответствующий кадров постоянный значение соображения форм в сфера в собой и что выполнять роль существенных организации, важну.</p>#}
-                    </div>
-                    <div class="col-md-6">
-{#                        <p class="text-white">Поставленных также сложившаяся задания также показывает, проверки способствует поставленных количественный а финансовых порядка, интересный место структура особенности анализа сложившаяся в важные задач. Активности отношении и позволяет поставленных и соображения новая сложившаяся сложившаяся сложившаяся по равным соображения участниками позволяет показывает, административных место позиций, условий условий существенных форм особенности также условий позволяет высшего и высшего структура требуют рост также деятельности роль задач.</p>#}
-{#                        <p class="mb-0 text-white">Занимаемых идейные нашей условий оценить от позволяет сфера задача анализа соответствующий высшего и модель требуют.</p>#}
-                    </div>
+
                 </div>
             </div>
+            <div class="container" style="margin-left: 15%">
+                <div id="russian-map" ></div>
+                <div>
+                    <select id="year-select">
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2023">2024</option>
+                        <option value="2023">2025</option>
+                    </select>
+                </div>
+
+
+            </div>
+{#            </div>#}
         </section>
 
         <section data-id="services" class="ed-section sm-pb-0">
@@ -851,6 +836,17 @@
         </div>
     </div>
 
+</div>
+<div id="hint-region">
+    <div>
+        <div id="region-title">Название региона</div>
+        <hr>
+        <div>
+            <ul id="org-list">
+
+            </ul>
+        </div>
+    </div>
 </div>
 
 <!-- JS -->
