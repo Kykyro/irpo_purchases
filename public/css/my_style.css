@@ -161,6 +161,14 @@ input[type="text"], textarea {
     line-height: 50px;
 }
 
+.round_img {
+    width: 150px; height: 150px;
+    border-radius: 50%; /* Радиус скругления */
+    box-shadow: 0 0 10px #444;
+    background-size: auto 150px;
+}
+
+
 
 
 

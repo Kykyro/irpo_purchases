@@ -4,66 +4,76 @@
 
 
 {% block content %}
-    <h1>Список статей</h1>
-{#    <div class="row">#}
-{#        <label>Поиск</label>#}
-{#        <input type="text">#}
-{#        <button class="btn btn-primary">#}
-{#            <div class="fa fa-search"></div>#}
-{#            Найти#}
-{#        </button>#}
-{#    </div>#}
-    <div class="row">
+<div class="row">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <h1>Список статей</h1>
+            {#    <div class="row">#}
+            {#        <label>Поиск</label>#}
+            {#        <input type="text">#}
+            {#        <button class="btn btn-primary">#}
+            {#            <div class="fa fa-search"></div>#}
+            {#            Найти#}
+            {#        </button>#}
+            {#    </div>#}
+                <div class="row">
 
-        <table class="table m3">
-            <thead>
-            <tr>
-                <td>
-                    ID
-                </td>
-                <td>
-                    Картинка
-                </td>
-                <td>
-                    Заголовок
-                </td>
-                <td>
-                    Действия
-                </td>
-            </tr>
-            </thead>
-            <tbody>
-            {% for i in pagination  %}
-                <tr>
-                    <td> {{ i.getId() }} </td>
-                    <td><img src="{{ asset('/uploads/articleTitles/' ~ i.getImg()) }}" alt="нет картинки" style="height: 200px"></td>
-                    <td>{{ i.GetTitle() }}</td>
-                    <td>
-                        <a href="{{ path('app_edit_article', {'id': i.getId()}) }}">
-                            <button class="btn">
-                                <div class="fa fa-edit"></div>
-                                Редактировать
-                            </button>
-                        </a>
-                        <a href="{{ path('app_view_article', {'id': i.getId()}) }}">
-                            <button class="btn">
-                                <div class="fa fa-search"></div>
-                                Просмотр
-                            </button>
-                        </a>
+                    <table class="table m3">
+                        <thead>
+                        <tr>
+                            <td>
+                                ID
+                            </td>
+                            <td>
+                                Изображение
+                            </td>
+                            <td>
+                                Заголовок
+                            </td>
+                            <td>
+                                Действия
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in pagination  %}
+                            <tr>
+                                <td class="align-middle"> {{ i.getId() }} </td>
+                                <td class="align-middle"><img src="{{ asset('/uploads/articleTitles/' ~ i.getImg()) }}" alt="изображение не загружено" class="round_img m-3"></td>
+                                <td class="align-middle col-md-3"><b>{{ i.GetTitle() }}</b></td>
+                                <td class="align-middle">
+                                    <div>
+                                        <a href="{{ path('app_edit_article', {'id': i.getId()}) }}">
+                                            <button class="btn">
+                                                <div class="fa fa-edit"></div>
+                                                Редактировать
+                                            </button>
+                                        </a>
+                                        <a href="{{ path('app_view_article', {'id': i.getId()}) }}">
+                                            <button class="btn">
+                                                <div class="fa fa-search"></div>
+                                                Просмотр
+                                            </button>
+                                        </a>
+                                    </div>
 
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
-    <div class="row">
-        <div class="navigation">
-            {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                <div class="row">
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
 {#    <div class="m-5">#}
 
