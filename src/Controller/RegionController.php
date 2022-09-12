@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-//use Doctrine\DBAL\Types\TextType;
 use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
@@ -23,19 +22,20 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+
+
 /**
  * @Route("/region")
  */
-class DefaultController extends AbstractController
+class RegionController extends AbstractController
 {
-
     /**
      * @Route("/purchases/", name="app_purchases")
      */
     public function purchases(): Response
     {
         return $this->render('purchases/base.html.twig', [
-            'controller_name' => 'DefaultController',
+            'controller_name' => 'RegionController',
         ]);
     }
 
@@ -53,7 +53,7 @@ class DefaultController extends AbstractController
             ->find($id);
 
         return $this->render('purchases_detail/templates/table_view.html.twig', [
-            'controller_name' => 'DefaultController',
+            'controller_name' => 'RegionController',
             'title' => $title,
             'purchase' => $purchase->getAsRow(),
             'file' => $purchase->getFileDir(),
@@ -97,12 +97,9 @@ class DefaultController extends AbstractController
             $procurement_procedure = new ProcurementProcedures();
             $user = $this->getUser();
             $procurement_procedure->setUser($user);
-            $id = $procurement_procedure->getId();
         }
 
-//        $arr = $this->json($procurement_procedure)->getContent();
-//        $arr = json_decode($arr, true);
-//        var_dump($arr);
+
         // генерируем форму
         $form = $this->createForm(purchasesFormType::class, $procurement_procedure);
 
@@ -132,7 +129,7 @@ class DefaultController extends AbstractController
             }
             $procurement_procedure->setChangeTime(new \DateTime('now'));
             $procurement_procedure->UpdateVersion();
-            
+
             $entity_manager->persist($procurement_procedure);
             $entity_manager->flush();
 
@@ -144,7 +141,7 @@ class DefaultController extends AbstractController
         }
 
         return $this->render('purchases_detail/templates/table_add.html.twig', [
-            'controller_name' => 'DefaultController',
+            'controller_name' => 'RegionController',
             'form' => $form->createView(),
             'edit' => $isEdit,
             'title' => $title,
@@ -159,15 +156,15 @@ class DefaultController extends AbstractController
         $entity_manager = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository(Log::class);
         $history = $repository->findBy([
-           'object_class' => 'ProcurementProcedures',
-           'foreign_key' => $id,
+            'object_class' => 'ProcurementProcedures',
+            'foreign_key' => $id,
         ], [
             'version' => 'DESC'
         ]);
 
 
         return $this->render('purchases_detail/templates/history.html.twig', [
-            'controller_name' => 'DefaultController',
+            'controller_name' => 'RegionController',
             'history' => $history
         ]);
     }
@@ -273,11 +270,9 @@ class DefaultController extends AbstractController
             ]
         );
 
-        return $this->render('index/base.html.twig', [
-            'controller_name' => 'DefaultController',
+        return $this->render('region/base.html.twig', [
+            'controller_name' => 'RegionController',
             'procurement_procedures' => $procurement_procedures
         ]);
     }
-
-
 }

@@ -46,7 +46,9 @@
     <script type="text/javascript" src="{{ asset('landing/js/modernizr.js') }}"></script>
 
     <style>
-        #russian-map{
+        #year-select{
+            background-color: #ffffff;
+            color: #000000;
 
         }
         #hint-region {
@@ -88,13 +90,15 @@
         window.onload = function() {
             fetch('http://localhost:8080/api/map').then(function(response) {
                 response.json().then(function(data) {
+
+
                     $('#year-select').change(() => {
 
                     })
                     var hint = document.getElementById('hint-region');
                     data = JSON.parse(data);
 
-                    new RussianMap({
+                    let map = new RussianMap({
                         viewPort: "-65 0 1134 620",
                         mapId: 'russian-map',
                         width: 1100,
@@ -125,8 +129,6 @@
 
                                 hint.style.top = e.pageY - 100 + 'px';
                                 hint.style.left = e.pageX - 100 + 'px';
-                                console.log(hint.style.top)
-                                console.log(e.pageY)
                             } else {
                                 hint.style.top = e.pageY - 100 + 'px';
                                 hint.style.left = e.pageX - hint.offsetWidth - 100 + 'px';
@@ -142,7 +144,28 @@
                         },
 
                     }, data);
-                });
+
+                }).then(() => {
+                    window.addEventListener('resize', WinResize);
+                    let winWidth = document.documentElement.clientWidth;
+                    let winHeight = document.documentElement.clientHeight;
+                    let mapSVG = $('#russian-map').children('svg');
+
+                    ResizeMap();
+
+                    function ResizeMap(){
+                        mapSVG.attr('width', winWidth/1.5 + 'px');
+                        mapSVG.attr('height', winHeight/1.5 + 'px');
+                    }
+
+
+                    function WinResize(){
+                        winWidth = document.documentElement.clientWidth;
+                        winHeight = document.documentElement.clientHeight;
+                        console.log(winHeight, winWidth);
+                        ResizeMap();
+                    }
+                })
             });
         };
     </script>
@@ -310,17 +333,19 @@
 
                 </div>
             </div>
-            <div class="container" style="margin-left: 15%">
-                <div id="russian-map" ></div>
-                <div>
-                    <select id="year-select">
-                        <option value="2022">2022</option>
-                        <option value="2023">2023</option>
-                        <option value="2023">2024</option>
-                        <option value="2023">2025</option>
-                    </select>
-                </div>
+            <div id="container" style="margin-left: 15%">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <select id="year-select" class="form-control">
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2023">2024</option>
+                            <option value="2023">2025</option>
+                        </select>
+                    </div>
 
+                </div>
+                <div id="russian-map"></div>
 
             </div>
 {#            </div>#}
