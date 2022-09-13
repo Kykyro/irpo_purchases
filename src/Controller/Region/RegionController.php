@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Region;
 
 use App\Entity\Log;
 use App\Entity\ProcurementProcedures;

@@ -4,7 +4,8 @@ security:
         ROLE_USER: [ ROLE_USER ]
         ROLE_INSPECTOR: [ ROLE_INSPECTOR ]
         ROLE_REGION: [ ROLE_REGION ]
-        ROLE_ADMIN: [ ROLE_USER, ROLE_INSPECTOR, ROLE_REGION ]
+        ROLE_JOURNALIST: [ ROLE_JOURNALIST ]
+        ROLE_ADMIN: [ ROLE_USER, ROLE_INSPECTOR, ROLE_REGION, ROLE_JOURNALIST ]
         ROLE_SUPERADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
 
     enable_authenticator_manager: true
@@ -44,6 +45,7 @@ security:
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/region, roles: ROLE_REGION }
+         - { path: ^/journalist, roles: ROLE_JOURNALIST }
          - { path: ^/inspector, roles: ROLE_INSPECTOR }
          - { path: ^/download, roles: ROLE_INSPECTOR }
          - { path: ^/download, roles: ROLE_REGION }

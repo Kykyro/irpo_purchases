@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Journalist;
 
 use App\Entity\Article;
 use App\Entity\Regions;
@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -28,7 +29,7 @@ class JournalistController extends AbstractController
     /**
      * @Route("/menu", name="app_journalist")
      */
-    public function index(Request $request): Response
+    public function index(): Response
     {
 
         return $this->render('journalist/templates/menu.html.twig', [
@@ -82,8 +83,6 @@ class JournalistController extends AbstractController
                 ->getQuery()
                 ->getResult();
 
-
-
             return $this->render('journalist/templates/map.html.twig', [
                 'controller_name' => 'JournalistController',
                 'map' => $map
@@ -94,7 +93,7 @@ class JournalistController extends AbstractController
     /**
      * @Route("/cropper", name="app_cropper")
      */
-    public function imgCropper(Request $request): Response
+    public function imgCropper(): Response
     {
 
         return $this->render('journalist/templates/cropper.html.twig', [
@@ -106,7 +105,7 @@ class JournalistController extends AbstractController
     /**
      * @Route("/article-view/{id}", name="app_view_article")
      */
-    public function articleView(Request $request, int $id): Response
+    public function articleView(int $id): Response
     {
         $entity_manager = $this->getDoctrine()->getManager();
         $article = $entity_manager->getRepository(Article::class)->find($id);
@@ -174,7 +173,7 @@ class JournalistController extends AbstractController
                     );
                     $article->setImg($newFilename);
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    throw new HttpException(500, $e->getMessage());
                 }
             }
 

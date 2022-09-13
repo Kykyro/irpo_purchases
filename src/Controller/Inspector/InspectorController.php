@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Inspector;
 
 use App\Entity\RfSubject;
 use App\Entity\User;
