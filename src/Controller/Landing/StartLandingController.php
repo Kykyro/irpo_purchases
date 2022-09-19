@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Landing;
 
 use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

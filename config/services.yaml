@@ -9,6 +9,7 @@ parameters:
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
     purchases_files_directory: '%kernel.project_dir%/public/uploads/purchasesFiles'
     article_title_img_directory: '%kernel.project_dir%/public/uploads/articleTitles'
+    infrastructure_sheet_files_directory: '%kernel.project_dir%/public/uploads/infrastructureSheetsFiles'
 
 services:
     # default configuration for services in *this* file

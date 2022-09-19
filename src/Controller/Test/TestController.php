@@ -29,8 +29,21 @@ class TestController extends AbstractController
      */
     public function index(): Response
     {
+        $arr = [];
+        $form = $this->createFormBuilder($arr)
+            ->add("file", FileType::class, [
+                'attr' => ['class' => 'form-control', 'id' => 'cropped-file-upload'],
+                'required'   => true,
+            ])
+            ->add('submit', SubmitType::class)
+            ->getForm();
+
+        if($form->isSubmitted() && $form->isValid()) {
+            dd($form->getData());
+        }
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
+            'form' => $form->createView(),
         ]);
     }
 
