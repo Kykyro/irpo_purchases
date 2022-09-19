@@ -1,0 +1,79 @@
+{% extends "journalist/index.html.twig" %}
+
+
+
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <h1>Список инфраструктурных листов</h1>
+                <div class="row">
+                    {{ form_start(form) }}
+                        <label> Отрасль </label>
+                        {{ form_widget(form.industry) }}
+                        {{ form_widget(form.submit) }}
+                    {{ form_end(form) }}
+                </div>
+
+                <div class="row">
+
+                    <table class="table m3">
+                        <thead>
+                        <tr>
+                            <td>
+                                ID
+                            </td>
+                            <td>
+                                Название
+                            </td>
+                            <td>
+                                Отрасль
+                            </td>
+                            <td>
+                                Файл
+                            </td>
+                            <td>
+                                Действия
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in pagination  %}
+                            <tr>
+                                <td class="align-middle"> {{ i.getId() }} </td>
+                                <td class="align-middle">{{ i.getName() }}</td>
+                                <td class="align-middle col-md-3">{{ i.getIndustry().getName() }}</td>
+                                <td class="align-middle col-md-3">{{ i.getfile() }}</td>
+                                <td class="align-middle">
+                                    <div>
+                                        <a href="{{ path('app_journalist_infrastructure_sheet_edit', {'id': i.getId()}) }}">
+                                            <button class="btn">
+                                                <div class="fa fa-edit"></div>
+                                                Редактировать
+                                            </button>
+                                        </a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#    <div class="m-5">#}
+
+{#    </div>#}
+{% endblock %}

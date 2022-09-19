@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+
+
+{% block body %}
+    {{ form_start(form) }}
+        <label> Отрасль </label>
+        {{ form_widget(form.industry) }}
+        {{ form_widget(form.submit) }}
+    {{ form_end(form) }}
+<table>
+    <thead>
+        <tr>
+            <td>Название</td>
+            <td>Отрасль</td>
+            <td>Файл</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in pagination  %}
+            <tr>
+                <td>{{ i.getName() }}</td>
+                <td>{{ i.getIndustry().getName() }}</td>
+                <td><a href="#">скачать</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="row">
+    <div class="navigation">
+        {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+    </div>
+</div>
+{% endblock %}
