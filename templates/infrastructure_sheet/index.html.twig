@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;display=swap" rel="stylesheet">
@@ -36,6 +37,7 @@
 
     <div style="padding-top: 1rem">
         <div class="container">
+            <a href="{{ path('app_start_landing') }}">Назад</a>
             <div class="table-responsive custom-table-responsive">
                 <table class="table custom-table">
                     <thead>
@@ -46,15 +48,24 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for i in pagination  %}
-                    <tr scope="row">
-                        <td>{{ i.getName() }}</td>
-                        <td>{{ i.getIndustry().getName() }}</td>
-                        <td><a href="#">скачать</a></td>
-                    </tr>
-                    {% endfor %}
+                        {% for i in pagination  %}
+                            <tr scope="row">
+                                <td>{{ i.getName() }}</td>
+                                <td>{{ i.getIndustry().getName() }}</td>
+                                <td>
+                                    {% if i.getfile() is not null %}
+                                        <a href="{{ path('app_download_infrastructure_sheet_file', {'file': i.getfile()}) }}">скачать</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
+                <div class="row">
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
