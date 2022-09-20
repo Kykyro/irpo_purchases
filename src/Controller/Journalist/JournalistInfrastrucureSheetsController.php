@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Industry;
 use App\Entity\InfrastructureSheetFiles;
 use App\Entity\Regions;
+use App\Entity\UGPS;
 use App\Form\articleEditForm;
 use App\Form\mapEditForm;
 use Doctrine\ORM\EntityManagerInterface;
@@ -110,6 +111,16 @@ class JournalistInfrastrucureSheetsController extends AbstractController
                 'attr' => ['class' => 'form-control'],
                 'required'   => false,
                 'class' => Industry::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('sub')
+                        ->orderBy('sub.name', 'ASC');
+                },
+                'choice_label' => 'name',
+            ])
+            ->add("UGPS", EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'class' => UGPS::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('sub')
                         ->orderBy('sub.name', 'ASC');

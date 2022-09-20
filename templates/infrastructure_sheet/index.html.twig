@@ -55,7 +55,11 @@
                             <tr scope="row">
                                 <td>{{ i.getName() }}</td>
                                 <td>{{ i.getIndustry().getName() }}</td>
-                                <td>{{ i.getUGPS }}</td>
+                                {% if i.getUGPS() is not null %}
+                                    <td>{{ i.getUGPS.getName() }}</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
                                 <td>
                                     {% if i.getfile() is not null %}
                                         <a href="{{ path('app_download_infrastructure_sheet_file', {'file': i.getfile()}) }}">скачать</a>
