@@ -32,6 +32,11 @@ class InfrastructureSheetFiles
      */
     private $industry;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=UGPS::class)
+     */
+    private $UGPS;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class InfrastructureSheetFiles
     public function setIndustry(?Industry $industry): self
     {
         $this->industry = $industry;
+
+        return $this;
+    }
+
+    public function getUGPS(): ?UGPS
+    {
+        return $this->UGPS;
+    }
+
+    public function setUGPS(?UGPS $UGPS): self
+    {
+        $this->UGPS = $UGPS;
 
         return $this;
     }
