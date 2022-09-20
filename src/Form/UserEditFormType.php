@@ -38,9 +38,13 @@ class UserEditFormType extends AbstractType
                             (
                                 'регион' => 'ROLE_REGION'
                             ),
-                            'проверяющий' => array
+                            'Проверяющий' => array
                             (
                                 'проверяющий' => 'ROLE_INSPECTOR'
+                            ),
+                            'Журналист' => array
+                            (
+                                'проверяющий' => 'ROLE_JOURNALIST'
                             )
                         )
                     ,

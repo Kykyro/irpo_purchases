@@ -33,12 +33,14 @@
                             Редактировать
                         </button>
                     </a>
-                    <a href="{{ path("app_purchases_history", {id: app.request.get("id")}) }}">
-                        <button class="btn-gray-all btn btn-outline-success ">
-                            <div class="fa fa-edit"></div>
-                            История
-                        </button>
-                    </a>
+                    {% if is_granted('ROLE_INSPECTOR') %}
+                        <a href="{{ path("app_purchases_history", {id: app.request.get("id")}) }}">
+                            <button class="btn-gray-all btn btn-outline-success ">
+                                <div class="fa fa-edit"></div>
+                                История
+                            </button>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
 

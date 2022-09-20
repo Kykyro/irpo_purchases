@@ -58,10 +58,11 @@
                         <a href="#"><i class="fa fa-archive left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Закупки [2]</span></a>
                     </li>
                 {% endif %}
-
-                <li >
-                    <a href="{{ path("app_journalist") }}"><i class="fa fa-compass left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Редактор главной страницы</span></a>
-                </li>
+                {% if is_granted('ROLE_JOURNALIST') %}
+                    <li >
+                        <a href="{{ path("app_journalist") }}"><i class="fa fa-compass left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Редактор главной страницы</span></a>
+                    </li>
+                {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <li >
                         <a href="{{ path("app_admin") }}"><i class="fa fa-wheelchair-alt left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Админ панель</span></a>

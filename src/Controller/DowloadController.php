@@ -17,4 +17,11 @@ class DowloadController extends AbstractController
     {
         return $this->file('../public/uploads/purchasesFiles/'.$file);
     }
+    /**
+     * @Route("/infrastructure-sheet-download/{file}", name="app_download_purchases_file")
+     */
+    public function ISDownload(string $file): Response
+    {
+        return $this->file('../public/uploads/infrastructureSheetsFiles/'.$file);
+    }
 }
