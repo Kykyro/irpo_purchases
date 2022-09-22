@@ -80,6 +80,18 @@
             padding-left: 3px;
             list-style-type: '-';
         }
+        @media screen and (max-width: 992px){
+            #hint-region {
+                display: none;
+                position: absolute;
+                background-color: rgba(255, 255, 255, 0.8);
+                z-index: 9999999;
+                border: 1px solid black;
+                padding: 4px;
+                width: 350px;
+                pointer-events:none;
+            }
+        }
     </style>
     <meta charset="UTF-8">
     <script type="text/javascript" src="{{ asset('js/map/raphael-min.js') }}"></script>
@@ -88,7 +100,7 @@
     <script>
         // запрос на получение json регионов
         window.onload = function() {
-            fetch('/api/map').then(function(response) {
+            fetch('http://localhost:8080/api/map').then(function(response) {
                 response.json().then(function(data) {
 
 
@@ -208,16 +220,17 @@
             <ul id="menu" class="nav">
                 <div>
                     <div class="btn_position">
-                        <a href="{{ path('app_login') }}" class="btn-start-landing m-3 btn_hard_border"><li>ЛИЧНЫЙ КАБИНЕТ</li></a>
+                        <a href="{{ path('app_login') }}" class="btn-start-landing m-3 btn_hard_border" target="_blank" ><li style="margin-left: 25px">ЛИЧНЫЙ КАБИНЕТ</li></a>
                     </div>
                 </div>
                 <li data-menuanchor="home" class="active"><a href="#home" class="moveto">Главная</a></li>
-                <li data-menuanchor="portfolio"><a href="#portfolio" class="moveto">Мероприятия</a></li>
-                <li data-menuanchor="about"><a href="#about" class="moveto">Кластеры</a></li>
-                <li data-menuanchor="services"><a href="#services" class="moveto">ИЛ и Закупки</a></li>
-                <li data-menuanchor="projects"><a href="#projects" class="moveto">Дизайн-проекты</a></li>
-                <li data-menuanchor="team"><a href="#team" class="moveto">Сотрудники</a></li>
-                <li data-menuanchor="contact"><a href="#contact" class="moveto">Обратная связь</a></li>
+                <li data-menuanchor="events"><a href="#events" class="moveto">Мероприятия</a></li>
+                <li data-menuanchor="map"><a href="#map" class="moveto">Карта</a></li>
+                <li data-menuanchor="clusters"><a href="#clusters" class="moveto">Кластеры</a></li>
+                <li data-menuanchor="workshops"><a href="#workshops" class="moveto">Мастерские</a></li>
+                <li data-menuanchor="design_projects"><a href="#design_projects" class="moveto">Дизайн-проекты</a></li>
+                <li data-menuanchor="employees"><a href="#employees" class="moveto">Сотрудники</a></li>
+                <li data-menuanchor="feedback"><a href="#feedback" class="moveto">Обратная связь</a></li>
             </ul>
         </nav>
     </header>
@@ -289,7 +302,7 @@
             </div>
         </section>
 
-        <section data-id="portfolio" class="ed-section pb-0">
+        <section data-id="events" class="ed-section pb-0">
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
@@ -322,20 +335,27 @@
 
                 </div>
             </div>
+            <div class="col-md-12 text-center" style="margin-top: 20px">
+                <a href="{{ path('app_article_page') }}" target="_blank">
+                    <button class="btn btn-white btn-noradius" type="submit" id="cf-submit" name="cf-submit">Просмотреть все</button>
+                </a>
+            </div>
         </section>
 
-        <section data-id="about" class="ed-section sm-pt-0 sm-pb-0">
+        <section data-id="map" class="ed-section sm-pt-0 sm-pb-0">
             <div class="container">
                 <h2 class="text-center text-white">Карта</h2>
                 <div class="divider divider-alt divider-center divider-light"></div>
-
+                <p class="lead mb-50 text-center text-white"></p>
                 <div class="row">
 
                 </div>
             </div>
             <div id="container" style="margin-left: 15%">
-                <div class="row">
-                    <div class="col-lg-3">
+
+                <div id="russian-map"></div>
+                <div class="row col-lg-10">
+                    <div class="col-lg-3" style="margin-left: 38%; margin-top: 2%">
                         <select id="year-select" class="form-control">
                             <option value="2022">2022</option>
                             <option value="2023">2023</option>
@@ -343,21 +363,19 @@
                             <option value="2023">2025</option>
                         </select>
                     </div>
-
                 </div>
-                <div id="russian-map"></div>
 
             </div>
 {#            </div>#}
         </section>
 
-        <section data-id="services" class="ed-section sm-pb-0">
+        <section data-id="clusters" class="ed-section sm-pb-0">
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
-                        <h2 class="text-center  text-white">Инфраструктурные листы и Закупки</h2>
+                        <h2 class="text-center  text-white">Инфраструктурные листы и нормативная документация кластеров</h2>
                         <div class="divider divider-alt divider-center divider-light"></div>
-                        <p class="lead mb-50 text-center text-white">В данном разделе Вы сможете на основе типовых позиций для Зон под виды работ, собрать Инфраструктурный лист для дальнейшей работы, а так же подать информацию о закупочных процедурах.</p>
+                        <p class="lead mb-50 text-center text-white">В данном разделе Вы сможете на основе типовых позиций для Зон под виды работ, собрать Инфраструктурный лист для дальнейшей работы.</p>
                     </div>
                 </div>
                 <div class="row">
@@ -365,20 +383,18 @@
                     <div class="col-md-6 col-sm-6">
                         <div class="icon-box mb-30 text-center">
                             <div class="icon-box-icon text-white">
-
                                 <article class="carousel-item portfolio-item web">
-                                    <a href="{{ path('app_infrastructure_sheets') }}">
-                                        <div class="project-container mb-0">
-
-                                                <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt>
-
-                                            <div class="project-details">
-                                                <h4 class="h5 project-title heading-uppercase">Инфраструктурные листы</h4>
+                                    <div class="project-container mb-0">
+                                        <a href="{{ path('app_infrastructure_sheets') }}" target="_blank">
+                                            <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt>
+                                            <div class="overlay">
                                             </div>
+                                        </a>
+                                        <div class="project-details">
+                                            <h4 class="h5 project-title heading-uppercase">Инфраструктурные листы кластеров</h4>
                                         </div>
-                                    </a>
+                                    </div>
                                 </article>
-
                             </div>
 {#                            <h3 class="h4 text-white">Launch Quickly</h3>#}
 {#                            <p class="text-white">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>#}
@@ -397,13 +413,13 @@
                                             </div>
                                         </a>
                                         <div class="project-details">
-                                            <h4 class="h5 project-title heading-uppercase">Закупки</h4>
+                                            <h4 class="h5 project-title heading-uppercase">Нормативная документация кластеров</h4>
                                         </div>
                                     </div>
                                 </article>
                             </div>
-{#                            <h3 class="h4 text-white">Stylish Design</h3>#}
-{#                            <p class="text-white">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>#}
+                            <h3 class="h4 text-white">Stylish Design</h3>
+                            <p class="text-white">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
                         </div>
                     </div>
 
@@ -411,15 +427,71 @@
             </div>
         </section>
 
-        <section data-id="projects" class="ed-section sm-pt-0 sm-pb-0">
+        <section data-id="workshops" class="ed-section sm-pb-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <h2 class="text-center  text-white">Инфраструктурные листы и нормативная документация мастерских</h2>
+                        <div class="divider divider-alt divider-center divider-light"></div>
+                        <p class="lead mb-50 text-center text-white">Что-то</p>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="icon-box mb-30 text-center">
+                            <div class="icon-box-icon text-white">
+                                <article class="carousel-item portfolio-item web">
+                                    <div class="project-container mb-0">
+                                        <a>
+                                            <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt>
+                                        </a>
+                                        <div class="project-details">
+                                            <h4 class="h5 project-title heading-uppercase">Инфраструктурные листы мастерских</h4>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                            <h3 class="h4 text-white">Заголовой</h3>}
+                            <p class="text-white">Описание</p>}
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="icon-box mb-30 text-center">
+                            <div class="icon-box-icon text-white">
+                                <article class="carousel-item portfolio-item web">
+                                    <div class="project-container mb-0">
+                                        <a href="{{ path('app_login') }}">
+                                            <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt>
+                                            <div class="overlay">
+                                            </div>
+                                        </a>
+                                        <div class="project-details">
+                                            <h4 class="h5 project-title heading-uppercase">Нормативная документация мастерских</h4>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                            <h3 class="h4 text-white">Stylish Design</h3>
+                            <p class="text-white">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section data-id="design_projects" class="ed-section sm-pt-0 sm-pb-0">
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
 
                         <h2 class="text-center text-white">Дизайн-Проекты</h2>
                         <div class="divider divider-alt divider-center divider-light"></div>
-                        <p class="lead text-center text-white mb-50">Показывает, высшего эксперимент административных что нас же организационной отношении важну. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
-                        <p class="lead text-center text-white mb-50">Показывает, высшего эксперимент административных что нас же организационной отношении важну. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
+                        <p class="lead text-center text-white mb-50">Ссылка на брендбук. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
+                        <p class="lead text-center text-white mb-50">Рекомендации по дизайн-проектам. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
 
                     </div>
                 </div>
@@ -576,7 +648,7 @@
             </div>
         </section>
 
-        <section data-id="team" class="ed-section sm-pb-0">
+        <section data-id="employees" class="ed-section sm-pb-0">
             <div class="container">
                 <div class="row" >
                     <div class="col-md-10 col-md-offset-1">
@@ -713,7 +785,7 @@
             </div>
         </section>
 
-        <section data-id="contact" class="ed-section">
+        <section data-id="feedback" class="ed-section">
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
@@ -752,6 +824,12 @@
                                             <textarea name="cf-message" id="cf-message" placeholder="Текст сообщения" class="form-control fc-bordered light required" rows="7"></textarea>
                                         </div>
                                     </div>
+                                    <div class="col-lg-12 mb-20">
+                                        <label class="lead text-center text-white mb-50">
+                                            <input type="checkbox" class="custom-checkbox" id="happy" name="happy" value="yes">
+                                            <label for="happy">&nbsp Я согласен на &nbsp <a href="https://firpo.ru/privacy-policy/" style="color: #ffffff" target="_blank"> <u> обработку персональных данных</u></a></label>
+                                        </label>
+                                    </div>
                                     <div class="col-md-12 hidden">
                                         <input type="text" id="cf-botcheck" name="cf-botcheck" value class="form-control form-control-noradius">
                                     </div>
@@ -772,7 +850,7 @@
     <!-- Footer -->
     <footer class="site-footer footer-mobile-light footer-content-light footer-mobile-content-dark">
         <div class="container-fluid">
-            <p class="copyright" style="font-size: 20px">© 2022 &nbsp&nbsp Телефон: +7 (977) 978-29-43 &nbsp &nbsp &nbsp Почта: cluster@firpo.ru</p>
+            <p class="copyright" style="font-size: 20px"><label>© 2022</label> <label>&nbsp&nbsp Телефон: +7 (977) 978-29-43 &nbsp</label> <label>&nbsp &nbsp Почта: cluster@firpo.ru &nbsp &nbsp </label> <label><a href="https://firpo.ru/privacy-policy/" target="_blank"> <u>Политика конфиденциальности </u></a></label></p>
             <nav class="socials-icons">
                 <ul>
                     <li style="margin-right: 20px"><a href="https://день-спо.рф/" class="social-icon"><i><img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt></i></a></li>
@@ -786,32 +864,32 @@
     </footer>
 
     <!-- Subscribe Modal -->
-    <div id="subscribe-modal" class="mfp-modal mfp-close-btn-white mfp-with-anim mfp-hide">
-        <div class="overlay">
-            <div class="overlay-wrapper">
-                <div class="overlay-inner cover-background" style="background-image: url({{ asset('img/img_start_landing/6.jpg') }});"></div>
-                <div class="overlay-inner background-dark-9 opacity-50"></div>
-            </div>
-        </div>
-        <div class="mfp-modal-content text-center pt-120 pb-120">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <h2 class="heading-uppercase text-white font-normal">Subscribe</h2>
-                </div>
-            </div>
-            <div class="divider divider-alt divider-light divider-center"></div>
-            <p class="lead text-white mb-50">Pellentesque consequat at justo quis vulputate. Maecenas elementum metus eu maximus auctor. Morbi ultrices quam rhoncus purus bibendum ornare.</p>
-            <form class="subscribe-form mb-0" method="post" id="mc-form">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-8">
-                        <input type="email" class="form-control dark" placeholder="Enter Your Email Address">
-                        <button class="btn btn-white btn-shadow btn-noradius btn-fullwidth" type="submit" id="submit" name="submit">Subscribe</button>
-                    </div>
-                </div>
-            </form>
-            <p class="subscribe-result text-white"></p>
-        </div>
-    </div>
+{#    <div id="subscribe-modal" class="mfp-modal mfp-close-btn-white mfp-with-anim mfp-hide">#}
+{#        <div class="overlay">#}
+{#            <div class="overlay-wrapper">#}
+{#                <div class="overlay-inner cover-background" style="background-image: url({{ asset('img/img_start_landing/6.jpg') }});"></div>#}
+{#                <div class="overlay-inner background-dark-9 opacity-50"></div>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="mfp-modal-content text-center pt-120 pb-120">#}
+{#            <div class="row">#}
+{#                <div class="col-md-10 col-md-offset-1">#}
+{#                    <h2 class="heading-uppercase text-white font-normal">Subscribe</h2>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="divider divider-alt divider-light divider-center"></div>#}
+{#            <p class="lead text-white mb-50">Pellentesque consequat at justo quis vulputate. Maecenas elementum metus eu maximus auctor. Morbi ultrices quam rhoncus purus bibendum ornare.</p>#}
+{#            <form class="subscribe-form mb-0" method="post" id="mc-form">#}
+{#                <div class="row">#}
+{#                    <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-8">#}
+{#                        <input type="email" class="form-control dark" placeholder="Enter Your Email Address">#}
+{#                        <button class="btn btn-white btn-shadow btn-noradius btn-fullwidth" type="submit" id="submit" name="submit">Subscribe</button>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </form>#}
+{#            <p class="subscribe-result text-white"></p>#}
+{#        </div>#}
+{#    </div>#}
 
     <!-- Root element of PhotoSwipe. Must have class pswp. -->
     <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
