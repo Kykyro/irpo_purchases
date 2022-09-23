@@ -91,7 +91,14 @@
                 width: 350px;
                 pointer-events:none;
             }
+            .team_scale_mobile {
+                margin-right: 13%;
+            }
         }
+
+        .scale_img img { width: 500px; height: 250px; object-fit: cover; }
+        .scale_img .text_scale_img { height: 100px; object-fit: cover; }
+
     </style>
     <meta charset="UTF-8">
     <script type="text/javascript" src="{{ asset('js/map/raphael-min.js') }}"></script>
@@ -316,7 +323,7 @@
                 <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
                     {% for i in news %}
                         <article class="carousel-item portfolio-item web">
-                            <div class="project-container mb-0">
+                            <div class="project-container mb-0 scale_img">
                                 <a>
                                     <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
                                     <div class="overlay">
@@ -326,10 +333,10 @@
                                         </div>
                                     </div>
                                 </a>
-                                <div class="project-details">
+                                <div class="project-details text_scale_img">
                                     <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
                                 </div>
-                            </div>
+                                </div>
                         </article>
                     {% endfor %}
 
@@ -483,167 +490,155 @@
             </div>
         </section>
 
-        <section data-id="design_projects" class="ed-section sm-pt-0 sm-pb-0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+        <section data-id="design_projects" class="ed-section pb-0">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
 
-                        <h2 class="text-center text-white">Дизайн-Проекты</h2>
-                        <div class="divider divider-alt divider-center divider-light"></div>
-                        <p class="lead text-center text-white mb-50">Ссылка на брендбук. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
-                        <p class="lead text-center text-white mb-50">Рекомендации по дизайн-проектам. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
+                    <h2 class="text-center text-white">Дизайн-Проекты</h2>
+                    <div class="divider divider-alt divider-center divider-light"></div>
+                    <p class="lead text-center text-white mb-50">Ссылка на брендбук. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
+                    <p class="lead text-center text-white mb-50">Рекомендации по дизайн-проектам. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
 
-                    </div>
                 </div>
-                <div class="row">
-                    <div class="container">
-                        <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
-                            <article class="carousel-item portfolio-item web">
-                                <div class="project-container mb-0">
-                                    <a>
-                                        <img src="{{ asset('/img/img_start_landing/img_projects/project_1.png') }}" alt>
-                                        <div class="overlay">
-                                            <div class="overlay-wrapper">
-                                                <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                                <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="project-details">
-                                        <h4 class="h5 project-title heading-uppercase">Мероприятия1</h4>
+            </div>
+            <div class="container">
+                <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/landing/images/p1.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/landing/images/p1.jpg') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
                                     </div>
                                 </div>
-                            </article>
-                            <article class="carousel-item portfolio-item brand">
-                                <div class="project-container mb-0">
-                                    <a>
-                                        <img src="{{ asset('/img/img_start_landing/img_projects/project_2.png') }}" alt>
-                                        <div class="overlay">
-                                            <div class="overlay-wrapper">
-                                                <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                                <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="project-details">
-                                        <h4 class="h5 project-title heading-uppercase">Мероприятия2</h4>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="carousel-item portfolio-item web">
-                                <div class="project-container mb-0">
-                                    <a>
-                                        <img src="{{ asset('/img/img_start_landing/img_projects/project_3.png') }}" alt>
-                                        <div class="overlay">
-                                            <div class="overlay-wrapper">
-                                                <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                                <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="project-details">
-                                        <h4 class="h5 project-title heading-uppercase">Мероприятия3</h4>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="carousel-item portfolio-item design">
-                                <div class="project-container mb-0">
-                                    <a>
-                                        <img src="{{ asset('/img/img_start_landing/img_projects/project_4.png') }}" alt>
-                                        <div class="overlay">
-                                            <div class="overlay-wrapper">
-                                                <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                                <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="project-details">
-                                        <h4 class="h5 project-title heading-uppercase">Мероприятия4</h4>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="carousel-item portfolio-item web">
-                                <div class="project-container mb-0">
-                                    <a>
-                                        <img src="{{ asset('/img/img_start_landing/img_projects/project_1.png') }}" alt>
-                                        <div class="overlay">
-                                            <div class="overlay-wrapper">
-                                                <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                                <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="project-details">
-                                        <h4 class="h5 project-title heading-uppercase">Мероприятия5</h4>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="carousel-item portfolio-item web">
-                                <div class="project-container mb-0">
-                                    <a>
-                                        <img src="{{ asset('/img/img_start_landing/img_projects/project_2.png') }}" alt>
-                                        <div class="overlay">
-                                            <div class="overlay-wrapper">
-                                                <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                                <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="project-details">
-                                        <h4 class="h5 project-title heading-uppercase">Мероприятия6</h4>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="carousel-item portfolio-item web">
-                                <div class="project-container mb-0">
-                                    <a>
-                                        <img src="{{ asset('/img/img_start_landing/img_projects/project_3.png') }}" alt>
-                                        <div class="overlay">
-                                            <div class="overlay-wrapper">
-                                                <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                                <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="project-details">
-                                        <h4 class="h5 project-title heading-uppercase">Мероприятия7</h4>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="carousel-item portfolio-item web">
-                                <div class="project-container mb-0">
-                                    <a>
-                                        <img src="{{ asset('/img/img_start_landing/img_projects/project_4.png') }}" alt>
-                                        <div class="overlay">
-                                            <div class="overlay-wrapper">
-                                                <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                                <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="project-details">
-                                        <h4 class="h5 project-title heading-uppercase">Мероприятия8</h4>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="carousel-item portfolio-item web">
-                                <div class="project-container mb-0">
-                                    <a>
-                                        <img src="{{ asset('/img/img_start_landing/img_projects/project_1.png') }}" alt>
-                                        <div class="overlay">
-                                            <div class="overlay-wrapper">
-                                                <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                                <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="project-details">
-                                        <h4 class="h5 project-title heading-uppercase">Новость9</h4>
-                                    </div>
-                                </div>
-                            </article>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase"> Мастерская 1</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
                         </div>
-                    </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/landing/images/p2.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/landing/images/p2.jpg') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase"> Мастерская 2</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/landing/images/p3.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/landing/images/p3.jpg') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase"> Мастерская 3</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/landing/images/p4.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/landing/images/p4.jpg') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase"> Мастерская 4</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/landing/images/p5.jpg') }}" data-size="2581x3219" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/landing/images/p5.jpg') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase"> Мастерская 5</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/landing/images/p6.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/landing/images/p6.jpg') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase"> Мастерская 6</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/landing/images/p7.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/landing/images/p7.jpg') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase"> Мастерская 7</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/landing/images/p8.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/landing/images/p8.jpg') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase"> Мастерская 8</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
@@ -659,7 +654,7 @@
 
                     </div>
                 </div>
-                <div class="row" style="margin-left: 145px">
+                <div class="row team_scale_mobile" style="margin-left: 13%">
 
                     <!-- User -->
                     <a href="#">
@@ -723,7 +718,7 @@
 
                     <!-- User -->
                     <a href="#">
-                        <div class="col-md-3 col-sm-6" style="pointer-events: none;">
+                        <div class="col-md-3 col-sm-6 xs-mb-30" style="pointer-events: none;">
                             <div class="profile-card sm-text-center">
                                 <div class="user-image">
                                     <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
@@ -738,7 +733,7 @@
 
                     <!-- User -->
                     <a href="#">
-                        <div class="col-md-3 col-sm-6" style="pointer-events: none;">
+                        <div class="col-md-3 col-sm-6 sm-mb-30" style="pointer-events: none;">
                             <div class="profile-card sm-text-center">
                                 <div class="user-image">
                                     <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
@@ -753,7 +748,7 @@
 
                     <!-- User -->
                     <a href="#">
-                        <div class="col-md-3 col-sm-6" style="pointer-events: none;">
+                        <div class="col-md-3 col-sm-6 xs-mb-30" style="pointer-events: none;">
                             <div class="profile-card sm-text-center">
                                 <div class="user-image">
                                     <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
@@ -916,7 +911,7 @@
                 <div class="pswp__top-bar">
                     <div class="pswp__counter"></div>
                     <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                    <button class="pswp__button pswp__button--share" title="Share"></button>
+{#                    <button class="pswp__button pswp__button--share" title="Share"></button>#}
                     <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
                     <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
                     <div class="pswp__preloader">
