@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,7 +18,7 @@ class StartLandingController extends AbstractController
     /**
      * @Route("/", name="app_start_landing")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $entity_manager = $this->getDoctrine()->getManager();
         $news = $entity_manager->getRepository(Article::class)
@@ -36,10 +37,14 @@ class StartLandingController extends AbstractController
             ->add("submit", SubmitType::class)
             ->getForm();
 
+        $feedackForm->handleRequest($request);
         if($feedackForm->isSubmitted() and $feedackForm->isValid()){
-
+            $formData = $feedackForm->getData();
+//            dd($formData);
+//            dump($formData);
             $entity_manager->persist($feedack);
             $entity_manager->flush();
+//            return $this->redirectToRoute('app_start_landing');
         }
 
         return $this->render('start_landing/index.html.twig', [

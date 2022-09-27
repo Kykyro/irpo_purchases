@@ -46,6 +46,19 @@
     <script type="text/javascript" src="{{ asset('landing/js/modernizr.js') }}"></script>
 
     <style>
+        .error{
+            color: red;
+        }
+        #form-success{
+            color:white;
+            height:100px;
+            background-color: #51a154;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16pt
+        }
+
         #year-select{
             background-color: #ffffff;
             color: #000000;
@@ -320,23 +333,24 @@
                 </div>
             </div>
             <div class="container">
-                <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
+                <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside ">
                     {% for i in news %}
                         <article class="carousel-item portfolio-item web">
+                            <a href="{{ path('app_article_view', {'id': i.getId()}) }}">
                             <div class="project-container mb-0 scale_img">
-                                <a>
+
                                     <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
                                     <div class="overlay">
                                         <div class="overlay-wrapper">
                                             <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                            <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
                                         </div>
                                     </div>
-                                </a>
-                                <div class="project-details text_scale_img">
-                                    <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
+
+                                    <div class="project-details text_scale_img">
+                                        <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
+                                    </div>
                                 </div>
-                                </div>
+                            </a>
                         </article>
                     {% endfor %}
 
@@ -814,7 +828,7 @@
                                     </div>
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            {{  form_widget(feedbackForm.topic, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Тема письма (Необязательно)'}}) }}
+                                            {{  form_widget(feedbackForm.topic, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Тема письма'}}) }}
                                             {#<input type="text" id="cf-subject" name="cf-subject" placeholder="Тема письма (Необязательно)" class="form-control fc-bordered light">#}
                                         </div>
                                     </div>
@@ -826,9 +840,8 @@
                                     </div>
                                     <div class="col-lg-12 mb-20">
                                         <label class="lead text-center text-white mb-50">
-
-                                            <input type="checkbox" class="custom-checkbox" id="happy" name="happy" value="yes">
-                                            <label for="happy">&nbsp Я согласен на &nbsp <a href="https://firpo.ru/privacy-policy/" style="color: #ffffff" target="_blank"> <u> обработку персональных данных</u></a></label>
+                                            {#<input type="checkbox" class="custom-checkbox" id="isHappy" name="isHappy" value="">#}
+                                            <label for="happy">&nbsp Отправляя форму вы соглашаетесь на &nbsp <a href="https://firpo.ru/privacy-policy/" style="color: #ffffff" target="_blank"> <u> обработку персональных данных</u></a></label>
                                         </label>
                                     </div>
                                     <div class="col-md-12 hidden">
@@ -841,7 +854,11 @@
                                 </div>
 
                             {{ form_end(feedbackForm) }}
-                            <div class="contact-form-result text-center pt-10"></div>
+                            <div id="form-success" >
+                               <div>
+                                   Ваша заявка успешно отправлена!
+                               </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -858,41 +875,12 @@
                 <ul>
                     <li style="margin-right: 20px"><a href="https://день-спо.рф/" class="social-icon"><i><img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt></i></a></li>
                     <li style="margin-right: 20px"><a href="https://firpo.ru/" class="social-icon"><img src="{{ asset('/img/ico/rpop_icon.png') }}" alt></a></li>
-                    <!--							<li><a href="#" class="social-icon"><i class="fa fa-instagram"></i></a></li>-->
-                    <!--							<li><a href="#" class="social-icon"><i class="fa fa-pinterest"></i></a></li>-->
-                    <!--							<li><a href="#" class="social-icon"><i class="fa fa-dribbble"></i></a></li>-->
                 </ul>
             </nav>
         </div>
     </footer>
 
-    <!-- Subscribe Modal -->
-{#    <div id="subscribe-modal" class="mfp-modal mfp-close-btn-white mfp-with-anim mfp-hide">#}
-{#        <div class="overlay">#}
-{#            <div class="overlay-wrapper">#}
-{#                <div class="overlay-inner cover-background" style="background-image: url({{ asset('img/img_start_landing/6.jpg') }});"></div>#}
-{#                <div class="overlay-inner background-dark-9 opacity-50"></div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="mfp-modal-content text-center pt-120 pb-120">#}
-{#            <div class="row">#}
-{#                <div class="col-md-10 col-md-offset-1">#}
-{#                    <h2 class="heading-uppercase text-white font-normal">Subscribe</h2>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="divider divider-alt divider-light divider-center"></div>#}
-{#            <p class="lead text-white mb-50">Pellentesque consequat at justo quis vulputate. Maecenas elementum metus eu maximus auctor. Morbi ultrices quam rhoncus purus bibendum ornare.</p>#}
-{#            <form class="subscribe-form mb-0" method="post" id="mc-form">#}
-{#                <div class="row">#}
-{#                    <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-8">#}
-{#                        <input type="email" class="form-control dark" placeholder="Enter Your Email Address">#}
-{#                        <button class="btn btn-white btn-shadow btn-noradius btn-fullwidth" type="submit" id="submit" name="submit">Subscribe</button>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </form>#}
-{#            <p class="subscribe-result text-white"></p>#}
-{#        </div>#}
-{#    </div>#}
+
 
     <!-- Root element of PhotoSwipe. Must have class pswp. -->
     <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -968,5 +956,32 @@
 <script type="text/javascript" src="{{ asset('landing/js/animated-gradient.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('landing/js/main.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        let formSuccess = $('#form-success');
+        formSuccess.hide();
+        $('form[name="form"]').submit((event) => {
+            let isValid = true;
+            let fio = $('#form_FIO').val();
+            let email = $('#form_email').val();
+            let topic = $('#form_topic').val();
+            let message = $('#form_message').val();
 
+            if(fio === '' || email === '' || message === '' || topic === ''){
+                isValid = false
+            }
+
+
+            if (isValid){
+                $('form[name="form"]').hide();
+                formSuccess.show("slow");
+
+                return;
+            }
+
+
+            event.preventDefault();
+        })
+    })
+</script>
 </body></html>

@@ -144,7 +144,7 @@ class JournalistController extends AbstractController
      */
     public function newArticle(Request $request, SluggerInterface $slugger, int $id = null): Response
     {
-        $entity_manager = $this->getDoctrine()->getManager();
+
         if($id){
             $article = $entity_manager->getRepository(Article::class)->find($id);
         }

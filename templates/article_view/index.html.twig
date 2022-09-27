@@ -89,14 +89,14 @@
                             <article class="post post--overlay post--overlay-middle post--overlay-large post--overlay-height-680 post--overlay-padding-lg">
                                 <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit">
                                     <a href="#">
-                                        <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt="Изображение не найдено">
+                                        <img src="{{ asset('/uploads/articleTitles/'~article.getImg()) }}" alt="Изображение не найдено">
                                     </a>
                                 </div>
                                 <div class="post__text inverse-text">
                                     <div class="post__text-wrap">
                                         <div class="post__text-inner max-width-640">
                                             <h3 class="post__title f-60 f-w-700 m-b-15 max-width-640">
-                                                <a href="#">Статья 1 asdadas dasdadsda sdada sdfsdfsdf sdf sfdsf sf</a>
+                                                <a href="#">{{ article.getTitle() }}</a>
                                             </h3>
                                             <div class="post__meta">
                                                 <div class="post-author post-author_style-7">
@@ -114,11 +114,9 @@
                     <div class="post__text inverse-text">
                         <div class="post__text-wrap">
                             <div class="max-width-1640" style="margin-left: 5%">
-                                <h3 class="post__title f-10 f-w-1000 m-b-115 max-width-2640">
-                                    Статья 1 sdfhgjsdojfsdifjksdop fkopsdkfopsdkfopsk dopfksdpo kspfo kspdfk sopfkspod kfopskd pofz
-                                    sdfsfsdf sdfsdjfisdjfis jdfjsd fiojsdiofjsoi fjsidofjiosdfjsid jfdisjfisjdfoisjifjsdfsdfdsfsdfs dsf
-                                    sdfsfsdfsdfsdf skd pofksop dkfsopfkspdof ksopd kfpsodk fosk ok opdskf osdkfos dopfkspo
-                                </h3>
+                                <div class="post__title f-10 f-w-1000 m-b-115 max-width-2640">
+                                    {{ article.getContent()| raw }}
+                                </div>
                                 <div class="post__meta">
                                     <div class="post-author post-author_style-7">
                                     </div>
