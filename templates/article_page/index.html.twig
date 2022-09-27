@@ -122,24 +122,23 @@
                                     {% for i in pagination %}
                                     <div class="list-item">
                                         <article class="post post--overlay post--overlay-normal post--overlay-cylinder-small post--overlay-bottom post--overlay-height-420 b-r-5">
+                                            <a href="{{ path('app_article_view', {'id': i.getId()}) }}">
                                             <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit">
-                                                <a href="#">
-                                                    <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt="Изображение не найдено">
-                                                </a>
+                                                <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt="Изображение не найдено">
                                             </div>
-                                            <div class="post__text inverse-text">
-                                                <div class="post__text-wrap">
-                                                    <div class="post__text-inner">
-                                                        <h3 class="post__title f-20 f-w-700 m-b-12">
-                                                            <a href="#">{{ i.title }}</a>
-                                                        </h3>
-                                                            <div class="post__meta time-style-1 flex-box justify-content-space align-item-center post__meta&#45;&#45;border-top">
-                                                                <time class="time published" datetime="2022-09-21T09:00:23+00:00" title="Сентябрь 21, 2022 в 9:00">Сентябрь 21, 2022</time>
-                                                            </div>
+                                                <div class="post__text inverse-text">
+                                                    <div class="post__text-wrap">
+                                                        <div class="post__text-inner">
+                                                            <h3 class="post__title f-20 f-w-700 m-b-12">
+                                                                <a href="#">{{ i.title }}</a>
+                                                            </h3>
+                                                                <div class="post__meta time-style-1 flex-box justify-content-space align-item-center post__meta&#45;&#45;border-top">
+                                                                    <time class="time published" datetime="2022-09-21T09:00:23+00:00" title="Сентябрь 21, 2022 в 9:00">Сентябрь 21, 2022</time>
+                                                                </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <a href="#" class="link-overlay"></a>
+                                            </a>
                                         </article>
                                     </div>
                                     {% endfor %}
