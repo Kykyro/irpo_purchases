@@ -14,36 +14,34 @@
 
                     <table class="table m3">
                         <thead>
-                        <tr>
-                            <td>
-                                ID
-                            </td>
-                            <td>
-                                ФИО
-                            </td>
-                            <td>
-                                Тема
-                            </td>
-                            <td>
-                                e-mail
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    ID
+                                </td>
+                                <td>
+                                    ФИО
+                                </td>
+                                <td>
+                                    Тема
+                                </td>
+                                <td>
+                                    e-mail
+                                </td>
+                                <td>
+                                    Действия
+                                </td>
+                            </tr>
                         </thead>
                         <tbody>
                         {% for i in pagination  %}
                             <tr>
                                 <td class="align-middle"> {{ i.getId() }} </td>
-                                <td class="align-middle"><img src="{{ asset('/uploads/articleTitles/' ~ i.getImg()) }}" alt="изображение не загружено" class="round_img m-3"></td>
-                                <td class="align-middle col-md-3"><b>{{ i.GetTitle() }}</b></td>
+                                <td class="align-middle"> {{ i.getFIO() }} </td>
+                                <td class="align-middle"> {{ i.getTopic() }} </td>
+                                <td class="align-middle col-md-3">{{ i.getEmail() }}</td>
                                 <td class="align-middle">
                                     <div>
-                                        <a href="{{ path('app_edit_article', {'id': i.getId()}) }}">
-                                            <button class="btn">
-                                                <div class="fa fa-edit"></div>
-                                                Редактировать
-                                            </button>
-                                        </a>
-                                        <a href="{{ path('app_view_article', {'id': i.getId()}) }}">
+                                        <a href="{{ path('app_feedback_view', {'id': i.getId()}) }}">
                                             <button class="btn">
                                                 <div class="fa fa-search"></div>
                                                 Просмотр

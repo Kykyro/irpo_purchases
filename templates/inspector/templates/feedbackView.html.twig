@@ -1,0 +1,53 @@
+{% extends "journalist/index.html.twig" %}
+
+
+
+
+{% block content %}
+    <style>
+        #message{
+            font-size: 16pt;
+            width: 100%;
+            border: grey solid 1px;
+            margin: 10px 0 10px 0;
+            padding: 5px;
+        }
+
+    </style>
+<div class="row">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <div class="row">
+                    <h2>Тема: {{ feedback.getTopic() }}</h2>
+                </div>
+                <div class="row">
+                    <p><b>ФИО:</b> {{ feedback.getFIO() }}</p>
+                </div>
+                <div class="row">
+                    <p><b>E-mail:</b> {{ feedback.getEmail() }}</p>
+                </div>
+                <div class="row">
+                    <h2>Сообщение:</h2>
+                </div>
+                <div class="row">
+                    <div id="message">
+                        {{ feedback.getMessage() }}
+                    </div>
+                </div>
+                <div class="row">
+                    <a href="{{ path('app_feedback') }}">
+                        <button class="btn btn-success">
+                            Назад
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#    <div class="m-5">#}
+
+{#    </div>#}
+{% endblock %}
