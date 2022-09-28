@@ -46,6 +46,13 @@
     <script type="text/javascript" src="{{ asset('landing/js/modernizr.js') }}"></script>
 
     <style>
+        @font-face {
+            font-family: Montserrat; /* Гарнитура шрифта */
+            src: url({{ asset('fonts/Montserrat-Regular.ttf') }}); /* Путь к файлу со шрифтом */
+        }
+        * {
+            font-family: Montserrat;
+        }
         .error{
             color: red;
         }
@@ -394,7 +401,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
-                        <h2 class="text-center  text-white">Инфраструктурные листы и нормативная документация кластеров</h2>
+                        <h2 class="text-center  text-white">Нормативная документация и типовые инфраструктурные листы для реализации мероприятий по созданию образовательно-производственных центров (кластеров).</h2>
                         <div class="divider divider-alt divider-center divider-light"></div>
                         <p class="lead mb-50 text-center text-white">В данном разделе Вы сможете на основе типовых позиций для Зон под виды работ, собрать Инфраструктурный лист для дальнейшей работы.</p>
                     </div>
@@ -407,7 +414,7 @@
                                 <article class="carousel-item portfolio-item web">
                                     <div class="project-container mb-0">
                                         <a href="{{ path('app_infrastructure_sheets') }}" target="_blank">
-                                            <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt>
+                                            <img src="{{ asset('/img/img_start_landing/two-colleagues-at-a-factory_1303-14331.jpg') }}" alt>
                                             <div class="overlay">
                                             </div>
                                         </a>
@@ -429,7 +436,7 @@
                                 <article class="carousel-item portfolio-item web">
                                     <div class="project-container mb-0">
                                         <a href="{{ path('app_login') }}">
-                                            <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt>
+                                            <img src="{{ asset('/img/img_start_landing/millennial-asia-businessmen-and-businesswomen-meeting-brainstorming-ideas-about-new-paperwork-project-colleagues-working-together-planning-success-strategy-enjoy-teamwork-in-small-modern-night-office_7861-23.jpg') }}" alt>
                                             <div class="overlay">
                                             </div>
                                         </a>
@@ -452,7 +459,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
-                        <h2 class="text-center  text-white">Инфраструктурные листы и нормативная документация мастерских</h2>
+                        <h2 class="text-center  text-white">Нормативная документация и типовые инфраструктурные листы для реализации мероприятий по созданию современных мастерских.</h2>
                         <div class="divider divider-alt divider-center divider-light"></div>
                         <p class="lead mb-50 text-center text-white">Что-то</p>
                     </div>
@@ -465,7 +472,7 @@
                                 <article class="carousel-item portfolio-item web">
                                     <div class="project-container mb-0">
                                         <a>
-                                            <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt>
+                                            <img src="{{ asset('/img/img_start_landing/closeup-shot-of-laboratory-microscope-lens-for-conducting-coronavirus-research_181624-44734.jpg') }}" alt>
                                         </a>
                                         <div class="project-details">
                                             <h4 class="h5 project-title heading-uppercase">Инфраструктурные листы мастерских</h4>
@@ -485,7 +492,7 @@
                                 <article class="carousel-item portfolio-item web">
                                     <div class="project-container mb-0">
                                         <a href="{{ path('app_login') }}">
-                                            <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt>
+                                            <img src="{{ asset('/img/img_start_landing/closeup-of-hands-holding-stack-of-books_53876-20475.jpg') }}" alt>
                                             <div class="overlay">
                                             </div>
                                         </a>
@@ -508,7 +515,7 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
 
-                    <h2 class="text-center text-white">Дизайн-Проекты</h2>
+                    <h2 class="text-center text-white">Дизайн-проекты пространств образовательно-производственных центров (кластеров).</h2>
                     <div class="divider divider-alt divider-center divider-light"></div>
                     <p class="lead text-center text-white mb-50">Ссылка на брендбук. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
                     <p class="lead text-center text-white mb-50">Рекомендации по дизайн-проектам. <a href="https://vk.com/nasvvay_official" style="background-color: #fff">Скачать</a></p>
@@ -516,11 +523,14 @@
                 </div>
             </div>
             <div class="container">
+                <div class="col-md-10 col-md-offset-1">
+                    <h2 class="text-center text-white"> Памятка по созданию дизайн-проектов в рамках федерального проекта «Профессионалитет».</h2>
+                </div>
                 <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
                     <article class="carousel-item portfolio-item web">
                         <div class="project-container mb-0 scale_img">
-                            <a href="{{ asset('/landing/images/p1.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/landing/images/p1.jpg') }}" alt>
+                            <a href="{{ asset('/img/img_start_landing/Входная группа.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Входная группа.png') }}" alt>
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
                                         <div class="overlay-inner background-dark-5 opacity-70"></div>
@@ -529,15 +539,15 @@
                                 </div>
                             </a>
                             <div class="project-details text_scale_img">
-                                <h4 class="h5 project-title heading-uppercase"> Мастерская 1</h4>
+                                <h4 class="h5 project-title heading-uppercase"> Входная группа</h4>
                                 <p style="margin-bottom: 10%">Описание чего-то крутого</p>
                             </div>
                         </div>
                     </article>
                     <article class="carousel-item portfolio-item web">
                         <div class="project-container mb-0 scale_img">
-                            <a href="{{ asset('/landing/images/p2.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/landing/images/p2.jpg') }}" alt>
+                            <a href="{{ asset('/img/img_start_landing/Осуществление наладки, настройки, регулировки, опытной проверки металлорежущего.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Осуществление наладки, настройки, регулировки, опытной проверки металлорежущего.png') }}" alt>
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
                                         <div class="overlay-inner background-dark-5 opacity-70"></div>
@@ -546,15 +556,15 @@
                                 </div>
                             </a>
                             <div class="project-details text_scale_img">
-                                <h4 class="h5 project-title heading-uppercase"> Мастерская 2</h4>
+                                <h4 class="h5 project-title heading-uppercase"> Осуществление наладки, настройки, регулировки, опытной проверки металлорежущего оборудования и изготовление деталей машин</h4>
                                 <p style="margin-bottom: 10%">Описание чего-то крутого</p>
                             </div>
                         </div>
                     </article>
                     <article class="carousel-item portfolio-item web">
                         <div class="project-container mb-0 scale_img">
-                            <a href="{{ asset('/landing/images/p3.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/landing/images/p3.jpg') }}" alt>
+                            <a href="{{ asset('/img/img_start_landing/Лаборатория по техническому обслуживанию и ремонту промышленного оборудования.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Лаборатория по техническому обслуживанию и ремонту промышленного оборудования.png') }}" alt>
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
                                         <div class="overlay-inner background-dark-5 opacity-70"></div>
@@ -563,15 +573,15 @@
                                 </div>
                             </a>
                             <div class="project-details text_scale_img">
-                                <h4 class="h5 project-title heading-uppercase"> Мастерская 3</h4>
+                                <h4 class="h5 project-title heading-uppercase"> Лаборатория по техническому обслуживанию и ремонту промышленного Оборудования</h4>
                                 <p style="margin-bottom: 10%">Описание чего-то крутого</p>
                             </div>
                         </div>
                     </article>
                     <article class="carousel-item portfolio-item web">
                         <div class="project-container mb-0 scale_img">
-                            <a href="{{ asset('/landing/images/p4.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/landing/images/p4.jpg') }}" alt>
+                            <a href="{{ asset('/img/img_start_landing/Фасад здания.PNG') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Фасад здания.PNG') }}" alt>
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
                                         <div class="overlay-inner background-dark-5 opacity-70"></div>
@@ -580,15 +590,15 @@
                                 </div>
                             </a>
                             <div class="project-details text_scale_img">
-                                <h4 class="h5 project-title heading-uppercase"> Мастерская 4</h4>
+                                <h4 class="h5 project-title heading-uppercase"> Фасад здания</h4>
                                 <p style="margin-bottom: 10%">Описание чего-то крутого</p>
                             </div>
                         </div>
                     </article>
                     <article class="carousel-item portfolio-item web">
                         <div class="project-container mb-0 scale_img">
-                            <a href="{{ asset('/landing/images/p5.jpg') }}" data-size="2581x3219" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/landing/images/p5.jpg') }}" alt>
+                            <a href="{{ asset('/img/img_start_landing/Лаборатория специальности конструирования,можелирования и технологи изготовления изделий.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Лаборатория специальности конструирования,можелирования и технологи изготовления изделий.png') }}" alt>
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
                                         <div class="overlay-inner background-dark-5 opacity-70"></div>
@@ -597,15 +607,15 @@
                                 </div>
                             </a>
                             <div class="project-details text_scale_img">
-                                <h4 class="h5 project-title heading-uppercase"> Мастерская 5</h4>
+                                <h4 class="h5 project-title heading-uppercase"> Лаборатория специальности конструирования,можелирования и технологи изготовления изделий</h4>
                                 <p style="margin-bottom: 10%">Описание чего-то крутого</p>
                             </div>
                         </div>
                     </article>
                     <article class="carousel-item portfolio-item web">
                         <div class="project-container mb-0 scale_img">
-                            <a href="{{ asset('/landing/images/p6.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/landing/images/p6.jpg') }}" alt>
+                            <a href="{{ asset('/img/img_start_landing/Лаборатория химического анализа.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Лаборатория химического анализа.png') }}" alt>
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
                                         <div class="overlay-inner background-dark-5 opacity-70"></div>
@@ -614,15 +624,15 @@
                                 </div>
                             </a>
                             <div class="project-details text_scale_img">
-                                <h4 class="h5 project-title heading-uppercase"> Мастерская 6</h4>
+                                <h4 class="h5 project-title heading-uppercase"> Лаборатория химического анализа</h4>
                                 <p style="margin-bottom: 10%">Описание чего-то крутого</p>
                             </div>
                         </div>
                     </article>
                     <article class="carousel-item portfolio-item web">
                         <div class="project-container mb-0 scale_img">
-                            <a href="{{ asset('/landing/images/p7.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/landing/images/p7.jpg') }}" alt>
+                            <a href="{{ asset('/img/img_start_landing/Зона под вид работ «Сварочные технологии».png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Зона под вид работ «Сварочные технологии».png') }}" alt>
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
                                         <div class="overlay-inner background-dark-5 opacity-70"></div>
@@ -631,15 +641,15 @@
                                 </div>
                             </a>
                             <div class="project-details text_scale_img">
-                                <h4 class="h5 project-title heading-uppercase"> Мастерская 7</h4>
+                                <h4 class="h5 project-title heading-uppercase">Зона под вид работ «Сварочные технологии»</h4>
                                 <p style="margin-bottom: 10%">Описание чего-то крутого</p>
                             </div>
                         </div>
                     </article>
                     <article class="carousel-item portfolio-item web">
                         <div class="project-container mb-0 scale_img">
-                            <a href="{{ asset('/landing/images/p8.jpg') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/landing/images/p8.jpg') }}" alt>
+                            <a href="{{ asset('/img/img_start_landing/Слесарная обработка металла.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Слесарная обработка металла.png') }}" alt>
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
                                         <div class="overlay-inner background-dark-5 opacity-70"></div>
@@ -648,7 +658,92 @@
                                 </div>
                             </a>
                             <div class="project-details text_scale_img">
-                                <h4 class="h5 project-title heading-uppercase"> Мастерская 8</h4>
+                                <h4 class="h5 project-title heading-uppercase">Слесарная обработка металла</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/img/img_start_landing/Лаборатория «Пчеловодство».png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Лаборатория «Пчеловодство».png') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase">Лаборатория «Пчеловодство»</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/img/img_start_landing/Лаборатория автоматизации технологических процессов.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Лаборатория автоматизации технологических процессов.png') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase">Лаборатория автоматизации технологических процессов</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/img/img_start_landing/Коридоры.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Коридоры.png') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase">Коридор</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/img/img_start_landing/Выполнение работ по управлению локомотивом и специальным самоходным подвижным составом.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Выполнение работ по управлению локомотивом и специальным самоходным подвижным составом.png') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase">Зона под вид работ: Выполнение работ по управлению локомотивом и специальным самоходным подвижным составом</h4>
+                                <p style="margin-bottom: 10%">Описание чего-то крутого</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="carousel-item portfolio-item web">
+                        <div class="project-container mb-0 scale_img">
+                            <a href="{{ asset('/img/img_start_landing/Изучение и исследование неразрушающего контроля рельсов.png') }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                                <img src="{{ asset('/img/img_start_landing/Изучение и исследование неразрушающего контроля рельсов.png') }}" alt>
+                                <div class="overlay">
+                                    <div class="overlay-wrapper">
+                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase">Изучение и исследование неразрушающего контроля рельсов</h4>
                                 <p style="margin-bottom: 10%">Описание чего-то крутого</p>
                             </div>
                         </div>
