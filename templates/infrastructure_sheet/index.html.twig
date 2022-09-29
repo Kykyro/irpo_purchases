@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+    <title>Инфраструктурные листы кластеров</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;display=swap" rel="stylesheet">
@@ -22,9 +23,9 @@
         <div class="container">
 
             <div class="table-responsive custom-table-responsive">
-                <a href="{{ path('app_start_landing') }}"><-Назад</a>
+                <a href="{{ path('app_start_landing') }}" class="col-lg-2 btn" style="background: black">Назад</a>
                 {{ form_start(form) }}
-                <label class="m-1" style="padding-bottom: 1rem"> Отрасль </label>
+                <label class="m-1 col-lg-12" style="padding-bottom: 1rem; font-size: 22px; text-align: center; padding-top: 20px"> Отрасль </label>
                 {{ form_widget(form.industry) }}
                 {{ form_widget(form.submit , {
                     label: 'Найти',

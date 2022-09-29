@@ -343,13 +343,13 @@
                 <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside ">
                     {% for i in news %}
                         <article class="carousel-item portfolio-item web">
-                            <a href="{{ path('app_article_view', {'id': i.getId()}) }}">
+                            <a href="{{ path('app_article_view', {'id': i.getId()}) }}" target="_blank">
                             <div class="project-container mb-0 scale_img">
 
                                     <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
                                     <div class="overlay">
                                         <div class="overlay-wrapper">
-                                            <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                            <div class="overlay-inner background-dark-5 opacity-50"></div>
                                         </div>
                                     </div>
 
@@ -435,7 +435,7 @@
                             <div class="icon-box-icon text-white">
                                 <article class="carousel-item portfolio-item web">
                                     <div class="project-container mb-0">
-                                        <a href="{{ path('app_login') }}">
+                                        <a href="{{ path('app_login') }}" target="_blank">
                                             <img src="{{ asset('/img/img_start_landing/millennial-asia-businessmen-and-businesswomen-meeting-brainstorming-ideas-about-new-paperwork-project-colleagues-working-together-planning-success-strategy-enjoy-teamwork-in-small-modern-night-office_7861-23.jpg') }}" alt>
                                             <div class="overlay">
                                             </div>
@@ -472,6 +472,7 @@
                                 <article class="carousel-item portfolio-item web">
                                     <div class="project-container mb-0">
                                         <a>
+                                            <a href="{{ path('app_login') }}" target="_blank">
                                             <img src="{{ asset('/img/img_start_landing/closeup-shot-of-laboratory-microscope-lens-for-conducting-coronavirus-research_181624-44734.jpg') }}" alt>
                                         </a>
                                         <div class="project-details">
@@ -491,7 +492,7 @@
                             <div class="icon-box-icon text-white">
                                 <article class="carousel-item portfolio-item web">
                                     <div class="project-container mb-0">
-                                        <a href="{{ path('app_login') }}">
+                                        <a href="{{ path('app_login') }}" target="_blank">
                                             <img src="{{ asset('/img/img_start_landing/closeup-of-hands-holding-stack-of-books_53876-20475.jpg') }}" alt>
                                             <div class="overlay">
                                             </div>
@@ -968,8 +969,8 @@
             <p class="copyright" style="font-size: 20px"><label>© 2022</label> <label>&nbsp&nbsp Телефон: +7 (977) 978-29-43 &nbsp</label> <label>&nbsp &nbsp Почта: cluster@firpo.ru &nbsp &nbsp </label> <label><a href="https://firpo.ru/privacy-policy/" target="_blank"> <u>Политика конфиденциальности </u></a></label></p>
             <nav class="socials-icons">
                 <ul>
-                    <li style="margin-right: 20px"><a href="https://день-спо.рф/" class="social-icon"><i><img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt></i></a></li>
-                    <li style="margin-right: 20px"><a href="https://firpo.ru/" class="social-icon"><img src="{{ asset('/img/ico/rpop_icon.png') }}" alt></a></li>
+{#                    <li style="margin-right: 20px"><a href="https://день-спо.рф/" class="social-icon"><i><img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt></i></a></li>#}
+{#                    <li style="margin-right: 20px"><a href="https://firpo.ru/" class="social-icon"><img src="{{ asset('/img/ico/rpop_icon.png') }}" alt></a></li>#}
                 </ul>
             </nav>
         </div>

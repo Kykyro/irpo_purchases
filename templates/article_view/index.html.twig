@@ -3,7 +3,7 @@
 <head>
     <!-- Basic -->
     <meta charset="UTF-8">
-    <title>Статья 1</title>
+    <title>{{ article.getTitle() }}</title>
     <meta name="keywords" content="HTML5 News Magazine Template">
     <meta name="description" content="Unidark - Ultimate News and Magazine Template">
     <meta name="author" content="designuptodate.com">
@@ -30,9 +30,12 @@
             <div class="mobile-header__inner mobile-header__inner--flex">
                 <div class="header-branding header-branding&#45;&#45;mobile mobile-header__section text-left">
                 <div class="header-logo header-logo&#45;&#45;mobile flexbox__item text-left">
-                    <a href="{{ path('app_article_page') }}">
-                        <img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt="File Изображение не найдено" style="margin-top: 15%">
-                </a>
+{#                    <a href="{{ path('app_article_page') }}">#}
+{#                        <img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt="File Изображение не найдено" style="margin-top: 15%">#}
+{#                    </a>#}
+                    <i id="menu-main-menu" class="navigation--main navigation--inline">
+                        <li><a href="{{ path('app_article_page') }}">Все статьи</a></li>
+                    </i>
             </div>
             </div>
             </div>
@@ -42,10 +45,13 @@
             <div class="navigation-bar__inner flexbox-wrap flexbox-center-y">
                 <div class="navigation-bar__section flex-box align-item-center">
                     <div class="header-logo">
-                        <a href="{{ path('app_article_page') }}">
-                            <img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt="File Изображение не найдено" style="margin-top: 15%">
+{#                        <a href="{{ path('app_article_page') }}">#}
+{#                            <img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt="File Изображение не найдено" style="margin-top: 15%">#}
 
-                        </a>
+{#                        </a>#}
+                        <i id="menu-main-menu" class="navigation--main navigation--inline">
+                            <li><a href="{{ path('app_article_page') }}">Все статьи</a></li>
+                        </i>
                     </div>
                 </div>
                 <div class="navigation-bar__section navigation-menu-section js-priority-nav">
