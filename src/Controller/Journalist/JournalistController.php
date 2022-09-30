@@ -11,7 +11,9 @@ use App\Form\mapEditForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -193,22 +195,93 @@ class JournalistController extends AbstractController
         ]);
     }
 
-
-    public function AddDocument(Request $request): Response
+    /**
+     * @Route("/new-document", name="app_new_document")
+     * @Route("/edit-document/{id}", name="app_edit_document")
+     */
+    public function AddDocument(Request $request, SluggerInterface $slugger, int $id = null): Response
     {
-        $doc = new Files();
+        $entity_manager = $this->getDoctrine()->getManager();
+        if($id){
+            $doc = $entity_manager->getRepository(Files::class)->find($id);
+        }
+        else{
+            $doc = new Files();
+        }
+
         $form = $this->createFormBuilder($doc)
             ->add('name', TextType::class)
-            ->add('type', ChoiceInputType::class)
-            ->add('file', FileType::class, [
+            ->add('type', ChoiceType::class, [
+                'choices' => [
+                    'Нормативная документация (Кластеры)' => 'cluster_files',
+                    'Нормативная документация (Мастерские)' => 'workshops_files',
+                ]
+            ])
+            ->add('file_doc', FileType::class, [
                 'mapped' => false,
-            ])->getForm();
+            ])
+            ->add('submit', SubmitType::class)
+            ->getForm();
 
 
 
+        $form->handleRequest($request);
+        if($form->isSubmitted() and $form->isValid()){
 
-        return $this->render('landing_documentation/index.html.twig', [
+            $file = $form->get('file_doc')->getData();
+
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $file->move(
+                        $this->getParameter('documents_files_directory'),
+                        $newFilename
+                    );
+                    $doc->setFile($newFilename);
+                } catch (FileException $e) {
+                    throw new HttpException(500, $e->getMessage());
+                }
+            }
+
+
+            $entity_manager->persist($doc);
+            $entity_manager->flush();
+
+            return $this->redirectToRoute('app_journalist');
+        }
+
+        return $this->render('journalist/templates/documents_edit.html.twig', [
             'controller_name' => 'LandingDocumentationController',
+            'form' => $form->createView(),
+
+        ]);
+    }
+
+    /**
+     * @Route("/document-list/", name="app_list_document")
+     */
+    public function documentList(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
+    {
+        $query = $em->getRepository(Files::class)
+            ->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
+
+        return $this->render('journalist/templates/document_list.html.twig', [
+            'controller_name' => 'JournalistController',
+            'pagination' => $pagination
         ]);
     }
 }

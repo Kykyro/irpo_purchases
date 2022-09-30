@@ -18,6 +18,17 @@
     <link rel="stylesheet" href="{{ asset('article/css/import-style.css')}}">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap" rel="stylesheet">
+    <style>
+        .photo-title{
+            /*width: 100%;*/
+        }
+        .photo-title-container{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+    </style>
 </head>
 <body class="home home-1 has-block-heading-line">
 
@@ -103,13 +114,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <article class="post post--overlay post--overlay-middle post--overlay-large post--overlay-height-680 post--overlay-padding-lg">
-                                <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit">
-                                    <a href="#">
-                                        <img src="{{ asset('/uploads/articleTitles/'~article.getImg()) }}" alt="Изображение не найдено">
-                                    </a>
-                                </div>
-                                <div class="post__text">
+                            <article class="photo-title-container">
+                                <div class="photo-title">
+
+                                    <img src="{{ asset('/uploads/articleTitles/'~article.getImg()) }}" alt="Изображение не найдено">
+
                                 </div>
                             </article>
                         </div>
