@@ -41,7 +41,7 @@
             </div>
         </div><!-- Mobile header -->
         <!-- Navigation bar -->
-        <nav class="navigation-bar hidden-xs hidden-sm js-sticky-header-holder">
+        <nav class="navigation-bar hidden-xs hidden-sm">
             <div class="navigation-bar__inner flexbox-wrap flexbox-center-y">
                 <div class="navigation-bar__section flex-box align-item-center">
                     <div class="header-logo">
@@ -89,29 +89,28 @@
     <div class="site-content">
         <div class="flex-box">
             <div class="atbs-block atbs-block--fullwidth atbs-section-module">
-                <div class="atbs-block atbs-block--fullwidth atbs-featured-module-1">
-                    <div class="atbs-block__inner">
+                <div class="">
+                    <div class="">
                         <div class="section-main">
+                            <div class="post__text-wrap">
+                                <div>
+                                    <h3 class="post__title f-60 f-w-700 m-b-15">
+                                        <a href="#">{{ article.getTitle() }}</a>
+                                    </h3>
+                                    <div class="post__meta">
+                                        <div class="post-author post-author_style-7">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <article class="post post--overlay post--overlay-middle post--overlay-large post--overlay-height-680 post--overlay-padding-lg">
                                 <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit">
                                     <a href="#">
                                         <img src="{{ asset('/uploads/articleTitles/'~article.getImg()) }}" alt="Изображение не найдено">
                                     </a>
                                 </div>
-                                <div class="post__text inverse-text">
-                                    <div class="post__text-wrap">
-                                        <div class="post__text-inner max-width-640">
-                                            <h3 class="post__title f-60 f-w-700 m-b-15 max-width-640">
-                                                <a href="#">{{ article.getTitle() }}</a>
-                                            </h3>
-                                            <div class="post__meta">
-                                                <div class="post-author post-author_style-7">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="post__text">
                                 </div>
-                                <a href="#" class="link-overlay"></a>
                             </article>
                         </div>
                     </div>

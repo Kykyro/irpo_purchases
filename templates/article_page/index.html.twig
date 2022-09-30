@@ -22,7 +22,6 @@
         <!-- Mobile header -->
         <div id="atbs-mobile-header" class="mobile-header visible-xs visible-sm">
             <div class="mobile-header__inner mobile-header__inner--flex">
-
                 <div class="mobile-header__section text-right inverse-text">
                     <button type="submit" class="mobile-header-btn js-search-dropdown-toggle">
                         <i class="mdicon mdicon-search hidden-xs"></i>
@@ -35,7 +34,7 @@
             </div>
         </div><!-- Mobile header -->
         <!-- Navigation bar -->
-        <nav class="navigation-bar hidden-xs hidden-sm js-sticky-header-holder">
+        <nav class="navigation-bar hidden-xs hidden-sm ">
             <div class="navigation-bar__inner flexbox-wrap flexbox-center-y">
                 <div class="navigation-bar__section navigation-menu-section js-priority-nav">
                     <ul id="menu-main-menu" class="navigation navigation--main navigation--inline">
@@ -74,7 +73,7 @@
                     <div class="atbs-block__inner">
                         <div class="section-main">
                             <article class="post post--overlay post--overlay-middle post--overlay-large post--overlay-height-680 post--overlay-padding-lg">
-                                <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit">
+                                <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit post__thumb--shadow post__thumb--overlay--shadow">
                                     <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt="Изображение не найдено">
                                 </div>
                                 <div class="post__text inverse-text">
@@ -126,7 +125,7 @@
                                     <div class="list-item">
                                         <article class="post post--overlay post--overlay-normal post--overlay-cylinder-small post--overlay-bottom post--overlay-height-420 b-r-5">
                                             <a href="{{ path('app_article_view', {'id': i.getId()}) }}">
-                                            <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit">
+                                            <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit post__thumb--shadow post__thumb--overlay--shadow">
                                                 <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt="Изображение не найдено">
                                             </div>
                                                 <div class="post__text inverse-text">
