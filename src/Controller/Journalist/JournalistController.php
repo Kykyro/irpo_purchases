@@ -3,12 +3,16 @@
 namespace App\Controller\Journalist;
 
 use App\Entity\Article;
+use App\Entity\Files;
 use App\Entity\Regions;
 use App\Form\articleEditForm;
+use App\Form\ChoiceInputType;
 use App\Form\mapEditForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -144,7 +148,7 @@ class JournalistController extends AbstractController
      */
     public function newArticle(Request $request, SluggerInterface $slugger, int $id = null): Response
     {
-
+        $entity_manager = $this->getDoctrine()->getManager();
         if($id){
             $article = $entity_manager->getRepository(Article::class)->find($id);
         }
@@ -186,6 +190,25 @@ class JournalistController extends AbstractController
         return $this->render('journalist/templates/article_edit.html.twig', [
             'controller_name' => 'JournalistController',
             'form' => $form->createView()
+        ]);
+    }
+
+
+    public function AddDocument(Request $request): Response
+    {
+        $doc = new Files();
+        $form = $this->createFormBuilder($doc)
+            ->add('name', TextType::class)
+            ->add('type', ChoiceInputType::class)
+            ->add('file', FileType::class, [
+                'mapped' => false,
+            ])->getForm();
+
+
+
+
+        return $this->render('landing_documentation/index.html.twig', [
+            'controller_name' => 'LandingDocumentationController',
         ]);
     }
 }
