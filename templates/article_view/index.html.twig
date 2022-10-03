@@ -7,10 +7,7 @@
     <meta name="keywords" content="HTML5 News Magazine Template">
     <meta name="description" content="Unidark - Ultimate News and Magazine Template">
     <meta name="author" content="designuptodate.com">
-    <!-- Favicon -->
-    <!--    <link rel="icon" href="images/xfavicon.png.pagespeed.ic.-yMpnxHG4r.png" sizes="32x32">-->
-    <!--    <link rel="icon" href="images/xfavicon.png.pagespeed.ic.-yMpnxHG4r.png" sizes="192x192">-->
-    <!--    <link rel="apple-touch-icon-precomposed" href="images/xfavicon.png.pagespeed.ic.-yMpnxHG4r.png">-->
+    <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet">
     <meta name="msapplication-TileImage" content="img/favicon.png">
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +25,12 @@
             justify-content: center;
             margin-bottom: 24px;
         }
+        .files{
+            font-size: 16pt;
+            color: #55e1ff;
+
+        }
+
     </style>
 </head>
 <body class="home home-1 has-block-heading-line">
@@ -128,13 +131,21 @@
                     <div class="post__text inverse-text">
                         <div class="post__text-wrap">
                             <div class="max-width-1640" style="margin-left: 5%">
-                                <div class="post__title f-10 f-w-1000 m-b-115 max-width-2640">
+                                <div class="post__title f-10 f-w-1000 m-b-115 max-width-2640" style="text-transform: none;">
                                     {{ article.getContent()| raw }}
                                 </div>
-                                <div class="post__meta">
-                                    <div class="post-author post-author_style-7">
+
+                                {% if article.articleFile is defined and article.fileName is defined %}
+                                    <div class="">
+                                        <div class="files">
+                                            <div>
+                                                <div class="fa fa-file"></div>
+                                                <a href="{{ path('app_download_article_file', {'file': article.articleFile}) }}">{{ article.fileName }}</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>

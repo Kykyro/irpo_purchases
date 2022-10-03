@@ -9,6 +9,7 @@ parameters:
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
     purchases_files_directory: '%kernel.project_dir%/public/uploads/purchasesFiles'
     article_title_img_directory: '%kernel.project_dir%/public/uploads/articleTitles'
+    article_files_directory: '%kernel.project_dir%/public/uploads/articleFiles'
     infrastructure_sheet_files_directory: '%kernel.project_dir%/public/uploads/infrastructureSheetsFiles'
     documents_files_directory: '%kernel.project_dir%/public/uploads/documentsFiles'
 

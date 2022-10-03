@@ -3,6 +3,7 @@
 namespace App\Controller\Journalist;
 
 use App\Entity\Article;
+use App\Entity\ArticleFiles;
 use App\Entity\Files;
 use App\Entity\Regions;
 use App\Form\articleEditForm;
@@ -138,7 +139,7 @@ class JournalistController extends AbstractController
             10 /*limit per page*/
         );
 
-
+        // TODO: поменять отрисовку
         return $this->render('journalist/templates/article_list.html.twig', [
             'controller_name' => 'JournalistController',
             'pagination' => $pagination
@@ -164,6 +165,27 @@ class JournalistController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $file = $form->get('imgTitle')->getData();
+            $articleFiles = $form->get('file')->getData();
+
+            if($articleFiles){
+                $originalFilename = pathinfo($articleFiles->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $articleFiles->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $articleFiles->move(
+                        $this->getParameter('article_files_directory'),
+                        $newFilename
+                    );
+                    $article->setArticleFile($newFilename);
+                } catch (FileException $e) {
+                    throw new HttpException(500, $e->getMessage());
+                }
+            }
+
+
 
             if ($file) {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);

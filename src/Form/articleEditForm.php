@@ -56,6 +56,18 @@ class articleEditForm extends AbstractType
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-outline-success col-lg-4 mt-3'],
                 'label' => 'Готово'
+            ])
+            ->add('fileName', TextType::class, [
+                'attr' => ['class' => 'form-control mb-3'],
+                'required' => false,
+                'label' => 'Название файла',
+            ])
+            ->add('file', FileType::class, [
+                'mapped' => false,
+                'label' => 'Выберете файл для статьи',
+                'attr' =>[
+                    'class' => 'mb-3 form-control'
+                ]
             ]);
     }
 

@@ -15,6 +15,11 @@
                         {{ form_widget(form.imgTitle) }}
 
                         {{ form_widget(form.content) }}
+                        <hr>
+                        <label> Название файла </label>
+                        {{ form_widget(form.fileName) }}
+                        <label> Прикрепить файлы </label>
+                        {{ form_widget(form.file) }}
 
                         {{ form_widget(form.submit) }}
                     {{ form_end(form) }}
