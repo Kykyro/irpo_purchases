@@ -135,7 +135,7 @@
                                     {{ article.getContent()| raw }}
                                 </div>
 
-                                {% if article.articleFile is defined and article.fileName is defined %}
+                                {% if article.articleFile is not null and article.fileName is not null %}
                                     <div class="">
                                         <div class="files">
                                             <div>
