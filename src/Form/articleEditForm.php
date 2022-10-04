@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -12,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -64,9 +66,17 @@ class articleEditForm extends AbstractType
             ])
             ->add('file', FileType::class, [
                 'mapped' => false,
+                'required'   => false,
                 'label' => 'Выберете файл для статьи',
                 'attr' =>[
                     'class' => 'mb-3 form-control'
+                ]
+            ])
+            ->add('createdAt', DateType::class,[
+                'widget' => 'single_text',
+                'required'   => false,
+                'attr' => [
+                    'class' => 'form-control'
                 ]
             ]);
     }
