@@ -4,16 +4,21 @@
 
 
 {% block content %}
+    <style>
+        .photo{
+            width: 30%;
+        }
+    </style>
 <div class="row">
     <div class="col-sm-10 offset-sm-1 ">
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
                 {{ include('journalist/templates/back_button.html.twig') }}
-                <h1>Список инфраструктурных листов</h1>
+                <h1>Список сотрудников</h1>
                 <div class="row">
                     {{ form_start(form) }}
                         <label> Отрасль </label>
-                        {{ form_widget(form.industry) }}
+                        {{ form_widget(form.name) }}
                         {{ form_widget(form.submit) }}
                     {{ form_end(form) }}
                 </div>
@@ -27,13 +32,13 @@
                                 ID
                             </td>
                             <td>
-                                Название
+                                Фото
                             </td>
                             <td>
-                                Отрасль
+                                ФИО
                             </td>
                             <td>
-                                Файл
+                                Должность
                             </td>
                             <td>
                                 Действия
@@ -44,12 +49,13 @@
                         {% for i in pagination  %}
                             <tr>
                                 <td class="align-middle"> {{ i.getId() }} </td>
+                                <td class="align-middle"><img class="photo" src="{{ asset('uploads/employeesPhotos/'~i.getPhoto) }}" alt="Фото отсутсвует"></td>
                                 <td class="align-middle">{{ i.getName() }}</td>
-                                <td class="align-middle col-md-3">{{ i.getIndustry().getName() }}</td>
-                                <td class="align-middle col-md-3">{{ i.getfile() }}</td>
+                                <td class="align-middle">{{ i.getPost() }}</td>
+
                                 <td class="align-middle">
                                     <div>
-                                        <a href="{{ path('app_journalist_infrastructure_sheet_edit', {'id': i.getId()}) }}">
+                                        <a href="{{ path('app_journalist_employee_edit', {'id': i.getId()}) }}">
                                             <button class="btn">
                                                 <div class="fa fa-edit"></div>
                                                 Редактировать

@@ -7,17 +7,17 @@
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
                 {{ include('journalist/templates/back_button.html.twig') }}
-                <h1>Редактор инфраструктурных листов</h1>
+                <h1>Редактор сотрудников</h1>
                 <div class="m-2">
                     {{ form_start(form) }}
-                        <label> Название </label>
+                        <label> ФИО </label>
                         {{ form_widget(form.name) }}
-                        <label> Отрасль </label>
-                        {{ form_widget(form.industry) }}
-                        <label> УГПС </label>
-                        {{ form_widget(form.UGPS) }}
-                        <label> Файл </label>
-                        {{ form_widget(form.file_IS) }}
+
+                        <label> Должность </label>
+                        {{ form_widget(form.post) }}
+
+                        <label> Фотография </label>
+                        {{ form_widget(form.file_photo) }}
                         <div>
                             текущий файл: {{ file }}
                         </div>

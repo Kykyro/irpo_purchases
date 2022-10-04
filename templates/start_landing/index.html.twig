@@ -770,126 +770,27 @@
                     </div>
                 </div>
                 <div class="row team_scale_mobile" style="margin-left: 13%">
-
-                    <!-- User -->
-                    <a href="#">
-                        <div class="col-md-3 col-sm-6 sm-mb-30" style="pointer-events: none;">
-                            <div class="profile-card sm-text-center">
-                                <div class="user-image">
-                                    <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
-                                </div>
-                                <div class="user-info text-center">
-                                    <h5 class="heading-uppercase mb-0">Кто то там</h5>
-                                    <p class="role mb-0">Супер дирек</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- User -->
-                    <a href="#">
-                        <div class="col-md-3 col-sm-6 sm-mb-30" style="pointer-events: none;">
-                            <div class="profile-card sm-text-center">
-                                <div class="user-image">
-                                    <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
-                                </div>
-                                <div class="user-info text-center">
-                                    <h5 class="heading-uppercase mb-0">Кто то там</h5>
-                                    <p class="role mb-0">Супер дирек</p>
+                    {% for i in employees %}
+                        <!-- User -->
+                        <a href="#">
+                            <div class="col-md-3 col-sm-6 sm-mb-30" style="pointer-events: none;">
+                                <div class="profile-card sm-text-center">
+                                    <div class="user-image">
+                                        {% if i.getPhoto() is not null %}
+                                            <img src="{{ asset('/uploads/employeesPhotos/')~i.getPhoto() }}" alt>
+                                        {% else %}
+                                            <img src="{{ asset('/img/placeholder/employees.png') }}" alt>
+                                        {% endif %}
+                                    </div>
+                                    <div class="user-info text-center">
+                                        <h5 class="heading-uppercase mb-0">{{ i.getName() }}</h5>
+                                        <p class="role mb-0">{{ i.getPost() }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    {% endfor %}
 
-                    <!-- User -->
-                    <a href="#">
-                        <div class="col-md-3 col-sm-6 xs-mb-30" style="pointer-events: none;">
-                            <div class="profile-card sm-text-center">
-                                <div class="user-image">
-                                    <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
-                                </div>
-                                <div class="user-info text-center">
-                                    <h5 class="heading-uppercase mb-0">Кто то там</h5>
-                                    <p class="role mb-0">Супер дирек</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- User -->
-                    <a href="#">
-                        <div class="col-md-3 col-sm-6" style="pointer-events: none;">
-                            <div class="profile-card sm-text-center">
-                                <div class="user-image">
-                                    <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
-                                </div>
-                                <div class="user-info text-center">
-                                    <h5 class="heading-uppercase mb-0">Кто то там</h5>
-                                    <p class="role mb-0">Супер дирек</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- User -->
-                    <a href="#">
-                        <div class="col-md-3 col-sm-6 xs-mb-30" style="pointer-events: none;">
-                            <div class="profile-card sm-text-center">
-                                <div class="user-image">
-                                    <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
-                                </div>
-                                <div class="user-info text-center">
-                                    <h5 class="heading-uppercase mb-0">Кто то там</h5>
-                                    <p class="role mb-0">Супер дирек</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- User -->
-                    <a href="#">
-                        <div class="col-md-3 col-sm-6 sm-mb-30" style="pointer-events: none;">
-                            <div class="profile-card sm-text-center">
-                                <div class="user-image">
-                                    <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
-                                </div>
-                                <div class="user-info text-center">
-                                    <h5 class="heading-uppercase mb-0">Кто то там</h5>
-                                    <p class="role mb-0">Супер дирек</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- User -->
-                    <a href="#">
-                        <div class="col-md-3 col-sm-6 xs-mb-30" style="pointer-events: none;">
-                            <div class="profile-card sm-text-center">
-                                <div class="user-image">
-                                    <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
-                                </div>
-                                <div class="user-info text-center">
-                                    <h5 class="heading-uppercase mb-0">Кто то там</h5>
-                                    <p class="role mb-0">Супер дирек</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- User -->
-                    <a href="#">
-                        <div class="col-md-3 col-sm-6" style="pointer-events: none;">
-                            <div class="profile-card sm-text-center">
-                                <div class="user-image">
-                                    <img src="{{ asset('/img/img_start_landing/Lukyanov_Avatar.png') }}" alt>
-                                </div>
-                                <div class="user-info text-center">
-                                    <h5 class="heading-uppercase mb-0">Кто то там</h5>
-                                    <p class="role mb-0">Супер дирек</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
 
                 </div>
             </div>

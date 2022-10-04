@@ -3,6 +3,7 @@
 namespace App\Controller\Landing;
 
 use App\Entity\Article;
+use App\Entity\Employees;
 use App\Entity\Feedback;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,20 +38,25 @@ class StartLandingController extends AbstractController
             ->add("submit", SubmitType::class)
             ->getForm();
 
+        $employees = $entity_manager->getRepository(Employees::class)
+            ->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(8)
+            ->getQuery()
+            ->getResult();
+
         $feedackForm->handleRequest($request);
         if($feedackForm->isSubmitted() and $feedackForm->isValid()){
             $formData = $feedackForm->getData();
-//            dd($formData);
-//            dump($formData);
             $entity_manager->persist($feedack);
             $entity_manager->flush();
-//            return $this->redirectToRoute('app_start_landing');
         }
 
         return $this->render('start_landing/index.html.twig', [
             'controller_name' => 'StartLandingController',
             'news' => $news,
-            'feedbackForm' => $feedackForm->createView()
+            'feedbackForm' => $feedackForm->createView(),
+            'employees' => $employees
         ]);
     }
 }

@@ -1,13 +1,17 @@
 {% extends "journalist/index.html.twig" %}
 
 {% block content %}
+
     <div class="row">
+
         {% if map is defined %}
+
             <ul class="row col-lg-12">
+
                     <div class="col-sm-8 offset-sm-2">
                         <div class="wrapper wrapper-content ">
                             <div class="ibox-content block-shadow">
-
+                                {{ include('journalist/templates/back_button.html.twig') }}
                             {% for i in map %}
                                 <div class="m-2">
                                     <a href="{{ path('app_map_edit', {'id': i.getId}) }}" class="d-flex justify-content-center">
