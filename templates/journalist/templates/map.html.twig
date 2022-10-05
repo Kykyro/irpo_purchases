@@ -1,13 +1,9 @@
 {% extends "journalist/index.html.twig" %}
 
 {% block content %}
-
+    {% if map is defined %}
     <div class="row">
-
-        {% if map is defined %}
-
             <ul class="row col-lg-12">
-
                     <div class="col-sm-8 offset-sm-2">
                         <div class="wrapper wrapper-content ">
                             <div class="ibox-content block-shadow">
@@ -25,15 +21,14 @@
                         </div>
                     </div>
             </ul>
-        {% endif %}
-
-
     </div>
+    {% endif %}
+    {% if form is defined %}
     <div class="row">
         <div class="col-sm-8 offset-sm-2 ">
             <div class="wrapper wrapper-content ">
                 <div class="ibox-content block-shadow ">
-                {% if form is defined %}
+
                     <div class="row">
                         <a href="{{ path('app_map_edit') }}">
                             <button class="btn btn-primary m-3">
@@ -48,13 +43,14 @@
                                 {{ form_widget(form.name) }}
                                 <label> Номер региона </label>
                                 {{ form_widget(form.ident) }}
-                                <label> Организации </label>
+                                <label> Организации </label><br>
+                                <label> <b>Правило заполнения:</b><br> ГОД: ОРГАНИЗАЦИЯ (каждый год на новой строке) </label>
+
+                                <textarea class="form-control" id="map-editor"></textarea>
                                 {{ form_widget(form.organization) }}
-                                <div>
-                                    <strong>Текущее значение организаций: </strong>
-                                    {{ orgContent }}
-                                </div>
+
                                 {{ form_widget(form.submit) }}
+
                             {{ form_end(form) }}
                         </div>
                     </div>
@@ -65,4 +61,7 @@
 
 
     {% endif %}
+{% endblock %}
+{% block scripts %}
+   <script src="{{ asset('js/scripts/map_editor.js') }}"></script>
 {% endblock %}

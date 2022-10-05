@@ -2,6 +2,9 @@
 
 namespace App\Form;
 
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -24,6 +27,14 @@ class mapEditForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $org = $options['data']->getOrganization();
+        $orgContent = $serializer->serialize($org, 'json');
+        $orgContent = stripslashes($orgContent);
+        $orgContent = trim($orgContent, '["]');
         $builder
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
@@ -36,10 +47,12 @@ class mapEditForm extends AbstractType
                 'label' => 'Заголовок'
             ])
             ->add('organization', TextareaType::class, [
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => ['class' => 'form-control mb-3 hidden-row'],
                 'required'   => false,
                 'label' => 'Заголовок',
-                'mapped' => false
+                'mapped' => false,
+                'data' => $orgContent,
+//                'disabled' => true
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-outline-success col-lg-4 mt-3'],

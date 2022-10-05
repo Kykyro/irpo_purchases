@@ -45,14 +45,6 @@ class JournalistController extends AbstractController
             $form = $this->createForm(mapEditForm::class, $map);
             $form->handleRequest($request);
 
-            $encoders = [new JsonEncoder()];
-            $normalizers = [new ObjectNormalizer()];
-            $serializer = new Serializer($normalizers, $encoders);
-            $org = $map->getOrganization();
-            $orgContent = $serializer->serialize($org, 'json');
-            $orgContent = stripslashes($orgContent);
-            $orgContent = trim($orgContent, '["]');
-
             if($form->isSubmitted() && $form->isValid()){
                 $organization = $form->get('organization')->getData();
                 if($organization){
@@ -68,7 +60,6 @@ class JournalistController extends AbstractController
             return $this->render('journalist/templates/map.html.twig', [
                 'controller_name' => 'JournalistController',
                 'form' => $form->createView(),
-                'orgContent' => $orgContent,
             ]);
         }
         else{

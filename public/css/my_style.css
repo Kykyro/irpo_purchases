@@ -167,7 +167,11 @@ input[type="text"], textarea {
     box-shadow: 0 0 10px #444;
     background-size: auto 150px;
 }
-
+.hidden-row{
+    visibility: collapse;
+    height: 0;
+    width: 0;
+}
 
 
 
