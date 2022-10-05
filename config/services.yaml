@@ -13,6 +13,7 @@ parameters:
     infrastructure_sheet_files_directory: '%kernel.project_dir%/public/uploads/infrastructureSheetsFiles'
     documents_files_directory: '%kernel.project_dir%/public/uploads/documentsFiles'
     employees_photos_directory: '%kernel.project_dir%/public/uploads/employeesPhotos'
+    design_project_example_directory: '%kernel.project_dir%/public/uploads/designProjectExample'
 
 services:
     # default configuration for services in *this* file

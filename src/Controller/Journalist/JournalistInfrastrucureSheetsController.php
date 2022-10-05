@@ -175,7 +175,19 @@ class JournalistInfrastrucureSheetsController extends AbstractController
             'file' => $IS->getfile(),
         ]);
     }
+    /**
+     * @Route("/infrastructure-sheet-delete/{id}", name="app_delete_infrastructure_sheet")
+     */
+    public function ISDelete(Request $request, int $id): Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $designProject = $entity_manager->getRepository(InfrastructureSheetFiles::class)->find($id);
 
+        $entity_manager->remove($designProject);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_journalist_infrastructure_sheet_list');
+    }
 
 
 }

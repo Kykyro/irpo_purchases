@@ -3,6 +3,7 @@
 namespace App\Controller\Landing;
 
 use App\Entity\Article;
+use App\Entity\DesignProjectExample;
 use App\Entity\Employees;
 use App\Entity\Feedback;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -45,6 +46,12 @@ class StartLandingController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        $designProjectExample = $entity_manager->getRepository(DesignProjectExample::class)
+            ->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
         $feedackForm->handleRequest($request);
         if($feedackForm->isSubmitted() and $feedackForm->isValid()){
             $formData = $feedackForm->getData();
@@ -56,7 +63,8 @@ class StartLandingController extends AbstractController
             'controller_name' => 'StartLandingController',
             'news' => $news,
             'feedbackForm' => $feedackForm->createView(),
-            'employees' => $employees
+            'employees' => $employees,
+            'designProjectExample' => $designProjectExample,
         ]);
     }
 }

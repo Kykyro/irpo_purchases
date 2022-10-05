@@ -155,7 +155,19 @@ class JournalistEmployeeController extends AbstractController
             'file' => $employee->getPhoto(),
         ]);
     }
+    /**
+     * @Route("/employee-delete/{id}", name="app_delete_employee")
+     */
+    public function employeeDelete(Request $request, int $id): Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $designProject = $entity_manager->getRepository(Employees::class)->find($id);
 
+        $entity_manager->remove($designProject);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_journalist_employee_list');
+    }
 
 
 }

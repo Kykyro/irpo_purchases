@@ -10,7 +10,7 @@
 
             <div class="ibox-content block-shadow ">
                 {{ include('journalist/templates/back_button.html.twig') }}
-                <h1>Список документов</h1>
+                <h1>Список примеров дизайн проектов</h1>
 
                 <div class="row">
 
@@ -24,7 +24,7 @@
                                 Название
                             </td>
                             <td>
-                                Файл
+                                Картинка
                             </td>
                             <td>
                                 Действия
@@ -37,16 +37,20 @@
                                 <td class="align-middle"> {{ i.getId() }} </td>
 
                                 <td class="align-middle col-md-3"><b>{{ i.getName() }}</b></td>
-                                <td class="align-middle col-md-3">{{ i.getFile() }}</td>
+
+                                <td class="align-middle col-md-3"><img src="{{ asset('/uploads/designProjectExample/' ~ i.getPhoto()) }}"  alt="нет картинки" style="width: 60%"></td>
                                 <td class="align-middle">
                                     <div>
-                                        <a href="{{ path('app_edit_document', {'id': i.getId()}) }}">
+                                        <a href="#">
                                             <button class="btn">
                                                 <div class="fa fa-edit"></div>
                                                 Редактировать
                                             </button>
                                         </a>
-                                        <a href="{{ path('app_delete_document', {'id': i.getId()}) }}" class="delete-alert">
+                                    </div>
+                                    <div>
+                                        <a href="{{ path('app_delete_design_project', {'id': i.getId() }) }}" class="delete-alert">
+                                        {#<a href="#" class="delete-alert">#}
                                             <button class="btn">
                                                 <div class="fa fa-trash"></div>
                                                 Удалить
@@ -70,8 +74,4 @@
         </div>
     </div>
 </div>
-
-{#    <div class="m-5">#}
-
-{#    </div>#}
 {% endblock %}
