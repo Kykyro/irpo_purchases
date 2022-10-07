@@ -116,8 +116,8 @@
             }
         }
 
-        .scale_img img { width: 500px; height: 250px; object-fit: cover; }
-        .scale_img .text_scale_img { height: 100px; object-fit: cover; }
+        .scale_img img { width: 400px; height: 300px; object-fit: cover; }
+        .scale_img .text_scale_img { height: 180px; object-fit: cover; }
 
         .scale_img_documents img { width: 555px; height: 350px; object-fit: cover; }
         .scale_img_documents .text_scale_img_documents { height: 35px; object-fit: cover; }
@@ -343,7 +343,7 @@
                 </div>
             </div>
             <div class="container">
-                <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside ">
+                <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside">
                     {% for i in news %}
                         <article class="carousel-item portfolio-item web">
                             <a href="{{ path('app_article_view', {'id': i.getId()}) }}" target="_blank">
@@ -356,7 +356,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="project-details text_scale_img" style="height: 40%">
+                                    <div class="project-details text_scale_img">
                                         <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
                                     </div>
                                 </div>
