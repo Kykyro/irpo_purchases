@@ -20,12 +20,13 @@ class LandingDocumentationController extends AbstractController
      */
     public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator, string $type): Response
     {
-        if($type === 'workshop'){
+        if($type === 'workshops_files'){
             $title = 'Нормативная документация (Мастерские)';
         }
         else{
             $title = 'Нормативная документация (Кластеры)';
         }
+//        dd($type);
         $query = $em->getRepository(Files::class)
             ->createQueryBuilder('a')
             ->where('a.type LIKE :type')
