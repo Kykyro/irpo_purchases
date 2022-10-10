@@ -54,7 +54,7 @@
                     <tbody>
                         {% for i in pagination  %}
                             <tr scope="row">
-                                <td>{{ i.getName() }}</td>
+                                <td><strong>{{ i.getName() }}</strong></td>
                                 <td>{{ i.getIndustry().getName() }}</td>
                                 {% if i.getUGPS() is not null %}
                                     <td>{{ i.getUGPS.getName() }}</td>

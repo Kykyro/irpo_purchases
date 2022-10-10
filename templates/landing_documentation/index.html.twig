@@ -39,7 +39,7 @@
         <tbody>
             {% for i in pagination %}
                 <tr>
-                    <td class="col-lg-8">{{ i.getName() }}<td>
+                    <td class="col-lg-8"><strong>{{ i.getName() }}</strong><td>
                     <td class="col-lg-4"><a href="{{ path('app_download_document_file', {'file': i.getfile()}) }}">Скачать</a><td>
                 </tr>
             {% endfor %}
