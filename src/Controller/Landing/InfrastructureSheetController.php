@@ -8,30 +8,36 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class InfrastructureSheetController extends AbstractController
 {
     /**
-     * @Route("/infrastructure-sheets", name="app_infrastructure_sheets")
+     * @Route("/infrastructure-sheets/{type}", name="app_infrastructure_sheets")
      */
-    public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
+    public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator, string $type): Response
     {
+        if ($type === 'cluster_IS'){
+            $title = 'Инфраструктурные листы (Кластеры)';
+        }
+        else if($type === 'workshops_IS'){
+            $title = 'Инфраструктурные листы  (Мастерские)';
+        }
+        else{
+            return $this->redirectToRoute('app_start_landing');
+        }
+
         $data = [];
         $form = $this->createFormBuilder($data)
-            ->add("industry", EntityType::class, [
+            ->add("search", TextType::class, [
                 'attr' => ['class' => 'form-control'],
                 'required'   => false,
-                'class' => Industry::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('sub')
-                        ->orderBy('sub.name', 'ASC');
-                },
-                'choice_label' => 'name',
+
             ])
             ->add("submit", SubmitType::class)
             ->getForm();
@@ -41,16 +47,21 @@ class InfrastructureSheetController extends AbstractController
         $query = $em->getRepository(InfrastructureSheetFiles::class)
             ->createQueryBuilder('a')
             ->orderBy('a.id', 'ASC')
+            ->where('a.type LIKE :type')
+            ->setParameter('type', "%$type%")
             ->getQuery();
 
 
         if ($form->isSubmitted() && $form->isValid()) {
             $form_data = $form->getData();
-            if($form_data['industry'] !== null){
+            if($form_data['search'] !== null){
+                $searchText = $form_data['search'];
                 $query = $em->getRepository(InfrastructureSheetFiles::class)
                     ->createQueryBuilder('a')
-                    ->where('a.industry = :industry')
-                    ->setParameter('industry', $form_data['industry']->getId())
+                    ->andWhere('a.name LIKE :search')
+                    ->andWhere('a.type LIKE :type')
+                    ->setParameter('search', "%$searchText%")
+                    ->setParameter('type', "%$type%")
                     ->orderBy('a.id', 'ASC')
                     ->getQuery();
             }

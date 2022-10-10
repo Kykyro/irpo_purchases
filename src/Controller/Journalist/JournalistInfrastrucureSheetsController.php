@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,6 +27,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints\Choice;
 
 /**
  * Class JournalistController
@@ -107,25 +109,34 @@ class JournalistInfrastrucureSheetsController extends AbstractController
 
 
         $form = $this->createFormBuilder($IS)
-            ->add("industry", EntityType::class, [
-                'attr' => ['class' => 'form-control'],
-                'required'   => false,
-                'class' => Industry::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('sub')
-                        ->orderBy('sub.name', 'ASC');
-                },
-                'choice_label' => 'name',
-            ])
-            ->add("UGPS", EntityType::class, [
-                'attr' => ['class' => 'form-control'],
-                'required'   => false,
-                'class' => UGPS::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('sub')
-                        ->orderBy('sub.name', 'ASC');
-                },
-                'choice_label' => 'name',
+//            ->add("industry", EntityType::class, [
+//                'attr' => ['class' => 'form-control'],
+//                'required'   => false,
+//                'class' => Industry::class,
+//                'query_builder' => function (EntityRepository $er) {
+//                    return $er->createQueryBuilder('sub')
+//                        ->orderBy('sub.name', 'ASC');
+//                },
+//                'choice_label' => 'name',
+//            ])
+//            ->add("UGPS", EntityType::class, [
+//                'attr' => ['class' => 'form-control'],
+//                'required'   => false,
+//                'class' => UGPS::class,
+//                'query_builder' => function (EntityRepository $er) {
+//                    return $er->createQueryBuilder('sub')
+//                        ->orderBy('sub.name', 'ASC');
+//                },
+//                'choice_label' => 'name',
+//            ])
+            ->add("type", ChoiceType::class,[
+                'choices' => [
+                    'Инфраструктурные листы (Кластеры)' => 'cluster_IS',
+                    'Инфраструктурные листы  (Мастерские)' => 'workshops_IS',
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control'],

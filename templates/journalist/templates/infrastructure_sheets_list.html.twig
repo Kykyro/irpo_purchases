@@ -30,7 +30,7 @@
                                 Название
                             </td>
                             <td>
-                                Отрасль
+                                Тип
                             </td>
                             <td>
                                 Файл
@@ -45,7 +45,13 @@
                             <tr>
                                 <td class="align-middle"> {{ i.getId() }} </td>
                                 <td class="align-middle">{{ i.getName() }}</td>
-                                <td class="align-middle col-md-3">{{ i.getIndustry().getName() }}</td>
+                                {% if  i.getType() == 'cluster_IS' %}
+                                    <td class="align-middle col-md-3">Инфраструктурные листы (Кластеры)</td>
+                                {% elseif i.getType() == 'workshops_IS'%}
+                                    <td class="align-middle col-md-3">Инфраструктурные листы  (Мастерские)</td>
+                                {% else %}
+                                    <td class="align-middle col-md-3"></td>
+                                {% endif %}
                                 <td class="align-middle col-md-3">{{ i.getfile() }}</td>
                                 <td class="align-middle">
                                     <div>
