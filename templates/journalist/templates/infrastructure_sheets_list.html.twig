@@ -12,6 +12,8 @@
                 <h1>Список инфраструктурных листов</h1>
                 <div class="row">
                     {{ form_start(form) }}
+                        <label> Название </label>
+                        {{ form_widget(form.search) }}
                         <label> Отрасль </label>
                         {{ form_widget(form.industry) }}
                         {{ form_widget(form.submit) }}

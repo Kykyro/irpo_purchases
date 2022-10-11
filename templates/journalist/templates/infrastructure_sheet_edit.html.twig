@@ -12,8 +12,10 @@
                     {{ form_start(form) }}
                         <label> Название </label>
                         {{ form_widget(form.name) }}
-                        {#<label> Отрасль </label>#}
-                        {#{{ form_widget(form.industry) }}#}
+                        <label class="label-hidden"> Отрасль </label>
+                        {{ form_widget(form.industry) }}
+                        <label class="label-hidden"> УГПС </label>
+                        {{ form_widget(form.UGPS) }}
                         <label> Тип </label>
                         {{ form_widget(form.type) }}
                         <label> Файл </label>
@@ -29,4 +31,8 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ asset('js/scripts/IS_form.js') }}"></script>
 {% endblock %}

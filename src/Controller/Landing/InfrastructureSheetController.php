@@ -77,6 +77,7 @@ class InfrastructureSheetController extends AbstractController
             'controller_name' => 'InfrastructureSheetController',
             'form' => $form->createView(),
             'pagination' => $pagination,
+            'type' => $type
         ]);
     }
 }

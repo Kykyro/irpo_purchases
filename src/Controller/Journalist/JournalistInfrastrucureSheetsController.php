@@ -12,6 +12,7 @@ use App\Form\mapEditForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use function Sodium\add;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -53,7 +54,15 @@ class JournalistInfrastrucureSheetsController extends AbstractController
                 },
                 'choice_label' => 'name',
             ])
-            ->add("submit", SubmitType::class)
+            ->add("search", TextType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'label' => 'Название'
+            ])
+            ->add("submit", SubmitType::class, [
+                'attr' => ['class' => 'btn'],
+                'label' => 'Поиск'
+            ])
             ->getForm();
 
         $form->handleRequest($request);
@@ -66,11 +75,22 @@ class JournalistInfrastrucureSheetsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $form_data = $form->getData();
+            $search = $form_data['search'];
             if($form_data['industry'] !== null){
                 $query = $em->getRepository(InfrastructureSheetFiles::class)
                     ->createQueryBuilder('a')
-                    ->where('a.industry = :industry')
+                    ->andWhere('a.industry = :industry')
+                    ->andWhere('a.name LIKE :name')
                     ->setParameter('industry', $form_data['industry']->getId())
+                    ->setParameter('name', "%$search%")
+                    ->orderBy('a.id', 'ASC')
+                    ->getQuery();
+            }
+            else{
+                $query = $em->getRepository(InfrastructureSheetFiles::class)
+                    ->createQueryBuilder('a')
+                    ->andWhere('a.name LIKE :name')
+                    ->setParameter('name', "%$search%")
                     ->orderBy('a.id', 'ASC')
                     ->getQuery();
             }
@@ -109,26 +129,26 @@ class JournalistInfrastrucureSheetsController extends AbstractController
 
 
         $form = $this->createFormBuilder($IS)
-//            ->add("industry", EntityType::class, [
-//                'attr' => ['class' => 'form-control'],
-//                'required'   => false,
-//                'class' => Industry::class,
-//                'query_builder' => function (EntityRepository $er) {
-//                    return $er->createQueryBuilder('sub')
-//                        ->orderBy('sub.name', 'ASC');
-//                },
-//                'choice_label' => 'name',
-//            ])
-//            ->add("UGPS", EntityType::class, [
-//                'attr' => ['class' => 'form-control'],
-//                'required'   => false,
-//                'class' => UGPS::class,
-//                'query_builder' => function (EntityRepository $er) {
-//                    return $er->createQueryBuilder('sub')
-//                        ->orderBy('sub.name', 'ASC');
-//                },
-//                'choice_label' => 'name',
-//            ])
+            ->add("industry", EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'class' => Industry::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('sub')
+                        ->orderBy('sub.name', 'ASC');
+                },
+                'choice_label' => 'name',
+            ])
+            ->add("UGPS", EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'class' => UGPS::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('sub')
+                        ->orderBy('sub.name', 'ASC');
+                },
+                'choice_label' => 'name',
+            ])
             ->add("type", ChoiceType::class,[
                 'choices' => [
                     'Инфраструктурные листы (Кластеры)' => 'cluster_IS',
