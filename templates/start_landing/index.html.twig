@@ -100,6 +100,11 @@
             padding-left: 3px;
             list-style-type: '-';
         }
+        .organization:first-of-type{
+            font-weight: bold;
+            font-size: 16px;
+            list-style-type: '';
+        }
         @media screen and (max-width: 992px){
             #hint-region {
                 display: none;
@@ -161,8 +166,12 @@
                                 let organization = JSON.parse(this.region.organization);
                                 let year = $('#year-select option:selected').text();
                                 for (var org in organization[year]) {
-                                    let orgElem = "<li class='organization'>" + organization[year][org] + "</li>";
-                                    $("#org-list").append(orgElem)
+                                    let orgSplit = organization[year][org].split(',');
+                                    for(let _org in orgSplit){
+                                        let orgElem = "<li class='organization'>" + orgSplit[_org] + "</li>";
+                                        $("#org-list").append(orgElem)
+                                    }
+
                                 }
 
                             }
