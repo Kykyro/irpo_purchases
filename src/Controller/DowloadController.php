@@ -38,4 +38,18 @@ class DowloadController extends AbstractController
     {
         return $this->file('../public/uploads/articleFiles/'.$file);
     }
+    /**
+     * @Route("/brandbook-download/", name="app_download_brandbook")
+     */
+    public function BrandbookDownload(): Response
+    {
+        return $this->file('../public/files/Brand Book 2.0 professionalitet_8+3 отрасли_060922_.pdf');
+    }
+    /**
+     * @Route("/memo-file-download/", name="app_download_memo_file")
+     */
+    public function MemoFileDownload(): Response
+    {
+        return $this->file('../public/files/Памятка_по_созданию_дизайн_проектов_кластеров.pdf');
+    }
 }
