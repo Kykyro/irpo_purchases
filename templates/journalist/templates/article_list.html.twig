@@ -9,6 +9,13 @@
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
                 {{ include('journalist/templates/back_button.html.twig') }}
+                <div class="row">
+                    <a href="{{ path('app_new_article') }}">
+                        <button class="btn">
+                            Добавить еще
+                        </button>
+                    </a>
+                </div>
                 <h1>Список статей</h1>
             {#    <div class="row">#}
             {#        <label>Поиск</label>#}

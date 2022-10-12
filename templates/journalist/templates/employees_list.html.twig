@@ -14,6 +14,13 @@
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
                 {{ include('journalist/templates/back_button.html.twig') }}
+                <div class="row">
+                    <a href="{{ path('app_journalist_employee_add') }}">
+                        <button class="btn">
+                            Добавить еще
+                        </button>
+                    </a>
+                </div>
                 <h1>Список сотрудников</h1>
                 <div class="row">
                     {{ form_start(form) }}

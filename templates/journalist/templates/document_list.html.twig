@@ -10,6 +10,13 @@
 
             <div class="ibox-content block-shadow ">
                 {{ include('journalist/templates/back_button.html.twig') }}
+                <div class="row">
+                    <a href="{{ path('app_new_document') }}">
+                        <button class="btn">
+                            Добавить еще
+                        </button>
+                    </a>
+                </div>
                 <h1>Список документов</h1>
 
                 <div class="row">
