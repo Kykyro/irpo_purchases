@@ -13,6 +13,9 @@
  * @author Artem Zabelin <artjomzabelin@gmail.com>
  */
 #}
+<style>
+
+</style>
 {% if pageCount > 1 %}
     <ul class="pagination justify-content-center">
 
@@ -82,3 +85,25 @@
     {% endif %}
     </ul>
 {% endif %}
+{#<script>#}
+    {#$(document).ready(function(){#}
+        {#let getUrlParameter = function getUrlParameter(sParam) {#}
+            {#let sPageURL = window.location.search.substring(1),#}
+                {#sURLVariables = sPageURL.split('&'),#}
+                {#sParameterName,#}
+                {#i;#}
+
+            {#for (i = 0; i < sURLVariables.length; i++) {#}
+                {#sParameterName = sURLVariables[i].split('=');#}
+
+                {#if (sParameterName[0] === sParam) {#}
+                    {#return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);#}
+                {#}#}
+            {#}#}
+            {#return false;#}
+        {#};#}
+
+        {#let  page = getUrlParameter('page');#}
+        {#console.log(page);#}
+    {#});#}
+{#</script>#}

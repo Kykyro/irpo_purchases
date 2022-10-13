@@ -173,6 +173,10 @@ input[type="text"], textarea {
     width: 0;
 }
 
+.active > .page-link{
+    background-color: #cdcdcd;
+}
+
 
 
 
