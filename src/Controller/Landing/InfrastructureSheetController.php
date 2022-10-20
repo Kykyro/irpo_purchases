@@ -32,6 +32,13 @@ class InfrastructureSheetController extends AbstractController
             return $this->redirectToRoute('app_start_landing');
         }
 
+
+        if($request->query->has('page')){
+            $page = $request->query->get('page');
+        }
+        else{
+            $page = 1;
+        }
         $pageLimit = 10;
         $data = [];
         $form = $this->createFormBuilder($data)
@@ -65,14 +72,12 @@ class InfrastructureSheetController extends AbstractController
                     ->setParameter('type', "%$type%")
                     ->orderBy('a.id', 'ASC')
                     ->getQuery();
-
-                $pageLimit = 0;
             }
         }
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
+            $request->query->getInt('page', $page), /*page number*/
             $pageLimit /*limit per page*/
         );
 

@@ -43,6 +43,13 @@ class JournalistInfrastrucureSheetsController extends AbstractController
     public function ISList(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
         $pageLimit = 10;
+        if($request->query->has('page')){
+            $page = $request->query->get('page');
+        }
+        else{
+            $page = 1;
+        }
+
         $data = [];
         $form = $this->createFormBuilder($data)
             ->add("industry", EntityType::class, [
@@ -94,7 +101,6 @@ class JournalistInfrastrucureSheetsController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pageLimit = 100;
             $form_data = $form->getData();
             $search = $form_data['search'];
             $type = $form_data['type'];
@@ -126,7 +132,7 @@ class JournalistInfrastrucureSheetsController extends AbstractController
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
+            $request->query->getInt('page', $page), /*page number*/
             $pageLimit /*limit per page*/
         );
 
