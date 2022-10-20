@@ -32,6 +32,7 @@ class InfrastructureSheetController extends AbstractController
             return $this->redirectToRoute('app_start_landing');
         }
 
+        $pageLimit = 10;
         $data = [];
         $form = $this->createFormBuilder($data)
             ->add("search", TextType::class, [
@@ -64,20 +65,23 @@ class InfrastructureSheetController extends AbstractController
                     ->setParameter('type', "%$type%")
                     ->orderBy('a.id', 'ASC')
                     ->getQuery();
+
+                $pageLimit = 100;
             }
         }
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $pageLimit /*limit per page*/
         );
 
         return $this->render('infrastructure_sheet/index.html.twig', [
             'controller_name' => 'InfrastructureSheetController',
             'form' => $form->createView(),
             'pagination' => $pagination,
-            'type' => $type
+            'type' => $type,
+            'title' => $title
         ]);
     }
 }

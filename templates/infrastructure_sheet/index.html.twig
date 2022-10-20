@@ -24,7 +24,13 @@
         <div class="container">
 
             <div class="table-responsive custom-table-responsive">
+
                 <a href="{{ path('app_start_landing') }}" class="col-lg-2 btn" style="background: black">Назад</a>
+                <div class=" m-1 col-lg-12" style="padding-bottom: 1rem; font-size: 22px; text-align: center; padding-top: 20px">
+                    {{ title }}
+                </div>
+                <hr>
+
                 {{ form_start(form) }}
                 <label class="m-1 col-lg-12" style="padding-bottom: 1rem; font-size: 22px; text-align: center; padding-top: 20px"> Поиск </label>
                 {{ form_widget(form.search) }}
@@ -36,6 +42,7 @@
                 }) }}
                 {{ form_end(form) }}
             </div>
+
         </div>
     </div>
     {% if type == 'cluster_IS' %}

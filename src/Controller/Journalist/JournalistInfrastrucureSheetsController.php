@@ -42,6 +42,7 @@ class JournalistInfrastrucureSheetsController extends AbstractController
      */
     public function ISList(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
+        $pageLimit = 10;
         $data = [];
         $form = $this->createFormBuilder($data)
             ->add("industry", EntityType::class, [
@@ -54,13 +55,32 @@ class JournalistInfrastrucureSheetsController extends AbstractController
                 },
                 'choice_label' => 'name',
             ])
+            ->add("type", ChoiceType::class,[
+                'choices' => [
+                    'Кластеры' => 'cluster',
+                    'Мастерские' => 'workshops',
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add("UGPS", EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'class' => UGPS::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('sub')
+                        ->orderBy('sub.name', 'ASC');
+                },
+                'choice_label' => 'name',
+            ])
             ->add("search", TextType::class, [
                 'attr' => ['class' => 'form-control'],
                 'required'   => false,
                 'label' => 'Название'
             ])
             ->add("submit", SubmitType::class, [
-                'attr' => ['class' => 'btn'],
+                'attr' => ['class' => 'btn btn-primary mt-3 mb-3'],
                 'label' => 'Поиск'
             ])
             ->getForm();
@@ -74,32 +94,40 @@ class JournalistInfrastrucureSheetsController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pageLimit = 100;
             $form_data = $form->getData();
             $search = $form_data['search'];
-            if($form_data['industry'] !== null){
-                $query = $em->getRepository(InfrastructureSheetFiles::class)
-                    ->createQueryBuilder('a')
+            $type = $form_data['type'];
+            $industry = $form_data['industry'];
+            $ugps = $form_data['UGPS'];
+
+            $query = $em->getRepository(InfrastructureSheetFiles::class)
+                ->createQueryBuilder('a')
+                ->andWhere('a.name LIKE :name')
+                ->andWhere('a.type LIKE :type')
+                ->setParameter('name', "%$search%")
+                ->setParameter('type', "%$type%");
+
+            if($industry !== null){
+                $industry = $industry->getId();
+                $query = $query
                     ->andWhere('a.industry = :industry')
-                    ->andWhere('a.name LIKE :name')
-                    ->setParameter('industry', $form_data['industry']->getId())
-                    ->setParameter('name', "%$search%")
-                    ->orderBy('a.id', 'ASC')
-                    ->getQuery();
+                    ->setParameter('industry', $industry);
             }
-            else{
-                $query = $em->getRepository(InfrastructureSheetFiles::class)
-                    ->createQueryBuilder('a')
-                    ->andWhere('a.name LIKE :name')
-                    ->setParameter('name', "%$search%")
-                    ->orderBy('a.id', 'ASC')
-                    ->getQuery();
+            if($ugps !== null){
+                $ugps = $ugps->getId();
+                $query = $query
+                    ->andWhere('a.UGPS = :UGPS')
+                    ->setParameter('UGPS', $ugps);
             }
+
+            $query = $query->orderBy('a.id', 'DESC')->getQuery();
         }
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $pageLimit /*limit per page*/
         );
 
 
@@ -167,7 +195,10 @@ class JournalistInfrastrucureSheetsController extends AbstractController
                 'required'   => false,
                 'mapped' => false
             ])
-            ->add("submit", SubmitType::class)
+            ->add("submit", SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary'],
+                'label' => 'Сохранить'
+            ])
             ->getForm();
 
         $form->handleRequest($request);

@@ -4,6 +4,7 @@ $(document).ready(function(){
     let obj = JSON.parse(input.val());
     let string = '';
 
+
     for(let key in obj){
         if (obj.hasOwnProperty(key)){
             string += `${key}: ${obj[key]["organization"]}\n`
