@@ -48,6 +48,7 @@ class InfrastructureSheetController extends AbstractController
 
             ])
             ->add("submit", SubmitType::class)
+            ->setMethod('GET')
             ->getForm();
 
         $form->handleRequest($request);

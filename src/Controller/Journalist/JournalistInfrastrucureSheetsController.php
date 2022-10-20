@@ -42,7 +42,7 @@ class JournalistInfrastrucureSheetsController extends AbstractController
      */
     public function ISList(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
-        $pageLimit = 10;
+        $pageLimit = 2;
         if($request->query->has('page')){
             $page = $request->query->get('page');
         }
@@ -90,6 +90,7 @@ class JournalistInfrastrucureSheetsController extends AbstractController
                 'attr' => ['class' => 'btn btn-primary mt-3 mb-3'],
                 'label' => 'Поиск'
             ])
+            ->setMethod('GET')
             ->getForm();
 
         $form->handleRequest($request);
