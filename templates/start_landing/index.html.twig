@@ -267,6 +267,7 @@
                 <li data-menuanchor="home" class="active"><a href="#home" class="moveto">Главная</a></li>
                 <li data-menuanchor="events"><a href="#events" class="moveto">Мероприятия</a></li>
                 <li data-menuanchor="map"><a href="#map" class="moveto">Карта</a></li>
+                <li data-menuanchor="partners"><a href="#partners" class="moveto">Партнёры проектов</a></li>
                 <li data-menuanchor="il"><a href="#il" class="moveto">ИЛ</a></li>
                 <li data-menuanchor="documentation"><a href="#documentation" class="moveto">Документация</a></li>
                 <li data-menuanchor="design_projects"><a href="#design_projects" class="moveto">Дизайн-проекты</a></li>
@@ -411,6 +412,41 @@
 {#            </div>#}
         </section>
 
+        <section data-id="partners" class="ed-section pb-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <h2 class="text-center text-white">Партнёры проектов</h2>
+                        <div class="divider divider-alt divider-center divider-light"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside">
+                    {% for i in news %}
+                        <article class="carousel-item portfolio-item web">
+                            <a href="{{ path('app_article_view', {'id': i.getId()}) }}" target="_blank">
+                                <div class="project-container mb-0 scale_img">
+
+                                    <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
+                                    <div class="overlay">
+                                        <div class="overlay-wrapper">
+                                            <div class="overlay-inner background-dark-5 opacity-50"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="project-details text_scale_img">
+                                        <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+
         <section data-id="il" class="ed-section sm-pb-0">
             <div class="container">
                 <div class="row">
@@ -426,16 +462,16 @@
                         <div class="icon-box mb-30 text-center">
                             <div class="icon-box-icon text-white">
                                 <article class="carousel-item portfolio-item web">
-                                    <div class="project-container mb-0 scale_img_documents">
-                                        <a href="{{ path('app_infrastructure_sheets', {'type': 'cluster_IS'}) }}" target="_blank">
-                                            <img src="{{ asset('/img/img_start_landing/two-colleagues-at-a-factory_1303-14331.jpg') }}" alt">
-                                            <div class="overlay">
+                                    <a href="{{ path('app_infrastructure_sheets', {'type': 'cluster_IS'}) }}" target="_blank">
+                                        <div class="project-container mb-0 scale_img_documents">
+                                                <img src="{{ asset('/img/img_start_landing/two-colleagues-at-a-factory_1303-14331.jpg') }}" alt">
+                                                <div class="overlay">
+                                                </div>
+                                            <div class="project-details">
+                                                <h4 class="h5 project-title heading-uppercase text_scale_img_documents" style="height: 20%">Типовые инфраструктурные листы для оснащения  образовательно-производственных центров (кластеров)</h4>
                                             </div>
-                                        </a>
-                                        <div class="project-details">
-                                            <h4 class="h5 project-title heading-uppercase text_scale_img_documents" style="height: 20%">Типовые инфраструктурные листы для оснащения  образовательно-производственных центров (кластеров)</h4>
                                         </div>
-                                    </div>
+                                    </a>
                                 </article>
                             </div>
 {#                            <h3 class="h4 text-white">Launch Quickly</h3>#}
