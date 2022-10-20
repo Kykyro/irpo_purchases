@@ -66,7 +66,7 @@ class InfrastructureSheetController extends AbstractController
                     ->orderBy('a.id', 'ASC')
                     ->getQuery();
 
-                $pageLimit = 100;
+                $pageLimit = 0;
             }
         }
 
