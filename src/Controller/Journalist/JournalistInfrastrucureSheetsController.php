@@ -42,7 +42,7 @@ class JournalistInfrastrucureSheetsController extends AbstractController
      */
     public function ISList(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
-        $pageLimit = 2;
+        $pageLimit = 20;
         if($request->query->has('page')){
             $page = $request->query->get('page');
         }
