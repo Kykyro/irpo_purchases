@@ -50,13 +50,19 @@
                     <li>
                         <a href="{{ path("app_main") }}"><i class="fa fa-home left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Добавление закупок</span></a>
                     </li>
+                    <li>
+                        <a href="{{ path("app_region_is") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Инфраструктурный лист</span></a>
+                    </li>
                 {% endif %}
                 {% if is_granted('ROLE_INSPECTOR') %}
                     <li > {# class="active" #}
                         <a href="{{ path("app_inspector_main") }}"><i class="fa fa-archive left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Закупки</span></a>
                     </li>
                     <li > {# class="active" #}
-                        <a href="{{ path("app_feedback") }}"><i class="fa fa-archive left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Обратная связь</span></a>
+                        <a href="{{ path("app_feedback") }}"><i class="fa fa-at left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Обратная связь</span></a>
+                    </li>
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_inspector_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Инфраструктурные листы</span></a>
                     </li>
                     {#<li > class="active"
                         <a href="#"><i class="fa fa-archive left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Закупки [2]</span></a>

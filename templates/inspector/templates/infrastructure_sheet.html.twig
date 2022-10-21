@@ -1,0 +1,62 @@
+{% extends "default/base.html.twig" %}
+
+
+{% block content %}
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox-content block-shadow col-lg-12 mb-4">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2>Поиск</h2>
+                        <div class="ibox-tools">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content ">
+                    <label>Субъект РФ</label>
+                    <input class="form-control">
+                    <label>Наименование организации грантополучателя </label>
+                    <input class="form-control">
+                    <button class="btn btn-success mt-3">
+                        <div class="fa fa-search"></div>
+                        Найти
+                    </button>
+                </div>
+            </div>
+
+
+        <div class="row">
+            {% for i in 1..9 %}
+                <div class="col-lg-4">
+                    <div class="contact-box">
+                        <a class="row">
+                            <div class="col-12">
+                                <h3><strong>ГБПОУ СПО Какой-то колледж №1001</strong></h3>
+                                <p><i class="fa fa-map-marker"></i> Алтайский край</p>
+                                <address>
+                                    <strong>Наименование кластера</strong><br>
+                                    Заявленная отрасль <br>
+                                    Наименование организации грантополучателя <br>
+                                    {#<abbr title="Phone">P:</abbr> (123) 456-7890#}
+                                </address>
+                                <div>
+                                    <button class="btn btn-primary">
+                                        <div class="fa fa-upload"></div>
+                                        Загрузить ИЛ
+                                    </button>
+                                    <button class="btn btn-info">
+                                        <div class="fa fa-search"></div>
+                                        Просмотр
+                                    </button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}

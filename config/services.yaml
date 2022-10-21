@@ -14,6 +14,7 @@ parameters:
     documents_files_directory: '%kernel.project_dir%/public/uploads/documentsFiles'
     employees_photos_directory: '%kernel.project_dir%/public/uploads/employeesPhotos'
     design_project_example_directory: '%kernel.project_dir%/public/uploads/designProjectExample'
+    partners_logo_directory: '%kernel.project_dir%/public/uploads/partnersLogo'
 
 services:
     # default configuration for services in *this* file
