@@ -107,6 +107,23 @@
             font-weight: bold;
             list-style-type: '';
         }
+        .partners-carousel-container{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            height: 100%;
+        }
+        .partners-carousel-container div{
+
+        }
+        .partners-carousel-container img{
+            /*border: 1px solid black;*/
+            max-width: 250px;
+            height: auto;
+
+        }
+
         @media screen and (max-width: 992px){
             #hint-region {
                 display: none;
@@ -120,6 +137,10 @@
             }
             .team_scale_mobile {
                 margin-right: 13%;
+            }
+            .partners-carousel-container img{
+                width: 100px;
+                margin: 20px;
             }
         }
 
@@ -423,21 +444,48 @@
                     </div>
                 </div>
             </div>
-            <div class="container ">
-                <div id="portfolio-gallery" class="ed-carousel2 ed-slick dots-classic dots-light dots-outside " >
-                    {% for i in partners %}
-                        <article class="carousel-item2 portfolio-item web" style="margin-top: 35px; margin-right: 10px; margin-left: 10px; ">
-                                <div class="project-container mb-0 scale_img_partners">
+            <div class="container col-lg-9 col-lg-offset-1 col-md-6" >
+                <div id="portfolio-gallery" class="ed-carousel2 ed-slick dots-classic dots-light dots-outside">
+                    {#{% for i in partners %}#}
+                        {#<article class="carousel-item2 portfolio-item web" style="margin-top: 35px; margin-right: 10px; margin-left: 10px; ">#}
+                                {#<div class="project-container mb-0 scale_img_partners">#}
 
-                                    <img src="{{ asset('/uploads/partnersLogo/'~i.img) }}" alt>
-                                    <div class="overlay">
-                                        <div class="overlay-wrapper">
-                                            <div class="overlay-inner background-dark-5 opacity-50"></div>
-                                        </div>
+                                    {#<img src="{{ asset('/uploads/partnersLogo/'~i.img) }}" alt>#}
+                                    {#<div class="overlay">#}
+                                        {#<div class="overlay-wrapper">#}
+                                            {#<div class="overlay-inner background-dark-5 opacity-50"></div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+                        {#</article>#}
+                    {#{% endfor %}#}
+
+                    {% set start = 0 %}
+                    {% set step = 5 %}
+                    {% set partnersPage = partners|length / step %}
+{{ partnersPage|round(0, 'ceil')  }}
+{{ partnersPage }}
+                    {% for j in 1..partnersPage|round(0, 'ceil') %}
+                        <div class="carousel-item2 " style=" height: 380px; background-color: white">
+                            <div class="partners-carousel-container">
+                                {% for i in partners|slice(start, step) %}
+                                    <div>
+                                        <img src="{{ asset('/uploads/partnersLogo/'~i.img) }}" alt>
                                     </div>
-                                </div>
-                        </article>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        {% set start = start + step %}
+
+
                     {% endfor %}
+                    {#<div class="carousel-item2" style="height: 500px; background-color: black"></div>#}
+                    {#<div class="carousel-item2" style=" height: 500px; background-color: yellow"></div>#}
+                    {#<div class="carousel-item2" style="height: 500px; background-color: green"></div>#}
+                    {#<div class="carousel-item2" style=" height: 500px; background-color: blue"></div>#}
+                    {#<div class="carousel-item2" style=" height: 500px; background-color: grey"></div>#}
+
 
                 </div>
             </div>

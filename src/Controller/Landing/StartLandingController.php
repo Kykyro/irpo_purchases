@@ -55,7 +55,7 @@ class StartLandingController extends AbstractController
 
         $partners = $entity_manager->getRepository(PartnersLogo::class)
             ->createQueryBuilder('a')
-            ->orderBy('a.id', 'DESC')
+            ->orderBy('a.id', 'ASC')
             ->getQuery()
             ->getResult();
 

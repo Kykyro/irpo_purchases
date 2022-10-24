@@ -41,7 +41,8 @@ class JournalistPartners extends AbstractController
             ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
-                ]
+                ],
+                'required'   => false,
             ])
             ->add('link', TextType::class, [
                 'attr' => [
