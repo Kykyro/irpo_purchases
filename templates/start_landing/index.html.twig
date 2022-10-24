@@ -111,6 +111,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
             padding: 10px;
             height: 100%;
         }
@@ -138,9 +139,15 @@
             .team_scale_mobile {
                 margin-right: 13%;
             }
+            .partners-carousel-container{
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
             .partners-carousel-container img{
                 width: 100px;
-                margin: 20px;
+                height: auto;
             }
         }
 
@@ -446,19 +453,6 @@
             </div>
             <div class="container col-lg-9 col-lg-offset-1 col-md-6" >
                 <div id="portfolio-gallery" class="ed-carousel2 ed-slick dots-classic dots-light dots-outside">
-                    {#{% for i in partners %}#}
-                        {#<article class="carousel-item2 portfolio-item web" style="margin-top: 35px; margin-right: 10px; margin-left: 10px; ">#}
-                                {#<div class="project-container mb-0 scale_img_partners">#}
-
-                                    {#<img src="{{ asset('/uploads/partnersLogo/'~i.img) }}" alt>#}
-                                    {#<div class="overlay">#}
-                                        {#<div class="overlay-wrapper">#}
-                                            {#<div class="overlay-inner background-dark-5 opacity-50"></div>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                {#</div>#}
-                        {#</article>#}
-                    {#{% endfor %}#}
 
                     {% set start = 0 %}
                     {% set step = 5 %}
@@ -478,11 +472,6 @@
 
 
                     {% endfor %}
-                    {#<div class="carousel-item2" style="height: 500px; background-color: black"></div>#}
-                    {#<div class="carousel-item2" style=" height: 500px; background-color: yellow"></div>#}
-                    {#<div class="carousel-item2" style="height: 500px; background-color: green"></div>#}
-                    {#<div class="carousel-item2" style=" height: 500px; background-color: blue"></div>#}
-                    {#<div class="carousel-item2" style=" height: 500px; background-color: grey"></div>#}
 
 
                 </div>
