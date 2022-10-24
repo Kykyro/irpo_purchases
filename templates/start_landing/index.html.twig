@@ -463,8 +463,6 @@
                     {% set start = 0 %}
                     {% set step = 5 %}
                     {% set partnersPage = partners|length / step %}
-{{ partnersPage|round(0, 'ceil')  }}
-{{ partnersPage }}
                     {% for j in 1..partnersPage|round(0, 'ceil') %}
                         <div class="carousel-item2 " style=" height: 380px; background-color: white">
                             <div class="partners-carousel-container">
