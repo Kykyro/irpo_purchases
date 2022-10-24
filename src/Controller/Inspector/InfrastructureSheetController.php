@@ -28,8 +28,11 @@ class InfrastructureSheetController extends AbstractController
      */
     public function index(Request $request): Response
     {
-
-
+        $entity_manager = $this->getDoctrine()->getManager();
+        $regions = $entity_manager->getRepository(User::class)->findBy(
+            ['roles' => 'REGION_ROLE']
+        );
+        dd($regions);
 
 
 
