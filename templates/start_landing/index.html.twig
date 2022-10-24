@@ -126,7 +126,7 @@
         .scale_img img { width: 400px; height: 300px; object-fit: cover; }
         .scale_img .text_scale_img { height: 180px; object-fit: cover; }
 
-        .scale_img_partners img { width: 300px; height: 300px; object-fit: cover; }
+        .scale_img_partners img { width: 300px; object-fit: cover; }
 
         .scale_img_documents img { width: 555px; height: 350px; object-fit: cover; }
         .scale_img_documents .text_scale_img_documents { height: 35px; object-fit: cover; }
@@ -423,13 +423,13 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
-                <div id="portfolio-gallery" class="ed-carousel2 ed-slick dots-classic dots-light dots-outside">
-                    {% for i in news %}
-                        <article class="carousel-item2 portfolio-item web" style="margin-top: 35px; margin-right: 10px; margin-left: 10px">
+            <div class="container ">
+                <div id="portfolio-gallery" class="ed-carousel2 ed-slick dots-classic dots-light dots-outside " >
+                    {% for i in partners %}
+                        <article class="carousel-item2 portfolio-item web" style="margin-top: 35px; margin-right: 10px; margin-left: 10px; ">
                                 <div class="project-container mb-0 scale_img_partners">
 
-                                    <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
+                                    <img src="{{ asset('/uploads/partnersLogo/'~i.img) }}" alt>
                                     <div class="overlay">
                                         <div class="overlay-wrapper">
                                             <div class="overlay-inner background-dark-5 opacity-50"></div>

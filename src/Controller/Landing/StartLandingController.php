@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\DesignProjectExample;
 use App\Entity\Employees;
 use App\Entity\Feedback;
+use App\Entity\PartnersLogo;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -52,6 +53,12 @@ class StartLandingController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        $partners = $entity_manager->getRepository(PartnersLogo::class)
+            ->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
         $feedackForm->handleRequest($request);
         if($feedackForm->isSubmitted() and $feedackForm->isValid()){
             $formData = $feedackForm->getData();
@@ -65,6 +72,7 @@ class StartLandingController extends AbstractController
             'feedbackForm' => $feedackForm->createView(),
             'employees' => $employees,
             'designProjectExample' => $designProjectExample,
+            'partners' => $partners
         ]);
     }
 }
