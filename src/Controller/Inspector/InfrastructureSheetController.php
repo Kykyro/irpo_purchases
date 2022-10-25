@@ -32,7 +32,6 @@ class InfrastructureSheetController extends AbstractController
         $regions = $entity_manager->getRepository(User::class)->findBy(
             ['roles' => 'REGION_ROLE']
         );
-        dd($regions);
 
 
 
