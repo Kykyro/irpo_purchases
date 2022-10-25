@@ -1,0 +1,40 @@
+<section data-id="events" class="ed-section pb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h2 class="text-center text-white">Мероприятия</h2>
+                <div class="divider divider-alt divider-center divider-light"></div>
+                <p class="lead mb-50 text-center text-white">Мероприятия проходящие в рамках деятельности Федерального центра сопровождения развития материально-технической базы, учебной и производственной инфраструктуры в системе среднего профессионального образования</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside">
+            {% for i in news %}
+                <article class="carousel-item portfolio-item web">
+                    <a href="{{ path('app_article_view', {'id': i.getId()}) }}" target="_blank">
+                        <div class="project-container mb-0 scale_img">
+
+                            <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
+                            <div class="overlay">
+                                <div class="overlay-wrapper">
+                                    <div class="overlay-inner background-dark-5 opacity-50"></div>
+                                </div>
+                            </div>
+
+                            <div class="project-details text_scale_img">
+                                <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="col-md-12 text-center" style="margin-top: 20px">
+        <a href="{{ path('app_article_page') }}" target="_blank">
+            <button class="btn btn-white btn-noradius" type="submit" id="cf-submit" name="cf-submit">Просмотреть все</button>
+        </a>
+    </div>
+</section>

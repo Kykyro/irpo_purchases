@@ -1,129 +1,25 @@
-{% block map-head %}
-    <style>
-        #hint-region {
-            display: none;
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.8);
-            z-index: 9999999;
-            border: 1px solid black;
-            padding: 4px;
-            width: 350px;
-            pointer-events:none;
-        }
-        #region-title{
-            font-size: 16pt;
-            font-weight: bold;
-            text-align: center;
-        }
-        #org-list{
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .org-year{
-            font-size: 14pt;
-            font-weight: bold;
-        }
-        .organization{
-            margin-left: 10px;
-            padding-left: 3px;
-            list-style-type: '-';
-        }
-    </style>
-    <meta charset="UTF-8">
-    <script type="text/javascript" src="{{ asset('js/map/raphael-min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/map/russian-map.js') }}"></script>
-    <script>
-        // запрос на получение json регионов
-        window.onload = function() {
-            fetch('http://localhost:8080/api/map').then(function(response) {
-                response.json().then(function(data) {
-                    $('#year-select').change(() => {
+<section data-id="map" class="ed-section sm-pt-0 sm-pb-0">
+    <div class="container">
+        <h2 class="text-center text-white">Карта</h2>
+        <div class="divider divider-alt divider-center divider-light"></div>
+        <p class="lead mb-50 text-center text-white"></p>
+        <div class="row">
 
-                    })
-                    var hint = document.getElementById('hint-region');
-                    data = JSON.parse(data);
-
-                    new RussianMap({
-                        viewPort: "-65 0 1134 620",
-                        mapId: 'russian-map',
-                        width: 1600,
-                        height: 800,
-                        // дефолтовые атрибуты для контуров регионов
-                        defaultAttr: {
-                            fill: '#d8d8d8', // цвет которым закрашивать
-                            stroke: '#000', // цвет границы
-                            'stroke-width': 0.2, // ширина границы
-                            'stroke-linejoin': 'round' // скруглять углы
-                        },
-                        mouseMoveAttr: {
-                            fill: '#55d450',
-                        },
-                        onMouseMove: function(e) {
-                            $('#region-title').html(this.region.name)
-                            if(this.region.organization) {
-                                let organization = JSON.parse(this.region.organization);
-                                // for (var k in organization) {
-                                //     let head = "<li class='org-year'>" + k + "</li>"
-                                //     $("#org-list").append(head);
-                                //     for (var org in organization[k]) {
-                                //         let orgElem = "<li class='organization'>" + organization[k][org] + "</li>";
-                                //         $("#org-list").append(orgElem)
-                                //     }
-                                // }
-                                let year = $('#year-select option:selected').text();
-                                for (var org in organization[year]) {
-                                    let orgElem = "<li class='organization'>" + organization[year][org] + "</li>";
-                                    $("#org-list").append(orgElem)
-                                }
-
-                            }
-                            hint.style.display = 'inline-block';
-                            if( e.pageX + hint.offsetWidth < document.body.offsetWidth ){
-                                hint.style.top = e.pageY + 10 + 'px';
-                                hint.style.left = e.pageX + 10 + 'px';
-                            } else {
-                                hint.style.top = e.pageY + 10 + 'px';
-                                hint.style.left = e.pageX - hint.offsetWidth - 10 + 'px';
-                            }
-
-                        },
-                        onMouseOut: function(event) {
-                            hint.style.display = 'none';
-                            $("#org-list").html("");
-                        },
-                        onMouseClick: function(event) {
-
-                        },
-
-                    }, data);
-                });
-            });
-        };
-    </script>
-{% blockend %}
-
-{% block map %}
-<div id="russian-map"></div>
-<div>
-    <select id="year-select">
-        <option value="2022">2022</option>
-        <option value="2023">2023</option>
-        <option value="2023">2024</option>
-        <option value="2023">2025</option>
-    </select>
-</div>
-<div id="hint-region">
-    <div>
-        <div id="region-title">Название региона</div>
-        <hr>
-        <div>
-            <ul id="org-list">
-
-            </ul>
         </div>
     </div>
-</div>
+    <div id="container" style="margin-left: 15%">
 
-{% endblock %}
+        <div id="russian-map"></div>
+        <div class="row col-lg-10">
+            <div class="col-lg-3" style="margin-left: 38%; margin-top: 2%">
+                <select id="year-select" class="form-control">
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2023">2024</option>
+                    <option value="2023">2025</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+</section>

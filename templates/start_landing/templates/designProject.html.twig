@@ -1,0 +1,38 @@
+<section data-id="design_projects" class="ed-section pb-0">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <h2 class="text-center text-white">Дизайн-проекты пространств образовательно-производственных центров (кластеров).</h2>
+            <div class="divider divider-alt divider-center divider-light"></div>
+            <p class="lead text-center text-white mb-50">Ссылка на брендбук. <a href="{{ path('app_download_brandbook') }}" style="background-color: #fff">Скачать</a></p>
+            <p class="lead text-center text-white mb-50">Памятка по созданию дизайн-проектов в рамках федерального проекта «Профессионалитет».<a href="{{ path('app_download_memo_file') }}" style="background-color: #fff">Скачать</a></p>
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1">
+            <h2 class="text-center text-white"> </h2>
+        </div>
+        <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
+            {% for i in designProjectExample %}
+                <article class="carousel-item portfolio-item web">
+                    <div class="project-container mb-0 scale_img">
+                        <a href="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" data-size="3219x2081" class="portfolio-gallery__img--main">
+                            <img src="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" alt>
+                            <div class="overlay">
+                                <div class="overlay-wrapper">
+                                    <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                    <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="project-details text_scale_img">
+                            <h4 class="h5 project-title heading-uppercase"> {{ i.getName() }}</h4>
+                            <p style="margin-bottom: 10%">{{ i.getDescription() }}</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>

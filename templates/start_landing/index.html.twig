@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content>
     <meta name="keywords" content>
-    <meta name="author" content="Erilisdesign.com">
+    <meta name="author" content="mtb-spo.online">
+    <meta charset="UTF-8">
 
     <!-- CSS Global Compulsory -->
     <link rel="stylesheet" href="{{ asset('landing/css/bootstrap.min.css')}}">
@@ -160,104 +161,10 @@
         .scale_img_documents .text_scale_img_documents { height: 35px; object-fit: cover; }
 
     </style>
-    <meta charset="UTF-8">
+
     <script type="text/javascript" src="{{ asset('js/map/raphael-min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/map/russian-map.js') }}"></script>
-    <script>
-        // запрос на получение json регионов
-        window.onload = function() {
-            fetch('/api/map').then(function(response) {
-                response.json().then(function(data) {
-
-
-                    $('#year-select').change(() => {
-
-                    })
-                    var hint = document.getElementById('hint-region');
-                    data = JSON.parse(data);
-
-                    let map = new RussianMap({
-                        viewPort: "-65 0 1134 620",
-                        mapId: 'russian-map',
-                        width: 1100,
-                        height: 600,
-                        // дефолтовые атрибуты для контуров регионов
-                        defaultAttr: {
-                            fill: '#d8d8d8', // цвет которым закрашивать
-                            stroke: '#000', // цвет границы
-                            'stroke-width': 0.2, // ширина границы
-                            'stroke-linejoin': 'round' // скруглять углы
-                        },
-                        mouseMoveAttr: {
-                            fill: '#7baec3',
-                        },
-                        onMouseMove: function(e) {
-                            $('#region-title').html(this.region.name)
-                            if(this.region.organization) {
-                                let organization = JSON.parse(this.region.organization);
-                                let year = $('#year-select option:selected').text();
-                                for (var org in organization[year]) {
-                                    let orgSplit = organization[year][org].split(',');
-                                    for(let _org in orgSplit){
-                                        let orgElem = "<li class='organization'>" + orgSplit[_org] + "</li>";
-                                        $("#org-list").append(orgElem)
-                                    }
-
-                                }
-
-                            }
-                            hint.style.display = 'inline-block';
-                            if( e.pageX + hint.offsetWidth < document.body.offsetWidth ){
-
-                                hint.style.top = e.pageY - 100 + 'px';
-                                hint.style.left = e.pageX - 100 + 'px';
-                            } else {
-                                hint.style.top = e.pageY - 100 + 'px';
-                                hint.style.left = e.pageX - hint.offsetWidth - 100 + 'px';
-                            }
-
-                        },
-                        onMouseOut: function(event) {
-                            hint.style.display = 'none';
-                            $("#org-list").html("");
-                        },
-                        onMouseClick: function(event) {
-
-                        },
-
-                    }, data);
-
-                }).then(() => {
-                    window.addEventListener('resize', WinResize);
-                    let winWidth = document.documentElement.clientWidth;
-                    let winHeight = document.documentElement.clientHeight;
-                    let mapSVG = $('#russian-map').children('svg');
-
-                    ResizeMap();
-
-                    function ResizeMap(){
-                        mapSVG.attr('width', winWidth/1.5 + 'px');
-                        mapSVG.attr('height', winHeight/1.5 + 'px');
-                    }
-
-
-                    function WinResize(){
-                        winWidth = document.documentElement.clientWidth;
-                        winHeight = document.documentElement.clientHeight;
-                        console.log(winHeight, winWidth);
-                        ResizeMap();
-                    }
-                })
-            });
-        };
-    </script>
-
-    <!-- Faviconss -->
-{#    <link rel="shortcut icon" href="favicon.ico">#}
-{#    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">#}
-{#    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">#}
-{#    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">#}
 
 </head>
 <body>
@@ -270,43 +177,7 @@
 
 <div class="main-container">
 
-    <!-- Main Header -->
-    <header class="main-header header-mobile-light menu-light menu-mobile-dark">
-        <div class="header-block brand-block">
-
-            <!-- Header Logo -->
-            <div class="logo-block">
-                <a class="header-logo load-content" href="#home">
-                    <img src="" alt class="logo-light">
-                    <img src="" alt class="logo-dark">
-                </a>
-            </div>
-            <button type="button" class="nav-toggle">
-                <span></span>
-            </button>
-        </div>
-        <!-- Header Nav -->
-        <nav class="header-block nav-block header-nav">
-
-            <ul id="menu" class="nav">
-                <div>
-                    <div class="btn_position">
-                        <a href="{{ path('app_login') }}" class="btn-start-landing m-3 btn_hard_border" target="_blank" ><li style="margin-left: 25px">ЛИЧНЫЙ КАБИНЕТ</li></a>
-                    </div>
-                </div>
-                <li data-menuanchor="home" class="active"><a href="#home" class="moveto">Главная</a></li>
-                <li data-menuanchor="events"><a href="#events" class="moveto">Мероприятия</a></li>
-                <li data-menuanchor="map"><a href="#map" class="moveto">Карта</a></li>
-                <li data-menuanchor="partners"><a href="#partners" class="moveto">Партнёры проектов</a></li>
-                <li data-menuanchor="il"><a href="#il" class="moveto">ИЛ</a></li>
-                <li data-menuanchor="documentation"><a href="#documentation" class="moveto">Документация</a></li>
-                <li data-menuanchor="design_projects"><a href="#design_projects" class="moveto">Дизайн-проекты</a></li>
-                <li data-menuanchor="employees"><a href="#employees" class="moveto">Сотрудники</a></li>
-                <li data-menuanchor="feedback"><a href="#feedback" class="moveto">Обратная связь</a></li>
-            </ul>
-        </nav>
-    </header>
-
+    {% include('start_landing/templates/header.html.twig') %}
     <!-- Global Overlay -->
     <div class="global-overlay zoom-onload">
         <div class="overlay">
@@ -327,436 +198,21 @@
     <!-- Fullpage -->
     <div id="ed-fullpage" class="ed-fullpage">
 
+        {% include('start_landing/templates/main.html.twig') %}
+        {% include('start_landing/templates/events.html.twig') %}
+        {% include('start_landing/templates/map.html.twig') %}
+        {% include('start_landing/templates/partners.html.twig') %}
+        {% include('start_landing/templates/infrastructureSheet.html.twig') %}
+        {% include('start_landing/templates/documentation.html.twig') %}
+        {% include('start_landing/templates/designProject.html.twig') %}
+        {% include('start_landing/templates/employees.html.twig') %}
+        {% include('start_landing/templates/feedback.html.twig') %}
 
-        <!-- Главная -->
-        <section data-id="home" class="ed-section fullscreen-element sm-pt-180 sm-pb-180">
-            <div class="table-container">
-                <div class="table-content">
-                    <div class="container-fluid sm-text-center">
-                        <div class="row">
-                            <div class="col-lg-11 col-lg-offset-1 col-md-12" data-animation="fadeInUp" data-animation-delay="100">
-                                <div class="ed-slider ed-slick" data-arrows="false" data-dots="false" data-fade="true" data-autoplay="true">
-                                    <div class="slider-item">
-                                        <h1 class="font-large text-white col-lg-10" style="font-size: 30px; line-height: 25px">Федеральный центр сопровождения</h1>
-                                        <h1 class="font-large text-white col-lg-10" style="font-size: 30px; line-height: 40px">развития материально-технической базы</h1>
-                                    </div>
-                                    <div class="slider-item">
-                                        <h1 class="font-large text-white col-lg-10" style="font-size: 30px; line-height: 25px">Учебной и производственной инфраструктуры</h1>
-                                        <h1 class="font-large text-white col-lg-10" style="font-size: 30px; line-height: 40px">в системе среднего профессионального образования</h1>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-11 col-lg-offset-1 col-md-12">
-                                <p class="lead text-white animated onstart" style="font-size: 14px; line-height: 25px" data-animation="fadeInUp" data-animation-delay="600">Федеральный центр сопровождения развития материально-технической базы, учебной и производственной <br>инфраструктуры в системе среднего  профессионального образования осуществляет свою деятельность в рамках <br>реализации мероприятий государственной программы Российской Федерации «Развитие образования»:<br>
-                                <p class="lead text-white animated onstart" style="font-size: 14px; line-height: 25px" data-animation="fadeInUp" data-animation-delay="600">   - государственная поддержка профессиональных образовательных организаций в целях обеспечения соответствия их<br>  материально-технической базы современным требованиям федерального проекта «Молодые профессионалы»<br>  (Повышение конкурентоспособности профессионального образования)» национального проекта «Образование»;<br>
-                                <p class="lead text-white animated onstart" style="font-size: 14px; line-height: 25px" data-animation="fadeInUp" data-animation-delay="600">   - государственная поддержка развития образовательно-производственных центров (кластеров), создаваемых на основе <br>интеграции образовательных организаций, реализующих образовательные программы среднего профессионального <br>образования, и организаций, действующих в реальном секторе экономики, ФП «Профессионалитет»</p>
-{#                                <div class="btn-group-alt animated onstart" data-animation="fadeInUp" data-animation-delay="900">#}
-{#                                    <!--											<a href="#subscribe-modal" class="btn btn-white btn-noradius open-popup-link">Subscribe</a>-->#}
-{#                                    <!--											<a href="#about" class="btn btn-white btn-border icon-right btn-noradius moveto">Load More <i class="fa fa-angle-right" aria-hidden="true"></i></a>-->#}
-{#                                </div>#}
-                                <p class="lead text-white animated onstart" style="font-size: 14px" data-animation="fadeInUp" data-animation-delay="600">Цель:<br>
-                                    Основной целью деятельности Федерального центра является методическое, информационно-технологическое и <br> экспертно-аналитическое сопровождение (мониторинг) реализации мероприятий</p>
-                                <div class="btn-group-alt animated onstart" data-animation="fadeInUp" data-animation-delay="900">
-{#                                    <a href="#subscribe-modal" class="btn btn-white btn-noradius open-popup-link">Subscribe</a>#}
-                                    <p class="lead text-white animated onstart" style="font-size: 14px; margin-left: 10px" data-animation="fadeInUp" data-animation-delay="600">Телефоны горячей линии:
-                                        По вопросам инфраструктуры<br>
-                                        +7 (977) 978-29-43;<br>
-                                        +7 (495) 114-55-02 (доб. 7);<br>
-                                        +7 (495) 114-55-21 (доб. 310);<br>
-                                        +7 (495) 114-55-21 (доб. 105);<br>
-                                        E-mail: cluster@firpo.ru</p>
-                                    <a href="#feedback" class="btn btn-white btn-border icon-right btn-noradius moveto">Обратная связь<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section data-id="events" class="ed-section pb-0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <h2 class="text-center text-white">Мероприятия</h2>
-                        <div class="divider divider-alt divider-center divider-light"></div>
-                        <p class="lead mb-50 text-center text-white">Мероприятия проходящие в рамках деятельности Федерального центра сопровождения развития материально-технической базы, учебной и производственной инфраструктуры в системе среднего профессионального образования</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside">
-                    {% for i in news %}
-                        <article class="carousel-item portfolio-item web">
-                            <a href="{{ path('app_article_view', {'id': i.getId()}) }}" target="_blank">
-                            <div class="project-container mb-0 scale_img">
-
-                                    <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
-                                    <div class="overlay">
-                                        <div class="overlay-wrapper">
-                                            <div class="overlay-inner background-dark-5 opacity-50"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="project-details text_scale_img">
-                                        <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
-                                    </div>
-                                </div>
-                            </a>
-                        </article>
-                    {% endfor %}
-
-                </div>
-            </div>
-            <div class="col-md-12 text-center" style="margin-top: 20px">
-                <a href="{{ path('app_article_page') }}" target="_blank">
-                    <button class="btn btn-white btn-noradius" type="submit" id="cf-submit" name="cf-submit">Просмотреть все</button>
-                </a>
-            </div>
-        </section>
-
-        <section data-id="map" class="ed-section sm-pt-0 sm-pb-0">
-            <div class="container">
-                <h2 class="text-center text-white">Карта</h2>
-                <div class="divider divider-alt divider-center divider-light"></div>
-                <p class="lead mb-50 text-center text-white"></p>
-                <div class="row">
-
-                </div>
-            </div>
-            <div id="container" style="margin-left: 15%">
-
-                <div id="russian-map"></div>
-                <div class="row col-lg-10">
-                    <div class="col-lg-3" style="margin-left: 38%; margin-top: 2%">
-                        <select id="year-select" class="form-control">
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2023">2024</option>
-                            <option value="2023">2025</option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-{#            </div>#}
-        </section>
-
-        <section data-id="partners" class="ed-section pb-0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <h2 class="text-center text-white">Партнёры проектов</h2>
-                        <div class="divider divider-alt divider-center divider-light"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="container col-lg-9 col-lg-offset-1 col-md-6" >
-                <div id="portfolio-gallery" class="ed-carousel2 ed-slick dots-classic dots-light dots-outside">
-
-                    {% set start = 0 %}
-                    {% set step = 5 %}
-                    {% set partnersPage = partners|length / step %}
-                    {% for j in 1..partnersPage|round(0, 'ceil') %}
-                        <div class="carousel-item2 " style=" height: 380px; background-color: white">
-                            <div class="partners-carousel-container">
-                                {% for i in partners|slice(start, step) %}
-                                    <div>
-                                        <img src="{{ asset('/uploads/partnersLogo/'~i.img) }}" alt>
-                                    </div>
-                                {% endfor %}
-
-                            </div>
-                        </div>
-                        {% set start = start + step %}
-
-
-                    {% endfor %}
-
-
-                </div>
-            </div>
-        </section>
-
-        <section data-id="il" class="ed-section sm-pb-0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <h2 class="text-center  text-white">Типовые инфраструктурные листы </h2>
-                        <div class="divider divider-alt divider-center divider-light"></div>
-                        <p class="lead mb-50 text-center text-white"></p>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="col-md-6 col-sm-6">
-                        <div class="icon-box mb-30 text-center">
-                            <div class="icon-box-icon text-white">
-                                <article class="carousel-item portfolio-item web">
-                                    <a href="{{ path('app_infrastructure_sheets', {'type': 'cluster_IS'}) }}" target="_blank">
-                                        <div class="project-container mb-0 scale_img_documents">
-                                                <img src="{{ asset('/img/img_start_landing/two-colleagues-at-a-factory_1303-14331.jpg') }}" alt">
-                                                <div class="overlay">
-                                                </div>
-                                            <div class="project-details">
-                                                <h4 class="h5 project-title heading-uppercase text_scale_img_documents" style="height: 20%">Типовые инфраструктурные листы для оснащения  образовательно-производственных центров (кластеров)</h4>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </article>
-                            </div>
-{#                            <h3 class="h4 text-white">Launch Quickly</h3>#}
-{#                            <p class="text-white">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>#}
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-sm-6">
-                        <div class="icon-box mb-30 text-center">
-                            <div class="icon-box-icon text-white">
-                                <article class="carousel-item portfolio-item web">
-                                    <a href="{{ path('app_infrastructure_sheets', {'type': 'workshops_IS'}) }}" target="_blank">
-                                        <div class="project-container mb-0 scale_img_documents">
-                                            <img src="{{ asset('/img/img_start_landing/closeup-shot-of-laboratory-microscope-lens-for-conducting-coronavirus-research_181624-44734.jpg') }}" alt>
-                                            <div class="project-details">
-                                                <h4 class="h5 project-title heading-uppercase text_scale_img_documents" style="height: 20%">Инфраструктурные листы для создания (дооснащения) современных мастерских 2023 г.</h4>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </article>
-                            </div>
-                            <h3 class="h4 text-white"></h3>}
-                            <p class="text-white"></p>}
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <section data-id="documentation" class="ed-section sm-pb-0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <h2 class="text-center  text-white">Нормативная документация</h2>
-                        <div class="divider divider-alt divider-center divider-light"></div>
-                        <p class="lead mb-50 text-center text-white"></p>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="col-md-6 col-sm-6">
-                        <div class="icon-box mb-30 text-center">
-                            <div class="icon-box-icon text-white">
-                                <article class="carousel-item portfolio-item web">
-                                    <div class="project-container mb-0 scale_img_documents">
-                                        <a href="{{ path('app_landing_documentation', {'type': 'cluster_files'}) }}" target="_blank">
-                                            <img src="{{ asset('/img/img_start_landing/businessmen-and-businesswomen-meeting.jpg') }}" alt class="scale_img_documents">
-                                            <div class="overlay">
-                                            </div>
-
-                                            <div class="project-details">
-                                                <h4 class="h5 project-title heading-uppercase text_scale_img_documents" style="height: 20%">Нормативная документация образовательно-производственных центров (кластеров)</h4>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </article>
-                            </div>
-                            <h3 class="h4 text-white"></h3>
-                            <p class="text-white"></p>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6 col-sm-6">
-                        <div class="icon-box mb-30 text-center">
-                            <div class="icon-box-icon text-white">
-                                <article class="carousel-item portfolio-item web">
-                                    <div class="project-container mb-0 scale_img_documents">
-                                        <a href="{{ path('app_landing_documentation', {'type': 'workshops_files'}) }}" target="_blank">
-                                            <img src="{{ asset('/img/img_start_landing/closeup-of-hands-holding-stack-of-books_53876-20475.jpg') }}" alt>
-                                            <div class="overlay">
-                                            </div>
-
-
-                                            <div class="project-details">
-                                                <h4 class="h5 project-title heading-uppercase text_scale_img_documents" style="height: 20%">Нормативная документация для создания (дооснащения) современных мастерских 2023 г.</h4>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </article>
-                            </div>
-                            <h3 class="h4 text-white"></h3>
-                            <p class="text-white"></p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <section data-id="design_projects" class="ed-section pb-0">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-
-                    <h2 class="text-center text-white">Дизайн-проекты пространств образовательно-производственных центров (кластеров).</h2>
-                    <div class="divider divider-alt divider-center divider-light"></div>
-                    <p class="lead text-center text-white mb-50">Ссылка на брендбук. <a href="{{ path('app_download_brandbook') }}" style="background-color: #fff">Скачать</a></p>
-                    <p class="lead text-center text-white mb-50">Памятка по созданию дизайн-проектов в рамках федерального проекта «Профессионалитет».<a href="{{ path('app_download_memo_file') }}" style="background-color: #fff">Скачать</a></p>
-
-                </div>
-            </div>
-            <div class="container">
-                <div class="col-md-10 col-md-offset-1">
-                    <h2 class="text-center text-white"> </h2>
-                </div>
-                <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
-                    {% for i in designProjectExample %}
-                        <article class="carousel-item portfolio-item web">
-                            <div class="project-container mb-0 scale_img">
-                                <a href="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                    <img src="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" alt>
-                                    <div class="overlay">
-                                        <div class="overlay-wrapper">
-                                            <div class="overlay-inner background-dark-5 opacity-70"></div>
-                                            <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="project-details text_scale_img">
-                                    <h4 class="h5 project-title heading-uppercase"> {{ i.getName() }}</h4>
-                                    <p style="margin-bottom: 10%">{{ i.getDescription() }}</p>
-                                </div>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-
-        <section data-id="employees" class="ed-section sm-pb-0">
-            <div class="container">
-                <div class="row" >
-                    <div class="col-md-10 col-md-offset-1">
-
-                        <h2 class="text-center text-white">Сотрудники</h2>
-                        <div class="divider divider-alt divider-center divider-light"></div>
-{#                        <p class="lead text-center text-white mb-50">Нас сфера и деятельности реализации количественный таким новая направлений также заданий условий. Образом направлений нашей оценить практика позиций, активности такж.</p>#}
-
-                    </div>
-                </div>
-                <div class="row team_scale_mobile" style="margin-left: 13%">
-                    {% for i in employees %}
-                        <!-- User -->
-                        <a href="#">
-                            <div class="col-md-3 col-sm-6 sm-mb-30" style="pointer-events: none;">
-                                <div class="profile-card sm-text-center">
-                                    <div class="user-image">
-                                        {% if i.getPhoto() is not null %}
-                                            <img src="{{ asset('/uploads/employeesPhotos/')~i.getPhoto() }}" alt>
-                                        {% else %}
-                                            <img src="{{ asset('/img/placeholder/employees.png') }}" alt>
-                                        {% endif %}
-                                    </div>
-                                    <div class="user-info text-center">
-                                        <h5 class="heading-uppercase mb-0">{{ i.getName() }}</h5>
-                                        <p class="role mb-0">{{ i.getPost() }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    {% endfor %}
-
-
-                </div>
-            </div>
-        </section>
-
-        <section data-id="feedback" class="ed-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <h2 class="text-center text-white">Обратная связь</h2>
-                        <div class="divider divider-alt divider-center divider-light"></div>
-                        <p class="lead text-center text-white mb-50">Показывает, собой что важные важную нашей что значение выполнять задача важную проверки собой и высшего эксперимент способствует организационной от представляе.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="contact-form">
-                            {{ form_start(feedbackForm) }}
-
-                                <div class="row">
-
-                                    <div class="form-process"></div>
-
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            {{  form_widget(feedbackForm.FIO, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Введите своё ФИО'}}) }}
-                                            {#<input type="text" id="cf-name" name="cf-name" placeholder="Введите своё ФИО" class="form-control fc-bordered light required">#}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            {{  form_widget(feedbackForm.email, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Введите свою электронную почту'}}) }}
-                                            {#<input type="email" id="cf-email" name="cf-email" placeholder="Введите свою электронную почту" class="form-control fc-bordered light required">#}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="form-group">
-                                            {{  form_widget(feedbackForm.topic, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Тема письма'}}) }}
-                                            {#<input type="text" id="cf-subject" name="cf-subject" placeholder="Тема письма (Необязательно)" class="form-control fc-bordered light">#}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mb-20">
-                                        <div class="form-group">
-                                            {{  form_widget(feedbackForm.message, {'attr': {'class': 'form-control fc-bordered light required', 'rows': '7', 'placeholder':'Текст сообщения'}}) }}
-                                            {#<textarea name="cf-message" id="cf-message" placeholder="Текст сообщения" class="form-control fc-bordered light required" rows="7"></textarea>#}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 mb-20">
-                                        <label class="lead text-center text-white mb-50">
-                                            {#<input type="checkbox" class="custom-checkbox" id="isHappy" name="isHappy" value="">#}
-                                            <label for="happy">&nbsp Отправляя форму вы соглашаетесь на &nbsp <a href="https://firpo.ru/privacy-policy/" style="color: #ffffff" target="_blank"> <u> обработку персональных данных</u></a></label>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-12 hidden">
-                                        <input type="text" id="cf-botcheck" name="cf-botcheck" value class="form-control form-control-noradius">
-                                    </div>
-                                    <div class="col-md-12 text-center">
-                                        {{  form_widget(feedbackForm.submit, {'attr': {'class': 'btn btn-white btn-noradius'}, label:'Отправить сообщения'}) }}
-                                        {#<button class="btn btn-white btn-noradius" type="submit" id="cf-submit" name="cf-submit">Отправить сообщения</button>#}
-                                    </div>
-                                </div>
-
-                            {{ form_end(feedbackForm) }}
-                            <div id="form-success" >
-                               <div>
-                                   Ваша заявка успешно отправлена!
-                               </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
     </div>
 
-    <!-- Footer -->
-    <footer class="site-footer footer-mobile-light footer-content-light footer-mobile-content-dark">
-        <div class="container-fluid">
-            <p class="copyright" style="font-size: 20px"><label>© 2022</label> <label>&nbsp&nbsp Телефон: +7 (977) 978-29-43 &nbsp</label> <label>&nbsp &nbsp Почта: cluster@firpo.ru &nbsp &nbsp </label> <label><a href="https://firpo.ru/privacy-policy/" target="_blank"> <u>Политика конфиденциальности </u></a></label></p>
-            <nav class="socials-icons">
-                <ul>
-{#                    <li style="margin-right: 20px"><a href="https://день-спо.рф/" class="social-icon"><i><img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt></i></a></li>#}
-{#                    <li style="margin-right: 20px"><a href="https://firpo.ru/" class="social-icon"><img src="{{ asset('/img/ico/rpop_icon.png') }}" alt></a></li>#}
-                </ul>
-            </nav>
-        </div>
-    </footer>
 
+    {% include('start_landing/templates/footer.html.twig') %}
 
 
     <!-- Root element of PhotoSwipe. Must have class pswp. -->
@@ -860,5 +316,93 @@
             event.preventDefault();
         })
     })
+</script>
+<script>
+    // запрос на получение json регионов
+    window.onload = function() {
+        fetch('/api/map').then(function(response) {
+            response.json().then(function(data) {
+
+
+                $('#year-select').change(() => {
+
+                })
+                var hint = document.getElementById('hint-region');
+                data = JSON.parse(data);
+
+                let map = new RussianMap({
+                    viewPort: "-65 0 1134 620",
+                    mapId: 'russian-map',
+                    width: 1100,
+                    height: 600,
+                    // дефолтовые атрибуты для контуров регионов
+                    defaultAttr: {
+                        fill: '#d8d8d8', // цвет которым закрашивать
+                        stroke: '#000', // цвет границы
+                        'stroke-width': 0.2, // ширина границы
+                        'stroke-linejoin': 'round' // скруглять углы
+                    },
+                    mouseMoveAttr: {
+                        fill: '#7baec3',
+                    },
+                    onMouseMove: function(e) {
+                        $('#region-title').html(this.region.name)
+                        if(this.region.organization) {
+                            let organization = JSON.parse(this.region.organization);
+                            let year = $('#year-select option:selected').text();
+                            for (var org in organization[year]) {
+                                let orgSplit = organization[year][org].split(',');
+                                for(let _org in orgSplit){
+                                    let orgElem = "<li class='organization'>" + orgSplit[_org] + "</li>";
+                                    $("#org-list").append(orgElem)
+                                }
+
+                            }
+
+                        }
+                        hint.style.display = 'inline-block';
+                        if( e.pageX + hint.offsetWidth < document.body.offsetWidth ){
+
+                            hint.style.top = e.pageY - 100 + 'px';
+                            hint.style.left = e.pageX - 100 + 'px';
+                        } else {
+                            hint.style.top = e.pageY - 100 + 'px';
+                            hint.style.left = e.pageX - hint.offsetWidth - 100 + 'px';
+                        }
+
+                    },
+                    onMouseOut: function(event) {
+                        hint.style.display = 'none';
+                        $("#org-list").html("");
+                    },
+                    onMouseClick: function(event) {
+
+                    },
+
+                }, data);
+
+            }).then(() => {
+                window.addEventListener('resize', WinResize);
+                let winWidth = document.documentElement.clientWidth;
+                let winHeight = document.documentElement.clientHeight;
+                let mapSVG = $('#russian-map').children('svg');
+
+                ResizeMap();
+
+                function ResizeMap(){
+                    mapSVG.attr('width', winWidth/1.5 + 'px');
+                    mapSVG.attr('height', winHeight/1.5 + 'px');
+                }
+
+
+                function WinResize(){
+                    winWidth = document.documentElement.clientWidth;
+                    winHeight = document.documentElement.clientHeight;
+                    console.log(winHeight, winWidth);
+                    ResizeMap();
+                }
+            })
+        });
+    };
 </script>
 </body></html>

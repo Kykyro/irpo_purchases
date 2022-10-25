@@ -1,0 +1,37 @@
+<section data-id="employees" class="ed-section sm-pb-0">
+    <div class="container">
+        <div class="row" >
+            <div class="col-md-10 col-md-offset-1">
+
+                <h2 class="text-center text-white">Сотрудники</h2>
+                <div class="divider divider-alt divider-center divider-light"></div>
+                {#                        <p class="lead text-center text-white mb-50">Нас сфера и деятельности реализации количественный таким новая направлений также заданий условий. Образом направлений нашей оценить практика позиций, активности такж.</p>#}
+
+            </div>
+        </div>
+        <div class="row team_scale_mobile" style="margin-left: 13%">
+            {% for i in employees %}
+                <!-- User -->
+                <a href="#">
+                    <div class="col-md-3 col-sm-6 sm-mb-30" style="pointer-events: none;">
+                        <div class="profile-card sm-text-center">
+                            <div class="user-image">
+                                {% if i.getPhoto() is not null %}
+                                    <img src="{{ asset('/uploads/employeesPhotos/')~i.getPhoto() }}" alt>
+                                {% else %}
+                                    <img src="{{ asset('/img/placeholder/employees.png') }}" alt>
+                                {% endif %}
+                            </div>
+                            <div class="user-info text-center">
+                                <h5 class="heading-uppercase mb-0">{{ i.getName() }}</h5>
+                                <p class="role mb-0">{{ i.getPost() }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+
+
+        </div>
+    </div>
+</section>
