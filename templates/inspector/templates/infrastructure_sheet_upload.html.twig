@@ -1,0 +1,58 @@
+{% extends "default/base.html.twig" %}
+
+
+{% block content %}
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="ibox-content block-shadow col-lg-12  mb-4">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2>Загрузка файла</h2>
+                        <div class="ibox-tools">
+                            <a href="{{ path('app_inspector_infrastructure_sheet') }}">
+                                <button class="btn">
+                                    Назад
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content ">
+                    {{ form_start(form) }}
+                        <label> Файл </label>
+                        {{ form_widget(form.file) }}
+
+                        <label> Название файла </label>
+                        {{ form_widget(form.name) }}
+
+                        <label> Комментарий </label>
+                        {{ form_widget(form.comment) }}
+
+                        <hr>
+
+                        {{ form_widget(form.submit) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            let nameInput = $('#form_name');
+            let fileInput = $('#form_file');
+
+            fileInput.change((event)=>{
+                if(nameInput.val() === ""){
+                    let filename = fileInput.val().replace(/C:\\fakepath\\/i, '');
+                    nameInput.val(filename);
+                }
+            })
+        });
+    </script>
+{% endblock %}

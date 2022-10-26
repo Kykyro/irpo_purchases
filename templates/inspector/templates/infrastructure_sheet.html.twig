@@ -14,49 +14,73 @@
                     </div>
                 </div>
                 <div class="ibox-content ">
-                    <label>Субъект РФ</label>
-                    <input class="form-control">
-                    <label>Наименование организации грантополучателя </label>
-                    <input class="form-control">
-                    <button class="btn btn-success mt-3">
-                        <div class="fa fa-search"></div>
-                        Найти
-                    </button>
+                    {{ form_start(form) }}
+                        <label>Субъект РФ</label>
+                        {{ form_widget(form.rf_subject) }}
+
+                        <hr>
+
+                        {{ form_widget(form.submit) }}
+                    {{ form_end(form) }}
                 </div>
             </div>
 
 
-        <div class="row">
-            {% for i in 1..9 %}
-                <div class="col-lg-4 animated fadeIn">
-                    <div class="contact-box">
-                        <a class="row">
-                            <div class="col-12">
-                                <h3><strong>ГБПОУ СПО Какой-то колледж №1001</strong></h3>
-                                <p><i class="fa fa-map-marker"></i> Алтайский край</p>
-                                <address>
-                                    <strong>Наименование кластера</strong><br>
-                                    Заявленная отрасль <br>
-                                    Наименование организации грантополучателя <br>
-                                    {#<abbr title="Phone">P:</abbr> (123) 456-7890#}
-                                </address>
-                                <div>
-                                    <button class="btn btn-primary">
-                                        <div class="fa fa-upload"></div>
-                                        Загрузить ИЛ
-                                    </button>
-                                    <button class="btn btn-info">
-                                        <div class="fa fa-search"></div>
-                                        Просмотр
-                                    </button>
+            <div class="row col-lg-12">
+                <div class="col-lg-12">
+                    {% for i in pagination %}
+                        <div class="col-lg-4 animated fadeIn">
+                            <div class="contact-box">
+                                <div class="row">
+                                    <div class="col-lg-12">
+
+                                        <h3>
+                                            <strong>
+                                                {{ i.getUserInfo().getEducationalOrganization() }}
+                                            </strong>
+                                        </h3>
+
+                                        {% if i.getUserInfo().getRfSubject() is not null %}
+                                            <p><i class="fa fa-map-marker"></i> {{ i.getUserInfo().getRfSubject().getName() }}</p>
+                                        {% else %}
+                                            <p class="red-bg"><i class="fa fa-map-marker"></i> Не указан регион!</p>
+                                        {% endif %}
+
+                                        <address>
+                                            <b>Кластер: </b>{{ i.getUserInfo().getCluster() }}<br>
+                                            <b>Отрасль: </b>{{ i.getUserInfo().getDeclaredIndustry() }} <br>
+                                            <b>Организация: </b>{{ i.getUserInfo().getOrganization() }}<br>
+                                            <b>Пользователь: </b>{{ i.getUuid() }} <br>
+                                            {#<abbr title="Phone">P:</abbr> (123) 456-7890#}
+                                        </address>
+                                        <div>
+                                            <a href="{{ path('app_inspector_infrastructure_sheet_upload', {'id': i.getId()}) }}">
+                                                <button class="btn btn-primary">
+                                                    <div class="fa fa-upload"></div>
+                                                    Загрузить ИЛ
+                                                </button>
+                                            </a>
+                                            <a href="{{ path('app_inspector_infrastructure_sheet_region_view', {'id': i.getId()}) }}">
+                                                <button class="btn btn-info">
+                                                    <div class="fa fa-search"></div>
+                                                    Просмотр
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
 
+
+            </div>
+            <div class="row">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                </div>
+            </div>
         </div>
     </div>
-
 {% endblock %}

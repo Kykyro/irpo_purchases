@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 /**
@@ -12,19 +14,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class ViewFileController extends AbstractController
 {
     /**
-     * @Route("/pdf/{file}", name="app_download_purchases_file")
+     * @Route("/pdf/{pdfFilename}", name="app_download_purchases_file")
      */
-    public function pdf(string $file): Response
+    public function pdfAction($pdfFilename)
     {
-        return http_response_code(404);
+        $path = '../public/'.$pdfFilename;
+        $response = new BinaryFileResponse($path);
+
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_INLINE, //use ResponseHeaderBag::DISPOSITION_ATTACHMENT to save as an attachement
+            $pdfFilename
+        );
+
+       return $response;
     }
 
-//    /**
-//     * @Route("/excel/{file}", name="app_download_purchases_file")
-//     */
-//    public function excel(): Response
-//    {
-//
-//    }
+
 
 }

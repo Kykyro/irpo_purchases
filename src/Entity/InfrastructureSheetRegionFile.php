@@ -37,6 +37,16 @@ class InfrastructureSheetRegionFile
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    function __construct() {
+       $this->setCreatedAt(new \DateTimeImmutable('now'));
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +96,18 @@ class InfrastructureSheetRegionFile
     public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -276,18 +276,5 @@ class RegionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/region-is", name="app_region_is")
-     */
-    public function regionIS(): Response
-    {
 
-        $user = $this->getUser();
-        $user_id = $user->getId();
-
-
-        return $this->render('region/templates/infrastructure_sheet.html.twig', [
-            'controller_name' => 'RegionController'
-        ]);
-    }
 }
