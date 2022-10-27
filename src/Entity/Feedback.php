@@ -37,6 +37,15 @@ class Feedback
      */
     private $message;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isViewed;
+
+    function __construct() {
+        $this->setIsViewed(false);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +95,18 @@ class Feedback
     public function setMessage(?string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function isIsViewed(): ?bool
+    {
+        return $this->isViewed;
+    }
+
+    public function setIsViewed(?bool $isViewed): self
+    {
+        $this->isViewed = $isViewed;
 
         return $this;
     }

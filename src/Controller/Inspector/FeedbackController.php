@@ -45,6 +45,28 @@ class FeedbackController extends AbstractController
         $entity_manager = $this->getDoctrine()->getManager();
         $feedback = $entity_manager->getRepository(Feedback::class)->find($id);
 
+        if(!$feedback->isIsViewed() or $feedback->isIsViewed() === null){
+//            dd($feedback);
+            $feedback->setIsViewed(true);
+            $entity_manager->persist($feedback);
+            $entity_manager->flush();
+        }
+
+
+        return $this->render('inspector/templates/feedbackView.html.twig', [
+            'controller_name' => 'FeedbackController',
+            'feedback' => $feedback
+        ]);
+
+    }
+    /**
+     * @Route("/feedback-delete/{id}", name="app_feedback_delete")
+     */
+    public function FeedbackDelete(int $id): Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $feedback = $entity_manager->getRepository(Feedback::class)->find($id);
+
         return $this->render('inspector/templates/feedbackView.html.twig', [
             'controller_name' => 'FeedbackController',
             'feedback' => $feedback

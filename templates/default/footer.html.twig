@@ -26,5 +26,20 @@
 
 {# Тоаст уведомления #}
 {#<script src="{{ asset('js/plugins/toastr/toastr.min.js') }}"></script>#}
+<script>
+    $(document).ready(function(){
+        fetch('/api/feedback-unviewed').then(function(response) {
+            response.json().then(function(data) {
+                let feedbackCount = $('#feedback-count');
+                if(data === 0){
+                    feedbackCount.html('');
+                }
+                else{
+                    feedbackCount.html(data);
+                }
+            })
+        })
+    });
+</script>
 {% block scripts %}
 {% endblock %}

@@ -16,7 +16,7 @@
                         <thead>
                             <tr>
                                 <td>
-                                    ID
+                                    Статус
                                 </td>
                                 <td>
                                     ФИО
@@ -35,7 +35,11 @@
                         <tbody>
                         {% for i in pagination  %}
                             <tr>
-                                <td class="align-middle"> {{ i.getId() }} </td>
+                                {% if i.isIsViewed() %}
+                                    <td class="align-middle"> <i class="fa fa-check-circle" style="color: green"></i> </td>
+                                {% else %}
+                                    <td class="align-middle"> <i class="fa fa-circle-o" style="color: grey"></i> </td>
+                                {% endif %}
                                 <td class="align-middle"> {{ i.getFIO() }} </td>
                                 <td class="align-middle"> {{ i.getTopic() }} </td>
                                 <td class="align-middle col-md-3">{{ i.getEmail() }}</td>

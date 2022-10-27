@@ -65,7 +65,7 @@
                         <a href="{{ path("app_inspector_main") }}"><i class="fa fa-archive left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Закупки</span></a>
                     </li>
                     <li > {# class="active" #}
-                        <a href="{{ path("app_feedback") }}"><i class="fa fa-at left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Обратная связь</span></a>
+                        <a href="{{ path("app_feedback") }}"><i class="fa fa-at left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Обратная связь <i class="numberCircle" id="feedback-count">10</i></span></a>
                     </li>
                     <li > {# class="active" #}
                         <a href="{{ path("app_inspector_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Инфраструктурные листы</span></a>
@@ -84,9 +84,6 @@
                         <a href="{{ path("app_admin") }}"><i class="fa fa-wheelchair-alt left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Админ панель</span></a>
                     </li>
                 {% endif %}
-
-
-
             </ul>
 
         </div>
