@@ -22,6 +22,7 @@ class ApiFeedbackController extends AbstractController
      */
     public function getFeedbackUnviewed(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
 
