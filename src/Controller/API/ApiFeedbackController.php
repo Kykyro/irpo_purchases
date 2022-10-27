@@ -28,11 +28,9 @@ class ApiFeedbackController extends AbstractController
 
         $serializer = new Serializer($normalizers, $encoders);
 
-//        dd($map = $this->getDoctrine()->getRepository(Regions::class)->find(1));
         $feedback = $this->getDoctrine()->getRepository(Feedback::class)->findBy([
             'isViewed' => false
         ]);
-//        dd(count($feedback));
         $jsonContent = $serializer->serialize(count($feedback), 'json');
 
 

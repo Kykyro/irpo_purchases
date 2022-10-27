@@ -67,10 +67,10 @@ class FeedbackController extends AbstractController
         $entity_manager = $this->getDoctrine()->getManager();
         $feedback = $entity_manager->getRepository(Feedback::class)->find($id);
 
-        return $this->render('inspector/templates/feedbackView.html.twig', [
-            'controller_name' => 'FeedbackController',
-            'feedback' => $feedback
-        ]);
+        $entity_manager->remove($feedback);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_feedback');
 
     }
 }
