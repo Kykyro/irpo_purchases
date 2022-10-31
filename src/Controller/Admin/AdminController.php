@@ -4,13 +4,13 @@ namespace App\Controller\Admin;
 
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
+use App\Entity\User;
 use App\Form\UserEditFormType;
 use App\Form\RegistrationFormType;
 use App\Form\UserPasswordEditFormType;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use http\Client\Curl\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -142,7 +142,8 @@ class AdminController extends AbstractController
             'controller_name' => 'AdminController',
             'userForm' => $formUser->createView(),
             'passwordForm' => $formPassword->createView(),
-            'userInfoForm' => $formUserInfo->createView()
+            'userInfoForm' => $formUserInfo->createView(),
+            'thisUser' => $user
         ]);
     }
     /**
@@ -230,5 +231,19 @@ class AdminController extends AbstractController
             [
                 'id' => $pp->getuser()->getID()
             ]);
+    }
+    /**
+     * @Route("/user-delete/{id}", name="app_admin_user_delete")
+     */
+    public function deleteUser(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $user = $entity_manager->getRepository(User::class)->find($id);
+
+        $entity_manager->remove($user);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_admin_users');
     }
 }

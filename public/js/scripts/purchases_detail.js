@@ -178,16 +178,16 @@ $(document).ready(function () {
     });
 
     $('#purchases_form_initialEmployersFunds').val() == 0 ?
-        $('#purchases_form_finEmployersFunds').prop('disabled', true) : $('#form_finEmployersFunds').prop('disabled', false);
+        $('#purchases_form_finEmployersFunds').prop('disabled', true) : $('#purchases_form_finEmployersFunds').prop('disabled', false);
     $('#purchases_form_initialEmployersFunds').change(() => {
         let val = $('#form_initialEmployersFunds').val();
 
         if(val == 0)
         {
-            $('#form_finEmployersFunds').prop('disabled', true).val();
+            $('#purchases_form_finEmployersFunds').prop('disabled', true).val();
         }
         else{
-            $('#form_finEmployersFunds').prop('disabled', false);
+            $('#purchases_form_finEmployersFunds').prop('disabled', false);
         }
     });
     $('#purchases_form_initialEducationalOrgFunds').val() == 0 ?

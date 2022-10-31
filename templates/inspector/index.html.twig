@@ -1,13 +1,19 @@
+{% extends "default/base.html.twig" %}
 
-{{ include('default/header.html.twig') }}
+{% block content %}
 
-{{ include('inspector/templates/form.html.twig') }}
+    {{ include('inspector/templates/form.html.twig') }}
 
-{{ include('inspector/templates/table.html.twig') }}
+    {{ include('inspector/templates/table.html.twig') }}
 
-{{ include('inspector/templates/scripts.html.twig') }}
+{% endblock %}
 
-{{ include('default/footer.html.twig') }}
+{% block scripts %}
 
-<script src="{{ asset('js/scripts/purchases.js') }}"></script>
+    {{ include('inspector/templates/scripts.html.twig') }}
+    <script src="{{ asset('js/scripts/purchases.js') }}"></script>
+
+{% endblock %}
+
+
 
