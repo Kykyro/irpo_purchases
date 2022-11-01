@@ -75,7 +75,7 @@
                                 {% if view %}
 
                                     {% if i.getUGPS() is not null %}
-                                        <td scope="col">{{ i.getIndustry().getName() }}</td>
+                                        <td scope="col">{{ i.getUGPS().getName() }}</td>
                                     {% else %}
                                         <td></td>
                                     {% endif %}
@@ -83,7 +83,7 @@
                                     <td><strong>{{ i.getName() }}</strong></td>
 
                                     {% if i.getUGPS() is not null %}
-                                        <td scope="col">{{ i.getUGPS().getName() }}</td>
+                                        <td scope="col">{{ i.getIndustry().getName() }}</td>
                                     {% else %}
                                         <td></td>
                                     {% endif %}
