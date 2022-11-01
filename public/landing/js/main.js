@@ -763,6 +763,10 @@
             for (var a = function e(a, t) {
                 return a && (t(a) ? a : e(a.parentNode, t))
             }, t = function(e) {
+                // console.log();
+                if(e.target.id === 'download-button'){
+                    return;
+                }
                 (e = e || window.event).preventDefault ? e.preventDefault() : e.returnValue = !1;
                 var t = e.target || e.srcElement,
                     o = a(t, (function(e) {

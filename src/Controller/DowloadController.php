@@ -60,7 +60,7 @@ class DowloadController extends AbstractController
         return $this->file('../public/uploads/infrastructureSheetsRegion/'.$file);
     }
     /**
-     * @Route("/region-is-download/{file}", name="app_download_region_is_file")
+     * @Route("/design-project-presentation-download/{file}", name="app_download_design_project_presentation_file")
      */
     public function DesignProjectPresentationDownload(string $file): Response
     {
