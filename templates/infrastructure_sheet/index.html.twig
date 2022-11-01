@@ -59,9 +59,10 @@
                 <table class="table custom-table">
                     <thead>
                     <tr>
-                        <th scope="col">Название</th>
+                        <th scope="col">УГПС</th>
+
                         {% if view %}
-                            <th scope="col">УГПС</th>
+                            <th scope="col">Название</th>
                             <th scope="col">Отрасль</th>
                         {% endif %}
                         <th scope="col">Файл</th>
@@ -70,20 +71,25 @@
                     <tbody>
                         {% for i in pagination  %}
                             <tr scope="row">
-                                <td><strong>{{ i.getName() }}</strong></td>
+
                                 {% if view %}
-                                    {% if i.getUGPS() is not null %}
-                                        <td scope="col">{{ i.getUGPS().getName() }}</td>
-                                    {% else %}
-                                        <td></td>
-                                    {% endif %}
 
                                     {% if i.getUGPS() is not null %}
                                         <td scope="col">{{ i.getIndustry().getName() }}</td>
                                     {% else %}
                                         <td></td>
                                     {% endif %}
+
+                                    <td><strong>{{ i.getName() }}</strong></td>
+
+                                    {% if i.getUGPS() is not null %}
+                                        <td scope="col">{{ i.getUGPS().getName() }}</td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+
                                 {% endif %}
+
                                 <td>
                                     {% if i.getfile() is not null %}
                                         <a href="{{ path('app_download_infrastructure_sheet_file', {'file': i.getfile()}) }}">скачать</a>
