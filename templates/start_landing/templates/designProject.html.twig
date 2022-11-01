@@ -4,7 +4,7 @@
 
             <h2 class="text-center text-white">Дизайн-проекты пространств образовательно-производственных центров (кластеров).</h2>
             <div class="divider divider-alt divider-center divider-light"></div>
-            <p class="lead text-center text-white mb-50">Брендбук
+            <p class="lead text-center text-white">Брендбук
                 <a href="{{ path('app_download_brandbook') }}" >
                     <button class="btn btn-sm">
                         <div class="fa fa-download"></div>
@@ -12,7 +12,7 @@
                     </button>
                 </a>
             </p>
-            <p class="lead text-center text-white mb-50">Памятка по созданию дизайн-проектов в рамках федерального проекта «Профессионалитет»
+            <p class="lead text-center text-white">Памятка по созданию дизайн-проектов в рамках федерального проекта «Профессионалитет»
                 <a href="{{ path('app_download_memo_file') }}">
                     <button class="btn btn-sm">
                         <div class="fa fa-download"></div>
@@ -20,15 +20,21 @@
                     </button>
                 </a>
             </p>
+            <p class="lead text-center text-white">Примеры сделанных дизайн-проектов в рамках федерального проекта «Профессионалитет»
+                <a href="#">
+                    <button class="btn btn-sm">
+                        <div class="glyphicon glyphicon-cloud-download"></div>
+                        Просмотреть
+                    </button>
+                </a>
+            </p>
 
         </div>
     </div>
-    <div class="container">
-        <div class="col-md-10 col-md-offset-1">
-            <h2 class="text-center text-white"> </h2>
-        </div>
+    <div class="container" style="margin-bottom: 3%">
         <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
             {% for i in designProjectExample %}
+
                 <article class="carousel-item portfolio-item web">
                     <div class="project-container mb-0 scale_img">
                         <a href="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" data-size="3219x2081" class="portfolio-gallery__img--main">
@@ -40,12 +46,23 @@
                                 </div>
                             </div>
                         </a>
-                        <div class="project-details text_scale_img">
-                            <h4 class="h5 project-title heading-uppercase"> {{ i.getName() }}</h4>
-                            <p style="margin-bottom: 10%">{{ i.getDescription() }}</p>
+                        <div class="project-details text_scale_img" >
+                            <div style="display: flex; align-items: center; justify-content: center; height: 75%">
+                                <h4 class="h5 project-title heading-uppercase" style="font-size: 14px"> {{ i.getName() }}</h4>
+                                <p style="margin-bottom: 10%">{{ i.getDescription() }}</p>
+                            </div>
+                            <a href="/f">
+                                <button class="btn btn-sm">
+                                    <div class="glyphicon glyphicon-cloud-download"></div>
+                                    Просмотреть
+                                </button>
+                            </a>
+
                         </div>
                     </div>
+
                 </article>
+
             {% endfor %}
         </div>
     </div>
