@@ -30,6 +30,15 @@
 
             </div>
             <div class="mb-5">
+                <a href="{{ path('app_start_landing') }}">
+                    <button class="btn btn-lg btn-purple">
+                        <i class="fa fa-backward"></i>
+                        На главную
+                    </button>
+                </a>
+
+            </div>
+            <div class="mb-5">
                 <h3 >Авторизация</h3>
             </div>
                 <form method="post">
@@ -40,7 +49,7 @@
 
                     {% if app.user %}
                         <div class="mb-3">
-                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                             Вы уже вошли как {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Выйти</a>
                         </div>
                     {% endif %}
 

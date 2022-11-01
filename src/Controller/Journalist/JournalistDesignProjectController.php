@@ -52,19 +52,22 @@ class JournalistDesignProjectController extends AbstractController
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'mapped' => false
+                'mapped' => false,
+                'required'   => false,
             ])
             ->add('presentation', FileType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'mapped' => false
+                'mapped' => false,
+                'required'   => false,
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn mt-2'
                 ],
-                'label' => 'Сохранить'
+                'label' => 'Сохранить',
+
             ])
             ->getForm();
 
@@ -97,7 +100,7 @@ class JournalistDesignProjectController extends AbstractController
                 $originalFilename = pathinfo($presentation->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $presentation->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
