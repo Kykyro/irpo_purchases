@@ -44,9 +44,7 @@
             <div class="mobile-header__inner mobile-header__inner--flex">
                 <div class="header-branding header-branding&#45;&#45;mobile mobile-header__section text-left">
                 <div class="header-logo header-logo&#45;&#45;mobile flexbox__item text-left">
-{#                    <a href="{{ path('app_article_page') }}">#}
-{#                        <img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt="File Изображение не найдено" style="margin-top: 15%">#}
-{#                    </a>#}
+
                     <i id="menu-main-menu" class="navigation--main navigation--inline">
                         <li><a href="{{ path('app_article_page') }}">Все статьи</a></li>
                     </i>
@@ -59,10 +57,7 @@
             <div class="navigation-bar__inner flexbox-wrap flexbox-center-y">
                 <div class="navigation-bar__section flex-box align-item-center">
                     <div class="header-logo">
-{#                        <a href="{{ path('app_article_page') }}">#}
-{#                            <img src="{{ asset('/img/ico/Day_SPO_white.png') }}" alt="File Изображение не найдено" style="margin-top: 15%">#}
 
-{#                        </a>#}
                         <i id="menu-main-menu" class="navigation--main navigation--inline">
                             <li><a href="{{ path('app_article_page') }}">Все статьи</a></li>
                         </i>
@@ -70,17 +65,6 @@
                 </div>
                 <div class="navigation-bar__section navigation-menu-section js-priority-nav">
                     <ul id="menu-main-menu" class="navigation navigation--main navigation--inline">
-                        <!--                        <li class="menu-item-has-children">-->
-                        <!--                            <a href="#">Home Pages</a>-->
-                        <!--                            <ul class="sub-menu">-->
-                        <!--                                <li><a href="index.html">Home 1</a></li>-->
-                        <!--                                <li><a href="home-2.html">Home 2</a></li>-->
-                        <!--                                <li><a href="home-3.html">Home 3</a></li>-->
-                        <!--                            </ul>-->
-                        <!--                        </li>-->
-                        <!--                        <li class="menu-item">-->
-                        <!--                            <a href="./single-1.html">Single</a>-->
-                        <!--                        </li>-->
                     </ul>
                 </div>
             </div><!-- .navigation-bar__inner -->
@@ -102,13 +86,21 @@
     </header><!-- Site header -->
     <div class="site-content">
         <div class="flex-box">
-            <div class="atbs-block atbs-block--fullwidth atbs-section-module">
+            <div class="atbs-block atbs-block--fullwidth atbs-section-module" style="padding: 0 10% 0 10%">
                 <div class="">
                     <div class="">
                         <div class="section-main">
+
+                            <article class="photo-title-container">
+                                <div class="photo-title" style="width: 100%; ">
+
+                                    <img src="{{ asset('/uploads/articleTitles/'~article.getImg()) }}" alt="Изображение не найдено" style="width: 100%; ">
+
+                                </div>
+                            </article>
                             <div class="post__text-wrap">
                                 <div>
-                                    <h3 class="post__title f-60 f-w-700 m-b-15" style="text-align: center; margin-left: 9%;margin-right: 9%">
+                                    <h3 class="post__title f-30 f-w-700 m-b-15" style="text-align: left;">
                                         <a>{{ article.getTitle() }}</a>
                                     </h3>
                                     <div class="post__meta">
@@ -117,21 +109,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <article class="photo-title-container">
-                                <div class="photo-title">
-
-                                    <img src="{{ asset('/uploads/articleTitles/'~article.getImg()) }}" alt="Изображение не найдено">
-
-                                </div>
-                            </article>
                         </div>
                     </div>
                 </div>
-                <div class="flex-box" style="margin-left: 15%;margin-right: 15%">
+                <hr>
+                <div class="flex-box" style="">
                     <div class="post__text inverse-text">
                         <div class="post__text-wrap" >
-                            <div class="max-width-1640">
-                                <div class="post__title f-10 f-w-1000 m-b-115 max-width-2640" style="text-transform: none;">
+                            <div class="">
+                                <div class="  " style="text-transform: none;">
                                     {{ article.getContent()| raw }}
                                 </div>
 

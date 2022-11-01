@@ -54,7 +54,18 @@ class JournalistDesignProjectController extends AbstractController
                 ],
                 'mapped' => false
             ])
-            ->add('submit', SubmitType::class)
+            ->add('presentation', FileType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'mapped' => false
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn mt-2'
+                ],
+                'label' => 'Сохранить'
+            ])
             ->getForm();
 
 
@@ -63,6 +74,7 @@ class JournalistDesignProjectController extends AbstractController
         if($form->isSubmitted() and $form->isValid()){
 
             $file = $form->get('file')->getData();
+            $presentation = $form->get('presentation')->getData();
 
             if ($file) {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -81,7 +93,23 @@ class JournalistDesignProjectController extends AbstractController
                     throw new HttpException(500, $e->getMessage());
                 }
             }
+            if ($presentation) {
+                $originalFilename = pathinfo($presentation->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
+                // Move the file to the directory where brochures are stored
+                try {
+                    $presentation->move(
+                        $this->getParameter('design_project_example_directory_presentation'),
+                        $newFilename
+                    );
+                    $designProject->setFile($newFilename);
+                } catch (FileException $e) {
+                    throw new HttpException(500, $e->getMessage());
+                }
+            }
 
             $entity_manager->persist($designProject);
             $entity_manager->flush();

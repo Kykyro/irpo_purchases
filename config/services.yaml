@@ -14,6 +14,7 @@ parameters:
     documents_files_directory: '%kernel.project_dir%/public/uploads/documentsFiles'
     employees_photos_directory: '%kernel.project_dir%/public/uploads/employeesPhotos'
     design_project_example_directory: '%kernel.project_dir%/public/uploads/designProjectExample'
+    design_project_example_directory_presentation: '%kernel.project_dir%/public/uploads/designProjectExamplePresentation'
     partners_logo_directory: '%kernel.project_dir%/public/uploads/partnersLogo'
     infrastructure_sheet_region_directory: '%kernel.project_dir%/public/uploads/infrastructureSheetsRegion'
 
