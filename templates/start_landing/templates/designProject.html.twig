@@ -21,7 +21,7 @@
                 </a>
             </p>
             <p class="lead text-center text-white">Ссылка на материалы Брендбука
-                <a href="https://disk.yandex.ru/d/PETEvtYtXSOMyg">
+                <a href="https://disk.yandex.ru/d/PETEvtYtXSOMyg" target="_blank">
                     <button class="btn btn-sm">
                         <div class="glyphicon glyphicon-cloud-download"></div>
                         Просмотреть
@@ -46,9 +46,9 @@
                                 </div>
                             </div>
                         </a>
-                        <div class="project-details text_scale_img" >
+                        <div class="project-details text_scale_img" style="height: 220px">
                             <div style="display: flex; align-items: center; justify-content: center; height: 75%">
-                                <h4 class="h5 project-title heading-uppercase" style="font-size: 14px"> {{ i.getName() }}</h4>
+                                <h4 class="h5 project-title heading-uppercase" style="font-size: 13px"> {{ i.getName() }}</h4>
                                 <p style="margin-bottom: 10%">{{ i.getDescription() }}</p>
                             </div>
                             {% if i.getFile() is not null %}
