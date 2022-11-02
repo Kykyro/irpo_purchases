@@ -57,7 +57,7 @@
                         <a href="{{ path("app_main") }}"><i class="fa fa-home left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Добавление закупок</span></a>
                     </li>
                     <li>
-                        <a href="{{ path("app_region_is") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Инфраструктурный лист</span></a>
+                        <a href="{{ path("app_region_is") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Инфраструктурный лист <span class="label float-right " id="infrastructure-sheet-count"></span></span></a>
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_INSPECTOR') %}
@@ -70,9 +70,6 @@
                     <li > {# class="active" #}
                         <a href="{{ path("app_inspector_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Инфраструктурные листы</span></a>
                     </li>
-                    {#<li > class="active"
-                        <a href="#"><i class="fa fa-archive left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Закупки [2]</span></a>
-                    </li>#}
                 {% endif %}
                 {% if is_granted('ROLE_JOURNALIST') %}
                     <li >
@@ -93,12 +90,21 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top upper-menu" role="navigation" style="margin-bottom: 0">
 
-                <ul class="nav navbar-top-links navbar-right offset-lg-11">
+                <ul class="nav navbar-top-links navbar-right offset-lg-10">
+                    <li>
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                            <a href="{{ path("app_logout") }}">
+                                <i class="fa fa-mail-forward"></i> Разлогинится
+                            </a>
+                        {% endif %}
+                    </li>
                     <li>
                         <a href="{{ path("app_start_landing") }}">
                             <i class="fa fa-sign-out"></i> Выйти
                         </a>
+
                     </li>
+
                 </ul>
 
             </nav>

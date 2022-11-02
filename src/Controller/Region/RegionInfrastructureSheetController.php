@@ -46,6 +46,14 @@ class RegionInfrastructureSheetController extends AbstractController
             'id' => 'DESC'
         ]);
 
+       for($i = 0; $i < count($infrastructureSheets); $i++){
+           if(!$infrastructureSheets[$i]->isIsViewed() or $infrastructureSheets[$i]->isIsViewed() === null){
+               $infrastructureSheets[$i]->setIsViewed(true);
+               $entity_manager->persist($infrastructureSheets[$i]);
+
+           }
+       }
+        $entity_manager->flush();
 
         return $this->render('region/templates/infrastructure_sheet.html.twig', [
             'controller_name' => 'RegionController',

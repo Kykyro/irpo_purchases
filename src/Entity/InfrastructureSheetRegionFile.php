@@ -43,8 +43,14 @@ class InfrastructureSheetRegionFile
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isViewed;
+
     function __construct() {
        $this->setCreatedAt(new \DateTimeImmutable('now'));
+       $this->setIsViewed(false);
     }
 
     public function getId(): ?int
@@ -108,6 +114,18 @@ class InfrastructureSheetRegionFile
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isIsViewed(): ?bool
+    {
+        return $this->isViewed;
+    }
+
+    public function setIsViewed(?bool $isViewed): self
+    {
+        $this->isViewed = $isViewed;
 
         return $this;
     }

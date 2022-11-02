@@ -42,7 +42,13 @@ class Feedback
      */
     private $isViewed;
 
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $createdAt;
+
     function __construct() {
+        $this->setCreatedAt(new \DateTimeImmutable('now'));
         $this->setIsViewed(false);
     }
 
@@ -107,6 +113,18 @@ class Feedback
     public function setIsViewed(?bool $isViewed): self
     {
         $this->isViewed = $isViewed;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

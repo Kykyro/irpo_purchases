@@ -14,27 +14,41 @@
         }
 
     </style>
-<div class="row">
-    <div class="col-sm-10 offset-sm-1 ">
-        <div class="wrapper wrapper-content ">
-            <div class="ibox-content block-shadow ">
-                <div class="row">
-                    <h2>Тема: {{ feedback.getTopic() }}</h2>
-                </div>
-                <div class="row">
-                    <p><b>ФИО:</b> {{ feedback.getFIO() }}</p>
-                </div>
-                <div class="row">
-                    <p><b>E-mail:</b> {{ feedback.getEmail() }}</p>
-                </div>
-                <div class="row">
-                    <h2>Сообщение:</h2>
-                </div>
-                <div class="row">
-                    <div id="message">
-                        {{ feedback.getMessage() }}
-                    </div>
-                </div>
+
+<div class="row mt-5">
+    <div class="col-lg-12 animated fadeInRight">
+        <div class="mail-box-header">
+            <div class="float-right tooltip-demo">
+
+            </div>
+            <h2>
+                Сообщение
+            </h2>
+            <div class="mail-tools tooltip-demo m-t-md">
+
+
+                <h3>
+                    <span class="font-normal">Тема: </span>{{ feedback.getTopic() }}
+                </h3>
+                <h5>
+                    {% if feedback.getCreatedAt() is not null %}
+                        <span class="float-right font-normal">{{ feedback.getCreatedAt().format('d-m-Y') }}</span>
+                    {% else %}
+                        <span class="float-right font-normal"></span>
+                    {% endif %}
+                    <span class="font-normal">ФИО: </span>{{ feedback.getFIO() }}
+                    <br>
+                    <span class="font-normal">От: </span>{{ feedback.getEmail() }}
+                </h5>
+            </div>
+        </div>
+        <div class="mail-box">
+
+
+            <div class="mail-body">
+
+                    {{ feedback.getMessage() }}
+                <hr>
                 <div class="row">
                     <a href="{{ path('app_feedback') }}">
                         <button class="btn btn-success">
@@ -43,10 +57,15 @@
                     </a>
                 </div>
             </div>
+
+
+            <div class="clearfix"></div>
+
+
         </div>
+
     </div>
 </div>
-
 {#    <div class="m-5">#}
 
 {#    </div>#}

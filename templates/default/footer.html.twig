@@ -18,6 +18,7 @@
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
 <script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('js/plugins/toastr/toastr.min.js') }}"></script>
 
 <script src="{{ asset('js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('js/scripts/delete_alert.js') }}"></script>
@@ -28,18 +29,58 @@
 {#<script src="{{ asset('js/plugins/toastr/toastr.min.js') }}"></script>#}
 <script>
     $(document).ready(function(){
-        fetch('/api/feedback-unviewed').then(function(response) {
-            response.json().then(function(data) {
-                let feedbackCount = $('#feedback-count');
-                if(data === 0){
-                    feedbackCount.html('');
-                }
-                else{
-                    feedbackCount.html(data);
-                }
-            })
-        })
+        toastr.options = {
+            "debug": false,
+            "positionClass": "toast-bottom-right",
+            "onclick": null,
+            "fadeIn": 100,
+            "fadeOut": 100,
+            "timeOut": 5000,
+            "extendedTimeOut": 100,
+            "closeDuration": 100,
+        };
+
+
+
     });
 </script>
+{% if is_granted('ROLE_INSPECTOR') %}
+    <script>
+        $(document).ready(function(){
+            fetch('/api/feedback-unviewed').then(function(response) {
+                response.json().then(function(data) {
+                    let feedbackCount = $('#feedback-count');
+                    if(data === '0'){
+                        feedbackCount.hide();
+                    }
+                    else{
+                        toastr.info(data + ' новых сообщений по обратной связи');
+                        feedbackCount.html(data);
+                    }
+                })
+            });
+        })
+    </script>
+{% endif %}
+{% if is_granted('ROLE_REGION') %}
+    <script>
+        $(document).ready(function(){
+            fetch('/api/infrastructure-sheet-notification').then(function(response) {
+                response.json().then(function(data) {
+                    let infrastructureSheetCount = $('#infrastructure-sheet-count');
+
+                    if(data === '0'){
+                        infrastructureSheetCount.hide();
+                    }
+                    else{
+                        toastr.info('Вам прислали '+ data + ' новых инфраструктурных листов');
+                        infrastructureSheetCount.html(data);
+
+                    }
+                })
+            });
+        })
+    </script>
+{% endif %}
 {% block scripts %}
 {% endblock %}
