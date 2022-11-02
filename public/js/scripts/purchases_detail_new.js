@@ -32,7 +32,14 @@ $(document).ready(function () {
     let initial_sum = $(".sum_initial");
     let fin_sum = $(".sum_fin");
 
-    let errors_message = $(".error-message");
+    // Сообщения об ошибке
+    let errors_message = $('.error-message');
+    let publication_date_error = $("#publication-date-error");
+    let deadline_date_error = $("#deadline-date-error");
+    let summing_up_date_error = $("#summing-up-date-error");
+    let postponement_date_error = $("#postponement-date-error");
+    let conclusion_date_error = $("#conclusion-date-error");
+    let delivery_date_error = $("#delivery-date-error");
 
     function soloSupplier(isThis){
         if(isThis)
@@ -109,13 +116,15 @@ $(document).ready(function () {
             fin_employers_funds, fin_edication_org_funds) + " ₽");
     }
     // Проверка корректности дат
-    function checkDate(date1, date2){
+    function checkDate(date1, date2, error){
         if(date1.val() > date2.val() && date2.val() !== ""){
             date2.addClass( "red-bg" ).focus().next().show();
+            error.show();
             return false;
         }
         else {
             date2.removeClass( "red-bg" ).next().hide();
+            error.hide();
             return true;
         }
     }
@@ -176,11 +185,11 @@ $(document).ready(function () {
         let isValid = true;
         let validArr = [];
 
-        validArr.push(checkDate(publication_date, deadline_date));
-        validArr.push(checkDate(deadline_date, summing_up_date));
-        validArr.push(checkDate(summing_up_date, postponement_date));
-        validArr.push(checkDate(postponement_date, conclusion_date));
-        validArr.push(checkDate(conclusion_date, delivery_date));
+        validArr.push(checkDate(publication_date, deadline_date, deadline_date_error));
+        validArr.push(checkDate(deadline_date, summing_up_date, summing_up_date_error));
+        validArr.push(checkDate(summing_up_date, postponement_date, postponement_date_error));
+        validArr.push(checkDate(postponement_date, conclusion_date, conclusion_date_error));
+        validArr.push(checkDate(conclusion_date, delivery_date, delivery_date_error));
 
         for (let i = 0; i < validArr.length; i++) {
             if(validArr[i] === false){

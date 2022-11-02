@@ -184,7 +184,7 @@
 
                             <td colspan="2">
                                 {{ form_widget(form.publicationDate) }}
-                                <div class="error-message">Неправильно указанна дата</div>
+                                <div class="error-message" id="publication-date-error">Неправильно указанна дата</div>
                             </td>
 
                         </tr>
@@ -194,7 +194,7 @@
 
                             <td colspan="2">
                                 {{ form_widget(form.deadlineDate) }}
-                                <div class="error-message">Неправильно указанна дата</div>
+                                <div class="error-message" id="deadline-date-error">Дата окончания подачи заявок не может быть раньше Даты публикации извещения</div>
                             </td>
 
                         </tr>
@@ -204,7 +204,7 @@
 
                             <td colspan="2">
                                 {{ form_widget(form.dateOfSummingUp) }}
-                                <div class="error-message">Неправильно указанна дата</div>
+                                <div class="error-message" id="summing-up-date-error">Дата подведения итогов  не может быть раньше Даты окончания подачи заявок</div>
                             </td>
 
                         </tr>
@@ -249,7 +249,7 @@
 
                             <td colspan="2">
                                 {{ form_widget(form.postponementDate) }}
-                                <div class="error-message">Неправильно указанна дата</div>
+                                <div class="error-message" id="postponement-date-error">Дата перенос срока размещения закупки в ЕИС / ЭМ не может быть раньше Даты подведения итогов</div>
 
                             </td>
 
@@ -279,7 +279,7 @@
 
                             <td colspan="2">
                                 {{ form_widget(form.DateOfConclusion) }}
-                                <div class="error-message">Неправильно указанна дата</div>
+                                <div class="error-message" id="conclusion-date-error">Дата заключения контракта / договора не может быть раньше Даты перенос срока размещения закупки в ЕИС / ЭМ</div>
                             </td>
 
                         </tr>
@@ -332,7 +332,7 @@
 
                             <td colspan="2">
                                 {{ form_widget(form.DeliveryTime) }}
-                                <div class="error-message">Неправильно указанна дата</div>
+                                <div class="error-message" id="delivery-date-error">Дата поставки не может быть раньше Даты заключения контракта / договора</div>
                             </td>
 
                         </tr>
