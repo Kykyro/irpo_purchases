@@ -59,10 +59,12 @@
                 <table class="table custom-table">
                     <thead>
                     <tr>
-                        <th scope="col">УГПС</th>
-
                         {% if view %}
+                            <th scope="col">УГПС</th>
+                        {% endif %}
+
                             <th scope="col">Название</th>
+                        {% if view %}
                             <th scope="col">Отрасль</th>
                         {% endif %}
                         <th scope="col">Файл</th>
@@ -79,9 +81,9 @@
                                     {% else %}
                                         <td></td>
                                     {% endif %}
-
+                                {% endif %}
                                     <td><strong>{{ i.getName() }}</strong></td>
-
+                                {% if view %}
                                     {% if i.getUGPS() is not null %}
                                         <td scope="col">{{ i.getIndustry().getName() }}</td>
                                     {% else %}
