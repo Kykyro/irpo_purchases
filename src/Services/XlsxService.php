@@ -54,6 +54,25 @@ class XlsxService extends AbstractController
         $sheet->setCellValue('C6', $userInfo->getEducationalOrganization());
         $sheet->setCellValue('C7', $userInfo->getCluster());
         $sheet->setCellValue('C8', $userInfo->getDeclaredIndustry());
+
+
+        $styleFill = array(
+            'fill' => array(
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array('argb' => 'FF4F81BD')
+            )
+        );
+
+        $initialFedFundSUM = "=";
+        $initialSubFundSUM = "=";
+        $initialEmpFundSUM = "=";
+        $initialOrgFundSUM = "=";
+
+        $finFedFundSUM = "=";
+        $finSubFundSUM = "=";
+        $finEmpFundSUM = "=";
+        $finOrgFundSUM = "=";
+
         // Инфо о процедурах
         $index = 1;
         foreach ($procedures as &$val) {
@@ -62,15 +81,81 @@ class XlsxService extends AbstractController
             // формулы суммирования
             $initialSUMRANGE = 'E'.$row.':H'.$row;
             $finSUMRANGE = 'U'.$row.':X'.$row;
+
+
+
             $sheet->setCellValue('D'.$row , "=SUM($initialSUMRANGE)");
             $sheet->setCellValue('T'.$row , "=SUM($finSUMRANGE)");
+
 
             // запись строк
             $sheet->setCellValue('A'.$row, $index);
             $sheet->fromArray($val->getAsRow(), null, 'B'.$row);
+
+            if($sheet->getCell('P'.$row) == "")
+            {
+                foreach ($sheet->rangeToArray($initialSUMRANGE, null, true, true, true ) as $_row){
+                    foreach (array_keys($_row) as $cell){
+                        $cellCoordinates = $cell.$row;
+                        if($sheet->getCell($cellCoordinates) != ""){
+                            $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill);
+                            switch ($cell) {
+                                case "E":
+                                    $initialFedFundSUM = $initialFedFundSUM.$cellCoordinates."+";
+                                    break;
+                                case  "F":
+                                    $initialSubFundSUM = $initialSubFundSUM.$cellCoordinates."+";
+                                    break;
+                                case "G":
+                                    $initialEmpFundSUM = $initialEmpFundSUM.$cellCoordinates."+";
+                                    break;
+                                case "H":
+                                    $initialOrgFundSUM = $initialOrgFundSUM.$cellCoordinates."+";
+                                    break;
+
+                            }
+
+                        }
+                    }
+                }
+            }
+            else{
+                foreach ($sheet->rangeToArray($finSUMRANGE, null, true, true, true ) as $_row){
+                    foreach (array_keys($_row) as $cell){
+                        $cellCoordinates = $cell.$row;
+                        if($sheet->getCell($cellCoordinates) != ""){
+                            $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill);
+                        }
+                        switch ($cell) {
+                            case "U":
+                                $finFedFundSUM = $finFedFundSUM.$cellCoordinates."+";
+                                break;
+                            case  "V":
+                                $finSubFundSUM = $finSubFundSUM.$cellCoordinates."+";
+                                break;
+                            case "W":
+                                $finEmpFundSUM = $finEmpFundSUM.$cellCoordinates."+";
+                                break;
+                            case "X":
+                                $finOrgFundSUM = $finOrgFundSUM.$cellCoordinates."+";
+                                break;
+
+                        }
+                    }
+                }
+            }
+
             $index++;
         }
+        $initialFedFundSUM = substr($initialFedFundSUM,0,-1);
+        $initialSubFundSUM = substr($initialSubFundSUM,0,-1);
+        $initialEmpFundSUM = substr($initialEmpFundSUM,0,-1);
+        $initialOrgFundSUM = substr($initialOrgFundSUM,0,-1);
 
+        $finFedFundSUM = substr($finFedFundSUM,0,-1);
+        $finSubFundSUM = substr($finSubFundSUM,0,-1);
+        $finEmpFundSUM = substr($finEmpFundSUM,0,-1);
+        $finOrgFundSUM = substr($finOrgFundSUM,0,-1);
 
 
         // стили
@@ -102,6 +187,16 @@ class XlsxService extends AbstractController
         $finSumFormulaRange = 'T14:T'.($end_cell-1);
         $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
         $sheet->setCellValue($finSumCell , "=SUM($finSumFormulaRange)");
+
+        $sheet->setCellValue('E'.$end_cell, $initialFedFundSUM);
+        $sheet->setCellValue('F'.$end_cell, $initialSubFundSUM);
+        $sheet->setCellValue('G'.$end_cell, $initialEmpFundSUM);
+        $sheet->setCellValue('H'.$end_cell, $initialOrgFundSUM);
+
+        $sheet->setCellValue('U'.$end_cell, $finFedFundSUM);
+        $sheet->setCellValue('V'.$end_cell, $finSubFundSUM);
+        $sheet->setCellValue('W'.$end_cell, $finEmpFundSUM);
+        $sheet->setCellValue('X'.$end_cell, $finOrgFundSUM);
 
         //write it again to Filesystem with the same name (=replace)
         $writer = new Xlsx($spreadsheet);
