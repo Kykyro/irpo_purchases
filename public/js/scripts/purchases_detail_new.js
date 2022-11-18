@@ -45,7 +45,7 @@ $(document).ready(function () {
         if(isThis)
         {
             clearValue(publication_date, deadline_date, summing_up_date,
-                postponement_date, conclusion_date, delivery_date, postponement_comment);
+                postponement_date,  postponement_comment);
         }
         // required
         setRequired(isThis, conclusion_date);
