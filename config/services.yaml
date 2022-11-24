@@ -17,6 +17,7 @@ parameters:
     design_project_example_directory_presentation: '%kernel.project_dir%/public/uploads/designProjectExamplePresentation'
     partners_logo_directory: '%kernel.project_dir%/public/uploads/partnersLogo'
     infrastructure_sheet_region_directory: '%kernel.project_dir%/public/uploads/infrastructureSheetsRegion'
+    test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
 services:
     # default configuration for services in *this* file

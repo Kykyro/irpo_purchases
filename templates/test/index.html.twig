@@ -1,38 +1,23 @@
-
-{{ include('default/header.html.twig') }}
-
-
-
-
-
-{% block content %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
     <div class="row">
         <div class="col-sm-10 offset-sm-1 ">
             <div class="wrapper wrapper-content ">
                 <div class="ibox-content block-shadow ">
                     <div>
-                        <div class="row d-flex justify-content-center m-3">
-                            <h1>Редактирование изображения</h1>
-                        </div>
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-md-6 border-info">
-                                <div class="m-3">
-                                    <img id="cropperImage" src="{{ asset('./img/placeholder/Placeholder-1.png') }}" style="max-width: 100%">
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="btn-group">
-                                        <label title="Upload image file" for="inputImage" class="btn btn-gray-all">
-                                            <input type="file" accept="image/*" name="file" id="inputImageCropper" class="hide">
-                                        </label>
-                                        <label title="Donload image" id="download" class="btn btn-primary">Скачать</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <div>
                             {{ form_start(form) }}
-                                {{ form_widget(form.file) }}
-                                {{ form_widget(form.submit) }}
+                            {{ form_widget(form.file) }}
+                            {{ form_widget(form.submit) }}
                             {{ form_end(form) }}
                         </div>
                     </div>
@@ -41,61 +26,14 @@
         </div>
     </div>
 
+</body>
+</html>
 
-{% endblock %}
 
 
-{{ include('default/footer.html.twig') }}
 
-{% block scripts %}
-    <script src="{{ asset('./js/jquery-3.1.1.min.js') }}"></script><!-- Cropper.js is required -->
-    <script src="{{ asset('./js/cropper/cropper.js') }}"></script><!-- Cropper.js is required -->
 
-    <script src="{{ asset('./js/cropper/jquery-cropper.js') }}"></script>
-    <script>
-        $(document).ready(function(){
-            var $image = $('#cropperImage');
 
-            $image.cropper({
-                aspectRatio: 3 / 4,
-                crop: function(event) {
 
-                }
-            });
-            var cropper = $image.data('cropper');
 
-            var $inputImage = $("#inputImageCropper");
-            if (window.FileReader) {
-                $inputImage.change(function() {
-                    var fileReader = new FileReader(),
-                        files = this.files,
-                        file;
 
-                    if (!files.length) {
-                        return;
-                    }
-
-                    file = files[0];
-
-                    if (/^image\/\w+$/.test(file.type)) {
-                        fileReader.readAsDataURL(file);
-                        fileReader.onload = function () {
-                            $inputImage.val("");
-                            $image.cropper("reset", true).cropper("replace", this.result);
-                        };
-                    } else {
-                        showMessage("Please choose an image file.");
-                    }
-                });
-            } else {
-                $inputImage.addClass("hide");
-            }
-            $("#download").click(function() {
-                // var imagem = cropper.getCroppedCanvas().toDataURL("image/png").replace("image/png", "application/octet-stream");
-                // var imagem = cropper.getCroppedCanvas().toDataURL("image/png");
-                // $('#file').val(imagem);
-                console.log(imagem);
-            });
-        })
-    </script>
-{% endblock %}

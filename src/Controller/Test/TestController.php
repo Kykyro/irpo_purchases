@@ -7,6 +7,7 @@ use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
 use App\Form\ChoiceInputType;
 use App\Form\testformFormType;
+use App\Services\FileService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,22 +25,32 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TestController extends AbstractController
 {
-    /**
-     * @Route("/test", name="app_test")
-     */
-    public function index(): Response
+//    /**
+//     * @Route("/test", name="app_test")
+//     */
+    public function index(Request $request, FileService $fileService): Response
     {
         $arr = [];
         $form = $this->createFormBuilder($arr)
             ->add("file", FileType::class, [
-                'attr' => ['class' => 'form-control', 'id' => 'cropped-file-upload'],
+                'attr' => ['class' => 'form-control'],
                 'required'   => true,
+                'mapped' => false
             ])
             ->add('submit', SubmitType::class)
             ->getForm();
 
+        $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            dd($form->getData());
+//            dd('aaaaa');
+            $file = $form->get('file')->getData();
+
+            if($file){
+                $filename = $fileService->UploadFile($file, 'test_upload_directory');
+//                dd($filename);
+                $fileService->DeleteFile($filename, 'test_upload_directory');
+            }
+            return $this->redirectToRoute('app_test');
         }
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
@@ -47,9 +58,7 @@ class TestController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/testform", name="app_testform")
-     */
+
     public function testform(Request $request, SluggerInterface $slugger): Response
     {
         $arr = [
