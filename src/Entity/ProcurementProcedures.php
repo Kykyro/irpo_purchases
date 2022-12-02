@@ -72,25 +72,25 @@ class ProcurementProcedures
     private $user;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $initialFederalFunds;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $initialFundsOfSubject;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $initialEmployersFunds;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $initialEducationalOrgFunds;
@@ -114,25 +114,25 @@ class ProcurementProcedures
     private $supplierKPP;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $finFederalFunds;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $finFundsOfSubject;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $finEmployersFunds;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=3, nullable=true)
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $finFundsOfEducationalOrg;

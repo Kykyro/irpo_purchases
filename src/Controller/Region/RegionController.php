@@ -235,6 +235,22 @@ class RegionController extends AbstractController
                     'attr' => ['class' => 'form-control'],
                     'required'   => false
                 ])
+            ->add('year', ChoiceType::class, [
+                'choices'  => [
+                    '2021' => 2021,
+                    '2022' => 2022,
+                    '2023' => 2023,
+                    '2024' => 2024,
+                    '2025' => 2025,
+                    '2026' => 2026,
+                    '2027' => 2027,
+                    '2028' => 2028,
+                    '2029' => 2029,
+                    '2030' => 2030,
+                ],
+                'required'   => true,
+                'attr' => ['class' => 'form-control'],
+                ])
             ->getForm();
 
         $form->handleRequest($request);

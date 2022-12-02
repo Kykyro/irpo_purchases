@@ -42,6 +42,11 @@ class UserInfo
      */
     private $Declared_industry;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $year;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -140,5 +145,17 @@ class UserInfo
             return true;
 
         return false;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(?int $year): self
+    {
+        $this->year = $year;
+
+        return $this;
     }
 }

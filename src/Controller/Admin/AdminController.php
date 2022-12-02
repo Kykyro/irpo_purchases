@@ -26,6 +26,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormFactoryInterface;
+use Knp\Component\Pager\PaginatorInterface;
 /**
  *
  * @Route("/admin")
@@ -46,13 +47,49 @@ class AdminController extends AbstractController
     /**
      * @Route("/users", name="app_admin_users")
      */
-    public function adminPanelUsers(): Response
+    public function adminPanelUsers(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
-        $users = $this->getDoctrine()->getRepository(\App\Entity\User::class)->findAll();
+        $data = [];
+        $form = $this->createFormBuilder($data)
+            ->add("search", TextType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'label' => 'Имя пользователя'
+            ])
+            ->add("submit", SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary mt-3 mb-3'],
+                'label' => 'Поиск'
+            ])
+            ->setMethod('GET')
+            ->getForm();
+
+        $query = $em->getRepository(User::class)
+            ->createQueryBuilder('u')
+            ->orderBy('u.id', 'DESC')
+            ->getQuery();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $form_data = $form->getData();
+            $search = $form_data['search'];
+            $query = $em->getRepository(User::class)
+                ->createQueryBuilder('u')
+                ->andWhere('u.uuid LIKE :uuid')
+                ->setParameter('uuid', "%$search%");
+
+            $query = $query->orderBy('u.id', 'DESC')->getQuery();
+        }
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
 
         return $this->render('admin/templates/users.html.twig', [
             'controller_name' => 'AdminController',
-            'users' => $users,
+            'pagination' => $pagination,
+            'form' => $form->createView()
         ]);
     }
 
@@ -135,8 +172,6 @@ class AdminController extends AbstractController
             $entity_manager->flush();
         }
 
-
-
         return $this->render('admin/templates/userEdit.html.twig', [
 
             'controller_name' => 'AdminController',
@@ -156,8 +191,6 @@ class AdminController extends AbstractController
 
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password

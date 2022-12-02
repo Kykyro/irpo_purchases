@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ViewFileController extends AbstractController
 {
     /**
-     * @Route("/pdf/{pdfFilename}", name="app_download_purchases_file")
+     * @Route("/pdf/{pdfFilename}", name="app_download_purchases_file_pdf")
      */
     public function pdfAction($pdfFilename)
     {

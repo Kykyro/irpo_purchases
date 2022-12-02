@@ -9,16 +9,16 @@
 
             <div class="ibox">
                 <div class="ibox-content">
-                    <span class="text-muted small float-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014</span>
-                    <h2>Clients</h2>
-                    <p>
-                        All clients need to be verified before you can send email and set a project.
-                    </p>
+                    {# <span class="text-muted small float-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014</span> #}
+                    <h2>Пользователи</h2>
+                    
                     <div class="input-group">
-                        <input type="text" placeholder="Search client " class="input form-control">
-                        <span class="input-group-append">
-                                                <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
-                                        </span>
+                         {{ form_start(form) }}
+                            <label> Имя пользователя </label>
+                            {{ form_widget(form.search) }}
+
+                            {{ form_widget(form.submit) }}
+                        {{ form_end(form) }}
                     </div>
 
                     <div class="clients-list">
@@ -30,7 +30,7 @@
                                 </button>
                             </a>
                         </div>
-                        <span class="float-right small text-muted">1406 Elements</span>
+                        {# <span class="float-right small text-muted">1406 Elements</span> #}
 
                         <div class="tab-content">
 
@@ -52,7 +52,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {% for i in users %}
+                                            {% for i in pagination %}
                                                 {% set userInfo = i.getUserInfo() %}
                                                 <tr>
                                                     <td>{{ i.getId() }}</td>
@@ -89,6 +89,12 @@
 
                                             </tbody>
                                         </table>
+                                         
+                                    </div>
+                                    <div class="row">
+                                        <div class="navigation">
+                                            {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

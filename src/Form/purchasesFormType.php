@@ -90,7 +90,7 @@ class purchasesFormType extends AbstractType
                 [
                     'attr' => [
                         'class' => 'form-control initial',
-                        'step' => '.001',
+                        'step' => '.01',
                         'min' => '0',
                         'max' => '99999999999'
                     ],
@@ -101,7 +101,7 @@ class purchasesFormType extends AbstractType
                 [
                     'attr' => [
                         'class' => 'form-control initial',
-                        'step' => '.001',
+                        'step' => '.01',
                         'min' => '0',
                         'max' => '99999999999'
                     ],
@@ -112,7 +112,7 @@ class purchasesFormType extends AbstractType
                 [
                     'attr' => [
                         'class' => 'form-control initial',
-                        'step' => '.001',
+                        'step' => '.01',
                         'min' => '0',
                         'max' => '99999999999'
                     ],
@@ -123,7 +123,7 @@ class purchasesFormType extends AbstractType
                 [
                     'attr' => [
                         'class' => 'form-control initial',
-                        'step' => '.001',
+                        'step' => '.01',
                         'min' => '0',
                         'max' => '99999999999'
                     ],
@@ -152,7 +152,7 @@ class purchasesFormType extends AbstractType
                 [
                     'attr' => [
                         'class' => 'form-control fin',
-                        'step' => '.001',
+                        'step' => '.01',
                         'min' => '0',
                         'max' => '99999999999'
                     ],
@@ -163,7 +163,7 @@ class purchasesFormType extends AbstractType
                 [
                     'attr' => [
                         'class' => 'form-control fin',
-                        'step' => '.001',
+                        'step' => '.01',
                         'min' => '0',
                         'max' => '99999999999'
                     ],
@@ -174,7 +174,7 @@ class purchasesFormType extends AbstractType
                 [
                     'attr' => [
                         'class' => 'form-control fin',
-                        'step' => '.001',
+                        'step' => '.01',
                         'min' => '0',
                         'max' => '99999999999'
                     ],
@@ -185,7 +185,7 @@ class purchasesFormType extends AbstractType
                 [
                     'attr' => [
                         'class' => 'form-control fin',
-                        'step' => '.001',
+                        'step' => '.01',
                         'min' => '0',
                         'max' => '99999999999'
                     ],
