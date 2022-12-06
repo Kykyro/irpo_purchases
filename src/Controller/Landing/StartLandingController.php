@@ -43,7 +43,6 @@ class StartLandingController extends AbstractController
         $employees = $entity_manager->getRepository(Employees::class)
             ->createQueryBuilder('a')
             ->orderBy('a.id', 'DESC')
-            ->setMaxResults(8)
             ->getQuery()
             ->getResult();
 
