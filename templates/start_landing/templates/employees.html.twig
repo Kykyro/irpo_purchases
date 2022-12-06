@@ -9,29 +9,29 @@
 
             </div>
         </div>
-        <div class="row team_scale_mobile" style="margin-left: 13%">
+        <div class="container">
+            <div id="portfolio-gallery" class="ed-carousel2 ed-slick dots-classic dots-light dots-outside">
             {% for i in employees %}
                 <!-- User -->
-                <a href="#">
-                    <div class="col-md-3 col-sm-6 sm-mb-30" style="pointer-events: none;">
-                        <div class="profile-card sm-text-center">
-                            <div class="user-image">
-                                {% if i.getPhoto() is not null %}
-                                    <img src="{{ asset('/uploads/employeesPhotos/')~i.getPhoto() }}" alt>
-                                {% else %}
-                                    <img src="{{ asset('/img/placeholder/employees.png') }}" alt>
-                                {% endif %}
-                            </div>
-                            <div class="user-info text-center">
-                                <h5 class="heading-uppercase mb-0">{{ i.getName() }}</h5>
-                                <p class="role mb-0">{{ i.getPost() }}</p>
-                            </div>
+                <article class="carousel-item2 portfolio-item web" style="margin-left: 15px; margin-right: 15px">
+                    <a href="#">
+                        <div class="project-container mb-0 scale_img">
+                                <div class="user-image">
+                                    {% if i.getPhoto() is not null %}
+                                        <img src="{{ asset('/uploads/employeesPhotos/')~i.getPhoto() }}" alt>
+                                    {% else %}
+                                        <img src="{{ asset('/img/placeholder/employees.png') }}" alt>
+                                    {% endif %}
+                                </div>
+                                <div class="user-info text-center text_scale_img">
+                                    <h5 class="heading-uppercase mb-0" style="margin-top: 15px">{{ i.getName() }}</h5>
+                                    <p class="role mb-0" style="margin-top: 15px">{{ i.getPost() }}</p>
+                                </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </article>
             {% endfor %}
-
-
+            </div>
         </div>
     </div>
 </section>
