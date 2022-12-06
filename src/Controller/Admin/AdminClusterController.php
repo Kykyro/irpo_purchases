@@ -47,6 +47,7 @@ class AdminClusterController extends AbstractController
                 'required'   => false,
                 'label' => 'Имя пользователя'
             ])
+            
             ->add("submit", SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary mt-3 mb-3'],
                 'label' => 'Поиск'
@@ -70,6 +71,8 @@ class AdminClusterController extends AbstractController
             $query = $em->getRepository(User::class)
                 ->createQueryBuilder('u')
                 ->andWhere('u.uuid LIKE :uuid')
+                ->andWhere('u.roles LIKE :roles')
+                ->setParameter('roles', "%REGION%")
                 ->setParameter('uuid', "%$search%");
 
             $query = $query->orderBy('u.id', 'DESC')->getQuery();
@@ -78,7 +81,7 @@ class AdminClusterController extends AbstractController
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            9 /*limit per page*/
         );
 
 

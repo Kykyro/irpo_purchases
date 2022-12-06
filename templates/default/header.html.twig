@@ -92,7 +92,9 @@
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top upper-menu" role="navigation" style="margin-bottom: 0">
-
+                {% if is_granted('IS_IMPERSONATOR') %}
+                    <a href="{{ impersonation_exit_path(path('homepage') ) }}">Exit impersonation</a>
+                {% endif %}
                 <ul class="nav navbar-top-links navbar-right offset-lg-10">
                     <li>
                         {% if is_granted('ROLE_SUPERADMIN') %}

@@ -2,6 +2,14 @@
 
 {% block content %}
     <div class="row col-lg-12">
+        {{ form_start(form) }}
+            <label> Имя пользователя </label>
+            {{ form_widget(form.search) }}
+
+            {{ form_widget(form.submit) }}
+        {{ form_end(form) }}
+    </div>
+    <div class="row col-lg-12">
         {% for i in pagination %}
             <div class="col-lg-4 animated fadeIn">
                 <div class="contact-box">
