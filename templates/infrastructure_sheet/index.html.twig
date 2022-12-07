@@ -1,3 +1,10 @@
+{% if type == 'cluster_IS' %}
+    {% set view = true %}
+{% elseif type == 'workshops_IS' %}
+    {% set view = false %}
+{% else %}
+    {% set view = false %}
+{% endif %}
 <!DOCTYPE html>
 
     <title>Инфраструктурные листы кластеров</title>
@@ -30,28 +37,39 @@
                     {{ title }}
                 </div>
                 <hr>
-
-                {{ form_start(form) }}
-                <label class="m-1 col-lg-12" style="padding-bottom: 1rem; font-size: 22px; text-align: center; padding-top: 20px"> Поиск </label>
-                {{ form_widget(form.search) }}
-                {{ form_widget(form.submit , {
-                    label: 'Найти',
-                    attr: {
-                        class: 'col-lg-12 btn btn-gray-all btn-outline-success'
-                    }
-                }) }}
-                {{ form_end(form) }}
+                {% if view == false %}
+                    {{ form_start(form) }}
+                        <label class="m-1 col-lg-12" style="padding-bottom: 1rem; font-size: 22px; text-align: center; padding-top: 20px"> Поиск </label>
+                        {{ form_widget(form.search) }}
+                        {{ form_widget(form.submit , {
+                            label: 'Найти',
+                            attr: {
+                                class: 'col-lg-12 btn btn-gray-all btn-outline-success'
+                            }
+                        }) }}
+                    {{ form_end(form) }}
+                {% else %}
+                    {{ form_start(form) }}
+                        <label class="m-1 col-lg-12" style="padding-bottom: 1rem; font-size: 22px; text-align: center; padding-top: 20px"> Поиск </label>
+                        <label>Название</label>
+                        {{ form_widget(form.search) }}
+                        <label>УГПС</label>
+                        {{ form_widget(form.UGPS) }}
+                        <label>Отрасль</label>
+                        {{ form_widget(form.industry) }}
+                        {{ form_widget(form.submit , {
+                            label: 'Найти',
+                            attr: {
+                                class: 'col-lg-12 btn btn-gray-all btn-outline-success'
+                            }
+                        }) }}
+                    {{ form_end(form) }}
+                {% endif %}
             </div>
 
         </div>
     </div>
-    {% if type == 'cluster_IS' %}
-        {% set view = true %}
-    {% elseif type == 'workshops_IS' %}
-        {% set view = false %}
-    {% else %}
-        {% set view = false %}
-    {% endif %}
+    
     <div style="padding-top: 1rem">
         <div class="container">
 
