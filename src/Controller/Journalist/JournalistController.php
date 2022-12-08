@@ -61,6 +61,7 @@ class JournalistController extends AbstractController
             return $this->render('journalist/templates/map.html.twig', [
                 'controller_name' => 'JournalistController',
                 'form' => $form->createView(),
+                'map' => $map
             ]);
         }
         else{

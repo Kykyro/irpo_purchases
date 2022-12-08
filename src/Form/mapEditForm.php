@@ -32,12 +32,19 @@ class mapEditForm extends AbstractType
         $serializer = new Serializer($normalizers, $encoders);
 
         $org = $options['data']->getOrganization();
-        $orgContent = $serializer->serialize($org, 'json');
-        $orgContent = stripslashes($orgContent);
-        $orgContent = trim($orgContent, '["]');
+        // $orgContent = $serializer->serialize($org, 'json');
+        // $orgContent = $serializer->decode($org, 'json');
+        $orgContent = "";
+        if($org != null){
+            $orgContent = $org[0];
+            $orgContent = stripslashes($orgContent);
+            $orgContent = trim($orgContent, '["]');
+        }
+        
+        
         $builder
             ->add('name', TextType::class, [
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => ['class' => 'form-control mb-3 '],
                 'required'   => true,
                 'label' => 'Заголовок'
             ])
