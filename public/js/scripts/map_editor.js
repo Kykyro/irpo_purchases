@@ -1,5 +1,6 @@
 $(document).ready(function(){
     let input = $('#map_edit_form_organization');
+    console.log(input.val());
     let mapEditor = $( '#map-editor');
     let obj = JSON.parse(input.val());
     let string = '';
