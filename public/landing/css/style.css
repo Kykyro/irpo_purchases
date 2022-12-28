@@ -6456,13 +6456,13 @@ body.mobile .mobile-hidden {
 }
 
 .text_adaptive_size_header{
-	font-size: calc(3px + 16 * (100vw / 1280)) !important;
-	line-height: calc(1px + 20 * (100vw /1280)) !important;
+	font-size: calc(3px + 14 * (100vw / 1280)) !important;
+	line-height: calc(1px + 21 * (100vw /1280)) !important;
 }
 
 .text_adaptive_size_subtitle{
-	font-size: calc(1px + 10 * (100vw / 1280)) !important;
-	line-height: calc(1px + 18 * (100vw /1280)) !important;
+	font-size: calc(1px + 8 * (100vw / 1280)) !important;
+	line-height: calc(1px + 14 * (100vw /1280)) !important;
 }
 
 .text_adaptive_size_rightbar{
