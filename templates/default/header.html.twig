@@ -97,15 +97,15 @@
                 {% endif %}
                 <ul class="nav navbar-top-links navbar-right offset-lg-10">
                     <li>
-                        {% if is_granted('ROLE_SUPERADMIN') %}
+                        {#{% if is_granted('ROLE_SUPERADMIN') %}#}
                             <a href="{{ path("app_logout") }}">
-                                <i class="fa fa-mail-forward"></i> Разлогинится
+                                <i class="fa fa-mail-forward"></i> Выйти
                             </a>
-                        {% endif %}
+                        {#{% endif %}#}
                     </li>
                     <li>
                         <a href="{{ path("app_start_landing") }}">
-                            <i class="fa fa-sign-out"></i> Выйти
+                            <i class="fa fa-sign-out"></i> На главную
                         </a>
 
                     </li>
