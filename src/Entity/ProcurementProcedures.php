@@ -599,4 +599,45 @@ class ProcurementProcedures
             $this->version += 1;
         }
     }
+
+    public function getNMCK(){
+        $sum = $this->initialFederalFunds + $this->initialFundsOfSubject +
+                $this->initialEmployersFunds + $this->initialEducationalOrgFunds;
+        if($sum > 0){
+            return $sum;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public function getContractCost(){
+        $sum = $this->finEmployersFunds + $this->finFederalFunds +
+            $this->finFundsOfEducationalOrg + $this->finFundsOfSubject;
+        if($sum > 0){
+            return $sum;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public function getSourceOfFunding(){
+        $source = "";
+
+        if($this->initialFederalFunds > 0){
+            $source = $source."средства федерального бюджета/ ";
+        }
+        if($this->initialFundsOfSubject > 0){
+            $source = $source."средства субъекта РФ/ ";
+        }
+        if($this->initialEmployersFunds > 0){
+            $source = $source."средства работодателей/ ";
+        }
+        if($this->initialEducationalOrgFunds > 0){
+            $source = $source."средства образовательной организации/ ";
+        }
+
+        return $source;
+    }
 }

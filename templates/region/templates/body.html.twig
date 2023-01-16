@@ -41,6 +41,12 @@
                         Добавить закупку
                     </button>
                 </a>
+                <a href="{{ path("app_add_purchases_v2") }}">
+                    <button class="btn-gray-all btn btn-outline-success col-lg-12 ">
+                        <div class="fa fa-plus"></div>
+                        Добавить закупку [new]
+                    </button>
+                </a>
 
             </div>
         </div>
@@ -61,10 +67,18 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Номер закупки</th>
-                        <th>Объект закупки</th>
-                        <th>Поставщик</th>
-                        <th>Статус</th>
+
+                        <th>Предмет закупки</th>
+                        <th>Способ определения поставщика</th>
+                        <th>НМЦК</th>
+                        <th>Дата публикации извещения</th>
+                        <th>Дата окончания подачи заявок</th>
+                        <th>Дата подведения итогов</th>
+                        <th>Дата заключения договоров</th>
+                        <th>Стоимость договора</th>
+                        <th>Источник финансирования</th>
+
+
                         <th>Действия</th>
 
                     </tr>
@@ -76,18 +90,50 @@
                             <td>
                                 {{ i.getId() }}
                             </td>
-                            <td>
-                                {{ i.getPurchaseNumber() }}
-                            </td>
-                            <td>
-                                {{ i.getPurchaseObject() }}
-                            </td>
-                            <td>
-                                {{ i.getSupplierName() }}
-                            </td>
-                            <td>
-                                (статус)
-                            </td>
+                            {# Предмет закупки #}
+                            <td>{{ i.getPurchaseObject() }} </td>
+                            {# Способ определения поставщика #}
+                            <td>{{ i.getMethodOfDetermining() }}</td>
+                            {# НМЦК #}
+                            <td> {{ i.getNMCK() }}₽</td>
+
+                            {# даты #}
+                            {# Дата публикации извещения #}
+                            {% if i.getPublicationDate is null %}
+                                <td></td>
+                            {% else %}
+                                <td>{{ i.getPublicationDate().format("d.m.y") }}</td>
+                            {% endif %}
+
+                            {# Дата окончания подачи заявок #}
+                            {% if i.getDeadlineDate is null %}
+                                <td></td>
+                            {% else %}
+                                <td>{{ i.getDeadlineDate().format("d.m.y") }}</td>
+                            {% endif %}
+
+                            {# Дата подведения итогов #}
+                            {% if i.getDateOfSummingUp is null %}
+                                <td></td>
+                            {% else %}
+                                <td>{{ i.getDateOfSummingUp().format("d.m.y") }}</td>
+                            {% endif %}
+
+                            {# Дата заключения договоров #}
+                            {% if i.getDateOfConclusion is null %}
+                                <td></td>
+                            {% else %}
+                                <td>{{ i.getDateOfConclusion().format("d.m.y") }}</td>
+                            {% endif %}
+
+
+
+                            {# Стоимость договора #}
+                            <td>{{ i.getContractCost() }}₽</td>
+                            {# Источник финансирования #}
+                            <td>{{ i.getSourceOfFunding() }}</td>
+
+                            {# Действия #}
                             <td>
                                 <a href="{{ path('app_purchases_detail', {'id': i.getId()}) }}">
                                     <button class="btn btn-info">

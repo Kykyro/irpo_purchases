@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     // VARIBLES
     let purchases_object = $("#purchases_form_PurchaseObject");
     let method_of_determining = $("#purchases_form_MethodOfDetermining");
@@ -40,7 +41,7 @@ $(document).ready(function () {
     let postponement_date_error = $("#postponement-date-error");
     let conclusion_date_error = $("#conclusion-date-error");
     let delivery_date_error = $("#delivery-date-error");
-
+    // console.log(method_of_determining);
     function soloSupplier(isThis){
         if(isThis)
         {
@@ -142,6 +143,9 @@ $(document).ready(function () {
         updateFinSum();
 
         errors_message.hide();
+        // console.log(method_of_determining)
+
+
     }
 
     method_of_determining.change(() => {
