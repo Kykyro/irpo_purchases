@@ -9,7 +9,7 @@
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
 {% if prodProc|length > 0 %}
-                <div class="container-fluid scrolling-wrapper">
+                <div class="container-fluid table-responsive horizontal-drag">
                     <div class="row col-lg-12">
                     <div class="flex-row flex-nowrap">
                         <style>
@@ -276,6 +276,43 @@
                         </a>
                     </div>
                 </div>
+
+
+    <script>
+        const slider = document.querySelector('.horizontal-drag');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+
+            isDown = true;
+            slider.classList.add('active_scroll')
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mouseup', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+
+            if (!isDown) return;
+            e.preventDefault()
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 3;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
 {% else %}
     <div>
         <h1>

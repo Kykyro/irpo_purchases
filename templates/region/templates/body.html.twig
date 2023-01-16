@@ -56,14 +56,14 @@
 
 
 <div class="row">
-    <div class="col-lg-10 offset-lg-1">
-        <div class="wrapper wrapper-content">
+    <div class="col-lg-10 offset-lg-1 ">
+        <div class="wrapper wrapper-content ">
 
             <div class="row">
                 <h2>
                     Список закупок
                 </h2>
-                <table class="table block-shadow white-bg">
+                <table class="table block-shadow white-bg table-responsive horizontal-drag">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -136,13 +136,13 @@
                             {# Действия #}
                             <td>
                                 <a href="{{ path('app_purchases_detail', {'id': i.getId()}) }}">
-                                    <button class="btn btn-info">
+                                    <button class="btn btn-info col-lg-12" >
                                         <div class="fa fa-info"></div>
                                         Просмотр
                                     </button>
                                 </a>
                                 <a href="{{ path('app_purchases_delete', {'id': i.getId()}) }}" class="delete-alert">
-                                    <button class="btn btn-danger">
+                                    <button class="btn btn-danger col-lg-12">
                                         <div class="fa fa-trash"></div>
                                         Удалить
                                     </button>
@@ -161,4 +161,39 @@
 
     </div>
 </div>
+<script>
+    const slider = document.querySelector('.horizontal-drag');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+
+        isDown = true;
+        slider.classList.add('active_scroll')
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener('mouseleave', () => {
+
+        isDown = false;
+        slider.classList.remove('active_scroll')
+    });
+
+    slider.addEventListener('mouseup', () => {
+
+        isDown = false;
+        slider.classList.remove('active_scroll')
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+
+        if (!isDown) return;
+        e.preventDefault()
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 3;
+        slider.scrollLeft = scrollLeft - walk;
+    });
+</script>
 

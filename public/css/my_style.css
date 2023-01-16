@@ -189,6 +189,10 @@ input[type="text"], textarea {
 
     font: 12px Arial, sans-serif;
 }
+ .horizontal-drag.active_scroll{
+     cursor: grabbing;
+     cursor: -webkit-grabbing;
+ }
 
 
 
