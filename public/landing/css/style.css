@@ -1839,20 +1839,20 @@ div.pswp__caption__center {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background: #fff;
+	background: black;
 	z-index: 10001;
 }
 
 #loading-animation {
 	position: absolute;
-	width: 100px;
-	height: 100px;
+	width: 1000px;
+	height: 1000px;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	margin: auto;
-	background: url(../images/loading-animation.gif) no-repeat center;
+	background: url(../images/loading-animation2.gif) no-repeat center;
 }
 
 /*------------------------------------------------------------------
