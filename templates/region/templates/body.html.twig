@@ -1,5 +1,5 @@
 {% if not app.user.getUserInfo().isAllFull() %}
-<div class="row d-flex justify-content-center m-2">
+<div class="row d-flex justify-content-center m-2 animated fadeInRight">
     <div class="col-lg-10 ">
         <div>
             <div class="">
@@ -23,7 +23,7 @@
 </div>
 {% endif %}
 
-<div class="row d-flex justify-content-center">
+<div class="row d-flex justify-content-center animated fadeInRight">
     <div class="col-lg-10">
         {% if not app.user.getUserInfo().isNOTAllFull() %}
         <div class="wrapper wrapper-content ">
@@ -42,7 +42,7 @@
                     </button>
                 </a>
                 <a href="{{ path("app_add_purchases_v2") }}">
-                    <button class="btn-gray-all btn btn-outline-success col-lg-12 ">
+                    <button class="btn-gray-all btn btn-outline-success col-lg-12 " style="margin-top: 1rem">
                         <div class="fa fa-plus"></div>
                         Добавить закупку [new]
                     </button>
@@ -55,12 +55,12 @@
 </div>
 
 
-<div class="row">
-    <div class="col-lg-10 offset-lg-1 ">
-        <div class="wrapper wrapper-content ">
+<div class="row animated fadeInRight">
+    <div class="col-lg-10 offset-lg-1 " >
+        <div class="wrapper wrapper-content " >
 
-            <div class="row">
-                <h2>
+            <div class="row " >
+                <h2 style="font-weight: bold; margin-bottom: 2rem">
                     Список закупок
                 </h2>
                 <table class="table block-shadow white-bg table-responsive horizontal-drag">

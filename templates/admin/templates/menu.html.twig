@@ -1,35 +1,29 @@
 {% extends "admin/base.html.twig" %}
 
 {% block content %}
-<div class="row">
-    <div class="">
-        <ul>
-            <li>
-                <a href="{{ path('app_admin_users') }}" >
-                    <button class="btn btn-success">
-                        <div class="glyphicon glyphicon-piggy-bank"></div>
-                        Пользователи
-                    </button>
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('app_admin_cluster') }}">
-                    <button class="btn btn-success">
-                        <div class="fa fa-trash"></div>
-                        Кластеры
-                    </button>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <button class="btn btn-success">
-                        <div class="fa fa-trash"></div>
-                        Пользователи
-                    </button>
-                </a>
-            </li>
-        </ul>
 
+
+                    <div class="m-3">
+                        <a href="{{ path('app_admin_users') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-success col-lg-8" style="font-size: 2rem">
+                                <div class="glyphicon glyphicon-piggy-bank" ></div>
+                                Пользователи
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="m-3">
+                        <a href="{{ path('app_admin_cluster') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-success col-lg-8" style="font-size: 2rem">
+                                <div class="fa fa-trash"></div>
+                                Кластеры
+                            </button>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
