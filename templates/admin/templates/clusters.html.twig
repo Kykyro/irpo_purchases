@@ -8,14 +8,16 @@
             <div class="col-sm-12">
 
                 <div class="ibox">
-                <div class="ibox-content">
-                <div class="row col-lg-12" style="margin-left: 2px; padding-bottom: 2rem; padding-top: 2rem">
-                    {{ form_start(form) }}
-                        <label> Имя пользователя </label>
-                        {{ form_widget(form.search) }}
+                    <div class="ibox-content">
+                        <div class="row col-lg-12" style="margin-left: 2px; padding-bottom: 2rem; padding-top: 2rem">
+                            {{ form_start(form) }}
+                                <label> Имя пользователя </label>
+                                {{ form_widget(form.search) }}
 
-                        {{ form_widget(form.submit) }}
-                    {{ form_end(form) }}
+                                {{ form_widget(form.submit) }}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
                 </div>
                 <div class="row col-lg-12">
                     {% for i in pagination %}
