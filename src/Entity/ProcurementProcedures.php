@@ -626,16 +626,16 @@ class ProcurementProcedures
         $source = "";
 
         if($this->initialFederalFunds > 0){
-            $source = $source."средства федерального бюджета/ ";
+            $source = $source."ФБ/ ";
         }
         if($this->initialFundsOfSubject > 0){
-            $source = $source."средства субъекта РФ/ ";
+            $source = $source."РБ/ ";
         }
         if($this->initialEmployersFunds > 0){
-            $source = $source."средства работодателей/ ";
+            $source = $source."РД/ ";
         }
         if($this->initialEducationalOrgFunds > 0){
-            $source = $source."средства образовательной организации/ ";
+            $source = $source."ОО/ ";
         }
 
         return $source;

@@ -81,6 +81,10 @@
 
         </div>
     </div>
+
+
+{% endblock %}
+{% block scripts %}
     <script>
         const slider = document.querySelector('.horizontal-drag');
         let isDown = false;
@@ -116,5 +120,4 @@
             slider.scrollLeft = scrollLeft - walk;
         });
     </script>
-
 {% endblock %}

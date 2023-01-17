@@ -1,5 +1,148 @@
 $(document).ready(function () {
 
+
+    $("#wizard").steps();
+    $("#form").steps({
+        bodyTag: "fieldset",
+        labels: {
+            current: "current step:",
+            pagination: "Pagination",
+            finish: "Финиш",
+            next: "Далее",
+            previous: "Назад",
+            loading: "Loading ..."
+        },
+        onStepChanging: function (event, currentIndex, newIndex)
+        {
+            // Always allow going backward even if the current step contains invalid fields!
+            if (currentIndex > newIndex)
+            {
+                return true;
+            }
+
+            // Forbid suppressing "Warning" step if the user is to young
+            if (newIndex === 3 && Number($("#age").val()) < 18)
+            {
+                return false;
+            }
+
+            var form = $(this);
+
+            // Clean up if user went backward before
+            if (currentIndex < newIndex)
+            {
+                // To remove error styles
+                $(".body:eq(" + newIndex + ") label.error", form).remove();
+                $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+            }
+
+            // Disable validation on fields that are disabled or hidden.
+            form.validate().settings.ignore = ":disabled,:hidden";
+
+            // Start validation; Prevent going forward if false
+            return form.valid();
+        },
+        onStepChanged: function (event, currentIndex, priorIndex)
+        {
+            if(formState === "Единственный поставщик"){
+                let editablePage = [0, 1, 5, 6, 7];
+                if(!editablePage.includes(currentIndex)){
+                    if(currentIndex > priorIndex)
+                        $(this).steps("next");
+                    else
+                        $(this).steps("previous");
+                }
+            }
+            if(formState === "Аукцион в электронной форме"){
+                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
+                if(!editablePage.includes(currentIndex)){
+                    if(currentIndex > priorIndex)
+                        $(this).steps("next");
+                    else
+                        $(this).steps("previous");
+                }
+            }
+            if(formState === "Открытый конкурс"){
+                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
+                if(!editablePage.includes(currentIndex)){
+                    if(currentIndex > priorIndex)
+                        $(this).steps("next");
+                    else
+                        $(this).steps("previous");
+                }
+            }
+            if(formState === "Запрос котировок"){
+                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
+                if(!editablePage.includes(currentIndex)){
+                    if(currentIndex > priorIndex)
+                        $(this).steps("next");
+                    else
+                        $(this).steps("previous");
+                }
+            }
+            if(formState === "Электронный магазин"){
+                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
+                if(!editablePage.includes(currentIndex)){
+                    if(currentIndex > priorIndex)
+                        $(this).steps("next");
+                    else
+                        $(this).steps("previous");
+                }
+            }
+            if(formState === "Другое"){
+                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
+                if(!editablePage.includes(currentIndex)){
+                    if(currentIndex > priorIndex)
+                        $(this).steps("next");
+                    else
+                        $(this).steps("previous");
+                }
+            }
+
+
+
+
+            $("a[href='#finish']").hide();
+
+        },
+        onFinishing: function (event, currentIndex)
+        {
+
+            var form = $(this);
+
+            // Disable validation on fields that are disabled.
+            // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+            form.validate().settings.ignore = ":disabled";
+
+            // Start validation; Prevent form submission if false
+            return form.valid();
+        },
+        onFinished: function (event, currentIndex)
+        {
+            var form = $(this);
+
+            // Submit form input
+            form.submit();
+        }
+    }).validate({
+
+        rules: {
+
+            'purchases_form[PurchaseObject]': "required",
+            'purchases_form[anotherMethodOfDetermining]': "required",
+
+
+        },
+        messages: {
+            'purchases_form[PurchaseObject]': "Введите предмет закупки",
+            'purchases_form[anotherMethodOfDetermining]': "Укажите Способ определения поставщика",
+            'purchases_form[file]': "Прикрепите файл договора/проекта договора",
+
+        }
+    });
+
+
+
     // VARIBLES
     let purchases_object = $("#purchases_form_PurchaseObject");
     let method_of_determining = $("#purchases_form_MethodOfDetermining");
@@ -8,6 +151,7 @@ $(document).ready(function () {
     let postponement_comment = $('#purchases_form_postonementComment');
     let purchases_number = $('#purchases_form_PurchaseNumber');
     let purchases_link = $('#purchases_form_PurchaseLink');
+    let file = $('#purchases_form_file');
 
     // Начальная цена контракта
     let initial_federal_funds = $("#purchases_form_initialFederalFunds");
@@ -41,17 +185,27 @@ $(document).ready(function () {
     let postponement_date_error = $("#postponement-date-error");
     let conclusion_date_error = $("#conclusion-date-error");
     let delivery_date_error = $("#delivery-date-error");
-    // console.log(method_of_determining);
+
+    // ------
+    let formState = "Единственный поставщик";
+
+
+
+
+
     function soloSupplier(isThis){
         if(isThis)
         {
             clearValue(publication_date, deadline_date, summing_up_date,
                 postponement_date,  postponement_comment);
+
+            $("#form-t-2").hide();
+            $("#form-t-3").hide();
+            $("#form-t-4").hide();
         }
-        // required
-        setRequired(isThis, conclusion_date);
+        setRequired(isThis, file);
+        setRequired(!isThis, conclusion_date);
         setRequired(!isThis, publication_date);
-        // disabled
         setDisabled(isThis, publication_date, deadline_date, summing_up_date, purchases_link,
             purchases_number, postponement_date, postponement_comment);
 
@@ -60,7 +214,7 @@ $(document).ready(function () {
     {
         if(isThis)
         {
-            another_method_of_determining_row.show(1000);
+            another_method_of_determining_row.show();
             setRequired(isThis, another_method_of_determining);
         }
         else
@@ -136,6 +290,7 @@ $(document).ready(function () {
         changeInitialFunds(initial_edication_org_funds, fin_edication_org_funds);
 
         let method = method_of_determining.find(":selected").text();
+        formState = method;
         changeMethod(method, "Другое", anotherMethodOfDeterminingFunc);
         changeMethod(method, "Единственный поставщик", soloSupplier);
 
@@ -149,7 +304,16 @@ $(document).ready(function () {
     }
 
     method_of_determining.change(() => {
+        $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
+        $("#form-t-2").show().parent().removeClass("done").addClass("disabled");
+        $("#form-t-3").show().parent().removeClass("done").addClass("disabled");
+        $("#form-t-4").show().parent().removeClass("done").addClass("disabled");
+        $("#form-t-5").show().parent().removeClass("done").addClass("disabled");
+        $("#form-t-6").show().parent().removeClass("done").addClass("disabled");
+        $("#form-t-7").show().parent().removeClass("done").addClass("disabled");
+
         let method = method_of_determining.find(":selected").text();
+        formState = method;
         changeMethod(method, "Другое", anotherMethodOfDeterminingFunc);
         changeMethod(method, "Единственный поставщик", soloSupplier);
     });
@@ -211,5 +375,20 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
+
+
+
+
+
+
+
+
     onLoad();
+
+
+    // class FormState{
+    //     constructor() {
+    //         this.methodOfDeterminating = "Единственный поставщик";
+    //     }
+    // }
 });
