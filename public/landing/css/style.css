@@ -1845,8 +1845,8 @@ div.pswp__caption__center {
 
 #loading-animation {
 	position: absolute;
-	width: 1000px;
-	height: 1000px;
+	width: 100px;
+	height: 100px;
 	top: 0;
 	bottom: 0;
 	left: 0;
