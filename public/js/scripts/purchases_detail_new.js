@@ -83,13 +83,13 @@ $(document).ready(function () {
             // Start validation; Prevent form submission if false
             return form.valid();
         },
-        onFinished: function (event, currentIndex)
-        {
-            var form = $(this);
-
-            // Submit form input
-            form.submit();
-        }
+        // onFinished: function (event, currentIndex)
+        // {
+        //     var form = $(this);
+        //
+        //     // Submit form input
+        //     form.submit();
+        // }
     }).validate({
 
         rules: {
@@ -163,7 +163,7 @@ $(document).ready(function () {
 
     // ------
     let formState = "Единственный поставщик";
-    let showFieldset = [0, 1, 5, 6, 7];
+    let showFieldset = [0, 1, 4, 5, 6, 7];
 
 
     // function skipStep() {
@@ -180,12 +180,12 @@ $(document).ready(function () {
             isPlannedRow.hide();
             isPlanned.prop('checked', false);
             isPlannedChange();
-            showFieldset = [0, 1, 5, 6, 7];
+            showFieldset = [0, 1, 4, 5, 6, 7];
 
 
             $("#form-t-2").hide();
             $("#form-t-3").hide();
-            $("#form-t-4").hide();
+            // $("#form-t-4").hide();
 
             finSumRow.hide();
         }
@@ -424,5 +424,15 @@ $(document).ready(function () {
     });
 
     onLoad();
+
+    input.addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            // document.getElementById("myBtn").click();
+        }
+    });
 
 });

@@ -28,23 +28,10 @@
         {% if not app.user.getUserInfo().isNOTAllFull() %}
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
-{#                <div>#}
-{#                    <input>#}
-{#                    <button class="btn btn-info">#}
-{#                        <div class="fa fa-search"></div>#}
-{#                        Найти#}
-{#                    </button>#}
-{#                </div>#}
-                <a href="{{ path("app_purchases_add") }}">
+                <a href="{{ path("app_add_purchases_v2") }}">
                     <button class="btn-gray-all btn btn-outline-success col-lg-12 ">
                         <div class="fa fa-plus"></div>
                         Добавить закупку
-                    </button>
-                </a>
-                <a href="{{ path("app_add_purchases_v2") }}">
-                    <button class="btn-gray-all btn btn-outline-success col-lg-12 " style="margin-top: 1rem">
-                        <div class="fa fa-plus"></div>
-                        Добавить закупку [new]
                     </button>
                 </a>
 
@@ -105,7 +92,7 @@
                                 <td>{{ i.getPublicationDate().format("d.m.y") }}</td>
                             {% endif %}
 
-                            {# Дата окончания подачи заявок #}
+                             {#Дата окончания подачи заявок#}
                             {% if i.getDeadlineDate is null %}
                                 <td></td>
                             {% else %}
@@ -156,6 +143,11 @@
 
                     </tbody>
                 </table>
+                <div class="row">
+                    <div class="navigation">
+                        {{ knp_pagination_render(procurement_procedures, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                    </div>
+                </div>
             </div>
         </div>
 

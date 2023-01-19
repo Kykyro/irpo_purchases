@@ -21,6 +21,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 
@@ -269,28 +271,36 @@ class RegionController extends AbstractController
     /**
      * @Route("/main", name="app_main")
      */
-    public function index(): Response
+    public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
 
         $user = $this->getUser();
         $user_id = $user->getId();
-        $repository = $this->getDoctrine()->getRepository(ProcurementProcedures::class);
-        $procurement_procedures = $repository->findBy(
-            [
-                'user' => $user_id,
-                'isDeleted' => false
-            ]
+
+
+        $query = $em->getRepository(ProcurementProcedures::class)
+            ->createQueryBuilder('a')
+            ->andWhere('a.user = :user_id')
+            ->andWhere('a.isDeleted = :is_deleted')
+            ->orderBy('a.id', 'DESC')
+            ->setParameter('user_id', "$user_id")
+            ->setParameter('is_deleted', false)
+            ->getQuery();
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
         );
 
         return $this->render('region/base.html.twig', [
             'controller_name' => 'RegionController',
-            'procurement_procedures' => $procurement_procedures
+            'procurement_procedures' => $pagination
         ]);
     }
-
+//@Route("/purchases-edit/{id}", name="app_purchases_edit", methods="GET|POST")
     /**
      *
-     * @Route("/purchases-edit/{id}", name="app_purchases_edit", methods="GET|POST")
+     *
      * @Route("/purchases-add", name="app_purchases_add", methods="GET|POST")
      */
     public function purchasesDetailNew(Request $request, SluggerInterface $slugger, int $id = null): Response

@@ -31,6 +31,7 @@ class RegionPurchasesController extends AbstractController
 {
     /**
      * @Route("/add-purchases-v2", name="app_add_purchases_v2")
+     * @Route("/purchases-edit/{id}", name="app_purchases_edit", methods="GET|POST")
      */
     public function AddPurchases(Request $request, SluggerInterface $slugger, int $id = null): Response
     {
