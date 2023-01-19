@@ -278,6 +278,140 @@
                 </div>
 
 
+{% else %}
+    <div>
+        <h1>
+            Нет закупок!
+        </h1>
+    </div>
+{% endif %}
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% if prodProc|length > 0 %}
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 ">
+            <div class="wrapper wrapper-content ">
+                <div class="ibox-content block-shadow ">
+                    <div class="container-fluid table-responsive horizontal-drag">
+                        <div class="row col-lg-12">
+                            <div class="flex-row flex-nowrap">
+                                <div class="row " >
+                                    <h2 style="font-weight: bold; margin-bottom: 2rem">
+                                        Список закупок
+                                    </h2>
+                                    <table class="table block-shadow white-bg table-responsive horizontal-drag">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+
+                                            <th>Предмет закупки</th>
+                                            <th>Способ определения поставщика</th>
+                                            <th>НМЦК</th>
+                                            <th>Дата публикации извещения</th>
+                                            <th>Дата окончания подачи заявок</th>
+                                            <th>Дата подведения итогов</th>
+                                            <th>Дата заключения договоров</th>
+                                            <th>Стоимость договора</th>
+                                            <th>Источник финансирования</th>
+
+
+                                            <th>Действия</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {% for i in prodProc %}
+                                            <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
+                                                <td>
+                                                    {{ i.getId() }}
+                                                </td>
+                                                {# Предмет закупки #}
+                                                <td>{{ i.getPurchaseObject() }} </td>
+                                                {# Способ определения поставщика #}
+                                                <td>{{ i.getMethodOfDetermining() }}</td>
+                                                {# НМЦК #}
+                                                <td> {{ i.getNMCK() }}₽</td>
+
+                                                {# даты #}
+                                                {# Дата публикации извещения #}
+                                                {% if i.getPublicationDate is null %}
+                                                    <td></td>
+                                                {% else %}
+                                                    <td>{{ i.getPublicationDate().format("d.m.y") }}</td>
+                                                {% endif %}
+
+                                                {# Дата окончания подачи заявок #}
+                                                {% if i.getDeadlineDate is null %}
+                                                    <td></td>
+                                                {% else %}
+                                                    <td>{{ i.getDeadlineDate().format("d.m.y") }}</td>
+                                                {% endif %}
+
+                                                {# Дата подведения итогов #}
+                                                {% if i.getDateOfSummingUp is null %}
+                                                    <td></td>
+                                                {% else %}
+                                                    <td>{{ i.getDateOfSummingUp().format("d.m.y") }}</td>
+                                                {% endif %}
+
+                                                {# Дата заключения договоров #}
+                                                {% if i.getDateOfConclusion is null %}
+                                                    <td></td>
+                                                {% else %}
+                                                    <td>{{ i.getDateOfConclusion().format("d.m.y") }}</td>
+                                                {% endif %}
+
+
+
+                                                {# Стоимость договора #}
+                                                <td>{{ i.getContractCost() }}₽</td>
+                                                {# Источник финансирования #}
+                                                <td>{{ i.getSourceOfFunding() }}</td>
+
+                                                {# Действия #}
+                                                <td>
+                                                    <a href="{{ path('app_purchases_detail', {'id': i.getId()}) }}">
+                                                        <button class="btn btn-info col-lg-12" >
+                                                            <div class="fa fa-info"></div>
+                                                            Просмотр
+                                                        </button>
+                                                    </a>
+                                                    <a href="{{ path('app_purchases_delete', {'id': i.getId()}) }}" class="delete-alert">
+                                                        <button class="btn btn-danger col-lg-12">
+                                                            <div class="fa fa-trash"></div>
+                                                            Удалить
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
     <script>
         const slider = document.querySelector('.horizontal-drag');
         let isDown = false;
@@ -313,24 +447,4 @@
             slider.scrollLeft = scrollLeft - walk;
         });
     </script>
-{% else %}
-    <div>
-        <h1>
-            Нет закупок!
-        </h1>
-    </div>
-{% endif %}
-
-
-
-
-
-            </div>
-        </div>
-    </div>
-</div>
-
-{% endblock %}
-
-{% block scripts %}
 {% endblock %}

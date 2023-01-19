@@ -32,7 +32,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class InfrastructureSheetController extends AbstractController
 {
     /**
-     * @Route("/infrastructure-sheet", name="app_inspector_infrastructure_sheet", methods="GET|POST")
+     * @Route("/clusters", name="app_inspector_infrastructure_sheet", methods="GET|POST")
      */
     public function regionUserList(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
@@ -50,6 +50,18 @@ class InfrastructureSheetController extends AbstractController
                 },
                 'choice_label' => 'name',
             ])
+            ->add("year", ChoiceType::class,[
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'choices'  => [
+                    '2021' => 2021,
+                    '2022' => 2022,
+                    '2023' => 2023,
+                    '2024' => 2024,
+
+                ],
+
+            ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success mt-3'
@@ -61,6 +73,7 @@ class InfrastructureSheetController extends AbstractController
 
         $query = $em->getRepository(User::class)
             ->createQueryBuilder('a')
+            ->leftJoin('a.user_info', 'uf')
             ->where('a.roles LIKE :role')
             ->setParameter('role', "%$role%");
 
@@ -71,9 +84,16 @@ class InfrastructureSheetController extends AbstractController
             if($form_data['rf_subject'] !== null){
                 $region = $form_data['rf_subject'];
                 $query = $query
-                    ->leftJoin('a.user_info', 'uf')
+
                     ->andWhere('uf.rf_subject = :rf_subject')
                     ->setParameter('rf_subject', $region);
+            }
+            if($form_data['year'] !== null){
+                $year = $form_data['year'];
+                $query = $query
+
+                    ->andWhere('uf.year = :year')
+                    ->setParameter('year', $year);
             }
         }
 
