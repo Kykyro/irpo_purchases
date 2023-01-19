@@ -187,6 +187,11 @@ class ProcurementProcedures
      */
     private $version;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isPlanned;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -501,33 +506,65 @@ class ProcurementProcedures
     public function getAsRow(): array
     {
         $row = [];
-        array_push($row,
-        $this->getPurchaseObject(),
-        $this->getMethodOfDetermining(),
-        null,
-        $this->getInitialFederalFunds(),
-        $this->getInitialFundsOfSubject(),
-        $this->getInitialEmployersFunds(),
-        $this->getInitialEducationalOrgFunds(),
-        (is_null($this->getPublicationDate())) ? '' : $this->getPublicationDate()->format('d.m.Y'),
-        (is_null($this->getDeadlineDate())) ? '' : $this->getDeadlineDate()->format('d.m.Y'),
-        (is_null($this->getDateOfSummingUp())) ? '' : $this->getDateOfSummingUp()->format('d.m.Y'),
-        $this->getPurchaseLink(),
-        $this->getPurchaseNumber(),
-        (is_null($this->getpostponementDate())) ? '' : $this->getpostponementDate()->format('d.m.Y'),
-        $this->getPostonementComment(),
-        (is_null($this->getDateOfConclusion())) ? '' : $this->getDateOfConclusion()->format('d.m.Y'),
-        $this->getSupplierName(),
-        $this->getSupplierINN(),
-        $this->getSupplierKPP(),
-        null,
-        $this->getfinFederalFunds(),
-        $this->getfinFundsOfSubject(),
-        $this->getfinEmployersFunds(),
-        $this->getfinFundsOfEducationalOrg(),
-        (is_null($this->getDeliveryTime())) ? '' : $this->getDeliveryTime()->format('d.m.Y'),
-        $this->getComments()
-        );
+        if($this->getMethodOfDetermining() == "Единственный поставщик"){
+            array_push($row,
+                $this->getPurchaseObject(),
+                $this->getMethodOfDetermining(),
+                null,
+                $this->getInitialFederalFunds(),
+                $this->getInitialFundsOfSubject(),
+                $this->getInitialEmployersFunds(),
+                $this->getInitialEducationalOrgFunds(),
+                (is_null($this->getPublicationDate())) ? '' : $this->getPublicationDate()->format('d.m.Y'),
+                (is_null($this->getDeadlineDate())) ? '' : $this->getDeadlineDate()->format('d.m.Y'),
+                (is_null($this->getDateOfSummingUp())) ? '' : $this->getDateOfSummingUp()->format('d.m.Y'),
+                $this->getPurchaseLink(),
+                $this->getPurchaseNumber(),
+                (is_null($this->getpostponementDate())) ? '' : $this->getpostponementDate()->format('d.m.Y'),
+                $this->getPostonementComment(),
+                (is_null($this->getDateOfConclusion())) ? '' : $this->getDateOfConclusion()->format('d.m.Y'),
+                $this->getSupplierName(),
+                $this->getSupplierINN(),
+                $this->getSupplierKPP(),
+                null,
+                $this->getInitialFederalFunds(),
+                $this->getInitialFundsOfSubject(),
+                $this->getInitialEmployersFunds(),
+                $this->getInitialEducationalOrgFunds(),
+                (is_null($this->getDeliveryTime())) ? '' : $this->getDeliveryTime()->format('d.m.Y'),
+                $this->getComments()
+            );
+        }
+        else{
+            array_push($row,
+                $this->getPurchaseObject(),
+                $this->getMethodOfDetermining(),
+                null,
+                $this->getInitialFederalFunds(),
+                $this->getInitialFundsOfSubject(),
+                $this->getInitialEmployersFunds(),
+                $this->getInitialEducationalOrgFunds(),
+                (is_null($this->getPublicationDate())) ? '' : $this->getPublicationDate()->format('d.m.Y'),
+                (is_null($this->getDeadlineDate())) ? '' : $this->getDeadlineDate()->format('d.m.Y'),
+                (is_null($this->getDateOfSummingUp())) ? '' : $this->getDateOfSummingUp()->format('d.m.Y'),
+                $this->getPurchaseLink(),
+                $this->getPurchaseNumber(),
+                (is_null($this->getpostponementDate())) ? '' : $this->getpostponementDate()->format('d.m.Y'),
+                $this->getPostonementComment(),
+                (is_null($this->getDateOfConclusion())) ? '' : $this->getDateOfConclusion()->format('d.m.Y'),
+                $this->getSupplierName(),
+                $this->getSupplierINN(),
+                $this->getSupplierKPP(),
+                null,
+                $this->getfinFederalFunds(),
+                $this->getfinFundsOfSubject(),
+                $this->getfinEmployersFunds(),
+                $this->getfinFundsOfEducationalOrg(),
+                (is_null($this->getDeliveryTime())) ? '' : $this->getDeliveryTime()->format('d.m.Y'),
+                $this->getComments()
+            );
+        }
+
 
 
         return $row;
@@ -639,5 +676,17 @@ class ProcurementProcedures
         }
 
         return $source;
+    }
+
+    public function getIsPlanned(): ?bool
+    {
+        return $this->isPlanned;
+    }
+
+    public function setIsPlanned(?bool $isPlanned): self
+    {
+        $this->isPlanned = $isPlanned;
+
+        return $this;
     }
 }

@@ -58,107 +58,54 @@
 
 
                                     </div>
+                                    <div class="form-group" id="isPlanned">
+
+                                        {{ form_widget(form.isPlanned) }}
+                                        <label>Закупка на стадии планирования</label>
+                                    </div>
                                 </div>
 
                             </div>
 
                         </fieldset>
+
+
                         <h1>Цена контракта/договора</h1>
                         <fieldset>
-                            <h2>Цена контракта/договора</h2>
+
+                            <h2> Начальная (максимальная) цена контракта (РУБЛИ)</h2>
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <table class="col-lg-12" >
-                                        <tr>
-                                            <td class="table-title"></td>
-                                            <td class="table-title" colspan="1">
-                                                <strong>
-                                                    Начальная (максимальная) цена контракта (РУБЛИ)
-                                                </strong>
-                                            </td>
-                                            <td class="table-title">
-                                                <strong>
-                                                    Цена контракта / договора (РУБЛИ)
-                                                </strong>
-                                            </td>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label>средства федерального бюджета</label>
+                                        {{ form_widget(form.initialFederalFunds, {"type":"number"}) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>средства субъекта РФ</label>
+                                        {{ form_widget(form.initialFundsOfSubject, {"type":"number"}) }}
+                                    </div>
+
+                                    <div class="form-group" >
+                                        <label>средства работодателей</label>
+
+                                        {{ form_widget(form.initialEmployersFunds, {"type":"number"}) }}
 
 
-                                        </tr>
+                                    </div>
+                                    <div class="form-group" >
+                                        <label>средства образовательной организации</label>
+                                        {{ form_widget(form.initialEducationalOrgFunds, {"type":"number"}) }}
 
-                                        <tr>
-                                            <td>средства федерального бюджета</td>
-
-
-                                            <td>
-                                                {{ form_widget(form.initialFederalFunds, {"type":"number"}) }}
-                                            </td>
-
-                                            <td>
-                                                {{ form_widget(form.finFederalFunds, {"type":"number"}) }}
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>средства субъекта РФ</td>
-
-
-                                            <td>
-                                                {{ form_widget(form.initialFundsOfSubject, {"type":"number"}) }}
-                                            </td>
-                                            <td>
-                                                {{ form_widget(form.finFundsOfSubject, {"type":"number"}) }}
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="table-subtitle" colspan="3">
-                                                <strong>
-                                                    внебюджетные средства
-                                                </strong>
-                                            </td>
-
-
-
-                                        </tr>
-                                        <tr>
-                                            <td>средства работодателей</td>
-                                            <td>
-                                                {{ form_widget(form.initialEmployersFunds, {"type":"number"}) }}
-                                            </td>
-                                            <td>
-                                                {{ form_widget(form.finEmployersFunds, {"type":"number"}) }}
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>средства образовательной организации</td>
-
-
-                                            <td>
-                                                {{ form_widget(form.initialEducationalOrgFunds, {"type":"number"}) }}
-                                            </td>
-                                            <td>
-                                                {{ form_widget(form.finFundsOfEducationalOrg, {"type":"number"}) }}
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                Сумма
-                                            </td>
-                                            <td>
-                                                <p class="sum_initial">0</p>
-
-                                            </td>
-                                            <td>
-                                                <p class="sum_fin">0</p>
-
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="sum_initial">0</p>
+                                    </div>
                                 </div>
+
                             </div>
+
                         </fieldset>
+
 
 
 
@@ -177,6 +124,15 @@
                             <div class="form-group">
                                 <label>Дата подведения итогов</label>
                                 {{ form_widget(form.dateOfSummingUp) }}
+                            </div>
+                            <h2>Перенос срока размещения закупки в ЕИС / ЭМ</h2>
+                            <div class="form-group">
+                                <label>Дата</label>
+                                {{ form_widget(form.postponementDate) }}
+                            </div>
+                            <div class="form-group">
+                                <label>причина (обоснование)</label>
+                                {{ form_widget(form.postonementComment) }}
                             </div>
                         </fieldset>
 
@@ -202,18 +158,7 @@
 
 
 
-                        <h1>Перенос срока размещения закупки в ЕИС / ЭМ</h1>
-                        <fieldset>
-                            <h2>Перенос срока размещения закупки в ЕИС / ЭМ</h2>
-                            <div class="form-group">
-                                <label>Дата</label>
-                                {{ form_widget(form.postponementDate) }}
-                            </div>
-                            <div class="form-group">
-                                <label>причина (обоснование)</label>
-                                {{ form_widget(form.postonementComment) }}
-                            </div>
-                        </fieldset>
+
 
                         <h1>Поставщик</h1>
                         <fieldset>
@@ -234,7 +179,7 @@
 
                         <h1>Дата заключения контракта/договора</h1>
                         <fieldset>
-                            <h2>Какой то пункт</h2>
+                            <h2>Дата заключения контракта/договора</h2>
                             <div class="form-group">
                                 <label>Дата заключения контракта / договора</label>
                                 {{ form_widget(form.DateOfConclusion) }}
@@ -254,6 +199,41 @@
                                 <label>Договор/проект договора</label>
                                 {{ form_widget(form.file) }}
                             </div>
+
+                            <div id="fin-sum-row">
+                                <h2>Цена контракта / договора (РУБЛИ)</h2>
+                                <div class="row" >
+
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label>средства федерального бюджета</label>
+                                            {{ form_widget(form.finFederalFunds, {"type":"number"}) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>средства субъекта РФ</label>
+                                            {{ form_widget(form.finFundsOfSubject, {"type":"number"}) }}
+                                        </div>
+
+                                        <div class="form-group" >
+                                            <label>средства работодателей</label>
+
+                                            {{ form_widget(form.finEmployersFunds, {"type":"number"}) }}
+
+
+                                        </div>
+                                        <div class="form-group" >
+                                            <label>средства образовательной организации</label>
+                                            {{ form_widget(form.finFundsOfEducationalOrg, {"type":"number"}) }}
+
+                                        </div>
+                                        <div class="form-group">
+                                            <p class="sum_fin">0</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
                         </fieldset>
 
 

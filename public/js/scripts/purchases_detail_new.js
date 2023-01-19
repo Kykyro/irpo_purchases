@@ -45,53 +45,7 @@ $(document).ready(function () {
         onStepChanged: function (event, currentIndex, priorIndex)
         {
             if(formState === "Единственный поставщик"){
-                let editablePage = [0, 1, 5, 6, 7];
-                if(!editablePage.includes(currentIndex)){
-                    if(currentIndex > priorIndex)
-                        $(this).steps("next");
-                    else
-                        $(this).steps("previous");
-                }
-            }
-            if(formState === "Аукцион в электронной форме"){
-                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
-                if(!editablePage.includes(currentIndex)){
-                    if(currentIndex > priorIndex)
-                        $(this).steps("next");
-                    else
-                        $(this).steps("previous");
-                }
-            }
-            if(formState === "Открытый конкурс"){
-                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
-                if(!editablePage.includes(currentIndex)){
-                    if(currentIndex > priorIndex)
-                        $(this).steps("next");
-                    else
-                        $(this).steps("previous");
-                }
-            }
-            if(formState === "Запрос котировок"){
-                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
-                if(!editablePage.includes(currentIndex)){
-                    if(currentIndex > priorIndex)
-                        $(this).steps("next");
-                    else
-                        $(this).steps("previous");
-                }
-            }
-            if(formState === "Электронный магазин"){
-                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
-                if(!editablePage.includes(currentIndex)){
-                    if(currentIndex > priorIndex)
-                        $(this).steps("next");
-                    else
-                        $(this).steps("previous");
-                }
-            }
-            if(formState === "Другое"){
-                let editablePage = [0, 1, 2, 3, 4, 5, 6, 7];
-                if(!editablePage.includes(currentIndex)){
+                if(!showFieldset.includes(currentIndex)){
                     if(currentIndex > priorIndex)
                         $(this).steps("next");
                     else
@@ -99,8 +53,19 @@ $(document).ready(function () {
                 }
             }
 
-
-
+            if(
+                formState === "Аукцион в электронной форме" ||
+                formState === "Открытый конкурс" ||
+                formState === "Запрос котировок" ||
+                formState === "Электронный магазин"
+            ){
+                if(!showFieldset.includes(currentIndex)){
+                    if(currentIndex > priorIndex)
+                        $(this).steps("next");
+                    else
+                        $(this).steps("previous");
+                }
+            }
 
             $("a[href='#finish']").hide();
 
@@ -137,6 +102,12 @@ $(document).ready(function () {
             'purchases_form[PurchaseObject]': "Введите предмет закупки",
             'purchases_form[anotherMethodOfDetermining]': "Укажите Способ определения поставщика",
             'purchases_form[file]': "Прикрепите файл договора/проекта договора",
+            'purchases_form[initialFederalFunds]': "Заполните хотя бы один пункт",
+            'purchases_form[initialFundsOfSubject]': "Заполните хотя бы один пункт",
+            'purchases_form[initialEmployersFunds]': "Заполните хотя бы один пункт",
+            'purchases_form[initialEducationalOrgFunds]': "Заполните хотя бы один пункт",
+            'purchases_form[publicationDate]': "Это поле обязательно",
+            'purchases_form[DateOfConclusion]': "Это поле обязательно",
 
         }
     });
@@ -152,6 +123,9 @@ $(document).ready(function () {
     let purchases_number = $('#purchases_form_PurchaseNumber');
     let purchases_link = $('#purchases_form_PurchaseLink');
     let file = $('#purchases_form_file');
+    let isPlanned = $('#purchases_form_isPlanned');
+    let isPlannedRow = $('#isPlanned');
+    let finSumRow = $('#fin-sum-row');
 
     // Начальная цена контракта
     let initial_federal_funds = $("#purchases_form_initialFederalFunds");
@@ -188,22 +162,39 @@ $(document).ready(function () {
 
     // ------
     let formState = "Единственный поставщик";
+    let showFieldset = [0, 1, 5, 6, 7];
 
 
-
-
+    // function skipStep() {
+    //
+    // }
 
     function soloSupplier(isThis){
+
         if(isThis)
         {
             clearValue(publication_date, deadline_date, summing_up_date,
                 postponement_date,  postponement_comment);
 
+            isPlannedRow.hide();
+            isPlanned.prop('checked', false);
+            isPlannedChange();
+            showFieldset = [0, 1, 5, 6, 7];
+
+
             $("#form-t-2").hide();
             $("#form-t-3").hide();
             $("#form-t-4").hide();
+
+            finSumRow.hide();
         }
-        setRequired(isThis, file);
+        else {
+            isPlannedRow.show();
+            finSumRow.show();
+            showFieldset = [0, 1, 2, 3, 4, 5, 6, 7];
+
+        }
+
         setRequired(!isThis, conclusion_date);
         setRequired(!isThis, publication_date);
         setDisabled(isThis, publication_date, deadline_date, summing_up_date, purchases_link,
@@ -263,10 +254,29 @@ $(document).ready(function () {
             setDisabled(true, fin) : setDisabled(false, fin);
     }
     function updateInitialSum() {
+        if(
+            initial_federal_funds.val() > 0 ||
+            initial_funds_of_subject.val() > 0 ||
+            initial_employers_funds.val() > 0 ||
+            initial_edication_org_funds.val() > 0
+        )
+        {
+            console.log('yes');
+            setRequired(false, initial_federal_funds, initial_funds_of_subject,
+                initial_employers_funds, initial_edication_org_funds);
+            $(".body:eq(" + 1 + ") label.error", form).remove();
+            $(".body:eq(" + 1 + ") .error", form).removeClass("error");
+        }
+        else{
+            console.log('no');
+            setRequired(true, initial_federal_funds, initial_funds_of_subject,
+                initial_employers_funds, initial_edication_org_funds)
+        }
         initial_sum.text(getSum(initial_federal_funds, initial_funds_of_subject,
             initial_employers_funds, initial_edication_org_funds) + " ₽");
     }
     function updateFinSum() {
+
         fin_sum.text(getSum(fin_federal_funds, fin_funds_of_subject,
             fin_employers_funds, fin_edication_org_funds) + " ₽");
     }
@@ -283,6 +293,7 @@ $(document).ready(function () {
             return true;
         }
     }
+
     function onLoad() {
         changeInitialFunds(initial_federal_funds, fin_federal_funds);
         changeInitialFunds(initial_funds_of_subject, fin_funds_of_subject);
@@ -303,6 +314,41 @@ $(document).ready(function () {
 
     }
 
+    function isPlannedChange(){
+        if(isPlanned.is(':checked')){
+            console.log('aaaaa');
+            $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-2").hide();
+            $("#form-t-3").hide();
+            $("#form-t-4").hide();
+            $("#form-t-5").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-6").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-7").show().parent().removeClass("done").addClass("disabled");
+            finSumRow.hide();
+            showFieldset = [0, 1, 5, 6, 7];
+            clearValue(publication_date, deadline_date, summing_up_date, purchases_link,
+                purchases_number, postponement_date, postponement_comment,
+                conclusion_date, delivery_date);
+            setDisabled(true, publication_date, deadline_date, summing_up_date, purchases_link,
+                purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date);
+        }
+        else{
+            $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-2").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-3").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-4").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-5").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-6").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-7").show().parent().removeClass("done").addClass("disabled");
+            finSumRow.show();
+            showFieldset = [0, 1, 2, 3, 4, 5, 6, 7];
+            setDisabled(false, publication_date, deadline_date, summing_up_date, purchases_link,
+                purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date);
+        }
+    }
+
+    isPlanned.change(isPlannedChange);
+
     method_of_determining.change(() => {
         $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
         $("#form-t-2").show().parent().removeClass("done").addClass("disabled");
@@ -317,6 +363,7 @@ $(document).ready(function () {
         changeMethod(method, "Другое", anotherMethodOfDeterminingFunc);
         changeMethod(method, "Единственный поставщик", soloSupplier);
     });
+
     // изменение начальной суммы
     initial_federal_funds.change(() => {
         changeInitialFunds(initial_federal_funds, fin_federal_funds);
@@ -375,20 +422,6 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
-
-
-
-
-
-
-
-
     onLoad();
 
-
-    // class FormState{
-    //     constructor() {
-    //         this.methodOfDeterminating = "Единственный поставщик";
-    //     }
-    // }
 });

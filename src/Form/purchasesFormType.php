@@ -51,7 +51,7 @@ class purchasesFormType extends AbstractType
                         'Открытый конкурс' => 'Открытый конкурс',
                         'Запрос котировок' => 'Запрос котировок',
                         'Электронный магазин' => 'Электронный магазин',
-                        'Другое' => 'Другое',
+//                        'Другое' => 'Другое',
 
                     ]
                 ])
@@ -249,6 +249,9 @@ class purchasesFormType extends AbstractType
 
             ])
         ->add('file', FileType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
 
@@ -268,7 +271,14 @@ class purchasesFormType extends AbstractType
                         'mimeTypesMessage' => '',
                     ])
                 ],
-            ]);
+            ])
+        ->add('isPlanned', CheckboxType::class,[
+            'required' => false,
+            'attr' => [
+                'class' => 'btn btn-outline-success',
+                'label' => 'Закупка в стадии планирования',
+            ],
+        ]);
 
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
