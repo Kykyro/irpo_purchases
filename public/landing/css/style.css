@@ -5067,7 +5067,7 @@ hr.dark {
 }
 
 /* Mobile Spacing - Small Devices - Tablets 768px and up to 1024px */
-@media (max-width: 1024px) {
+@media (max-width: 1500px) {
 
 	.sm-margincenter {
 		margin-left: auto;
@@ -5845,7 +5845,7 @@ body.mobile .mobile-hidden {
     }
 }
 
-@media screen and (min-width: 1025px){
+@media screen and (min-width: 1500px){
 		
 	.ed-section.fullscreen-element {
 		height: 100vh;
@@ -6115,7 +6115,7 @@ body.mobile .mobile-hidden {
 
 }
 
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 1500px){
 	
 	.csstransitions .animated,
 	.animated {

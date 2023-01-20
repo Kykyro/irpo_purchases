@@ -1330,7 +1330,7 @@
             progressObj.onprogress = updateProgress;
             headers = {
                 "Accept": "application/json",
-                "Cache-Control": "no-cache",
+                "Cache-Control": "public, max-age=86400",
                 "X-Requested-With": "XMLHttpRequest"
             };
             if (this.options.headers) {
