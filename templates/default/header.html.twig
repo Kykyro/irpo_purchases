@@ -79,6 +79,9 @@
                     <li > {# class="active" #}
                         <a href="{{ path("app_inspector_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Кластеры</span></a>
                     </li>
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_inspector_my_clusters") }}"><i class="fa fa-star left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Мои кластеры</span></a>
+                    </li>
                 {% endif %}
                 {% if is_granted('ROLE_JOURNALIST') %}
                     <li >
