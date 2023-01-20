@@ -1,0 +1,50 @@
+{% extends "admin/base.html.twig" %}
+
+{% block content %}
+
+
+
+    <div class="row d-flex justify-content-center">
+        <div class="ibox-content block-shadow">
+            <div class="row d-flex justify-content-center">
+                <h1>Регистрация нового кластера</h1>
+            </div>
+            <div class="form-group row m-3">
+                <div class="col-sm-5 col-form-label text-left">
+                    <strong>
+                        {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.uuid) }}
+                    </strong>
+                </div>
+            </div>
+            <div class="form-group row m-3 ">
+                <div class="col-sm-5 col-form-label text-left">
+                    <strong>
+                        {{ form_row(registrationForm.plainPassword, {
+                            label: 'Пароль'
+                        }) }}
+                    </strong>
+                </div>
+            </div>
+            <div class="form-group row m-3 ">
+                <div class="col-sm-12 col-form-label text-left">
+
+                    {{ form_row(registrationForm.userInfo.rf_subject) }}
+                    {{ form_row(registrationForm.userInfo.organization) }}
+                    {{ form_row(registrationForm.userInfo.educational_organization) }}
+                    {{ form_row(registrationForm.userInfo.cluster) }}
+                    {{ form_row(registrationForm.userInfo.declared_industry) }}
+                    {{ form_row(registrationForm.userInfo.year) }}
+                </div>
+            </div>
+            <div class="form-group row m-3 ">
+                <div class="col-sm-12 col-form-label text-left d-flex justify-content-center">
+                    {#<button type="submit" class="btn">Зарегистрировать</button>#}
+                    {{ form_row(registrationForm.submit) }}
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
