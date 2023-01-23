@@ -362,7 +362,7 @@ a.pswp__share--download:hover {
   background: none;
   margin: 0; }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1500px) {
   .pswp__preloader {
     position: relative;
     left: auto;
