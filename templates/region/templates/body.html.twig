@@ -116,7 +116,11 @@
 
 
                             {# Стоимость договора #}
-                            <td>{{ i.getContractCost() }}₽</td>
+                            {% if i.getMethodOfDetermining() == "Единственный поставщик" %}
+                                <td>{{ i.getNMCK() }}₽</td>
+                            {% else %}
+                                <td>{{ i.getContractCost() }}₽</td>
+                            {% endif %}
                             {# Источник финансирования #}
                             <td>{{ i.getSourceOfFunding() }}</td>
 

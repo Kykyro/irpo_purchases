@@ -39,7 +39,19 @@ class InspectorMyClustersController extends AbstractController
 
         ]);
     }
+    /**
+     * @Route("/add-favourite", name="app_inspector_add_favourite")
+     */
+    public function addFavourite(Request $request): Response
+    {
 
 
+
+
+        return $this->render('inspector/templates/myClusters.html.twig', [
+            'controller_name' => 'InspectorController'
+
+        ]);
+    }
 
 }

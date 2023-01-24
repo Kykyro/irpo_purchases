@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Services\XlsxService;
 
 /**
- * Class InspectorController
+ *
  * @package App\Controller
  * @Route("/inspector")
  */
