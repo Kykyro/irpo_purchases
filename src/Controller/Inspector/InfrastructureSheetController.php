@@ -2,6 +2,7 @@
 
 namespace App\Controller\Inspector;
 
+use App\Entity\FavoritesClusters;
 use App\Entity\InfrastructureSheetRegionFile;
 use App\Entity\RfSubject;
 use App\Entity\User;
@@ -36,6 +37,21 @@ class InfrastructureSheetController extends AbstractController
      */
     public function regionUserList(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $_cluster = $entity_manager->getRepository(FavoritesClusters::class)->findBy(
+            ['inspectorId' => $user]
+        );
+
+        $cluster = [];
+        foreach ($_cluster as $i){
+//            dd($i->getClusterId());
+            array_push($cluster, $i->getClusterId()->getId());
+
+        }
+
+
+
         $role = 'ROLE_REGION';
 
         $form_data = [];
@@ -111,6 +127,7 @@ class InfrastructureSheetController extends AbstractController
             'controller_name' => 'InspectorController',
             'pagination' => $pagination,
             'form' => $form->createView(),
+            'clusters' => $cluster
         ]);
     }
 

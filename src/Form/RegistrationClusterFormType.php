@@ -37,7 +37,25 @@ class RegistrationClusterFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add(
+                'roles',
+                ChoiceType::class,
+                [
+                    'choices' =>
+                        array
+                        (
 
+                            'Пользователь' => array
+                            (
+                                'регион' => 'ROLE_REGION'
+                            )
+                        )
+                    ,
+                    'multiple' => true,
+                    'required' => true,
+                    'label' => 'Роль'
+                ]
+            )
             ->add('userInfo', RegistrationUserInfoFormType::class)
             ->add('submit', SubmitType::class, [
                 'attr' => [

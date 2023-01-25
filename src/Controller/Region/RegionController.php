@@ -201,6 +201,7 @@ class RegionController extends AbstractController
      */
     public function userCabinetEdit(Request $request): Response
     {
+        return $this->redirectToRoute('app_profile');
         $entity_manager = $this->getDoctrine()->getManager();
 
         $user = $this->getUser();

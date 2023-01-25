@@ -2,6 +2,7 @@
 
 namespace App\Controller\Inspector;
 
+use App\Entity\FavoritesClusters;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
@@ -30,28 +31,49 @@ class InspectorMyClustersController extends AbstractController
      */
     public function index(Request $request): Response
     {
-
-
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $cluster = $entity_manager->getRepository(FavoritesClusters::class)->findBy(
+            ['inspectorId' => $user]
+        );
+//        dd($cluster);
 
 
         return $this->render('inspector/templates/myClusters.html.twig', [
-            'controller_name' => 'InspectorController'
+            'controller_name' => 'InspectorController',
+            'clusters' => $cluster
 
         ]);
     }
     /**
-     * @Route("/add-favourite", name="app_inspector_add_favourite")
+     * @Route("/add-favourite/{id}", name="app_inspector_add_favourite")
      */
-    public function addFavourite(Request $request): Response
+    public function addFavourite(Request $request, int $id): Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $cluster = $entity_manager->getRepository(User::class)->find($id);
+        $favoriteCluster = new FavoritesClusters();
+
+        $favoriteCluster->setInspectorId($user);
+        $favoriteCluster->setClusterId($cluster);
+
+        $entity_manager->persist($favoriteCluster);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_inspector_my_clusters');
+    }
+    /**
+     * @Route("/remove-favourite/{id}", name="app_inspector_remove_favourite")
+     */
+    public function revomeFavourite(Request $request, int $id): Response
     {
 
-
-
-
-        return $this->render('inspector/templates/myClusters.html.twig', [
-            'controller_name' => 'InspectorController'
-
-        ]);
+        $entity_manager = $this->getDoctrine()->getManager();
+        $favoritesClusters = $entity_manager->getRepository(FavoritesClusters::class)->find($id);
+//dd($favoritesClusters);
+        $entity_manager->remove($favoritesClusters);
+        $entity_manager->flush();
+        return $this->redirectToRoute('app_inspector_my_clusters');
     }
-
 }

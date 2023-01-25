@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -49,6 +51,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $user_info;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FavoritesClusters::class, mappedBy="inspectorId")
+     */
+    private $clustersId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     function __construct() {
         $this->setUserInfo(new UserInfo());
+        $this->clustersId = new ArrayCollection();
     }
 
 
@@ -169,4 +177,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, FavoritesClusters>
+     */
+    public function getClustersId(): Collection
+    {
+        return $this->clustersId;
+    }
+
+    public function addClustersId(FavoritesClusters $clustersId): self
+    {
+        if (!$this->clustersId->contains($clustersId)) {
+            $this->clustersId[] = $clustersId;
+            $clustersId->setInspectorId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClustersId(FavoritesClusters $clustersId): self
+    {
+        if ($this->clustersId->removeElement($clustersId)) {
+            // set the owning side to null (unless already changed)
+            if ($clustersId->getInspectorId() === $this) {
+                $clustersId->setInspectorId(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

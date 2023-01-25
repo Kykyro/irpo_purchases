@@ -25,88 +25,32 @@
                     {{ form_end(form) }}
                 </div>
             </div>
-
-
-            {#<div class="ibox-content block-shadow col-lg-12  mb-4">#}
-                {#<div class="ibox ">#}
-                    {#<div class="ibox-title">#}
-                        {#<h2 style="font-weight: bold; margin-bottom: -1rem">Избранное</h2>#}
-                        {#<div class="ibox-tools">#}
-
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-                {#<div class="ibox-content ">#}
-                    {#{% for i in 1..10 %}#}
-                    {#<div class="col-lg-4 animated fadeIn">#}
-                        {#<div class="contact-box">#}
-                            {#<div class="row">#}
-                                {#<div class="col-lg-12">#}
-
-                                    {#<h3>#}
-                                        {#<strong>#}
-                                            {#фффф#}
-                                        {#</strong>#}
-                                    {#</h3>#}
-
-                                    {#{% if i.getUserInfo().getRfSubject() is not null %}#}
-                                        {#<p><i class="fa fa-map-marker"></i> {{ i.getUserInfo().getRfSubject().getName() }}</p>#}
-                                    {#{% else %}#}
-                                        {#<p class="red-bg"><i class="fa fa-map-marker"></i> Не указан регион!</p>#}
-                                    {#{% endif %}#}
-
-                                    {#<address>#}
-                                        {#<b>Кластер: </b> <br>#}
-                                        {#<b>Отрасль: </b> <br>#}
-                                        {#<b>Организация: </b> <br>#}
-                                        {#<b>Пользователь: </b> <br>#}
-                                        {#<abbr title="Phone">P:</abbr> (123) 456-7890#}
-                                    {#</address>#}
-                                    {#<div>#}
-                                        {#<a href="#">#}
-                                            {#<button class="btn btn-primary col-lg-10">#}
-                                                {#<div class="fa fa-upload"></div>#}
-                                                {#Загрузить ИЛ#}
-                                            {#</button>#}
-                                        {#</a>#}
-                                        {#<a href="#">#}
-                                            {#<button class="btn btn-info col-lg-10">#}
-                                                {#<div class="fa fa-search"></div>#}
-                                                {#Просмотр истории илов#}
-                                            {#</button>#}
-                                        {#</a>#}
-                                        {#<a href="#">#}
-                                            {#<button class="btn btn-warning col-lg-10">#}
-                                                {#<div class="fa fa-archive"></div>#}
-                                                {#Просмотр Закупок#}
-                                            {#</button>#}
-                                        {#</a>#}
-
-                                    {#</div>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#{% endfor %}#}
-                {#</div>#}
-            {#</div>#}
-
             <div class="row col-lg-10">
+
                     {% for i in pagination %}
                         <div class="col-lg-4 animated fadeIn">
                             <div class="contact-box">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="row">
+                                            {% if i.getId() in clusters %}
+                                                <div >
+                                                    <a href="{{ path('app_inspector_remove_favourite', {'id': i.getId()}) }}">
+                                                        <button class="btn btn-danger" >
+                                                            Убрать из избранного
+                                                        </button>
+                                                    </a>
+                                                </div>
 
-                                            <div >
-                                                <a href="#">
-                                                    <button class="btn " disabled>
-                                                        Добавить в избранное
-                                                    </button>
-                                                </a>
-                                            </div>
-
+                                            {% else %}
+                                                <div >
+                                                    <a href="{{ path('app_inspector_add_favourite', {'id': i.getId()}) }}">
+                                                        <button class="btn " >
+                                                            Добавить в избранное
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                         <h3>
                                             <strong>

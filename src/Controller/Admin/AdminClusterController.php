@@ -39,7 +39,8 @@ class AdminClusterController extends AbstractController
      */
     public function getClusters(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
-        
+
+//dd($cluster);
         $data = [];
         $form = $this->createFormBuilder($data)
             ->add("search", TextType::class, [
@@ -89,7 +90,7 @@ class AdminClusterController extends AbstractController
         return $this->render('admin/templates/clusters.html.twig', [
             'controller_name' => 'AdminController',
             'pagination' => $pagination,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
   
