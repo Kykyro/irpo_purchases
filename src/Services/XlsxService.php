@@ -317,6 +317,10 @@ class XlsxService extends AbstractController
 
             $sheet->setCellValue('D'.$row , "=SUM($initialSUMRANGE)");
             $sheet->setCellValue('T'.$row , "=SUM($finSUMRANGE)");
+            $row_arr = ['E', 'F', 'G', 'H', 'U', 'V', 'W', 'X', 'D', 'T'];
+            foreach ($row_arr as $j){
+                $sheet->getStyle($j.$row)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+            }
 
 
             // запись строк
@@ -328,8 +332,10 @@ class XlsxService extends AbstractController
                 foreach ($sheet->rangeToArray($initialSUMRANGE, null, true, true, true ) as $_row){
                     foreach (array_keys($_row) as $cell){
                         $cellCoordinates = $cell.$row;
+
                         if($sheet->getCell($cellCoordinates) != ""){
                             $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill);
+
                             switch ($cell) {
                                 case "E":
                                     $initialFedFundSUM = $initialFedFundSUM.$cellCoordinates."+";
