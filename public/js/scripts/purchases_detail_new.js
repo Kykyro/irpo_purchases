@@ -2,6 +2,7 @@ $(document).ready(function () {
 
 
     $("#wizard").steps();
+
     $("#form").steps({
         bodyTag: "fieldset",
         labels: {
@@ -109,6 +110,7 @@ $(document).ready(function () {
             'purchases_form[initialEducationalOrgFunds]': "Заполните хотя бы один пункт",
             'purchases_form[publicationDate]': "Это поле обязательно",
             'purchases_form[DateOfConclusion]': "Это поле обязательно",
+            'purchases_form[finFederalFunds]' : 'fffffff'
 
         }
     });
@@ -262,14 +264,14 @@ $(document).ready(function () {
             initial_edication_org_funds.val() > 0
         )
         {
-            console.log('yes');
+            // console.log('yes');
             setRequired(false, initial_federal_funds, initial_funds_of_subject,
                 initial_employers_funds, initial_edication_org_funds);
             $(".body:eq(" + 1 + ") label.error", form).remove();
             $(".body:eq(" + 1 + ") .error", form).removeClass("error");
         }
         else{
-            console.log('no');
+            // console.log('no');
             setRequired(true, initial_federal_funds, initial_funds_of_subject,
                 initial_employers_funds, initial_edication_org_funds)
         }
@@ -296,10 +298,10 @@ $(document).ready(function () {
     }
 
     function onLoad() {
-        changeInitialFunds(initial_federal_funds, fin_federal_funds);
-        changeInitialFunds(initial_funds_of_subject, fin_funds_of_subject);
-        changeInitialFunds(initial_employers_funds, fin_employers_funds);
-        changeInitialFunds(initial_edication_org_funds, fin_edication_org_funds);
+        // changeInitialFunds(initial_federal_funds, fin_federal_funds);
+        // changeInitialFunds(initial_funds_of_subject, fin_funds_of_subject);
+        // changeInitialFunds(initial_employers_funds, fin_employers_funds);
+        // changeInitialFunds(initial_edication_org_funds, fin_edication_org_funds);
 
         let method = method_of_determining.find(":selected").text();
         formState = method;
@@ -367,19 +369,19 @@ $(document).ready(function () {
 
     // изменение начальной суммы
     initial_federal_funds.change(() => {
-        changeInitialFunds(initial_federal_funds, fin_federal_funds);
+        // changeInitialFunds(initial_federal_funds, fin_federal_funds);
         updateInitialSum();
     });
     initial_funds_of_subject.change(() => {
-        changeInitialFunds(initial_funds_of_subject, fin_funds_of_subject);
+        // changeInitialFunds(initial_funds_of_subject, fin_funds_of_subject);
         updateInitialSum();
     });
     initial_employers_funds.change(() => {
-        changeInitialFunds(initial_employers_funds, fin_employers_funds);
+        // changeInitialFunds(initial_employers_funds, fin_employers_funds);
         updateInitialSum();
     });
     initial_edication_org_funds.change(() => {
-        changeInitialFunds(initial_edication_org_funds, fin_edication_org_funds);
+        // changeInitialFunds(initial_edication_org_funds, fin_edication_org_funds);
         updateInitialSum();
     });
 
