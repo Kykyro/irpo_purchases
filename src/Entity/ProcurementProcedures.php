@@ -192,6 +192,16 @@ class ProcurementProcedures
      */
     private $isPlanned;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isHasPrepayment;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $prepayment;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -686,6 +696,30 @@ class ProcurementProcedures
     public function setIsPlanned(?bool $isPlanned): self
     {
         $this->isPlanned = $isPlanned;
+
+        return $this;
+    }
+
+    public function isIsHasPrepayment(): ?bool
+    {
+        return $this->isHasPrepayment;
+    }
+
+    public function setIsHasPrepayment(?bool $isHasPrepayment): self
+    {
+        $this->isHasPrepayment = $isHasPrepayment;
+
+        return $this;
+    }
+
+    public function getPrepayment(): ?int
+    {
+        return $this->prepayment;
+    }
+
+    public function setPrepayment(?int $prepayment): self
+    {
+        $this->prepayment = $prepayment;
 
         return $this;
     }

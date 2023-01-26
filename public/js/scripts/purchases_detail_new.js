@@ -84,13 +84,6 @@ $(document).ready(function () {
             // Start validation; Prevent form submission if false
             return form.valid();
         },
-        // onFinished: function (event, currentIndex)
-        // {
-        //     var form = $(this);
-        //
-        //     // Submit form input
-        //     form.submit();
-        // }
     }).validate({
 
         rules: {
@@ -110,12 +103,11 @@ $(document).ready(function () {
             'purchases_form[initialEducationalOrgFunds]': "Заполните хотя бы один пункт",
             'purchases_form[publicationDate]': "Это поле обязательно",
             'purchases_form[DateOfConclusion]': "Это поле обязательно",
-            'purchases_form[finFederalFunds]' : 'fffffff'
+            'purchases_form[finFederalFunds]' : 'fffffff',
+            'purchases_form[prepayment]' : "Это поле обязательно"
 
         }
     });
-
-
 
     // VARIBLES
     let purchases_object = $("#purchases_form_PurchaseObject");
@@ -129,6 +121,9 @@ $(document).ready(function () {
     let isPlanned = $('#purchases_form_isPlanned');
     let isPlannedRow = $('#isPlanned');
     let finSumRow = $('#fin-sum-row');
+    let hasPrepayment = $('#purchases_form_isHasPrepayment');
+    let prepaymentBlock = $('#prepayment-block');
+
 
     // Начальная цена контракта
     let initial_federal_funds = $("#purchases_form_initialFederalFunds");
@@ -310,7 +305,7 @@ $(document).ready(function () {
 
         updateInitialSum();
         updateFinSum();
-
+        isHasPrepayment();
         errors_message.hide();
         // console.log(method_of_determining)
 
@@ -319,16 +314,16 @@ $(document).ready(function () {
 
     function isPlannedChange(){
         if(isPlanned.is(':checked')){
-            console.log('aaaaa');
+            // console.log('aaaaa');
             $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
             $("#form-t-2").hide();
             $("#form-t-3").hide();
-            $("#form-t-4").hide();
-            $("#form-t-5").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-4").show().parent().removeClass("done").addClass("disabled");
+            $("#form-t-5").hide();
             $("#form-t-6").show().parent().removeClass("done").addClass("disabled");
             $("#form-t-7").show().parent().removeClass("done").addClass("disabled");
             finSumRow.hide();
-            showFieldset = [0, 1, 5, 6, 7];
+            showFieldset = [0, 1, 4, 6, 7];
             clearValue(publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment,
                 conclusion_date, delivery_date);
@@ -351,6 +346,22 @@ $(document).ready(function () {
     }
 
     isPlanned.change(isPlannedChange);
+
+    function isHasPrepayment(){
+        let _prepaymentInput = $('#purchases_form_prepayment');
+        if(hasPrepayment.is(':checked')){
+            prepaymentBlock.show('fast');
+            setRequired(true, _prepaymentInput);
+            setDisabled(false, _prepaymentInput);
+        }
+        else{
+            prepaymentBlock.hide('fast');
+            setDisabled(true, _prepaymentInput);
+            clearValue(_prepaymentInput);
+        }
+    }
+
+    hasPrepayment.change(isHasPrepayment);
 
     method_of_determining.change(() => {
         $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
@@ -433,5 +444,6 @@ $(document).ready(function () {
             return false;
         }
     });
+    $('.number').hide();
 
 });

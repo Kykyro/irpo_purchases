@@ -20,7 +20,7 @@
             margin: 5px 0 0;
         }
     </style>
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-title">
@@ -28,12 +28,12 @@
 
                 </div>
                 <div class="ibox-content">
-                    <h2>
-                        Заголовок
-                    </h2>
-                    <p>
-                        Подзагаловок
-                    </p>
+                    {#<h2>#}
+                        {#Заголовок#}
+                    {#</h2>#}
+                    {#<p>#}
+                        {#Подзагаловок#}
+                    {#</p>#}
                     {{ form_start(form, {'attr': {'class': 'wizard-big', 'id': 'form' }}) }}
                     {#<form id="form" action="#" class="wizard-big">#}
                         <h1>Предмет закупки</h1>
@@ -100,6 +100,22 @@
                                     <div class="form-group">
                                         <p class="sum_initial">0</p>
                                     </div>
+
+                                    <h2> Авансовый платеж </h2>
+                                    <div class="form-group">
+                                        {{ form_widget(form.isHasPrepayment) }}
+                                        <label>Есть авансовый платеж</label>
+                                    </div>
+
+                                    <div class="form-group" id="prepayment-block">
+                                        <label>Процент (целое число)</label>
+                                        <div class="input-group m-b">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-addon">%</span>
+                                            </div>
+                                            {{ form_widget(form.prepayment, {"type":"number"}) }}
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -160,22 +176,6 @@
 
 
 
-                        <h1>Поставщик</h1>
-                        <fieldset>
-                            <h2>Поставщик</h2>
-                            <div class="form-group">
-                                <label>Наименование организации-поставщика (подрядчика, исполнителя)</label>
-                                {{ form_widget(form.supplierName) }}
-                            </div>
-                            <div class="form-group">
-                                <label>ИНН</label>
-                                {{ form_widget(form.supplierINN) }}
-                            </div>
-                            <div class="form-group">
-                                <label>КПП</label>
-                                {{ form_widget(form.supplierKPP) }}
-                            </div>
-                        </fieldset>
 
                         <h1>Дата заключения контракта/договора</h1>
                         <fieldset>
@@ -237,6 +237,22 @@
                         </fieldset>
 
 
+                    <h1>Поставщик</h1>
+                    <fieldset>
+                        <h2>Поставщик</h2>
+                        <div class="form-group">
+                            <label>Наименование организации-поставщика (подрядчика, исполнителя)</label>
+                            {{ form_widget(form.supplierName) }}
+                        </div>
+                        <div class="form-group">
+                            <label>ИНН / ОГРНИП</label>
+                            {{ form_widget(form.supplierINN) }}
+                        </div>
+                        <div class="form-group">
+                            <label>КПП</label>
+                            {{ form_widget(form.supplierKPP) }}
+                        </div>
+                    </fieldset>
 
 
                         <h1>Финиш</h1>

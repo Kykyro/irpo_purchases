@@ -278,7 +278,26 @@ class purchasesFormType extends AbstractType
                 'class' => 'btn btn-outline-success',
                 'label' => 'Закупка в стадии планирования',
             ],
-        ]);
+        ])
+        ->add('isHasPrepayment', CheckboxType::class,[
+            'required' => false,
+            'attr' => [
+                'class' => 'btn btn-outline-success',
+                'label' => 'Есть авансовый платеж',
+            ],
+        ])
+        ->add('prepayment', TextType::class,
+            [
+                'attr' => [
+                    'class' => 'form-control initial',
+                    'step' => '1',
+                    'min' => '0',
+                    'max' => '99'
+                ],
+                'required'   => false,
+                'disabled' => $is_disabled
+            ])
+        ;
 
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
