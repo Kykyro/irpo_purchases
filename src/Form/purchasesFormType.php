@@ -305,7 +305,7 @@ class purchasesFormType extends AbstractType
                 'query_builder' => function (EntityRepository $er)
                 {
                     return $er->createQueryBuilder('cs')
-                        ->orderBy('cs.status', 'ASC');
+                        ->orderBy('cs.id', 'DESC');
                 },
                 'choice_label' => 'status',
             ])

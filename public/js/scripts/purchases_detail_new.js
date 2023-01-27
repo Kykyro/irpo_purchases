@@ -369,6 +369,8 @@ $(document).ready(function () {
             $("#form-t-7").show().parent().removeClass("done").addClass("disabled");
             finSumRow.hide();
             showFieldset = [0, 1, 4, 6, 7];
+            contractStatusSelect.val(1);
+            contractStatusChange();
             clearValue(publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment,
                 conclusion_date, delivery_date);
@@ -413,14 +415,14 @@ $(document).ready(function () {
         if(contractStatusSelect.val() == 1){
             hideDeliver(true);
             contract_info_block.hide('fast');
-            setDisabled(true,  conclusion_date, delivery_date, file, fin_edication_org_funds, fin_employers_funds,
+            setDisabled(true,  conclusion_date, delivery_date,  fin_edication_org_funds, fin_employers_funds,
                 fin_federal_funds, fin_funds_of_subject, comment);
         }
         // Догово подписан
         if(contractStatusSelect.val() == 2){
             hideDeliver(false);
             contract_info_block.show('fast');
-            setDisabled(false,  conclusion_date, delivery_date, file, fin_edication_org_funds, fin_employers_funds,
+            setDisabled(false,  conclusion_date, delivery_date,  fin_edication_org_funds, fin_employers_funds,
                 fin_federal_funds, fin_funds_of_subject, comment);
         }
         updateFinSum();
