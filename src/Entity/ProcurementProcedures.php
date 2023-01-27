@@ -202,6 +202,11 @@ class ProcurementProcedures
      */
     private $prepayment;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ContractStatus::class)
+     */
+    private $conractStatus;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -720,6 +725,18 @@ class ProcurementProcedures
     public function setPrepayment(?int $prepayment): self
     {
         $this->prepayment = $prepayment;
+
+        return $this;
+    }
+
+    public function getConractStatus(): ?ContractStatus
+    {
+        return $this->conractStatus;
+    }
+
+    public function setConractStatus(?ContractStatus $conractStatus): self
+    {
+        $this->conractStatus = $conractStatus;
 
         return $this;
     }

@@ -171,68 +171,70 @@
 
                         </fieldset>
 
-
-
-
-
-
-
                         <h1>Дата заключения контракта/договора</h1>
                         <fieldset>
-                            <h2>Дата заключения контракта/договора</h2>
+                            <h2>Статус договора</h2>
                             <div class="form-group">
-                                <label>Дата заключения контракта / договора</label>
-                                {{ form_widget(form.DateOfConclusion) }}
+                                <label>Статус договора</label>
+                                {{ form_widget(form.conractStatus) }}
                             </div>
+                            <div id="contact-info-block">
+                                <h2>Дата заключения контракта/договора</h2>
+                                <div class="form-group">
+                                    <label>Дата заключения контракта / договора</label>
+                                    {{ form_widget(form.DateOfConclusion) }}
+                                </div>
 
 
 
-                            <div class="form-group">
-                                <label>Срок поставки (подписание акта), дата</label>
-                                {{ form_widget(form.DeliveryTime) }}
-                            </div>
-                            <div class="form-group">
-                                <label>Комментарии / Примечания</label>
-                                {{ form_widget(form.Comments) }}
-                            </div>
-                            <div class="form-group">
-                                <label>Договор/проект договора</label>
-                                {{ form_widget(form.file) }}
-                            </div>
+                                <div class="form-group">
+                                    <label>Срок поставки (подписание акта), дата</label>
+                                    {{ form_widget(form.DeliveryTime) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Комментарии / Примечания</label>
+                                    {{ form_widget(form.Comments) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Договор/проект договора</label>
+                                    {{ form_widget(form.file) }}
+                                </div>
 
-                            <div id="fin-sum-row">
-                                <h2>Цена контракта / договора (РУБЛИ)</h2>
-                                <div class="row" >
+                                <div id="fin-sum-row">
+                                    <h2>Цена контракта / договора (РУБЛИ)</h2>
+                                    <div class="row" >
 
-                                    <div class="col-lg-8">
-                                        <div class="form-group">
-                                            <label>средства федерального бюджета</label>
-                                            {{ form_widget(form.finFederalFunds, {"type":"number"}) }}
+                                        <div class="col-lg-8">
+                                            <div class="form-group">
+                                                <label>средства федерального бюджета</label>
+                                                {{ form_widget(form.finFederalFunds, {"type":"number"}) }}
+                                            </div>
+                                            <div class="form-group">
+                                                <label>средства субъекта РФ</label>
+                                                {{ form_widget(form.finFundsOfSubject, {"type":"number"}) }}
+                                            </div>
+
+                                            <div class="form-group" >
+                                                <label>средства работодателей</label>
+
+                                                {{ form_widget(form.finEmployersFunds, {"type":"number"}) }}
+
+
+                                            </div>
+                                            <div class="form-group" >
+                                                <label>средства образовательной организации</label>
+                                                {{ form_widget(form.finFundsOfEducationalOrg, {"type":"number"}) }}
+
+                                            </div>
+                                            <div class="form-group">
+                                                <p class="sum_fin">0</p>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>средства субъекта РФ</label>
-                                            {{ form_widget(form.finFundsOfSubject, {"type":"number"}) }}
-                                        </div>
 
-                                        <div class="form-group" >
-                                            <label>средства работодателей</label>
-
-                                            {{ form_widget(form.finEmployersFunds, {"type":"number"}) }}
-
-
-                                        </div>
-                                        <div class="form-group" >
-                                            <label>средства образовательной организации</label>
-                                            {{ form_widget(form.finFundsOfEducationalOrg, {"type":"number"}) }}
-
-                                        </div>
-                                        <div class="form-group">
-                                            <p class="sum_fin">0</p>
-                                        </div>
                                     </div>
-
                                 </div>
                             </div>
+
 
                         </fieldset>
 

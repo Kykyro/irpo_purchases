@@ -97,14 +97,46 @@ $(document).ready(function () {
             'purchases_form[PurchaseObject]': "Введите предмет закупки",
             'purchases_form[anotherMethodOfDetermining]': "Укажите Способ определения поставщика",
             'purchases_form[file]': "Прикрепите файл договора/проекта договора",
-            'purchases_form[initialFederalFunds]': "Заполните хотя бы один пункт",
-            'purchases_form[initialFundsOfSubject]': "Заполните хотя бы один пункт",
-            'purchases_form[initialEmployersFunds]': "Заполните хотя бы один пункт",
-            'purchases_form[initialEducationalOrgFunds]': "Заполните хотя бы один пункт",
+            'purchases_form[initialFederalFunds]': {
+                required: "Заполните хотя бы один пункт",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
+            },
+
+            'purchases_form[initialFundsOfSubject]': {
+                required: "Заполните хотя бы один пункт",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
+            },
+            'purchases_form[initialEmployersFunds]': {
+                required: "Заполните хотя бы один пункт",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
+            },
+            'purchases_form[initialEducationalOrgFunds]': {
+                required: "Заполните хотя бы один пункт",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
+            },
+
             'purchases_form[publicationDate]': "Это поле обязательно",
             'purchases_form[DateOfConclusion]': "Это поле обязательно",
             'purchases_form[finFederalFunds]' : 'fffffff',
-            'purchases_form[prepayment]' : "Это поле обязательно"
+            'purchases_form[prepayment]' : {
+                required: "Это поле обязательно",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите число без дробной части"),
+            }
 
         }
     });
@@ -123,7 +155,9 @@ $(document).ready(function () {
     let finSumRow = $('#fin-sum-row');
     let hasPrepayment = $('#purchases_form_isHasPrepayment');
     let prepaymentBlock = $('#prepayment-block');
-
+    let contractStatusSelect = $('#purchases_form_conractStatus');
+    let comment = $('#purchases_form_Comments');
+    let contract_info_block = $('#contact-info-block');
 
     // Начальная цена контракта
     let initial_federal_funds = $("#purchases_form_initialFederalFunds");
@@ -293,11 +327,6 @@ $(document).ready(function () {
     }
 
     function onLoad() {
-        // changeInitialFunds(initial_federal_funds, fin_federal_funds);
-        // changeInitialFunds(initial_funds_of_subject, fin_funds_of_subject);
-        // changeInitialFunds(initial_employers_funds, fin_employers_funds);
-        // changeInitialFunds(initial_edication_org_funds, fin_edication_org_funds);
-
         let method = method_of_determining.find(":selected").text();
         formState = method;
         changeMethod(method, "Другое", anotherMethodOfDeterminingFunc);
@@ -306,10 +335,26 @@ $(document).ready(function () {
         updateInitialSum();
         updateFinSum();
         isHasPrepayment();
+        $('.number').hide();
+        contractStatusChange();
         errors_message.hide();
-        // console.log(method_of_determining)
 
 
+    }
+
+    function hideDeliver(isHide) {
+        let kpp = $('#purchases_form_supplierKPP');
+        let inn = $('#purchases_form_supplierINN');
+        let name = $('#purchases_form_supplierName');
+
+        if(isHide){
+            setDisabled(true, kpp, inn, name);
+            // $("#form-t-5").hide();
+        }
+        else{
+            setDisabled(false, kpp, inn, name);
+            // $("#form-t-5").show().parent().removeClass("done").addClass("disabled");
+        }
     }
 
     function isPlannedChange(){
@@ -362,6 +407,27 @@ $(document).ready(function () {
     }
 
     hasPrepayment.change(isHasPrepayment);
+
+    function contractStatusChange(){
+        // Догово на стадии подписания
+        if(contractStatusSelect.val() == 1){
+            hideDeliver(true);
+            contract_info_block.hide('fast');
+            setDisabled(true,  conclusion_date, delivery_date, file, fin_edication_org_funds, fin_employers_funds,
+                fin_federal_funds, fin_funds_of_subject, comment);
+        }
+        // Догово подписан
+        if(contractStatusSelect.val() == 2){
+            hideDeliver(false);
+            contract_info_block.show('fast');
+            setDisabled(false,  conclusion_date, delivery_date, file, fin_edication_org_funds, fin_employers_funds,
+                fin_federal_funds, fin_funds_of_subject, comment);
+        }
+        updateFinSum();
+
+    }
+
+    contractStatusSelect.change(contractStatusChange);
 
     method_of_determining.change(() => {
         $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
@@ -444,6 +510,6 @@ $(document).ready(function () {
             return false;
         }
     });
-    $('.number').hide();
+
 
 });

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\ContractStatus;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
@@ -296,6 +297,17 @@ class purchasesFormType extends AbstractType
                 ],
                 'required'   => false,
                 'disabled' => $is_disabled
+            ])
+            ->add('conractStatus', EntityType::class,[
+                'attr' => ['class' => 'form-control'],
+                'required'   => true,
+                'class' => ContractStatus::class,
+                'query_builder' => function (EntityRepository $er)
+                {
+                    return $er->createQueryBuilder('cs')
+                        ->orderBy('cs.status', 'ASC');
+                },
+                'choice_label' => 'status',
             ])
         ;
 
