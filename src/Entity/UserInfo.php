@@ -47,6 +47,17 @@ class UserInfo
      */
     private $year;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $accessToPurchases;
+
+
+    function __construct()
+    {
+        $this->setAccessToPurchases(false);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -155,6 +166,18 @@ class UserInfo
     public function setYear(?int $year): self
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    public function isAccessToPurchases(): ?bool
+    {
+        return $this->accessToPurchases;
+    }
+
+    public function setAccessToPurchases(?bool $accessToPurchases): self
+    {
+        $this->accessToPurchases = $accessToPurchases;
 
         return $this;
     }

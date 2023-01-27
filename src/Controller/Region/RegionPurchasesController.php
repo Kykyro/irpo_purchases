@@ -35,6 +35,11 @@ class RegionPurchasesController extends AbstractController
      */
     public function AddPurchases(Request $request, SluggerInterface $slugger, int $id = null): Response
     {
+        if(!$this->getUser()->getUserInfo()->isAccessToPurchases())
+        {
+            return $this->redirectToRoute('app_main');
+        }
+
         $entity_manager = $this->getDoctrine()->getManager();
         $routeName = $request->attributes->get('_route');
 

@@ -11,6 +11,7 @@ use App\Form\UserPasswordEditFormType;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use function Sodium\add;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -279,4 +280,55 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('app_admin_users');
     }
+
+    /**
+     * @Route("/regions", name="app_admin_regions")
+     */
+    public function allRegions(Request $request)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $regions = $entity_manager->getRepository(RfSubject::class)->findAll();
+
+
+
+        return $this->render('admin/templates/regions.html.twig', [
+            'regions' => $regions
+        ]);
+    }
+
+    /**
+     * @Route("/region/{id}", name="app_admin_edit_region_info")
+     */
+    public function editRegionInfo(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $region = $entity_manager->getRepository(RfSubject::class)->find($id);
+
+        $form = $this->createFormBuilder($region)
+            ->add("name", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false
+                ])
+            ->add("time", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false,
+                    'mapped' => false
+                ])
+            ->add('submit', SubmitType::class,[
+                'attr' => [
+                    'class' => 'btn'
+                ]
+            ])
+            ->getForm();
+
+
+        return $this->render('admin/templates/regionEdit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
 }
