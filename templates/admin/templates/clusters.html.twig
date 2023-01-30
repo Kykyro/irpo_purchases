@@ -21,54 +21,8 @@
                 </div>
                 <div class="row col-lg-12">
                     {% for i in pagination %}
-                        <div class="col-lg-4 animated fadeIn">
-                            <div class="contact-box">
-                                <div class="row">
-                                    <div class="col-lg-12">
+                        {{ include('default/clusterCard.html.twig', {'i': i}) }}
 
-                                        <h3>
-                                            <strong>
-                                                {{ i.getUserInfo().getEducationalOrganization() }}
-                                            </strong>
-                                        </h3>
-
-                                        {% if i.getUserInfo().getRfSubject() is not null %}
-                                            <p><i class="fa fa-map-marker"></i> {{ i.getUserInfo().getRfSubject().getName() }}</p>
-                                        {% else %}
-                                            <p class="red-bg"><i class="fa fa-map-marker"></i> Не указан регион!</p>
-                                        {% endif %}
-
-                                        <address>
-                                            <b>Кластер: </b>{{ i.getUserInfo().getCluster() }}<br>
-                                            <b>Отрасль: </b>{{ i.getUserInfo().getDeclaredIndustry() }} <br>
-                                            <b>Организация: </b>{{ i.getUserInfo().getOrganization() }}<br>
-                                            <b>Пользователь: </b>{{ i.getUuid() }} <br>
-                                            {#<abbr title="Phone">P:</abbr> (123) 456-7890#}
-                                        </address>
-                                        <div>
-                                            <a href="{{ path('app_inspector_infrastructure_sheet_upload', {'id': i.getId()}) }}">
-                                                <button class="btn btn-primary col-lg-10">
-                                                    <div class="fa fa-upload"></div>
-                                                    Загрузить ИЛ
-                                                </button>
-                                            </a>
-                                            <a href="{{ path('app_inspector_infrastructure_sheet_region_view', {'id': i.getId()}) }}">
-                                                <button class="btn btn-info col-lg-10">
-                                                    <div class="fa fa-search"></div>
-                                                    Просмотр ИЛов
-                                                </button>
-                                            </a>
-                                            <a href="{{ path('app_inspector_show_purchases', {'id': i.getId()}) }}">
-                                                <button class="btn btn-warning col-lg-10">
-                                                    <div class="fa fa-archive"></div>
-                                                    Просмотр Закупок
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     {% endfor %}
                 </div>
             </div>

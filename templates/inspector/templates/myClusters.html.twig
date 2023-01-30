@@ -13,73 +13,7 @@
     <div class="row col-lg-10">
         {% for i in clusters %}
             {% set cluster = i.getClusterId() %}
-            <div class="col-lg-4 animated fadeIn">
-                <div class="contact-box">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="row">
-
-                                <div >
-                                    <a href="{{ path('app_inspector_remove_favourite', {'id': i.getId()}) }}">
-                                        <button class="btn btn-danger" >
-                                            Убрать из избранного
-                                        </button>
-                                    </a>
-                                </div>
-
-                            </div>
-                            <h3>
-                                <strong>
-                                    {{ cluster.getUserInfo().getEducationalOrganization() }}
-                                </strong>
-
-                            </h3>
-
-
-                            {% if cluster.getUserInfo().getRfSubject() is not null %}
-                                <p><i class="fa fa-map-marker"></i> {{ cluster.getUserInfo().getRfSubject().getName() }}</p>
-                            {% else %}
-                                <p class="red-bg"><i class="fa fa-map-marker"></i> Не указан регион!</p>
-                            {% endif %}
-
-                            <address>
-                                <b>Кластер: </b>{{ cluster.getUserInfo().getCluster() }}<br>
-                                <b>Отрасль: </b>{{ cluster.getUserInfo().getDeclaredIndustry() }} <br>
-                                <b>Организация: </b>{{ cluster.getUserInfo().getOrganization() }}<br>
-                                <b>Пользователь: </b>{{ cluster.getUuid() }} <br>
-                                {#<abbr title="Phone">P:</abbr> (123) 456-7890#}
-                            </address>
-                            <div>
-                                <a href="{{ path('app_inspector_infrastructure_sheet_upload', {'id': cluster.getId()}) }}">
-                                    <button class="btn btn-primary col-lg-10">
-                                        <div class="fa fa-upload"></div>
-                                        Загрузить ИЛ
-                                    </button>
-                                </a>
-                                <a href="{{ path('app_inspector_infrastructure_sheet_region_view', {'id': cluster.getId()}) }}">
-                                    <button class="btn btn-info col-lg-10">
-                                        <div class="fa fa-search"></div>
-                                        Просмотр истории ИЛов
-                                    </button>
-                                </a>
-                                <a href="{{ path('app_inspector_show_purchases', {'id': cluster.getId()}) }}">
-                                    <button class="btn btn-warning col-lg-10">
-                                        <div class="fa fa-archive"></div>
-                                        Просмотр Закупок
-                                    </button>
-                                </a>
-                                <a href="{{ path('app_weekly_budget_amount', {'id': cluster.getId()}) }}">
-                                    <button class="btn btn-success col-lg-10">
-                                        <div class="fa fa-money"></div>
-                                        Недельная сумма по бюджету
-                                    </button>
-                                </a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ include('default/clusterCard.html.twig', {'i': cluster}) }}
         {% endfor %}
 
 
