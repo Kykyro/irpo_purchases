@@ -16,7 +16,7 @@
                         <div class="col-lg-12 offset-1">
                             {% for i in regions %}
                                 <a href="{{ path('app_admin_edit_region_info', {'id': i.getId()}) }}">
-                                    <button class="btn btn-success m-1 col-lg-2" style="word-break: break-all">
+                                    <button class="btn btn-success m-1 col-lg-2">
                                         {{ loop.index }}.
                                         {{ i.getName() }}
                                     </button>

@@ -8,10 +8,13 @@
     <div class="col-sm-10 offset-sm-1 ">
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
+                <div style="margin-left: 15px;margin-bottom: 1rem">
                 {{ include('journalist/templates/back_button.html.twig') }}
-                <div class="row">
+                </div>
+                <div class="row" style="margin-left: 0px">
                     <a href="{{ path('app_new_article') }}">
-                        <button class="btn">
+                        <button class="btn-gray-all btn btn-outline-success ">
+                            <div class="fa fa-plus"></div>
                             Добавить еще
                         </button>
                     </a>
@@ -65,7 +68,7 @@
                                             </button>
                                         </a>
                                         <a href="{{ path('app_delete_article', {'id': i.getId()}) }}" class="delete-alert">
-                                            <button class="btn">
+                                            <button class="btn btn-danger">
                                                 <div class="fa fa-trash"></div>
                                                 Удалить
                                             </button>
