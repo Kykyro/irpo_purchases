@@ -3,30 +3,9 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
-                    {#{% if i.getId() in clusters %}#}
-                        {#<div >#}
-                            {#<a href="{{ path('app_inspector_remove_favourite', {'id': i.getId()}) }}">#}
-                            {#<button class="btn " disabled >#}
-                                {#Избранное#}
-                            {#</button>#}
-                            {#</a>#}
-                        {#</div>#}
-                        {#<div >#}
-                            {#<a href="{{ path('app_inspector_remove_favourite', {'id': i.getId()}) }}">#}
-                                {#<button class="btn btn-danger" >#}
-                                    {#Убрать из избранного#}
-                                {#</button>#}
-                            {#</a>#}
-                        {#</div>#}
-                    {#{% else %}#}
-                        {#<div >#}
-                            {#<a href="{{ path('app_inspector_add_favourite', {'id': i.getId()}) }}">#}
-                                {#<button class="btn " >#}
-                                    {#Добавить в "Мои кластеры"#}
-                                {#</button>#}
-                            {#</a>#}
-                        {#</div>#}
-                    {#{% endif %}#}
+                    {% if  buttons is defined%}
+                        {{ buttons }}
+                    {% endif %}
                 </div>
                 <h3>
                     <strong>

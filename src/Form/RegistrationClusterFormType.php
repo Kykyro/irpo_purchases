@@ -53,7 +53,8 @@ class RegistrationClusterFormType extends AbstractType
                     ,
                     'multiple' => true,
                     'required' => true,
-                    'label' => 'Роль'
+                    'label' => 'Роль',
+                     'expanded' => true,
                 ]
             )
             ->add('userInfo', RegistrationUserInfoFormType::class)

@@ -5,12 +5,15 @@ namespace App\Entity;
 use App\Repository\ProcurementProceduresRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotations\Log;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ORM\Entity(repositoryClass=ProcurementProceduresRepository::class)
  */
 class ProcurementProcedures
 {
     /**
+     * @Groups("dump_data")
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -18,191 +21,224 @@ class ProcurementProcedures
     private $id;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="text", nullable=true)
      * @Log
      */
     private $PurchaseObject;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Log
      */
     private $MethodOfDetermining;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Log
      */
     private $PurchaseLink;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="text", nullable=true)
      * @Log
      */
     private $PurchaseNumber;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="date", nullable=true)
      * @Log
      */
     private $DateOfConclusion;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="date", nullable=true)
      * @Log
      */
     private $DeliveryTime;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="text", nullable=true)
      * @Log
      */
     private $Comments;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Log
      */
     private $fileDir;
 
     /**
+     *
      * @ORM\ManyToOne(targetEntity=user::class)
      * @Log
      */
     private $user;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $initialFederalFunds;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $initialFundsOfSubject;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $initialEmployersFunds;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $initialEducationalOrgFunds;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Log
      */
     private $supplierName;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Log
      */
     private $supplierINN;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Log
      */
     private $supplierKPP;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $finFederalFunds;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $finFundsOfSubject;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $finEmployersFunds;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $finFundsOfEducationalOrg;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="date", nullable=true)
      * @Log
      */
     private $publicationDate;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="date", nullable=true)
      * @Log
      */
     private $deadlineDate;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="date", nullable=true)
      * @Log
      */
     private $dateOfSummingUp;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="date", nullable=true)
      * @Log
      */
     private $postponementDate;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="text", nullable=true)
      * @Log
      */
     private $postonementComment;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="boolean", options={"default" : 0}, nullable=true)
      */
     private $isDeleted;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $createDate;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $changeTime;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $version;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $isPlanned;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $isHasPrepayment;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $prepayment;
 
     /**
+     * @Groups("dump_data")
      * @ORM\ManyToOne(targetEntity=ContractStatus::class)
      */
     private $conractStatus;
@@ -664,8 +700,15 @@ class ProcurementProcedures
     }
 
     public function getContractCost(){
-        $sum = $this->finEmployersFunds + $this->finFederalFunds +
-            $this->finFundsOfEducationalOrg + $this->finFundsOfSubject;
+        if($this->getMethodOfDetermining() == 'Единственный поставщик')
+        {
+            $sum = $this->getNMCK();
+        }
+        else{
+            $sum = $this->finEmployersFunds + $this->finFederalFunds +
+                $this->finFundsOfEducationalOrg + $this->finFundsOfSubject;
+        }
+
         if($sum > 0){
             return $sum;
         }

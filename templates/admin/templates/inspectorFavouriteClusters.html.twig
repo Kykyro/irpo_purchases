@@ -1,0 +1,17 @@
+{% extends "admin/base.html.twig" %}
+
+
+
+{% block content %}
+
+
+    {{ form_start(form) }}
+        {% for tag in form.tags %}
+            <li>{{ form_row(tag.name) }}</li>
+        {% endfor %}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

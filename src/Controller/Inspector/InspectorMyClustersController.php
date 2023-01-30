@@ -41,7 +41,7 @@ class InspectorMyClustersController extends AbstractController
 
         return $this->render('inspector/templates/myClusters.html.twig', [
             'controller_name' => 'InspectorController',
-            'clusters' => $cluster
+            'myClusters' => $cluster
 
         ]);
     }

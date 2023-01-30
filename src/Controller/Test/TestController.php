@@ -5,6 +5,7 @@ namespace App\Controller\Test;
 
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
+use App\Entity\User;
 use App\Form\ChoiceInputType;
 use App\Form\testformFormType;
 use App\Services\FileService;
@@ -21,80 +22,92 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class TestController extends AbstractController
 {
-//    /**
-//     * @Route("/test", name="app_test")
-//     */
-    public function index(Request $request, FileService $fileService): Response
+    /**
+     * @Route("/test", name="app_test")
+     */
+    public function index(Request $request,  SerializerInterface $serializer): Response
     {
+
+        $entity_manager = $this->getDoctrine()->getManager();
+
         $arr = [];
         $form = $this->createFormBuilder($arr)
-            ->add("file", FileType::class, [
+            ->add('clusters', EntityType::class, [
                 'attr' => ['class' => 'form-control'],
-                'required'   => true,
-                'mapped' => false
+                'required'   => false,
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('sub')
+                        ->orderBy('sub.uuid', 'ASC');
+                },
+                'choice_label' => 'uuid',
+                'multiple' => true,
+                'expanded' => true,
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn'
+                ]
+            ])
             ->getForm();
-
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-//            dd('aaaaa');
-            $file = $form->get('file')->getData();
+        $jsonContent ="";
+        $array_ =[];
+        $sum = 0;
+        $finSum = 0;
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            foreach ($data['clusters'] as $cluster){
+            $pp = $entity_manager->getRepository(ProcurementProcedures::class)
+                ->createQueryBuilder('a')
+                ->andWhere('a.user = :uid')
+                ->setParameter('uid', $cluster->getId())
+                ->getQuery()
+                ->getResult();
 
-            if($file){
-                $filename = $fileService->UploadFile($file, 'test_upload_directory');
-//                dd($filename);
-                $fileService->DeleteFile($filename, 'test_upload_directory');
             }
-            return $this->redirectToRoute('app_test');
+            $jsonContent = $serializer->serialize($pp, 'json',['groups' => ['dump_data']]);
+
+            $jsonContent = utf8_encode($jsonContent);
+            $array_ = $serializer->deserialize($jsonContent, 'App\Entity\ProcurementProcedures[]' , 'json');
+            $sum = $this->getNMCK($array_);
+            $finSum = $this->getFinSum($array_);
         }
+
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
             'form' => $form->createView(),
+            'json' => $jsonContent,
+            'data' => $array_,
+            'sum' => $sum,
+            'finSum' => $finSum
         ]);
     }
 
-
-    public function testform(Request $request, SluggerInterface $slugger): Response
-    {
-        $arr = [
-            'ChoiceInputType' => 'a'
-        ];
-        $form = $this->createForm(testformFormType::class, $arr);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-//            dd($form->getData());
-            $brochureFile = $form->get('brochure')->getData();
-
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('brochures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-
-            }
-
+    private function getNMCK(array $arr){
+        $sum = 0;
+        foreach ($arr as $item){
+            $sum += $item->getNMCK();
         }
-
-        return $this->render('test/form.html.twig', [
-            'controller_name' => 'TestController',
-            'form' => $form->createView()
-
-        ]);
+        return $sum;
     }
+
+    private  function getFinSum(array $arr){
+        $sum = 0;
+        foreach ($arr as $item){
+            $sum += $item->getContractCost();
+        }
+        return $sum;
+    }
+
+
 }

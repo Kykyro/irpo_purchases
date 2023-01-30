@@ -28,6 +28,26 @@
             <div class="row col-lg-10">
 
                     {% for i in pagination %}
+                        {% set buttons %}
+                            {% if i.getId() in clusters %}
+                                <div >
+                                    <a href="#">
+                                        <button class="btn " disabled >
+                                            Избранное
+                                        </button>
+                                    </a>
+                                </div>
+
+                            {% else %}
+                                <div >
+                                    <a href="{{ path('app_inspector_add_favourite', {'id': i.getId()}) }}">
+                                        <button class="btn " >
+                                            Добавить в "Мои кластеры"
+                                        </button>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endset %}
                         {{ include('default/clusterCard.html.twig', {'i': i}) }}
                     {% endfor %}
 
