@@ -24,7 +24,7 @@
                     <div class="clients-list">
                         <div>
                             <a href="{{ path('app_admin_user_add') }}">
-                                <button class="btn btn-success">
+                                <button class="btn btn-success col-lg-4">
                                     <div class="fa fa-plug"></div>
                                     Добавить пользователя
                                 </button>
@@ -32,7 +32,7 @@
                         </div>
                         <div>
                             <a href="{{ path('app_admin_add_user_region') }}">
-                                <button class="btn btn-success">
+                                <button class="btn btn-success col-lg-4">
                                     <div class="fa fa-home"></div>
                                     Добавить Кластер
                                 </button>
@@ -78,14 +78,14 @@
 
                                                     <td>
                                                         <a href="{{ path('app_admin_user_edit', {'id': i.getId()}) }}">
-                                                            <button class="btn btn-success">
+                                                            <button class="btn btn-success col-lg-12">
                                                                 <div class="fa fa-edit"></div>
                                                                 Редактированть
                                                             </button>
                                                         </a>
 
                                                         <a href="{{ path('app_admin_user_purchases_show', {'id': i.getId()}) }}">
-                                                            <button class="btn btn-primary">
+                                                            <button class="btn btn-primary col-lg-12">
                                                                 <div class="fa fa-leaf"></div>
                                                                 Закупки
                                                             </button>

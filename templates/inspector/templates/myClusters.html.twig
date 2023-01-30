@@ -4,12 +4,21 @@
 
 
 {% block content %}
-
-    <div class="row ">
-        <h1 >
-            Мои кластеры
-        </h1>
+<div class="row animated fadeInRight">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2 style="font-weight: bold">
+                            Мои кластеры
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
     <div class="row col-lg-10">
         {% for i in clusters %}
             {% set cluster = i.getClusterId() %}
