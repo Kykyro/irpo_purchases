@@ -22,6 +22,11 @@ class RfSubject
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $timezone;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +40,18 @@ class RfSubject
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getTimezone(): ?int
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone(?int $timezone): self
+    {
+        $this->timezone = $timezone;
 
         return $this;
     }

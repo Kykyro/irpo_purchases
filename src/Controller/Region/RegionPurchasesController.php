@@ -121,4 +121,10 @@ class RegionPurchasesController extends AbstractController
 
     }
 
+    private function checkTimeToAccess(){
+
+    }
+
+
+
 }
