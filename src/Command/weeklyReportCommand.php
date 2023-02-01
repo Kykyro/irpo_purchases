@@ -15,14 +15,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Serializer\SerializerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Shapecode\Bundle\CronBundle\Annotation\CronJob;
-//use Shapecode\Bundle\CronBundle\Attribute\AsCronJob;
 
 
 /**
- * @CronJob("*\/5 * * * *")
- * Will be executed every 5 minutes
+ * @CronJob("@weekly")
  */
-class testCommand extends Command
+class weeklyReportCommand extends Command
 {
 
     protected static $defaultName = 'app:purchases:dump';
