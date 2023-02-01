@@ -23,17 +23,17 @@
                     <div class="container-fluid table-responsive horizontal-drag">
                         <div class="row col-lg-12">
                             <div class="flex-row flex-nowrap">
-                                <style>
-                                    table{
+                                {#<style>#}
+                                    {#table{#}
 
-                                    }
-                                    table tr td{
-                                        border: 1px black solid;
-                                    }
-                                </style>
+                                    {#}#}
+                                    {#table tr td{#}
+                                        {#border: 1px black solid;#}
+                                    {#}#}
+                                {#</style>#}
 
                                 <div>
-                                    <table class="table text-center bg-white block-shadow">
+                                    <table class="table table-bordered text-center ">
                                         <thead>
                                         <tr>
                                             <td rowspan="3">
@@ -150,7 +150,7 @@
                                             </td>
 
                                         </tr>
-                                        <tr class="bg-primary">
+                                        <tr class="">
                                             <td>1</td>
                                             <td>2</td>
                                             <td>3</td>
@@ -295,6 +295,104 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Суммы бюджетов</h5>
+                        <div class="ibox-tools">
+
+                            <i class="fa fa-chevron-up"></i>
+
+
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" >
+
+
+                        <h5>НМЦК</h5>
+                        <div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>Бюджетные средства</td>
+                                        <td></td>
+                                        <td>Внебюджетные средства</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>средства федерального бюджета</td>
+                                        <td>
+                                           {{ initial['FederalFunds'] }} ₽
+                                        </td>
+                                        <td>средства работодателей</td>
+                                        <td>
+                                            {{ initial['EmployersFunds'] }} ₽
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>средства субъекта РФ</td>
+                                        <td>
+                                            {{ initial['FundsOfSubject'] }} ₽
+                                        </td>
+                                        <td>средства образовательной организации</td>
+                                        <td>
+                                            {{ initial['EducationalOrgFunds'] }} ₽
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h5>Стоимость договора</h5>
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td>Бюджетные средства</td>
+                                <td></td>
+                                <td>Внебюджетные средства</td>
+                                <td></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>средства федерального бюджета</td>
+                                <td>
+                                    {{ fin['FederalFunds'] }} ₽
+                                </td>
+                                <td>средства работодателей</td>
+                                <td>
+                                   {{ fin['EmployersFunds'] }} ₽
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>средства субъекта РФ</td>
+                                <td>
+                                   {{ fin['FundsOfSubject'] }} ₽
+                                </td>
+                                <td>средства образовательной организации</td>
+                                <td>
+                                   {{ fin['EducationalOrgFunds'] }} ₽
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+                <div class="ibox-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 {% endblock %}
 

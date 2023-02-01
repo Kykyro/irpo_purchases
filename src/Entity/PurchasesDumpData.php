@@ -24,12 +24,6 @@ class PurchasesDumpData
      */
     private $dump;
 
-//    private $serializer;
-//
-//    public function __construct(SerializerInterface $serializer)
-//    {
-//        $this->serializer = $serializer;
-//    }
 
     public function getId(): ?int
     {
@@ -66,42 +60,5 @@ class PurchasesDumpData
         return $sum;
     }
 
-    public function getInitialBudget(SerializerInterface $serializer)
-    {
-        $arr = $serializer->deserialize($this->dump, 'App\Entity\ProcurementProcedures[]' , 'json');
-        $sum = [
-            'FederalFunds'  => 0,
-            'FundsOfSubject' => 0,
-            'EmployersFunds' => 0,
-            'EducationalOrgFunds' => 0
-        ];
 
-        foreach ($arr as $item){
-            $sum['FederalFunds'] += $item->getInitialFederalFunds();
-            $sum['FundsOfSubject'] += $item->getInitialFundsOfSubject();
-            $sum['EmployersFunds'] += $item->getInitialEmployersFunds();
-            $sum['EducationalOrgFunds'] += $item->getInitialEducationalOrgFunds();
-        }
-
-        return $sum;
-    }
-    public function getFinBudget(SerializerInterface $serializer)
-    {
-        $arr = $serializer->deserialize($this->dump, 'App\Entity\ProcurementProcedures[]' , 'json');
-        $sum = [
-            'FederalFunds'  => 0,
-            'FundsOfSubject' => 0,
-            'EmployersFunds' => 0,
-            'EducationalOrgFunds' => 0
-        ];
-
-        foreach ($arr as $item){
-            $sum['FederalFunds'] += $item->getFinFederalFunds();
-            $sum['FundsOfSubject'] += $item->getFinFundsOfSubject();
-            $sum['EmployersFunds'] += $item->getFinEmployersFunds();
-            $sum['EducationalOrgFunds'] += $item->getFinFundsOfEducationalOrg();
-        }
-
-        return $sum;
-    }
 }

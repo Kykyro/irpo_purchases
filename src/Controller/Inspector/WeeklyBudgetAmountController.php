@@ -43,16 +43,74 @@ class WeeklyBudgetAmountController extends AbstractController
         $dump = $entity_manager->getRepository(PurchasesDump::class)->find($id);
 
         $dumpData = $dump->getDump();
-
+        $dumpDay = $dump->getCreatedAt();
         $pp = $serializer->deserialize($dumpData->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
+
+
+
 
         return $this->render('weekly_budget_amount/viewDump.html.twig', [
             'controller_name' => 'WeeklyBudgetAmountController',
             'pp' => $pp,
-
+            'initial' => $this->getInitialBudget($pp, $dumpDay),
+            'fin' => $this->getFinBudget($pp, $dumpDay)
         ]);
 
 
     }
+    public function getInitialBudget(array $dump, \DateTimeImmutable $day)
+    {
+        $sum = [
+            'FederalFunds'  => 0,
+            'FundsOfSubject' => 0,
+            'EmployersFunds' => 0,
+            'EducationalOrgFunds' => 0
+        ];
 
+        foreach ($dump as $item){
+            if($item->getDateOfConclusion() >= $day)
+            {
+                $sum['FederalFunds'] += $item->getInitialFederalFunds();
+                $sum['FundsOfSubject'] += $item->getInitialFundsOfSubject();
+                $sum['EmployersFunds'] += $item->getInitialEmployersFunds();
+                $sum['EducationalOrgFunds'] += $item->getInitialEducationalOrgFunds();
+            }
+
+        }
+
+        return $sum;
+    }
+
+    public function getFinBudget(array $dump, \DateTimeImmutable $day)
+    {
+
+        $sum = [
+            'FederalFunds'  => 0,
+            'FundsOfSubject' => 0,
+            'EmployersFunds' => 0,
+            'EducationalOrgFunds' => 0
+        ];
+
+        foreach ($dump as $item){
+            if($item->getDateOfConclusion() <= $day) {
+                if($item->getMethodOfDetermining() == 'Единственный поставщик')
+                {
+                    $sum['FederalFunds'] += $item->getInitialFederalFunds();
+                    $sum['FundsOfSubject'] += $item->getInitialFundsOfSubject();
+                    $sum['EmployersFunds'] += $item->getInitialEmployersFunds();
+                    $sum['EducationalOrgFunds'] += $item->getInitialEducationalOrgFunds();
+                }
+                else
+                {
+                    $sum['FederalFunds'] += $item->getFinFederalFunds();
+                    $sum['FundsOfSubject'] += $item->getFinFundsOfSubject();
+                    $sum['EmployersFunds'] += $item->getFinEmployersFunds();
+                    $sum['EducationalOrgFunds'] += $item->getFinFundsOfEducationalOrg();
+                }
+
+            }
+        }
+
+        return $sum;
+    }
 }
