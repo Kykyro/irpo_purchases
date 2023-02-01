@@ -56,6 +56,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $clustersId;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PurchasesDump::class, mappedBy="user")
+     */
+    private $purchasesDumps;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     function __construct() {
         $this->setUserInfo(new UserInfo());
         $this->clustersId = new ArrayCollection();
+        $this->purchasesDumps = new ArrayCollection();
     }
 
 
@@ -202,6 +208,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($clustersId->getInspectorId() === $this) {
                 $clustersId->setInspectorId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchasesDump>
+     */
+    public function getPurchasesDumps(): Collection
+    {
+        return $this->purchasesDumps;
+    }
+
+    public function addPurchasesDump(PurchasesDump $purchasesDump): self
+    {
+        if (!$this->purchasesDumps->contains($purchasesDump)) {
+            $this->purchasesDumps[] = $purchasesDump;
+            $purchasesDump->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchasesDump(PurchasesDump $purchasesDump): self
+    {
+        if ($this->purchasesDumps->removeElement($purchasesDump)) {
+            // set the owning side to null (unless already changed)
+            if ($purchasesDump->getUser() === $this) {
+                $purchasesDump->setUser(null);
             }
         }
 

@@ -67,12 +67,12 @@ class TestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             foreach ($data['clusters'] as $cluster){
-            $pp = $entity_manager->getRepository(ProcurementProcedures::class)
-                ->createQueryBuilder('a')
-                ->andWhere('a.user = :uid')
-                ->setParameter('uid', $cluster->getId())
-                ->getQuery()
-                ->getResult();
+                $pp = $entity_manager->getRepository(ProcurementProcedures::class)
+                    ->createQueryBuilder('a')
+                    ->andWhere('a.user = :uid')
+                    ->setParameter('uid', $cluster->getId())
+                    ->getQuery()
+                    ->getResult();
 
             }
             $jsonContent = $serializer->serialize($pp, 'json',['groups' => ['dump_data']]);
