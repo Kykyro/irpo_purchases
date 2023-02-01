@@ -14,7 +14,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Serializer\SerializerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Shapecode\Bundle\CronBundle\Annotation\CronJob;
+//use Shapecode\Bundle\CronBundle\Attribute\AsCronJob;
 
+
+/**
+ * @CronJob("*\/5 * * * *")
+ * Will be executed every 5 minutes
+ */
 class testCommand extends Command
 {
 

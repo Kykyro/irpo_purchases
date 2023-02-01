@@ -42,6 +42,15 @@
                     {{ form_row(registrationForm.userInfo.cluster) }}
                     {{ form_row(registrationForm.userInfo.declared_industry) }}
                     {{ form_row(registrationForm.userInfo.year) }}
+                    <hr>
+                    {{ form_row(registrationForm.userInfo.studentsCount, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.programCount, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.teacherCount, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.workerCount, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.studentsCountWithMentor, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.jobSecurityCount, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.amountOfFunding, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.amountOfExtraFunds, {"type":"number"}) }}
                 </div>
             </div>
             <div class="form-group row m-3 ">

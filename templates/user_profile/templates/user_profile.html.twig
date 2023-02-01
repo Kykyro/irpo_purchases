@@ -1,91 +1,153 @@
 <div class="row animated fadeInRight">
-    <div class="col-sm-8 offset-sm-2 ">
-        <div class="wrapper wrapper-content">
-            <div class="row">
-                <div class="col-lg-12 ">
-
-                    <div>
-                        <style>
-                            table{
-
-                            }
-                            table tr td{
-                                border: 1px #808486 solid;
-                            }
-                        </style>
-                        <table class="table block-shadow white-bg">
-                            <thead>
-                            <tr >
-                                <th class="col-lg-4">Общие сведения</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <tr>
-                                <td>
-                                    Субъект РФ
-                                </td>
-                                <td>
-                                    {% if  user_info.getRfSubject() %}
-                                        {{ user_info.getRfSubject().getName() }}
-                                    {% endif %}
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Наименование организации грантополучателя
-                                </td>
-                                <td>
-                                    {{ user_info.getOrganization() }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Наименование базовой образовательной организации
-                                </td>
-                                <td>
-                                    {{ user_info.getEducationalOrganization() }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Наименование кластера
-                                </td>
-                                <td>
-                                    {{ user_info.getCluster() }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Заявленная отрасль
-                                </td>
-                                <td>
-                                    {{ user_info.getDeclaredIndustry() }}
-                                </td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                        <div class="m-1">
-                            {#<a href="{{ path("app_profile_edit") }}">#}
-                                {#<button class="btn btn-outline-success m-2">#}
-                                    {#<div class="fa fa-edit"></div>#}
-                                    {#Редактировать#}
-                                {#</button>#}
-                            {#</a>#}
-                            {% if not app.user.getUserInfo().isNOTAllFull() %}
-                                <a href="{{ path("app_purchases_add") }}">
-                                    <button class="btn-gray-all btn btn-outline-success ">
-                                        <div class="fa fa-plus"></div>
-                                        Добавить закупку
-                                    </button>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h5>Общие сведения </h5>
             </div>
+            <div class="ibox-content">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Субъект РФ
+                            </td>
+                            <td>
+                                {% if  user_info.getRfSubject() %}
+                                    {{ user_info.getRfSubject().getName() }}
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Наименование организации грантополучателя
+                            </td>
+                            <td>
+                                {{ user_info.getOrganization() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Наименование базовой образовательной организации
+                            </td>
+                            <td>
+                                {{ user_info.getEducationalOrganization() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Наименование кластера
+                            </td>
+                            <td>
+                                {{ user_info.getCluster() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Заявленная отрасль
+                            </td>
+                            <td>
+                                {{ user_info.getDeclaredIndustry() }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ibox-footer">
+                {% if not app.user.getUserInfo().isNOTAllFull() %}
+                    <a href="{{ path("app_purchases_add") }}">
+                        <button class="btn-gray-all btn btn-outline-success ">
+                            <div class="fa fa-plus"></div>
+                            Добавить закупку
+                        </button>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeInRight">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h5>Показатель критерия (Приложение 5) </h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td>
+                            Количество обучающихся по образовательным программам среднего профессионального образования в рамках федерального проекта "Профессионалитет", разработанных в том числе с применением автоматизированных методов конструирования указанных образовательных программ
+                        </td>
+                        <td>
+                            {{ user_info.getStudentsCount() }}
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Количество реализуемых образовательных программ в интересах организации реального сектора экономики
+                        </td>
+                        <td>
+                            {{ user_info.getProgramCount() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Количество педагогических работников, владеющих актуальными педагогическими, производственными (профильными), цифровыми навыками или навыками конструирования образовательных программ под запросы работодателей и экономики
+                        </td>
+                        <td>
+                            {{ user_info.getTeacherCount() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Количество работников организаций реального сектора экономики, владеющих актуальными педагогическими навыками, цифровыми навыками или навыками конструирования образовательных программ под запросы работодателей и экономики, включенных в образовательный процесс в качестве преподавателей и мастеров производственного обучения по совместительству
+                        </td>
+                        <td>
+                            {{ user_info.getWorkerCount() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Количество обучающихся по образовательным программам среднего профессионального образования в рамках федерального проекта "Профессионалитет", разработанных, в том числе, с применением автоматизированных методов конструирования указанных образовательных программ, прошедших практическую подготовку на базе образовательно- производственного центра с закреплением наставника, работающего в организации реального сектора экономики
+                        </td>
+                        <td>
+                            {{ user_info.getStudentsCountWithMentor() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Количество заключенных с гарантией трудоустройства выпускников договоров о целевом обучении по образовательным программам среднего профессионального образования в рамках федерального проекта "Профессионалитет", разработанных в том числе с применением автоматизированных методов конструирования указанных образовательных программ (единиц)
+
+                        </td>
+                        <td>
+                            {{ user_info.getJobSecurityCount() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Объем финансирования (включая расходы на оплату труда преподавателей и мастеров производственного обучения) образовательных организаций, являющихся участниками центра, обеспечиваемый их учредителями, который не может быть менее объемов финансирования образовательных организаций до создания центра
+
+                        </td>
+                        <td>
+                            {{ user_info.getAmountOfFunding() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Объем внебюджетных средств (включая стоимость безвозмездно переданного образовательным организациям, являющимся участниками центра, имущества, необходимого для реализации основных профессиональных образовательных программ, основных программ профессионального обучения и дополнительных профессиональных программ), направляемых участниками центра из числа организаций, действующих в реальном секторе экономики, на развитие центра
+
+                        </td>
+                        <td>
+                            {{ user_info.getAmountOfExtraFunds() }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>

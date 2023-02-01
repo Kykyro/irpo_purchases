@@ -5,298 +5,303 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-sm-10 offset-sm-1 ">
-            <div class="wrapper wrapper-content ">
-                <div class="ibox-content block-shadow ">
-                    {% if pp|length > 0 %}
+        <div class="col-lg-12">
+            <div class="ibox collapsed">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Таблица закупок</h5>
+                        <div class="ibox-tools">
 
-                        <div class="container-fluid table-responsive horizontal-drag">
-                            <div class="row col-lg-12">
-                                <div class="flex-row flex-nowrap">
-                                    <style>
-                                        table{
+                            <i class="fa fa-chevron-up"></i>
 
-                                        }
-                                        table tr td{
-                                            border: 1px black solid;
-                                        }
-                                    </style>
 
-                                    <div>
-                                        <table class="table text-center bg-white block-shadow">
-                                            <thead>
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" style="display: none;">
+
+                    <div class="container-fluid table-responsive horizontal-drag">
+                        <div class="row col-lg-12">
+                            <div class="flex-row flex-nowrap">
+                                <style>
+                                    table{
+
+                                    }
+                                    table tr td{
+                                        border: 1px black solid;
+                                    }
+                                </style>
+
+                                <div>
+                                    <table class="table text-center bg-white block-shadow">
+                                        <thead>
+                                        <tr>
+                                            <td rowspan="3">
+                                                №
+                                            </td>
+                                            <td rowspan="3">
+                                                Наименование / Объект закупки
+                                                (В соответсвии с извещением о проведении закупки)Наименование / Объект закупки
+                                                (В соответсвии с извещением о проведении закупки)
+                                            </td>
+                                            <td rowspan="3">
+                                                Способ определения поставщика (подрядчика, исполнителя)
+                                            </td>
+                                            <td colspan="5">
+                                                Начальная (максимальная) цена контракта (РУБЛИ)
+                                            </td>
+
+                                            <td colspan="3" rowspan="2">
+                                                Срок размещения закупки в ЕИС / ЭМ
+                                            </td>
+                                            <td rowspan="3">
+                                                Ссылка на закупку на портале zakupki.gov.ru, прочие площадки
+                                            </td>
+                                            <td rowspan="3">
+                                                Номер закупки
+                                            </td>
+                                            <td colspan="2" rowspan="2">
+                                                Перенос срока размещения закупки в ЕИС / ЭМ
+                                            </td>
+
+                                            <td rowspan="3">
+                                                Дата заключения контракта / договора
+                                            </td>
+                                            <td colspan="3" rowspan="2">
+                                                Поставщик (подрядчик, исполнитель)
+                                            </td>
+                                            <td colspan="5">
+                                                Цена контракта / договора (РУБЛИ)
+                                            </td>
+
+                                            <td rowspan="3">
+                                                Срок поставки (подписание акта), дата
+                                            </td>
+                                            <td rowspan="3">
+                                                Комментарии / Примечания
+                                            </td>
+                                            <td rowspan="3">
+                                                Приложенный файл
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">
+                                                Всего
+                                            </td>
+                                            <td rowspan="2">
+                                                средства федерального бюджета
+                                            </td>
+                                            <td rowspan="2">
+                                                средства субъекта РФ
+                                            </td>
+                                            <td colspan="2" >
+                                                внебюджетные средства
+                                            </td>
+                                            <td rowspan="2">
+                                                ВСЕГО
+                                            </td>
+                                            <td rowspan="2">
+                                                средства федерального бюджета
+                                            </td>
+                                            <td rowspan="2">
+                                                средства субъекта РФ
+                                            </td>
+                                            <td colspan="2">
+                                                внебюджетные средства
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                средства работодателей
+                                            </td>
+                                            <td>
+                                                средства образовательной организации
+                                            </td>
+                                            <td>
+                                                Дата публикации извещения
+                                            </td>
+                                            <td>
+                                                Дата окончания подачи заявок
+                                            </td>
+                                            <td>
+                                                Дата подведения итогов
+                                            </td>
+                                            <td>
+                                                дата
+                                            </td>
+                                            <td>
+                                                причина (обоснование)
+                                            </td>
+                                            <td>
+                                                Наименование организации-поставщика (подрядчика, исполнителя)
+                                            </td>
+                                            <td>
+                                                ИНН
+                                            </td>
+                                            <td>
+                                                КПП
+                                            </td>
+                                            <td>
+                                                средства работодателей
+                                            </td>
+                                            <td>
+                                                средства образовательной организации
+                                            </td>
+
+                                        </tr>
+                                        <tr class="bg-primary">
+                                            <td>1</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                            <td>11</td>
+                                            <td>12</td>
+                                            <td>13</td>
+                                            <td>14</td>
+                                            <td>15</td>
+                                            <td>16</td>
+                                            <td>17</td>
+                                            <td>18</td>
+                                            <td>19</td>
+                                            <td>20</td>
+                                            <td>21</td>
+                                            <td>22</td>
+                                            <td>23</td>
+                                            <td>24</td>
+                                            <td>25</td>
+                                            <td>26</td>
+                                            <td>27</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for i in pp %}
                                             <tr>
-                                                <td rowspan="3">
-                                                    №
+                                                <td class="bg-success">{{ loop.index }}</td>
+                                                <td>{{ i.getPurchaseObject() }}</td>
+                                                <td>{{ i.getMethodOfDetermining() }}</td>
+                                                <td>
+                                                    {{
+                                                    i.getinitialFederalFunds() +
+                                                    i.getinitialFundsOfSubject() +
+                                                    i.getinitialEmployersFunds() +
+                                                    i.getinitialEducationalOrgFunds()
+                                                    }}
                                                 </td>
-                                                <td rowspan="3">
-                                                    Наименование / Объект закупки
-                                                    (В соответсвии с извещением о проведении закупки)Наименование / Объект закупки
-                                                    (В соответсвии с извещением о проведении закупки)
-                                                </td>
-                                                <td rowspan="3">
-                                                    Способ определения поставщика (подрядчика, исполнителя)
-                                                </td>
-                                                <td colspan="5">
-                                                    Начальная (максимальная) цена контракта (РУБЛИ)
-                                                </td>
+                                                <td>{{ i.getinitialFederalFunds() }}</td>
+                                                <td>{{ i.getinitialFundsOfSubject() }}</td>
+                                                <td>{{ i.getinitialEmployersFunds() }}</td>
+                                                <td>{{ i.getinitialEducationalOrgFunds() }}</td>
 
-                                                <td colspan="3" rowspan="2">
-                                                    Срок размещения закупки в ЕИС / ЭМ
-                                                </td>
-                                                <td rowspan="3">
-                                                    Ссылка на закупку на портале zakupki.gov.ru, прочие площадки
-                                                </td>
-                                                <td rowspan="3">
-                                                    Номер закупки
-                                                </td>
-                                                <td colspan="2" rowspan="2">
-                                                    Перенос срока размещения закупки в ЕИС / ЭМ
-                                                </td>
+                                                {% if  i.getpublicationDate() is not null %}
+                                                    <td>{{ i.getpublicationDate().format('d/m/Y') }}</td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
 
-                                                <td rowspan="3">
-                                                    Дата заключения контракта / договора
-                                                </td>
-                                                <td colspan="3" rowspan="2">
-                                                    Поставщик (подрядчик, исполнитель)
-                                                </td>
-                                                <td colspan="5">
-                                                    Цена контракта / договора (РУБЛИ)
-                                                </td>
+                                                {% if  i.getdeadlineDate() is not null %}
+                                                    <td>{{ i.getdeadlineDate().format('d/m/Y') }}</td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
 
-                                                <td rowspan="3">
-                                                    Срок поставки (подписание акта), дата
-                                                </td>
-                                                <td rowspan="3">
-                                                    Комментарии / Примечания
-                                                </td>
-                                                <td rowspan="3">
-                                                    Приложенный файл
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td rowspan="2">
-                                                    Всего
-                                                </td>
-                                                <td rowspan="2">
-                                                    средства федерального бюджета
-                                                </td>
-                                                <td rowspan="2">
-                                                    средства субъекта РФ
-                                                </td>
-                                                <td colspan="2" >
-                                                    внебюджетные средства
-                                                </td>
-                                                <td rowspan="2">
-                                                    ВСЕГО
-                                                </td>
-                                                <td rowspan="2">
-                                                    средства федерального бюджета
-                                                </td>
-                                                <td rowspan="2">
-                                                    средства субъекта РФ
-                                                </td>
-                                                <td colspan="2">
-                                                    внебюджетные средства
-                                                </td>
+                                                {% if  i.getdateOfSummingUp() is not null %}
+                                                    <td>{{ i.getdateOfSummingUp().format('d/m/Y') }}</td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
 
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    средства работодателей
-                                                </td>
-                                                <td>
-                                                    средства образовательной организации
-                                                </td>
-                                                <td>
-                                                    Дата публикации извещения
-                                                </td>
-                                                <td>
-                                                    Дата окончания подачи заявок
-                                                </td>
-                                                <td>
-                                                    Дата подведения итогов
-                                                </td>
-                                                <td>
-                                                    дата
-                                                </td>
-                                                <td>
-                                                    причина (обоснование)
-                                                </td>
-                                                <td>
-                                                    Наименование организации-поставщика (подрядчика, исполнителя)
-                                                </td>
-                                                <td>
-                                                    ИНН
-                                                </td>
-                                                <td>
-                                                    КПП
-                                                </td>
-                                                <td>
-                                                    средства работодателей
-                                                </td>
-                                                <td>
-                                                    средства образовательной организации
-                                                </td>
+                                                <td>{{ i.getPurchaseLink() }}</td>
+                                                <td>{{ i.getPurchaseNumber() }}</td>
+                                                {#перепутал переменные!!!!!!!!#}
+                                                {% if  i.getpostponementDate() is not null %}
+                                                    <td>{{ i.getpostponementDate().format('d/m/Y') }}</td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
 
-                                            </tr>
-                                            <tr class="bg-primary">
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                                <td>4</td>
-                                                <td>5</td>
-                                                <td>6</td>
-                                                <td>7</td>
-                                                <td>8</td>
-                                                <td>9</td>
-                                                <td>10</td>
-                                                <td>11</td>
-                                                <td>12</td>
-                                                <td>13</td>
-                                                <td>14</td>
-                                                <td>15</td>
-                                                <td>16</td>
-                                                <td>17</td>
-                                                <td>18</td>
-                                                <td>19</td>
-                                                <td>20</td>
-                                                <td>21</td>
-                                                <td>22</td>
-                                                <td>23</td>
-                                                <td>24</td>
-                                                <td>25</td>
-                                                <td>26</td>
-                                                <td>27</td>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for i in pp %}
-                                                <tr>
-                                                    <td class="bg-success">{{ loop.index }}</td>
-                                                    <td>{{ i.getPurchaseObject() }}</td>
-                                                    <td>{{ i.getMethodOfDetermining() }}</td>
+                                                <td>{{ i.getpostonementComment() }}</td>
+                                                {% if  i.getdateOfConclusion() is not null %}
+                                                    <td>{{ i.getdateOfConclusion().format('d/m/Y') }}</td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %} {# дата заключения контракта #}
+                                                <td>{{ i.getsupplierName() }}</td>
+                                                <td>{{ i.getsupplierINN() }}</td>
+                                                <td>{{ i.getsupplierKPP() }}</td>
+                                                <td>
+                                                    {{
+                                                    i.getfinFederalFunds() +
+                                                    i.getfinFundsOfSubject() +
+                                                    i.getfinFundsOfEducationalOrg() +
+                                                    i.getfinEmployersFunds()
+                                                    }}
+                                                </td>
+                                                <td>{{ i.getfinFederalFunds() }}</td>
+                                                <td>{{ i.getfinFundsOfSubject() }}</td>
+                                                <td>{{ i.getfinEmployersFunds() }}</td>
+                                                <td>{{ i.getfinFundsOfEducationalOrg() }}</td>
+
+
+                                                {% if  i.getDeliveryTime() is not null %}
+                                                    <td>{{ i.getDeliveryTime().format('d/m/Y') }}</td>
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
+
+                                                <td>{{ i.getComments() }}</td>
+                                                {% set file = i.getFileDir() %}
+                                                {% if file != "" %}
+
                                                     <td>
-                                                        {{
-                                                        i.getinitialFederalFunds() +
-                                                        i.getinitialFundsOfSubject() +
-                                                        i.getinitialEmployersFunds() +
-                                                        i.getinitialEducationalOrgFunds()
-                                                        }}
+                                                        <a href="{{ path('app_download_purchases_file', {'file': file}) }}">{{ file }}</a>
                                                     </td>
-                                                    <td>{{ i.getinitialFederalFunds() }}</td>
-                                                    <td>{{ i.getinitialFundsOfSubject() }}</td>
-                                                    <td>{{ i.getinitialEmployersFunds() }}</td>
-                                                    <td>{{ i.getinitialEducationalOrgFunds() }}</td>
-
-                                                    {% if  i.getpublicationDate() is not null %}
-                                                        <td>{{ i.getpublicationDate().format('d/m/Y') }}</td>
-                                                    {% else %}
-                                                        <td></td>
-                                                    {% endif %}
-
-                                                    {% if  i.getdeadlineDate() is not null %}
-                                                        <td>{{ i.getdeadlineDate().format('d/m/Y') }}</td>
-                                                    {% else %}
-                                                        <td></td>
-                                                    {% endif %}
-
-                                                    {% if  i.getdateOfSummingUp() is not null %}
-                                                        <td>{{ i.getdateOfSummingUp().format('d/m/Y') }}</td>
-                                                    {% else %}
-                                                        <td></td>
-                                                    {% endif %}
-
-                                                    <td>{{ i.getPurchaseLink() }}</td>
-                                                    <td>{{ i.getPurchaseNumber() }}</td>
-                                                    {#перепутал переменные!!!!!!!!#}
-                                                    {% if  i.getpostponementDate() is not null %}
-                                                        <td>{{ i.getpostponementDate().format('d/m/Y') }}</td>
-                                                    {% else %}
-                                                        <td></td>
-                                                    {% endif %}
-
-                                                    <td>{{ i.getpostonementComment() }}</td>
-                                                    {% if  i.getdateOfConclusion() is not null %}
-                                                        <td>{{ i.getdateOfConclusion().format('d/m/Y') }}</td>
-                                                    {% else %}
-                                                        <td></td>
-                                                    {% endif %} {# дата заключения контракта #}
-                                                    <td>{{ i.getsupplierName() }}</td>
-                                                    <td>{{ i.getsupplierINN() }}</td>
-                                                    <td>{{ i.getsupplierKPP() }}</td>
-                                                    <td>
-                                                        {{
-                                                        i.getfinFederalFunds() +
-                                                        i.getfinFundsOfSubject() +
-                                                        i.getfinFundsOfEducationalOrg() +
-                                                        i.getfinEmployersFunds()
-                                                        }}
-                                                    </td>
-                                                    <td>{{ i.getfinFederalFunds() }}</td>
-                                                    <td>{{ i.getfinFundsOfSubject() }}</td>
-                                                    <td>{{ i.getfinEmployersFunds() }}</td>
-                                                    <td>{{ i.getfinFundsOfEducationalOrg() }}</td>
+                                                    {#                                    <td>{{ i.getFileDir() }}</td>#}
+                                                {% else %}
+                                                    <td></td>
+                                                {% endif %}
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
 
 
-                                                    {% if  i.getDeliveryTime() is not null %}
-                                                        <td>{{ i.getDeliveryTime().format('d/m/Y') }}</td>
-                                                    {% else %}
-                                                        <td></td>
-                                                    {% endif %}
-
-                                                    <td>{{ i.getComments() }}</td>
-                                                    {% set file = i.getFileDir() %}
-                                                    {% if file != "" %}
-
-                                                        <td>
-                                                            <a href="{{ path('app_download_purchases_file', {'file': file}) }}">{{ file }}</a>
-                                                        </td>
-                                                        {#                                    <td>{{ i.getFileDir() }}</td>#}
-                                                    {% else %}
-                                                        <td></td>
-                                                    {% endif %}
-                                                </tr>
-                                            {% endfor %}
-                                            </tbody>
-
-
-                                        </table>
-
-                                    </div>
+                                    </table>
 
                                 </div>
+
                             </div>
                         </div>
-                        {#<div class="row">#}
-                            {#<div class="row col-lg-5 m-4">#}
-                                {#<a href="{{ path('download_purchases_xlsx', {'user_id': id}) }}">#}
-                                    {#<button class="btn-gray-all btn btn-outline-success">#}
-                                        {#<div class="fa fa-table"></div>#}
-                                        {#Скачать таблицу#}
-                                    {#</button>#}
-                                {#</a>#}
-                            {#</div>#}
-                        {#</div>#}
+                    </div>
 
-                    {% else %}
-                        <div>
-                            <h1>
-                                Нет закупок!
-                            </h1>
-                        </div>
-                    {% endif %}
+                </div>
+                <div class="ibox-footer">
 
+
+                    <div class="col-lg-5 m-1">
+                        <a href="#">
+                            <button class="btn-gray-all btn btn-outline-success">
+                                <div class="fa fa-table"></div>
+                                Скачать таблицу
+                            </button>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-
 {% endblock %}
 
 {% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
 
+    <script src="{{ asset('js/inspinia.js') }}"></script>
     <script>
         const slider = document.querySelector('.horizontal-drag');
         let isDown = false;

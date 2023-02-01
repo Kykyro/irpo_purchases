@@ -52,6 +52,46 @@ class UserInfo
      */
     private $accessToPurchases;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $studentsCount;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $programCount;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $teacherCount;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $workerCount;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $studentsCountWithMentor;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $jobSecurityCount;
+
+    /**
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     */
+    private $amountOfFunding;
+
+    /**
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     */
+    private $amountOfExtraFunds;
+
 
     function __construct()
     {
@@ -178,6 +218,102 @@ class UserInfo
     public function setAccessToPurchases(?bool $accessToPurchases): self
     {
         $this->accessToPurchases = $accessToPurchases;
+
+        return $this;
+    }
+
+    public function getStudentsCount(): ?int
+    {
+        return $this->studentsCount;
+    }
+
+    public function setStudentsCount(?int $studentsCount): self
+    {
+        $this->studentsCount = $studentsCount;
+
+        return $this;
+    }
+
+    public function getProgramCount(): ?int
+    {
+        return $this->programCount;
+    }
+
+    public function setProgramCount(?int $programCount): self
+    {
+        $this->programCount = $programCount;
+
+        return $this;
+    }
+
+    public function getTeacherCount(): ?int
+    {
+        return $this->teacherCount;
+    }
+
+    public function setTeacherCount(?int $teacherCount): self
+    {
+        $this->teacherCount = $teacherCount;
+
+        return $this;
+    }
+
+    public function getWorkerCount(): ?int
+    {
+        return $this->workerCount;
+    }
+
+    public function setWorkerCount(?int $workerCount): self
+    {
+        $this->workerCount = $workerCount;
+
+        return $this;
+    }
+
+    public function getStudentsCountWithMentor(): ?int
+    {
+        return $this->studentsCountWithMentor;
+    }
+
+    public function setStudentsCountWithMentor(?int $studentsCountWithMentor): self
+    {
+        $this->studentsCountWithMentor = $studentsCountWithMentor;
+
+        return $this;
+    }
+
+    public function getJobSecurityCount(): ?int
+    {
+        return $this->jobSecurityCount;
+    }
+
+    public function setJobSecurityCount(?int $jobSecurityCount): self
+    {
+        $this->jobSecurityCount = $jobSecurityCount;
+
+        return $this;
+    }
+
+    public function getAmountOfFunding(): ?string
+    {
+        return $this->amountOfFunding;
+    }
+
+    public function setAmountOfFunding(?string $amountOfFunding): self
+    {
+        $this->amountOfFunding = $amountOfFunding;
+
+        return $this;
+    }
+
+    public function getAmountOfExtraFunds(): ?string
+    {
+        return $this->amountOfExtraFunds;
+    }
+
+    public function setAmountOfExtraFunds(?string $amountOfExtraFunds): self
+    {
+        $this->amountOfExtraFunds = $amountOfExtraFunds;
 
         return $this;
     }

@@ -5,144 +5,21 @@
 
 {% block content %}
 
-{% if prodProc|length > 0 %}
-    <div class="row ">
-        <div class="col-sm-10 offset-sm-1 ">
-            <div class="wrapper wrapper-content ">
-                <div class="ibox-content block-shadow ">
-                    <div class="container-fluid table-responsive">
-                        <div class="row col-lg-12">
-                            <div class="flex-row flex-nowrap">
-                                <div class="row " >
-                                    <h2 style="font-weight: bold; margin-bottom: 2rem">
-                                        Список закупок
-                                    </h2>
-                                    <table class="table block-shadow white-bg table-responsive ">
-                                        <thead>
-                                        <tr>
-                                            <th>ID</th>
-
-                                            <th>Предмет закупки</th>
-                                            <th>Способ определения поставщика</th>
-                                            <th>НМЦК</th>
-                                            <th>Дата публикации извещения</th>
-                                            <th>Дата окончания подачи заявок</th>
-                                            <th>Дата подведения итогов</th>
-                                            <th>Дата заключения договоров</th>
-                                            <th>Стоимость договора</th>
-                                            <th>Источник финансирования</th>
-
-
-                                            <th>Действия</th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        {% for i in prodProc %}
-                                            <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
-                                                <td>
-                                                    {{ i.getId() }}
-                                                </td>
-                                                {# Предмет закупки #}
-                                                <td>{{ i.getPurchaseObject() }} </td>
-                                                {# Способ определения поставщика #}
-                                                <td>{{ i.getMethodOfDetermining() }}</td>
-                                                {# НМЦК #}
-                                                <td> {{ i.getNMCK() }}₽</td>
-
-                                                {# даты #}
-                                                {# Дата публикации извещения #}
-                                                {% if i.getPublicationDate is null %}
-                                                    <td></td>
-                                                {% else %}
-                                                    <td>{{ i.getPublicationDate().format("d.m.y") }}</td>
-                                                {% endif %}
-
-                                                {# Дата окончания подачи заявок #}
-                                                {% if i.getDeadlineDate is null %}
-                                                    <td></td>
-                                                {% else %}
-                                                    <td>{{ i.getDeadlineDate().format("d.m.y") }}</td>
-                                                {% endif %}
-
-                                                {# Дата подведения итогов #}
-                                                {% if i.getDateOfSummingUp is null %}
-                                                    <td></td>
-                                                {% else %}
-                                                    <td>{{ i.getDateOfSummingUp().format("d.m.y") }}</td>
-                                                {% endif %}
-
-                                                {# Дата заключения договоров #}
-                                                {% if i.getDateOfConclusion is null %}
-                                                    <td></td>
-                                                {% else %}
-                                                    <td>{{ i.getDateOfConclusion().format("d.m.y") }}</td>
-                                                {% endif %}
-
-
-
-                                                {# Стоимость договора #}
-                                                <td>{{ i.getContractCost() }}₽</td>
-                                                {# Источник финансирования #}
-                                                <td>{{ i.getSourceOfFunding() }}</td>
-
-                                                {# Действия #}
-                                                <td>
-                                                    <a href="{{ path('app_purchases_detail', {'id': i.getId()}) }}">
-                                                        <button class="btn btn-info col-lg-12" >
-                                                            <div class="fa fa-info"></div>
-                                                            Просмотр
-                                                        </button>
-                                                    </a>
-                                                    <a href="{{ path('app_purchases_delete', {'id': i.getId()}) }}" class="delete-alert">
-                                                        <button class="btn btn-danger col-lg-12">
-                                                            <div class="fa fa-trash"></div>
-                                                            Удалить
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-
-
-
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endif %}
 
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox collapsed">
-                <div class="ibox-title">
-                    <h5>Таблица</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Таблица закупок</h5>
+                        <div class="ibox-tools">
+
                             <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#" class="dropdown-item">Config option 1</a>
-                            </li>
-                            <li><a href="#" class="dropdown-item">Config option 2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
+
+
+                        </div>
                     </div>
-                </div>
+                </a>
                 <div class="ibox-content" style="display: none;">
 
                     <div class="container-fluid table-responsive horizontal-drag">
@@ -403,26 +280,149 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="row col-lg-5 m-4">
-                            <a href="{{ path('download_purchases_xlsx', {'user_id': id}) }}">
-                                <button class="btn-gray-all btn btn-outline-success">
-                                    <div class="fa fa-table"></div>
-                                    Скачать таблицу
-                                </button>
-                            </a>
-                        </div>
+
+                </div>
+                <div class="ibox-footer">
+
+
+                    <div class="col-lg-5 m-1">
+                        <a href="{{ path('download_purchases_xlsx', {'user_id': id}) }}">
+                            <button class="btn-gray-all btn btn-outline-success">
+                                <div class="fa fa-table"></div>
+                                Скачать таблицу
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+{% if prodProc|length > 0 %}
+    <div class="row ">
+        <div class="col-lg-12 ">
+            <div class="ibox collapsed">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Список закупок</h5>
+                        <div class="ibox-tools">
+
+                            <i class="fa fa-chevron-up"></i>
+
+
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content  ">
+                    <table class="table white-bg  ">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+
+                            <th>Предмет закупки</th>
+                            <th>Способ определения поставщика</th>
+                            <th>НМЦК</th>
+                            <th>Дата публикации извещения</th>
+                            <th>Дата окончания подачи заявок</th>
+                            <th>Дата подведения итогов</th>
+                            <th>Дата заключения договоров</th>
+                            <th>Стоимость договора</th>
+                            <th>Источник финансирования</th>
+
+
+                            <th>Действия</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for i in prodProc %}
+                            <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
+                                <td>
+                                    {{ i.getId() }}
+                                </td>
+                                {# Предмет закупки #}
+                                <td>{{ i.getPurchaseObject() }} </td>
+                                {# Способ определения поставщика #}
+                                <td>{{ i.getMethodOfDetermining() }}</td>
+                                {# НМЦК #}
+                                <td> {{ i.getNMCK() }}₽</td>
+
+                                {# даты #}
+                                {# Дата публикации извещения #}
+                                {% if i.getPublicationDate is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getPublicationDate().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата окончания подачи заявок #}
+                                {% if i.getDeadlineDate is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getDeadlineDate().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата подведения итогов #}
+                                {% if i.getDateOfSummingUp is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getDateOfSummingUp().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата заключения договоров #}
+                                {% if i.getDateOfConclusion is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getDateOfConclusion().format("d.m.y") }}</td>
+                                {% endif %}
+
+
+
+                                {# Стоимость договора #}
+                                <td>{{ i.getContractCost() }}₽</td>
+                                {# Источник финансирования #}
+                                <td>{{ i.getSourceOfFunding() }}</td>
+
+                                {# Действия #}
+                                <td>
+                                    <a href="{{ path('app_purchases_detail', {'id': i.getId()}) }}">
+                                        <button class="btn btn-info col-lg-12" >
+                                            <div class="fa fa-info"></div>
+                                            Просмотр
+                                        </button>
+                                    </a>
+                                    <a href="{{ path('app_purchases_delete', {'id': i.getId()}) }}" class="delete-alert">
+                                        <button class="btn btn-danger col-lg-12">
+                                            <div class="fa fa-trash"></div>
+                                            Удалить
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+
 
 
 {% endblock %}
 
 {% block scripts %}
+    {#{{ asset_version('') }}#}
     <script src="{{ asset('js/popper.min.js') }}"></script>
 
     <script src="{{ asset('js/inspinia.js') }}"></script>

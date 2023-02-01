@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
 use App\Entity\User;
+use App\Form\RegistrationUserInfoFormType;
 use App\Form\UserEditFormType;
 use App\Form\RegistrationFormType;
 use App\Form\UserPasswordEditFormType;
@@ -106,38 +107,8 @@ class AdminController extends AbstractController
         $formPassword = $formFactory->createNamed('passwordForm', UserPasswordEditFormType::class, $user);
 
         $userInfo = $user->getUserInfo();
-        $formUserInfo = $this->createFormBuilder($userInfo)
-            ->add("rf_subject", EntityType::class, [
-                'attr' => ['class' => 'form-control'],
-                'required'   => false,
-                'class' => RfSubject::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('sub')
-                        ->orderBy('sub.name', 'ASC');
-                },
-                'choice_label' => 'name',
-            ])
-            ->add("organization", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false
-                ])
-            ->add("educational_organization", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false
-                ])
-            ->add("cluster", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false
-                ])
-            ->add("declared_industry", TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required'   => false
-                ])
-            ->getForm();
+        $formUserInfo = $formFactory->createNamed('userInfoForm', RegistrationUserInfoFormType::class, $userInfo);
+
 
         $formUser->handleRequest($request);
         if($formUser->isSubmitted() && $formUser->isValid())

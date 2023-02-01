@@ -65,36 +65,21 @@
             <div class="col-sm-12 col-form-label text-left">
                 <strong>
                     {{ form_start(userInfoForm) }}
-                        {{ form_row(userInfoForm.rf_subject, {
-                            label: 'Субъект РФ',
-                            attr: {
-                                class: 'col-lg-12'
-                            }
-                        }) }}
-                        {{ form_row(userInfoForm.organization, {
-                            label: 'Наименование организации грантополучателя ',
-                            attr: {
-                                class: 'col-lg-12'
-                            }
-                        }) }}
-                        {{ form_row(userInfoForm.educational_organization, {
-                            label: 'Наименование базовой образовательной организации ',
-                            attr: {
-                                class: 'col-lg-12'
-                            }
-                        }) }}
-                        {{ form_row(userInfoForm.cluster, {
-                            label: 'Наименование кластера ',
-                            attr: {
-                                class: 'col-lg-12'
-                            }
-                        }) }}
-                        {{ form_row(userInfoForm.declared_industry, {
-                            label: 'Заявленная отрасль ',
-                            attr: {
-                                class: 'col-lg-12'
-                            }
-                        }) }}
+                        {{ form_row(userInfoForm.rf_subject) }}
+                        {{ form_row(userInfoForm.organization) }}
+                        {{ form_row(userInfoForm.educational_organization) }}
+                        {{ form_row(userInfoForm.cluster) }}
+                        {{ form_row(userInfoForm.declared_industry) }}
+                        {{ form_row(userInfoForm.year) }}
+                        <hr>
+                        {{ form_row(userInfoForm.studentsCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.programCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.teacherCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.workerCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.studentsCountWithMentor, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.jobSecurityCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.amountOfFunding, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.amountOfExtraFunds, {"type":"number"}) }}
                     <div class="col-sm-5 col-form-label text-left row">
                         <button type="submit" class="col-lg-4 btn btn-gray-all btn-outline-success">Обновить</button>
                     </div>
