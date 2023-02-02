@@ -56,7 +56,7 @@
                         </table>
                     </div>
                     <div class="ibox-footer">
-                        {% if not app.user.getUserInfo().isNOTAllFull() %}
+                        {% if not app.user.getUserInfo().isNOTAllFull() and  app.user.getUserInfo().isAccessToPurchases() %}
                             <a href="{{ path("app_add_purchases_v2") }}">
                                 <button class="btn-gray-all btn btn-outline-success ">
                                     <div class="fa fa-plus"></div>
