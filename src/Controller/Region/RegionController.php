@@ -306,11 +306,8 @@ class RegionController extends AbstractController
         ]);
     }
 //@Route("/purchases-edit/{id}", name="app_purchases_edit", methods="GET|POST")
-    /**
-     *
-     *
-     * @Route("/purchases-add", name="app_purchases_add", methods="GET|POST")
-     */
+// @Route("/purchases-add", name="app_purchases_add", methods="GET|POST")
+
     public function purchasesDetailNew(Request $request, SluggerInterface $slugger, int $id = null): Response
     {
         $entity_manager = $this->getDoctrine()->getManager();
