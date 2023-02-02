@@ -44,16 +44,24 @@ class WeeklyBudgetAmountController extends AbstractController
 
         $dumpData = $dump->getDump();
         $dumpDay = $dump->getCreatedAt();
+
+
         $pp = $serializer->deserialize($dumpData->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
-
-
+        $arr = [];
+        foreach ($pp as $p)
+        {
+            if(!$p->getIsDeleted())
+            {
+                array_push($arr, $p);
+            }
+        }
 
 
         return $this->render('weekly_budget_amount/viewDump.html.twig', [
             'controller_name' => 'WeeklyBudgetAmountController',
-            'pp' => $pp,
-            'initial' => $this->getInitialBudget($pp, $dumpDay),
-            'fin' => $this->getFinBudget($pp, $dumpDay)
+            'pp' => $arr,
+            'initial' => $this->getInitialBudget($arr, $dumpDay),
+            'fin' => $this->getFinBudget($arr, $dumpDay)
         ]);
 
 

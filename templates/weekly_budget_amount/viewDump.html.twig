@@ -23,15 +23,6 @@
                     <div class="container-fluid table-responsive horizontal-drag">
                         <div class="row col-lg-12">
                             <div class="flex-row flex-nowrap">
-                                {#<style>#}
-                                    {#table{#}
-
-                                    {#}#}
-                                    {#table tr td{#}
-                                        {#border: 1px black solid;#}
-                                    {#}#}
-                                {#</style>#}
-
                                 <div>
                                     <table class="table table-bordered text-center ">
                                         <thead>
@@ -184,88 +175,11 @@
                                         {% for i in pp %}
                                             <tr>
                                                 <td class="bg-success">{{ loop.index }}</td>
-                                                <td>{{ i.getPurchaseObject() }}</td>
-                                                <td>{{ i.getMethodOfDetermining() }}</td>
-                                                <td>
-                                                    {{
-                                                    i.getinitialFederalFunds() +
-                                                    i.getinitialFundsOfSubject() +
-                                                    i.getinitialEmployersFunds() +
-                                                    i.getinitialEducationalOrgFunds()
-                                                    }}
-                                                </td>
-                                                <td>{{ i.getinitialFederalFunds() }}</td>
-                                                <td>{{ i.getinitialFundsOfSubject() }}</td>
-                                                <td>{{ i.getinitialEmployersFunds() }}</td>
-                                                <td>{{ i.getinitialEducationalOrgFunds() }}</td>
-
-                                                {% if  i.getpublicationDate() is not null %}
-                                                    <td>{{ i.getpublicationDate().format('d/m/Y') }}</td>
-                                                {% else %}
-                                                    <td></td>
-                                                {% endif %}
-
-                                                {% if  i.getdeadlineDate() is not null %}
-                                                    <td>{{ i.getdeadlineDate().format('d/m/Y') }}</td>
-                                                {% else %}
-                                                    <td></td>
-                                                {% endif %}
-
-                                                {% if  i.getdateOfSummingUp() is not null %}
-                                                    <td>{{ i.getdateOfSummingUp().format('d/m/Y') }}</td>
-                                                {% else %}
-                                                    <td></td>
-                                                {% endif %}
-
-                                                <td>{{ i.getPurchaseLink() }}</td>
-                                                <td>{{ i.getPurchaseNumber() }}</td>
-                                                {#перепутал переменные!!!!!!!!#}
-                                                {% if  i.getpostponementDate() is not null %}
-                                                    <td>{{ i.getpostponementDate().format('d/m/Y') }}</td>
-                                                {% else %}
-                                                    <td></td>
-                                                {% endif %}
-
-                                                <td>{{ i.getpostonementComment() }}</td>
-                                                {% if  i.getdateOfConclusion() is not null %}
-                                                    <td>{{ i.getdateOfConclusion().format('d/m/Y') }}</td>
-                                                {% else %}
-                                                    <td></td>
-                                                {% endif %} {# дата заключения контракта #}
-                                                <td>{{ i.getsupplierName() }}</td>
-                                                <td>{{ i.getsupplierINN() }}</td>
-                                                <td>{{ i.getsupplierKPP() }}</td>
-                                                <td>
-                                                    {{
-                                                    i.getfinFederalFunds() +
-                                                    i.getfinFundsOfSubject() +
-                                                    i.getfinFundsOfEducationalOrg() +
-                                                    i.getfinEmployersFunds()
-                                                    }}
-                                                </td>
-                                                <td>{{ i.getfinFederalFunds() }}</td>
-                                                <td>{{ i.getfinFundsOfSubject() }}</td>
-                                                <td>{{ i.getfinEmployersFunds() }}</td>
-                                                <td>{{ i.getfinFundsOfEducationalOrg() }}</td>
-
-
-                                                {% if  i.getDeliveryTime() is not null %}
-                                                    <td>{{ i.getDeliveryTime().format('d/m/Y') }}</td>
-                                                {% else %}
-                                                    <td></td>
-                                                {% endif %}
-
-                                                <td>{{ i.getComments() }}</td>
-                                                {% set file = i.getFileDir() %}
-                                                {% if file != "" %}
-
+                                                {% for j in i.getAsRow() %}
                                                     <td>
-                                                        <a href="{{ path('app_download_purchases_file', {'file': file}) }}">{{ file }}</a>
+                                                        {{ j }}
                                                     </td>
-                                                    {#                                    <td>{{ i.getFileDir() }}</td>#}
-                                                {% else %}
-                                                    <td></td>
-                                                {% endif %}
+                                                {% endfor %}
                                             </tr>
                                         {% endfor %}
                                         </tbody>

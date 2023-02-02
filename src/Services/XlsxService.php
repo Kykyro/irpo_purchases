@@ -262,7 +262,9 @@ class XlsxService extends AbstractController
             ->createQueryBuilder('a')
             ->leftJoin('a.user', 'u')
             ->andWhere('u.id = :id')
+            ->andWhere('a.isDeleted = :isDeleted')
             ->setParameter('id', "$user_id")
+            ->setParameter('isDeleted', false)
             ->getQuery()
             ->getResult();
 
@@ -334,7 +336,7 @@ class XlsxService extends AbstractController
                         $cellCoordinates = $cell.$row;
 
                         if($sheet->getCell($cellCoordinates) != ""){
-                            $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill);
+//                            $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill);
 
                             switch ($cell) {
                                 case "E":
@@ -361,7 +363,7 @@ class XlsxService extends AbstractController
                     foreach (array_keys($_row) as $cell){
                         $cellCoordinates = $cell.$row;
                         if($sheet->getCell($cellCoordinates) != ""){
-                            $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill);
+//                            $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill);
                         }
                         switch ($cell) {
                             case "U":
@@ -425,15 +427,15 @@ class XlsxService extends AbstractController
         $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
         $sheet->setCellValue($finSumCell , "=SUM($finSumFormulaRange)");
 
-        $sheet->setCellValue('E'.$end_cell, $initialFedFundSUM);
-        $sheet->setCellValue('F'.$end_cell, $initialSubFundSUM);
-        $sheet->setCellValue('G'.$end_cell, $initialEmpFundSUM);
-        $sheet->setCellValue('H'.$end_cell, $initialOrgFundSUM);
-
-        $sheet->setCellValue('U'.$end_cell, $finFedFundSUM);
-        $sheet->setCellValue('V'.$end_cell, $finSubFundSUM);
-        $sheet->setCellValue('W'.$end_cell, $finEmpFundSUM);
-        $sheet->setCellValue('X'.$end_cell, $finOrgFundSUM);
+//        $sheet->setCellValue('E'.$end_cell, $initialFedFundSUM);
+//        $sheet->setCellValue('F'.$end_cell, $initialSubFundSUM);
+//        $sheet->setCellValue('G'.$end_cell, $initialEmpFundSUM);
+//        $sheet->setCellValue('H'.$end_cell, $initialOrgFundSUM);
+//
+//        $sheet->setCellValue('U'.$end_cell, $finFedFundSUM);
+//        $sheet->setCellValue('V'.$end_cell, $finSubFundSUM);
+//        $sheet->setCellValue('W'.$end_cell, $finEmpFundSUM);
+//        $sheet->setCellValue('X'.$end_cell, $finOrgFundSUM);
 
         //write it again to Filesystem with the same name (=replace)
         $writer = new Xlsx($spreadsheet);

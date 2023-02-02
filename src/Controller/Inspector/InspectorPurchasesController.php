@@ -95,7 +95,9 @@ class InspectorPurchasesController extends AbstractController
             ->createQueryBuilder('a')
             ->leftJoin('a.user', 'u')
             ->andWhere('u.id = :id')
+            ->andWhere('a.isDeleted = :isDeleted')
             ->setParameter('id', "$id")
+            ->setParameter('isDeleted', false)
             ->getQuery()
             ->getResult();
 
