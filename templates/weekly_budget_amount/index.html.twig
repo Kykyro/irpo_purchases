@@ -12,12 +12,19 @@
 
 
         <div class="col-lg-12">
-            {% for i in dump %}
+            {% set first = true %}
+            {% for i in dump|reverse %}
                 <div class="ibox ">
                     <div class="ibox-title">
                         <h3>Закупки на {{ i.getCreatedAt().format('d.m.Y') }}</h3>
-                        <div class="ibox-tools">
 
+                        <div class="ibox-tools">
+                            {% if first %}
+                                <p><span class="badge badge-primary">Последний</span></p>
+                                {% set first = false %}
+                            {% else %}
+                                <p><span class="badge badge-warning">Старый</span></p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="ibox-content">

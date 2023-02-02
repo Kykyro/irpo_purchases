@@ -283,11 +283,11 @@ class AdminController extends AbstractController
                     'attr' => ['class' => 'form-control'],
                     'required'   => false
                 ])
-            ->add("time", TextType::class,
+            ->add("timezone", TextType::class,
                 [
                     'attr' => ['class' => 'form-control'],
                     'required'   => false,
-                    'mapped' => false
+
                 ])
             ->add('submit', SubmitType::class,[
                 'attr' => [
@@ -295,7 +295,17 @@ class AdminController extends AbstractController
                 ]
             ])
             ->getForm();
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $entity_manager->persist($region);
+            $entity_manager->flush();
+
+
+            return $this->redirectToRoute("app_admin_regions");
+        }
 
         return $this->render('admin/templates/regionEdit.html.twig', [
             'form' => $form->createView()

@@ -451,43 +451,7 @@ class XlsxService extends AbstractController
 
     }
 
-    public function generateAllPurchasesProcedureTable(int $year)
-    {
-        // но нужно ли?
-        // TODO: Сделать таблицу со всеми закупками по всем региона за определнный год
-        // Получить всех пользователей за год
-        $entity_manager = $this->getDoctrine()->getManager();
-        $users =  $entity_manager->getRepository(User::class)
-            ->createQueryBuilder('u')
-            ->leftJoin('u.user_info', 'uf')
-            ->andWhere('uf.year = :year')
-            ->andWhere('u.roles LIKE :roles')
-            ->setParameter('year', "$year")
-            ->setParameter('roles', "%ROLE_REGION%")
-            ->getQuery()
-            ->getResult();
+    public function downloadDump(){
 
-
-        $sheet_template = "../public/excel/Закупочные процедуры шаблон.xlsx";
-        //load spreadsheet
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
-//        $userInfo = $procedures[0]->getUser()->getUserInfo();
-        //change it
-        $sheet = $spreadsheet->getActiveSheet();
-
-        $higestRow = $sheet->getHighestRow();
-
-//        dd($templateArray);
-        $sheet->fromArray($templateArray, null, 'A'.$higestRow);
-
-        $writer = new Xlsx($spreadsheet);
-
-        $fileName = 'aaaaaa'.'.xlsx';
-        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
-
-        $writer->save($temp_file);
-
-
-        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }

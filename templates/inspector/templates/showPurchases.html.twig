@@ -184,6 +184,12 @@
                                                         {{ j }}
                                                     </td>
                                                 {% endfor %}
+                                                <td>
+                                                    {% set file = i.getFileDir() %}
+                                                    {% if file != "" %}
+                                                        <a href="{{ path('app_download_purchases_file', {'file': file}) }}">{{ file }}</a>
+                                                    {% endif %}
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
