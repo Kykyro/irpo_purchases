@@ -28,9 +28,15 @@
             <div class="row d-flex justify-content-center m-3">
                 <div class="m-2">
                     <a href="{{ path("app_purchases_edit", {id: app.request.get("id")}) }}">
-                        <button class="btn-gray-all btn btn-outline-success ">
+                        <button class=" btn btn-success ">
                             <div class="fa fa-edit"></div>
                             Редактировать
+                        </button>
+                    </a>
+                    <a href="{{ path('app_purchases_delete', {'id': app.request.get("id")}) }}" class="delete-alert">
+                        <button class="btn btn-danger">
+                            <div class="fa fa-trash"></div>
+                            Удалить
                         </button>
                     </a>
                     {% if is_granted('ROLE_INSPECTOR') %}

@@ -206,7 +206,7 @@
                 </div>
                 <div class="ibox-footer">
 
-
+                    {% if prodProc|length > 0 %}
                     <div class="col-lg-5 m-1">
                         <a href="{{ path('download_purchases_xlsx', {'user_id': id}) }}">
                             <button class="btn-gray-all btn btn-outline-success">
@@ -215,6 +215,7 @@
                             </button>
                         </a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -308,16 +309,10 @@
 
                                 {# Действия #}
                                 <td>
-                                    <a href="{{ path('app_purchases_detail', {'id': i.getId()}) }}">
+                                    <a href="#">
                                         <button class="btn btn-info col-lg-12" >
                                             <div class="fa fa-info"></div>
                                             Просмотр
-                                        </button>
-                                    </a>
-                                    <a href="{{ path('app_purchases_delete', {'id': i.getId()}) }}" class="delete-alert">
-                                        <button class="btn btn-danger col-lg-12">
-                                            <div class="fa fa-trash"></div>
-                                            Удалить
                                         </button>
                                     </a>
                                 </td>

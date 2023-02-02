@@ -49,10 +49,17 @@ class RegionController extends AbstractController
      */
     public function purchasesView(Request $request, int $id) : Response
     {
+
         $title = 'Просмотр';
         $purchase = $this->getDoctrine()
             ->getRepository(ProcurementProcedures::class)
             ->find($id);
+
+        $current_user = $this->getUser()->getUserIdentifier();
+        if($purchase->getUser()->getUserIdentifier() != $current_user or $purchase->getIsDeleted())
+        {
+            return $this->redirectToRoute('app_main');
+        }
 
         return $this->render('purchases_detail/templates/table_view.html.twig', [
             'controller_name' => 'RegionController',
