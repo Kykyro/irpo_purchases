@@ -52,7 +52,7 @@ class AuthAuthenticator extends AbstractLoginFormAuthenticator
         $user = $token->getUser();
         if(in_array('ROLE_INSPECTOR', $user->getRoles(), true))
         {
-            return new RedirectResponse($this->urlGenerator->generate('app_inspector_main'));
+            return new RedirectResponse($this->urlGenerator->generate('app_inspector_infrastructure_sheet'));
         }
         if(in_array('ROLE_REGION', $user->getRoles(), true))
         {
