@@ -111,6 +111,28 @@ class InspectorPurchasesController extends AbstractController
     }
 
     /**
+     * @Route("/view-purchases/{id}", name="app_inspector_view_purchase", methods="GET|POST")
+     */
+    public function viewFullPurchases(int $id)
+    {
+        $title = 'Просмотр';
+        $purchase = $this->getDoctrine()
+            ->getRepository(ProcurementProcedures::class)
+            ->find($id);
+
+
+
+        return $this->render('inspector/templates/viewPu.html.twig', [
+            'controller_name' => 'RegionController',
+            'title' => $title,
+            'purchase' => $purchase->getAsRow(),
+            'file' => $purchase->getFileDir(),
+            'versionInfo' => $purchase->getVersionInfoAndDate(),
+
+        ]);
+    }
+
+    /**
      * @Route("/get/purchasses-xlsx/{user_id}", name="download_purchases_xlsx")
      */
     public function download(XlsxService $xlsxService, int $user_id): Response

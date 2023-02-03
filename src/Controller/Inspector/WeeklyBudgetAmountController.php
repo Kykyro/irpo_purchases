@@ -4,6 +4,7 @@ namespace App\Controller\Inspector;
 
 use App\Entity\PurchasesDump;
 use App\Entity\User;
+use App\Services\XlsxService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -61,7 +62,8 @@ class WeeklyBudgetAmountController extends AbstractController
             'controller_name' => 'WeeklyBudgetAmountController',
             'pp' => $arr,
             'initial' => $this->getInitialBudget($arr, $dumpDay),
-            'fin' => $this->getFinBudget($arr, $dumpDay)
+            'fin' => $this->getFinBudget($arr, $dumpDay),
+            'id' => $id
         ]);
 
 
@@ -76,7 +78,7 @@ class WeeklyBudgetAmountController extends AbstractController
         ];
 
         foreach ($dump as $item){
-            if($item->getDateOfConclusion() >= $day)
+            if($item->getDateOfConclusion() >= $day or is_null($item->getDateOfConclusion()))
             {
                 $sum['FederalFunds'] += $item->getInitialFederalFunds();
                 $sum['FundsOfSubject'] += $item->getInitialFundsOfSubject();
@@ -120,5 +122,13 @@ class WeeklyBudgetAmountController extends AbstractController
         }
 
         return $sum;
+    }
+
+    /**
+     * @Route("/get/xlsx_by_dump/{dump_id}", name="download_xlsx")
+     */
+    public function download(XlsxService $xlsxService, int $dump_id, SerializerInterface $serializer): Response
+    {
+        return $xlsxService->generatePurchasesProcedureByDump($dump_id, $serializer);
     }
 }
