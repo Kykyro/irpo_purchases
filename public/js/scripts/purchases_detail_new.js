@@ -316,7 +316,7 @@ $(document).ready(function () {
 
     function isPlannedChange(){
         if(isPlanned.is(':checked')){
-            console.log('zaplanirovano');
+            // console.log('zaplanirovano');
             $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
             $("#form-t-2").hide();
             $("#form-t-3").hide();
