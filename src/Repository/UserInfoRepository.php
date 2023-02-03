@@ -39,6 +39,21 @@ class UserInfoRepository extends ServiceEntityRepository
         }
     }
 
+    public function getByRegion($region)
+    {
+
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.rf_subject = :subject')
+            ->setParameter('subject', $region)
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+
+    }
+
+
 //    /**
 //     * @return UserInfo[] Returns an array of UserInfo objects
 //     */

@@ -38,6 +38,16 @@ class RfSubjectRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function getRegionByTimeZone($timezone)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.timezone = :timezone')
+            ->setParameter('timezone', $timezone)
+            ->orderBy('r.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    /**
 //     * @return RfSubject[] Returns an array of RfSubject objects
