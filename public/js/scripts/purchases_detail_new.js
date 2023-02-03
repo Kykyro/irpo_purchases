@@ -1,9 +1,8 @@
 $(document).ready(function () {
 
-
     $("#wizard").steps();
 
-    $("#form").steps({
+    let form = $("#form").steps({
         bodyTag: "fieldset",
         labels: {
             current: "current step:",
@@ -70,7 +69,7 @@ $(document).ready(function () {
 
 
             $("a[href='#finish']").hide();
-
+            console.log(showFieldset);
         },
         onFinishing: function (event, currentIndex)
         {
@@ -84,61 +83,6 @@ $(document).ready(function () {
             // Start validation; Prevent form submission if false
             return form.valid();
         },
-    }).validate({
-
-        rules: {
-
-            'purchases_form[PurchaseObject]': "required",
-            'purchases_form[anotherMethodOfDetermining]': "required",
-
-
-        },
-        messages: {
-            'purchases_form[PurchaseObject]': "Введите предмет закупки",
-            'purchases_form[anotherMethodOfDetermining]': "Укажите Способ определения поставщика",
-            'purchases_form[file]': "Прикрепите файл договора/проекта договора",
-            'purchases_form[initialFederalFunds]': {
-                required: "Заполните хотя бы один пункт",
-                max: $.validator.format("Не может быть больше {0}."),
-                min: $.validator.format("Не может быть меньше {0}"),
-                number: "Неверное значение.",
-                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
-            },
-
-            'purchases_form[initialFundsOfSubject]': {
-                required: "Заполните хотя бы один пункт",
-                max: $.validator.format("Не может быть больше {0}."),
-                min: $.validator.format("Не может быть меньше {0}"),
-                number: "Неверное значение.",
-                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
-            },
-            'purchases_form[initialEmployersFunds]': {
-                required: "Заполните хотя бы один пункт",
-                max: $.validator.format("Не может быть больше {0}."),
-                min: $.validator.format("Не может быть меньше {0}"),
-                number: "Неверное значение.",
-                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
-            },
-            'purchases_form[initialEducationalOrgFunds]': {
-                required: "Заполните хотя бы один пункт",
-                max: $.validator.format("Не может быть больше {0}."),
-                min: $.validator.format("Не может быть меньше {0}"),
-                number: "Неверное значение.",
-                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
-            },
-
-            'purchases_form[publicationDate]': "Это поле обязательно",
-            'purchases_form[DateOfConclusion]': "Это поле обязательно",
-            'purchases_form[finFederalFunds]' : 'fffffff',
-            'purchases_form[prepayment]' : {
-                required: "Это поле обязательно",
-                max: $.validator.format("Не может быть больше {0}."),
-                min: $.validator.format("Не может быть меньше {0}"),
-                number: "Неверное значение.",
-                step: $.validator.format("Укажите число без дробной части"),
-            }
-
-        }
     });
 
     // VARIBLES
@@ -179,9 +123,7 @@ $(document).ready(function () {
     let conclusion_date = $("#purchases_form_DateOfConclusion");
     let delivery_date = $("#purchases_form_DeliveryTime");
 
-    // Суммы
-    let initial_sum = $(".sum_initial");
-    let fin_sum = $(".sum_fin");
+
 
     // Сообщения об ошибке
     let errors_message = $('.error-message');
@@ -195,7 +137,15 @@ $(document).ready(function () {
     // ------
     let formState = "Единственный поставщик";
     let showFieldset = [0, 1, 4, 5, 6, 7];
-
+    // Суммы
+    let initial_sum = $(".sum_initial");
+    let fin_sum = $(".sum_fin");
+    function NMCKgreatedThenFinSum() {
+        return parseFloat(initial_sum.text()) >= parseFloat(fin_sum.text());
+    }
+    $.validator.addMethod("NMCKmoreThenFinSum", function(value, element) {
+        return NMCKgreatedThenFinSum();
+    }, "* Amount must be greater than zero");
 
     // function skipStep() {
     //
@@ -219,8 +169,16 @@ $(document).ready(function () {
             // $("#form-t-4").hide();
 
             finSumRow.hide();
+            setRequired(false, conclusion_date);
+            setRequired(false, publication_date);
+            setDisabled(true, publication_date, deadline_date, summing_up_date, purchases_link,
+                purchases_number, postponement_date, postponement_comment);
         }
         else {
+            setRequired(true, conclusion_date);
+            setRequired(true, publication_date);
+            setDisabled(false, publication_date, deadline_date, summing_up_date, purchases_link,
+                purchases_number, postponement_date, postponement_comment);
             isPlannedRow.show();
             finSumRow.show();
             showFieldset = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -228,10 +186,7 @@ $(document).ready(function () {
 
         }
 
-        setRequired(!isThis, conclusion_date);
-        setRequired(!isThis, publication_date);
-        setDisabled(isThis, publication_date, deadline_date, summing_up_date, purchases_link,
-            purchases_number, postponement_date, postponement_comment);
+
 
     }
     function anotherMethodOfDeterminingFunc(isThis)
@@ -305,6 +260,7 @@ $(document).ready(function () {
             setRequired(true, initial_federal_funds, initial_funds_of_subject,
                 initial_employers_funds, initial_edication_org_funds)
         }
+
         initial_sum.text(getSum(initial_federal_funds, initial_funds_of_subject,
             initial_employers_funds, initial_edication_org_funds) + " ₽");
     }
@@ -338,7 +294,7 @@ $(document).ready(function () {
         isHasPrepayment();
         $('.number').hide();
         contractStatusChange();
-        errors_message.hide();
+        // errors_message.hide();
 
 
     }
@@ -360,7 +316,7 @@ $(document).ready(function () {
 
     function isPlannedChange(){
         if(isPlanned.is(':checked')){
-            // console.log('aaaaa');
+            console.log('zaplanirovano');
             $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
             $("#form-t-2").hide();
             $("#form-t-3").hide();
@@ -514,5 +470,81 @@ $(document).ready(function () {
         }
     });
 
+    form.validate({
 
+        rules: {
+
+            'purchases_form[PurchaseObject]': "required",
+            'purchases_form[anotherMethodOfDetermining]': "required",
+            'purchases_form[finFederalFunds]': {
+                NMCKmoreThenFinSum : true
+            },
+            'purchases_form[finFundsOfSubject]': {
+                NMCKmoreThenFinSum : true
+            },
+            'purchases_form[finEmployersFunds]': {
+                NMCKmoreThenFinSum : true
+            },
+            'purchases_form[finEducationalOrgFunds]': {
+                NMCKmoreThenFinSum : true
+            },
+        },
+        messages: {
+            'purchases_form[PurchaseObject]': "Введите предмет закупки",
+            'purchases_form[anotherMethodOfDetermining]': "Укажите Способ определения поставщика",
+            'purchases_form[file]': "Прикрепите файл договора/проекта договора",
+            'purchases_form[initialFederalFunds]': {
+                required: "Заполните хотя бы один пункт",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
+            },
+
+            'purchases_form[initialFundsOfSubject]': {
+                required: "Заполните хотя бы один пункт",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
+            },
+            'purchases_form[initialEmployersFunds]': {
+                required: "Заполните хотя бы один пункт",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
+            },
+            'purchases_form[initialEducationalOrgFunds]': {
+                required: "Заполните хотя бы один пункт",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите не более 2-х знаков после запятой"),
+            },
+
+            'purchases_form[publicationDate]': "Это поле обязательно",
+            'purchases_form[DateOfConclusion]': "Это поле обязательно",
+            'purchases_form[finFederalFunds]' : {
+                NMCKmoreThenFinSum: 'Цена контракта / договора не может быть больше НМЦК'
+            },
+            'purchases_form[finFundsOfSubject]' : {
+                NMCKmoreThenFinSum: 'Цена контракта / договора не может быть больше НМЦК'
+            },
+            'purchases_form[finEmployersFunds]' : {
+                NMCKmoreThenFinSum: 'Цена контракта / договора не может быть больше НМЦК'
+            },
+            'purchases_form[finEducationalOrgFunds]' : {
+                NMCKmoreThenFinSum: 'Цена контракта / договора не может быть больше НМЦК'
+            },
+            'purchases_form[prepayment]' : {
+                required: "Это поле обязательно",
+                max: $.validator.format("Не может быть больше {0}."),
+                min: $.validator.format("Не может быть меньше {0}"),
+                number: "Неверное значение.",
+                step: $.validator.format("Укажите число без дробной части"),
+            }
+
+        }
+    });
 });
