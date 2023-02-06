@@ -18,7 +18,7 @@ use Shapecode\Bundle\CronBundle\Annotation\CronJob;
 
 
 /**
- * @CronJob("* 3 * * 6")
+ * @CronJob("5 3 * * 6")
  */
 class weeklyReportCommand extends Command
 {
