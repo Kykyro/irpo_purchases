@@ -162,6 +162,21 @@ class InspectorController extends AbstractController
     {
         return $xlsxService->generatePurchasesProcedure($user_id, $year);
     }
+
+    /**
+     * @Route("/cluster-info/{id}", name="app_inspector_show_info_about_cluster")
+     */
+    public function showInfoAboutCluster(int $id){
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $entity_manager->getRepository(User::class)->find($id);
+        $user_info = $user->getUserInfo();
+
+        return $this->render('inspector/templates/infoAboutCluster.html.twig', [
+            'controller_name' => 'InspectorController',
+            'user_info' => $user_info
+
+        ]);
+    }
 //    /**
 //     * @Route("/a", name="a")
 //     */
