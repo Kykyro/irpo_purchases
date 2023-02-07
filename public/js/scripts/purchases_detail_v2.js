@@ -62,53 +62,45 @@ $(document).ready(function () {
     });
 
     // VARIBLES
+    //предмет закупки
     let purchases_object = $("#purchases_form_PurchaseObject");
     let method_of_determining = $("#purchases_form_MethodOfDetermining");
     let another_method_of_determining = $('#purchases_form_anotherMethodOfDetermining');
     let another_method_of_determining_row = $('#anotherMethodOfDetermining');
-    let postponement_comment = $('#purchases_form_postonementComment');
-    let purchases_number = $('#purchases_form_PurchaseNumber');
-    let purchases_link = $('#purchases_form_PurchaseLink');
-    let file = $('#purchases_form_file');
     let isPlanned = $('#purchases_form_isPlanned');
     let isPlannedRow = $('#isPlanned');
-    let finSumRow = $('#fin-sum-row');
-    let hasPrepayment = $('#purchases_form_isHasPrepayment');
-    let prepaymentBlock = $('#prepayment-block');
-    let contractStatusSelect = $('#purchases_form_conractStatus');
-    let comment = $('#purchases_form_Comments');
-    let contract_info_block = $('#contact-info-block');
 
-    // Начальная цена контракта
+    // Цена контракта договора
     let initial_federal_funds = $("#purchases_form_initialFederalFunds");
     let initial_funds_of_subject = $("#purchases_form_initialFundsOfSubject");
     let initial_employers_funds = $("#purchases_form_initialEmployersFunds");
     let initial_edication_org_funds = $("#purchases_form_initialEducationalOrgFunds");
+    let hasPrepayment = $('#purchases_form_isHasPrepayment');
+    let prepaymentBlock = $('#prepayment-block');
 
-    // Итоговая цена контракта
-    let fin_federal_funds = $("#purchases_form_finFederalFunds");
-    let fin_funds_of_subject = $("#purchases_form_finFundsOfSubject");
-    let fin_employers_funds = $("#purchases_form_finEmployersFunds");
-    let fin_edication_org_funds = $("#purchases_form_finFundsOfEducationalOrg");
-
-    // Даты
+    // Срок размещения закупки
     let publication_date = $("#purchases_form_publicationDate");
     let deadline_date = $("#purchases_form_deadlineDate");
     let summing_up_date = $("#purchases_form_dateOfSummingUp");
     let postponement_date = $("#purchases_form_postponementDate");
+    let postponement_comment = $('#purchases_form_postonementComment');
+
+    // ссылка на закупку
+    let purchases_number = $('#purchases_form_PurchaseNumber');
+    let purchases_link = $('#purchases_form_PurchaseLink');
+
+    // Дата заключения контракта/договора
+    let finSumRow = $('#fin-sum-row');
+    let contractStatusSelect = $('#purchases_form_conractStatus');
+    let contract_info_block = $('#contact-info-block');
+    let file = $('#purchases_form_file');
     let conclusion_date = $("#purchases_form_DateOfConclusion");
     let delivery_date = $("#purchases_form_DeliveryTime");
-
-
-
-    // Сообщения об ошибке
-    let errors_message = $('.error-message');
-    let publication_date_error = $("#publication-date-error");
-    let deadline_date_error = $("#deadline-date-error");
-    let summing_up_date_error = $("#summing-up-date-error");
-    let postponement_date_error = $("#postponement-date-error");
-    let conclusion_date_error = $("#conclusion-date-error");
-    let delivery_date_error = $("#delivery-date-error");
+    let comment = $('#purchases_form_Comments');
+    let fin_federal_funds = $("#purchases_form_finFederalFunds");
+    let fin_funds_of_subject = $("#purchases_form_finFundsOfSubject");
+    let fin_employers_funds = $("#purchases_form_finEmployersFunds");
+    let fin_edication_org_funds = $("#purchases_form_finFundsOfEducationalOrg");
 
     // ------
     let formState = "Единственный поставщик";
@@ -242,19 +234,6 @@ $(document).ready(function () {
         fin_sum.text(getSum(fin_federal_funds, fin_funds_of_subject,
             fin_employers_funds, fin_edication_org_funds) + " ₽");
     }
-    // Проверка корректности дат
-    function checkDate(date1, date2, error){
-        if(date1.val() > date2.val() && date2.val() !== ""){
-            date2.addClass( "red-bg" ).focus().next().show();
-            error.show();
-            return false;
-        }
-        else {
-            date2.removeClass( "red-bg" ).next().hide();
-            error.hide();
-            return true;
-        }
-    }
 
     function onLoad() {
         let method = method_of_determining.find(":selected").text();
@@ -284,7 +263,6 @@ $(document).ready(function () {
 
     function isPlannedChange(){
         if(isPlanned.is(':checked')){
-            // console.log('zaplanirovano');
             $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
             $("#form-t-2").hide();
             $("#form-t-3").hide();
@@ -402,33 +380,6 @@ $(document).ready(function () {
         updateFinSum();
     });
 
-
-    // Действия при нажатии Submit
-    $('form[name="purchases_form"]').submit((event) => {
-        let isValid = true;
-        let validArr = [];
-
-        validArr.push(checkDate(publication_date, deadline_date, deadline_date_error));
-        validArr.push(checkDate(deadline_date, summing_up_date, summing_up_date_error));
-        validArr.push(checkDate(summing_up_date, postponement_date, postponement_date_error));
-        validArr.push(checkDate(postponement_date, conclusion_date, conclusion_date_error));
-        validArr.push(checkDate(conclusion_date, delivery_date, delivery_date_error));
-
-        for (let i = 0; i < validArr.length; i++) {
-            if(validArr[i] === false){
-                isValid = false;
-                break;
-            }
-            else {
-                isValid = true;
-            }
-        }
-
-        if(isValid)
-            return;
-
-        event.preventDefault();
-    });
 
     onLoad();
 
