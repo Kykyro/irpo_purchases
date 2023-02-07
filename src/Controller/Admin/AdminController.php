@@ -139,9 +139,34 @@ class AdminController extends AbstractController
         $formUserInfo->handleRequest($request);
         if($formUserInfo->isSubmitted() && $formUserInfo->isValid())
         {
+            $arr = [];
+            $key = 1;
+            $orgList = $userInfo->getListOfEdicationOrganization();
+            foreach (array_keys($orgList) as $i)
+            {
+                $arr[$key] = $orgList[$i];
+                $key++;
+
+            }
+            $userInfo->setListOfEdicationOrganization($arr);
+
+            $arr = [];
+            $key = 1;
+            $empList = $userInfo->getListOfEmployers();
+            foreach (array_keys($empList) as $i)
+            {
+                $arr[$key] = $empList[$i];
+                $key++;
+
+            }
+            $userInfo->setListOfEmployers($arr);
+
+
+
             $user->setUserInfo($userInfo);
             $entity_manager->persist($user);
             $entity_manager->flush();
+            return $this->redirect($request->getUri());
         }
 
         return $this->render('admin/templates/userEdit.html.twig', [
@@ -298,7 +323,6 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
 
             $entity_manager->persist($region);
             $entity_manager->flush();

@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -178,6 +179,24 @@ class RegistrationUserInfoFormType extends AbstractType
                 'label' => '
                           Объем внебюджетных средств (включая стоимость безвозмездно переданного образовательным организациям, являющимся участниками центра, имущества, необходимого для реализации основных профессиональных образовательных программ, основных программ профессионального обучения и дополнительных профессиональных программ), направляемых участниками центра из числа организаций, действующих в реальном секторе экономики, на развитие центра                             
                             '
+            ])
+            ->add('listOfEdicationOrganization', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'prototype' => true,
+                'delete_empty' => true,
+                'prototype_data' => '',
+                'allow_delete' => true,
+                'by_reference' => false,
+            ])
+            ->add('listOfEmployers', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'prototype' => true,
+                'delete_empty' => true,
+                'prototype_data' => '',
+                'allow_delete' => true,
+                'by_reference' => false,
             ])
         ;
     }

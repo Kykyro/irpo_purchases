@@ -92,6 +92,16 @@ class UserInfo
      */
     private $amountOfExtraFunds;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $listOfEdicationOrganization = [];
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $listOfEmployers = [];
+
 
     function __construct()
     {
@@ -314,6 +324,41 @@ class UserInfo
     public function setAmountOfExtraFunds(?string $amountOfExtraFunds): self
     {
         $this->amountOfExtraFunds = $amountOfExtraFunds;
+
+        return $this;
+    }
+
+    public function getListOfEdicationOrganization(): ?array
+    {
+        return $this->listOfEdicationOrganization;
+    }
+
+    public function setListOfEdicationOrganization(?array $listOfEdicationOrganization): self
+    {
+        $this->listOfEdicationOrganization = $listOfEdicationOrganization;
+
+        return $this;
+    }
+
+    public function removeListOfEdicationOrganization($val)
+    {
+        if (!$this->listOfEdicationOrganization->contains($val)) {
+            return;
+        }
+
+        $this->listOfEdicationOrganization->removeElement($val);
+
+
+    }
+
+    public function getListOfEmployers(): ?array
+    {
+        return $this->listOfEmployers;
+    }
+
+    public function setListOfEmployers(?array $listOfEmployers): self
+    {
+        $this->listOfEmployers = $listOfEmployers;
 
         return $this;
     }

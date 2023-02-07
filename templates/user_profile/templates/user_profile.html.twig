@@ -81,12 +81,12 @@
                     </div>
                     <div class="ibox-content">
 
-                        <h3>Сетевые образовательные организации</h3>
+                        <h3>Образовательные организации</h3>
                         <div>
                             <ol>
-                                <li>.....</li>
-                                <li>.....</li>
-                                <li>.....</li>
+                                {% for i in  user_info.getListOfEdicationOrganization() %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
                             </ol>
                         </div>
 
@@ -94,9 +94,9 @@
                         <h3>Работадатели</h3>
                         <div>
                             <ol>
-                                <li>.....</li>
-                                <li>.....</li>
-                                <li>.....</li>
+                                {% for i in  user_info.getListOfEmployers() %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
                             </ol>
                         </div>
 

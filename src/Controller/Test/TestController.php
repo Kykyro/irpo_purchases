@@ -36,60 +36,17 @@ class TestController extends AbstractController
      */
     public function index(Request $request,  SerializerInterface $serializer): Response
     {
+        $form = $this->createForm(testformFormType::class);
 
-        $entity_manager = $this->getDoctrine()->getManager();
-
-        $arr = [];
-        $form = $this->createFormBuilder($arr)
-            ->add('clusters', EntityType::class, [
-                'attr' => ['class' => 'form-control'],
-                'required'   => false,
-                'class' => User::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('sub')
-                        ->orderBy('sub.uuid', 'ASC');
-                },
-                'choice_label' => 'uuid',
-                'multiple' => true,
-                'expanded' => true,
-            ])
-            ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn'
-                ]
-            ])
-            ->getForm();
         $form->handleRequest($request);
-        $jsonContent ="";
-        $array_ =[];
-        $sum = 0;
-        $finSum = 0;
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            foreach ($data['clusters'] as $cluster){
-                $pp = $entity_manager->getRepository(ProcurementProcedures::class)
-                    ->createQueryBuilder('a')
-                    ->andWhere('a.user = :uid')
-                    ->setParameter('uid', $cluster->getId())
-                    ->getQuery()
-                    ->getResult();
-
-            }
-            $jsonContent = $serializer->serialize($pp, 'json',['groups' => ['dump_data']]);
-
-            $jsonContent = utf8_encode($jsonContent);
-            $array_ = $serializer->deserialize($jsonContent, 'App\Entity\ProcurementProcedures[]' , 'json');
-            $sum = $this->getNMCK($array_);
-            $finSum = $this->getFinSum($array_);
+        if($form->isSubmitted() and $form->isValid()){
+            dd($form->getData());
         }
+
 
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
             'form' => $form->createView(),
-            'json' => $jsonContent,
-            'data' => $array_,
-            'sum' => $sum,
-            'finSum' => $finSum
         ]);
     }
 
