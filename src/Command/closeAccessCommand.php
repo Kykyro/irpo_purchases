@@ -19,9 +19,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Shapecode\Bundle\CronBundle\Annotation\CronJob;
 
 
-/**
- * @CronJob("1 *\/1 * * 5")
- */
+///**
+// * @CronJob("1 *\/1 * * 5")
+// */
 class closeAccessCommand extends Command
 {
 
