@@ -4,8 +4,17 @@
 
 
 {% block content %}
-
-{{ include('inspector/templates/prodProcTable.html.twig') }}
+{% set buttons %}
+    <div class="col-lg-5 m-1">
+        <a href="{{ path('download_purchases_xlsx', {'user_id': id}) }}">
+            <button class="btn-gray-all btn btn-outline-success">
+            <div class="fa fa-table"></div>
+                Скачать таблицу
+            </button>
+        </a>
+    </div>
+{% endset %}
+{{ include('inspector/templates/prodProcTable.html.twig', {'buttons': buttons}) }}
 
 
 {% if prodProc|length > 0 %}
