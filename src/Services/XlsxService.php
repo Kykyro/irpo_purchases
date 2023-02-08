@@ -273,16 +273,49 @@ class XlsxService extends AbstractController
 
         return $prodProc;
     }
+    public function getUser($id){
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $entity_manager->getRepository(User::class)->find($id);
+        return $user;
 
+    }
     public function generatePurchasesProcedureTable(int $user_id)
     {
         $procedures = $this->getProcedureById($user_id);
         $today = new \DateTime('now');
+        $user = $this->getUser($user_id);
+        $userInfo = $user->getUserInfo();
 
+        return $this->tableGeneratorWithFactFunds($userInfo, $procedures, $today);
+
+
+    }
+
+    public function generatePurchasesProcedureByDump(int $dump_id, SerializerInterface $serializer){
+        $entity_manager = $this->getDoctrine()->getManager();
+        $dump = $entity_manager->getRepository(PurchasesDump::class)->find($dump_id);
+        $dumpData = $dump->getDump();
+        $dumpProcedures = $serializer->deserialize($dumpData->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
+        $procedures = [];
+        foreach ($dumpProcedures as $p)
+        {
+            if(!$p->getIsDeleted())
+            {
+                array_push($procedures, $p);
+            }
+        }
+        $today = $dump->getCreatedAt();
+        $userInfo = $dump->getUser()->getUserInfo();
+
+        return $this->tableGeneratorWithFactFunds($userInfo, $procedures, $today);
+    }
+
+    public function tableGenerator($userInfo, $procedures, $today)
+    {
         $sheet_template = "../public/excel/Закупочные процедуры шаблон.xlsx";
         //load spreadsheet
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
-        $userInfo = $procedures[0]->getUser()->getUserInfo();
+
         //change it
         $sheet = $spreadsheet->getActiveSheet();
         // Общая информация
@@ -462,30 +495,13 @@ class XlsxService extends AbstractController
 
 
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
-
-
     }
-
-    public function generatePurchasesProcedureByDump(int $dump_id, SerializerInterface $serializer){
-        $entity_manager = $this->getDoctrine()->getManager();
-        $dump = $entity_manager->getRepository(PurchasesDump::class)->find($dump_id);
-        $dumpData = $dump->getDump();
-        $dumpProcedures = $serializer->deserialize($dumpData->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
-//        dd($dumpProcedures);
-        $procedures = [];
-        foreach ($dumpProcedures as $p)
-        {
-            if(!$p->getIsDeleted())
-            {
-                array_push($procedures, $p);
-            }
-        }
-        $today = $dump->getCreatedAt();
-//        $procedures = $this->getProcedureById($user_id);
-        $sheet_template = "../public/excel/Закупочные процедуры шаблон.xlsx";
+    public function tableGeneratorWithFactFunds($userInfo, $procedures, $today)
+    {
+        $sheet_template = "../public/excel/ProcurementProceduresTable_v2.xlsx";
         //load spreadsheet
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
-        $userInfo = $dump->getUser()->getUserInfo();
+
         //change it
         $sheet = $spreadsheet->getActiveSheet();
         // Общая информация
@@ -540,7 +556,7 @@ class XlsxService extends AbstractController
 
             // запись строк
             $sheet->setCellValue('A'.$row, $index);
-            $sheet->fromArray($val->getAsRow(), null, 'B'.$row);
+            $sheet->fromArray($val->getAsRowWithFactFunds(), null, 'B'.$row);
 
             if($isNotComplite)
             {
@@ -618,7 +634,7 @@ class XlsxService extends AbstractController
         ];
 
         $end_cell = 14 + $index-1;
-        $rangeTotal = 'A14:Z'.$end_cell;
+        $rangeTotal = 'A14:AD'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         // перенос строк
         $sheet->getStyle($rangeTotal)
