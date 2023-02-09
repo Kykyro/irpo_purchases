@@ -273,6 +273,11 @@ class ProcurementProcedures
      */
     private $paymentOrder;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $deleteReason;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -956,6 +961,18 @@ class ProcurementProcedures
     public function setPaymentOrder(?string $paymentOrder): self
     {
         $this->paymentOrder = $paymentOrder;
+
+        return $this;
+    }
+
+    public function getDeleteReason(): ?string
+    {
+        return $this->deleteReason;
+    }
+
+    public function setDeleteReason(?string $deleteReason): self
+    {
+        $this->deleteReason = $deleteReason;
 
         return $this;
     }

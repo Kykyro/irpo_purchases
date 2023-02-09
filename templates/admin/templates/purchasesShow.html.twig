@@ -18,6 +18,7 @@
                             <th>Объект закупки</th>
                             <th>Поставщик</th>
                             <th>Статус</th>
+                            <th>Причина удаления</th>
                             <th>Действия</th>
 
                         </tr>
@@ -25,11 +26,10 @@
                         <tbody>
 
                         {% for i in pp %}
-                            {% if i.getIsDeleted() %}
-                            <tr class="table-item red-bg">
-                            {% else %}
+                            {% set isDeleted =  i.getIsDeleted() %}
+
                             <tr class="table-item">
-                            {% endif %}
+
                                 <td>
                                     {{ i.getId() }}
                                 </td>
@@ -43,7 +43,16 @@
                                     {{ i.getSupplierName() }}
                                 </td>
                                 <td>
-                                    (статус)
+                                    {% if  isDeleted %}
+                                        <span class="badge badge-danger">Удален</span>
+                                    {% else %}
+                                        <span class="badge badge-primary">Не удален</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if  isDeleted %}
+                                        {{ i.getDeleteReason() }}
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <a href="{{ path('app_purchases_detail', {'id': i.getId()}) }}">

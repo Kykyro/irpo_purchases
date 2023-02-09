@@ -45,7 +45,7 @@ class RegionController extends AbstractController
      * @param Request $request
      * @param int $id
      * @return Response
-     * @Route("/purchases/{id}", name="app_purchases_detail", methods="GET")
+     * @Route("/purchases/{id}", name="app_purchases_detail")
      */
     public function purchasesView(Request $request, int $id) : Response
     {
@@ -60,6 +60,33 @@ class RegionController extends AbstractController
         {
             return $this->redirectToRoute('app_main');
         }
+        $delete = [];
+        $form = $this->createFormBuilder($delete)
+        ->add('reason', TextType::class, [
+            'attr' => [
+                'class' => 'form-control'
+            ]
+        ])
+        ->add('submit', SubmitType::class, [
+            'attr' => [
+                'class' => 'btn btn-danger'
+            ],
+            'label' => 'Удалить'
+        ])
+        ->getForm();
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            $entity_manager = $this->getDoctrine()->getManager();
+            $data = $form->getData();
+            $purchase->setIsDeleted(true);
+            $purchase->setDeleteReason($data['reason']);
+            $entity_manager->persist($purchase);
+            $entity_manager->flush();
+            return $this->redirectToRoute('app_main');
+        }
 
         return $this->render('purchases_detail/templates/table_view.html.twig', [
             'controller_name' => 'RegionController',
@@ -67,6 +94,7 @@ class RegionController extends AbstractController
             'purchase' => $purchase->getAsRow(),
             'file' => $purchase->getFileDir(),
             'versionInfo' => $purchase->getVersionInfoAndDate(),
+            'form' => $form->createView(),
 
         ]);
     }
