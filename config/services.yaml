@@ -17,6 +17,8 @@ parameters:
     design_project_example_directory_presentation: '%kernel.project_dir%/public/uploads/designProjectExamplePresentation'
     partners_logo_directory: '%kernel.project_dir%/public/uploads/partnersLogo'
     infrastructure_sheet_region_directory: '%kernel.project_dir%/public/uploads/infrastructureSheetsRegion'
+    closing_files_directory: '%kernel.project_dir%/public/uploads/closingFiles'
+    payment_orders_directory: '%kernel.project_dir%/public/uploads/paymentOrders'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
 services:

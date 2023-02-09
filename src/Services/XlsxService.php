@@ -273,7 +273,7 @@ class XlsxService extends AbstractController
 
         return $prodProc;
     }
-    public function getUser($id){
+    public function getUserById($id){
         $entity_manager = $this->getDoctrine()->getManager();
         $user = $entity_manager->getRepository(User::class)->find($id);
         return $user;
@@ -283,7 +283,7 @@ class XlsxService extends AbstractController
     {
         $procedures = $this->getProcedureById($user_id);
         $today = new \DateTime('now');
-        $user = $this->getUser($user_id);
+        $user = $this->getUserById($user_id);
         $userInfo = $user->getUserInfo();
 
         return $this->tableGeneratorWithFactFunds($userInfo, $procedures, $today);

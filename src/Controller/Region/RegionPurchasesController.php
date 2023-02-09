@@ -7,6 +7,7 @@ use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
 use App\Form\ChoiceInputType;
 use App\Form\purchasesFormType;
+use App\Services\FileService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +34,7 @@ class RegionPurchasesController extends AbstractController
      * @Route("/add-purchases-v2", name="app_add_purchases_v2")
      * @Route("/purchases-edit/{id}", name="app_purchases_edit", methods="GET|POST")
      */
-    public function AddPurchases(Request $request, SluggerInterface $slugger, int $id = null): Response
+    public function AddPurchases(Request $request, SluggerInterface $slugger, int $id = null, FileService $fileService): Response
     {
         if(!$this->getUser()->getUserInfo()->isAccessToPurchases())
         {
@@ -77,27 +78,17 @@ class RegionPurchasesController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $file = $form->get('file')->getData();
+            $closingDocument_file = $form->get('closingDocument_file')->getData();
+            $paymentOrder_file = $form->get('paymentOrder_file')->getData();
             if($procurement_procedure->getMethodOfDetermining() === 'Другое')
             {
                 $procurement_procedure->setMethodOfDetermining($form['anotherMethodOfDetermining']->getData());
             }
-            if ($file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
-                // Move the file to the directory where brochures are stored
-                try {
-                    $file->move(
-                        $this->getParameter('purchases_files_directory'),
-                        $newFilename
-                    );
-                    $procurement_procedure->setFileDir($newFilename);
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-            }
+            $procurement_procedure->setFileDir($fileService->UploadFile($file, 'purchases_files_directory'));
+            $procurement_procedure->setClosingDocument($fileService->UploadFile($closingDocument_file, 'closing_files_directory'));
+            $procurement_procedure->setPaymentOrder($fileService->UploadFile($paymentOrder_file, 'payment_orders_directory'));
+
             $procurement_procedure->setChangeTime(new \DateTime('now'));
             $procurement_procedure->UpdateVersion();
 

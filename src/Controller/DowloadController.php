@@ -66,4 +66,13 @@ class DowloadController extends AbstractController
     {
         return $this->file('../public/uploads/designProjectExamplePresentation/'.$file);
     }
+
+    /**
+     * @Route("/download-file/{route}/{file}", name="app_download_file_by_route")
+     */
+    public function fileDownloadByRoute(string $file, string $route): Response
+    {
+        $path = $this->getParameter($route);
+        return $this->file($path.'/'.$file);
+    }
 }

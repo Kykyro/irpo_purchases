@@ -263,6 +263,16 @@ class ProcurementProcedures
      */
     private $factFundsOfEducationalOrg;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $closingDocument;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentOrder;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -922,6 +932,30 @@ class ProcurementProcedures
     public function setFactFundsOfEducationalOrg(?string $factFundsOfEducationalOrg): self
     {
         $this->factFundsOfEducationalOrg = $factFundsOfEducationalOrg;
+
+        return $this;
+    }
+
+    public function getClosingDocument(): ?string
+    {
+        return $this->closingDocument;
+    }
+
+    public function setClosingDocument(?string $closingDocument): self
+    {
+        $this->closingDocument = $closingDocument;
+
+        return $this;
+    }
+
+    public function getPaymentOrder(): ?string
+    {
+        return $this->paymentOrder;
+    }
+
+    public function setPaymentOrder(?string $paymentOrder): self
+    {
+        $this->paymentOrder = $paymentOrder;
 
         return $this;
     }
