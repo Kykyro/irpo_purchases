@@ -198,6 +198,42 @@ class RegistrationUserInfoFormType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
+            ->add('extraFundsOO', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'type' => 'number',
+                    'step' => '.01',
+                    'min' => '0',
+                    'max' => '99999999999'
+                ],
+
+                'required'   => true,
+                'label' => 'Внебюджетные средства Образовательной организации'
+            ])
+            ->add('extraFundsEconomicSector', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'type' => 'number',
+                    'step' => '.01',
+                    'min' => '0',
+                    'max' => '99999999999'
+                ],
+
+                'required'   => true,
+                'label' => 'Объем внебюджетных средств организаций реального сектора экономики'
+            ])
+            ->add('financingFundsOfSubject', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'type' => 'number',
+                    'step' => '.01',
+                    'min' => '0',
+                    'max' => '99999999999'
+                ],
+
+                'required'   => true,
+                'label' => 'Объём финансирования из средств  субъекта РФ'
+            ])
         ;
     }
 

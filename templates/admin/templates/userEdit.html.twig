@@ -163,6 +163,13 @@
                             </i>
                         </button>
                         <hr>
+                        <label>
+                            Объем финансирования
+                        </label>
+                        {{ form_row(userInfoForm.extraFundsOO, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.extraFundsEconomicSector, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.financingFundsOfSubject, {"type":"number"}) }}
+                        <hr>
                         <div class="col-sm-5 col-form-label text-left row">
                             <button type="submit" class="col-lg-4 btn btn-gray-all btn-outline-success">Обновить</button>
                         </div>

@@ -102,6 +102,21 @@ class UserInfo
      */
     private $listOfEmployers = [];
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $extraFundsOO;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $extraFundsEconomicSector;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $financingFundsOfSubject;
+
 
     function __construct()
     {
@@ -359,6 +374,42 @@ class UserInfo
     public function setListOfEmployers(?array $listOfEmployers): self
     {
         $this->listOfEmployers = $listOfEmployers;
+
+        return $this;
+    }
+
+    public function getExtraFundsOO(): ?float
+    {
+        return $this->extraFundsOO;
+    }
+
+    public function setExtraFundsOO(?float $extraFundsOO): self
+    {
+        $this->extraFundsOO = $extraFundsOO;
+
+        return $this;
+    }
+
+    public function getExtraFundsEconomicSector(): ?float
+    {
+        return $this->extraFundsEconomicSector;
+    }
+
+    public function setExtraFundsEconomicSector(?float $extraFundsEconomicSector): self
+    {
+        $this->extraFundsEconomicSector = $extraFundsEconomicSector;
+
+        return $this;
+    }
+
+    public function getFinancingFundsOfSubject(): ?float
+    {
+        return $this->financingFundsOfSubject;
+    }
+
+    public function setFinancingFundsOfSubject(?float $financingFundsOfSubject): self
+    {
+        $this->financingFundsOfSubject = $financingFundsOfSubject;
 
         return $this;
     }

@@ -1,6 +1,35 @@
 {% extends 'default/base.html.twig' %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Basic IN+ Panel <small class="m-l-sm">Скачать таблицу Контрактация - Кассовые расходы</small></h5>
+                    <div class="ibox-tools">
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    {{ form_start(form) }}
+                        <div class="form-group">
+                            <label>
+                                Год
+                            </label>
+                            {{ form_widget(form.year) }}
+                        </div>
+                        <div class="form-group">
+
+                            {{ form_widget(form.submit) }}
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+                <div class="ibox-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
