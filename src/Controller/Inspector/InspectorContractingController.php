@@ -2,7 +2,9 @@
 
 namespace App\Controller\Inspector;
 
+use App\Entity\ProcurementProcedures;
 use App\Entity\User;
+use App\Services\ContractingXlsxService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,7 +21,7 @@ class InspectorContractingController extends AbstractController
     /**
      * @Route("/contracting", name="app_inspector_contracting")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, ContractingXlsxService $contractingXlsxService): Response
     {
 
         $arr = [];
@@ -43,19 +45,8 @@ class InspectorContractingController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entity_manger = $this->getDoctrine()->getManager();
             $data = $form->getData();
-
-            $users = $entity_manger->getRepository(User::class)->createQueryBuilder('u')
-                ->leftJoin('u.user_info', 'uf')
-                ->andWhere('u.roles LIKE :role')
-                ->andWhere('uf.year = :year')
-                ->setParameter('role', '%REGION%')
-                ->setParameter('year', $data['year'])
-                ->orderBy('u.id', 'ASC')
-                ->getQuery()
-                ->getResult();
-            dd($users);
+            return $contractingXlsxService->generateTable($data['year']);
 
         }
 
