@@ -55,54 +55,27 @@
                             </tbody>
                         </table>
                     </div>
-                    {#<div class="ibox-footer">#}
-                        {#{% if not app.user.getUserInfo().isNOTAllFull() and  app.user.getUserInfo().isAccessToPurchases() %}#}
-                            {#<a href="{{ path("app_add_purchases_v2") }}">#}
-                                {#<button class="btn-gray-all btn btn-outline-success ">#}
-                                    {#<div class="fa fa-plus"></div>#}
-                                    {#Добавить закупку#}
-                                {#</button>#}
-                            {#</a>#}
-                        {#{% endif %}#}
-                    {#</div>#}
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <div class="row animated fadeInRight">
     <div class="col-sm-10 offset-sm-1 ">
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h2 style="font-weight: bold; margin-top: -5px">Дополнительные сведения</h2>
+                        <h2 style="font-weight: bold; margin-top: -5px">Финансовые показатели</h2>
                     </div>
                     <div class="ibox-content">
 
-                        <h3>Образовательные организации</h3>
-                        <div>
-                            <ol>
-                                {% for i in  user_info.getListOfEdicationOrganization() %}
-                                    <li>{{ i }}</li>
-                                {% endfor %}
-                            </ol>
+
+
+
+                        <div class="ibox-footer">
+
                         </div>
-
-
-                        <h3>Работадатели</h3>
-                        <div>
-                            <ol>
-                                {% for i in  user_info.getListOfEmployers() %}
-                                    <li>{{ i }}</li>
-                                {% endfor %}
-                            </ol>
-                        </div>
-
-
-                    <div class="ibox-footer">
-
                     </div>
                 </div>
             </div>
@@ -117,6 +90,9 @@
                 <div class="ibox ">
                     <div class="ibox-title">
                         <h2 style="font-weight: bold; margin-top: -5px">Показатель критерия (Приложение 5)</h2>
+                        <div class="ibox-tools">
+                            <span class="badge badge-success">{{ user_info.getYear() }} год</span>
+                        </div>
                     </div>
                     <div class="ibox-content">
                         <table class="table table-bordered">
@@ -197,4 +173,42 @@
         </div>
     </div>
 </div>
+<div class="row animated fadeInRight">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2 style="font-weight: bold; margin-top: -5px">Дополнительные сведения</h2>
+                    </div>
+                    <div class="ibox-content">
+
+                        <h3>Образовательные организации</h3>
+                        <div>
+                            <ol>
+                                {% for i in  user_info.getListOfEdicationOrganization() %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+
+
+                        <h3>Работадатели</h3>
+                        <div>
+                            <ol>
+                                {% for i in  user_info.getListOfEmployers() %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+
+
+                        <div class="ibox-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
