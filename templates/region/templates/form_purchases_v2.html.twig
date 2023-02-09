@@ -12,6 +12,9 @@
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
         }
+        fieldset {
+            color: #191919;
+        }
         .error-message {
             color: #cc0033;
             /*display: inline-block;*/
@@ -261,7 +264,40 @@
                             {{ form_widget(form.supplierKPP) }}
                         </div>
                     </fieldset>
-
+                    <h1>Фактическое расходование средств</h1>
+                    <fieldset>
+                        <h2>
+                            Подтверждающие документы
+                        </h2>
+                        <div class="form-group">
+                            <label>Закрывающий документ</label>
+                        </div>
+                        <div class="form-group">
+                            <label>Платежное поручение</label>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <h2>Фактическое расходование средств</h2>
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <label>средства федерального бюджета</label>
+                                    {{ form_widget(form.factFederalFunds, {"type":"number"}) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>средства субъекта РФ</label>
+                                    {{ form_widget(form.factFundsOfSubject, {"type":"number"}) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>средства работодателей</label>
+                                    {{ form_widget(form.factEmployersFunds, {"type":"number"}) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>средства образовательной организации</label>
+                                    {{ form_widget(form.factFundsOfEducationalOrg, {"type":"number"}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
 
                         <h1>Финиш</h1>
                         <fieldset>
@@ -289,5 +325,5 @@
 
     <script src="{{ asset('js/plugins/steps/jquery.steps.min.js') }}"></script>
     <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('js/scripts/purchases_detail_new.js') }}"></script>
+    <script src="{{ asset('js/scripts/purchases_detail_v2.js?v=1') }}"></script>
 {% endblock %}

@@ -309,6 +309,50 @@ class purchasesFormType extends AbstractType
                 },
                 'choice_label' => 'status',
             ])
+            ->add("factFederalFunds", TextType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-control fin',
+                        'step' => '.01',
+                        'min' => '0',
+                        'max' => '99999999999'
+                    ],
+                    'required'   => false,
+                    'disabled' => $is_disabled
+                ])
+            ->add("factFundsOfSubject", TextType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-control fin',
+                        'step' => '.01',
+                        'min' => '0',
+                        'max' => '99999999999'
+                    ],
+                    'required'   => false,
+                    'disabled' => $is_disabled
+                ])
+            ->add("factEmployersFunds", TextType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-control fin',
+                        'step' => '.01',
+                        'min' => '0',
+                        'max' => '99999999999'
+                    ],
+                    'required'   => false,
+                    'disabled' => $is_disabled
+                ])
+            ->add("factFundsOfEducationalOrg", TextType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-control fin',
+                        'step' => '.01',
+                        'min' => '0',
+                        'max' => '99999999999'
+                    ],
+                    'required'   => false,
+                    'disabled' => $is_disabled
+                ])
         ;
 
 

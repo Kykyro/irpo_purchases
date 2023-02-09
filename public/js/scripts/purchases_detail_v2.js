@@ -102,6 +102,12 @@ $(document).ready(function () {
     let fin_employers_funds = $("#purchases_form_finEmployersFunds");
     let fin_edication_org_funds = $("#purchases_form_finFundsOfEducationalOrg");
 
+    //Фактическое расходование средств
+    let fact_federal_funds = $("#purchases_form_factFederalFunds");
+    let fact_funds_of_subject = $("#purchases_form_factFundsOfSubject");
+    let fact_employers_funds = $("#purchases_form_factEmployersFunds");
+    let fact_edication_org_funds = $("#purchases_form_factFundsOfEducationalOrg");
+
     // ------
     let formState = "Единственный поставщик";
     let showFieldset = [0, 1, 4, 5, 6, 7];
@@ -129,19 +135,16 @@ $(document).ready(function () {
             isPlannedChange();
             showFieldset = [0, 1, 4, 5, 6, 7];
 
-
-            $("#form-t-2").hide();
-            $("#form-t-3").hide();
+            hideStep(2);
+            hideStep(3);
 
             finSumRow.hide();
-            setRequired(false, conclusion_date);
-            setRequired(false, publication_date);
+            setRequired(false, publication_date, conclusion_date);
             setDisabled(true, publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment);
         }
         else {
-            setRequired(true, conclusion_date);
-            setRequired(true, publication_date);
+            setRequired(true, publication_date, conclusion_date);
             setDisabled(false, publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment);
             isPlannedRow.show();
@@ -260,38 +263,44 @@ $(document).ready(function () {
             setDisabled(false, kpp, inn, name);
         }
     }
+    function hideStep(index){
+        $("#form-t-"+index).hide();
+    }
 
+    function showStep(index){
+        $("#form-t-"+index).show().parent().removeClass("done").addClass("disabled");
+    }
     function isPlannedChange(){
         if(isPlanned.is(':checked')){
-            $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
-            $("#form-t-2").hide();
-            $("#form-t-3").hide();
-            $("#form-t-4").show().parent().removeClass("done").addClass("disabled");
-            $("#form-t-5").hide();
-            $("#form-t-6").show().parent().removeClass("done").addClass("disabled");
-            $("#form-t-7").show().parent().removeClass("done").addClass("disabled");
+            showFieldset = [0, 1, 4, 7];
+            let hideSteps = [2, 3, 5, 6];
+            showFieldset.forEach((elem)=>{
+                showStep(elem);
+            });
+            hideSteps.forEach((elem)=>{
+                hideStep(elem);
+            });
             finSumRow.hide();
-            showFieldset = [0, 1, 4, 6, 7];
             contractStatusSelect.val(1);
             contractStatusChange();
             clearValue(publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment,
                 conclusion_date, delivery_date);
             setDisabled(true, publication_date, deadline_date, summing_up_date, purchases_link,
-                purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date);
+                purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date,
+                fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject);
         }
         else{
-            $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
-            $("#form-t-2").show().parent().removeClass("done").addClass("disabled");
-            $("#form-t-3").show().parent().removeClass("done").addClass("disabled");
-            $("#form-t-4").show().parent().removeClass("done").addClass("disabled");
-            $("#form-t-5").show().parent().removeClass("done").addClass("disabled");
-            $("#form-t-6").show().parent().removeClass("done").addClass("disabled");
-            $("#form-t-7").show().parent().removeClass("done").addClass("disabled");
-            finSumRow.show();
             showFieldset = [0, 1, 2, 3, 4, 5, 6, 7];
+            showFieldset.forEach((elem)=>{
+                showStep(elem);
+            });
+
+            finSumRow.show();
+
             setDisabled(false, publication_date, deadline_date, summing_up_date, purchases_link,
-                purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date);
+                purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date,
+                fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject);
         }
     }
 
@@ -319,14 +328,34 @@ $(document).ready(function () {
             hideDeliver(true);
             contract_info_block.hide('fast');
             setDisabled(true,  conclusion_date, delivery_date,  fin_edication_org_funds, fin_employers_funds,
-                fin_federal_funds, fin_funds_of_subject, comment);
-        }
+                fin_federal_funds, fin_funds_of_subject, comment,
+                fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject);
+            let hide = [6, 5];
+            hide.forEach((elem)=>{
+                if(showFieldset.includes(elem)) {
+                    showFieldset = showFieldset.filter(function (value, index, arr) {
+                        return value !== elem;
+                    });
+                    hideStep(elem);
+                }
+            });
+
+            }
+
         // Догово подписан
         if(contractStatusSelect.val() == 2){
             hideDeliver(false);
             contract_info_block.show('fast');
             setDisabled(false,  conclusion_date, delivery_date,  fin_edication_org_funds, fin_employers_funds,
-                fin_federal_funds, fin_funds_of_subject, comment);
+                fin_federal_funds, fin_funds_of_subject, comment,
+                fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject);
+            let show = [6, 5];
+            show.forEach((elem)=>{
+                if(!showFieldset.includes(elem)) {
+                    showFieldset.push(elem);
+                    showStep(elem);
+                }
+            });
         }
         updateFinSum();
     }
@@ -334,13 +363,14 @@ $(document).ready(function () {
     contractStatusSelect.change(contractStatusChange);
 
     method_of_determining.change(() => {
-        $("#form-t-1").show().parent().removeClass("done").addClass("disabled");
-        $("#form-t-2").show().parent().removeClass("done").addClass("disabled");
-        $("#form-t-3").show().parent().removeClass("done").addClass("disabled");
-        $("#form-t-4").show().parent().removeClass("done").addClass("disabled");
-        $("#form-t-5").show().parent().removeClass("done").addClass("disabled");
-        $("#form-t-6").show().parent().removeClass("done").addClass("disabled");
-        $("#form-t-7").show().parent().removeClass("done").addClass("disabled");
+        showStep(1);
+        showStep(2);
+        showStep(3);
+        showStep(4);
+        showStep(5);
+        showStep(6);
+        showStep(7);
+
 
         let method = method_of_determining.find(":selected").text();
         formState = method;
@@ -379,6 +409,7 @@ $(document).ready(function () {
     fin_edication_org_funds.change(() => {
         updateFinSum();
     });
+
 
 
     onLoad();
