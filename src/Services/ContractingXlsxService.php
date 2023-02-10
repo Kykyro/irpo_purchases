@@ -57,6 +57,35 @@ class ContractingXlsxService extends AbstractController
         $users = $this->getUsersByYear($year);
         foreach ($users as $user)
         {
+            $procedures = $this->getProcedures($user);
+            $_data = [
+                'P' => 0,
+                'Q' => 0,
+                'R' => 0,
+                'M' => 0,
+                'N' => 0,
+                'O' => 0,
+                'I' => 0,
+                'G' => 0
+            ];
+            foreach ($procedures as $procedure)
+            {
+
+                if($procedure->getDateOfConclusion())
+                {
+                    $_data['M'] += $procedure->getFactEmployersFunds();
+                    $_data['N'] += $procedure->getFactFundsOfSubject();
+                    $_data['O'] += $procedure->getFactFundsOfEducationalOrg();
+                    $_data['G'] += $procedure->getFinFederalFunds();
+                }
+                elseif ($procedure->getPublicationDate())
+                {
+                    $_data['I'] += $procedure->getInitialFederalFunds();
+                    $_data['P'] += $procedure->getInitialEmployersFunds();
+                    $_data['Q'] += $procedure->getInitialFundsOfSubject();
+                    $_data['R'] += $procedure->getInitialEducationalOrgFunds();
+                }
+            }
             $user_info = $user->getUserInfo();
             $row = $sheet->getHighestRow()+1;
             $sheet->setCellValue('A'.$row, $index);
@@ -67,26 +96,26 @@ class ContractingXlsxService extends AbstractController
             ];
             $sheet->fromArray($user_info_arr, null, 'C'.$row);
             $other_arr = [
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
-                '?',
+                '',
+                $_data['G'],
+                '=G'.$row.'/100000000',
+                $_data['I'],
+                '=I'.$row.'/100000000',
+                '=G'.$row.'+I'.$row,
+                '=H'.$row.'+J'.$row,
+                $_data['M'],
+                $_data['N'],
+                $_data['O'],
+                $_data['P'],
+                $_data['Q'],
+                $_data['R'],
+                'Комментарий',
+                '',
+                'Куратор',
             ];
             $sheet->fromArray($other_arr, null, 'F'.$row);
 
-            $sheet->getRowDimension($index+1)->setRowHeight(60);
+            $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
         }
         $styleArray = [

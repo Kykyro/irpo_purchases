@@ -222,54 +222,64 @@ class ProcurementProcedures
     /**
      * @Groups("dump_data")
      * @ORM\Column(type="boolean", nullable=true)
+     * @Log
      */
     private $isPlanned;
 
     /**
      * @Groups("dump_data")
      * @ORM\Column(type="boolean", nullable=true)
+     * @Log
      */
     private $isHasPrepayment;
 
     /**
      * @Groups("dump_data")
      * @ORM\Column(type="integer", nullable=true)
+     * @Log
      */
     private $prepayment;
 
     /**
      * @Groups("dump_data")
      * @ORM\ManyToOne(targetEntity=ContractStatus::class)
+     * @Log
      */
     private $conractStatus;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     * @Log
      */
     private $factFederalFunds;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     * @Log
      */
     private $factFundsOfSubject;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     * @Log
      */
     private $factEmployersFunds;
 
     /**
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     * @Log
      */
     private $factFundsOfEducationalOrg;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
      */
     private $closingDocument;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
      */
     private $paymentOrder;
 

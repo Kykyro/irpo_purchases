@@ -84,10 +84,12 @@ class RegionPurchasesController extends AbstractController
             {
                 $procurement_procedure->setMethodOfDetermining($form['anotherMethodOfDetermining']->getData());
             }
-
-            $procurement_procedure->setFileDir($fileService->UploadFile($file, 'purchases_files_directory'));
-            $procurement_procedure->setClosingDocument($fileService->UploadFile($closingDocument_file, 'closing_files_directory'));
-            $procurement_procedure->setPaymentOrder($fileService->UploadFile($paymentOrder_file, 'payment_orders_directory'));
+            if($file)
+                $procurement_procedure->setFileDir($fileService->UploadFile($file, 'purchases_files_directory'));
+            if($closingDocument_file)
+                $procurement_procedure->setClosingDocument($fileService->UploadFile($closingDocument_file, 'closing_files_directory'));
+            if($paymentOrder_file)
+                $procurement_procedure->setPaymentOrder($fileService->UploadFile($paymentOrder_file, 'payment_orders_directory'));
 
             $procurement_procedure->setChangeTime(new \DateTime('now'));
             $procurement_procedure->UpdateVersion();
