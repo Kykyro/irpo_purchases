@@ -130,7 +130,7 @@ class ContractingXlsxService extends AbstractController
             ]
         ];
         $end_cell = $index;
-        $rangeTotal = 'A2:Z'.$end_cell;
+        $rangeTotal = 'A2:U'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         // Запись файла
