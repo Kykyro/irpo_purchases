@@ -287,6 +287,12 @@ class ProcurementProcedures
      */
     private $deleteReason;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
+     */
+    private $additionalAgreement;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -1069,6 +1075,18 @@ class ProcurementProcedures
     public function setDeleteReason(?string $deleteReason): self
     {
         $this->deleteReason = $deleteReason;
+
+        return $this;
+    }
+
+    public function getAdditionalAgreement(): ?string
+    {
+        return $this->additionalAgreement;
+    }
+
+    public function setAdditionalAgreement(?string $additionalAgreement): self
+    {
+        $this->additionalAgreement = $additionalAgreement;
 
         return $this;
     }

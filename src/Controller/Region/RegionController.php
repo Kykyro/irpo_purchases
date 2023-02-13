@@ -56,6 +56,24 @@ class RegionController extends AbstractController
             ->find($id);
 
         $current_user = $this->getUser()->getUserIdentifier();
+
+        $backup = $this->getDoctrine()
+            ->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :file')
+            ->orWhere('l.field_name LIKE :payment')
+            ->orWhere('l.field_name LIKE :closing')
+            ->orWhere('l.field_name LIKE :add')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('file', "%fileDir%")
+            ->setParameter('payment', "%paymentOrder%")
+            ->setParameter('closing', "%closingDocument%")
+            ->setParameter('add', "%additionalAgreement%")
+            ->getQuery()
+            ->getResult();
+//        dd($backup);
+
         if($purchase->getUser()->getUserIdentifier() != $current_user or $purchase->getIsDeleted())
         {
             return $this->redirectToRoute('app_main');
@@ -94,6 +112,7 @@ class RegionController extends AbstractController
             'purchase' => $purchase,
             'versionInfo' => $purchase->getVersionInfoAndDate(),
             'form' => $form->createView(),
+            'files' => $backup,
 
         ]);
     }

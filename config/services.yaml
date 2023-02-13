@@ -19,6 +19,7 @@ parameters:
     infrastructure_sheet_region_directory: '%kernel.project_dir%/public/uploads/infrastructureSheetsRegion'
     closing_files_directory: '%kernel.project_dir%/public/uploads/closingFiles'
     payment_orders_directory: '%kernel.project_dir%/public/uploads/paymentOrders'
+    additional_agreement_directory: '%kernel.project_dir%/public/uploads/additionalAgreement'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
 services:
