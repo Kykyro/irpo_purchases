@@ -184,6 +184,31 @@
                             <div class="form-group">
                                 <label>Договор/проект договора</label>
                                 {{ form_widget(form.file) }}
+                                {% if file|length > 0 %}
+                                    <label>
+                                        Прикрепленные файлы
+                                    </label>
+                                    <ul>
+                                        {% for i in  file %}
+                                            <li>
+                                                <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'purchases_files_directory'}) }}">
+                                                    <i class="fa fa-download">
+                                                        Договор/проект договора от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                    </i>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <label>
+                                        Прикрепленный файл
+                                    </label>
+                                    <a href="{{ path('app_download_file_by_route', {'file': pp.getFileDir(), 'route': 'purchases_files_directory'}) }}">
+                                        <i class="fa fa-download">
+                                            Договор/проект договора
+                                        </i>
+                                    </a>
+                                {% endif %}
                             </div>
                             <div id="contact-info-block">
                                 <h2>Дата заключения контракта/договора</h2>
@@ -242,6 +267,41 @@
 
                                     </div>
                                 </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label>Есть дополнительно соглашение</label>
+                                    {{ form_widget(form.hasAdditionalAgreement) }}
+                                </div>
+                                <div class="form-group" id="additional-agreement-row">
+                                    <label>Дополнительное соглашение</label>
+                                    {{ form_widget(form.AdditionalAgreement_file) }}
+
+                                    {% if additionalAgreement|length > 0 %}
+                                        <label>
+                                            Прикрепленные файлы
+                                        </label>
+                                        <ul>
+                                            {% for i in  additionalAgreement %}
+                                                <li>
+                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'additional_agreement_directory'}) }}">
+                                                        <i class="fa fa-download">
+                                                            Дополнительное соглашение от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                        </i>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <label>
+                                            Прикрепленный файл
+                                        </label>
+                                        <a href="{{ path('app_download_file_by_route', {'file': pp.getAdditionalAgreement(), 'route': 'additional_agreement_directory'}) }}">
+                                            <i class="fa fa-download">
+                                                Дополнительное соглащение
+                                            </i>
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </div>
 
 
@@ -272,10 +332,60 @@
                         <div class="form-group">
                             <label>Закрывающий документ</label>
                             {{ form_widget(form.closingDocument_file) }}
+                            {% if closingDocument|length > 0 %}
+                                <label>
+                                    Прикрепленные файлы
+                                </label>
+                                <ul>
+                                    {% for i in  closingDocument %}
+                                        <li>
+                                            <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'closing_files_directory'}) }}">
+                                                <i class="fa fa-download">
+                                                    Закрывающий документ от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                </i>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <label>
+                                    Прикрепленный файл
+                                </label>
+                                <a href="{{ path('app_download_file_by_route', {'file': pp.getClosingDocument(), 'route': 'closing_files_directory'}) }}">
+                                    <i class="fa fa-download">
+                                        Закрывающий документ
+                                    </i>
+                                </a>
+                            {% endif %}
                         </div>
                         <div class="form-group">
                             <label>Платежное поручение</label>
                             {{ form_widget(form.paymentOrder_file) }}
+                            {% if additionalAgreement|length > 0 %}
+                                <label>
+                                    Прикрепленные файлы
+                                </label>
+                                <ul>
+                                    {% for i in  additionalAgreement %}
+                                        <li>
+                                            <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'payment_orders_directory'}) }}">
+                                                <i class="fa fa-download">
+                                                    Платежное поручение от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                </i>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <label>
+                                    Прикрепленный файл
+                                </label>
+                                <a href="{{ path('app_download_file_by_route', {'file': pp.getPaymentOrder(), 'route': 'payment_orders_directory'}) }}">
+                                    <i class="fa fa-download">
+                                        Платежное поручение
+                                    </i>
+                                </a>
+                            {% endif %}
                         </div>
                         <hr>
                         <div class="form-group">
@@ -327,5 +437,5 @@
 
     <script src="{{ asset('js/plugins/steps/jquery.steps.min.js') }}"></script>
     <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('js/scripts/purchases_detail_v2.js?v=1') }}"></script>
+    <script src="{{ asset('js/scripts/purchases_detail_v2.js?v=1.1') }}"></script>
 {% endblock %}

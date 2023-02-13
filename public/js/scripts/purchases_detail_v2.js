@@ -101,6 +101,10 @@ $(document).ready(function () {
     let fin_funds_of_subject = $("#purchases_form_finFundsOfSubject");
     let fin_employers_funds = $("#purchases_form_finEmployersFunds");
     let fin_edication_org_funds = $("#purchases_form_finFundsOfEducationalOrg");
+    let hasAdditionalAgreement = $("#purchases_form_hasAdditionalAgreement");
+    let additional_agreement_row = $("#additional-agreement-row");
+    let additional_agreement_file = $("#purchases_form_AdditionalAgreement_file");
+
 
     //Фактическое расходование средств
     let fact_federal_funds = $("#purchases_form_factFederalFunds");
@@ -117,7 +121,7 @@ $(document).ready(function () {
 
 
     function NMCKgreatedThenFinSum() {
-        return parseFloat(initial_sum.text()) >= parseFloat(fin_sum.text());
+        return parseFloat(initial_sum.text()) >= parseFloat(fin_sum.text()) || hasAdditionalAgreement.is(':checked');
     }
     $.validator.addMethod("NMCKmoreThenFinSum", function(value, element) {
         return NMCKgreatedThenFinSum();
@@ -249,6 +253,7 @@ $(document).ready(function () {
         isHasPrepayment();
         $('.number').hide();
         contractStatusChange();
+        hasAdditionalAgreementChange();
     }
 
     function hideDeliver(isHide) {
@@ -281,14 +286,15 @@ $(document).ready(function () {
                 hideStep(elem);
             });
             finSumRow.hide();
-            contractStatusSelect.val(1);
-            contractStatusChange();
+
             clearValue(publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment,
                 conclusion_date, delivery_date);
             setDisabled(true, publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date,
-                fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject);
+                fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject, contractStatusSelect);
+            contractStatusSelect.val(1);
+            contractStatusChange();
         }
         else{
             showFieldset = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -300,7 +306,7 @@ $(document).ready(function () {
 
             setDisabled(false, publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date,
-                fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject);
+                fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject, contractStatusSelect);
         }
     }
 
@@ -361,6 +367,19 @@ $(document).ready(function () {
     }
 
     contractStatusSelect.change(contractStatusChange);
+
+    function hasAdditionalAgreementChange()
+    {
+        if(hasAdditionalAgreement.is(':checked')){
+            additional_agreement_row.show('fast');
+            setDisabled(false, additional_agreement_file);
+        }
+        else{
+            additional_agreement_row.hide('fast');
+            setDisabled(true, additional_agreement_file);
+        }
+    }
+    hasAdditionalAgreement.change(hasAdditionalAgreementChange);
 
     method_of_determining.change(() => {
         showStep(1);

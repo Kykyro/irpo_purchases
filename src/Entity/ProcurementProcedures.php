@@ -293,6 +293,11 @@ class ProcurementProcedures
      */
     private $additionalAgreement;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $hasAdditionalAgreement;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -1087,6 +1092,18 @@ class ProcurementProcedures
     public function setAdditionalAgreement(?string $additionalAgreement): self
     {
         $this->additionalAgreement = $additionalAgreement;
+
+        return $this;
+    }
+
+    public function isHasAdditionalAgreement(): ?bool
+    {
+        return $this->hasAdditionalAgreement;
+    }
+
+    public function setHasAdditionalAgreement(?bool $hasAdditionalAgreement): self
+    {
+        $this->hasAdditionalAgreement = $hasAdditionalAgreement;
 
         return $this;
     }

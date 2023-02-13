@@ -71,6 +71,39 @@ class RegionPurchasesController extends AbstractController
             $procurement_procedure->setUser($user);
         }
 
+        // получаем файлы
+        $file_dir = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :file')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('file', "%fileDir%")
+            ->getQuery()
+            ->getResult();
+        $paymentOrder = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :payment')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('payment', "%paymentOrder%")
+            ->getQuery()
+            ->getResult();
+        $closingDocument = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :closing')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('closing', "%closingDocument%")
+            ->getQuery()
+            ->getResult();
+        $additionalAgreement = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :add')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('add', "%additionalAgreement%")
+            ->getQuery()
+            ->getResult();
 
         // генерируем форму
         $form = $this->createForm(purchasesFormType::class, $procurement_procedure);
@@ -80,6 +113,7 @@ class RegionPurchasesController extends AbstractController
             $file = $form->get('file')->getData();
             $closingDocument_file = $form->get('closingDocument_file')->getData();
             $paymentOrder_file = $form->get('paymentOrder_file')->getData();
+            $additionalAgreement_file = $form->get('AdditionalAgreement_file')->getData();
             if($procurement_procedure->getMethodOfDetermining() === 'Другое')
             {
                 $procurement_procedure->setMethodOfDetermining($form['anotherMethodOfDetermining']->getData());
@@ -90,7 +124,8 @@ class RegionPurchasesController extends AbstractController
                 $procurement_procedure->setClosingDocument($fileService->UploadFile($closingDocument_file, 'closing_files_directory'));
             if($paymentOrder_file)
                 $procurement_procedure->setPaymentOrder($fileService->UploadFile($paymentOrder_file, 'payment_orders_directory'));
-
+            if($additionalAgreement_file)
+                $procurement_procedure->setAdditionalAgreement($fileService->UploadFile($additionalAgreement_file, 'additional_agreement_directory'));
             $procurement_procedure->setChangeTime(new \DateTime('now'));
             $procurement_procedure->UpdateVersion();
 
@@ -109,7 +144,13 @@ class RegionPurchasesController extends AbstractController
             'form' => $form->createView(),
             'edit' => $isEdit,
             'title' => $title,
-            'method' => $procurement_procedure->getMethodOfDetermining()
+            'method' => $procurement_procedure->getMethodOfDetermining(),
+            'file' => $file_dir,
+            'paymentOrder' => $paymentOrder,
+            'closingDocument' => $closingDocument,
+            'additionalAgreement' => $additionalAgreement,
+            'pp' => $procurement_procedure
+
         ]);
 
     }
