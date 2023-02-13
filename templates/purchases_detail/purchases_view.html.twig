@@ -572,66 +572,79 @@
                 </a>
                 <div class="ibox-content" style="display: none;">
                     <table class="table table-bordered">
+                        <tr >
+                            <td>
+                                <b>
+                                    Актуальные прикрепленные файлы
+                                </b>
+                            </td>
+                        </tr>
+                        {% if  purchase.getFileDir() %}
+                            <tr>
+                                {#<td class="col-md-3">#}
+                                {#Договор / проект договора#}
+                                {#</td>#}
+                                <td>
+                                    <a href="{{ path('app_download_purchases_file', {'file': purchase.getFileDir()}) }}">
+                                        <i class="fa fa-download">
+                                            Договор / проект договора
+                                        </i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if  purchase.getClosingDocument() %}
+                            <tr>
+                                {#<td class="col-md-3">#}
+                                {#Закрывающий документ#}
+                                {#</td>#}
+                                <td>
+                                    <a href="{{ path('app_download_file_by_route', {'file': purchase.getClosingDocument(), 'route':'closing_files_directory'}) }}">
+                                        <i class="fa fa-download">
+                                            Закрывающий документ
+                                        </i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if  purchase.getPaymentOrder() %}
+                            <tr>
+                                {#<td class="col-md-3">#}
+                                {#Платежное поручение#}
+                                {#</td>#}
+                                <td>
+                                    <a href="{{ path('app_download_file_by_route', {'file': purchase.getPaymentOrder(), 'route': 'payment_orders_directory'}) }}">
+                                        <i class="fa fa-download">
+                                            Платежное поручение
+                                        </i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if  purchase.getAdditionalAgreement() %}
+                            <tr>
+                                {#<td class="col-md-3">#}
+                                {#Платежное поручение#}
+                                {#</td>#}
+                                <td>
+                                    <a href="{{ path('app_download_file_by_route', {'file': purchase.getAdditionalAgreement(), 'route': 'additional_agreement_directory'}) }}">
+                                        <i class="fa fa-download">
+                                            Дополнительное соглащение
+                                        </i>
+                                    </a>
 
-                        {% if files|length == 0 %}
-                            {% if  purchase.getFileDir() %}
-                                <tr>
-                                    {#<td class="col-md-3">#}
-                                        {#Договор / проект договора#}
-                                    {#</td>#}
-                                    <td>
-                                        <a href="{{ path('app_download_purchases_file', {'file': purchase.getFileDir()}) }}">
-                                            <i class="fa fa-download">
-                                                Договор / проект договора
-                                            </i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endif %}
-                            {% if  purchase.getClosingDocument() %}
-                                <tr>
-                                    {#<td class="col-md-3">#}
-                                        {#Закрывающий документ#}
-                                    {#</td>#}
-                                    <td>
-                                        <a href="{{ path('app_download_file_by_route', {'file': purchase.getClosingDocument(), 'route':'closing_files_directory'}) }}">
-                                            <i class="fa fa-download">
-                                                Закрывающий документ
-                                            </i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endif %}
-                            {% if  purchase.getPaymentOrder() %}
-                                <tr>
-                                    {#<td class="col-md-3">#}
-                                        {#Платежное поручение#}
-                                    {#</td>#}
-                                    <td>
-                                        <a href="{{ path('app_download_file_by_route', {'file': purchase.getPaymentOrder(), 'route': 'payment_orders_directory'}) }}">
-                                            <i class="fa fa-download">
-                                                Платежное поручение
-                                            </i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endif %}
-                            {% if  purchase.getAdditionalAgreement() %}
-                                <tr>
-                                    {#<td class="col-md-3">#}
-                                    {#Платежное поручение#}
-                                    {#</td>#}
-                                    <td>
-                                        <a href="{{ path('app_download_file_by_route', {'file': purchase.getAdditionalAgreement(), 'route': 'additional_agreement_directory'}) }}">
-                                            <i class="fa fa-download">
-                                                Дополнительное соглащение
-                                            </i>
-                                        </a>
+                                </td>
+                            </tr>
+                        {% endif %}
 
-                                    </td>
-                                </tr>
-                            {% endif %}
-                        {% else %}
+                        {% if files|length > 0 %}
+                            <tr>
+                                <td>
+                                    <b>
+                                        История изменений файлов
+                                    </b>
+                                </td>
+                            </tr>
                             {% for i in files %}
                                 {% if i.getFieldName() == 'fileDir' %}
                                     <tr>
