@@ -81,15 +81,7 @@
                             <tbody>
                                 <tr>
                                     <td class="col-md-3">
-                                        Внебюджетные средства Образовательной организации
-                                    </td>
-                                    <td>
-                                        {{ user_info.getExtraFundsOO() }} ₽
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-3">
-                                        Объем внебюджетных средств организаций реального сектора экономики
+                                        Средства организаций реального сектора экономики
                                     </td>
                                     <td>
                                         {{ user_info.getExtraFundsEconomicSector() }} ₽
@@ -97,10 +89,18 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-3">
-                                        Объём финансирования из средств  субъекта РФ
+                                        Средства субъекта РФ
                                     </td>
                                     <td>
                                         {{ user_info.getFinancingFundsOfSubject() }} ₽
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-3">
+                                        Средства образовательной организации
+                                    </td>
+                                    <td>
+                                        {{ user_info.getExtraFundsOO() }} ₽
                                     </td>
                                 </tr>
                             </tbody>
