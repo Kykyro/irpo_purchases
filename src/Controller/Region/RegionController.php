@@ -88,11 +88,10 @@ class RegionController extends AbstractController
             return $this->redirectToRoute('app_main');
         }
 
-        return $this->render('purchases_detail/templates/table_view.html.twig', [
+        return $this->render('purchases_detail/purchases_view.html.twig', [
             'controller_name' => 'RegionController',
             'title' => $title,
-            'purchase' => $purchase->getAsRow(),
-            'file' => $purchase->getFileDir(),
+            'purchase' => $purchase,
             'versionInfo' => $purchase->getVersionInfoAndDate(),
             'form' => $form->createView(),
 

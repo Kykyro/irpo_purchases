@@ -243,7 +243,6 @@ class ProcurementProcedures
     /**
      * @Groups("dump_data")
      * @ORM\ManyToOne(targetEntity=ContractStatus::class)
-     * @Log
      */
     private $conractStatus;
 
@@ -299,6 +298,11 @@ class ProcurementProcedures
         return $this->id;
     }
 
+    /**
+     * Получить предмет закупки
+     *
+     * @return null|string
+     */
     public function getPurchaseObject(): ?string
     {
         return $this->PurchaseObject;
@@ -311,6 +315,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить способ определение поставщика
+     *
+     * @return null|string
+     */
     public function getMethodOfDetermining(): ?string
     {
         return $this->MethodOfDetermining;
@@ -323,6 +332,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить ссылку на закупку
+     *
+     * @return null|string
+     */
     public function getPurchaseLink(): ?string
     {
         return $this->PurchaseLink;
@@ -335,6 +349,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить номер закупки
+     *
+     * @return null|string
+     */
     public function getPurchaseNumber(): ?string
     {
         return $this->PurchaseNumber;
@@ -347,6 +366,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить дату заключения договора
+     *
+     * @return \DateTimeInterface|null
+     */
     public function getDateOfConclusion(): ?\DateTimeInterface
     {
         return $this->DateOfConclusion;
@@ -359,6 +383,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить время поставки
+     *
+     * @return \DateTimeInterface|null
+     */
     public function getDeliveryTime(): ?\DateTimeInterface
     {
         return $this->DeliveryTime;
@@ -371,6 +400,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить комментарий
+     *
+     * @return null|string
+     */
     public function getComments(): ?string
     {
         return $this->Comments;
@@ -383,6 +417,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить название файла Договор/ предмет договора
+     *
+     * @return null|string
+     */
     public function getFileDir(): ?string
     {
         return $this->fileDir;
@@ -395,6 +434,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить пользователя (создателя закупки)
+     *
+     * @return user|null
+     */
     public function getUser(): ?user
     {
         return $this->user;
@@ -407,6 +451,12 @@ class ProcurementProcedures
         return $this;
     }
 
+
+    /**
+     * Получить начальный ФБ
+     *
+     * @return null|string
+     */
     public function getInitialFederalFunds(): ?string
     {
         return $this->initialFederalFunds;
@@ -419,6 +469,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить начальный РБ
+     *
+     * @return null|string
+     */
     public function getInitialFundsOfSubject(): ?string
     {
         return $this->initialFundsOfSubject;
@@ -431,6 +486,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить начальный РД
+     *
+     * @return null|string
+     */
     public function getInitialEmployersFunds(): ?string
     {
         return $this->initialEmployersFunds;
@@ -443,6 +503,12 @@ class ProcurementProcedures
         return $this;
     }
 
+
+    /**
+     * Получить начальный ОО
+     *
+     * @return null|string
+     */
     public function getInitialEducationalOrgFunds(): ?string
     {
         return $this->initialEducationalOrgFunds;
@@ -455,6 +521,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить поставщика
+     *
+     * @return null|string
+     */
     public function getSupplierName(): ?string
     {
         return $this->supplierName;
@@ -467,6 +538,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получть ИНН поставщика
+     *
+     * @return null|string
+     */
     public function getSupplierINN(): ?string
     {
         return $this->supplierINN;
@@ -479,6 +555,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить КПП поставщика
+     *
+     * @return null|string
+     */
     public function getSupplierKPP(): ?string
     {
         return $this->supplierKPP;
@@ -491,6 +572,11 @@ class ProcurementProcedures
         return $this;
     }
 
+    /**
+     * Получить цену контракта ФБ
+     *
+     * @return null|string
+     */
     public function getFinFederalFunds(): ?string
     {
         return $this->finFederalFunds;
