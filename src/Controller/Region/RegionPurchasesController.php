@@ -159,6 +159,101 @@ class RegionPurchasesController extends AbstractController
 
     }
 
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     * @Route("/purchases/{id}", name="app_purchases_detail")
+     */
+    public function purchasesView(Request $request, int $id) : Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $title = 'Просмотр';
+        $purchase = $this->getDoctrine()
+            ->getRepository(ProcurementProcedures::class)
+            ->find($id);
+
+        $current_user = $this->getUser()->getUserIdentifier();
+
+        // получаем файлы
+        $file_dir = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :file')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('file', "%fileDir%")
+            ->getQuery()
+            ->getResult();
+        $paymentOrder = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :payment')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('payment', "%paymentOrder%")
+            ->getQuery()
+            ->getResult();
+        $closingDocument = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :closing')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('closing', "%closingDocument%")
+            ->getQuery()
+            ->getResult();
+        $additionalAgreement = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :add')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('add', "%additionalAgreement%")
+            ->getQuery()
+            ->getResult();
+
+        if($purchase->getUser()->getUserIdentifier() != $current_user or $purchase->getIsDeleted())
+        {
+            return $this->redirectToRoute('app_main');
+        }
+        $delete = [];
+        $form = $this->createFormBuilder($delete)
+            ->add('reason', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-danger'
+                ],
+                'label' => 'Удалить'
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            $entity_manager = $this->getDoctrine()->getManager();
+            $data = $form->getData();
+            $purchase->setIsDeleted(true);
+            $purchase->setDeleteReason($data['reason']);
+            $entity_manager->persist($purchase);
+            $entity_manager->flush();
+            return $this->redirectToRoute('app_main');
+        }
+
+        return $this->render('purchases_detail/purchases_view.html.twig', [
+            'controller_name' => 'RegionController',
+            'title' => $title,
+            'purchase' => $purchase,
+            'versionInfo' => $purchase->getVersionInfoAndDate(),
+            'form' => $form->createView(),
+            'file' => $file_dir,
+            'paymentOrder' => $paymentOrder,
+            'closingDocument' => $closingDocument,
+            'additionalAgreement' => $additionalAgreement,
+
+        ]);
+    }
 
 
 }
