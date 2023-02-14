@@ -198,29 +198,32 @@
                                                 </td>
                                             {% endfor %}
                                             <td>
-                                                {% set file = i.getFileDir() %}
-                                                {% set closingDocument = i.getClosingDocument() %}
-                                                {% set paymnetOrder = i.getPaymentOrder() %}
-                                                <ul>
-                                                    {% if file != "" %}
-                                                        <li>
-                                                            <a href="{{ path('app_download_purchases_file', {'file': file}) }}">Договор / проект договора</a>
-                                                        </li>
-                                                        <hr>
-                                                    {% endif %}
-                                                    {% if closingDocument != "" %}
-                                                        <li>
-                                                            <a href="{{ path('app_download_file_by_route', {'file': closingDocument, 'route':'closing_files_directory'}) }}">Закрывающий документ</a>
-                                                        </li>
-                                                        <hr>
-                                                    {% endif %}
-                                                    {% if paymnetOrder != "" %}
-                                                        <li>
-                                                            <a href="{{ path('app_download_file_by_route', {'file': paymnetOrder, 'route': 'payment_orders_directory'}) }}">Платежное поручение</a>
-                                                        </li>
-                                                    {% endif %}
-                                                </ul>
+
                                             </td>
+                                            {#<td>#}
+                                                {#{% set file = i.getFileDir() %}#}
+                                                {#{% set closingDocument = i.getClosingDocument() %}#}
+                                                {#{% set paymnetOrder = i.getPaymentOrder() %}#}
+                                                {#<ul>#}
+                                                    {#{% if file != "" %}#}
+                                                        {#<li>#}
+                                                            {#<a href="{{ path('app_download_purchases_file', {'file': file}) }}">Договор / проект договора</a>#}
+                                                        {#</li>#}
+                                                        {#<hr>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if closingDocument != "" %}#}
+                                                        {#<li>#}
+                                                            {#<a href="{{ path('app_download_file_by_route', {'file': closingDocument, 'route':'closing_files_directory'}) }}">Закрывающий документ</a>#}
+                                                        {#</li>#}
+                                                        {#<hr>#}
+                                                    {#{% endif %}#}
+                                                    {#{% if paymnetOrder != "" %}#}
+                                                        {#<li>#}
+                                                            {#<a href="{{ path('app_download_file_by_route', {'file': paymnetOrder, 'route': 'payment_orders_directory'}) }}">Платежное поручение</a>#}
+                                                        {#</li>#}
+                                                    {#{% endif %}#}
+                                                {#</ul>#}
+                                            {#</td>#}
 
 
 

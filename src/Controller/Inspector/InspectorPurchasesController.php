@@ -2,6 +2,7 @@
 
 namespace App\Controller\Inspector;
 
+use App\Entity\Log;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
@@ -115,18 +116,54 @@ class InspectorPurchasesController extends AbstractController
      */
     public function viewFullPurchases(int $id)
     {
+        $entity_manager = $this->getDoctrine()->getManager();
         $title = 'Просмотр';
-        $purchase = $this->getDoctrine()
+        $purchase = $entity_manager
             ->getRepository(ProcurementProcedures::class)
             ->find($id);
-
-
+        // получаем файлы
+        $file_dir = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :file')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('file', "%fileDir%")
+            ->getQuery()
+            ->getResult();
+        $paymentOrder = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :payment')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('payment', "%paymentOrder%")
+            ->getQuery()
+            ->getResult();
+        $closingDocument = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :closing')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('closing', "%closingDocument%")
+            ->getQuery()
+            ->getResult();
+        $additionalAgreement = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('l.field_name LIKE :add')
+            ->andWhere('l.foreign_key = :key')
+            ->setParameter('key', "$id")
+            ->setParameter('add', "%additionalAgreement%")
+            ->getQuery()
+            ->getResult();
+//dd($file_dir);
 
         return $this->render('inspector/templates/viewPu.html.twig', [
             'controller_name' => 'RegionController',
             'title' => $title,
-            'purchase' => $purchase->getAsRow(),
-            'file' => $purchase->getFileDir(),
+            'purchase' => $purchase,
+            'file' => $file_dir,
+            'paymentOrder' => $paymentOrder,
+            'closingDocument' => $closingDocument,
+            'additionalAgreement' => $additionalAgreement,
             'versionInfo' => $purchase->getVersionInfoAndDate(),
 
         ]);

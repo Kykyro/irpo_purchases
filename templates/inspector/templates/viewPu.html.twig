@@ -1,9 +1,22 @@
 {% extends "default/base.html.twig" %}
 
-
-
-
 {% block content %}
+    {% set isSoloSup = purchase.getMethodOfDetermining() == "Единственный поставщик" %}
+    {% set isHavePrepayment = purchase.isIsHasPrepayment() %}
+    {% set isPlanned = purchase.getIsPlanned() %}
+    <style>
+        input[type='number'] {
+            -moz-appearance:textfield;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+        td{
+            border-right: 2px dotted lightgrey;
+        }
+    </style>
     <div class="row">
         <div class="col-lg-10 offset-lg-1">
             <div class="wrapper wrapper-content">
@@ -14,353 +27,692 @@
                         </h2>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center m-3">
+        <div class="m-2">
 
-                    <table class="table block-shadow white-bg block-border">
-                        <thead>
+            {% if is_granted('ROLE_INSPECTOR') %}
+                <a href="{{ path("app_purchases_history", {id: app.request.get("id")}) }}">
+                    <button class="btn-gray-all btn btn-outline-success ">
+                        <div class="fa fa-edit"></div>
+                        История
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Предмет закупки
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" style="display: block;">
+                    <table class="table table-bordered">
                         <tr>
-                            <th class="col-lg-4 table-title">Закупка</th>
-                            <th class="col-lg-8 table-title"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Наименование / Объект закупки (В соответсвии с извещением о проведении закупки)</td>
-
-
-                            <td>
-                                {{ purchase[0] }}
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Способ определения поставщика (подрядчика, исполнителя)</td>
-
-
-                            <td>
-                                {{ purchase[1] }}
-                            </td>
-
-                        </tr>
-                        <tr class="separate-row">
-                            <td colspan="2"></td>
-                        </tr>
-
-                        <tr>
-                            <td class="table-title" colspan="2">
-                                <strong>
-                                    Начальная (максимальная) цена контракта (РУБЛИ)
-                                </strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>средства федерального бюджета</td>
-                            <td>
-                                {{ purchase[3] }}₽
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>средства субъекта РФ</td>
-
-
-                            <td>
-                                {{ purchase[4] }}₽
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td class="table-subtitle" colspan="2">
-                                <strong>
-                                    внебюджетные средства
-                                </strong>
-                            </td>
-
-
-
-                        </tr>
-                        <tr>
-                            <td>средства работодателей</td>
-                            <td>
-                                {{ purchase[5] }}₽
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>средства образовательной организации</td>
-
-
-                            <td>
-                                {{ purchase[6] }}₽
-                            </td>
-
-                        </tr>
-
-                        <tr>
-                            <td>
-                                Сумма
+                            <td class="col-md-3">
+                                Наименование / Предмет закупки
                             </td>
                             <td>
-                                <p>{{ purchase[3]+purchase[4]+purchase[5]+purchase[6] }}₽</p>
-
-                            </td>
-                        </tr>
-
-                        <tr class="separate-row">
-                            <td colspan="2"></td>
-                        </tr>
-
-                        <tr>
-                            <td class="table-title" colspan="2">
-                                <strong>
-                                    Срок размещения закупки в ЕИС / ЭМ
-                                </strong>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <td>Дата публикации извещения</td>
-
-
-                            <td>
-                                {{ purchase[7] }}
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Дата окончания подачи заявок</td>
-
-
-                            <td>
-                                {{ purchase[8] }}
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Дата подведения итогов</td>
-
-
-                            <td>
-                                {{ purchase[9] }}
-                            </td>
-
-                        </tr>
-
-                        <tr class="separate-row">
-                            <td colspan="2"></td>
-                        </tr>
-
-                        <tr>
-                            <td>Ссылка на закупку на портале zakupki.gov.ru, прочие площадки</td>
-
-
-                            <td>
-                                {{ purchase[10] }}
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Номер закупки</td>
-
-
-                            <td>
-                                {{ purchase[11] }}
-                            </td>
-
-                        </tr>
-
-                        <tr class="separate-row">
-                            <td colspan="2"></td>
-                        </tr>
-
-                        <tr>
-                            <td class="table-title" colspan="2">
-                                <strong>
-                                    Перенос срока размещения закупки в ЕИС / ЭМ
-                                </strong>
+                                {{ purchase.getPurchaseObject() }}
                             </td>
                         </tr>
                         <tr>
-                            <td>дата</td>
-
-
-                            <td>
-                                {{ purchase[12] }}
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>причина (обоснование)</td>
-                            <td>
-                                {{ purchase[13] }}
-                            </td>
-
-                        </tr>
-                        <tr class="separate-row">
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td class="table-title" colspan="2">
-                                <strong>
-                                    Дата заключения контракта / договора
-                                </strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Дата заключения контракта / договора</td>
-
-
-                            <td>
-                                {{ purchase[14] }}
-                            </td>
-
-                        </tr>
-                        <tr class="separate-row">
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td class="table-title" colspan="2">
-                                <strong>
-                                    Поставщик (подрядчик, исполнитель)
-                                </strong>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <td>Наименование организации-поставщика (подрядчика, исполнителя)</td>
-                            <td>
-                                {{ purchase[15] }}
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>ИНН</td>
-                            <td>
-                                {{ purchase[16] }}
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>КПП</td>
-                            <td>
-                                {{ purchase[17] }}
-                            </td>
-
-                        </tr>
-                        <tr class="separate-row">
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td class="table-title" colspan="2">
-                                <strong>
-                                    Цена контракта / договора (РУБЛИ)
-                                </strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>средства федерального бюджета</td>
-                            <td>
-                                {{ purchase[19] }}₽
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>средства субъекта РФ</td>
-                            <td>
-                                {{ purchase[20] }}₽
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td class="table-subtitle" colspan="2">
-                                <strong>
-                                    внебюджетные средства
-                                </strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>средства работодателей</td>
-                            <td>
-                                {{ purchase[21] }}₽
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>средства образовательной организации</td>
-                            <td>
-                                {{ purchase[22] }}₽
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                Сумма
+                            <td class="col-md-3">
+                                Способ определение поставщика
                             </td>
                             <td>
-                                <p> {{ purchase[19]+purchase[20]+purchase[21]+purchase[22] }}₽</p>
-
-                            </td>
-                        </tr>
-                        <tr class="separate-row">
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td>Срок поставки (подписание акта), дата</td>
-                            <td>
-                                {{ purchase[23] }}
+                                {{ purchase.getMethodOfDetermining() }}
                             </td>
                         </tr>
                         <tr>
-                            <td>Комментарии / Примечания</td>
-                            <td>
-                                {{ purchase[24] }}
+                            <td class="col-md-3">
+                                Закупка на стадии планирования?
                             </td>
-
-                        </tr>
-                        <tr>
-                            <td>Файл</td>
                             <td>
-                                {% if file != "" %}
-                                    <a href="{{ path('app_download_purchases_file', {'file': file}) }}">{{ file }}</a>
+                                {% if isPlanned %}
+                                    Да
+                                {% else %}
+                                    Нет
                                 {% endif %}
                             </td>
                         </tr>
-                        <tr class="separate-row">
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Дата создания:
-                            </td>
-                            <td>
-                                {{ versionInfo['createDate'] }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Дата изменения:
-                            </td>
-                            <td>
-                                {{ versionInfo['changeTime'] }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Версия:
-                            </td>
-                            <td>
-                                {{ versionInfo['version'] }}
-                            </td>
-                        </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Начальная (Максимальная) цена договора
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" style="display: none;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="col-md-3">
+                                Средства федерального бюджета
+                            </td>
+                            <td>
+                                {{ purchase.getInitialFederalFunds() }} ₽
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Средства субъекта РФ
+                            </td>
+                            <td>
+                                {{ purchase.getInitialFundsOfSubject() }} ₽
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Средства работадателя
+                            </td>
+                            <td>
+                                {{ purchase.getInitialEmployersFunds() }} ₽
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Средства образовательно организации
+                            </td>
+                            <td>
+                                {{ purchase.getInitialEducationalOrgFunds() }} ₽
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Есть авансовый платеж?
+                            </td>
+                            <td>
+                                {% if isHavePrepayment %}
+                                    Да
+                                {% else %}
+                                    Нет
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% if isHavePrepayment %}
+                            <tr>
+                                <td class="col-md-3">
+                                    Авансовый платеж
+                                </td>
+                                <td>
+                                    {{ purchase.getPrepayment() }}%
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if not isPlanned %}
+        {% if isSoloSup %}
+            <div class="row">
+                <div class="col-lg-12 mb-2">
+                    <div class="ibox collapsed border-bottom">
+                        <a class="collapse-link">
+                            <div class="ibox-title">
+                                <h5>
+                                    Цена контракта / договора
+                                </h5>
+                                <div class="ibox-tools">
+                                    <i class="fa fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="ibox-content" style="display: none;">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td class="col-md-3">
+                                        Средства федерального бюджета
+                                    </td>
+                                    <td>
+                                        {{ purchase.getInitialFederalFunds() }} ₽
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-3">
+                                        Средства субъекта РФ
+                                    </td>
+                                    <td>
+                                        {{ purchase.getInitialFundsOfSubject() }} ₽
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-3">
+                                        Средства работадателя
+                                    </td>
+                                    <td>
+                                        {{ purchase.getInitialEmployersFunds() }} ₽
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-3">
+                                        Средства образовательно организации
+                                    </td>
+                                    <td>
+                                        {{ purchase.getInitialEducationalOrgFunds() }} ₽
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-lg-12 mb-2">
+                    <div class="ibox collapsed border-bottom">
+                        <a class="collapse-link">
+                            <div class="ibox-title">
+                                <h5>
+                                    Цена контракта / договора
+                                </h5>
+                                <div class="ibox-tools">
+                                    <i class="fa fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="ibox-content" style="display: none;">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td class="col-md-3">
+                                        Средства федерального бюджета
+                                    </td>
+                                    <td>
+                                        {{ purchase.getfinFederalFunds() }} ₽
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-3">
+                                        Средства субъекта РФ
+                                    </td>
+                                    <td>
+                                        {{ purchase.getfinFundsOfSubject() }} ₽
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-3">
+                                        Средства работадателя
+                                    </td>
+                                    <td>
+                                        {{ purchase.getfinEmployersFunds() }} ₽
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-3">
+                                        Средства образовательно организации
+                                    </td>
+                                    <td>
+                                        {{ purchase.getfinFundsOfEducationalOrg() }} ₽
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-lg-12 mb-2">
+                <div class="ibox collapsed border-bottom">
+                    <a class="collapse-link">
+                        <div class="ibox-title">
+                            <h5>
+                                Фактическое расходование средств
+                            </h5>
+                            <div class="ibox-tools">
+                                <i class="fa fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="ibox-content" style="display: none;">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td class="col-md-3">
+                                    Средства федерального бюджета
+                                </td>
+                                <td>
+                                    {{ purchase.getFactFederalFunds() }} ₽
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-3">
+                                    Средства субъекта РФ
+                                </td>
+                                <td>
+                                    {{ purchase.getFactFundsOfSubject() }} ₽
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-3">
+                                    Средства работадателя
+                                </td>
+                                <td>
+                                    {{ purchase.getFactEmployersFunds() }} ₽
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-3">
+                                    Средства образовательно организации
+                                </td>
+                                <td>
+                                    {{ purchase.getFactFundsOfEducationalOrg() }} ₽
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Срок размещения закупки ЕИС/ЭМ
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" style="display: none;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="col-md-3">
+                                Дата публикации
+                            </td>
+                            <td>
+                                {% if  purchase.getPublicationDate() %}
+                                    {{ purchase.getPublicationDate().format('d.m.Y') }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Дата оканчания подачи заявок
+                            </td>
+                            <td>
+                                {% if  purchase.getDeadlineDate() %}
+                                    {{ purchase.getDeadlineDate().format('d.m.Y') }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Дата подведения итогов
+                            </td>
+                            <td>
+                                {% if  purchase.getDateOfSummingUp() %}
+                                    {{ purchase.getDateOfSummingUp().format('d.m.Y') }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Перенос срока размещения закупки ЕИС/ЭМ
+                            </td>
+                            <td>
+                                {% if  purchase.getpostponementDate() %}
+                                    {{ purchase.getpostponementDate().format('d.m.Y') }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Причина (обоснование)
+                            </td>
+                            <td>
+                                {{ purchase.getPostonementComment() }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Ссылка на закупку
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" style="display: none;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="col-md-3">
+                                Ссылка на закупку
+                            </td>
+                            <td>
+                                <a href="{{ purchase.getPurchaseLink() }}">
+                                    {{ purchase.getPurchaseLink() }}
+                                </a>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Номер закупки
+                            </td>
+                            <td>
+                                {{ purchase.getPurchaseNumber() }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Дата заключения контракта / договора
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" style="display: none;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="col-md-3">
+                                Статус договора
+                            </td>
+                            <td>
+                                {{ purchase.getConractStatus().getStatus() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Дата заключения договора
+                            </td>
+                            <td>
+                                {% if  purchase.getDateOfConclusion() %}
+                                    {{ purchase.getDateOfConclusion().format('d.m.Y') }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Срок поставки
+                            </td>
+                            <td>
+                                {% if  purchase.getDeliveryTime() %}
+                                    {{ purchase.getDeliveryTime().format('d.m.Y') }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Комментарии / Примечания
+                            </td>
+                            <td>
+                                {{ purchase.getComments() }}
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Поставщик
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" style="display: none;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="col-md-3">
+                                Наименование организации-поставщика
+                            </td>
+                            <td>
+                                {{ purchase.getSupplierName() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                ИНН / ОГРНИП
+                            </td>
+                            <td>
+                                {{ purchase.getSupplierINN() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                КПП
+                            </td>
+                            <td>
+                                {{ purchase.getSupplierKPP() }}
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Прикрепленные файлы
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" style="display: none;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="col-md-3">
+                                Договор/проект договора
+                            </td>
+                            <td>
+                                <ul>
+                                    {% if purchase.getFileDir() %}
+                                        <li>
+                                            <a href="{{ path('app_download_file_by_route', {'file': purchase.getFileDir(), 'route':'purchases_files_directory'}) }}">
+                                                <i class="fa fa-download">
+                                                    Договор/проект договора
+                                                </i>
+                                                <span class="badge badge-info">
+                                                Актуальный
+                                            </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if file|length > 0 %}
+                                        {% for i in file %}
+                                            {% if i.getOldVal() %}
+                                                <li>
+                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route':'purchases_files_directory'}) }}">
+                                                        <i class="fa fa-download">
+                                                            Договор/проект договора от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                        </i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Дополнительный договор
+                            </td>
+                            <td>
+                                <ul>
+                                    {% if purchase.getAdditionalAgreement() %}
+                                        <li>
+                                            <a href="{{ path('app_download_file_by_route', {'file': purchase.getAdditionalAgreement(), 'route':'additional_agreement_directory'}) }}">
+                                                <i class="fa fa-download">
+                                                    Дополнительный договор
+                                                </i>
+                                                <span class="badge badge-info">
+                                                Актуальный
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if additionalAgreement|length > 0 %}
+                                        {% for i in additionalAgreement %}
+                                            {% if i.getOldVal() %}
+                                                <li>
+                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route':'additional_agreement_directory'}) }}">
+                                                        <i class="fa fa-download">
+                                                            Дополнительный договор от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                        </i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Закрывающий документ
+                            </td>
+                            <td>
+                                <ul>
+                                    {% if purchase.getClosingDocument() %}
+                                        <li>
+                                            <a href="{{ path('app_download_file_by_route', {'file': purchase.getClosingDocument(), 'route':'closing_files_directory'}) }}">
+                                                <i class="fa fa-download">
+                                                    Закрывающий документ
+                                                </i>
+                                                <span class="badge badge-info">
+                                                Актуальный
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if closingDocument|length > 0 %}
+                                        {% for i in closingDocument %}
+                                            {% if i.getOldVal() %}
+                                                <li>
+                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route':'closing_files_directory'}) }}">
+                                                        <i class="fa fa-download">
+                                                            Закрывающий документ от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                        </i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Платежное поручение
+                            </td>
+                            <td>
+                                <uL>
+                                    {% if purchase.getPaymentOrder() %}
+                                        <li>
+                                            <a href="{{ path('app_download_file_by_route', {'file': purchase.getPaymentOrder(), 'route':'payment_orders_directory'}) }}">
+                                                <i class="fa fa-download">
+                                                    Платежное поручение
+                                                </i>
+                                                <span class="badge badge-info">
+                                                Актуальный
+                                            </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if paymentOrder|length > 0 %}
+                                        {% for i in paymentOrder %}
+                                            {% if i.getOldVal() %}
+                                                <li>
+                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route':'payment_orders_directory'}) }}">
+                                                        <i class="fa fa-download">
+                                                            Платежное поручение от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                        </i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </uL>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 {% endblock %}
 
 {% block scripts %}
+    <script>
+
+    </script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
 {% endblock %}
