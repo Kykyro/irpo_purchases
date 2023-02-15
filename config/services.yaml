@@ -20,6 +20,7 @@ parameters:
     closing_files_directory: '%kernel.project_dir%/public/uploads/closingFiles'
     payment_orders_directory: '%kernel.project_dir%/public/uploads/paymentOrders'
     additional_agreement_directory: '%kernel.project_dir%/public/uploads/additionalAgreement'
+    contracting_tables_directory: '%kernel.project_dir%/public/uploads/contractingTables'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
 services:

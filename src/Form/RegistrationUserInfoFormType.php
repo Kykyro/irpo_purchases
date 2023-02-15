@@ -62,6 +62,7 @@ class RegistrationUserInfoFormType extends AbstractType
             ->add('year', ChoiceType::class, [
                 'choices'  => [
 
+                    '2021' => 2021,
                     '2023' => 2023,
                     '2024' => 2024,
 

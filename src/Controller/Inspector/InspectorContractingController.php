@@ -2,6 +2,7 @@
 
 namespace App\Controller\Inspector;
 
+use App\Entity\ContractingTables;
 use App\Entity\ProcurementProcedures;
 use App\Entity\User;
 use App\Services\ContractingXlsxService;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class InspectorContractingController extends AbstractController
 {
     /**
-     * @Route("/contracting", name="app_inspector_contracting")
+     * @Route("/contracting-actual", name="app_inspector_contracting")
      */
     public function index(Request $request, ContractingXlsxService $contractingXlsxService): Response
     {
@@ -31,6 +32,7 @@ class InspectorContractingController extends AbstractController
                     'class' => 'form-control'
                 ],
                 'choices'  => [
+                    '2021 год' => 2021,
                     '2023 год' => 2023,
 
                 ],
@@ -46,13 +48,31 @@ class InspectorContractingController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            return $contractingXlsxService->generateTable($data['year']);
+            return $contractingXlsxService->downloadTable($data['year']);
 
         }
 
         return $this->render('inspector_contracting/index.html.twig', [
             'controller_name' => 'InspectorContractingController',
             'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/contracting-history", name="app_inspector_contracting_history")
+     */
+    public function history(Request $request, ContractingXlsxService $contractingXlsxService): Response
+    {
+
+       $contractingTables = $this->getDoctrine()->getManager()
+           ->getRepository(ContractingTables::class)
+           ->findAll();
+
+
+
+
+        return $this->render('inspector_contracting/history.html.twig', [
+            'controller_name' => 'InspectorContractingController',
+            'contractingTables' => $contractingTables
         ]);
     }
 }
