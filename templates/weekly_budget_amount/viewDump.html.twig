@@ -1,0 +1,161 @@
+{% extends "default/base.html.twig" %}
+
+
+
+{% block content %}
+    {% set buttons %}
+        <div class="col-lg-5 m-1">
+            <a href="{{ path('download_xlsx', {'dump_id': id}) }}">
+                <button class="btn-gray-all btn btn-outline-success">
+                    <div class="fa fa-table"></div>
+                    Скачать таблицу
+                </button>
+            </a>
+        </div>
+    {% endset %}
+
+{{   include('inspector/templates/prodProcTable.html.twig', {'prodProc': pp}) }}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Суммы бюджетов</h5>
+                        <div class="ibox-tools">
+
+                            <i class="fa fa-chevron-up"></i>
+
+
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" >
+
+
+                        <h5>НМЦК</h5>
+                        <div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>Бюджетные средства</td>
+                                        <td></td>
+                                        <td>Внебюджетные средства</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>средства федерального бюджета</td>
+                                        <td>
+                                           {{ initial['FederalFunds'] }} ₽
+                                        </td>
+                                        <td>средства работодателей</td>
+                                        <td>
+                                            {{ initial['EmployersFunds'] }} ₽
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>средства субъекта РФ</td>
+                                        <td>
+                                            {{ initial['FundsOfSubject'] }} ₽
+                                        </td>
+                                        <td>средства образовательной организации</td>
+                                        <td>
+                                            {{ initial['EducationalOrgFunds'] }} ₽
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h5>Стоимость договора</h5>
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td>Бюджетные средства</td>
+                                <td></td>
+                                <td>Внебюджетные средства</td>
+                                <td></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>средства федерального бюджета</td>
+                                <td>
+                                    {{ fin['FederalFunds'] }} ₽
+                                </td>
+                                <td>средства работодателей</td>
+                                <td>
+                                   {{ fin['EmployersFunds'] }} ₽
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>средства субъекта РФ</td>
+                                <td>
+                                   {{ fin['FundsOfSubject'] }} ₽
+                                </td>
+                                <td>средства образовательной организации</td>
+                                <td>
+                                   {{ fin['EducationalOrgFunds'] }} ₽
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+                <div class="ibox-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script>
+        const slider = document.querySelector('.horizontal-drag');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+
+            isDown = true;
+            slider.classList.add('active_scroll')
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mouseup', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+
+            if (!isDown) return;
+            e.preventDefault()
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 3;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,148 @@
+{% if type == 'cluster_IS' %}
+    {% set view = true %}
+{% elseif type == 'workshops_IS' %}
+    {% set view = false %}
+{% else %}
+    {% set view = false %}
+{% endif %}
+<!DOCTYPE html>
+
+    <title>Инфраструктурные листы кластеров</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/ico/rpop_icon.png') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('infrastructure/css/fonts%2C_icomoon%2C_style.css%2Bcss%2C_owl.carousel.min.css%2Bcss%2C_bootstrap.min.css%2Bcss%2C_style.css.pagespeed.cc.yrboueLUbp.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('landing/css/style.css')}}">
+
+    <script defer referrerpolicy="origin" src="js/s.js"></script><script nonce="84e1002c-6abc-4b4e-9872-db7239019d60">(function(w,d){!function(a,e,t,r){a.zarazData=a.zarazData||{};a.zarazData.executed=[];a.zaraz={deferred:[],listeners:[]};a.zaraz.q=[];a.zaraz._f=function(e){return function(){var t=Array.prototype.slice.call(arguments);a.zaraz.q.push({m:e,a:t})}};for(const e of["track","set","debug"])a.zaraz[e]=a.zaraz._f(e);a.zaraz.init=()=>{var t=e.getElementsByTagName(r)[0],z=e.createElement(r),n=e.getElementsByTagName("title")[0];n&&(a.zarazData.t=e.getElementsByTagName("title")[0].text);a.zarazData.x=Math.random();a.zarazData.w=a.screen.width;a.zarazData.h=a.screen.height;a.zarazData.j=a.innerHeight;a.zarazData.e=a.innerWidth;a.zarazData.l=a.location.href;a.zarazData.r=e.referrer;a.zarazData.k=a.screen.colorDepth;a.zarazData.n=e.characterSet;a.zarazData.o=(new Date).getTimezoneOffset();a.zarazData.q=[];for(;a.zaraz.q.length;){const e=a.zaraz.q.shift();a.zarazData.q.push(e)}z.defer=!0;for(const e of[localStorage,sessionStorage])Object.keys(e||{}).filter((a=>a.startsWith("_zaraz_"))).forEach((t=>{try{a.zarazData["z_"+t.slice(7)]=JSON.parse(e.getItem(t))}catch{a.zarazData["z_"+t.slice(7)]=e.getItem(t)}}));z.referrerPolicy="origin";z.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(a.zarazData)));t.parentNode.insertBefore(z,t)};["complete","interactive"].includes(e.readyState)?zaraz.init():a.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,0,"script");})(window,document);</script></head>
+
+    <script src="{{ asset('infrastructure/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('infrastructure/js/popper.min.js%2Bbootstrap.min.js%2Bmain.js.pagespeed.jc.4Rw81gB1e3.js') }}"></script><script>eval(mod_pagespeed_nlOrm8fJcI);</script>
+    <script>eval(mod_pagespeed_GX$iwZVxnF);</script>
+    <script>eval(mod_pagespeed_t9yB570jti);</script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194" data-cf-beacon="{" rayId":"74d93fd2fadfb848","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2022.8.1","si":100}" crossorigin="anonymous"></script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(91567100, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/91567100" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+
+<body style="background: black">
+    <div class="overlay-inner cover-background" style="background-image: url({{ asset('img/img_start_landing/6.jpg') }});"></div>
+    <div style="padding-top: 5rem">
+        <div class="container">
+
+            <div class="table-responsive custom-table-responsive">
+
+                <a href="{{ path('app_start_landing') }}#il" class="col-lg-2 btn" style="background: black">Назад</a>
+                <div class=" m-1 col-lg-12" style="padding-bottom: 1rem; font-size: 22px; text-align: center; padding-top: 20px">
+                    {{ title }}
+                </div>
+                <hr>
+                {% if view == false %}
+                    {{ form_start(form) }}
+                        <label class="m-1 col-lg-12" style="padding-bottom: 1rem; font-size: 22px; text-align: center; padding-top: 20px"> Поиск </label>
+                        {{ form_widget(form.search) }}
+                        {{ form_widget(form.submit , {
+                            label: 'Найти',
+                            attr: {
+                                class: 'col-lg-12 btn btn-gray-all btn-outline-success'
+                            }
+                        }) }}
+                    {{ form_end(form) }}
+                {% else %}
+                    {{ form_start(form) }}
+                        <label class="m-1 col-lg-12" style="padding-bottom: 1rem; font-size: 22px; text-align: center; padding-top: 20px"> Поиск </label>
+                        <label>Название</label>
+                        {{ form_widget(form.search) }}
+                        <label>УГПС</label>
+                        {{ form_widget(form.UGPS) }}
+                        <label>Отрасль</label>
+                        {{ form_widget(form.industry) }}
+                        {{ form_widget(form.submit , {
+                            label: 'Найти',
+                            attr: {
+                                class: 'col-lg-12 btn btn-gray-all btn-outline-success'
+                            }
+                        }) }}
+                    {{ form_end(form) }}
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+    
+    <div style="padding-top: 1rem">
+        <div class="container">
+
+            <div class="table-responsive custom-table-responsive">
+                <table class="table custom-table">
+                    <thead>
+                    <tr>
+                        {% if view %}
+                            <th scope="col">УГПС</th>
+                        {% endif %}
+
+                            <th scope="col">Название</th>
+                        {% if view %}
+                            <th scope="col">Отрасль</th>
+                        {% endif %}
+                        <th scope="col">Файл</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in pagination  %}
+                            <tr scope="row">
+
+                                {% if view %}
+
+                                    {% if i.getUGPS() is not null %}
+                                        <td scope="col">{{ i.getUGPS().getName() }}</td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                {% endif %}
+                                    <td><strong>{{ i.getName() }}</strong></td>
+                                {% if view %}
+                                    {% if i.getIndustry() is not null %}
+                                        <td scope="col">{{ i.getIndustry().getName() }}</td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+
+                                {% endif %}
+
+                                <td>
+                                    {% if i.getfile() is not null %}
+                                        <a href="{{ path('app_download_infrastructure_sheet_file', {'file': i.getfile()}) }}">скачать</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

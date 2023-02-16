@@ -1,0 +1,67 @@
+{% extends "purchases_detail/base.html.twig" %}
+
+{% block content %}
+    <style>
+        table td{
+            border: black 1px solid;
+        }
+    </style>
+    <div class="row">
+        <div class="col-lg-12 ">
+            <div class="wrapper wrapper-content">
+                <div class="row d-flex justify-content-center m-3">
+                    <table class="bg-white block-shadow">
+                        <thead class="bg-success">
+                            <tr>
+                                <td>
+                                    ID
+                                </td>
+                                <td>
+                                    Поле
+                                </td>
+                                <td>
+                                    Старое значение
+                                </td>
+                                <td>
+                                    Новое значение
+                                </td>
+                                <td>
+                                    Дата изменения
+                                </td>
+                                <td>
+                                    Версия
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in history %}
+                            <tr>
+                                <td>
+                                    {{ i.getForeignKey() }}
+                                </td>
+                                <td>
+                                    {{ i.getFieldName() }}
+                                </td>
+                                <td>
+                                    {{ i.getOldVal() }}
+                                </td>
+                                <td>
+                                    {{ i.getNewVal() }}
+                                </td>
+                                <td>
+                                    {{ i.getCreatedAt().format('r') }}
+                                </td>
+                                <td>
+                                    {{ i.getVersion() }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

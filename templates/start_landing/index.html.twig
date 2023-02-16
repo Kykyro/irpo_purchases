@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="en-US" class="no-js"><head>
+
+    <title>Главная</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/ico/rpop_icon.png') }}">
+    <!-- Meta Data -->
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keywords" content>
+    <meta name="author" content="mtb-spo.online">
+    <meta charset="UTF-8">
+
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="{{ asset('landing/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('landing/css/style.css')}}">
+
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="{{ asset('landing/css/jquery.fullpage.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('landing/css/slick.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('landing/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('landing/css/ionicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('landing/css/animate.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('landing/css/magnific-popup.css')}}">
+    <link rel="stylesheet" href="{{ asset('landing/css/vegas.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('landing/css/photoswipe.css')}}">
+    <link rel="stylesheet" href="{{ asset('landing/css/default-skin.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('landing/css/custom.css')}}">
+
+    <link href="{{ asset('css/style_start_landing.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/my_style.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <!--[if lt IE 11]>
+    <link rel="stylesheet" type="text/css" href="css/ie.css">
+    <![endif]-->
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,300i,400,400i,700,700i%7CMontserrat:300,400,500" rel="stylesheet">
+
+
+    <style>
+        @font-face {
+            font-family: Montserrat; /* Гарнитура шрифта */
+            src: url({{ asset('fonts/Montserrat-Regular.ttf') }}); /* Путь к файлу со шрифтом */
+        }
+        * {
+            font-family: Montserrat;
+        }
+        .error{
+            color: red;
+        }
+        #form-success{
+            color:white;
+            height:100px;
+            background-color: #51a154;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16pt
+        }
+
+        #year-select{
+            background-color: #ffffff;
+            color: #000000;
+
+        }
+        #hint-region {
+            /*display: none;*/
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999999;
+            border: 1px solid black;
+            padding: 12px;
+            width: 520px;
+            pointer-events:none;
+        }
+        #region-title{
+            font-size: 14pt;
+            font-weight: bold;
+            text-align: center;
+        }
+        #org-list{
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: 20px;
+            text-align: center;
+        }
+        .org-year{
+            font-size: 14pt;
+            font-weight: bold;
+        }
+        .organization{
+            margin-left: 10px;
+            padding-left: 3px;
+            list-style-type: '-';
+        }
+        .organization:first-of-type{
+            font-size: 26px;
+            font-weight: bold;
+            list-style-type: '';
+        }
+        .partners-carousel-container{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 10px;
+            height: 100%;
+        }
+        .partners-carousel-container div{
+
+        }
+        .partners-carousel-container img{
+            /*border: 1px solid black;*/
+            max-width: 250px;
+            height: auto;
+
+        }
+        .scale_img img { width: 400px; height: 300px; object-fit: cover; }
+        .scale_img .text_scale_img { height: 180px; object-fit: cover; }
+
+        .scale_img_partners img { width: 300px; object-fit: cover; }
+
+        .scale_img_documents img { width: 555px; height: 350px; object-fit: cover; }
+        .scale_img_documents .text_scale_img_documents { height: 35px; object-fit: cover; }
+
+
+        @media screen and (max-width: 1819px) and (min-width: 1500px){
+            #size_doc_inf{
+                width: 80vw;
+            }
+            .design_margin {margin-bottom: -1px}
+            .events_margin_title {margin-left: 140px}
+            .scale_img img { width: 400px; height: 200px; object-fit: cover; }
+            .feedback_size {width: 950px}
+        }
+
+
+        @media screen and (max-width: 1500px){
+
+            #hint-region {
+                display: none;
+                position: absolute;
+                background-color: rgba(255, 255, 255, 0.8);
+                z-index: 9999999;
+                border: 1px solid black;
+                padding: 4px;
+                width: 350px;
+                pointer-events:none;
+            }
+            .team_scale_mobile {
+                margin-right: 13%;
+            }
+            .partners-carousel-container{
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .partners-carousel-container img{
+                width: 100px;
+                height: auto;
+            }
+            #hide-on-mobile {
+
+                display: none;
+            }
+            #text_size_header{
+                font-size: 30px !important;
+                line-height: 45px !important;
+            }
+            #text_size_subtitle_1{
+                font-size: 14px !important;
+                line-height: 24px !important;
+            }
+            #text_size_subtitle_2{
+                font-size: 14px !important;
+                margin-right: 0px !important;
+                line-height: 24px !important;
+            }
+            .text_adaptive_size_rightbar{
+                font-size: 13px !important;
+                line-height: 25px !important;
+                text-align: left !important;
+            }
+        }
+
+
+
+    </style>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(91567100, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/91567100" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+
+    <noscript><div><img src="https://mc.yandex.ru/watch/91567100" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+</head>
+<body>
+
+<div id="preloader">
+    <div id="loading-animation"></div>
+</div>
+
+<div class="main-container">
+    {% include('start_landing/templates/header.html.twig') %}
+    {% include('start_landing/templates/globalOverlay.html.twig') %}
+
+    <!-- Fullpage -->
+    <div id="ed-fullpage" class="ed-fullpage">
+        {% include('start_landing/templates/main.html.twig') %}
+        {% include('start_landing/templates/events.html.twig') %}
+        {% include('start_landing/templates/map.html.twig') %}
+        {% include('start_landing/templates/partners.html.twig') %}
+        {% include('start_landing/templates/infrastructureSheet.html.twig') %}
+        {% include('start_landing/templates/documentation.html.twig') %}
+        {% include('start_landing/templates/designProject.html.twig') %}
+        {% include('start_landing/templates/employees.html.twig') %}
+        {% include('start_landing/templates/feedback.html.twig') %}
+    </div>
+
+
+    {% include('start_landing/templates/footer.html.twig') %}
+    {% include('start_landing/templates/PhotoSwipe.html.twig') %}
+
+
+
+
+
+</div>
+{% include('start_landing/templates/hintRegion.html.twig') %}
+
+<!-- JS -->
+<script type="text/javascript" src="{{ asset('landing/js/modernizr.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/map/raphael-min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/map/russian-map.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('landing/js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('landing/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('landing/js/plugins.js') }}"></script>
+<script type="text/javascript" src="{{ asset('landing/js/photoswipe.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('landing/js/photoswipe-ui-default.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('landing/js/animated-gradient.js') }}"></script>
+<script type="text/javascript" src="{{ asset('landing/js/main.js') }}"></script>
+<script src="{{ asset('/landing/js/form.js') }}"></script>
+<script src="{{ asset('/landing/js/map.js') }}"></script>
+
+</body>
+</html>

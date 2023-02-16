@@ -1,0 +1,239 @@
+{% extends "admin/base.html.twig" %}
+
+{% block content %}
+<div class="row d-flex justify-content-center">
+    <div class="bg-white">
+        <div class="row m-3">
+            <div>
+                <a href="{{ path('app_admin_users') }}">Назад</a>
+            </div>
+        </div>
+        <div class="ibox-content block-shadow">
+            <div class="form-group row m-3">
+                <div class="col-lg-12 col-form-label text-left">
+                    <strong>
+                {{ form_start(userForm) }}
+                    {{ form_row(userForm.roles,{
+                        label: 'Роли',
+                        attr: {
+                            class: 'col-lg-12'
+                        }
+                    }) }}
+                    </strong>
+                </div>
+                <div class="col-lg-12 col-form-label text-left">
+                    <strong>
+                        {{ form_row(userForm.name) }}
+                    </strong>
+                </div>
+                <div class="col-lg-12">
+                    <strong>
+                        <button type="submit" class="col-lg-12 btn btn-gray-all btn-outline-success">Обновить</button>
+                    {{ form_end(userForm) }}
+                    </strong>
+                </div>
+                </div>
+        </div>
+        <div class="ibox-content block-shadow">
+            <div class="form-group row">
+                {{ form_start(passwordForm) }}
+                    </strong>
+                </div>
+                <div class="col-sm-5 col-form-label text-left m-3">
+                    <strong>
+                    {{ form_widget(passwordForm.password,{'attr':{'class':'form-row'}}) }}
+                    </strong>
+                </div>
+                <div class="col-sm-5 col-form-label text-left">
+                    <strong>
+                    {{ form_errors(passwordForm.password) }}
+                    </strong>
+                </div>
+                <div class="col-lg-12 m-2 row">
+                    {{ form_widget(passwordForm.submit, {
+                        label: 'Изменить',
+                        attr: {
+                            class: 'col-lg-12 btn btn-gray-all btn-outline-success'
+                        }
+                    }) }}
+                    {{ form_end(passwordForm) }}
+                    </strong>
+                </div>
+                </div>
+
+        <div class="ibox-content block-shadow">
+            <div class="col-sm-12 col-form-label text-left">
+                <strong>
+                    {{ form_start(userInfoForm) }}
+                        {{ form_row(userInfoForm.rf_subject) }}
+                        {{ form_row(userInfoForm.organization) }}
+                        {{ form_row(userInfoForm.educational_organization) }}
+                        {{ form_row(userInfoForm.cluster) }}
+                        {{ form_row(userInfoForm.declared_industry) }}
+                        {{ form_row(userInfoForm.year) }}
+                        <hr>
+                        {{ form_row(userInfoForm.studentsCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.programCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.teacherCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.workerCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.studentsCountWithMentor, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.jobSecurityCount, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.amountOfFunding, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.amountOfExtraFunds, {"type":"number"}) }}
+                        <hr>
+                        <label>
+                            Список образовательных организаций
+                        </label>
+                        <div class="row js-edication-organization-wrapper">
+                            <ul id="edication-organization-fields-list"
+                                class="col-lg-8"
+                                data-prototype="{{ form_widget(userInfoForm.listOfEdicationOrganization.vars.prototype, {'attr':{'class': 'form-control'}})|e }}"
+                                data-widget-tags="{{
+                                '<li class="form-control"></li>'|e
+                                }}"
+                                data-widget-counter="{{ userInfoForm.listOfEdicationOrganization|length }}"
+                                data-delete-btn='
+                                    <div class="col-xs-12 js-edication-organization-item">
+                                        <a href="#" class="js-remove-organization pull-right btn btn-danger">
+                                            <span class="fa fa-close "></span>
+                                        </a>
+                                        <span class="badge badge-primary">Новый</span>
+
+                                '
+                                >
+                                {% for EO in userInfoForm.listOfEdicationOrganization %}
+                                    <li class="form-control">
+                                            <div class="col-xs-12 js-edication-organization-item">
+                                                <a href="#" class="js-remove-organization pull-right btn btn-danger">
+                                                    <span class="fa fa-close "></span>
+                                                </a>
+                                                {{ form_row(EO, {'attr':{'class': 'form-control'}}) }}
+                                            </div>
+
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <button type="button"
+                            class="add-another-collection-widget btn btn-primary"
+                                data-list-selector="#edication-organization-fields-list">
+                            <i class="fa fa-plus">
+                                Добавить Образовательную организацию
+                            </i>
+                        </button>
+                        <hr>
+                        <label>
+                            Список работадателей
+                        </label>
+                        <div class="row js-employers-wrapper">
+                            <ul id="employers-fields-list"
+                                class="col-lg-8"
+                                data-prototype="{{ form_widget(userInfoForm.listOfEmployers.vars.prototype, {'attr':{'class': 'form-control'}})|e }}"
+                                data-widget-tags="{{
+                                '<li class="form-control"></li>'|e
+                                }}"
+                                data-widget-counter="{{ userInfoForm.listOfEmployers|length }}"
+                                data-delete-btn='
+                                        <div class="col-xs-12 js-employers-item">
+                                            <a href="#" class="js-remove-employer pull-right btn btn-danger">
+                                                <span class="fa fa-close "></span>
+                                            </a>
+                                            <span class="badge badge-primary">Новый</span>
+
+                                    '
+                            >
+                                {% for LE in userInfoForm.listOfEmployers %}
+                                    <li class="form-control">
+                                        <div class="col-xs-12 js-employers-item">
+                                            <a href="#" class="js-remove-employer pull-right btn btn-danger">
+                                                <span class="fa fa-close "></span>
+                                            </a>
+                                            {{ form_row(LE, {'attr':{'class': 'form-control'}}) }}
+                                        </div>
+
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <button type="button"
+                                class="add-another-collection-widget btn btn-primary"
+                                data-list-selector="#employers-fields-list">
+                            <i class="fa fa-plus">
+                                Добавить работадателя
+                            </i>
+                        </button>
+                        <hr>
+                        <label>
+                            Объем финансирования
+                        </label>
+                        {{ form_row(userInfoForm.extraFundsOO, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.extraFundsEconomicSector, {"type":"number"}) }}
+                        {{ form_row(userInfoForm.financingFundsOfSubject, {"type":"number"}) }}
+                        <hr>
+                        <div class="col-sm-5 col-form-label text-left row">
+                            <button type="submit" class="col-lg-4 btn btn-gray-all btn-outline-success">Обновить</button>
+                        </div>
+                    {{ form_end(userInfoForm) }}
+                </strong>
+            </div>
+        </div>
+    {#<div class="ibox-content block-shadow">#}
+        {#<div class="col-sm-12 col-form-label text-left ">#}
+            {#<a href="{{ path('app_admin_user_delete', {'id': thisUser.id}) }}" class="delete-alert">#}
+                {#<button class="btn-danger btn col-lg-12">#}
+                    {#<i class="fa fa-trash"> Удалить </i>#}
+                {#</button>#}
+            {#</a>#}
+        {#</div>#}
+    {#</div>#}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            let $wrapper = $('.js-edication-organization-wrapper');
+            $wrapper.on('click', '.js-remove-organization', function(e) {
+                e.preventDefault();
+                $(this).closest('.form-control')
+                    .fadeOut()
+                    .remove();
+            });
+            let employesrWraper = $('.js-employers-wrapper');
+            employesrWraper.on('click', '.js-remove-employer', function(e) {
+                e.preventDefault();
+                $(this).closest('.form-control')
+                    .fadeOut()
+                    .remove();
+            });
+            $('.add-another-collection-widget').click(function (e) {
+                var list = $($(this).attr('data-list-selector'));
+                // Try to find the counter of the list or use the length of the list
+                var counter = list.data('widget-counter');
+
+                // grab the prototype template
+                var newWidget = list.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                counter++;
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+                console.log(newWidget);
+
+                // And store it, the length cannot be used if deleting widgets is allowed
+                list.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                var newElem = $(list.attr('data-widget-tags')).html(
+                    list.attr('data-delete-btn') +
+                    newWidget +
+                    '</div>'
+                );
+
+                newElem.appendTo(list);
+            });
+        });
+    </script>
+
+{% endblock %}

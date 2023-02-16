@@ -1,0 +1,192 @@
+{% extends "journalist/index.html.twig" %}
+
+
+
+
+{% block content %}
+<style>
+    .btn{
+        font-size: 14pt;
+    }
+</style>
+<div class="row animated fadeInRight">
+    <div class="col-sm-8 offset-sm-2 ">
+        <div class="wrapper wrapper-content ">
+            <div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center">Мероприятия</h2>
+                    <div class="m-3">
+                        <a href="{{ path('app_list_article') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-list"></div>
+                                Список новостей
+                            </button>
+                        </a>
+                    </div>
+                    <div class="m-3">
+                        <a href="{{ path('app_new_article') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-plus"></div>
+                                Создать статью
+                            </button>
+                        </a>
+                    </div>
+                    {#<div class="m-3">#}
+                        {#<a href="{{ path('app_cropper') }}" class="d-flex justify-content-center">#}
+                            {#<button class="btn btn-primary col-lg-8">#}
+                                {#<div class="fa fa-image"></div>#}
+                                {#Редактировать изображение#}
+                            {#</button>#}
+                        {#</a>#}
+                    {#</div>#}
+                </div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center">Карта</h2>
+                    <div class="m-3">
+                        <a href="{{ path('app_map_edit') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-compass"></div>
+                                Редактировать карту
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center">Инфраструктурные листы</h2>
+                    <div class="m-3">
+                        <a href="{{ path('app_journalist_infrastructure_sheet_list') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-list"></div>
+                                Список инфраструктурных листов
+                            </button>
+                        </a>
+                    </div>
+                    <div class="m-3">
+                        <a href="{{ path('app_journalist_infrastructure_sheet_add') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-plus"></div>
+                                Добавить инфраструктурный лист
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center">Отрасли</h2>
+                    <div class="m-3">
+                        <a href="{{ path('app_journalist_industry_list') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-list"></div>
+                                Список отраслей
+                            </button>
+                        </a>
+                    </div>
+                    <div class="m-3">
+                        <a href="{{ path('app_journalist_industry_add') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-plus"></div>
+                                Добавить отрасль
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center">УГПС</h2>
+                    <div class="m-3">
+                        <a href="{{ path('app_journalist_UGPS_list') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-list"></div>
+                                Список УГПС
+                            </button>
+                        </a>
+                    </div>
+                    <div class="m-3">
+                        <a href="{{ path('app_journalist_UGPS_add') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-plus"></div>
+                                Добавить УГПС
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center">Файлы (Нормативная документация)</h2>
+                    <div class="m-3">
+                        <a href="{{ path('app_list_document') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-list"></div>
+                                Список файлов (Нормативная документация)
+                            </button>
+                        </a>
+                    </div>
+                    <div class="m-3">
+                        <a href="{{ path('app_new_document') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-plus"></div>
+                                Добавить файл (Нормативная документация)
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center">Сотрудники</h2>
+                    <div class="m-3">
+                        <a href="{{ path('app_journalist_employee_list') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-list"></div>
+                                Список список сотрудников
+                            </button>
+                        </a>
+                    </div>
+                    <div class="m-3">
+                        <a href="{{ path('app_journalist_employee_add') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-plus"></div>
+                                Добавить сотрудника
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center">Примеры дизайн-проектов</h2>
+                    <div class="m-3">
+                        <a href="{{ path('app_list_design_project') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-list"></div>
+                                Список примеров дизайн-проектов
+                            </button>
+                        </a>
+                    </div>
+                    <div class="m-3">
+                        <a href="{{ path('app_new_design_project') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-plus"></div>
+                                Добавить пример дизайн проекта
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center">Партнеры</h2>
+                    <div class="m-3">
+                        <a href="{{ path('app_list_partners') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-list"></div>
+                                Список партнеров
+                            </button>
+                        </a>
+                    </div>
+                    <div class="m-3">
+                        <a href="{{ path('app_new_partners') }}" class="d-flex justify-content-center">
+                            <button class="btn btn-primary col-lg-8">
+                                <div class="fa fa-plus"></div>
+                                Добавить партнеров
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

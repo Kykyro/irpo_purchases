@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <title>Статьи</title>
+    <meta name="keywords" content="HTML5 News Magazine Template">
+    <meta name="description" content="Unidark - Ultimate News and Magazine Template">
+    <meta name="author" content="designuptodate.com">
+    <meta name="msapplication-TileImage" content="img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('article/css/import-style.css')}}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/ico/rpop_icon.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap" rel="stylesheet">
+    <style>
+        a:hover{
+            outline: none;
+        }
+        .created-at{
+            font-size: 16pt;
+        }
+    </style>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(91567100, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/91567100" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+</head>
+<body class="home home-1 has-block-heading-line">
+
+<!-- .site-wrapper -->
+<div class="site-wrapper">
+    <!-- Site header -->
+    <header class="site-header">
+        <!-- Mobile header -->
+        <div id="atbs-mobile-header" class="mobile-header visible-xs visible-sm">
+            <div class="mobile-header__inner mobile-header__inner--flex">
+                <div class="mobile-header__section text-right inverse-text">
+                    <button type="submit" class="mobile-header-btn js-search-dropdown-toggle">
+                        <i class="mdicon mdicon-search hidden-xs"></i>
+                        <i class="mdicon mdicon-search visible-xs-inline-block"></i>
+                        <i id="menu-main-menu" class="navigation--main navigation--inline">
+                            <li><a href="{{ path('app_start_landing') }}">На главную</a></li>
+                        </i>
+                    </button>
+                </div>
+            </div>
+        </div><!-- Mobile header -->
+        <!-- Navigation bar -->
+        <nav class="navigation-bar hidden-xs hidden-sm ">
+            <div class="navigation-bar__inner flexbox-wrap flexbox-center-y">
+                <div class="navigation-bar__section navigation-menu-section js-priority-nav">
+                    <ul id="menu-main-menu" class="navigation navigation--main navigation--inline">
+                        <li><a href="{{ path('app_start_landing') }}">На главную</a></li>
+                    </ul>
+                </div>
+                <div class="navigation-bar__section">
+
+                    <button type="submit" class="navigation-bar-search navigation-bar-btn js-search-dropdown-toggle"><i class="mdicon mdicon-search"></i> Найти</button>
+                </div>
+            </div><!-- .navigation-bar__inner -->
+            <div id="header-search-dropdown" class="header-search-dropdown ajax-search is-in-navbar js-ajax-search">
+                <div class="container container--narrow">
+                    {#<form class="search-form search-form--horizontal" method="get" action="#">#}
+                        {{ form_start(form) }}
+                            <div class="search-form__input-wrap">
+                                {{ form_widget(form.searchText, {'attr':{'class': 'search-form__input', 'placeholder':'Введите название статьи'}}) }}
+                            </div>
+                            <div class="search-form__submit-wrap">
+                                {{ form_widget(form.submit, {'attr':{'class': 'search-form__submit btn btn-primary', 'style':'color: #000000'}, 'label':'Найти'}) }}
+                            </div>
+                        {{ form_end(form) }}
+
+                    <div class="search-results">
+                        <div class="typing-loader"></div>
+                        <div class="search-results__inner"></div>
+                    </div>
+                </div>
+            </div><!-- .header-search-dropdown -->
+        </nav><!-- Navigation-bar -->
+    </header><!-- Site header -->
+
+    <div class="site-content">
+        <div class="flex-box">
+            <div class="atbs-block atbs-block--fullwidth atbs-section-module">
+                <div class="atbs-block atbs-block--fullwidth atbs-featured-module-1">
+                    <div class="atbs-block__inner">
+                        <div class="section-main">
+                            <article class="post post--overlay post--overlay-middle post--overlay-large post--overlay-height-680 post--overlay-padding-lg">
+                                <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit post__thumb--shadow post__thumb--overlay--shadow">
+                                    <img src="{{ asset('/img/img_start_landing/6.jpg') }}" alt="Изображение не найдено">
+                                </div>
+                                <div class="post__text inverse-text">
+                                    <div class="post__text-wrap">
+                                        <div class="post__text-inner max-width-640">
+                                            <h3 class="post__title f-40 f-w-700 m-b-15 max-width-640">
+                                                Статьи
+                                            </h3>
+                                            {% if searchText != '' %}
+                                                <h4>
+                                                    По запросу: {{ searchText }}
+                                                </h4>
+                                                <h4>
+                                                    Найдено статей: {{ pagination|length }}
+                                                </h4>
+                                                <a href="{{ path('app_article_page') }}">
+                                                    <button class="btn" style="color: black">
+                                                        Сбросить поиск
+                                                    </button>
+                                                </a>
+                                            {% else %}
+                                                <h4>
+                                                </h4>
+                                            {% endif %}
+
+                                            <div class="post__meta">
+                                                <div class="post-author post-author_style-7">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-box">
+                    <div class="atbs-main-col">
+                        <div class="atbs-block atbs-block--fullwidth atbs-posts-listing--grid-1-has-sidebar">
+                            <div class="block-heading block-heading_style-1 block-heading-no-line">
+                                <h4 class="block-heading__title">
+                                    Все новости
+                                </h4>
+
+                            </div>
+                            <div class="atbs-block__inner">
+                                <div class="posts-list flex-box flex-space-30 flex-box-3i posts-list-tablet-2i">
+                                    {% for i in pagination %}
+                                    <div class="list-item">
+                                        <article class="post post--overlay post--overlay-normal post--overlay-cylinder-small post--overlay-bottom post--overlay-height-420 b-r-5">
+                                            <a href="{{ path('app_article_view', {'id': i.getId()}) }} ">
+                                                <div class="post__thumb post__thumb--overlay atbs-thumb-object-fit post__thumb--shadow post__thumb--overlay--shadow">
+                                                    <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt="Изображение не найдено">
+                                                </div>
+                                                    <div class="post__text inverse-text">
+                                                        <div class="post__text-wrap">
+                                                            <div class="post__text-inner">
+                                                                <h3 class="post__title f-20 f-w-700 m-b-12">
+                                                                    <p>{{ i.title }}</p>
+                                                                </h3>
+                                                                    <div class="post__meta time-style-1 flex-box justify-content-space align-item-center post__meta&#45;&#45;border-top">
+                                                                        {% if i.getCreatedAt() is not null %}
+                                                                            <time class="time published created-at"  >{{ i.getCreatedAt().format('d-m-Y') }}</time>
+                                                                        {% endif %}
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </a>
+                                        </article>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="row">
+                                    <div class="navigation">
+                                        {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                                    </div>
+                                </div>
+                                {#<nav class="atbs-pagination text-center">#}
+                                    {#<a href="#" class="btn btn-default" style="color: #000000">Показать все</a>#}
+                                {#</nav>#}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .site-content -->
+
+        <!-- Sticky header -->
+        <div id="atbs-sticky-header" class="sticky-header js-sticky-header">
+            <!-- Navigation bar -->
+            <nav class="navigation-bar navigation-bar--fullwidth hidden-xs hidden-sm">
+                <div class="navigation-bar__inner">
+                    <div class="navigation-bar__section">
+                        <a href="#atbs-offcanvas-primary" class="offcanvas-menu-toggle navigation-bar-btn js-atbs-offcanvas-toggle">
+                            <i class="mdicon mdicon-menu icon--2x"></i>
+                        </a>
+                        <div class="site-logo header-logo">
+                            <a href="#">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAABWCAMAAAAe5xhwAAAAdVBMVEUAAAD/F0b0FkPwFkLuFkPuFkXrFETtFkT7+/vtFUbtFUb6/PztF0X7+/3tFkXrFkb5+/vrFkX6/PzsF0b6+vzsFkb5+/z6+/zsF0XrF0XrFkX6+/v6+vv5+vvrFkb5+vz6+/zsFkXsFkX6+/z6+/zsF0b6+/yPWdRdAAAAJXRSTlMACxcjLjtAR0dUYmNveH2AiY2YnaWvsby/wMTFz9jc4Onv8PD4bGsWIgAABFJJREFUeNrtmttCozAQhqe21lSWXYyUrNtgUNK8/yPuRQUSmISz1Tr/XekhycecKQCJRCKRSCQSiUQikUgk0hdRqowxRfqjGUhzUcF+LoOTqaR+LIPINOJXcUZRKbleQLAgnK6xAVUvL64GQVgQ1PeA8Hiu9DzwjT5lXUtQpiOtTml0uxCQmIBAuKSPjN0oBCQ7+CAYowW7TQjdOsEPwRjNbxMCJLkxRqXItjDJ24Tg3xYeGhhBWJrCN4Vg8m8Doa5GxSXBc6GUUqpTnCb159LOtkp1kW5RyDqJNs0LY4ySKQMAiJrFfavEQqnYB4ELS2wGhGbLCQAT2pfnRCBF1tuKstLJEW7hFEnrLckAkuY1vkpafmwMXS3WIeBTIXD3VpbxWAgAkGlfihCdLNoDgan67mCrsSKcjKZBSDtenY6HALFtDI0pOFv++PUwhPpGeyBIOwjDQhAkEtvi8RAcKz0FGBgjQhAibYIQuG1VbCkImEo2HoK9vbK6lvdkku4qhQlCiCzUOoY1ITTnGwHBTp5xtwkdBsGYMIQC99pVINSGNgYCb0NkemkIJ+xGLQWhUAqPjWMggG4VTMIsDIEP6FImQvgoDdISWWIUBNUK244hSA4AXM6BYAcEb3U+DUIdX+xQXk6B0Ar7HCs+Ej0dQtGTGGZAaGYAtg8vAEGie3YKPgyCljxCe4dTX2KYDqHAT5FMgJC6pys6v9ZJGQiEIvI0ULw3MUyHYB8lmQchc0/nq+xC9maVKK3VpB42/Z/aQDWaB8F1h9iXzWQIQjqgcc/h20BIPGu0vcb9IuuHEB7bXBuCcj7shRBqoMr+EY6O4CtDcA02wRqyPgiqH8Jp6GTp9RoQUnfWMckSBkAw4f9K7OqznjfOG0/19acVIZTurU982xYzIZh4IIR7+/rmtb7+uB6ErFVvMl+dryZByPXAqHDGg8JDc/1hNQhxp8HT2KjJfb45AoLIBuaHY/e0AHDXGML5bi0IzqCStScqucfCx0Dw/V5bv5rTng/Vxa3F4AjrQIgkEr8zNKRLMxUCKwc97ttaEM7Ph90Gdg+/zxiZJSHEaY5OZCKnyrt4RJSbyRDsUOvG2v3ft7e/++rV8zmo182SEHzi+IRRCSGK3hlj8AmUMOi+/1xO96ebHzAd4BMgnLCCYPCgNfwYTmHd9L463h6JCh0d4RMg2N6aLw0BnS29VOd7qUqCY8AZ7j4BghOxIr0wBGdaVTXo79UB3+rC6J+XwRbWh9AqoFCHKGZAcObNsgXhvakKPLZw3MLqEMo4MGyqGfA5EJxnWhnuDgCwQePCrw2sDaHEOpuk7RGKJXMguDNKjgbGizE8tRH8vvN2vQtB0NLzpy0m2/4yD4JTg11SRCtF1hgOVsXwdLgDWBGCVnnwn8dxPR4sRQSzITg5p4wAAPYv7+8ve7R83N0/Pt7vtvAFFHMhBI+ARCKRSCQSiUQikUgkEolEIpFIX1v/AawbKVb2Hb4oAAAAAElFTkSuQmCC" alt="logo">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="navigation-bar__section">
+                        <a href="#login-modal" class="navigation-bar__login-btn navigation-bar-btn" data-toggle="modal" data-target="#login-modal"><i class="mdicon mdicon-person"></i></a>
+                        <button type="submit" class="navigation-bar-btn js-search-dropdown-toggle"><i class="mdicon mdicon-search"></i></button>
+                    </div>
+                </div> <!-- .navigation-bar__inner -->
+            </nav><!-- Navigation-bar -->
+        </div><!-- Sticky header -->
+        <!-- Off-canvas menu -->
+        <a href="#" class="atbs-go-top btn btn-default hidden-xs js-go-top-el" style="color: #000000"><i class="mdicon mdicon-arrow_upward"></i></a>
+    </div><!-- .site-wrapper -->
+
+    <script type="text/javascript" src="{{ asset('article/js/jquery.js.pagespeed.jm.vSq_cOaZon.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('article/js/sidebar.js.pagespeed.jm.9GUzEJsw5p.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('article/js/owl-carousel.min.js.pagespeed.jm.CUaR_y7pym.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('article/js/scripts.js.pagespeed.jm.Bj-_m2sOpH.js') }}"></script>
+</body>
+</html>

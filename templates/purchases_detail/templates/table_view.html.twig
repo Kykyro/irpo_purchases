@@ -1,0 +1,438 @@
+{% extends "purchases_detail/base.html.twig" %}
+
+{% block content %}
+<style>
+    input[type='number'] {
+        -moz-appearance:textfield;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+    td{
+        border-right: 2px dotted lightgrey;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-10 offset-lg-1">
+        <div class="wrapper wrapper-content">
+            <div class="row d-flex justify-content-center m-3">
+                <div>
+                    <h2>
+                        <nav>{{ title }}</nav>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center m-3">
+                <div class="m-2">
+                    <a href="{{ path("app_purchases_edit", {id: app.request.get("id")}) }}">
+                        <button class=" btn btn-success ">
+                            <div class="fa fa-edit"></div>
+                            Редактировать
+                        </button>
+                    </a>
+                    {#<a href="{{ path('app_purchases_delete', {'id': app.request.get("id")}) }}" class="delete-alert">#}
+                        {#<button class="btn btn-danger">#}
+                            {#<div class="fa fa-trash"></div>#}
+                            {#Удалить#}
+                        {#</button>#}
+                    {#</a>#}
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                        <div class="fa fa-trash"></div>
+                            Удалить
+                    </button>
+                    {% if is_granted('ROLE_INSPECTOR') %}
+                        <a href="{{ path("app_purchases_history", {id: app.request.get("id")}) }}">
+                            <button class="btn-gray-all btn btn-outline-success ">
+                                <div class="fa fa-edit"></div>
+                                История
+                            </button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+
+
+            <div class="row d-flex justify-content-center">
+
+                    <table class="table block-shadow white-bg block-border">
+                        <thead>
+                        <tr>
+                            <th class="col-lg-4 table-title">Закупка</th>
+                            <th class="col-lg-8 table-title"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Наименование / Объект закупки (В соответсвии с извещением о проведении закупки)</td>
+
+
+                            <td>
+                                {{ purchase[0] }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>Способ определения поставщика (подрядчика, исполнителя)</td>
+
+
+                            <td>
+                                {{ purchase[1] }}
+                            </td>
+
+                        </tr>
+                        <tr class="separate-row">
+                            <td colspan="2"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="table-title" colspan="2">
+                                <strong>
+                                    Начальная (максимальная) цена контракта (РУБЛИ)
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>средства федерального бюджета</td>
+                            <td>
+                                {{ purchase[3] }}₽
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>средства субъекта РФ</td>
+
+
+                            <td>
+                                {{ purchase[4] }}₽
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="table-subtitle" colspan="2">
+                                <strong>
+                                    внебюджетные средства
+                                </strong>
+                            </td>
+
+
+
+                        </tr>
+                        <tr>
+                            <td>средства работодателей</td>
+                            <td>
+                                {{ purchase[5] }}₽
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>средства образовательной организации</td>
+
+
+                            <td>
+                                {{ purchase[6] }}₽
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Сумма
+                            </td>
+                            <td>
+                                <p>{{ purchase[3]+purchase[4]+purchase[5]+purchase[6] }}₽</p>
+
+                            </td>
+                        </tr>
+
+                        <tr class="separate-row">
+                            <td colspan="2"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="table-title" colspan="2">
+                                <strong>
+                                    Срок размещения закупки в ЕИС / ЭМ
+                                </strong>
+                            </td>
+
+
+                        </tr>
+                        <tr>
+                            <td>Дата публикации извещения</td>
+
+
+                            <td>
+                                {{ purchase[7] }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>Дата окончания подачи заявок</td>
+
+
+                            <td>
+                                {{ purchase[8] }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>Дата подведения итогов</td>
+
+
+                            <td>
+                                {{ purchase[9] }}
+                            </td>
+
+                        </tr>
+
+                        <tr class="separate-row">
+                            <td colspan="2"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Ссылка на закупку на портале zakupki.gov.ru, прочие площадки</td>
+
+
+                            <td>
+                                {{ purchase[10] }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>Номер закупки</td>
+
+
+                            <td>
+                                {{ purchase[11] }}
+                            </td>
+
+                        </tr>
+
+                        <tr class="separate-row">
+                            <td colspan="2"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="table-title" colspan="2">
+                                <strong>
+                                    Перенос срока размещения закупки в ЕИС / ЭМ
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>дата</td>
+
+
+                            <td>
+                                {{ purchase[12] }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>причина (обоснование)</td>
+                            <td>
+                                {{ purchase[13] }}
+                            </td>
+
+                        </tr>
+                        <tr class="separate-row">
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title" colspan="2">
+                                <strong>
+                                    Дата заключения контракта / договора
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Дата заключения контракта / договора</td>
+
+
+                            <td>
+                                {{ purchase[14] }}
+                            </td>
+
+                        </tr>
+                        <tr class="separate-row">
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title" colspan="2">
+                                <strong>
+                                    Поставщик (подрядчик, исполнитель)
+                                </strong>
+                            </td>
+
+
+                        </tr>
+                        <tr>
+                            <td>Наименование организации-поставщика (подрядчика, исполнителя)</td>
+                            <td>
+                                {{ purchase[15] }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>ИНН</td>
+                            <td>
+                                {{ purchase[16] }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>КПП</td>
+                            <td>
+                                {{ purchase[17] }}
+                            </td>
+
+                        </tr>
+                        <tr class="separate-row">
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title" colspan="2">
+                                <strong>
+                                    Цена контракта / договора (РУБЛИ)
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>средства федерального бюджета</td>
+                            <td>
+                                {{ purchase[19] }}₽
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>средства субъекта РФ</td>
+                            <td>
+                                {{ purchase[20] }}₽
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="table-subtitle" colspan="2">
+                                <strong>
+                                    внебюджетные средства
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>средства работодателей</td>
+                            <td>
+                                {{ purchase[21] }}₽
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>средства образовательной организации</td>
+                            <td>
+                                {{ purchase[22] }}₽
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Сумма
+                            </td>
+                            <td>
+                                <p> {{ purchase[19]+purchase[20]+purchase[21]+purchase[22] }}₽</p>
+
+                            </td>
+                        </tr>
+                        <tr class="separate-row">
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td>Срок поставки (подписание акта), дата</td>
+                            <td>
+                                {{ purchase[23] }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Комментарии / Примечания</td>
+                            <td>
+                                {{ purchase[24] }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>Файл</td>
+                            <td>
+                                {% if file != "" %}
+                                    <a href="{{ path('app_download_purchases_file', {'file': file}) }}">{{ file }}</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr class="separate-row">
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Дата создания:
+                            </td>
+                            <td>
+                                {{ versionInfo['createDate'] }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Дата изменения:
+                            </td>
+                            <td>
+                                {{ versionInfo['changeTime'] }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Версия:
+                            </td>
+                            <td>
+                                {{ versionInfo['version'] }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Удаление закупки</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {{ form_start(form) }}
+                            <div class="modal-body">
+                                <label>
+                                    Причина удаления
+                                </label>
+                                {{ form_widget(form.reason) }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                {{ form_widget(form.submit) }}
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+</script>
+{% endblock %}

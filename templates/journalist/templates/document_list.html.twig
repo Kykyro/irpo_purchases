@@ -1,0 +1,84 @@
+{% extends "journalist/index.html.twig" %}
+
+
+
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+
+            <div class="ibox-content block-shadow ">
+                {{ include('journalist/templates/back_button.html.twig') }}
+                <div class="row" style="margin-left: 15px">
+                    <a href="{{ path('app_new_document') }}">
+                        <button class="btn">
+                            Добавить еще
+                        </button>
+                    </a>
+                </div>
+                <h1>Список документов</h1>
+
+                <div class="row">
+
+                    <table class="table m3">
+                        <thead>
+                        <tr>
+                            <td>
+                                ID
+                            </td>
+                            <td>
+                                Название
+                            </td>
+                            <td>
+                                Файл
+                            </td>
+                            <td>
+                                Действия
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in pagination  %}
+                            <tr>
+                                <td class="align-middle"> {{ i.getId() }} </td>
+
+                                <td class="align-middle col-md-3"><b>{{ i.getName() }}</b></td>
+                                <td class="align-middle col-md-3">{{ i.getFile() }}</td>
+                                <td class="align-middle">
+                                    <div>
+                                        <a href="{{ path('app_edit_document', {'id': i.getId()}) }}">
+                                            <button class="btn">
+                                                <div class="fa fa-edit"></div>
+                                                Редактировать
+                                            </button>
+                                        </a>
+                                        <a href="{{ path('app_delete_document', {'id': i.getId()}) }}" class="delete-alert">
+                                            <button class="btn">
+                                                <div class="fa fa-trash"></div>
+                                                Удалить
+                                            </button>
+                                        </a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#    <div class="m-5">#}
+
+{#    </div>#}
+{% endblock %}

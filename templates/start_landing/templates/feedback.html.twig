@@ -1,0 +1,70 @@
+<section data-id="feedback" class="ed-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h2 id="text_size_header" class="text-center text-white text_adaptive_size_header design_margin">Обратная связь</h2>
+                <div class="divider divider-alt divider-center divider-light"></div>
+                <p id="text_size_subtitle_1" class="lead text-center text-white mb-50 text_adaptive_size_subtitle design_margin">по вопросам инфраструктуры и дазайн-проекты вы можете обратиться <a href="#home" style="color: #FFFFFF"><u>по телефону горячей линии</u></a> или заполнить форму на сайте.</p>
+            </div>
+        </div>
+    </div>
+    <div class="container feedback_size">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="contact-form">
+                    {{ form_start(feedbackForm) }}
+
+                    <div class="row">
+
+                        <div class="form-process design_margin"></div>
+
+                        <div class="col-md-6 col-sm-6 ">
+                            <div class="form-group design_margin">
+                                {{  form_widget(feedbackForm.FIO, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Введите своё ФИО'}}) }}
+                                {#<input type="text" id="cf-name" name="cf-name" placeholder="Введите своё ФИО" class="form-control fc-bordered light required">#}
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group design_margin">
+                                {{  form_widget(feedbackForm.email, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Введите свою электронную почту'}}) }}
+                                {#<input type="email" id="cf-email" name="cf-email" placeholder="Введите свою электронную почту" class="form-control fc-bordered light required">#}
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="form-group design_margin">
+                                {{  form_widget(feedbackForm.topic, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Тема письма'}}) }}
+                                {#<input type="text" id="cf-subject" name="cf-subject" placeholder="Тема письма (Необязательно)" class="form-control fc-bordered light">#}
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-20">
+                            <div class="form-group design_margin">
+                                {{  form_widget(feedbackForm.message, {'attr': {'class': 'form-control fc-bordered light required', 'rows': '7', 'placeholder':'Наименование организации, номер телефона и текст сообщения'}}) }}
+                                {#<textarea name="cf-message" id="cf-message" placeholder="Текст сообщения" class="form-control fc-bordered light required" rows="7"></textarea>#}
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-20 ">
+                            <label class="lead text-center text-white mb-50 design_margin">
+                                {#<input type="checkbox" class="custom-checkbox" id="isHappy" name="isHappy" value="">#}
+                                <label for="happy" id="text_size_subtitle_1" class="text_adaptive_size_subtitle ">&nbsp Отправляя форму вы соглашаетесь на &nbsp <a href="https://firpo.ru/privacy-policy/" style="color: #ffffff" target="_blank"> <u> обработку персональных данных</u></a></label>
+                            </label>
+                        </div>
+                        <div class="col-md-12 hidden">
+                            <input type="text" id="cf-botcheck" name="cf-botcheck" value class="form-control form-control-noradius">
+                        </div>
+                        <div class="col-md-12 text-center">
+                            {{  form_widget(feedbackForm.submit, {'attr': {'class': 'btn btn-white btn-noradius'}, label:'Отправить сообщения'}) }}
+                            {#<button class="btn btn-white btn-noradius" type="submit" id="cf-submit" name="cf-submit">Отправить сообщения</button>#}
+                        </div>
+                    </div>
+
+                    {{ form_end(feedbackForm) }}
+                    <div id="form-success" >
+                        <div>
+                            Ваша заявка успешно отправлена!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

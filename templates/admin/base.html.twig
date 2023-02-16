@@ -1,0 +1,29 @@
+{{ include('/default/header.html.twig') }}
+
+
+<div class="row animated fadeInRight">
+    <div class="col-sm-10 offset-sm-1">
+        <div class="wrapper wrapper-content " >
+            <div>
+                <div class="ibox-content block-shadow" style="margin-bottom: 15px">
+                    <h2 style="text-align: center; margin-top: 2rem; margin-bottom: 2rem; font-size: 2rem " >Admin panel</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content">
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+{#{{ include('/admin/templates/users.html.twig') }}#}
+
+{{ include('/default/footer.html.twig') }}
+
+{% block scripts %}
+
+{% endblock %}

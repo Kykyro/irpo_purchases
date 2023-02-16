@@ -1,0 +1,113 @@
+{% extends "admin/base.html.twig" %}
+
+{% block content %}
+
+<div class="row animated fadeInRight">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <div class="ibox ">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h1>Доступ к закупкам</h1>
+                        </div>
+                        <div class="ibox-content">
+                            <h2>
+                                Действия
+                            </h2>
+                            <div>
+                                <a href="{{ path('app_admin_cluster_access_change_all', {'access' : 1}) }}">
+                                    <button class="btn btn-success">
+                                        Открыть доступ всем
+                                    </button>
+                                </a>
+                                <a href="{{ path('app_admin_cluster_access_change_all', {'access' : 0}) }}">
+                                    <button class="btn btn-danger">
+                                        Закрыть доступ всем
+                                    </button>
+                                </a>
+
+                            </div>
+
+                            <hr>
+                            <h2>
+                                Список кластеров
+                            </h2>
+                            <table class="table table-striped col-lg-12">
+                                <thead>
+                                    <tr>
+                                        <td>
+                                            id
+                                        </td>
+                                        <td>
+                                            UUID
+                                        </td>
+                                        <td>
+                                            Состояние доступа
+                                        </td>
+                                        <td>
+                                            Действия
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in clusters %}
+                                    <tr>
+                                        <td>
+                                            {{ i.getId() }}
+                                        </td>
+                                        <td>
+                                            {{ i.getUuid() }}
+                                        </td>
+                                        {% if not i.getUserInfo().isAccessToPurchases() %}
+                                        <td>
+
+                                            <i class="fa fa-close text-danger">
+                                                Доступ закрыт
+                                            </i>
+                                        </td>
+                                        <td>
+
+                                            <a href="{{ path('app_admin_cluster_access_change', {'id' : i.getUserInfo().getId()}) }}">
+                                                <button class="btn btn-success">
+                                                    Открыть доступ
+                                                </button>
+                                            </a>
+                                        </td>
+                                        {% else %}
+                                        <td>
+                                            <i class="fa fa-check text-navy">
+                                                 Доступ открыт
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('app_admin_cluster_access_change', {'id' : i.getUserInfo().getId()}) }}">
+                                                <button class="btn btn-danger">
+                                                    Закрыть доступ
+                                                </button>
+                                            </a>
+                                        </td>
+                                        {% endif %}
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% block scripts %}
+
+
+
+
+
+{% endblock %}

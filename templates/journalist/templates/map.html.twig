@@ -1,0 +1,67 @@
+{% extends "journalist/index.html.twig" %}
+
+{% block content %}
+    {% if map is defined %}
+    <div class="row">
+            <ul class="row col-lg-12">
+                    <div class="col-sm-8 offset-sm-2">
+                        <div class="wrapper wrapper-content ">
+                            <div class="ibox-content block-shadow">
+                                {{ include('journalist/templates/back_button.html.twig') }}
+                            {% for i in map %}
+                                <div class="m-2">
+                                    <a href="{{ path('app_map_edit', {'id': i.getId}) }}" class="d-flex justify-content-center">
+                                        <button class="btn btn-primary col-lg-8">
+                                            {{ i.getName() }}
+                                        </button>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+            </ul>
+    </div>
+    {% endif %}
+    {% if form is defined %}
+    <div class="row">
+        <div class="col-sm-8 offset-sm-2 ">
+            <div class="wrapper wrapper-content ">
+                <div class="ibox-content block-shadow ">
+
+                    <div class="row">
+                        <a href="{{ path('app_map_edit') }}">
+                            <button class="btn btn-primary m-3">
+                                Назад
+                            </button>
+                        </a>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {{ form_start(form) }}
+                                <label> Название региона </label>
+                                {{ form_widget(form.name) }}
+                                <label> Номер региона </label>
+                                {{ form_widget(form.ident) }}
+                                <label> Организации </label><br>
+                                <label> <b>Правило заполнения:</b><br> ГОД: ОРГАНИЗАЦИЯ (каждый год на новой строке) </label>
+
+                                <textarea class="form-control" id="map-editor"></textarea>
+                                {{ form_widget(form.organization) }}
+
+                                {{ form_widget(form.submit) }}
+
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+   <script src="{{ asset('js/scripts/map_editor.js') }}"></script>
+{% endblock %}
