@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProcurementProceduresRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotations\Log;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -298,10 +300,16 @@ class ProcurementProcedures
      */
     private $hasAdditionalAgreement;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PurchaseNote::class, mappedBy="purchase")
+     */
+    private $purchaseNotes;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
         $this->setVersion(1);
+        $this->purchaseNotes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1104,6 +1112,36 @@ class ProcurementProcedures
     public function setHasAdditionalAgreement(?bool $hasAdditionalAgreement): self
     {
         $this->hasAdditionalAgreement = $hasAdditionalAgreement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseNote>
+     */
+    public function getPurchaseNotes(): Collection
+    {
+        return $this->purchaseNotes;
+    }
+
+    public function addPurchaseNote(PurchaseNote $purchaseNote): self
+    {
+        if (!$this->purchaseNotes->contains($purchaseNote)) {
+            $this->purchaseNotes[] = $purchaseNote;
+            $purchaseNote->setPurchase($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseNote(PurchaseNote $purchaseNote): self
+    {
+        if ($this->purchaseNotes->removeElement($purchaseNote)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseNote->getPurchase() === $this) {
+                $purchaseNote->setPurchase(null);
+            }
+        }
 
         return $this;
     }

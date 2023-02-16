@@ -54,7 +54,63 @@
         </div>
     </div>
 
+    {% set notes = purchase.getPurchaseNotes() %}
+    {% if notes|length > 0 %}
+        <div class="row">
+            <div class="offset-lg-3 col-lg-6">
+                <div class="ibox collapsed border-bottom">
+                    <a class="collapse-link">
+                        <div class="ibox-title">
+                            <h5>
+                                Замечания
+                            </h5>
+                            <div class="ibox-tools">
+                                <i class="fa fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="ibox-content" style="display: block;">
+                        <table class="table table-bordered">
+                            <thed>
+                                <tr>
+                                    <td class="col-md-1">
+                                        №
+                                    </td>
+                                    <td>
+                                        Сообщение
+                                    </td>
 
+                                    <td class="col-md-2">
+                                        Дата создания
+                                    </td>
+                                </tr>
+
+                            </thed>
+                            <tbody>
+                            {% for i in notes %}
+                                <tr>
+                                    <td>
+                                        {{ loop.index }}
+                                    </td>
+                                    <td>
+                                        {{ i.getNote() }}
+                                    </td>
+                                    <td>
+                                        {% if i.getCreadtedAt() %}
+                                            {{ i.getCreadtedAt().format('d.m.Y') }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     <div class="row">
         <div class="col-lg-12 mb-2">
@@ -472,7 +528,9 @@
                                 Статус договора
                             </td>
                             <td>
-                                {{ purchase.getConractStatus().getStatus() }}
+                                {% if purchase.getConractStatus() %}
+                                    {{ purchase.getConractStatus().getStatus() }}
+                                {% endif %}
                             </td>
                         </tr>
                         <tr>

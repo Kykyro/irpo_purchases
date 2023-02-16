@@ -79,6 +79,20 @@
                     }
                 })
             });
+            fetch('/api/purchase-notes').then(function(response) {
+                response.json().then(function(data) {
+
+                    console.log(data);
+                    if(data === '0'){
+
+                    }
+                    else{
+                        toastr.info('Есть новые замечания к закупкам');
+
+
+                    }
+                })
+            });
         })
     </script>
 {% endif %}

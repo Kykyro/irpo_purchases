@@ -184,6 +184,7 @@
                             <div class="form-group">
                                 <label>Договор/проект договора</label>
                                 {{ form_widget(form.file) }}
+                                {% if edit %}
                                 {% if file|length > 0 %}
                                     <label>
                                         Прикрепленные файлы
@@ -199,7 +200,7 @@
                                             </li>
                                         {% endfor %}
                                     </ul>
-                                {% else %}
+                                {% elseif pp.getFileDir() %}
                                     <label>
                                         Прикрепленный файл
                                     </label>
@@ -208,6 +209,7 @@
                                             Договор/проект договора
                                         </i>
                                     </a>
+                                {% endif %}
                                 {% endif %}
                             </div>
                             <div id="contact-info-block">
@@ -275,7 +277,7 @@
                                 <div class="form-group" id="additional-agreement-row">
                                     <label>Дополнительное соглашение</label>
                                     {{ form_widget(form.AdditionalAgreement_file) }}
-
+                                    {% if edit %}
                                     {% if additionalAgreement|length > 0 %}
                                         <label>
                                             Прикрепленные файлы
@@ -291,7 +293,7 @@
                                                 </li>
                                             {% endfor %}
                                         </ul>
-                                    {% else %}
+                                    {% elseif pp.getAdditionalAgreement() %}
                                         <label>
                                             Прикрепленный файл
                                         </label>
@@ -300,6 +302,7 @@
                                                 Дополнительное соглащение
                                             </i>
                                         </a>
+                                    {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -332,6 +335,7 @@
                         <div class="form-group">
                             <label>Закрывающий документ</label>
                             {{ form_widget(form.closingDocument_file) }}
+                            {% if edit %}
                             {% if closingDocument|length > 0 %}
                                 <label>
                                     Прикрепленные файлы
@@ -347,7 +351,7 @@
                                         </li>
                                     {% endfor %}
                                 </ul>
-                            {% else %}
+                            {% elseif pp.getClosingDocument() %}
                                 <label>
                                     Прикрепленный файл
                                 </label>
@@ -357,15 +361,18 @@
                                     </i>
                                 </a>
                             {% endif %}
+                            {% endif %}
                         </div>
                         <div class="form-group">
                             <label>Платежное поручение</label>
                             {{ form_widget(form.paymentOrder_file) }}
+                            {% if edit %}
                             {% if additionalAgreement|length > 0 %}
                                 <label>
                                     Прикрепленные файлы
                                 </label>
                                 <ul>
+                                    {% if edit %}
                                     {% for i in  additionalAgreement %}
                                         <li>
                                             <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'payment_orders_directory'}) }}">
@@ -375,8 +382,9 @@
                                             </a>
                                         </li>
                                     {% endfor %}
+                                    {% endif %}
                                 </ul>
-                            {% else %}
+                            {% elseif pp.getPaymentOrder() %}
                                 <label>
                                     Прикрепленный файл
                                 </label>
@@ -385,6 +393,7 @@
                                         Платежное поручение
                                     </i>
                                 </a>
+                            {% endif %}
                             {% endif %}
                         </div>
                         <hr>

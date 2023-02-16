@@ -40,7 +40,143 @@
         {% endif %}
     </div>
 </div>
+{% if purchases_with_note|length > 0 %}
+    <div class="row animated fadeInRight">
+        <div class="col-lg-10 offset-lg-1 " >
+            <div class="wrapper wrapper-content " >
 
+                <div class="table-responsive horizontal-drag">
+                    <h2 style="font-weight: bold; margin-bottom: 2rem">
+                        Закупки с новыми замечаниями
+                    </h2>
+                    <style>
+                        table{
+
+                        }
+                        table tr td{
+                            border: 1px #808486 solid;
+                        }
+                    </style>
+                    <table class="table  ">
+                        <thead>
+                        <tr>
+                            <th>№</th>
+
+                            <th>Предмет закупки</th>
+                            <th>Способ определения поставщика</th>
+                            <th>НМЦК</th>
+                            <th>Дата публикации извещения</th>
+                            <th>Дата окончания подачи заявок</th>
+                            <th>Дата подведения итогов</th>
+                            <th>Дата заключения договоров</th>
+                            <th>Стоимость договора</th>
+                            <th>Источник финансирования</th>
+
+                            <th>Замечания</th>
+
+
+                            <th>Действия</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for i in purchases_with_note %}
+                            {% set purchase = i.getPurchase() %}
+                            <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
+                                <td>
+                                    {{ loop.index }}
+                                </td>
+                                {# Предмет закупки #}
+                                <td>{{ purchase.getPurchaseObject() }} </td>
+                                {# Способ определения поставщика #}
+                                <td>{{ purchase.getMethodOfDetermining() }}</td>
+                                {# НМЦК #}
+                                <td> {{ purchase.getNMCK() }}₽</td>
+
+                                {# даты #}
+                                {# Дата публикации извещения #}
+                                {% if purchase.getPublicationDate is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ purchase.getPublicationDate().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {#Дата окончания подачи заявок#}
+                                {% if purchase.getDeadlineDate is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ purchase.getDeadlineDate().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата подведения итогов #}
+                                {% if purchase.getDateOfSummingUp is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ purchase.getDateOfSummingUp().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата заключения договоров #}
+                                {% if purchase.getDateOfConclusion is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ purchase.getDateOfConclusion().format("d.m.y") }}</td>
+                                {% endif %}
+
+
+
+                                {# Стоимость договора #}
+                                {% if purchase.getMethodOfDetermining() == "Единственный поставщик" %}
+                                    <td>{{ purchase.getNMCK() }}₽</td>
+                                {% else %}
+                                    <td>{{ purchase.getContractCost() }}₽</td>
+                                {% endif %}
+                                {# Источник финансирования #}
+                                <td>{{ purchase.getSourceOfFunding() }}</td>
+                                {# Замечания #}
+                                <td>
+                                    {% set notes = purchase.getPurchaseNotes()|length %}
+                                    {% if notes > 0 %}
+                                        <a href="#">
+                                             <span class="badge badge-warning notes-count">
+                                                {{ notes }} замечаний
+                                            </span>
+                                        </a>
+
+                                    {% else %}
+                                        <span class="badge badge-success">
+                                            Нет замечаний
+                                        </span>
+                                    {% endif %}
+
+                                </td>
+                                {# Действия #}
+                                <td>
+                                    <a href="{{ path('app_purchases_detail', {'id': purchase.getId()}) }}">
+                                        <button class="btn btn-info col-lg-12" >
+                                            <div class="fa fa-info"></div>
+                                            Просмотр
+                                        </button>
+                                    </a>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endif %}
 
 <div class="row animated fadeInRight">
     <div class="col-lg-10 offset-lg-1 " >
@@ -72,6 +208,8 @@
                         <th>Дата заключения договоров</th>
                         <th>Стоимость договора</th>
                         <th>Источник финансирования</th>
+
+                        <th>Замечания</th>
 
 
                         <th>Действия</th>
@@ -131,7 +269,23 @@
                             {% endif %}
                             {# Источник финансирования #}
                             <td>{{ i.getSourceOfFunding() }}</td>
+                            {# Замечания #}
+                            <td>
+                                {% set notes = i.getPurchaseNotes()|length %}
+                                {% if notes > 0 %}
+                                    <a href="#">
+                                         <span class="badge badge-warning notes-count">
+                                            {{ notes }} замечаний
+                                        </span>
+                                    </a>
 
+                                {% else %}
+                                    <span class="badge badge-success">
+                                        Нет замечаний
+                                    </span>
+                                {% endif %}
+
+                            </td>
                             {# Действия #}
                             <td>
                                 <a href="{{ path('app_purchases_detail', {'id': i.getId()}) }}">
@@ -195,5 +349,17 @@
         const walk = (x - startX) * 3;
         slider.scrollLeft = scrollLeft - walk;
     });
+
+
+    // $(document).ready(function(){
+    //     let notesCount = $('.notes-count');
+    //
+    //     notesCount.each((i) =>
+    //         {
+    //             console.log(notesCount[i])
+    //
+    //         }
+    //     )
+    // });
 </script>
 

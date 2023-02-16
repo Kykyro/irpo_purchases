@@ -3,6 +3,7 @@
 namespace App\Controller\Inspector;
 
 use App\Entity\Log;
+use App\Entity\PurchaseNote;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
@@ -14,6 +15,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -157,7 +160,7 @@ class InspectorPurchasesController extends AbstractController
 //dd($file_dir);
 
         return $this->render('inspector/templates/viewPu.html.twig', [
-            'controller_name' => 'RegionController',
+            'controller_name' => 'InspectorPurchasesController',
             'title' => $title,
             'purchase' => $purchase,
             'file' => $file_dir,
@@ -184,12 +187,61 @@ class InspectorPurchasesController extends AbstractController
     {
         return $xlsxService->generateAllPurchasesProcedureTable($year);
     }
-    /**
-     * @Route("/get/ready-map-xlsx/{year}", name="download_ready_map_xlsx")
-     */
+//    /**
+//     * @Route("/get/ready-map-xlsx/{year}", name="download_purchases_xlsx")
+//     */
     public function downloadReadyMaps(XlsxService $xlsxService, int $year): Response
     {
 //        return $xlsxService->generateAllPurchasesProcedureTable($year);
     }
+    /**
+     * @Route("/add-note/{id}", name="app_inspector_add_note_to_purchase")
+     */
+    public function addNoteToPurchase(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $purchase = $entity_manager
+            ->getRepository(ProcurementProcedures::class)
+            ->find($id);
+        $note = new PurchaseNote();
 
+        $form = $this->createFormBuilder($note)
+            ->add('note', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn'
+                ],
+                'label' => 'Отправить'
+            ])
+            ->getForm();
+
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $note->setCurator($this->getUser());
+            $note->setIsRead(false);
+            $note->setPurchase($purchase);
+            $note->setCreadtedAt(new \DateTimeImmutable(('now')));
+
+            $entity_manager->persist($note);
+            $entity_manager->flush();
+            return $this->redirectToRoute('app_inspector_view_purchase', ['id' => $id]);
+        }
+
+
+
+
+        return $this->render('inspector/templates/addNote.html.twig', [
+            'controller_name' => 'InspectorPurchasesController',
+            'form' => $form->createView(),
+
+
+        ]);
+
+    }
 }

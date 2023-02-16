@@ -175,6 +175,17 @@ class RegionPurchasesController extends AbstractController
 
         $current_user = $this->getUser()->getUserIdentifier();
 
+        $notes = $purchase->getPurchaseNotes();
+
+        foreach ($notes as $note)
+        {
+            if(!$note->isIsRead())
+            {
+                $note->setIsRead(true);
+                $entity_manager->persist($note);
+            }
+        }
+        $entity_manager->flush();
         // получаем файлы
         $file_dir = $entity_manager->getRepository(Log::class)
             ->createQueryBuilder('l')
@@ -251,6 +262,7 @@ class RegionPurchasesController extends AbstractController
             'paymentOrder' => $paymentOrder,
             'closingDocument' => $closingDocument,
             'additionalAgreement' => $additionalAgreement,
+            'notes' => $notes,
 
         ]);
     }

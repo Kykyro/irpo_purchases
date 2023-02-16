@@ -47,6 +47,7 @@
                             <th>Дата заключения договоров</th>
                             <th>Стоимость договора</th>
                             <th>Источник финансирования</th>
+                            <th>Замечания</th>
 
 
                             <th>Действия</th>
@@ -102,7 +103,23 @@
                                 <td>{{ i.getContractCost() }}₽</td>
                                 {# Источник финансирования #}
                                 <td>{{ i.getSourceOfFunding() }}</td>
+                                {# Замечания #}
+                                <td>
+                                    {% set notes = i.getPurchaseNotes()|length %}
+                                    {% if notes > 0 %}
+                                        <a href="#">
+                                         <span class="badge badge-warning notes-count">
+                                            {{ notes }} замечаний
+                                        </span>
+                                        </a>
 
+                                    {% else %}
+                                        <span class="badge badge-success">
+                                        Нет замечаний
+                                    </span>
+                                    {% endif %}
+
+                                </td>
                                 {# Действия #}
                                 <td>
                                     <a href="{{ path('app_inspector_view_purchase', { 'id' : i.getId()}) }}">

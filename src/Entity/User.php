@@ -61,6 +61,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $purchasesDumps;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PurchaseNote::class, mappedBy="curator")
+     */
+    private $purchaseNotes;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -83,6 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->setUserInfo(new UserInfo());
         $this->clustersId = new ArrayCollection();
         $this->purchasesDumps = new ArrayCollection();
+        $this->purchaseNotes = new ArrayCollection();
     }
 
 
@@ -238,6 +244,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($purchasesDump->getUser() === $this) {
                 $purchasesDump->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseNote>
+     */
+    public function getPurchaseNotes(): Collection
+    {
+        return $this->purchaseNotes;
+    }
+
+    public function addPurchaseNote(PurchaseNote $purchaseNote): self
+    {
+        if (!$this->purchaseNotes->contains($purchaseNote)) {
+            $this->purchaseNotes[] = $purchaseNote;
+            $purchaseNote->setCurator($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseNote(PurchaseNote $purchaseNote): self
+    {
+        if ($this->purchaseNotes->removeElement($purchaseNote)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseNote->getCurator() === $this) {
+                $purchaseNote->setCurator(null);
             }
         }
 

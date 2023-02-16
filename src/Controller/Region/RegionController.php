@@ -4,6 +4,7 @@ namespace App\Controller\Region;
 
 use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
+use App\Entity\PurchaseNote;
 use App\Entity\RfSubject;
 use App\Form\ChoiceInputType;
 use App\Form\purchasesFormType;
@@ -256,6 +257,15 @@ class RegionController extends AbstractController
         $user = $this->getUser();
         $user_id = $user->getId();
 
+        $purchasesWithNote = $em->getRepository(PurchaseNote::class)
+            ->createQueryBuilder('n')
+            ->leftJoin('n.purchase', 'p')
+            ->andWhere('p.user = :user')
+            ->andWhere('n.isRead = :isRead')
+            ->setParameter('user', $user)
+            ->setParameter('isRead', false)
+            ->getQuery()
+            ->getResult();
 
         $query = $em->getRepository(ProcurementProcedures::class)
             ->createQueryBuilder('a')
@@ -273,7 +283,8 @@ class RegionController extends AbstractController
 
         return $this->render('region/base.html.twig', [
             'controller_name' => 'RegionController',
-            'procurement_procedures' => $pagination
+            'procurement_procedures' => $pagination,
+            'purchases_with_note' => $purchasesWithNote,
         ]);
     }
 //@Route("/purchases-edit/{id}", name="app_purchases_edit", methods="GET|POST")
