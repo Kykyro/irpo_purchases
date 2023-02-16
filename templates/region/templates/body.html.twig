@@ -135,11 +135,16 @@
                                 <td>{{ purchase.getSourceOfFunding() }}</td>
                                 {# Замечания #}
                                 <td>
-                                    {% set notes = purchase.getPurchaseNotes()|length %}
-                                    {% if notes > 0 %}
+                                    {% set count = 0 %}
+                                    {% for n in purchase.getPurchaseNotes() %}
+                                        {% if not n.isIsRead() %}
+                                            {% set count = count+1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if count > 0 %}
                                         <a href="#">
                                              <span class="badge badge-warning notes-count">
-                                                {{ notes }} замечаний
+                                                {{ count }} замечаний
                                             </span>
                                         </a>
 
@@ -271,11 +276,16 @@
                             <td>{{ i.getSourceOfFunding() }}</td>
                             {# Замечания #}
                             <td>
-                                {% set notes = i.getPurchaseNotes()|length %}
-                                {% if notes > 0 %}
+                                {% set count = 0 %}
+                                {% for n in i.getPurchaseNotes() %}
+                                    {% if not n.isIsRead() %}
+                                        {% set count = count+1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if count > 0 %}
                                     <a href="#">
                                          <span class="badge badge-warning notes-count">
-                                            {{ notes }} замечаний
+                                            {{ count }} замечаний
                                         </span>
                                     </a>
 

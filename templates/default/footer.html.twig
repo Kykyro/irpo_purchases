@@ -81,14 +81,15 @@
             });
             fetch('/api/purchase-notes').then(function(response) {
                 response.json().then(function(data) {
+                    let purchaseNote = $('#purchase-notes-count');
 
-                    console.log(data);
                     if(data === '0'){
-
+                        purchaseNote.hide();
                     }
                     else{
                         toastr.info('Есть новые замечания к закупкам');
-
+                        console.log(data);
+                        purchaseNote.html(data.toString());
 
                     }
                 })

@@ -1,0 +1,106 @@
+{% extends "default/base.html.twig" %}
+
+
+{% block content %}
+    <div class="row mt-5">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="ibox border-bottom">
+
+                <div class="ibox-title">
+                    <h2>
+                        История замечаний
+                    </h2>
+                    <div class="ibox-tools">
+
+                    </div>
+                </div>
+
+                <div class="ibox-content" style="display: block;">
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <td class="col-md-1">
+                                №
+                            </td>
+                            <td class="col-md-6">
+                                Замечание
+                            </td>
+
+                            <td class="col-md-2">
+                                Объект закупки
+                            </td>
+                            <td class="col-md-1">
+                                Дата
+                            </td>
+                            <td class="col-md-1">
+                                Статус
+                            </td>
+                            <td class="col-md-1">
+                                Закупка
+                            </td>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in notes %}
+                            <tr>
+                                <td>
+                                    {{ loop.index }}
+                                </td>
+                                <td>
+                                    {{ i.getNote() }}
+                                </td>
+
+                                <td>
+                                    {{ i.getPurchase.getPurchaseObject() }}
+                                </td>
+                                <td>
+                                    {% if i.getCreadtedAt() %}
+                                        {{ i.getCreadtedAt().format('d.m.Y') }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if i.isIsRead() %}
+                                        <span class="badge badge-primary">
+                                            <i class="fa fa-check">
+                                                Просмотрено
+                                            </i>
+
+                                        </span>
+                                    {% else %}
+                                        <span class="badge badge-warning">
+                                            <i class="fa fa-close">
+                                                Не просмотрено
+                                            </i>
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_purchases_detail', {'id': i.getPurchase.getId()}) }}">
+                                        <button class="btn btn-success">
+                                            <i class="fa fa-search">
+                                                Просмотр закупки
+                                            </i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+
+{% endblock %}
