@@ -945,18 +945,18 @@ class ProcurementProcedures
         $source = "";
 
         if($this->initialFederalFunds > 0){
-            $source = $source."ФБ/ ";
+            $source = $source."ФБ / ";
         }
         if($this->initialFundsOfSubject > 0){
-            $source = $source."РБ/ ";
+            $source = $source."РБ / ";
         }
         if($this->initialEmployersFunds > 0){
-            $source = $source."РД/ ";
+            $source = $source."РД / ";
         }
         if($this->initialEducationalOrgFunds > 0){
-            $source = $source."ОО/ ";
+            $source = $source."ОО / ";
         }
-
+        $source = trim($source);
         return $source;
     }
 
