@@ -9,6 +9,8 @@ use App\Entity\RfSubject;
 use App\Form\ChoiceInputType;
 use App\Form\purchasesFormType;
 use App\Services\FileService;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +41,7 @@ class PurchaseNotesController extends AbstractController
      * @return Response
      * @Route("/purchase-notes", name="app_region_purchase_notes")
      */
-    public function purchasesView(Request $request) : Response
+    public function purchasesView(Request $request,  EntityManagerInterface $em, PaginatorInterface $paginator) : Response
     {
 
         $entity_manager = $this->getDoctrine()->getManager();
@@ -49,17 +51,21 @@ class PurchaseNotesController extends AbstractController
             ->createQueryBuilder('n')
             ->leftJoin('n.purchase', 'p')
             ->andWhere('p.user = :user')
-
             ->setParameter('user', $user)
             ->orderBy('n.isRead', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ;
 
+        $query = $notes->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
 
         return $this->render('region/templates/purchaseNotes.html.twig', [
             'controller_name' => 'RegionController',
-            'notes' => $notes
-
+            'notes' => $pagination
         ]);
     }
 
