@@ -957,6 +957,7 @@ class ProcurementProcedures
             $source = $source."ОО / ";
         }
         $source = trim($source);
+        $source = substr($source,0,-1);
         return $source;
     }
 
