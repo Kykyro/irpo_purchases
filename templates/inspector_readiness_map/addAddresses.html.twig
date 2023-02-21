@@ -1,0 +1,37 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+    <h1>
+        Карта готовности (Куратор)
+    </h1>
+
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1 договоmb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Добавить адресс
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+                {{ form_start(form) }}
+                <div class="ibox-content" style="display: block;">
+                    {{ form_row(form.addresses) }}
+                </div>
+                <div class="ibox-footer">
+                    {{ form_row(form.submit) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+{% endblock %}

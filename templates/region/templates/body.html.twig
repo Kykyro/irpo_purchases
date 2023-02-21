@@ -226,7 +226,7 @@
                     {% for i in procurement_procedures %}
                         <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
                             <td>
-                                {{ loop.index }}
+                                {{ procurement_procedures.getPaginationData.firstItemNumber + loop.index - 1 }}
                             </td>
                             {# Предмет закупки #}
                             <td style="vertical-align: inherit">{{ i.getPurchaseObject() }} </td>

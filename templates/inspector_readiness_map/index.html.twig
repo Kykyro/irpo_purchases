@@ -4,8 +4,126 @@
     <h1>
         Карта готовности (Куратор)
     </h1>
+
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Адреса
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" style="display: block;">
+                    {% set addresses = user.getClusterAddresses() %}
+
+                    {% if addresses|length > 0 %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td class="col-md-1">
+                                №
+                            </td>
+                            <td class="col-md-2">
+                                Адрес
+                            </td>
+                            <td>
+                                Зоны
+                            </td>
+                            <td class="col-md-3">
+                                Действия
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in addresses %}
+                            <tr>
+                                <td>
+                                    {{ loop.index }}
+                                </td>
+                                <td>
+                                    {{ i.getAddresses() }}
+                                </td>
+                                <td>
+                                    {% set zones = i.getClusterZones() %}
+                                    {% if zones|length > 0 %}
+                                    <ol>
+                                        {% for j in zones %}
+                                            <a href="{{ path('app_inspector_view_zone', {'id' : j.getId()}) }}">
+                                                <li>{{ j.getName() }}</li>
+                                            </a>
+                                        {% endfor %}
+                                    </ol>
+                                    {% else %}
+                                        <span class="badge badge-warning">
+                                            Нет зон
+                                        </span>
+
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        <button class="btn btn-success">
+                                            <i class="fa fa-search">
+                                                Просмотр
+                                            </i>
+                                        </button>
+                                    </a>
+                                    <a href="{{ path('app_inspector_add_zone', {'id': i.getId()}) }}">
+                                        <button class="btn btn-primary">
+                                            <i class="fa fa-plus">
+                                                Добавить зону
+                                            </i>
+                                        </button>
+                                    </a>
+                                    <a href="#">
+                                        <button class="btn btn-danger">
+                                            <i class="fa fa-trash">
+                                                Удалить
+                                            </i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <div class="col-lg-4">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <i class="fa fa-warning"></i> У кластера нет адресов
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        Добавте адресса кластеру!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                </div>
+                <div class="ibox-footer">
+                    <a href="{{ path('app_inspector_add_addresses', {'id': user.getId()}) }}">
+                        <button class="btn btn-primary">
+                            <i class="fa fa-plus">
+                                Добавить Адрес
+                            </i>
+                        </button>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
-
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
 {% endblock %}

@@ -66,6 +66,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $purchaseNotes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ClusterAddresses::class, mappedBy="user")
+     */
+    private $clusterAddresses;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->clustersId = new ArrayCollection();
         $this->purchasesDumps = new ArrayCollection();
         $this->purchaseNotes = new ArrayCollection();
+        $this->clusterAddresses = new ArrayCollection();
     }
 
 
@@ -274,6 +280,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($purchaseNote->getCurator() === $this) {
                 $purchaseNote->setCurator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ClusterAddresses>
+     */
+    public function getClusterAddresses(): Collection
+    {
+        return $this->clusterAddresses;
+    }
+
+    public function addClusterAddress(ClusterAddresses $clusterAddress): self
+    {
+        if (!$this->clusterAddresses->contains($clusterAddress)) {
+            $this->clusterAddresses[] = $clusterAddress;
+            $clusterAddress->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClusterAddress(ClusterAddresses $clusterAddress): self
+    {
+        if ($this->clusterAddresses->removeElement($clusterAddress)) {
+            // set the owning side to null (unless already changed)
+            if ($clusterAddress->getUser() === $this) {
+                $clusterAddress->setUser(null);
             }
         }
 
