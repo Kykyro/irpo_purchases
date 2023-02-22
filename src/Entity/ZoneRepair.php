@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ZoneRepairRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -59,6 +61,16 @@ class ZoneRepair
         'finishing' => .5,
         'branding' => .1
     ];
+
+    /**
+     * @ORM\OneToMany(targetEntity=PhotosVersion::class, mappedBy="repair")
+     */
+    private $photosVersions;
+
+    public function __construct()
+    {
+        $this->photosVersions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -172,5 +184,35 @@ class ZoneRepair
     }
     public function getBrandingPercentage(){
         return $this->getBranding() * $this->percentage['branding'];
+    }
+
+    /**
+     * @return Collection<int, PhotosVersion>
+     */
+    public function getPhotosVersions(): Collection
+    {
+        return $this->photosVersions;
+    }
+
+    public function addPhotosVersion(PhotosVersion $photosVersion): self
+    {
+        if (!$this->photosVersions->contains($photosVersion)) {
+            $this->photosVersions[] = $photosVersion;
+            $photosVersion->setRepair($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhotosVersion(PhotosVersion $photosVersion): self
+    {
+        if ($this->photosVersions->removeElement($photosVersion)) {
+            // set the owning side to null (unless already changed)
+            if ($photosVersion->getRepair() === $this) {
+                $photosVersion->setRepair(null);
+            }
+        }
+
+        return $this;
     }
 }

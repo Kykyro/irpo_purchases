@@ -102,4 +102,21 @@ class InspectorReadinessMapController extends AbstractController
             'zone' => $zone
         ]);
     }
+    /**
+     * @Route("/readiness-map/address/{id}", name="app_inspector_view_address")
+     */
+    public function viewAddres(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $address = $entity_manager->getRepository(ClusterAddresses::class)->find($id);
+
+
+        return $this->render('inspector_readiness_map/viewAddress.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+            'address' => $address
+        ]);
+    }
+
+
 }

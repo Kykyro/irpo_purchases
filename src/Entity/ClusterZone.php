@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClusterZoneRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ZoneRepair;
 
@@ -33,8 +35,14 @@ class ClusterZone
      */
     private $zoneRepair;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ZoneInfrastructureSheet::class, mappedBy="zone")
+     */
+    private $zoneInfrastructureSheets;
+
     function __construct() {
         $this->setZoneRepair(new ZoneRepair());
+        $this->zoneInfrastructureSheets = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -83,6 +91,36 @@ class ClusterZone
         }
 
         $this->zoneRepair = $zoneRepair;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ZoneInfrastructureSheet>
+     */
+    public function getZoneInfrastructureSheets(): Collection
+    {
+        return $this->zoneInfrastructureSheets;
+    }
+
+    public function addZoneInfrastructureSheet(ZoneInfrastructureSheet $zoneInfrastructureSheet): self
+    {
+        if (!$this->zoneInfrastructureSheets->contains($zoneInfrastructureSheet)) {
+            $this->zoneInfrastructureSheets[] = $zoneInfrastructureSheet;
+            $zoneInfrastructureSheet->setZone($this);
+        }
+
+        return $this;
+    }
+
+    public function removeZoneInfrastructureSheet(ZoneInfrastructureSheet $zoneInfrastructureSheet): self
+    {
+        if ($this->zoneInfrastructureSheets->removeElement($zoneInfrastructureSheet)) {
+            // set the owning side to null (unless already changed)
+            if ($zoneInfrastructureSheet->getZone() === $this) {
+                $zoneInfrastructureSheet->setZone(null);
+            }
+        }
 
         return $this;
     }

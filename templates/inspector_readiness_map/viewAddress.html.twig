@@ -1,0 +1,102 @@
+{% extends 'default/base.html.twig' %}
+
+
+{% block content %}
+    <h1>
+        Карта готовности (Куратор)
+    </h1>
+
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1 договоmb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="ibox-content" style="display: block;">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li><a class="nav-link active show" data-toggle="tab" href="#tab-1"> {{ address.getAddresses() }}</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" id="tab-1" class="tab-pane active show">
+                                <div class="panel-body">
+                                    {% set zones = address.getClusterZones() %}
+
+                                    {% if zones|length > 0 %}
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td class="col-md-1">
+                                                    № п/п
+                                                </td>
+                                                <td>
+                                                    Название
+                                                </td>
+                                                <td>
+                                                    Действия
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in zones %}
+                                            <tr>
+                                                <td>{{ loop.index }}</td>
+                                                <td>{{ i.getName() }}</td>
+                                                <td>
+                                                    <a href="{{ path('app_inspector_view_zone', {'id': i.getId()}) }}">
+                                                        <button class="btn btn-success">
+                                                            <i class="fa fa-search">
+                                                                Просмотр
+                                                            </i>
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                           {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                        <div class="col-lg-4">
+                                            <div class="panel panel-warning">
+                                                <div class="panel-heading">
+                                                    <i class="fa fa-warning"></i> Нет зон
+                                                </div>
+                                                <div class="panel-body">
+                                                    <a href="{{ path('app_inspector_add_zone', {'id': address.getId()}) }}">
+                                                        <button class="btn btn-outline-warning">
+                                                            <i class="fa fa-plus"> Добавить зону </i>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="ibox-footer">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
+{% endblock %}

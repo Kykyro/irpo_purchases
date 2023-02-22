@@ -27,6 +27,11 @@ class ZoneInfrastructureSheet
      */
     private $totalNumber;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ClusterZone::class, inversedBy="zoneInfrastructureSheets")
+     */
+    private $zone;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class ZoneInfrastructureSheet
     public function setTotalNumber(int $totalNumber): self
     {
         $this->totalNumber = $totalNumber;
+
+        return $this;
+    }
+
+    public function getZone(): ?ClusterZone
+    {
+        return $this->zone;
+    }
+
+    public function setZone(?ClusterZone $zone): self
+    {
+        $this->zone = $zone;
 
         return $this;
     }

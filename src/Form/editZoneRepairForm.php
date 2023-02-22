@@ -84,7 +84,16 @@ class editZoneRepairForm extends AbstractType
                 'required'   => false,
                 'label' => 'Комментарий'
             ])
-
+            ->add('images', FileType::class, [
+                'multiple' => true,
+                'attr'     => [
+                    'class' => 'form-control',
+                    'accept' => 'image/*',
+                    'multiple' => 'multiple'
+                ],
+                'label' => 'Фотографии',
+                'mapped' => false
+            ])
             ->add('submit', SubmitType::class,[
 
                 'attr' => [
