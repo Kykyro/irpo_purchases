@@ -255,55 +255,73 @@ class ProcurementProcedures
     private $factFederalFunds;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $factFundsOfSubject;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $factEmployersFunds;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      * @Log
      */
     private $factFundsOfEducationalOrg;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Log
      */
     private $closingDocument;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Log
      */
     private $paymentOrder;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Log
      */
     private $deleteReason;
 
     /**
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Log
      */
     private $additionalAgreement;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="boolean", nullable=true)
+     * @Log
      */
     private $hasAdditionalAgreement;
 
     /**
+     * @Groups("dump_data")
      * @ORM\OneToMany(targetEntity=PurchaseNote::class, mappedBy="purchase")
+     * @Log
      */
     private $purchaseNotes;
+
+    /**
+     * @Groups("dump_data")
+     * @ORM\Column(type="date", nullable=true)
+     * @Log
+     */
+    private $prepaymentDate;
 
     function __construct() {
         $this->setIsDeleted(false);
@@ -1143,6 +1161,18 @@ class ProcurementProcedures
                 $purchaseNote->setPurchase(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrepaymentDate(): ?\DateTimeInterface
+    {
+        return $this->prepaymentDate;
+    }
+
+    public function setPrepaymentDate(?\DateTimeInterface $prepaymentDate): self
+    {
+        $this->prepaymentDate = $prepaymentDate;
 
         return $this;
     }

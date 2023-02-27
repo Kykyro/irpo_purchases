@@ -298,12 +298,13 @@ $(document).ready(function () {
     }
 
     function showStep(index){
+        let _step = $("#form-t-"+index);
         if(index === 0)
         {
-            ("#form-t-"+index).show().parent().removeClass("done");
+            _step.show().parent().removeClass("done");
             return;
         }
-        $("#form-t-"+index).show().parent().removeClass("done").addClass("disabled");
+        _step.show().parent().removeClass("done").addClass("disabled");
     }
     function isPlannedChange(){
         if(isPlanned.is(':checked')){
@@ -344,15 +345,16 @@ $(document).ready(function () {
 
     function isHasPrepayment(){
         let _prepaymentInput = $('#purchases_form_prepayment');
+        let _prepaymentDate = $('#purchases_form_prepaymentDate');
         if(hasPrepayment.is(':checked')){
             prepaymentBlock.show('fast');
-            setRequired(true, _prepaymentInput);
-            setDisabled(false, _prepaymentInput);
+            setRequired(true, _prepaymentInput, _prepaymentDate);
+            setDisabled(false, _prepaymentInput, _prepaymentDate);
         }
         else{
             prepaymentBlock.hide('fast');
-            setDisabled(true, _prepaymentInput);
-            clearValue(_prepaymentInput);
+            setDisabled(true, _prepaymentInput, _prepaymentDate);
+            clearValue(_prepaymentInput, _prepaymentDate);
         }
     }
 

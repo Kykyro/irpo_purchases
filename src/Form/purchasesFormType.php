@@ -420,6 +420,12 @@ class purchasesFormType extends AbstractType
                     'label' => 'Есть дополнительно соглашение?',
                 ],
             ])
+            ->add("prepaymentDate", DateType::class,[
+                'widget' => 'single_text',
+                'disabled' => $is_disabled,
+                'required'   => false,
+
+            ])
         ;
 
 
