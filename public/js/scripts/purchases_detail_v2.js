@@ -121,12 +121,35 @@ $(document).ready(function () {
 
 
     function NMCKgreatedThenFinSum() {
-        return parseFloat(initial_sum.text()) >= parseFloat(fin_sum.text()) || hasAdditionalAgreement.is(':checked');
+        let f_sum = getSum(fin_federal_funds, fin_funds_of_subject,
+            fin_employers_funds, fin_edication_org_funds);
+        let i_sum = getSum(initial_federal_funds, initial_funds_of_subject,
+            initial_employers_funds, initial_edication_org_funds);
+        return i_sum >= f_sum || hasAdditionalAgreement.is(':checked');
+    }
+    function FinSumGreatedThenFactSum() {
+        let f_sum;
+        if(formState === 'Единственный поставщик')
+            f_sum = getSum(initial_federal_funds, initial_funds_of_subject,
+                initial_employers_funds, initial_edication_org_funds);
+        else
+            f_sum = getSum(fin_federal_funds, fin_funds_of_subject,
+                fin_employers_funds, fin_edication_org_funds);
+
+        let fact_sum = getSum(fact_federal_funds, fact_funds_of_subject,
+            fact_employers_funds, fact_edication_org_funds);
+
+        if(f_sum >= fact_sum)
+            return true;
+        else
+            return false;
     }
     $.validator.addMethod("NMCKmoreThenFinSum", function(value, element) {
         return NMCKgreatedThenFinSum();
     }, "* Amount must be greater than zero");
-
+    $.validator.addMethod("FinSumGreatedThenFactSum", function(value, element) {
+        return FinSumGreatedThenFactSum();
+    }, "* Amount must be greater than zero");
 
     function soloSupplier(isThis){
         if(isThis)
@@ -231,15 +254,17 @@ $(document).ready(function () {
             setRequired(true, initial_federal_funds, initial_funds_of_subject,
                 initial_employers_funds, initial_edication_org_funds)
         }
-
-        initial_sum.text(getSum(initial_federal_funds, initial_funds_of_subject,
-            initial_employers_funds, initial_edication_org_funds) + " ₽");
+        let _sum = getSum(initial_federal_funds, initial_funds_of_subject,
+            initial_employers_funds, initial_edication_org_funds);
+        _sum = _sum.toLocaleString('ru-RU');
+        initial_sum.text(_sum + " ₽");
     }
 
     function updateFinSum() {
-
-        fin_sum.text(getSum(fin_federal_funds, fin_funds_of_subject,
-            fin_employers_funds, fin_edication_org_funds) + " ₽");
+        let _sum = getSum(fin_federal_funds, fin_funds_of_subject,
+            fin_employers_funds, fin_edication_org_funds);
+        _sum = _sum.toLocaleString('ru-RU');
+        fin_sum.text( _sum+ " ₽");
     }
 
     function onLoad() {
@@ -273,6 +298,11 @@ $(document).ready(function () {
     }
 
     function showStep(index){
+        if(index === 0)
+        {
+            ("#form-t-"+index).show().parent().removeClass("done");
+            return;
+        }
         $("#form-t-"+index).show().parent().removeClass("done").addClass("disabled");
     }
     function isPlannedChange(){
@@ -462,6 +492,18 @@ $(document).ready(function () {
             'purchases_form[finEducationalOrgFunds]': {
                 NMCKmoreThenFinSum : true
             },
+            'purchases_form[factFederalFunds]': {
+                FinSumGreatedThenFactSum : true
+            },
+            'purchases_form[factFundsOfSubject]': {
+                FinSumGreatedThenFactSum : true
+            },
+            'purchases_form[factEmployersFunds]': {
+                FinSumGreatedThenFactSum : true
+            },
+            'purchases_form[factFundsOfEducationalOrg]': {
+                FinSumGreatedThenFactSum : true
+            },
         },
         messages: {
             'purchases_form[PurchaseObject]': "Введите предмет закупки",
@@ -517,8 +559,20 @@ $(document).ready(function () {
                 min: $.validator.format("Не может быть меньше {0}"),
                 number: "Неверное значение.",
                 step: $.validator.format("Укажите число без дробной части"),
-            }
-
+            },
+            // FinSumGreatedThenFactSum
+            'purchases_form[factFederalFunds]' : {
+                FinSumGreatedThenFactSum: 'Фактическое расходование не может быть больше Цены контракта / договора'
+            },
+            'purchases_form[factFundsOfSubject]' : {
+                FinSumGreatedThenFactSum: 'Фактическое расходование не может быть больше Цены контракта / договора'
+            },
+            'purchases_form[factEmployersFunds]' : {
+                FinSumGreatedThenFactSum: 'Фактическое расходование не может быть больше Цены контракта / договора'
+            },
+            'purchases_form[factEducationalOrgFunds]' : {
+                FinSumGreatedThenFactSum: 'Фактическое расходование не может быть больше Цены контракта / договора'
+            },
         }
     });
 });
