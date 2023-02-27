@@ -194,7 +194,13 @@
                                             <td class="bg-success">{{ loop.index }}</td>
                                             {% for j in i.getAsRowWithFactFunds() %}
                                                 <td>
-                                                    {{ j }}
+                                                    {% if loop.index == 11 %}
+                                                        <a href="{{ j }}">
+                                                            {{ j }}
+                                                        </a>
+                                                    {% else %}
+                                                        {{ j }}
+                                                    {% endif %}
                                                 </td>
                                             {% endfor %}
                                             <td>
