@@ -6,6 +6,7 @@ use App\Entity\ContractingTables;
 use App\Entity\ProcurementProcedures;
 use App\Entity\User;
 use App\Services\ContractingXlsxService;
+use App\Services\ReadinessMapXlsxService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,7 +23,7 @@ class InspectorContractingController extends AbstractController
     /**
      * @Route("/contracting-actual", name="app_inspector_contracting")
      */
-    public function index(Request $request, ContractingXlsxService $contractingXlsxService): Response
+    public function index(Request $request, ContractingXlsxService $contractingXlsxService, ReadinessMapXlsxService $readinessMapXlsxService): Response
     {
 
         $arr = [];
@@ -37,6 +38,16 @@ class InspectorContractingController extends AbstractController
 
                 ],
             ])
+            ->add('type', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'choices'  => [
+                    'Контрактация' => 1,
+                    'Карта готовности(ремонт)' => 2,
+
+                ],
+            ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success'
@@ -48,7 +59,10 @@ class InspectorContractingController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            return $contractingXlsxService->downloadTable($data['year']);
+            if($data['type'] == 1)
+                return $contractingXlsxService->downloadTable($data['year']);
+            if($data['type'] == 2)
+                return $readinessMapXlsxService->downloadTable($data['year']);
 
         }
 

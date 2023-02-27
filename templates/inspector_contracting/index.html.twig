@@ -6,7 +6,7 @@
             <div class="ibox ">
                 <div class="ibox-title">
                     <h2>
-                        Скачать таблицу Контрактация - Кассовые расходы
+                        Актуальная выгрузка
 
                     </h2>
                     <div class="ibox-tools">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="ibox-content">
                     <h3>
-                        Таблица будет сформирована на основе актуальных данных закупок
+                        Таблица будет сформирована на основе актуальных данных
                     </h3>
                     {{ form_start(form) }}
                         <div class="form-group">
@@ -24,6 +24,12 @@
                             </label>
                             {{ form_widget(form.year) }}
                         </div>
+                    <div class="form-group">
+                        <label>
+                            Тип
+                        </label>
+                        {{ form_widget(form.type) }}
+                    </div>
                         <div class="form-group">
 
                             {{ form_widget(form.submit) }}
@@ -36,6 +42,8 @@
             </div>
         </div>
     </div>
+
+
 
 {% endblock %}
 
