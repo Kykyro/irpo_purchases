@@ -7,6 +7,8 @@ use App\Entity\PhotosVersion;
 use App\Entity\RepairPhotos;
 use App\Form\editZoneRepairForm;
 use App\Services\FileService;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,18 +38,31 @@ class RegionReadinessMapController extends AbstractController
     /**
      * @Route("/readiness-map/view-zone/{id}", name="app_region_view_zone")
      */
-    public function viewZone(int $id): Response
+    public function viewZone(int $id, Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
         $zone = $this->getDoctrine()->getManager()->getRepository(ClusterZone::class)->find($id);
+        $repair = $zone->getZoneRepair();
         if($zone->getAddres()->getUser() !== $user)
         {
             return $this->redirectToRoute('app_region_readiness_map');
         }
+        $query = $em->getRepository(PhotosVersion::class)
+            ->createQueryBuilder('p')
+            ->andWhere('p.repair = :repair')
+            ->orderBy('p.id', 'DESC')
+            ->setParameter('repair', $repair)
+            ->getQuery();
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
 
         return $this->render('region_readiness_map/viewZone.html.twig', [
             'controller_name' => 'RegionReadinessMapController',
             'zone' => $zone,
+            'pagination' => $pagination,
         ]);
     }
 

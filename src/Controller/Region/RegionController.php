@@ -251,7 +251,7 @@ class RegionController extends AbstractController
     /**
      * @Route("/main", name="app_main")
      */
-    public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
+    public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
 
         $user = $this->getUser();

@@ -117,7 +117,7 @@
                                     <hr>
                                     <div class="row ml-1">
                                         <div class="lightBoxGallery">
-                                            {% for i in repair.getPhotosVersions()|reverse %}
+                                            {% for i in pagination %}
                                                 <div class="text-left">
                                                     <h5>
                                                         {{ i.getCreatedAt().format('m.d.Y') }}
@@ -140,6 +140,12 @@
                                                 <ol class="indicator"></ol>
                                             </div>
 
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="navigation">
+                                            {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
                                         </div>
                                     </div>
                                 </div>
