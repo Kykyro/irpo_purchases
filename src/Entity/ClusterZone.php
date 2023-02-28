@@ -40,6 +40,11 @@ class ClusterZone
      */
     private $zoneInfrastructureSheets;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ZoneType::class, inversedBy="clusterZones")
+     */
+    private $type;
+
     function __construct() {
         $this->setZoneRepair(new ZoneRepair());
         $this->zoneInfrastructureSheets = new ArrayCollection();
@@ -121,6 +126,18 @@ class ClusterZone
                 $zoneInfrastructureSheet->setZone(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?ZoneType
+    {
+        return $this->type;
+    }
+
+    public function setType(?ZoneType $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

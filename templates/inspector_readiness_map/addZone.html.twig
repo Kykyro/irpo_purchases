@@ -20,6 +20,9 @@
                 </a>
                 {{ form_start(form) }}
                 <div class="ibox-content" style="display: block;">
+                    {{ form_row(form.type) }}
+                </div>
+                <div class="ibox-content" style="display: block;">
                     {{ form_row(form.name) }}
                 </div>
                 <div class="ibox-footer">
@@ -34,4 +37,23 @@
 {% block scripts %}
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            let typeInput = $('#add_zone_form_type');
+            let nameInput = $('#add_zone_form_name');
+
+            function typeChange() {
+                let value = typeInput.val();
+                if(value != 5)
+                {
+                    nameInput.val($( "#add_zone_form_type option:selected" ).text());
+                }
+                else {
+                    nameInput.val('');
+                }
+            }
+            typeInput.change(typeChange);
+            typeChange();
+        });
+    </script>
 {% endblock %}

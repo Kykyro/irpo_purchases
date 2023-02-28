@@ -70,6 +70,10 @@ class ZoneRepair
     public function __construct()
     {
         $this->photosVersions = new ArrayCollection();
+        $this->setDismantling(0);
+        $this->setPlasteringAndCommunication(0);
+        $this->setFinishing(0);
+        $this->setBranding(0);
     }
 
     public function getId(): ?int
