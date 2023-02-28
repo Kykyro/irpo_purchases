@@ -52,40 +52,73 @@ class ReadinessMapXlsxService extends AbstractController
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
         $sheet = $spreadsheet->getActiveSheet();
         $today = new \DateTime('now');
-//        $grant = 100000000;
         $index = 1;
         $users = $this->getUsersByYear($year);
         foreach ($users as $user)
         {
-//            $procedures = $this->getProcedures($user);
             $_data = [
-                'P' => 0,
-                'Q' => 0,
-                'R' => 0,
-                'M' => 0,
-                'N' => 0,
-                'O' => 0,
+                'F' => 0,
+                'G' => 0,
+                'H' => 0,
                 'I' => 0,
-                'G' => 0
+
             ];
-//            foreach ($procedures as $procedure)
-//            {
-//
-//                if($procedure->getDateOfConclusion())
-//                {
-//                    $_data['M'] += $procedure->getFactEmployersFunds();
-//                    $_data['N'] += $procedure->getFactFundsOfSubject();
-//                    $_data['O'] += $procedure->getFactFundsOfEducationalOrg();
-//                    $_data['G'] += $procedure->getFinFederalFunds();
-//                }
-//                elseif ($procedure->getPublicationDate())
-//                {
-//                    $_data['I'] += $procedure->getInitialFederalFunds();
-//                    $_data['P'] += $procedure->getInitialEmployersFunds();
-//                    $_data['Q'] += $procedure->getInitialFundsOfSubject();
-//                    $_data['R'] += $procedure->getInitialEducationalOrgFunds();
-//                }
-//            }
+            $_countZone =
+                [
+                    'Фассад' => 0,
+                    'Входная группа' => 0,
+                    'Холл (фойе)' => 0,
+                    'Корридоры' => 0,
+                    'Зона по видам работ' => 0,
+                ];
+            $adresses = $user->getClusterAddresses();
+            $totalProcentZone = 0;
+            $nearestDate = new \DateTime();
+            $lateDate = new \DateTime();
+
+            foreach ($adresses as $adress)
+            {
+                $zones = $adress->getClusterZones();
+                foreach ($zones as $zone)
+                {
+                    $repair = $zone->getZoneRepair();
+                    $_nearestDate = $repair->getEndDate();
+                    $_lateDate = $repair->getEndDate();
+
+                    if($nearestDate > $_nearestDate)
+                        $nearestDate = $_nearestDate;
+                    if($lateDate < $_lateDate)
+                        $lateDate = $_lateDate;
+
+                    if($zone->getType()->getName() == "Фасад")
+                    {
+                        $_data['F'] += $repair->getTotalPercentage();
+                        $_countZone['Фассад'] += 1;
+                    }
+                    if($zone->getType()->getName() == "Входная группа")
+                    {
+                        $_data['G'] += $repair->getTotalPercentage();
+                        $_countZone['Фассад'] += 1;
+                    }
+                    if($zone->getType()->getName() == "Холл (фойе)")
+                    {
+                        $_data['H'] += $repair->getTotalPercentage();
+                        $_countZone['Фассад'] += 1;
+                    }
+                    if($zone->getType()->getName() == "Корридоры")
+                    {
+                        $_data['I'] += $repair->getTotalPercentage();
+                        $_countZone['Фассад'] += 1;
+                    }
+                    if($zone->getType()->getName() == "Зона по видам работ")
+                    {
+                        $_countZone['Зона по видам работ'] += 1;
+                        $totalProcentZone += $repair->getTotalPercentage();
+                    }
+                }
+
+            }
+
             $user_info = $user->getUserInfo();
             $row = $sheet->getHighestRow()+1;
             $sheet->setCellValue('A'.$row, $index);
@@ -95,28 +128,55 @@ class ReadinessMapXlsxService extends AbstractController
                 $user_info->getOrganization()
             ];
             $sheet->fromArray($user_info_arr, null, 'B'.$row);
+            if($_countZone['Фассад'] > 0)
+            {
+                $_data['F'] = $_data['F']/$_countZone['Фассад'];
+            }
+            if($_countZone['Входная группа'] > 0)
+            {
+                $_data['G'] = $_data['G']/$_countZone['Входная группа'];
+            }
+            if($_countZone['Холл (фойе)'] > 0)
+            {
+                $_data['H'] = $_data['H']/$_countZone['Холл (фойе)'];
+            }
+            if($_countZone['Корридоры'] > 0)
+            {
+                $_data['I'] = $_data['I']/$_countZone['Корридоры'];
+            }
             $other_arr = [
-                '1',
-                '1',
-                '1',
-                '1',
+                '',
+                $_data['F'],
+                $_data['G'],
+                $_data['H'],
+                $_data['I'],
                 "=SUM(F$row:I$row)/4",
-                '1',
-                '1',
+                $_countZone['Зона по видам работ'],
+                $totalProcentZone,
                 "=L$row/K$row",
                 "=(J$row+M$row)/2",
-                '1',
-                '1',
+                $nearestDate->format('d.m.Y'),
+                $lateDate->format('d.m.Y'),
                 "=(O$row+P$row)/2",
-                '1',
-                '1',
-                '1',
+                '0',
+                '',
+                '',
 
             ];
             $sheet->fromArray($other_arr, null, 'E'.$row);
 
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
+
+            $spreadsheet->getActiveSheet()->getStyle("O$row:Q$row")
+                ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
+//            $spreadsheet->getActiveSheet()->getStyle("P$row")
+//                ->getNumberFormat()
+//                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
+//            $spreadsheet->getActiveSheet()->getStyle("Q$row")
+//                ->getNumberFormat()
+//                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
         }
         $styleArray = [
             'borders' => [

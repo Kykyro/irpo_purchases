@@ -4,9 +4,12 @@ namespace App\Controller\Inspector;
 
 use App\Entity\ClusterAddresses;
 use App\Entity\ClusterZone;
+use App\Entity\PhotosVersion;
 use App\Entity\User;
 use App\Form\addAddressesForm;
 use App\Form\addZoneForm;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,16 +93,27 @@ class InspectorReadinessMapController extends AbstractController
     /**
      * @Route("/readiness-map/zone/{id}", name="app_inspector_view_zone")
      */
-    public function viewZone(Request $request, int $id)
+    public function viewZone(Request $request, int $id, EntityManagerInterface $em, PaginatorInterface $paginator)
     {
         $entity_manager = $this->getDoctrine()->getManager();
 
         $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
-
-
+        $repair = $zone->getZoneRepair();
+        $query = $em->getRepository(PhotosVersion::class)
+            ->createQueryBuilder('p')
+            ->andWhere('p.repair = :repair')
+            ->orderBy('p.id', 'DESC')
+            ->setParameter('repair', $repair)
+            ->getQuery();
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
         return $this->render('inspector_readiness_map/viewZone.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
-            'zone' => $zone
+            'zone' => $zone,
+            'pagination' => $pagination,
         ]);
     }
     /**
