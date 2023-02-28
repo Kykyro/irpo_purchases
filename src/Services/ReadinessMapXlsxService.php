@@ -73,21 +73,41 @@ class ReadinessMapXlsxService extends AbstractController
                 ];
             $adresses = $user->getClusterAddresses();
             $totalProcentZone = 0;
-            $nearestDate = new \DateTime();
-            $lateDate = new \DateTime();
+            $nearestDate = '';
+            $lateDate = '';
+            $zoneCount = 0;
 
             foreach ($adresses as $adress)
             {
                 $zones = $adress->getClusterZones();
                 foreach ($zones as $zone)
                 {
+
                     $repair = $zone->getZoneRepair();
+                    if($zoneCount == 0)
+                    {
+                        if($repair->getEndDate() >= $today)
+                        {
+                            $nearestDate = $repair->getEndDate();
+                            $lateDate = $repair->getEndDate();
+                        }
+                        else
+                        {
+                            $nearestDate = $today;
+                            $lateDate = $today;
+                        }
+
+
+                    }
+
+
+
                     $_nearestDate = $repair->getEndDate();
                     $_lateDate = $repair->getEndDate();
 
-                    if($nearestDate > $_nearestDate)
+                    if($nearestDate > $_nearestDate and $_nearestDate >= $today)
                         $nearestDate = $_nearestDate;
-                    if($lateDate < $_lateDate)
+                    if($lateDate < $_lateDate )
                         $lateDate = $_lateDate;
 
                     if($zone->getType()->getName() == "Фасад")
@@ -115,6 +135,8 @@ class ReadinessMapXlsxService extends AbstractController
                         $_countZone['Зона по видам работ'] += 1;
                         $totalProcentZone += $repair->getTotalPercentage();
                     }
+
+                    $zoneCount++;
                 }
 
             }
@@ -128,6 +150,8 @@ class ReadinessMapXlsxService extends AbstractController
                 $user_info->getOrganization()
             ];
             $sheet->fromArray($user_info_arr, null, 'B'.$row);
+
+            $dateMidFormula = "";
             if($_countZone['Фассад'] > 0)
             {
                 $_data['F'] = $_data['F']/$_countZone['Фассад'];
@@ -144,6 +168,22 @@ class ReadinessMapXlsxService extends AbstractController
             {
                 $_data['I'] = $_data['I']/$_countZone['Корридоры'];
             }
+            if($nearestDate and $lateDate)
+            {
+                $dateMidFormula = "=(O$row+P$row)/2";
+            }
+            if($nearestDate)
+            {
+                $nearestDate = $nearestDate->format('d.m.Y');
+            }
+
+            if($lateDate)
+            {
+                $lateDate = $lateDate->format('d.m.Y');
+            }
+
+
+
             $other_arr = [
                 '',
                 $_data['F'],
@@ -155,9 +195,9 @@ class ReadinessMapXlsxService extends AbstractController
                 $totalProcentZone,
                 "=L$row/K$row",
                 "=(J$row+M$row)/2",
-                $nearestDate->format('d.m.Y'),
-                $lateDate->format('d.m.Y'),
-                "=(O$row+P$row)/2",
+                $nearestDate,
+                $lateDate,
+                $dateMidFormula,
                 '0',
                 '',
                 '',
@@ -171,12 +211,7 @@ class ReadinessMapXlsxService extends AbstractController
             $spreadsheet->getActiveSheet()->getStyle("O$row:Q$row")
                 ->getNumberFormat()
                 ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
-//            $spreadsheet->getActiveSheet()->getStyle("P$row")
-//                ->getNumberFormat()
-//                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
-//            $spreadsheet->getActiveSheet()->getStyle("Q$row")
-//                ->getNumberFormat()
-//                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
+//
         }
         $styleArray = [
             'borders' => [
