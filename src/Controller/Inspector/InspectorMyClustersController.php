@@ -61,7 +61,7 @@ class InspectorMyClustersController extends AbstractController
         $entity_manager->persist($favoriteCluster);
         $entity_manager->flush();
 
-        return $this->redirectToRoute('app_inspector_my_clusters');
+        return $this->redirectToRoute('app_inspector_infrastructure_sheet', ['page' => $request->query->get('page')]);
     }
     /**
      * @Route("/remove-favourite/{id}", name="app_inspector_remove_favourite")
