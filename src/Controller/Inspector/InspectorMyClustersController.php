@@ -56,9 +56,10 @@ class InspectorMyClustersController extends AbstractController
         $favoriteCluster = new FavoritesClusters();
 
         $favoriteCluster->setInspectorId($user);
-        $favoriteCluster->setClusterId($cluster);
+        $favoriteCluster->setCluster($cluster);
 
         $entity_manager->persist($favoriteCluster);
+
         $entity_manager->flush();
 
         $route = $request->headers->get('referer');

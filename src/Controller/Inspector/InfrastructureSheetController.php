@@ -46,7 +46,7 @@ class InfrastructureSheetController extends AbstractController
         $cluster = [];
         foreach ($_cluster as $i){
 //            dd($i->getClusterId());
-            array_push($cluster, $i->getClusterId()->getId());
+            array_push($cluster, $i->getCluster()->getId());
 
         }
 

@@ -19,7 +19,7 @@
         </div>
         <div class="row col-lg-12">
             {% for i in myClusters %}
-                {% set cluster = i.getClusterId() %}
+                {% set cluster = i.getCluster() %}
                 {% set buttons %}
                     <div style="margin-left: 10px">
                         <a href="{{ path('app_inspector_remove_favourite', {'id': i.getId()}) }}">

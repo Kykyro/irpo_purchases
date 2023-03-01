@@ -27,6 +27,11 @@ class FavoritesClusters
      */
     private $clusterId;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $cluster;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class FavoritesClusters
     public function setClusterId(?user $clusterId): self
     {
         $this->clusterId = $clusterId;
+
+        return $this;
+    }
+
+    public function getCluster(): ?User
+    {
+        return $this->cluster;
+    }
+
+    public function setCluster(?User $cluster): self
+    {
+        $this->cluster = $cluster;
 
         return $this;
     }
