@@ -6,8 +6,10 @@ use App\Entity\ClusterAddresses;
 use App\Entity\ClusterZone;
 use App\Entity\PhotosVersion;
 use App\Entity\User;
+use App\Entity\ZoneInfrastructureSheet;
 use App\Form\addAddressesForm;
 use App\Form\addZoneForm;
+use App\Form\infrastructureSheetZoneForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -110,10 +112,20 @@ class InspectorReadinessMapController extends AbstractController
             $request->query->getInt('page', 1), /*page number*/
             3 /*limit per page*/
         );
+
+        $infrastructure = $entity_manager->getRepository(ZoneInfrastructureSheet::class)
+            ->createQueryBuilder('i')
+            ->andWhere('i.zone = :zone')
+            ->setParameter('zone', $zone)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
         return $this->render('inspector_readiness_map/viewZone.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
             'zone' => $zone,
             'pagination' => $pagination,
+            'infrastructure' => $infrastructure,
         ]);
     }
     /**
@@ -132,5 +144,50 @@ class InspectorReadinessMapController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/readiness-map/infrastructure-sheet/{id}", name="app_inspector_rm_infrastructure_sheet")
+     */
+    public function editInfrastructureSheet(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
+
+
+        $form = $this->createForm(infrastructureSheetZoneForm::class, $zone);
+//        dd($request);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            foreach ($zone->getZoneInfrastructureSheets() as $sheet)
+            {
+                if($sheet->getName() == "")
+                {
+                    if(!is_null($sheet->getId()))
+                        $entity_manager->remove($sheet);
+
+                }
+                else
+                {
+                    $sheet->setZone($zone);
+                    $entity_manager->persist($sheet);
+                }
+
+            }
+            $entity_manager->persist($zone);
+
+            $entity_manager->flush();
+
+            return $this->redirectToRoute('app_inspector_view_zone', ['id' => $id]);
+        }
+
+        return $this->render('inspector_readiness_map/editInfrastructureSheet.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+            'form' =>$form->createView(),
+
+
+        ]);
+    }
 
 }

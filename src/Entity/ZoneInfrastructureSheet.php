@@ -32,6 +32,31 @@ class ZoneInfrastructureSheet
      */
     private $zone;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $units;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $factNumber;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $deliveryDate;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +94,66 @@ class ZoneInfrastructureSheet
     public function setZone(?ClusterZone $zone): self
     {
         $this->zone = $zone;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getUnits(): ?string
+    {
+        return $this->units;
+    }
+
+    public function setUnits(?string $units): self
+    {
+        $this->units = $units;
+
+        return $this;
+    }
+
+    public function getFactNumber(): ?int
+    {
+        return $this->factNumber;
+    }
+
+    public function setFactNumber(?int $factNumber): self
+    {
+        $this->factNumber = $factNumber;
+
+        return $this;
+    }
+
+    public function getDeliveryDate(): ?\DateTimeInterface
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
+    {
+        $this->deliveryDate = $deliveryDate;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }

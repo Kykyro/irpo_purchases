@@ -6,6 +6,7 @@ use App\Entity\ClusterZone;
 use App\Entity\PhotosVersion;
 use App\Entity\RepairPhotos;
 use App\Form\editZoneRepairForm;
+use App\Form\infrastructureSheetZoneRegionEditForm;
 use App\Services\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -111,5 +112,39 @@ class RegionReadinessMapController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/readiness-map/infrastructure-sheet/{id}", name="app_region_rm_infrastructure_sheet")
+     */
+    public function editInfrastructureSheet(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
+
+
+        $form = $this->createForm(infrastructureSheetZoneRegionEditForm::class, $zone);
+//        dd($request);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            foreach ($zone->getZoneInfrastructureSheets() as $sheet)
+            {
+                $entity_manager->persist($sheet);
+            }
+            $entity_manager->persist($zone);
+
+            $entity_manager->flush();
+
+            return $this->redirectToRoute('app_region_view_zone', ['id' => $id]);
+        }
+
+        return $this->render('region_readiness_map/editInfrastructureSheet.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+            'form' =>$form->createView(),
+
+
+        ]);
+    }
 
 }

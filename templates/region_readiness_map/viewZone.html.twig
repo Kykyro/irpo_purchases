@@ -43,7 +43,7 @@
                                             <a href="{{ path('app_region_edit_repair_zone', {'id': zone.getId()}) }}">
                                                 <button class="btn btn-outline-success col-lg-12">
                                                     <i class="fa fa-edit">
-                                                        Внести изминения
+                                                        Внести изминения (Ремонт)
                                                     </i>
                                                 </button>
                                             </a>
@@ -154,6 +154,15 @@
                                 <div class="panel-body">
                                     {% set infrastructure = zone.getZoneInfrastructureSheets() %}
                                     {% if infrastructure|length > 0 %}
+                                        <div class="col-lg-12 mb-3">
+                                            <a href="{{ path('app_region_rm_infrastructure_sheet', {'id': zone.getId()}) }}">
+                                                <button class="btn btn-outline-success col-lg-12">
+                                                    <i class="fa fa-edit">
+                                                        Внести изминения (Инфраструктурный лист)
+                                                    </i>
+                                                </button>
+                                            </a>
+                                        </div>
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -162,6 +171,9 @@
                                                     </td>
                                                     <td class="col-md-3">
                                                         Наименование
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Вид
                                                     </td>
                                                     <td class="col-md-2">
                                                         Общее кол-во
@@ -172,20 +184,23 @@
                                                     <td class="col-md-2">
                                                         Дата поставки
                                                     </td>
-                                                    <td class="col-md-2">
-                                                        Комментарий
-                                                    </td>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             {% for i in infrastructure %}
                                                 <tr>
                                                     <td>{{ loop.index }}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>{{ i.getName() }}</td>
+                                                    <td>{{ i.getType() }}</td>
+                                                    <td>{{ i.getTotalNumber() }}</td>
+                                                    <td>{{ i.getFactNumber() }}</td>
+                                                    {% if i.getDeliveryDate() %}
+                                                        <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                    {% else %}
+                                                        <td>Дата не указана</td>
+                                                    {% endif %}
+
                                                 </tr>
                                             {% endfor %}
                                             </tbody>

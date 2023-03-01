@@ -132,77 +132,88 @@
                             </div>
                             <div role="tabpanel" id="tab-2" class="tab-pane">
                                 <div class="panel-body">
-                                    <div class="row mb-3 ml-1">
-                                        <a href="#">
-                                            <button class="btn btn-primary ">
-                                                <i class="fa fa-edit">
-                                                    Изменить ИЛ
-                                                </i>
-                                            </button>
-                                        </a>
+                                    {% if infrastructure|length > 0 %}
+                                        <div class="row mb-3 ml-1">
+                                            <a href="{{ path('app_inspector_rm_infrastructure_sheet', {'id' : zone.getId()}) }}">
+                                                <button class="btn btn-primary ">
+                                                    <i class="fa fa-edit">
+                                                        Изменить ИЛ
+                                                    </i>
+                                                </button>
+                                            </a>
 
-                                    </div>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <td class="col-sm-1">
-                                                    № п/п
-                                                </td>
-                                                <td class="col-md-3">
-                                                    Наименование
-                                                </td>
-                                                <td class="col-md-1">
-                                                    Вид
-                                                </td>
-                                                <td class="col-md-1">
-                                                    Общее кол-во
-                                                </td>
-                                                <td class="col-md-1">
-                                                    Ед. измерения
-                                                </td>
-                                                <td class="col-md-1">
-                                                    Фактическое <br> кол-во
-                                                </td>
-                                                <td class="col-md-1">
-                                                    Дата поставки
-                                                </td>
-                                                <td class="col-md-3">
-                                                    Комментарий
-                                                </td>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for i in 1..100 %}
+                                        </div>
+                                        <table class="table table-bordered">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ loop.index }}</td>
-                                                    <td>Типовой комплект учебного оборудования "Изучение микроструктуры углеродистой стали в равновесном состоянии"</td>
-                                                    <td>Оборудование</td>
-                                                    <td>100</td>
-                                                    <td>шт/место</td>
-                                                    <td>10</td>
-                                                    <td>12.12.2022</td>
-                                                    <td>Все очень плохо и лучше уже не будет</td>
+                                                    <td class="col-sm-1">
+                                                        № п/п
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        Наименование
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Вид
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Общее кол-во
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Ед. измерения
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Фактическое <br> кол-во
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Дата поставки
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        Комментарий
+                                                    </td>
+
                                                 </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    <div class="col-lg-6 offset-lg-3">
-                                        <div class="panel panel-warning">
-                                            <div class="panel-heading">
-                                                <i class="fa fa-warning"></i> Нет инфраструктурного листа
-                                            </div>
-                                            <div class="panel-body">
-                                                <a href="#">
-                                                    <button class="btn col-lg-12">
-                                                        <i class="fa fa-table">
-                                                            Добавить ИЛ
-                                                        </i>
-                                                    </button>
-                                                </a>
+                                            </thead>
+                                            <tbody>
+                                                {#{% for item in form.tags %}#}
+                                                    {#<li>{{ form_row(tag.name) }}</li>#}
+                                                {#{% endfor %}#}
+                                                {% for i in infrastructure %}
+                                                    <tr>
+                                                        <td>{{ loop.index }}</td>
+                                                        <td>{{ i.getName() }}</td>
+                                                        <td>{{ i.getType() }}</td>
+                                                        <td>{{ i.getTotalNumber() }}</td>
+                                                        <td>{{ i.getUnits() }}</td>
+                                                        <td>{{ i.getFactNumber() }}</td>
+                                                        {% if i.getDeliveryDate() %}
+                                                            <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                        {% else %}
+                                                            <td>Дата не указана</td>
+                                                        {% endif %}
+                                                        <td>{{ i.getComment() }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                        <div class="col-lg-6 offset-lg-3">
+                                            <div class="panel panel-warning">
+                                                <div class="panel-heading">
+                                                    <i class="fa fa-warning"></i> Нет инфраструктурного листа
+                                                </div>
+                                                <div class="panel-body">
+                                                    <a href="{{ path('app_inspector_rm_infrastructure_sheet', {'id' : zone.getId()}) }}">
+                                                        <button class="btn col-lg-12">
+                                                            <i class="fa fa-table">
+                                                                Добавить ИЛ
+                                                            </i>
+                                                        </button>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% endif %}
+
 
                                 </div>
                             </div>

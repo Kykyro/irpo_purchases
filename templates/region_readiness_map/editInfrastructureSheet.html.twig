@@ -1,0 +1,87 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+    {% import _self as formMacros %}
+    <h1>
+        Карта готовности (Куратор)
+    </h1>
+
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1 договоmb-2">
+            <div class="ibox border-bottom">
+
+                <div class="ibox-title">
+                    <h5>
+                        Редактирование инфраструктурного листа
+                    </h5>
+                    <
+                </div>
+                {% macro printZoneInfrastructureSheets(sheet) %}
+
+
+
+                        <td>
+                            {{ form_row(sheet.factNumber, {'type': 'number'}) }}
+                        </td>
+                        <td>
+                            {{ form_row(sheet.deliveryDate) }}
+                        </td>
+                        <td>
+                            {{ form_row(sheet.comment) }}
+                        </td>
+
+
+                {% endmacro %}
+            <div class="ibox-content">
+                {{ form_start(form) }}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="col-md-2">Наименование</td>
+                            <td class="col-md-1">Общее кол-во</td>
+                            <td class="col-md-1">Фактическое кол-во</td>
+                            <td class="col-md-1">Дата поставки</td>
+                            <td class="col-md-3">Комментарий</td>
+
+                        </tr>
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+                           data-index="{{ form.zoneInfrastructureSheets|length > 0 ? form.zoneInfrastructureSheets|last.vars.name + 1 : 0 }}"
+                           data-prototype='{{ formMacros.printZoneInfrastructureSheets(form.zoneInfrastructureSheets.vars.prototype|e) }}'
+                           data-widget-tags="{{
+                           '<tr></tr>'|e
+                           }}"
+                           data-widget-counter="{{ form.zoneInfrastructureSheets|length }}"
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                            <tr>
+                                <td>{{ sheet.vars.value.name }}</td>
+                                <td>{{ sheet.vars.value.totalNumber }}</td>
+                                {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+                    <div class="ibox-footer">
+                        {{ form_row(form.submit) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+
+        });
+    </script>
+{% endblock %}
