@@ -48,7 +48,7 @@ class InspectorMyClustersController extends AbstractController
     /**
      * @Route("/add-favourite/{id}", name="app_inspector_add_favourite")
      */
-    public function addFavourite(Request $request, int $id): Response
+    public function addFavourite(Request $request, int $id)
     {
         $entity_manager = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -61,7 +61,9 @@ class InspectorMyClustersController extends AbstractController
         $entity_manager->persist($favoriteCluster);
         $entity_manager->flush();
 
-        return $this->redirectToRoute('app_inspector_infrastructure_sheet', ['page' => $request->query->get('page')]);
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
     }
     /**
      * @Route("/remove-favourite/{id}", name="app_inspector_remove_favourite")
