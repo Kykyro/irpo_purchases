@@ -22,13 +22,18 @@ class UserPasswordEditFormType extends AbstractType
         $builder
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Пароли не совпадают!',
                 'required' => true,
-                'first_options' => ['label' => 'New Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options' => ['label' => 'Новый пароль'],
+                'second_options' => ['label' => 'Повторите пароль'],
                 'attr' => ['autocomplete' => 'off'],
             ])
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ],
+                'label' => 'Изменить'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

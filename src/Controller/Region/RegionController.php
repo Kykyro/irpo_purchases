@@ -128,21 +128,69 @@ class RegionController extends AbstractController
     /**
      * @Route("/purchases-history/{id}", name="app_purchases_history")
      */
-    public function historyPurchases(Request $request, int $id) : Response
+    public function historyPurchases(Request $request, int $id, EntityManagerInterface $em, PaginatorInterface $paginator) : Response
     {
-        $entity_manager = $this->getDoctrine()->getManager();
-        $repository = $this->getDoctrine()->getRepository(Log::class);
-        $history = $repository->findBy([
-            'object_class' => 'ProcurementProcedures',
-            'foreign_key' => $id,
-        ], [
-            'version' => 'DESC'
-        ]);
 
+        $query = $em->getRepository(Log::class)
+            ->createQueryBuilder('a')
+            ->andWhere('a.object_class = :obj')
+            ->andWhere('a.foreign_key = :fk')
+            ->orderBy('a.version', 'DESC')
+            ->setParameter('obj', "ProcurementProcedures")
+            ->setParameter('fk', $id)
+            ->getQuery()
+            ;
+        $dictionary = [
+            'PurchaseObject' => 'Объект закупки',
+            'MethodOfDetermining' => 'способ определение поставщика',
+            'PurchaseLink' => 'ссылка на закупку',
+            'PurchaseNumber' => 'номер закупки',
+            'DateOfConclusion' => 'дата заключения договора',
+            'DeliveryTime' => 'время поставки',
+            'Comments' => 'комментарий',
+            'fileDir' => 'название файла Договор/ предмет договора',
+            'initialFederalFunds' => 'начальный ФБ',
+            'initialFundsOfSubject' => 'начальный РБ',
+            'initialEmployersFunds' => 'начальный РД',
+            'initialEducationalOrgFunds' => 'начальный ОО',
+            'supplierName' => 'поставщик',
+            'supplierINN' => 'ИНН поставщика',
+            'supplierKPP' => 'КПП поставщика',
+            'finFederalFunds' => 'цена контракта ФБ',
+            'finFundsOfSubject' => 'цена контракта РБ',
+            'finEmployersFunds' => 'цена контракта РД',
+            'finFundsOfEducationalOrg' => 'цена контракта ОО',
+            'publicationDate' => 'дата публицации',
+            'deadlineDate' => 'дата оканчания подачи заявок',
+            'dateOfSummingUp' => '',
+            'postponementDate' => 'Дата переноса',
+            'postonementComment' => 'Комментарий переноса',
+            'isPlanned' => 'На стадии планирования?',
+            'isHasPrepayment' => 'Есть авансовый платеж?',
+            'prepayment' => 'Авансовый платеж %',
+            'conractStatus' => 'Статус договора',
+            'factFederalFunds' => 'Фактическое расходование ФБ',
+            'factFundsOfSubject' => 'Фактическое расходование РБ',
+            'factEmployersFunds' => 'Фактическое расходование РД',
+            'factFundsOfEducationalOrg' => 'Фактическое расходование ОО',
+            'closingDocument' => 'Закрывающий документ',
+            'paymentOrder' => 'Платежное поручение',
+            'additionalAgreement' => 'Дополнительное соглащение',
+            'hasAdditionalAgreement' => 'Есть дополнительное соглашение?',
+            'prepaymentDate' => 'дата авансового платежа',
+            '' => '',
+        ];
+//        $count = $query->getSingleScalarResult();
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
 
         return $this->render('purchases_detail/templates/history.html.twig', [
             'controller_name' => 'RegionController',
-            'history' => $history
+            'pagination' => $pagination,
+            'field_dict' => $dictionary,
         ]);
     }
 
