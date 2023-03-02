@@ -106,9 +106,7 @@
                     <li > {# class="active" #}
                         <a href="{{ path("app_feedback") }}"><i class="fa fa-at left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Обратная связь <span class="label float-right mt-1" id="feedback-count"></span></span></a>
                     </li>
-                    <li > {# class="active" #}
-                        <a href="{{ path("app_user_password_change") }}"><i class="fa fa-edit left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Сменить пароль</span></a>
-                    </li>
+
                 {% endif %}
                 {% if is_granted('ROLE_JOURNALIST') %}
                     <li >
@@ -118,6 +116,11 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <li >
                         <a href="{{ path("app_admin") }}"><i class="fa fa-wheelchair-alt left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Админ панель</span></a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_INSPECTOR') %}
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_user_password_change") }}"><i class="fa fa-edit left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Сменить пароль</span></a>
                     </li>
                 {% endif %}
             </ul>
