@@ -292,7 +292,7 @@ class ProcurementProcedures
     /**
      * @Groups("dump_data")
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Log
+     *
      */
     private $deleteReason;
 
@@ -312,7 +312,7 @@ class ProcurementProcedures
     /**
      * @Groups("dump_data")
      * @ORM\OneToMany(targetEntity=PurchaseNote::class, mappedBy="purchase")
-     * @Log
+     *
      */
     private $purchaseNotes;
 
