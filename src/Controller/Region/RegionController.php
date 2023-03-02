@@ -8,6 +8,7 @@ use App\Entity\PurchaseNote;
 use App\Entity\RfSubject;
 use App\Form\ChoiceInputType;
 use App\Form\purchasesFormType;
+use App\Services\XlsxService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -418,6 +419,14 @@ class RegionController extends AbstractController
             'title' => $title,
             'method' => $procurement_procedure->getMethodOfDetermining()
         ]);
+    }
+    /**
+     * @Route("/get/xlsx/", name="download_region_xlsx")
+     */
+    public function download(XlsxService $xlsxService): Response
+    {
+        $user = $this->getUser();
+        return $xlsxService->generatePurchasesProcedureTable($user->getId());
     }
 
 }

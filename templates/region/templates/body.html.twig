@@ -325,6 +325,29 @@
 
     </div>
 </div>
+{% if procurement_procedures|length > 0 %}
+<div class="row animated fadeInRight">
+    <div class="col-lg-10 offset-lg-1">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Выгрузка
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <a href="{{ path('download_region_xlsx') }}">
+                    <button class="btn btn-primary col-lg-12">
+                        <i class="fa fa-download">
+                            Скачать закупки в виде таблицы
+                        </i>
+                    </button>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 <script>
     const slider = document.querySelector('.horizontal-drag');
     let isDown = false;

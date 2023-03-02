@@ -25,6 +25,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            switch_user: true
             lazy: true
             provider: app_user_provider
             custom_authenticator:
