@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html>
 
 <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Авторизация</title>
-    <link rel="shortcut icon" href="/img/ico/rpop_icon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="/img/ico/Logo_irpo_2_small.png" type="image/png">
+
+    <link href="{{ asset('landing/css/util.css') }}" rel="stylesheet">
+    <link href="{{ asset('landing/css/main.css') }}" rel="stylesheet">
 
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet">
@@ -16,66 +17,84 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/my_style.css') }}" rel="stylesheet">
 
+    <style>
+        @font-face {
+            font-family: Roboto;
+        }
+        body {
+            font-family: "Roboto";
+        }
+    </style>
+
+
 </head>
 
-<body class="gradient-bg">
+<body style="background-color: #FFFFFF">
 {% block body %}
-    <div class="middle-box text-center loginscreen animated fadeInDown borderElement main-bg margin-up-login transform-center">
-        <div>
-            {#            <div class="edge d-flex justify-content-center pct-login">#}
-            <div class="mx-auto mb-5">
+    <div class="overlay-inner cover-background" style="background-image: url({{ asset('img/img_start_landing/Background_2.jpg') }}); background-size: cover; background-repeat: no-repeat; background-position: center;">
+    <div class="animated fadeInDown ">
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-form validate-form">
+                        <span class="login100-form-title p-b-34">
+                            Авторизация
+                        </span>
+                        <div class="mb-5 col-lg-12">
+                            <a href="{{ path('app_start_landing') }}">
+                                <button class="btn btn-lg btn-purple col-lg-12" style="background-color: #434c71">
+                                    <i class="fa fa-backward"></i>
+                                    На главную
+                                </button>
+                            </a>
 
-                <img src="/img/ico/rpop_icon.png" width="120" height="120" alt="Добро пожаловать">
-                {#                <h1 class="logo-name">Добро пожаловать!</h1>#}
-
-            </div>
-            <div class="mb-5">
-                <a href="{{ path('app_start_landing') }}">
-                    <button class="btn btn-lg btn-purple">
-                        <i class="fa fa-backward"></i>
-                        На главную
-                    </button>
-                </a>
-
-            </div>
-            <div class="mb-5">
-                <h3 >Авторизация</h3>
-            </div>
-                <form method="post">
-                    <div class="form-group m-3">
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
-
-                    {% if app.user %}
-                        <div class="mb-3">
-                             Вы уже вошли как {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Выйти</a>
                         </div>
-                    {% endif %}
+                        <form method="post" class="col-lg-12">
+                            <div class="form-group m3">
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
 
-                        <div class="form-group">
-                            <input type="text" placeholder="Логин" value="{{ last_username }}" name="uuid" id="inputUuid" class="form-control" autocomplete="username" required autofocus>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" placeholder="Пароль" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-                        </div>
+                                {% if app.user %}
+                                    <div class="mb-3">
+                                        Вы уже вошли как {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Выйти</a>
+                                    </div>
+                                {% endif %}
 
-                        <div>
-                            <input type="hidden" name="_csrf_token"
-                                    value="{{ csrf_token('authenticate') }}"
-                            >
-                        </div>
+                                <div class="wrap-input100 m-b-20">
+                                    <input type="text" placeholder="Логин" value="{{ last_username }}" name="uuid" id="inputUuid" class="input100" autocomplete="username" required autofocus>
+                                    <span class="focus-input100"></span>
+                                </div>
+                                <div class="wrap-input100 m-b-20">
+                                    <input type="password" placeholder="Пароль" name="password" id="inputPassword" class="input100" autocomplete="current-password" required>
+                                    <span class="focus-input100"></span>
+                                </div>
 
-                    <button class="btn btn-lg btn-purple m-3" type="submit">
-                        Войти
-                    </button>
+                                <div>
+                                    <input type="hidden" name="_csrf_token"
+                                           value="{{ csrf_token('authenticate') }}"
+                                    >
+                                </div>
+
+                                <div class="container-login100-form-btn" type="submit">
+                                    <button class="login100-form-btn">
+                                        <strong>Войти</strong>
+                                    </button>
+                                </div>
+
+                                <div class="w-full text-center p-t-27 p-b-239"></div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <img  class="login100-more" src="{{ asset('/img/ico/Logo_irpo_3_big.png') }}" style="background-color: #434c71; object-fit: cover">
                 </div>
-            </form>
+            </div>
         </div>
+        <div id="dropDownSelect1"></div>
     </div>
+
 {% endblock %}
-
-
 </body>
 
 </html>
