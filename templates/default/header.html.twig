@@ -131,10 +131,22 @@
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top upper-menu" role="navigation" style="margin-bottom: 0">
-                {% if is_granted('IS_IMPERSONATOR') %}
-                    <a href="{{ impersonation_exit_path(path('app_admin', {'_switch_user': '_exit'}) ) }}">Exit impersonation</a>
-                {% endif %}
-                <ul class="nav navbar-top-links navbar-right offset-lg-10">
+                <div class="navbar-header">
+
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        {% if is_granted('IS_IMPERSONATOR') %}
+                            <a href="{{ impersonation_exit_path(path('app_admin', {'_switch_user': '_exit'}) ) }}">
+                                <button class="btn btn-danger">
+                                    <i class="fa fa-ban">
+                                        Выйти из пользователя
+                                    </i>
+                                </button>
+
+                            </a>
+                        {% endif %}
+                    </li>
                     <li>
                         {#{% if is_granted('ROLE_SUPERADMIN') %}#}
                             <a href="{{ path("app_logout") }}">
