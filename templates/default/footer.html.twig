@@ -44,6 +44,18 @@
 
     });
 </script>
+<script>
+    $(document).ready(function(){
+        document.addEventListener('keydown', function(event) {
+            if (event.shiftKey && event.key === '+') {
+                $('.ibox-content').css('display', 'block')
+            }
+            if (event.shiftKey && event.key === '_') {
+                $('.ibox-content').css('display', 'none')
+            }
+        });
+    });
+</script>
 {% if is_granted('ROLE_INSPECTOR') %}
     <script>
         $(document).ready(function(){
@@ -99,16 +111,5 @@
 
 {% endif %}
 {% block scripts %}
-    <script>
-        $(document).ready(function(){
-            document.addEventListener('keydown', function(event) {
-                if (event.shiftKey && event.key === '+') {
-                    $('.ibox-content').css('display', 'block')
-                }
-                if (event.shiftKey && event.key === '_') {
-                    $('.ibox-content').css('display', 'none')
-                }
-            });
-        });
-    </script>
+
 {% endblock %}
