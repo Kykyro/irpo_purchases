@@ -592,7 +592,7 @@ ul {
 .header-nav li a {
 	display: block;
 	position: relative;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 13px;
 	font-style: normal;
 	font-weight: 400;
@@ -1795,13 +1795,13 @@ div.pswp__caption__center {
 	width: 100%;
 	position: relative;
 	overflow: hidden;
-	height: 1px;
+	height: 4px;
 	background-color: #e8e8e8;
 }
 
 .divider.divider-alt {
-	width: 54px;
-	height: 1px;
+	width: 200px;
+	height: 4px;
 	background-color: #e8e8e8;
 }
 
@@ -1839,20 +1839,20 @@ div.pswp__caption__center {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background: black;
+	background: white;
 	z-index: 10001;
 }
 
 #loading-animation {
 	position: absolute;
-	width: 100px;
-	height: 100px;
+	width: 400px;
+	height: 400px;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	margin: auto;
-	background: url(../images/loading-animation2.gif) no-repeat center;
+	background: url(../images/loading-animation3.gif) no-repeat center;
 }
 
 /*------------------------------------------------------------------
@@ -5067,7 +5067,7 @@ hr.dark {
 }
 
 /* Mobile Spacing - Small Devices - Tablets 768px and up to 1024px */
-@media (max-width: 1500px) {
+@media (max-width: 1700px) {
 
 	.sm-margincenter {
 		margin-left: auto;
@@ -5845,7 +5845,7 @@ body.mobile .mobile-hidden {
     }
 }
 
-@media screen and (min-width: 1500px){
+@media screen and (min-width: 1700px){
 		
 	.ed-section.fullscreen-element {
 		height: 100vh;
@@ -6115,7 +6115,7 @@ body.mobile .mobile-hidden {
 
 }
 
-@media screen and (max-width: 1500px){
+@media screen and (max-width: 1700px){
 	
 	.csstransitions .animated,
 	.animated {
@@ -6468,5 +6468,30 @@ body.mobile .mobile-hidden {
 .text_adaptive_size_rightbar{
 	font-size: calc(5px + 8 * (100vw / 1280)) !important;
 	line-height: calc(1px + 20 * (100vw /1280)) !important;
+}
+
+.background_sidebar_on{
+	background-color: #667ab6;
+	border-radius: 50px 0 0 50px
+}
+
+.clarity {
+	opacity:0.6;
+	filter:alpha(opacity=50);
+	-moz-transition: all 0.8s;
+	-webkit-transition: all 0.8s;
+	-ms-transition: all 0.8s;
+	-o-transition: all 0.8s;
+	transition: all 0.8s;
+}
+
+.clarity:hover {
+	-moz-transition: all 0.8s;
+	-webkit-transition: all 0.8s;
+	-ms-transition: all 0.8s;
+	-o-transition: all 0.8s;
+	transition: all 0.8s;
+	opacity:1;
+	filter:alpha(opacity=100);
 }
 

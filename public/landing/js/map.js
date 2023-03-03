@@ -16,7 +16,7 @@ window.onload = function() {
                 height: 600,
                 // дефолтовые атрибуты для контуров регионов
                 defaultAttr: {
-                    fill: '#d8d8d8', // цвет которым закрашивать
+                    fill: '#FFFFFF', // цвет которым закрашивать
                     stroke: '#000', // цвет границы
                     'stroke-width': 0.2, // ширина границы
                     'stroke-linejoin': 'round' // скруглять углы
