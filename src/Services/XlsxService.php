@@ -541,10 +541,11 @@ class XlsxService extends AbstractController
 
             $row = $sheet->getHighestRow()+1;
             $date = $val->getDateOfConclusion();
+            $publicationDate = $val->getPublicationDate();
 
             $isNotComplite = false;
-            if(is_null($date) or $date >= $today){
-
+            if($date >= $today and $publicationDate <= $today){
+//
                 $isNotComplite = true;
             }
             // формулы суммирования
