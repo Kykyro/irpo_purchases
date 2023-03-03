@@ -89,7 +89,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    function __construct() {
+    function __construct()
+    {
         $this->setUserInfo(new UserInfo());
         $this->clustersId = new ArrayCollection();
         $this->purchasesDumps = new ArrayCollection();
@@ -105,7 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->uuid;
+        return (string)$this->uuid;
     }
 
     /**

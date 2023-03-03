@@ -97,4 +97,70 @@ class ClusterAddresses
 
         return $this;
     }
+
+    public  function getMidRepairByZone()
+    {
+        $zones = $this->getClusterZones();
+        $count = 0;
+        $result = 0;
+        foreach ($zones as $zone)
+        {
+            if($zone->getType()->getName() == "Зона по видам работ")
+            {
+                $result += $zone->getZoneRepair()->getTotalPercentage();
+                $count++;
+            }
+
+        }
+
+        if($count > 0)
+            return $result/$count;
+        else
+            return 0;
+    }
+    public  function getMidRepairByCommon()
+    {
+        $zones = $this->getClusterZones();
+        $count = 0;
+        $result = 0;
+        foreach ($zones as $zone)
+        {
+            if($zone->getType()->getName() != "Зона по видам работ")
+            {
+                $result += $zone->getZoneRepair()->getTotalPercentage();
+                $count++;
+            }
+
+        }
+
+        if($count > 0)
+            return $result/$count;
+        else
+            return 0;
+    }
+    public function getEquipmentDeliveryDeadline()
+    {
+        $zones = $this->getClusterZones();
+        foreach ($zones as $zone) {
+            $sheetList = $zone->getZoneInfrastructureSheets();
+            if(count($sheetList) > 0)
+            {
+                $_deadline = $sheetList[0]->getDeliveryDate();
+                foreach ($sheetList as $sheet)
+                {
+                    $_date = $sheet->getDeliveryDate();
+                }
+            }
+
+
+
+        }
+
+    }
+    public function getDeadlineForCompletionOfRepairs()
+    {
+        $zones = $this->getClusterZones();
+
+
+    }
 }

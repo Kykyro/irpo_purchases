@@ -518,6 +518,12 @@ class XlsxService extends AbstractController
                 'startColor' => array('argb' => 'FF4F81BD')
             )
         );
+        $styleFill2 = array(
+            'fill' => array(
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array('argb' => 'afd095')
+            )
+        );
 
         $initialFedFundSUM = "=";
         $initialSubFundSUM = "=";
@@ -532,6 +538,7 @@ class XlsxService extends AbstractController
         // Инфо о процедурах
         $index = 1;
         foreach ($procedures as &$val) {
+
             $row = $sheet->getHighestRow()+1;
             $date = $val->getDateOfConclusion();
 
@@ -558,6 +565,27 @@ class XlsxService extends AbstractController
             $sheet->setCellValue('A'.$row, $index);
             $sheet->fromArray($val->getAsRowWithFactFunds(), null, 'B'.$row);
 
+
+            if($val->getMethodOfDetermining() == "Единственный поставщик")
+            {
+                if(!$val->getConractStatus())
+                {
+                    $index++;
+                    continue;
+                }
+                if($val->getConractStatus()->getStatus() == "Договор на стадии подписания")
+                {
+                    $index++;
+                    continue;
+                }
+            }
+            else{
+                if($val->getIsPlanned())
+                {
+                    $index++;
+                    continue;
+                }
+            }
             if($isNotComplite)
             {
                 foreach ($sheet->rangeToArray($initialSUMRANGE, null, true, true, true ) as $_row){
@@ -591,7 +619,7 @@ class XlsxService extends AbstractController
                     foreach (array_keys($_row) as $cell){
                         $cellCoordinates = $cell.$row;
                         if($sheet->getCell($cellCoordinates) != ""){
-                            $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill);
+                            $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill2);
                         }
 
                         switch ($cell) {

@@ -1,7 +1,9 @@
 {% extends "default/base.html.twig" %}
 
 
+{% block style %}
 
+{% endblock %}
 
 {% block content %}
 {% set buttons %}
@@ -33,7 +35,7 @@
                     </div>
                 </a>
                 <div class="ibox-content  table-responsive horizontal-drag">
-                    <table class="table white-bg  ">
+                    <table class="table table-bordered  ">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -66,7 +68,7 @@
                                 {# Способ определения поставщика #}
                                 <td>{{ i.getMethodOfDetermining() }}</td>
                                 {# НМЦК #}
-                                <td> {{ i.getNMCK() }}₽</td>
+                                <td class="cell-number"> {{ i.getNMCK() }}</td>
 
                                 {# даты #}
                                 {# Дата публикации извещения #}
@@ -100,7 +102,7 @@
 
 
                                 {# Стоимость договора #}
-                                <td>{{ i.getContractCost() }}₽</td>
+                                <td class="cell-number">{{ i.getContractCost() }}</td>
                                 {# Источник финансирования #}
                                 <td>{{ i.getSourceOfFunding() }}</td>
                                 {# Замечания #}

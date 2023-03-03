@@ -96,6 +96,18 @@
             });
         })
     </script>
+    <script>
+        $(document).ready(function(){
+            document.addEventListener('keydown', function(event) {
+                if (event.shiftKey && event.key === '+') {
+                    $('.ibox-content').css('display', 'block')
+                }
+                if (event.shiftKey && event.key === '_') {
+                    $('.ibox-content').css('display', 'none')
+                }
+            });
+        });
+    </script>
 {% endif %}
 {% block scripts %}
 {% endblock %}

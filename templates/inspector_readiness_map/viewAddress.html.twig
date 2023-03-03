@@ -40,6 +40,11 @@
                                                 <td>
                                                     Название
                                                 </td>
+                                                <td>Средний % по зонам подвидам работ</td>
+                                                <td>Средний % по общим зонам</td>
+                                                <td>Средний % в общем</td>
+                                                <td>Крайний срок поставки оборудования</td>
+                                                <td>Крайняя дата завершения ремонта</td>
                                                 <td>
                                                     Действия
                                                 </td>
@@ -50,6 +55,9 @@
                                             <tr>
                                                 <td>{{ loop.index }}</td>
                                                 <td>{{ i.getName() }}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td>
                                                     <a href="{{ path('app_inspector_view_zone', {'id': i.getId()}) }}">
                                                         <button class="btn btn-success">
