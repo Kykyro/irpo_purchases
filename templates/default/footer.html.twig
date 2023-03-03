@@ -96,6 +96,9 @@
             });
         })
     </script>
+
+{% endif %}
+{% block scripts %}
     <script>
         $(document).ready(function(){
             document.addEventListener('keydown', function(event) {
@@ -108,6 +111,4 @@
             });
         });
     </script>
-{% endif %}
-{% block scripts %}
 {% endblock %}
