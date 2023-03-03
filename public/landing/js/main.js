@@ -454,7 +454,7 @@
     }
 
     function o() {
-        1500 >= t() || m.hasClass("mobile") ? k.each((function() {
+        1700 >= t() || m.hasClass("mobile") ? k.each((function() {
             e(this).css("height", "auto")
         })) : k.each((function() {
             var a = e(this),
@@ -465,7 +465,7 @@
     }
 
     function n() {
-        v.off("click"), w.off("click"), 1500 >= t() || m.hasClass("mobile") ? (g.css("display", "block") && g.css("display", "none"), v.hasClass("open") && g.css("display", "block"), C.length && C.hasClass("fullpage-wrapper") && !C.hasClass("fp-destroyed") && (e.fn.fullpage.destroy("all"), f.each((function() {
+        v.off("click"), w.off("click"), 1700 >= t() || m.hasClass("mobile") ? (g.css("display", "block") && g.css("display", "none"), v.hasClass("open") && g.css("display", "block"), C.length && C.hasClass("fullpage-wrapper") && !C.hasClass("fp-destroyed") && (e.fn.fullpage.destroy("all"), f.each((function() {
             var a = e(this),
                 t = a.data("animation");
             a.removeClass(t + " visible")

@@ -16,9 +16,10 @@
     <!-- Header Nav -->
     <nav class="header-block nav-block header-nav">
 
-        <ul id="menu" class="nav">
+        <ul id="menu" class="nav clarity">
+            <div class="background_sidebar_on">
             <div>
-                <div class="btn_position" style="display: grid">
+                <div class="btn_position" style="display: grid; border-radius: 50px 0 0 50px">
                     <a href="{{ path('app_login') }}" style="text-align: right" class="btn-start-landing m-3 btn_hard_border text_adaptive_size_rightbar" target="_blank"><li>ЛИЧНЫЙ КАБИНЕТ</li></a>
                 </div>
             </div>
@@ -30,6 +31,7 @@
             <li data-menuanchor="design_projects"><a href="#design_projects" class="moveto text_adaptive_size_rightbar">Дизайн-проекты</a></li>
             <li data-menuanchor="employees"><a href="#employees" class="moveto text_adaptive_size_rightbar">Сотрудники</a></li>
             <li data-menuanchor="feedback"><a href="#feedback" class="moveto text_adaptive_size_rightbar">Обратная связь</a></li>
+            </div>
         </ul>
     </nav>
 </header>

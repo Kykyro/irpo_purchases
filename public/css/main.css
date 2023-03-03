@@ -43,7 +43,7 @@ body {
 	width: 100%;
 	height: 100%;
 	position: fixed;
-	perspective: 1500px;
+	perspective: 1700px;
 }
 .gallery {
 	transform-style: preserve-3d;
