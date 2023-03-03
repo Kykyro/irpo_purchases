@@ -38,7 +38,7 @@ class ProcurementProcedures
 
     /**
      * @Groups("dump_data")
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @Log
      */
     private $PurchaseLink;
