@@ -264,7 +264,7 @@ class purchasesFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '10M',
+                        'maxSize' => '100M',
 //                        'mimeTypes' => [
 //                            'application/pdf',
 //                            'application/x-pdf',
@@ -368,7 +368,7 @@ class purchasesFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '50M',
+                        'maxSize' => '100M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
@@ -388,7 +388,7 @@ class purchasesFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '50M',
+                        'maxSize' => '100M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
@@ -408,7 +408,7 @@ class purchasesFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '50M',
+                        'maxSize' => '100M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
