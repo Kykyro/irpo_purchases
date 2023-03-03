@@ -24,11 +24,12 @@ class ContractingXlsxService extends AbstractController
 
         return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
             ->leftJoin('u.user_info', 'uf')
+            ->leftJoin('uf.rf_subject', 'rf')
             ->andWhere('u.roles LIKE :role')
             ->andWhere('uf.year = :year')
             ->setParameter('role', '%REGION%')
             ->setParameter('year', $year)
-            ->orderBy('u.uuid', 'ASC')
+            ->orderBy('rf.name', 'ASC')
             ->getQuery()
             ->getResult();
     }
