@@ -116,6 +116,10 @@ class ContractingXlsxService extends AbstractController
             ];
             $sheet->fromArray($other_arr, null, 'F'.$row);
 
+            $sheet->getStyle("H$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
+            $sheet->getStyle("J$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
+            $sheet->getStyle("L$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
+
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
         }
