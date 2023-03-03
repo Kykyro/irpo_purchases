@@ -288,6 +288,7 @@
                                         </label>
                                         <ul>
                                             {% for i in  additionalAgreement %}
+                                                {% if i.getNewVal() %}
                                                 <li>
                                                     <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'additional_agreement_directory'}) }}">
                                                         <i class="fa fa-download">
@@ -295,6 +296,7 @@
                                                         </i>
                                                     </a>
                                                 </li>
+                                                {% endif %}
                                             {% endfor %}
                                         </ul>
                                     {% elseif pp.getAdditionalAgreement() %}
@@ -378,6 +380,7 @@
                                 <ul>
                                     {% if edit %}
                                     {% for i in  additionalAgreement %}
+                                        {% if i.getNewVal() %}
                                         <li>
                                             <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'payment_orders_directory'}) }}">
                                                 <i class="fa fa-download">
@@ -385,6 +388,7 @@
                                                 </i>
                                             </a>
                                         </li>
+                                        {% endif %}
                                     {% endfor %}
                                     {% endif %}
                                 </ul>

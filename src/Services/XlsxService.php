@@ -544,8 +544,12 @@ class XlsxService extends AbstractController
             $publicationDate = $val->getPublicationDate();
 
             $isNotComplite = false;
-            if($date >= $today and $publicationDate <= $today){
+            if(is_null($date) and $publicationDate <= $today){
 //
+                $isNotComplite = true;
+            }
+            elseif ($date >= $today and $publicationDate <= $today)
+            {
                 $isNotComplite = true;
             }
             // формулы суммирования
@@ -592,7 +596,7 @@ class XlsxService extends AbstractController
                 foreach ($sheet->rangeToArray($initialSUMRANGE, null, true, true, true ) as $_row){
                     foreach (array_keys($_row) as $cell){
                         $cellCoordinates = $cell.$row;
-                        if($sheet->getCell($cellCoordinates) != ""){
+                        if($sheet->getCell($cellCoordinates) != "" and (float)$sheet->getCell($cellCoordinates)->getValue() != 0){
                             $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill);
 
                             switch ($cell) {
@@ -619,7 +623,7 @@ class XlsxService extends AbstractController
                 foreach ($sheet->rangeToArray($finSUMRANGE, null, true, true, true ) as $_row){
                     foreach (array_keys($_row) as $cell){
                         $cellCoordinates = $cell.$row;
-                        if($sheet->getCell($cellCoordinates) != ""){
+                        if($sheet->getCell($cellCoordinates) != "" and (float)$sheet->getCell($cellCoordinates)->getValue() != 0){
                             $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill2);
                         }
 
