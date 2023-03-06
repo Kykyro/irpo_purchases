@@ -73,14 +73,14 @@ class ContractingXlsxService extends AbstractController
             foreach ($procedures as $procedure)
             {
 
-                if($procedure->getDateOfConclusion())
+                if($procedure->getPurchasesStatus() == 'contract')
                 {
-                    $_data['M'] += $procedure->getFactEmployersFunds();
-                    $_data['N'] += $procedure->getFactFundsOfSubject();
-                    $_data['O'] += $procedure->getFactFundsOfEducationalOrg();
-                    $_data['G'] += $procedure->getFinFederalFunds();
+                    $_data['M'] += $procedure->getfinFederalFunds();
+                    $_data['N'] += $procedure->getfinFundsOfSubject();
+                    $_data['O'] += $procedure->getfinEmployersFunds();
+                    $_data['G'] += $procedure->getfinFundsOfEducationalOrg();
                 }
-                elseif ($procedure->getPublicationDate())
+                elseif ($procedure->getPurchasesStatus() == 'announced')
                 {
                     $_data['I'] += $procedure->getInitialFederalFunds();
                     $_data['P'] += $procedure->getInitialEmployersFunds();
