@@ -4,6 +4,7 @@ namespace App\Controller\Inspector;
 
 use App\Entity\PurchasesDump;
 use App\Entity\User;
+use App\Services\budgetSumService;
 use App\Services\XlsxService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,15 +38,13 @@ class WeeklyBudgetAmountController extends AbstractController
     /**
      * @Route("/view-purchases-dump/{id}", name="app_view_dump")
      */
-    public function viewDump(int $id, SerializerInterface $serializer)
+    public function viewDump(int $id, SerializerInterface $serializer, budgetSumService $budgetSumService)
     {
-
         $entity_manager = $this->getDoctrine()->getManager();
         $dump = $entity_manager->getRepository(PurchasesDump::class)->find($id);
 
         $dumpData = $dump->getDump();
         $dumpDay = $dump->getCreatedAt();
-
 
         $pp = $serializer->deserialize($dumpData->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
         $arr = [];
@@ -56,72 +55,15 @@ class WeeklyBudgetAmountController extends AbstractController
                 array_push($arr, $p);
             }
         }
-
-
         return $this->render('weekly_budget_amount/viewDump.html.twig', [
             'controller_name' => 'WeeklyBudgetAmountController',
             'pp' => $arr,
-            'initial' => $this->getInitialBudget($arr, $dumpDay),
-            'fin' => $this->getFinBudget($arr, $dumpDay),
+            'initial' => $budgetSumService->getInitialBudget($arr, $dumpDay),
+            'fin' => $budgetSumService->getFinBudget($arr, $dumpDay),
             'id' => $id
         ]);
 
 
-    }
-    public function getInitialBudget(array $dump, \DateTimeImmutable $day)
-    {
-        $sum = [
-            'FederalFunds'  => 0,
-            'FundsOfSubject' => 0,
-            'EmployersFunds' => 0,
-            'EducationalOrgFunds' => 0
-        ];
-
-        foreach ($dump as $item){
-            if($item->getDateOfConclusion() >= $day or is_null($item->getDateOfConclusion()))
-            {
-                $sum['FederalFunds'] += $item->getInitialFederalFunds();
-                $sum['FundsOfSubject'] += $item->getInitialFundsOfSubject();
-                $sum['EmployersFunds'] += $item->getInitialEmployersFunds();
-                $sum['EducationalOrgFunds'] += $item->getInitialEducationalOrgFunds();
-            }
-
-        }
-
-        return $sum;
-    }
-
-    public function getFinBudget(array $dump, \DateTimeImmutable $day)
-    {
-
-        $sum = [
-            'FederalFunds'  => 0,
-            'FundsOfSubject' => 0,
-            'EmployersFunds' => 0,
-            'EducationalOrgFunds' => 0
-        ];
-
-        foreach ($dump as $item){
-            if($item->getDateOfConclusion() <= $day) {
-                if($item->getMethodOfDetermining() == 'Единственный поставщик')
-                {
-                    $sum['FederalFunds'] += $item->getInitialFederalFunds();
-                    $sum['FundsOfSubject'] += $item->getInitialFundsOfSubject();
-                    $sum['EmployersFunds'] += $item->getInitialEmployersFunds();
-                    $sum['EducationalOrgFunds'] += $item->getInitialEducationalOrgFunds();
-                }
-                else
-                {
-                    $sum['FederalFunds'] += $item->getFinFederalFunds();
-                    $sum['FundsOfSubject'] += $item->getFinFundsOfSubject();
-                    $sum['EmployersFunds'] += $item->getFinEmployersFunds();
-                    $sum['EducationalOrgFunds'] += $item->getFinFundsOfEducationalOrg();
-                }
-
-            }
-        }
-
-        return $sum;
     }
 
     /**

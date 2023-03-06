@@ -304,7 +304,7 @@ class XlsxService extends AbstractController
                 array_push($procedures, $p);
             }
         }
-        $today = $dump->getCreatedAt();
+        $today = $dump->getCreatedAt()->setTime(0,0,0,0);
         $userInfo = $dump->getUser()->getUserInfo();
 
         return $this->tableGeneratorWithFactFunds($userInfo, $procedures, $today);
@@ -538,60 +538,24 @@ class XlsxService extends AbstractController
         // Инфо о процедурах
         $index = 1;
         foreach ($procedures as &$val) {
-
             $row = $sheet->getHighestRow()+1;
-            $date = $val->getDateOfConclusion();
-            $publicationDate = $val->getPublicationDate();
+            $dateTime = new \DateTime("@{$today->getTimeStamp()}");
+            $status = $val->getPurchasesStatus($dateTime);
 
-            $isNotComplite = false;
-            if(is_null($date) and $publicationDate <= $today){
-//
-                $isNotComplite = true;
-            }
-            elseif ($date >= $today and $publicationDate <= $today)
-            {
-                $isNotComplite = true;
-            }
             // формулы суммирования
             $initialSUMRANGE = 'E'.$row.':H'.$row;
             $finSUMRANGE = 'U'.$row.':X'.$row;
 
-
-
-            $sheet->setCellValue('D'.$row , "=SUM($initialSUMRANGE)");
-            $sheet->setCellValue('T'.$row , "=SUM($finSUMRANGE)");
             $row_arr = ['E', 'F', 'G', 'H', 'U', 'V', 'W', 'X', 'D', 'T', 'Z', 'AA', 'AB', 'AC'];
             foreach ($row_arr as $j){
                 $sheet->getStyle($j.$row)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
             }
 
-
             // запись строк
             $sheet->setCellValue('A'.$row, $index);
             $sheet->fromArray($val->getAsRowWithFactFunds(), null, 'B'.$row);
-
-
-            if($val->getMethodOfDetermining() == "Единственный поставщик")
-            {
-                if(!$val->getConractStatus())
-                {
-                    $index++;
-                    continue;
-                }
-                if($val->getConractStatus()->getStatus() == "Договор на стадии подписания")
-                {
-                    $index++;
-                    continue;
-                }
-            }
-            else{
-                if($val->getIsPlanned())
-                {
-                    $index++;
-                    continue;
-                }
-            }
-            if($isNotComplite)
+//            $sheet->setCellValue('D'.$row , $status);
+            if($status == 'announced')
             {
                 foreach ($sheet->rangeToArray($initialSUMRANGE, null, true, true, true ) as $_row){
                     foreach (array_keys($_row) as $cell){
@@ -619,7 +583,7 @@ class XlsxService extends AbstractController
                     }
                 }
             }
-            else{
+            elseif($status == 'contract'){
                 foreach ($sheet->rangeToArray($finSUMRANGE, null, true, true, true ) as $_row){
                     foreach (array_keys($_row) as $cell){
                         $cellCoordinates = $cell.$row;

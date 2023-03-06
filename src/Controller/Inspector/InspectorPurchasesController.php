@@ -8,6 +8,7 @@ use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Form\InspectorPurchasesFindFormType;
+use App\Services\budgetSumService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\ProcurementProcedures;
@@ -91,7 +92,7 @@ class InspectorPurchasesController extends AbstractController
     /**
      * @Route("/show-purchases/{id}", name="app_inspector_show_purchases", methods="GET|POST")
      */
-    public function showPurchases(Request $request, int $id): Response
+    public function showPurchases(Request $request, int $id, budgetSumService $budgetSumService): Response
     {
         $entity_manager = $this->getDoctrine()->getManager();
 
@@ -104,15 +105,17 @@ class InspectorPurchasesController extends AbstractController
             ->setParameter('isDeleted', false)
             ->getQuery()
             ->getResult();
-
+        $today = new \DateTimeImmutable('now');
 
         return $this->render('inspector/templates/showPurchases.html.twig', [
             'controller_name' => 'InspectorController',
             'prodProc' => $prodProc,
             'id' => $id,
-
+            'initial_sum' => $budgetSumService->getInitialBudget($prodProc, $today),
+            'fin_sum' => $budgetSumService->getFinBudget($prodProc, $today),
         ]);
     }
+
 
     /**
      * @Route("/view-purchases/{id}", name="app_inspector_view_purchase", methods="GET|POST")

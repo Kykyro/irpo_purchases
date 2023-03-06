@@ -1176,4 +1176,33 @@ class ProcurementProcedures
 
         return $this;
     }
+
+    public function getPurchasesStatus(\DateTime $day)
+    {
+        $day = $day->setTime(0,0,0,0);
+        if($this->getMethodOfDetermining() == 'Единственный поставщик')
+        {
+            if(is_null($this->getDateOfConclusion()))
+                return 'planning'; // планируется
+            if($this->getDateOfConclusion() >= $day)
+                return 'planning'; // планируется
+            else
+                return 'contract'; // Закантрактовано
+
+        }
+        else
+        {
+            if (is_null($this->getPublicationDate()) or $this->getPublicationDate() > $day){
+                return 'planning'; // планируется
+            }
+            else{
+                if($this->getDateOfConclusion() <= $day)
+                    return 'contract'; // закантрактовано
+                elseif ($this->getDateOfConclusion() > $day and $this->getPublicationDate() <= $day)
+                    return 'announced'; // Объявлено
+
+                return 'planning';
+            }
+        }
+    }
 }
