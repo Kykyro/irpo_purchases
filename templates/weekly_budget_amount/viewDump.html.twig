@@ -67,8 +67,31 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <h5>Суммы объявленых закупок</h5>
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td class="col-md-3">Сумма бюджетных средств</td>
+                                <td class="col-md-3">{{ initial['FederalFunds'] + initial['FundsOfSubject'] }} ₽</td>
+                                <td class="col-md-3">Сумма внебюджетных средств</td>
+                                <td class="col-md-3">{{ initial['EmployersFunds'] + initial['EducationalOrgFunds'] }} ₽</td>
+                            </tr>
+                            <tr>
+                                <td>Общая сумма</td>
+                                <td colspan="3">
+                                    {{
+
+                                    initial['FederalFunds'] + initial['FundsOfSubject'] +
+                                    initial['EmployersFunds'] + initial['EducationalOrgFunds']
+
+                                    }} ₽
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <h5>Закантрактовано</h5>
+                    <hr>
+                    <h5>Законтрактовано</h5>
                     <div>
                         <table class="table table-bordered">
                             <thead>
@@ -98,6 +121,28 @@
                                 <td>средства образовательной организации</td>
                                 <td>
                                    {{ fin['EducationalOrgFunds'] }} ₽
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <h5>Суммы законтрактованых закупок</h5>
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td class="col-md-3">Сумма бюджетных средств</td>
+                                <td class="col-md-3">{{ fin['FederalFunds'] + fin['FundsOfSubject'] }} ₽</td>
+                                <td class="col-md-3">Сумма внебюджетных средств</td>
+                                <td class="col-md-3">{{ fin['EmployersFunds'] + fin['EducationalOrgFunds'] }} ₽</td>
+                            </tr>
+                            <tr>
+                                <td>Общая сумма</td>
+                                <td colspan="3">
+                                    {{
+
+                                    fin['FederalFunds'] + fin['FundsOfSubject'] +
+                                    fin['EmployersFunds'] + fin['EducationalOrgFunds']
+
+                                    }} ₽
                                 </td>
                             </tr>
                             </tbody>
