@@ -12,21 +12,32 @@
     </div>
     <div id="hide-on-mobile" class="block_left_list"></div>
     <div class="container">
-        <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside">
+        <div id="portfolio-gallery" class="ed-carousel3 ed-slick dots-classic dots-light dots-outside">
             {% for i in news %}
-                <article class="carousel-item portfolio-item web">
+                <article class="carousel-item3 portfolio-item web" style="margin-right: 5rem">
                     <a href="{{ path('app_article_view', {'id': i.getId()}) }}" target="_blank">
-                        <div class="project-container mb-0 scale_img">
-
-                            <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
-                            <div class="overlay">
-                                <div class="overlay-wrapper">
-                                    <div class="overlay-inner background-dark-5 opacity-50"></div>
+                        <div class="row col-12">
+                            <div class="col-lg-2 m-5">
+                                <div class="panel scale_img_2" style="position: fixed; margin-top: 6rem">
+                                    <div class="panel-body">
+                                        <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="project-details text_scale_img">
-                                <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
+                            <div class="col-lg-8 m-5" style="margin-left: 20rem">
+                                <div class="panel text_scale_img_2 ">
+                                    <div class="panel-body">
+                                        <div class="project-details text_scale_img">
+                                            <h4 class="h5 project-title heading-uppercase">{{ i.title }}</h4>
+                                        </div>
+                                        <div class="overlay">
+                                            <div class="overlay-wrapper">
+                                                <div class="overlay-inner background-dark-5 opacity-50"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </a>

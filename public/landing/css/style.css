@@ -110,7 +110,7 @@ iframe {
 [2. Typography]
 */
 body {
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
@@ -124,7 +124,7 @@ h3, .h3,
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-variant-ligatures: common-ligatures;
 	margin-top: 0;
 	margin-bottom: 15px;
@@ -327,7 +327,7 @@ input,
 select,
 textarea { 
 	font-size: 16px;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-style: normal;
 	font-weight: 300;
 }
@@ -961,7 +961,7 @@ fieldset[disabled] .form-control {
 
 /* Base styles */
 .btn {
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
 	border: 0 solid transparent;
 	border-radius: 0;
@@ -1224,7 +1224,7 @@ fieldset[disabled] .form-control {
 }
 
 .progress .title {
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 12px;
 	line-height: 24px;
 	font-weight: 400;
@@ -1444,7 +1444,7 @@ fieldset[disabled] .form-control {
 	display: block;
 	font-size: 14px;
 	text-align: left;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
 	position: relative;
 	overflow: hidden;
@@ -2077,7 +2077,7 @@ div.pswp__caption__center {
 .alt.nav-tabs > li > a {
 	position: relative;
 	font-size: 13px;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-style: normal;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -2548,7 +2548,7 @@ div.pswp__caption__center {
 }
 
 .project-container:hover  .project-details .project-title {
-	color: #2951d5;
+	color: #2951d;
 }
 
 .portfolio-item .project-details p {
@@ -2736,7 +2736,7 @@ body.mobile .overlay-video {
 	line-height: 50px;
 	font-size: 0;
 	cursor: pointer;
-	background: #fff;
+	background: #eadfcd;
 	color: #333;
 	text-align: center;
 	top: 50%;
@@ -2998,7 +2998,7 @@ button.slick-next.slick-disabled {
 
 /* Font */
 .font-opensans {
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Roboto', sans-serif;
 }
 
 .subtitle {
@@ -6494,4 +6494,6 @@ body.mobile .mobile-hidden {
 	opacity:1;
 	filter:alpha(opacity=100);
 }
+
+
 
