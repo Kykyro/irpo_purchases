@@ -75,10 +75,10 @@ class ContractingXlsxService extends AbstractController
                 $date = new \DateTime('now');
                 if($procedure->getPurchasesStatus($date) == 'contract')
                 {
-                    $_data['M'] += $procedure->getfinFederalFunds();
+                    $_data['G'] += $procedure->getfinFederalFunds();
                     $_data['N'] += $procedure->getfinFundsOfSubject();
-                    $_data['O'] += $procedure->getfinEmployersFunds();
-                    $_data['G'] += $procedure->getfinFundsOfEducationalOrg();
+                    $_data['M'] += $procedure->getfinEmployersFunds();
+                    $_data['O'] += $procedure->getfinFundsOfEducationalOrg();
                 }
                 elseif ($procedure->getPurchasesStatus($date) == 'announced')
                 {
