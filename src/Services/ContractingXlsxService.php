@@ -120,6 +120,11 @@ class ContractingXlsxService extends AbstractController
             $sheet->getStyle("H$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
             $sheet->getStyle("J$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
             $sheet->getStyle("L$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
+            $curency_cell = ['G', 'I', 'K', 'M', 'N', 'O', 'P', 'Q', 'R'];
+            foreach ($curency_cell as $cell)
+            {
+                $sheet->getStyle($cell+$row)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+            }
 
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
