@@ -123,7 +123,7 @@ class ContractingXlsxService extends AbstractController
             $curency_cell = ['G', 'I', 'K', 'M', 'N', 'O', 'P', 'Q', 'R'];
             foreach ($curency_cell as $cell)
             {
-                $sheet->getStyle($cell+$row)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+                $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
             }
 
             $sheet->getRowDimension($index+1)->setRowHeight(65);
