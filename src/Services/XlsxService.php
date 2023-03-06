@@ -554,7 +554,7 @@ class XlsxService extends AbstractController
             // запись строк
             $sheet->setCellValue('A'.$row, $index);
             $sheet->fromArray($val->getAsRowWithFactFunds(), null, 'B'.$row);
-//            $sheet->setCellValue('D'.$row , $status);
+            $sheet->setCellValue('AE'.$row , $status);
             if($status == 'announced')
             {
                 foreach ($sheet->rangeToArray($initialSUMRANGE, null, true, true, true ) as $_row){

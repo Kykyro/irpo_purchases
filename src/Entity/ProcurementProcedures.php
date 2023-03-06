@@ -1196,7 +1196,7 @@ class ProcurementProcedures
                 return 'planning'; // планируется
             }
             else{
-                if($this->getDateOfConclusion() <= $day and  !is_null($this->getDateOfConclusion()))
+                if($this->getDateOfConclusion() <= $day and !is_null($this->getDateOfConclusion()))
                     return 'contract'; // закантрактовано
                 elseif ($this->getDateOfConclusion() > $day and $this->getPublicationDate() <= $day)
                     return 'announced'; // Объявлено
