@@ -4,7 +4,7 @@
 *
 *************************/
 .post__title, .entry-title {
-    text-transform: capitalize;
+    text-transform: inherit;
     color: var(--color-title);
 }
 .background-dots {
