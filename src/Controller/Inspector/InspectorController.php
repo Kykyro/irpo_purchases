@@ -6,6 +6,7 @@ use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Form\InspectorPurchasesFindFormType;
+use App\Form\inspectorUserEditFormType;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\ProcurementProcedures;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -176,6 +177,60 @@ class InspectorController extends AbstractController
             'user_info' => $user_info
 
         ]);
+    }
+
+    /**
+     * @Route("/cluster-info-edit/{id}", name="app_inspector_edit_info_about_cluster")
+     */
+    public function editUserInfo(int $id, Request $request){
+
+        $entity_manger = $this->getDoctrine()->getManager();
+        $user_info = $entity_manger->getRepository(UserInfo::class)->find($id);
+
+        $form = $this->createForm(inspectorUserEditFormType::class, $user_info);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+
+
+            $arr = [];
+            $key = 1;
+            $orgList = $user_info->getListOfEdicationOrganization();
+            foreach (array_keys($orgList) as $i)
+            {
+                $arr[$key] = $orgList[$i];
+                $key++;
+            }
+            $user_info->setListOfEdicationOrganization($arr);
+
+            $arr = [];
+            $key = 1;
+            $empList = $user_info->getListOfEmployers();
+            foreach (array_keys($empList) as $i)
+            {
+                $arr[$key] = $empList[$i];
+                $key++;
+            }
+            $user_info->setListOfEmployers($arr);
+
+            $entity_manger->persist($user_info);
+            $entity_manger->flush();
+            $user = $entity_manger->getRepository(User::class)
+                ->findBy([
+                    'user_info' => $user_info,
+                ]);
+            return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id' => $user[0]->getId()]);
+        }
+
+
+        return $this->render('inspector/templates/editUserInfo.html.twig', [
+            'controller_name' => 'InspectorController',
+            'userInfoForm' => $form->createView(),
+
+        ]);
+
     }
 //    /**
 //     * @Route("/a", name="a")

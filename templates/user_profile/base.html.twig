@@ -1,5 +1,16 @@
 {{ include('default/header.html.twig') }}
 
+<div class="row mt-5">
+    <div class="col-lg-10 offset-lg-1">
+        <a href="{{ path("app_user_password_change") }}">
+            <button class="btn btn-success col-lg-12">
+                <i class="fa fa-edit">
+                    Изменить пароль
+                </i>
+            </button>
+        </a>
+    </div>
+</div>
 {{ include('user_profile/templates/user_profile.html.twig') }}
 
 {{ include('default/footer.html.twig') }}

@@ -4,7 +4,17 @@
 
 
 {% block content %}
-
+    <div class="row mt-5">
+        <div class="col-lg-10 offset-lg-1">
+            <a href="{{ path('app_inspector_edit_info_about_cluster', {'id': user_info.getId()}) }}">
+                <button class="btn btn-success col-lg-12">
+                    <i class="fa fa-edit">
+                        Редактировать
+                    </i>
+                </button>
+            </a>
+        </div>
+    </div>
     {{ include('user_profile/templates/user_profile.html.twig') }}
 
 {% endblock %}
