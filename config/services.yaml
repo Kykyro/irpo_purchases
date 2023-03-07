@@ -22,6 +22,7 @@ parameters:
     additional_agreement_directory: '%kernel.project_dir%/public/uploads/additionalAgreement'
     contracting_tables_directory: '%kernel.project_dir%/public/uploads/contractingTables'
     repair_photos_directory: '%kernel.project_dir%/public/uploads/repairPhotos'
+    cluster_documents_directory: '%kernel.project_dir%/public/uploads/clusterDocuments'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
 services:

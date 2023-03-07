@@ -2,11 +2,14 @@
 
 namespace App\Controller\Inspector;
 
+use App\Entity\ClusterDocument;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
+use App\Form\clusterDocumentForm;
 use App\Form\InspectorPurchasesFindFormType;
 use App\Form\inspectorUserEditFormType;
+use App\Services\FileService;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\ProcurementProcedures;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -228,6 +231,68 @@ class InspectorController extends AbstractController
         return $this->render('inspector/templates/editUserInfo.html.twig', [
             'controller_name' => 'InspectorController',
             'userInfoForm' => $form->createView(),
+
+        ]);
+
+    }
+
+    /**
+     * @Route("/cluster-document-edit/{id}", name="app_inspector_edit_cluster_document")
+     */
+    public function editClusterDocument(int $id, Request $request, FileService $fileService){
+
+        $entity_manger = $this->getDoctrine()->getManager();
+        $user_info = $entity_manger->getRepository(UserInfo::class)->find($id);
+
+        $clusterDocument = $user_info->getClusterDocument();
+        if(!$clusterDocument)
+        {
+            $clusterDocument = new ClusterDocument();
+            $user_info->setClusterDocument($clusterDocument);
+        }
+
+
+
+        $form = $this->createForm(clusterDocumentForm::class, $clusterDocument);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $PartnershipAgreement = $form->get('PartnershipAgreement')->getData();
+            $FinancialAgreement = $form->get('FinancialAgreement')->getData();
+            $InfrastructureSheet = $form->get('InfrastructureSheet')->getData();
+            $DesignProject = $form->get('DesignProject')->getData();
+            $ActivityProgram = $form->get('ActivityProgram')->getData();
+
+            if($PartnershipAgreement)
+                $clusterDocument->setPartnershipAgreement($fileService->UploadFile($PartnershipAgreement, 'cluster_documents_directory'));
+            if($FinancialAgreement)
+                $clusterDocument->setFinancialAgreement($fileService->UploadFile($FinancialAgreement, 'cluster_documents_directory'));
+            if($InfrastructureSheet)
+                $clusterDocument->setInfrastructureSheet($fileService->UploadFile($InfrastructureSheet, 'cluster_documents_directory'));
+            if($DesignProject)
+                $clusterDocument->setDesignProject($fileService->UploadFile($DesignProject, 'cluster_documents_directory'));
+            if($ActivityProgram)
+                $clusterDocument->setActivityProgram($fileService->UploadFile($ActivityProgram, 'cluster_documents_directory'));
+
+
+
+
+            $entity_manger->persist($clusterDocument);
+            $entity_manger->persist($user_info);
+            $entity_manger->flush();
+            $user = $entity_manger->getRepository(User::class)
+                ->findBy([
+                    'user_info' => $user_info,
+                ]);
+            return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id' => $user[0]->getId()]);
+        }
+
+
+        return $this->render('inspector/templates/editClusterDocument.html.twig', [
+            'controller_name' => 'InspectorController',
+            'form' => $form->createView(),
 
         ]);
 

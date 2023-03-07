@@ -117,6 +117,11 @@ class UserInfo
      */
     private $financingFundsOfSubject;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ClusterDocument::class, mappedBy="userInfo", cascade={"persist", "remove"})
+     */
+    private $clusterDocument;
+
 
     function __construct()
     {
@@ -410,6 +415,28 @@ class UserInfo
     public function setFinancingFundsOfSubject(?float $financingFundsOfSubject): self
     {
         $this->financingFundsOfSubject = $financingFundsOfSubject;
+
+        return $this;
+    }
+
+    public function getClusterDocument(): ?ClusterDocument
+    {
+        return $this->clusterDocument;
+    }
+
+    public function setClusterDocument(?ClusterDocument $clusterDocument): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($clusterDocument === null && $this->clusterDocument !== null) {
+            $this->clusterDocument->setUserInfo(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($clusterDocument !== null && $clusterDocument->getUserInfo() !== $this) {
+            $clusterDocument->setUserInfo($this);
+        }
+
+        $this->clusterDocument = $clusterDocument;
 
         return $this;
     }
