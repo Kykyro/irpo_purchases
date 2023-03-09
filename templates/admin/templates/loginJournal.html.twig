@@ -1,0 +1,44 @@
+{% extends "admin/base.html.twig" %}
+
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Журнал посещений
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                        <td>№ п/п</td>
+                        <td>UUID</td>
+                        <td>Роли</td>
+                        <td>Дата первого входа</td>
+                        <td>Дата крайнего входа</td>
+                        </thead>
+                        <tbody>
+                        {% for i in  journal %}
+                            {% set user = i.getUser() %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ user.getUserIdentifier() }}</td>
+                                <td>{{ user.getRoles()|join(' | ') }}</td>
+                                <td>{{ i.getFirstLogin().format('d.m.Y') }}</td>
+                                <td>{{ i.getLastLogin().format('d.m.Y') }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
