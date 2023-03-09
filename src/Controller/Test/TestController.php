@@ -9,10 +9,12 @@ use App\Entity\User;
 use App\Form\ChoiceInputType;
 use App\Form\testformFormType;
 use App\Services\FileService;
+use PhpOffice\PhpWord\TemplateProcessor;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -36,35 +38,31 @@ class TestController extends AbstractController
      */
     public function index(Request $request,  SerializerInterface $serializer): Response
     {
-        $form = $this->createForm(testformFormType::class);
-
-        $form->handleRequest($request);
-        if($form->isSubmitted() and $form->isValid()){
-            dd($form->getData());
-        }
 
 
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
-            'form' => $form->createView(),
+
         ]);
     }
 
-    private function getNMCK(array $arr){
-        $sum = 0;
-        foreach ($arr as $item){
-            $sum += $item->getNMCK();
-        }
-        return $sum;
+    /**
+     * @Route("/test-download", name="app_test_download")
+     */
+    public function download(Request $request,  SerializerInterface $serializer): Response
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+        $templateProcessor = new TemplateProcessor('../public/word/Справка_о_контрактации_и_расходовании_средств.docx');
+        $templateProcessor->setValues(array('value1' => 'John'));
+
+        $fileName = '_aaaaa'.'.docx';
+        $filepath = $templateProcessor->save();
+
+        return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 
-    private  function getFinSum(array $arr){
-        $sum = 0;
-        foreach ($arr as $item){
-            $sum += $item->getContractCost();
-        }
-        return $sum;
-    }
+
 
 
 }
