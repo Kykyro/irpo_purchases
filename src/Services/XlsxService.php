@@ -290,7 +290,14 @@ class XlsxService extends AbstractController
 
 
     }
+    public function generatePurchasesProcedureTableWithDate(int $user_id, \DateTime $today)
+    {
+        $procedures = $this->getProcedureById($user_id);
+        $user = $this->getUserById($user_id);
+        $userInfo = $user->getUserInfo();
 
+        return $this->tableGeneratorWithFactFunds($userInfo, $procedures, $today);
+    }
     public function generatePurchasesProcedureByDump(int $dump_id, SerializerInterface $serializer){
         $entity_manager = $this->getDoctrine()->getManager();
         $dump = $entity_manager->getRepository(PurchasesDump::class)->find($dump_id);

@@ -7,13 +7,32 @@
 
 {% block content %}
 {% set buttons %}
-    <div class="col-lg-5 m-1">
-        <a href="{{ path('download_purchases_xlsx', {'user_id': id}) }}">
-            <button class="btn-gray-all btn btn-outline-success">
-            <div class="fa fa-table"></div>
-                Скачать таблицу
-            </button>
-        </a>
+    <div class="row">
+        <div class="col-lg-5 m-1">
+            <a href="{{ path('download_purchases_xlsx', {'user_id': id}) }}">
+                <button class="btn-gray-all btn btn-outline-success">
+                    <div class="fa fa-table"></div>
+                    Скачать таблицу
+                </button>
+            </a>
+        </div>
+    </div>
+<hr>
+    <div class="row">
+
+        <div class="col-lg-5 m-1">
+            <h5>
+                Скачать с указанием даты
+            </h5>
+            {{ form_start(form) }}
+                <label>
+                    Дата
+                </label>
+                <br>
+                {{ form_widget(form.date) }}
+                {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endset %}
 {{ include('inspector/templates/prodProcTable.html.twig', {'buttons': buttons}) }}

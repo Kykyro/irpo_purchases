@@ -48,12 +48,12 @@ class ContractingXlsxService extends AbstractController
             ->getResult();
     }
 
-    public function downloadTable(int $year)
+    public function downloadTable(int $year, \DateTime $today)
     {
         $sheet_template = "../public/excel/contracting.xlsx";
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
         $sheet = $spreadsheet->getActiveSheet();
-        $today = new \DateTime('now');
+
         $grant = 100000000;
         $index = 1;
         $users = $this->getUsersByYear($year);

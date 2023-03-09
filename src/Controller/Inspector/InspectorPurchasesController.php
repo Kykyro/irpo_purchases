@@ -16,6 +16,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Response;
@@ -92,7 +93,7 @@ class InspectorPurchasesController extends AbstractController
     /**
      * @Route("/show-purchases/{id}", name="app_inspector_show_purchases", methods="GET|POST")
      */
-    public function showPurchases(Request $request, int $id, budgetSumService $budgetSumService): Response
+    public function showPurchases(Request $request, int $id, budgetSumService $budgetSumService, XlsxService $xlsxService): Response
     {
         $entity_manager = $this->getDoctrine()->getManager();
 
@@ -107,12 +108,35 @@ class InspectorPurchasesController extends AbstractController
             ->getResult();
         $today = new \DateTimeImmutable('now');
 
+        $arr = [];
+        $form = $this->createFormBuilder($arr)
+            ->add('date', DateType::class, [
+                'widget' => 'single_text',
+                'required'   => true,
+                'label' => 'Дата'
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn mt-3'
+                ],
+                'label' => 'скачать'
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $data = $form->getData();
+            return $xlsxService->generatePurchasesProcedureTableWithDate($id, $data['date']);
+        }
+
         return $this->render('inspector/templates/showPurchases.html.twig', [
             'controller_name' => 'InspectorController',
             'prodProc' => $prodProc,
             'id' => $id,
             'initial_sum' => $budgetSumService->getInitialBudget($prodProc, $today),
             'fin_sum' => $budgetSumService->getFinBudget($prodProc, $today),
+            'form' => $form->createView()
         ]);
     }
 

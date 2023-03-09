@@ -7,6 +7,7 @@ use App\Entity\ProcurementProcedures;
 use App\Entity\User;
 use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -54,15 +55,30 @@ class InspectorContractingController extends AbstractController
                 ],
                 'label' => 'Скачать'
             ])
+            ->add('date', DateType::class, [
+                'widget' => 'single_text',
+                'required'   => false,
+                'label' => 'Дата проверки'
+            ])
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             if($data['type'] == 1)
-                return $contractingXlsxService->downloadTable($data['year']);
+            {
+                if($data['date'])
+                {
+                    return $contractingXlsxService->downloadTable($data['year'], $data['date']);
+                }
+                $today = new \DateTime('now');
+                return $contractingXlsxService->downloadTable($data['year'], $today);
+            }
             if($data['type'] == 2)
+            {
                 return $readinessMapXlsxService->downloadTable($data['year']);
+            }
+
 
         }
 
