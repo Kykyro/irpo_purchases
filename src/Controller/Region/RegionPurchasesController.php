@@ -5,6 +5,7 @@ namespace App\Controller\Region;
 use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
+use App\Form\cancelPurchasesForm;
 use App\Form\ChoiceInputType;
 use App\Form\purchasesFormType;
 use App\Services\FileService;
@@ -238,8 +239,14 @@ class RegionPurchasesController extends AbstractController
                 'label' => 'Удалить'
             ])
             ->getForm();
+        $cancelForm = $this->createForm(cancelPurchasesForm::class, $purchase);
+
 
         $form->handleRequest($request);
+        $cancelForm->handleRequest($request);
+
+
+
 
 
         if($form->isSubmitted() && $form->isValid()){
@@ -247,6 +254,13 @@ class RegionPurchasesController extends AbstractController
             $data = $form->getData();
             $purchase->setIsDeleted(true);
             $purchase->setDeleteReason($data['reason']);
+            $entity_manager->persist($purchase);
+            $entity_manager->flush();
+            return $this->redirectToRoute('app_main');
+        }
+
+        if($cancelForm->isSubmitted() && $cancelForm->isValid()) {
+            $purchase->setIsCancelled(true);
             $entity_manager->persist($purchase);
             $entity_manager->flush();
             return $this->redirectToRoute('app_main');
@@ -263,9 +277,27 @@ class RegionPurchasesController extends AbstractController
             'closingDocument' => $closingDocument,
             'additionalAgreement' => $additionalAgreement,
             'notes' => $notes,
+            'cancelledForm' => $cancelForm->createView(),
 
         ]);
     }
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     * @Route("/purchases-is-not-cancelled/{id}", name="app_purchases_is_not_cancelled")
+     */
+    public function purchaseIsNotCancelled(Request $request, int $id) : Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $purchases = $entity_manager->getRepository(ProcurementProcedures::class)->find($id);
 
+        $purchases->setIsCancelled(false);
+
+        $entity_manager->persist($purchases);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_main');
+    }
 
 }

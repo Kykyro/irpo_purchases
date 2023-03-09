@@ -43,6 +43,12 @@
                 <div class="fa fa-trash"></div>
                 Удалить
             </button>
+            {% if not purchase.isIsCancelled() %}
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#cancelledModal">
+                    <div class="fa fa-warning"></div>
+                    Закупка отменена
+                </button>
+            {% endif %}
             {% if is_granted('ROLE_INSPECTOR') %}
                 <a href="{{ path("app_purchases_history", {id: app.request.get("id")}) }}">
                     <button class="btn-gray-all btn btn-outline-success ">
@@ -53,6 +59,31 @@
             {% endif %}
         </div>
     </div>
+    {% if purchase.isIsCancelled() %}
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        Сообщение
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Закупка отмечена как отмененная
+                        </p>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="{{ path('app_purchases_is_not_cancelled', {'id': purchase.getId()}) }}">
+                            <button class="btn btn-primary">
+                                <i class="fa fa-check">
+                                    Востановить
+                                </i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     {% set notes = purchase.getPurchaseNotes() %}
     {% if notes|length > 0 %}
@@ -794,6 +825,31 @@
                     {{ form_widget(form.submit) }}
                 </div>
                 {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cancelledModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Закупка отменена</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{ form_start(cancelledForm) }}
+                <div class="modal-body">
+                    <label>
+                        Причина отмены
+                    </label>
+                    {{ form_widget(cancelledForm.cancelledComment) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    {{ form_widget(cancelledForm.submit) }}
+                </div>
+                {{ form_end(cancelledForm) }}
             </div>
         </div>
     </div>

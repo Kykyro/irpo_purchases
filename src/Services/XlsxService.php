@@ -524,6 +524,12 @@ class XlsxService extends AbstractController
                 'startColor' => array('argb' => 'afd095')
             )
         );
+        $styleFillCancelled = array(
+            'fill' => array(
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array('argb' => 'ca8270')
+            )
+        );
 
         $initialFedFundSUM = "=";
         $initialSubFundSUM = "=";
@@ -609,6 +615,11 @@ class XlsxService extends AbstractController
                     }
                 }
             }
+            elseif($status == 'cancelled')
+            {
+                $sheet->getStyle("A$row:AD$row")->applyFromArray($styleFillCancelled);
+            }
+
 
             $index++;
         }

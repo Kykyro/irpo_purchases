@@ -323,6 +323,16 @@ class ProcurementProcedures
      */
     private $prepaymentDate;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isCancelled;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $cancelledComment;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -821,7 +831,7 @@ class ProcurementProcedures
                 $this->getFactFundsOfSubject(),
                 $this->getFactEmployersFunds(),
                 $this->getFactFundsOfEducationalOrg(),
-                $this->getComments()
+                ($this->isIsCancelled()) ? $this->getCancelledComment() : $this->getComments()
             );
         }
         else{
@@ -854,7 +864,7 @@ class ProcurementProcedures
                 $this->getFactFundsOfSubject(),
                 $this->getFactEmployersFunds(),
                 $this->getFactFundsOfEducationalOrg(),
-                $this->getComments()
+                ($this->isIsCancelled()) ? $this->getCancelledComment() : $this->getComments()
             );
         }
 
@@ -1179,6 +1189,9 @@ class ProcurementProcedures
 
     public function getPurchasesStatus(\DateTime $day)
     {
+        if($this->isIsCancelled())
+            return 'cancelled';
+
         $day = $day->setTime(0,0,0,0);
         if($this->getMethodOfDetermining() == 'Единственный поставщик')
         {
@@ -1215,5 +1228,29 @@ class ProcurementProcedures
                 return 'planning';
             }
         }
+    }
+
+    public function isIsCancelled(): ?bool
+    {
+        return $this->isCancelled;
+    }
+
+    public function setIsCancelled(?bool $isCancelled): self
+    {
+        $this->isCancelled = $isCancelled;
+
+        return $this;
+    }
+
+    public function getCancelledComment(): ?string
+    {
+        return $this->cancelledComment;
+    }
+
+    public function setCancelledComment(?string $cancelledComment): self
+    {
+        $this->cancelledComment = $cancelledComment;
+
+        return $this;
     }
 }

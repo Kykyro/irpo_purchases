@@ -196,7 +196,11 @@
                                     </thead>
                                     <tbody>
                                     {% for i in prodProc %}
-                                        <tr id="prod-proc-tr">
+                                        {% if i.isIsCancelled() %}
+                                            <tr id="prod-proc-tr" style="background-color: rgba(177,92,94,0.49)">
+                                        {% else %}
+                                            <tr id="prod-proc-tr">
+                                        {% endif %}
                                             <td class="bg-success">{{ loop.index }}</td>
                                             {% for j in i.getAsRowWithFactFunds() %}
                                                 {% if loop.index == 11 %}
@@ -219,35 +223,6 @@
                                             <td>
 
                                             </td>
-                                            {#<td>#}
-                                                {#{% set file = i.getFileDir() %}#}
-                                                {#{% set closingDocument = i.getClosingDocument() %}#}
-                                                {#{% set paymnetOrder = i.getPaymentOrder() %}#}
-                                                {#<ul>#}
-                                                    {#{% if file != "" %}#}
-                                                        {#<li>#}
-                                                            {#<a href="{{ path('app_download_purchases_file', {'file': file}) }}">Договор / проект договора</a>#}
-                                                        {#</li>#}
-                                                        {#<hr>#}
-                                                    {#{% endif %}#}
-                                                    {#{% if closingDocument != "" %}#}
-                                                        {#<li>#}
-                                                            {#<a href="{{ path('app_download_file_by_route', {'file': closingDocument, 'route':'closing_files_directory'}) }}">Закрывающий документ</a>#}
-                                                        {#</li>#}
-                                                        {#<hr>#}
-                                                    {#{% endif %}#}
-                                                    {#{% if paymnetOrder != "" %}#}
-                                                        {#<li>#}
-                                                            {#<a href="{{ path('app_download_file_by_route', {'file': paymnetOrder, 'route': 'payment_orders_directory'}) }}">Платежное поручение</a>#}
-                                                        {#</li>#}
-                                                    {#{% endif %}#}
-                                                {#</ul>#}
-                                            {#</td>#}
-
-
-
-
-
                                         </tr>
                                     {% endfor %}
                                     </tbody>
