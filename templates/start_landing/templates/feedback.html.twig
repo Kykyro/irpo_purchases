@@ -2,6 +2,11 @@
         <div class="container feedback_size">
             <div class="row">
                 <div class="col-md-12 ">
+                    <div id="form-success" >
+                        <div>
+                            Ваша заявка успешно отправлена!
+                        </div>
+                    </div>
                     <div class="contact-form">
                         {{ form_start(feedbackForm) }}
                         <div>
@@ -48,7 +53,7 @@
                                                     {{  form_widget(feedbackForm.email, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Email'}}) }}
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" name="USER_PHONE" class="form-control pb_height-50 reverse" placeholder="Телефон" required="">
+                                                    {{  form_widget(feedbackForm.number, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Телефон'}}) }}
                                                 </div>
                                                 <div class="form-group design_margin">
                                                     {{  form_widget(feedbackForm.topic, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Тема сообщение'}}) }}
@@ -60,7 +65,8 @@
                                                     <div class="col-lg-2 m-5">
                                                         <div>
                                                             <div class="panel-body">
-                                                                <input type="checkbox" id="policy_full" name="policy" value="y" class="form-control reverse custom-control-input" required="required" style="float: left">
+                                                                {{ form_widget(feedbackForm.agree) }}
+                                                                {#<input type="checkbox" id="policy_full" name="policy" value="y" class="form-control reverse custom-control-input" required style="float: left">#}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -78,11 +84,7 @@
                                                 </div>
                                             </form>
                                             {{ form_end(feedbackForm) }}
-                                            <div id="form-success" >
-                                                <div>
-                                                    Ваша заявка успешно отправлена!
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

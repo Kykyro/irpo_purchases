@@ -2,6 +2,14 @@ $(document).ready(function () {
     let formSuccess = $('#form-success');
     formSuccess.hide();
     $('form[name="form"]').submit((event) => {
+        let agree = $('#form_agree');
+
+        if(!agree.is(':checked'))
+        {
+            event.preventDefault();
+            return;
+        }
+
         let isValid = true;
         let fio = $('#form_FIO').val();
         let email = $('#form_email').val();

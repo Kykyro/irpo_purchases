@@ -47,6 +47,11 @@ class Feedback
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $number;
+
     function __construct() {
         $this->setCreatedAt(new \DateTimeImmutable('now'));
         $this->setIsViewed(false);
@@ -125,6 +130,18 @@ class Feedback
     public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getNumber(): ?string
+    {
+        return $this->number;
+    }
+
+    public function setNumber(?string $number): self
+    {
+        $this->number = $number;
 
         return $this;
     }

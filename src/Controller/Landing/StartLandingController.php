@@ -7,6 +7,8 @@ use App\Entity\DesignProjectExample;
 use App\Entity\Employees;
 use App\Entity\Feedback;
 use App\Entity\PartnersLogo;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -37,6 +39,11 @@ class StartLandingController extends AbstractController
             ->add("email", TextType::class)
             ->add("topic", TextType::class)
             ->add("message", TextareaType::class)
+            ->add("number", TextType::class)
+            ->add("agree", CheckboxType::class, [
+                'mapped' => false,
+                'required' => true,
+            ])
             ->add("submit", SubmitType::class)
             ->getForm();
 
