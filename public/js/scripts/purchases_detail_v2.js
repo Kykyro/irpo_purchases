@@ -615,6 +615,10 @@ $(document).ready(function () {
             'purchases_form[factEducationalOrgFunds]' : {
                 FinSumGreatedThenFactSum: 'Фактическое расходование не может быть больше Цены контракта / договора'
             },
+            'purchases_form[PurchaseLink]':
+            {
+                required: "Это поле обязательно"
+            }
         }
     });
 });
