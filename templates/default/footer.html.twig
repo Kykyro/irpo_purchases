@@ -56,6 +56,26 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function(){
+        function isFloat(n){
+            return Number(n) === n && n % 1 !== 0;
+        }
+        function isInt(n) {
+            return n % 1 === 0;
+        }
+        let numberCells = $('.cell-number');
+        numberCells.each((elem) => {
+            let _cell = $(numberCells[elem]);
+            let _text = "";
+            console.log();
+            if(isFloat(parseFloat(_cell.text())) || isInt(parseInt(_cell.text())))
+                _text = parseFloat(_cell.text()).toLocaleString('ru-RU') + "₽";
+
+            _cell.text(_text);
+        });
+    });
+</script>
 {% if is_granted('ROLE_INSPECTOR') %}
     <script>
         $(document).ready(function(){

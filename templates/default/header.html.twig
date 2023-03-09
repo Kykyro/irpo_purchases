@@ -140,7 +140,7 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
                         {% if is_granted('IS_IMPERSONATOR') %}
-                            <a href="{{ impersonation_exit_path(path('app_admin', {'_switch_user': '_exit'}) ) }}">
+                            <a href="{{ impersonation_exit_path(path('app_login', {'_switch_user': '_exit'}) ) }}">
                                 <button class="btn btn-danger">
                                     <i class="fa fa-ban">
                                         Выйти из пользователя
