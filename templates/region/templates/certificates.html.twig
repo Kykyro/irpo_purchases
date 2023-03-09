@@ -1,0 +1,24 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+    <div class="row mt-5">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Скачать справку
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <a href="{{ path('app_region_certificate_download', {'id': user.getId()}) }}">
+                        <button class="btn">
+                            <i class="fa fa-download">
+                                Скачать
+                            </i>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
