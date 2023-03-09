@@ -6,17 +6,35 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>
-                        Скачать справку
+                        Справки
                     </h5>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ path('app_region_certificate_download', {'id': user.getId()}) }}">
-                        <button class="btn">
-                            <i class="fa fa-download">
-                                Скачать
-                            </i>
-                        </button>
-                    </a>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="col-md-10">Название</td>
+                                <td class="col-md-2">Скачать</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Справка о контрактации и расходовании средств в рамках оснащения образовательно-производственного центра (кластера)
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_region_certificate_download', {'id': user.getId()}) }}">
+                                        <button class="btn btn-primary">
+                                            <i class="fa fa-download">
+                                                Скачать
+                                            </i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
         </div>

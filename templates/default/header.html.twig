@@ -83,6 +83,9 @@
                     <li>
                         <a href="{{ path("app_region_readiness_map") }}"><i class="fa fa-check-circle left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Карта готовности </span></a>
                     </li>
+                    <li>
+                        <a href="{{ path("app_region_certificate") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справки </span></a>
+                    </li>
                 {% endif %}
                 {% if is_granted('ROLE_INSPECTOR') %}
                     {#<li > #}{# class="active" #}
