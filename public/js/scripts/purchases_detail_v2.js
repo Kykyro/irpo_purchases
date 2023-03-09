@@ -119,6 +119,16 @@ $(document).ready(function () {
     let initial_sum = $(".sum_initial");
     let fin_sum = $(".sum_fin");
 
+    let todayInput = $('#today');
+
+    let now = new Date();
+    let day = ("0" + now.getDate()).slice(-2);
+    let month = ("0" + (now.getMonth() + 1)).slice(-2);
+    let today = now.getFullYear() + "-" + (month) + "-" + (day);
+    todayInput.val(today);
+    // todayInput.datepicker('setDate', new Date());
+    // console.log(todayInput.val());
+
 
     function NMCKgreatedThenFinSum() {
         let f_sum = getSum(fin_federal_funds, fin_funds_of_subject,
@@ -147,9 +157,33 @@ $(document).ready(function () {
     $.validator.addMethod("NMCKmoreThenFinSum", function(value, element) {
         return NMCKgreatedThenFinSum();
     }, "* Amount must be greater than zero");
+
     $.validator.addMethod("FinSumGreatedThenFactSum", function(value, element) {
         return FinSumGreatedThenFactSum();
     }, "* Amount must be greater than zero");
+
+    $.validator.addMethod("greaterThanDate",
+        function(value, element, params) {
+
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) > new Date($(params).val());
+            }
+
+            return isNaN(value) && isNaN($(params).val())
+                || (Number(value) > Number($(params).val()));
+        },'Must be greater than {0}.');
+
+    $.validator.addMethod("lessThanDate",
+        function(value, element, params) {
+
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) <= new Date($(params).val());
+            }
+
+            return isNaN(value) && isNaN($(params).val())
+                || (Number(value) <= Number($(params).val()));
+        },'Must be less than {0}.');
+
 
     function soloSupplier(isThis){
         if(isThis)
@@ -506,6 +540,9 @@ $(document).ready(function () {
             'purchases_form[factFundsOfEducationalOrg]': {
                 FinSumGreatedThenFactSum : true
             },
+            'purchases_form[publicationDate]': {
+                lessThanDate: todayInput
+            }
         },
         messages: {
             'purchases_form[PurchaseObject]': "Введите предмет закупки",
@@ -541,7 +578,10 @@ $(document).ready(function () {
                 step: $.validator.format("Укажите не более 2-х знаков после запятой"),
             },
 
-            'purchases_form[publicationDate]': "Это поле обязательно",
+            'purchases_form[publicationDate]':{
+                required: "Это поле обязательно",
+                lessThanDate: 'Нельзя указать дату подписания раньше, чем сегодня',
+            } ,
             'purchases_form[DateOfConclusion]': "Это поле обязательно",
             'purchases_form[finFederalFunds]' : {
                 NMCKmoreThenFinSum: 'Цена контракта / договора не может быть больше НМЦК'

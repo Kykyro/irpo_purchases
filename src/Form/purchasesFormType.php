@@ -60,7 +60,7 @@ class purchasesFormType extends AbstractType
             ->add("PurchaseLink", TextType::class,
                 [
                     'attr' => ['class' => 'form-control'],
-                    'required'   => false,
+                    'required'   => true,
                     'disabled' => $is_disabled
                 ])
             ->add("PurchaseNumber", TextType::class,
