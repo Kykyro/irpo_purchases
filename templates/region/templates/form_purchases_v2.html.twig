@@ -41,6 +41,28 @@
                     {#<form id="form" action="#" class="wizard-big">#}
                         <h1>Предмет закупки</h1>
                         <fieldset>
+                            {#{% set error = form.getErrors() %}#}
+                            {% if errors|length > 0 %}
+                                <div class="row">
+                                    <div class="panel panel-danger">
+                                        <div class="panel-heading">
+                                            Ошибки
+                                        </div>
+                                        <div class="panel-body">
+                                            <ol>
+                                                {% for error in errors %}
+                                                    <li>{{ error.message }} <b>{{ error.cause.propertyPath }}</b></li>
+                                                {% endfor %}
+                                            </ol>
+
+                                        </div>
+                                        <div class="panel-footer">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            {% endif %}
                             <h2>Предмет закупки</h2>
                             <div class="row">
                                 <div class="col-lg-8">
@@ -62,10 +84,36 @@
 
                                     </div>
                                     <div class="form-group" id="isPlanned">
-
-                                        {{ form_widget(form.isPlanned) }}
-                                        <label>Закупка на стадии планирования</label>
+                                        <hr>
+                                        {{ form_widget(form.isPlanned, {'attr': {'style':'transform: scale(1.5);', 'class':'mr-3'}}) }}
+                                        <label style="font-size: 16px"> Закупка на стадии планирования</label>
                                     </div>
+                                    <hr>
+                                    <div id="purchase-placement">
+                                        <h2>Срок размещения закупки в ЕИС / ЭМ</h2>
+                                        <div class="form-group">
+                                            <label>Дата публикации извещения</label>
+                                            {{ form_widget(form.publicationDate) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Дата окончания подачи заявок</label>
+                                            {{ form_widget(form.deadlineDate) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Дата подведения итогов</label>
+                                            {{ form_widget(form.dateOfSummingUp) }}
+                                        </div>
+                                        <h2>Перенос срока размещения закупки в ЕИС / ЭМ</h2>
+                                        <div class="form-group">
+                                            <label>Дата</label>
+                                            {{ form_widget(form.postponementDate) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>причина (обоснование)</label>
+                                            {{ form_widget(form.postonementComment) }}
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -133,31 +181,7 @@
 
 
 
-                        <h1>Срок размещения закупки в ЕИС / ЭМ </h1>
-                        <fieldset>
-                            <h2>Срок размещения закупки в ЕИС / ЭМ</h2>
-                            <div class="form-group">
-                                <label>Дата публикации извещения</label>
-                                {{ form_widget(form.publicationDate) }}
-                            </div>
-                            <div class="form-group">
-                                <label>Дата окончания подачи заявок</label>
-                                {{ form_widget(form.deadlineDate) }}
-                            </div>
-                            <div class="form-group">
-                                <label>Дата подведения итогов</label>
-                                {{ form_widget(form.dateOfSummingUp) }}
-                            </div>
-                            <h2>Перенос срока размещения закупки в ЕИС / ЭМ</h2>
-                            <div class="form-group">
-                                <label>Дата</label>
-                                {{ form_widget(form.postponementDate) }}
-                            </div>
-                            <div class="form-group">
-                                <label>причина (обоснование)</label>
-                                {{ form_widget(form.postonementComment) }}
-                            </div>
-                        </fieldset>
+
 
 
 
@@ -456,5 +480,5 @@
 
     <script src="{{ asset('js/plugins/steps/jquery.steps.min.js') }}"></script>
     <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('js/scripts/purchases_detail_v2.js?v=1.4') }}"></script>
+    <script src="{{ asset('js/scripts/purchases_detail_v2.js?v=1.5') }}"></script>
 {% endblock %}

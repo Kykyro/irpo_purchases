@@ -114,7 +114,7 @@ $(document).ready(function () {
 
     // ------
     let formState = "Единственный поставщик";
-    let showFieldset = [0, 1, 4, 5, 6, 7];
+    let showFieldset = [0, 1, 3, 4, 5, 6];
     // Суммы
     let initial_sum = $(".sum_initial");
     let fin_sum = $(".sum_fin");
@@ -129,6 +129,7 @@ $(document).ready(function () {
     // todayInput.datepicker('setDate', new Date());
     // console.log(todayInput.val());
 
+    let  purchasePlacement = $('#purchase-placement');
 
     function NMCKgreatedThenFinSum() {
         let f_sum = getSum(fin_federal_funds, fin_funds_of_subject,
@@ -194,15 +195,15 @@ $(document).ready(function () {
             isPlannedRow.hide();
             isPlanned.prop('checked', false);
             isPlannedChange();
-            showFieldset = [0, 1, 4, 5, 6, 7];
+            showFieldset = [0, 1, 3, 4, 5, 6];
 
             hideStep(2);
-            hideStep(3);
 
             finSumRow.hide();
             setRequired(false, publication_date, conclusion_date);
             setDisabled(true, publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment);
+            purchasePlacement.hide();
         }
         else {
             setRequired(true, publication_date, conclusion_date);
@@ -210,8 +211,9 @@ $(document).ready(function () {
                 purchases_number, postponement_date, postponement_comment);
             isPlannedRow.show();
             finSumRow.show();
-            showFieldset = [0, 1, 2, 3, 4, 5, 6, 7];
+            showFieldset = [0, 1, 2, 3, 4, 5, 6];
             isPlannedChange();
+            purchasePlacement.show();
         }
     }
 
@@ -342,8 +344,8 @@ $(document).ready(function () {
     }
     function isPlannedChange(){
         if(isPlanned.is(':checked')){
-            showFieldset = [0, 1, 4, 7];
-            let hideSteps = [2, 3, 5, 6];
+            showFieldset = [0, 1, 3, 6];
+            let hideSteps = [2, 4, 5];
             showFieldset.forEach((elem)=>{
                 showStep(elem);
             });
@@ -360,14 +362,16 @@ $(document).ready(function () {
                 fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject, contractStatusSelect);
             contractStatusSelect.val(1);
             contractStatusChange();
+            purchasePlacement.hide();
         }
         else{
-            showFieldset = [0, 1, 2, 3, 4, 5, 6, 7];
+            showFieldset = [0, 1, 2, 3, 4, 5, 6];
             showFieldset.forEach((elem)=>{
                 showStep(elem);
             });
 
             finSumRow.show();
+            purchasePlacement.show();
 
             setDisabled(false, publication_date, deadline_date, summing_up_date, purchases_link,
                 purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date,
@@ -402,7 +406,7 @@ $(document).ready(function () {
             setDisabled(true,  conclusion_date, delivery_date,  fin_edication_org_funds, fin_employers_funds,
                 fin_federal_funds, fin_funds_of_subject, comment,
                 fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject);
-            let hide = [6, 5];
+            let hide = [4, 5];
             hide.forEach((elem)=>{
                 if(showFieldset.includes(elem)) {
                     showFieldset = showFieldset.filter(function (value, index, arr) {
@@ -411,7 +415,8 @@ $(document).ready(function () {
                     hideStep(elem);
                 }
             });
-
+            let _step = $("#form-t-"+6);
+            _step.show().parent().removeClass("done").addClass("disabled");
             }
 
         // Догово подписан
@@ -421,13 +426,16 @@ $(document).ready(function () {
             setDisabled(false,  conclusion_date, delivery_date,  fin_edication_org_funds, fin_employers_funds,
                 fin_federal_funds, fin_funds_of_subject, comment,
                 fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject);
-            let show = [6, 5];
+
+            let show = [5, 4, 6];
             show.forEach((elem)=>{
                 if(!showFieldset.includes(elem)) {
                     showFieldset.push(elem);
                     showStep(elem);
                 }
             });
+            let _step = $("#form-t-"+6);
+            _step.show().parent().removeClass("done").addClass("disabled");
         }
         updateFinSum();
     }
@@ -580,7 +588,7 @@ $(document).ready(function () {
 
             'purchases_form[publicationDate]':{
                 required: "Это поле обязательно",
-                lessThanDate: 'Нельзя указать дату подписания раньше, чем сегодня',
+                lessThanDate: 'Дата публикации извещения должна быть не позднее текущей даты.',
             } ,
             'purchases_form[DateOfConclusion]': "Это поле обязательно",
             'purchases_form[finFederalFunds]' : {
@@ -617,7 +625,11 @@ $(document).ready(function () {
             },
             'purchases_form[PurchaseLink]':
             {
-                required: "Это поле обязательно"
+                required: "Это поле обязательно для заполнения"
+            },
+            'purchases_form[PurchaseNumber]':
+            {
+                required: "Это поле обязательно для заполнения"
             }
         }
     });

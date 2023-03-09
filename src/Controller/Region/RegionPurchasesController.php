@@ -150,7 +150,8 @@ class RegionPurchasesController extends AbstractController
             'paymentOrder' => $paymentOrder,
             'closingDocument' => $closingDocument,
             'additionalAgreement' => $additionalAgreement,
-            'pp' => $procurement_procedure
+            'pp' => $procurement_procedure,
+            'errors' => $form->getErrors(true)
 
         ]);
 
