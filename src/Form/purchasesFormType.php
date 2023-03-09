@@ -68,7 +68,7 @@ class purchasesFormType extends AbstractType
                     'attr' => [
                         'class' => 'form-control'
                     ],
-                    'required'   => false,
+                    'required'   => true,
                     'disabled' => $is_disabled
                 ])
             ->add("DateOfConclusion", DateType::class,[
@@ -265,7 +265,7 @@ class purchasesFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '100M',
+//                        'maxSize' => '100M',
 //                        'mimeTypes' => [
 //                            'application/pdf',
 //                            'application/x-pdf',
@@ -369,7 +369,7 @@ class purchasesFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '100M',
+//                        'maxSize' => '100M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
@@ -389,7 +389,7 @@ class purchasesFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '100M',
+//                        'maxSize' => '100M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
@@ -409,7 +409,7 @@ class purchasesFormType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '100M',
+//                        'maxSize' => '100M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
