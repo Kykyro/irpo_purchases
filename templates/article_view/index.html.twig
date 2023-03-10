@@ -31,6 +31,13 @@
 
         }
 
+        @media screen and (min-width: 1920px) {
+
+            #size-up-1920 {
+
+                width: 60%;
+            }
+        }
     </style>
 
     <!-- Yandex.Metrika counter -->
@@ -56,9 +63,9 @@
 <!-- .site-wrapper -->
 <div class="site-wrapper" style="background-image: url({{ asset('img/img_start_landing/Background_1.jpg') }}); background-size: 135%; background-repeat: inherit; background-position: center; position: inherit">
     <!-- Site header -->
-    <header class="site-header">
+    <header class="site-header" >
         <!-- Mobile header -->
-        <div id="atbs-mobile-header" class="mobile-header visible-xs visible-sm">
+        <div id="atbs-mobile-header" class="mobile-header visible-xs visible-sm" style="background-image: url({{ asset('img/img_start_landing/Background_2.jpg') }}); background-size: 200%; background-repeat: inherit; background-position: center; position: inherit">
             <div class="mobile-header__inner mobile-header__inner--flex">
                 <div class="header-branding header-branding&#45;&#45;mobile mobile-header__section text-left">
                 <div class="header-logo header-logo&#45;&#45;mobile flexbox__item text-left">
@@ -111,7 +118,7 @@
                         <div class="section-main">
 
                             <article class="photo-title-container">
-                                <div class="photo-title" style="width: 100%; ">
+                                <div id="size-up-1920" class="photo-title">
 
                                     <img src="{{ asset('/uploads/articleTitles/'~article.getImg()) }}" alt="Изображение не найдено" style="width: 100%; ">
 
