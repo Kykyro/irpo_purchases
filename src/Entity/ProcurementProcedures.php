@@ -324,12 +324,17 @@ class ProcurementProcedures
     private $prepaymentDate;
 
     /**
+     *
      * @ORM\Column(type="boolean", nullable=true)
+     * @Log
+     * @Groups("dump_data")
      */
     private $isCancelled;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Log
+     * @Groups("dump_data")
      */
     private $cancelledComment;
 

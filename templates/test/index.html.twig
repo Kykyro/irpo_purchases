@@ -3,20 +3,482 @@
 
 {% block content %}
 
-<a href="{{ path('app_test_download') }}">
-    <button class="btn">
-        aaaa
-    </button>
-</a>
+    <style>
+        input[type='number'] {
+            -moz-appearance:textfield;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+        fieldset {
+            color: #191919;
+        }
+        .error-message {
+            color: #cc0033;
+            /*display: inline-block;*/
+            font-size: 12px;
+            line-height: 15px;
+            margin: 5px 0 0;
+        }
+    </style>
+    <div class="row mt-3">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Добавление закупки</h5>
+
+                </div>
+                <div class="ibox-content">
+                    {#<h2>#}
+                    {#Заголовок#}
+                    {#</h2>#}
+                    {#<p>#}
+                    {#Подзагаловок#}
+                    {#</p>#}
+                    {{ form_start(form, {'attr': {'class': 'wizard-big', 'id': 'form' }}) }}
+                    {#<form id="form" action="#" class="wizard-big">#}
+                    <h1>Предмет закупки</h1>
+                    <fieldset>
+                        {#{% set error = form.getErrors() %}#}
+                        {% if errors|length > 0 %}
+                            <div class="row">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        Ошибки
+                                    </div>
+                                    <div class="panel-body">
+                                        <ol>
+                                            {% for error in errors %}
+                                                <li>{{ error.message }} <b>{{ error.cause.propertyPath }}</b></li>
+                                            {% endfor %}
+                                        </ol>
+
+                                    </div>
+                                    <div class="panel-footer">
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        {% endif %}
+                        <h2>Предмет закупки</h2>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <label>Наименование / Объект закупки (В соответсвии с извещением о проведении закупки)</label>
+                                    {{ form_widget(form.PurchaseObject) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Способ определения поставщика (подрядчика, исполнителя)</label>
+                                    {{ form_widget(form.MethodOfDetermining) }}
+                                </div>
+
+                                <div class="form-group" id="anotherMethodOfDetermining">
+                                    <label>Другое</label>
+
+                                    {{ form_widget(form.anotherMethodOfDetermining,
+                                        {attr: {'value' : method}}) }}
+
+
+                                </div>
+                                <div class="form-group" id="isPlanned">
+                                    <hr>
+                                    {{ form_widget(form.isPlanned, {'attr': {'style':'transform: scale(1.5);', 'class':'mr-3'}}) }}
+                                    <label style="font-size: 16px"> Закупка на стадии планирования</label>
+                                </div>
+                                <hr>
+                                <div id="purchase-placement">
+                                    <h2>Срок размещения закупки в ЕИС / ЭМ</h2>
+                                    <div class="form-group">
+                                        <label>Дата публикации извещения</label>
+                                        {{ form_widget(form.publicationDate) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Дата окончания подачи заявок</label>
+                                        {{ form_widget(form.deadlineDate) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Дата подведения итогов</label>
+                                        {{ form_widget(form.dateOfSummingUp) }}
+                                    </div>
+                                    <h2>Перенос срока размещения закупки в ЕИС / ЭМ</h2>
+                                    <div class="form-group">
+                                        <label>Дата</label>
+                                        {{ form_widget(form.postponementDate) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>причина (обоснование)</label>
+                                        {{ form_widget(form.postonementComment) }}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+
+                    <h1>Цена контракта/договора</h1>
+                    <fieldset>
+
+                        <h2> Начальная (максимальная) цена контракта (РУБЛИ)</h2>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <label>средства федерального бюджета</label>
+                                    {{ form_widget(form.initialFederalFunds, {"type":"number"}) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>средства субъекта РФ</label>
+                                    {{ form_widget(form.initialFundsOfSubject, {"type":"number"}) }}
+                                </div>
+
+                                <div class="form-group" >
+                                    <label>средства работодателей</label>
+
+                                    {{ form_widget(form.initialEmployersFunds, {"type":"number"}) }}
+
+
+                                </div>
+                                <div class="form-group" >
+                                    <label>средства образовательной организации</label>
+                                    {{ form_widget(form.initialEducationalOrgFunds, {"type":"number"}) }}
+
+                                </div>
+                                <div class="form-group">
+                                    <p class="sum_initial">0</p>
+                                </div>
+
+                                <h2> Авансовый платеж </h2>
+                                <div class="form-group">
+                                    {{ form_widget(form.isHasPrepayment) }}
+                                    <label>Есть авансовый платеж</label>
+                                </div>
+
+                                <div class="form-group" id="prepayment-block">
+                                    <label>Дата авансового платежа</label>
+                                    <div class="input-group m-b">
+                                        {{ form_widget(form.prepaymentDate) }}
+                                    </div>
+                                    <label>Процент (целое число)</label>
+                                    <div class="input-group m-b">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                        {{ form_widget(form.prepayment, {"type":"number"}) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+
+
+
+
+
+
+
+
+
+
+                    <h1>Ссылка на закупку </h1>
+                    <fieldset>
+                        <h2>Ссылка на закупку</h2>
+                        <div class="form-group">
+                            <label>Ссылка на закупку на портале zakupki.gov.ru, прочие площадки</label>
+                            {{ form_widget(form.PurchaseLink) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Номер закупки</label>
+                            {{ form_widget(form.PurchaseNumber) }}
+                        </div>
+
+
+                    </fieldset>
+
+                    <h1>Дата заключения контракта/договора</h1>
+                    <fieldset>
+                        <h2>Статус договора</h2>
+                        <div class="form-group">
+                            <label>Статус договора</label>
+                            {{ form_widget(form.conractStatus) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Договор/проект договора</label>
+                            {{ form_widget(form.file) }}
+                            {% if edit %}
+                                {% if file|length > 0 %}
+                                    <label>
+                                        Прикрепленные файлы
+                                    </label>
+                                    <ul>
+                                        {% for i in  file %}
+                                            <li>
+                                                <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'purchases_files_directory'}) }}">
+                                                    <i class="fa fa-download">
+                                                        Договор/проект договора от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                    </i>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% elseif pp.getFileDir() %}
+                                    <label>
+                                        Прикрепленный файл
+                                    </label>
+                                    <a href="{{ path('app_download_file_by_route', {'file': pp.getFileDir(), 'route': 'purchases_files_directory'}) }}">
+                                        <i class="fa fa-download">
+                                            Договор/проект договора
+                                        </i>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div id="contact-info-block">
+                            <h2>Дата заключения контракта/договора</h2>
+                            <div class="form-group">
+                                <label>Дата заключения контракта / договора</label>
+                                {{ form_widget(form.DateOfConclusion) }}
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label>Срок поставки (подписание акта), дата</label>
+                                {{ form_widget(form.DeliveryTime) }}
+                            </div>
+                            <div class="form-group">
+                                <label>Комментарии / Примечания</label>
+                                {{ form_widget(form.Comments) }}
+                            </div>
+
+
+                            <div id="fin-sum-row">
+                                <h2>Цена контракта / договора (РУБЛИ)</h2>
+                                <div class="row" >
+
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label>средства федерального бюджета</label>
+                                            {{ form_widget(form.finFederalFunds, {"type":"number"}) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>средства субъекта РФ</label>
+                                            {{ form_widget(form.finFundsOfSubject, {"type":"number"}) }}
+                                        </div>
+
+                                        <div class="form-group" >
+                                            <label>средства работодателей</label>
+
+                                            {{ form_widget(form.finEmployersFunds, {"type":"number"}) }}
+
+
+                                        </div>
+                                        <div class="form-group" >
+                                            <label>средства образовательной организации</label>
+                                            {{ form_widget(form.finFundsOfEducationalOrg, {"type":"number"}) }}
+
+                                        </div>
+                                        <div class="form-group">
+                                            Цена контракта / договора (РУБЛИ)
+                                            <p class="sum_fin">0</p>
+                                        </div>
+                                        <div class="form-group">
+                                            НМЦК
+                                            <p class="sum_initial">0</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label>Есть дополнительно соглашение</label>
+                                {{ form_widget(form.hasAdditionalAgreement) }}
+                            </div>
+                            <div class="form-group" id="additional-agreement-row">
+                                <label>Дополнительное соглашение</label>
+                                {{ form_widget(form.AdditionalAgreement_file) }}
+                                {% if edit %}
+                                    {% if additionalAgreement|length > 0 %}
+                                        <label>
+                                            Прикрепленные файлы
+                                        </label>
+                                        <ul>
+                                            {% for i in  additionalAgreement %}
+                                                {% if i.getNewVal() %}
+                                                    <li>
+                                                        <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'additional_agreement_directory'}) }}">
+                                                            <i class="fa fa-download">
+                                                                Дополнительное соглашение от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                            </i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    {% elseif pp.getAdditionalAgreement() %}
+                                        <label>
+                                            Прикрепленный файл
+                                        </label>
+                                        <a href="{{ path('app_download_file_by_route', {'file': pp.getAdditionalAgreement(), 'route': 'additional_agreement_directory'}) }}">
+                                            <i class="fa fa-download">
+                                                Дополнительное соглащение
+                                            </i>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+
+
+                    <h1>Поставщик</h1>
+                    <fieldset>
+                        <h2>Поставщик</h2>
+                        <div class="form-group">
+                            <label>Наименование организации-поставщика (подрядчика, исполнителя)</label>
+                            {{ form_widget(form.supplierName) }}
+                        </div>
+                        <div class="form-group">
+                            <label>ИНН / ОГРНИП</label>
+                            {{ form_widget(form.supplierINN) }}
+                        </div>
+                        <div class="form-group">
+                            <label>КПП</label>
+                            {{ form_widget(form.supplierKPP) }}
+                        </div>
+                    </fieldset>
+                    <h1>Фактическое расходование средств</h1>
+                    <fieldset>
+                        <h2>
+                            Подтверждающие документы
+                        </h2>
+                        <div class="form-group">
+                            <label>Закрывающий документ</label>
+                            {{ form_widget(form.closingDocument_file) }}
+                            {% if edit %}
+                                {% if closingDocument|length > 0 %}
+                                    <label>
+                                        Прикрепленные файлы
+                                    </label>
+                                    <ul>
+                                        {% for i in  closingDocument %}
+                                            <li>
+                                                <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'closing_files_directory'}) }}">
+                                                    <i class="fa fa-download">
+                                                        Закрывающий документ от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                    </i>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% elseif pp.getClosingDocument() %}
+                                    <label>
+                                        Прикрепленный файл
+                                    </label>
+                                    <a href="{{ path('app_download_file_by_route', {'file': pp.getClosingDocument(), 'route': 'closing_files_directory'}) }}">
+                                        <i class="fa fa-download">
+                                            Закрывающий документ
+                                        </i>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label>Платежное поручение</label>
+                            {{ form_widget(form.paymentOrder_file) }}
+                            {% if edit %}
+                                {% if additionalAgreement|length > 0 %}
+                                    <label>
+                                        Прикрепленные файлы
+                                    </label>
+                                    <ul>
+                                        {% if edit %}
+                                            {% for i in  additionalAgreement %}
+                                                {% if i.getNewVal() %}
+                                                    <li>
+                                                        <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'payment_orders_directory'}) }}">
+                                                            <i class="fa fa-download">
+                                                                Платежное поручение от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                            </i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                {% elseif pp.getPaymentOrder() %}
+                                    <label>
+                                        Прикрепленный файл
+                                    </label>
+                                    <a href="{{ path('app_download_file_by_route', {'file': pp.getPaymentOrder(), 'route': 'payment_orders_directory'}) }}">
+                                        <i class="fa fa-download">
+                                            Платежное поручение
+                                        </i>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <h2>Фактическое расходование средств</h2>
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <label>средства федерального бюджета</label>
+                                    {{ form_widget(form.factFederalFunds, {"type":"number"}) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>средства субъекта РФ</label>
+                                    {{ form_widget(form.factFundsOfSubject, {"type":"number"}) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>средства работодателей</label>
+                                    {{ form_widget(form.factEmployersFunds, {"type":"number"}) }}
+                                </div>
+                                <div class="form-group">
+                                    <label>средства образовательной организации</label>
+                                    {{ form_widget(form.factFundsOfEducationalOrg, {"type":"number"}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <h1>Финиш</h1>
+                    <fieldset>
+                        {{ form_widget(form.save) }}
+                        {% if edit %}
+                            {{ form_widget(form.saveAndAddNew,
+                                {'attr': {
+                                    'hidden': true
+                                }}) }}
+                        {% else %}
+                            {{ form_widget(form.saveAndAddNew) }}
+                        {% endif %}
+                    </fieldset>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div style="display: none">
+        <input type="date" id="today" name="today_input">
+    </div>
 
 {% endblock %}
 
 {% block scripts %}
-    <!-- Mainly scripts -->
 
-
-    <script src="{{ asset('js/popper.min.js') }}"></script>
-
-    <script src="{{ asset('js/inspinia.js') }}"></script>
-
+    <script src="{{ asset('js/plugins/steps/jquery.steps.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/scripts/purchases_detail_v3.js?v=0.1') }}"></script>
 {% endblock %}
