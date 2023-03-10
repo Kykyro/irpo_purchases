@@ -338,6 +338,11 @@ class ProcurementProcedures
      */
     private $cancelledComment;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $plannedPublicationDate;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -1255,6 +1260,18 @@ class ProcurementProcedures
     public function setCancelledComment(?string $cancelledComment): self
     {
         $this->cancelledComment = $cancelledComment;
+
+        return $this;
+    }
+
+    public function getPlannedPublicationDate(): ?\DateTimeInterface
+    {
+        return $this->plannedPublicationDate;
+    }
+
+    public function setPlannedPublicationDate(?\DateTimeInterface $plannedPublicationDate): self
+    {
+        $this->plannedPublicationDate = $plannedPublicationDate;
 
         return $this;
     }

@@ -427,6 +427,12 @@ class purchasesFormType extends AbstractType
                 'required'   => false,
 
             ])
+            ->add("plannedPublicationDate", DateType::class,[
+                'widget' => 'single_text',
+                'disabled' => $is_disabled,
+                'required'   => true,
+
+            ])
         ;
 
 

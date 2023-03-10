@@ -69,6 +69,8 @@ $(document).ready(function () {
     let another_method_of_determining_row = $('#anotherMethodOfDetermining');
     let isPlanned = $('#purchases_form_isPlanned');
     let isPlannedRow = $('#isPlanned');
+    let plannedPublicationDateRow = $('#planned-date-row');
+    let plannedPublicationDate = $('#purchases_form_plannedPublicationDate');
 
     // Цена контракта договора
     let initial_federal_funds = $("#purchases_form_initialFederalFunds");
@@ -183,12 +185,22 @@ $(document).ready(function () {
                 });
 
                 finSumRow.show();
-                purchasePlacement.show();
+                if(this._determ === 0)
+                {
+                    purchasePlacement.hide();
+                }else
+                {
+                    purchasePlacement.show();
+                }
 
+
+
+                plannedPublicationDateRow.hide();
                 setDisabled(false, publication_date, deadline_date, summing_up_date, purchases_link,
                     purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date,
                     fact_edication_org_funds, fact_employers_funds,
-                    fact_federal_funds, fact_funds_of_subject, contractStatusSelect);
+                    fact_federal_funds, fact_funds_of_subject, contractStatusSelect, plannedPublicationDateRow);
+
             }
             else {
                 console.log('планируется');
@@ -202,13 +214,14 @@ $(document).ready(function () {
                     hideStep(elem);
                 });
                 finSumRow.hide();
-
+                plannedPublicationDateRow.show();
                 clearValue(publication_date, deadline_date, summing_up_date, purchases_link,
                     purchases_number, postponement_date, postponement_comment,
                     conclusion_date, delivery_date);
                 setDisabled(true, publication_date, deadline_date, summing_up_date, purchases_link,
                     purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date,
-                    fact_edication_org_funds, fact_employers_funds, fact_federal_funds, fact_funds_of_subject, contractStatusSelect);
+                    fact_edication_org_funds, fact_employers_funds,
+                    fact_federal_funds, fact_funds_of_subject, contractStatusSelect, plannedPublicationDateRow);
                 contractStatusSelect.val(1);
                 contractStatusChange();
                 purchasePlacement.hide();
@@ -414,6 +427,7 @@ $(document).ready(function () {
 
     // при загрузке
     function onLoad() {
+
         let method = method_of_determining.find(":selected").text();
         formState = method;
         changeMethod(method, "Другое", anotherMethodOfDeterminingFunc);
@@ -696,6 +710,10 @@ $(document).ready(function () {
                     required: "Это поле обязательно для заполнения"
                 },
             'purchases_form[prepaymentDate]':
+                {
+                    required: "Это поле обязательно для заполнения"
+                },
+            'purchases_form[plannedPublicationDate]':
                 {
                     required: "Это поле обязательно для заполнения"
                 }
