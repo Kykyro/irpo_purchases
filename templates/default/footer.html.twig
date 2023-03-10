@@ -70,7 +70,7 @@
             let _text = "";
             console.log();
             if(isFloat(parseFloat(_cell.text())) || isInt(parseInt(_cell.text())))
-                _text = parseFloat(_cell.text()).toLocaleString('ru-RU') + "₽";
+                _text = parseFloat(_cell.text()).toLocaleString('ru-RU') + " ₽";
 
             _cell.text(_text);
         });

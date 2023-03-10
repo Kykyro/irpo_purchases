@@ -182,118 +182,90 @@
 
 
                     <h5>Объявлено</h5>
-                    <div>
+                    <div class="col-lg-6">
                         <table class="table table-bordered">
                             <thead>
-                            <tr>
-                                <td class="col-md-3">Бюджетные средства</td>
-                                <td class="col-md-3"></td>
-                                <td class="col-md-3">Внебюджетные средства</td>
-                                <td class="col-md-3"></td>
-                            </tr>
+                                <tr>
+                                    <td class="col-md-1">Источники</td>
+                                    <td class="col-md-4">Суммы</td>
+                                </tr>
                             </thead>
                             <tbody>
+
                                 <tr>
-                                    <td>средства федерального бюджета</td>
-                                    <td>
-                                        {{ initial_sum['FederalFunds'] }} ₽
-                                    </td>
-                                    <td>средства работодателей</td>
-                                    <td>
-                                        {{ initial_sum['EmployersFunds'] }} ₽
-                                    </td>
+                                    <td>Средства ФБ</td>
+                                    <td class="cell-number">{{ initial_sum['FederalFunds'] }} </td>
                                 </tr>
                                 <tr>
-                                    <td>средства субъекта РФ</td>
+                                    <td>Средства субъекта РФ</td>
+                                    <td class="cell-number">{{ initial_sum['FundsOfSubject'] }} </td>
+                                </tr>
+                                <tr>
+                                    <td>Средства РД</td>
+                                    <td class="cell-number">{{ initial_sum['EmployersFunds'] }} </td>
+                                </tr>
+                                <tr>
+                                    <td>Средства ОО</td>
+                                    <td class="cell-number">{{ initial_sum['EducationalOrgFunds'] }} </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Сумма</b></td>
                                     <td>
-                                        {{ initial_sum['FundsOfSubject'] }} ₽
-                                    </td>
-                                    <td>средства образовательной организации</td>
-                                    <td>
-                                        {{ initial_sum['EducationalOrgFunds'] }} ₽
+                                        <b class="cell-number">
+                                            {{
+
+                                            initial_sum['FederalFunds'] + initial_sum['FundsOfSubject'] +
+                                            initial_sum['EmployersFunds'] + initial_sum['EducationalOrgFunds']
+
+                                            }}
+                                        </b>
                                     </td>
                                 </tr>
                             </tbody>
 
-                        </table>
-                        <h5>Суммы объявленых закупок</h5>
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td class="col-md-3">Сумма бюджетных средств</td>
-                                    <td class="col-md-3">{{ initial_sum['FederalFunds'] + initial_sum['FundsOfSubject'] }} ₽</td>
-                                    <td class="col-md-3">Сумма внебюджетных средств</td>
-                                    <td class="col-md-3">{{ initial_sum['EmployersFunds'] + initial_sum['EducationalOrgFunds'] }} ₽</td>
-                                </tr>
-                                <tr>
-                                    <td>Общая сумма</td>
-                                    <td colspan="3">
-                                        {{
-
-                                        initial_sum['FederalFunds'] + initial_sum['FundsOfSubject'] +
-                                        initial_sum['EmployersFunds'] + initial_sum['EducationalOrgFunds']
-
-                                        }} ₽
-                                    </td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
                     <hr>
                     <h5>Законтрактовано</h5>
-                    <div>
+                    <div class="col-lg-6">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <td class="col-md-3">Бюджетные средства</td>
-                                <td class="col-md-3"></td>
-                                <td class="col-md-3">Внебюджетные средства</td>
-                                <td class="col-md-3"></td>
+                                <td class="col-md-1">Источники</td>
+                                <td class="col-md-4">Суммы</td>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>средства федерального бюджета</td>
-                                <td>
-                                    {{ fin_sum['FederalFunds'] }} ₽
-                                </td>
-                                <td>средства работодателей</td>
-                                <td>
-                                    {{ fin_sum['EmployersFunds'] }} ₽
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>средства субъекта РФ</td>
-                                <td>
-                                    {{ fin_sum['FundsOfSubject'] }} ₽
-                                </td>
-                                <td>средства образовательной организации</td>
-                                <td>
-                                    {{ fin_sum['EducationalOrgFunds'] }} ₽
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <h5>Суммы законтрактованых закупок</h5>
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <td class="col-md-3">Сумма бюджетных средств</td>
-                                <td class="col-md-3">{{ fin_sum['FederalFunds'] + fin_sum['FundsOfSubject'] }} ₽</td>
-                                <td class="col-md-3">Сумма внебюджетных средств</td>
-                                <td class="col-md-3">{{ fin_sum['EmployersFunds'] + fin_sum['EducationalOrgFunds'] }} ₽</td>
-                            </tr>
-                            <tr>
-                                <td>Общая сумма</td>
-                                <td colspan="3">
-                                    {{
+                                <tr>
+                                    <td>Средства ФБ</td>
+                                    <td class="cell-number">{{ fin_sum['FederalFunds'] }} </td>
+                                </tr>
+                                <tr>
+                                    <td>Средства субъекта РФ</td>
+                                    <td class="cell-number">{{ fin_sum['FundsOfSubject'] }} </td>
+                                </tr>
+                                <tr>
+                                    <td>Средства РД</td>
+                                    <td class="cell-number">{{ fin_sum['EmployersFunds'] }} </td>
+                                </tr>
+                                <tr>
+                                    <td>Средства ОО</td>
+                                    <td class="cell-number"> {{ fin_sum['EducationalOrgFunds'] }} </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Сумма</b></td>
+                                    <td>
+                                        <b class="cell-number">
+                                            {{
 
-                                    fin_sum['FederalFunds'] + fin_sum['FundsOfSubject'] +
-                                    fin_sum['EmployersFunds'] + fin_sum['EducationalOrgFunds']
+                                            fin_sum['FederalFunds'] + fin_sum['FundsOfSubject'] +
+                                            fin_sum['EmployersFunds'] + fin_sum['EducationalOrgFunds']
 
-                                    }} ₽
-                                </td>
-                            </tr>
+                                            }}
+                                        </b>
+                                    </td>
+                                </tr>
+
                             </tbody>
                         </table>
                     </div>
