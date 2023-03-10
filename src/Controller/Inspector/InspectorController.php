@@ -293,6 +293,7 @@ class InspectorController extends AbstractController
         return $this->render('inspector/templates/editClusterDocument.html.twig', [
             'controller_name' => 'InspectorController',
             'form' => $form->createView(),
+            'errors' => $form->getErrors()
 
         ]);
 

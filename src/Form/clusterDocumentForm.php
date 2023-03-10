@@ -37,7 +37,7 @@ class clusterDocumentForm extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-//                        'maxSize' => '100M',
+                        'maxSize' => '200M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
@@ -51,7 +51,7 @@ class clusterDocumentForm extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-//                        'maxSize' => '100M',
+                        'maxSize' => '200M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
@@ -65,7 +65,7 @@ class clusterDocumentForm extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-//                        'maxSize' => '100M',
+                        'maxSize' => '200M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
@@ -79,7 +79,7 @@ class clusterDocumentForm extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-//                        'maxSize' => '100M',
+                        'maxSize' => '200M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
@@ -93,7 +93,7 @@ class clusterDocumentForm extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-//                        'maxSize' => '100M',
+                        'maxSize' => '200M',
                         'mimeTypesMessage' => '',
                     ])
                 ],
