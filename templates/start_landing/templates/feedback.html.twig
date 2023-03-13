@@ -1,153 +1,96 @@
 <section data-id="feedback" class="ed-section" style="background-image: url({{ asset('img/img_start_landing/Background_2.jpg') }}); background-size: cover; background-repeat: no-repeat; background-position: center; position: inherit">
-        <div class="container feedback_size">
-            <div class="row">
-                <div class="col-md-12 ">
-                    <div id="form-success" >
-                        <div>
-                            Ваша заявка успешно отправлена!
-                        </div>
+    <div class="container feedback_size">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div id="form-success" >
+                    <div>
+                        Ваша заявка успешно отправлена!
                     </div>
-                    <div class="contact-form">
-                        {{ form_start(feedbackForm) }}
-                        <div>
-                            <div class="row" >
-                                <div class="col-lg-3 m-5" style="color: #FFFFFF; margin-top: 15rem">
-                                    <div class="text-center">
-                                        <div class="panel-body">
-                                            <i class="glyphicon glyphicon-home" style="font-size: 12rem"></i>
-                                            <p>Адрес</p>
-                                            <p>Покровка 27, стр 5</p>
-                                        </div>
-                                        <div class="panel-body" style="border-top: 1px groove">
-                                            <i class="glyphicon glyphicon-envelope" style="font-size: 12rem"></i>
-                                            <p>Email</p>
-                                            <p>cluster@firpo.ru</p>
-                                        </div>
+                </div>
+                <div class="contact-form">
+                    {{ form_start(feedbackForm) }}
+                    <div>
+                        <div class="row" >
+                            <div class="col-lg-3 m-5" style="color: #FFFFFF; margin-top: 15rem">
+                                <div class="text-center">
+                                    <div class="panel-body">
+                                        <i class="glyphicon glyphicon-home" style="font-size: 12rem"></i>
+                                        <p>Адрес</p>
+                                        <p>Покровка 27, стр 5</p>
+                                    </div>
+                                    <div class="panel-body" style="border-top: 1px groove">
+                                        <i class="glyphicon glyphicon-envelope" style="font-size: 12rem"></i>
+                                        <p>Email</p>
+                                        <p>cluster@firpo.ru</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 m-5" style="color: #FFFFFF; margin-top: 15rem">
-                                    <div class="text-center">
-                                        <div class="panel-body">
-                                            <i class="glyphicon glyphicon-user" style="font-size: 12rem"></i>
-                                            <p>Телефон</p>
-                                            <p>+7 (977) 978-29-43</p>
-                                        </div>
-                                        <div class="panel-body" style="border-top: 1px groove;">
-                                            <i class="glyphicon glyphicon-qrcode" style="font-size: 12rem"></i>
-                                            <p>Дизайн проект</p>
-                                            <p>+7(495)114-55-21(доб. 214)</p>
-                                        </div>
+                            </div>
+                            <div class="col-lg-3 m-5" style="color: #FFFFFF; margin-top: 15rem">
+                                <div class="text-center">
+                                    <div class="panel-body">
+                                        <i class="glyphicon glyphicon-user" style="font-size: 12rem"></i>
+                                        <p>Телефон</p>
+                                        <p>+7 (977) 978-29-43</p>
+                                    </div>
+                                    <div class="panel-body" style="border-top: 1px groove;">
+                                        <i class="glyphicon glyphicon-qrcode" style="font-size: 12rem"></i>
+                                        <p>Дизайн проект</p>
+                                        <p>+7(495)114-55-21(доб. 214)</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 m-5">
-                                    <div class="panel" style="border-radius: 10px;">
-                                        <div class="panel-body">
-                                            <form action="<?=$templateFolder;?>/ajax.php" class="bg-white rounded pb_form_v1 ajax_form" method="POST" >
-                                                <input type="hidden" name="FORM" value="MAIN_FEEDBACK">
-                                                <h2 class="mb-4 mt-0 text-center">Обратная связь</h2>
-                                                <div class="sub_title" style="margin-bottom: 4rem; text-align: center">Поделитесь мнением о нашей работе или задайте нам любой интересующий вас вопрос в поле комментарий</div>
-                                                <div class="form-group design_margin">
-                                                    {{  form_widget(feedbackForm.FIO, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Имя'}}) }}
-                                                </div>
-                                                <div class="form-group design_margin">
-                                                    {{  form_widget(feedbackForm.email, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Email'}}) }}
-                                                </div>
-                                                <div class="form-group">
-                                                    {{  form_widget(feedbackForm.number, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Телефон'}}) }}
-                                                </div>
-                                                <div class="form-group design_margin">
-                                                    {{  form_widget(feedbackForm.topic, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Тема сообщение'}}) }}
-                                                </div>
-                                                <div class="form-group design_margin">
-                                                    {{  form_widget(feedbackForm.message, {'attr': {'class': 'form-control pb_height-110 reverse', 'rows': '1', 'placeholder':'Комментарий'}}) }}
-                                                </div>
-                                                <div class="form-group politika custom-control custom-radio">
-                                                    <div class="col-lg-2 m-5">
-                                                        <div>
-                                                            <div class="panel-body">
-                                                                {{ form_widget(feedbackForm.agree) }}
-                                                                {#<input type="checkbox" id="policy_full" name="policy" value="y" class="form-control reverse custom-control-input" required style="float: left">#}
-                                                            </div>
+                            </div>
+                            <div class="col-lg-6 m-5">
+                                <div class="panel" style="border-radius: 10px;">
+                                    <div class="panel-body">
+                                        <form action="<?=$templateFolder;?>/ajax.php" class="bg-white rounded pb_form_v1 ajax_form" method="POST" >
+                                            <input type="hidden" name="FORM" value="MAIN_FEEDBACK">
+                                            <h2 class="mb-4 mt-0 text-center">Обратная связь</h2>
+                                            <div class="sub_title" style="margin-bottom: 4rem; text-align: center">Поделитесь мнением о нашей работе или задайте нам любой интересующий вас вопрос в поле комментарий</div>
+                                            <div class="form-group design_margin">
+                                                {{  form_widget(feedbackForm.FIO, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Имя'}}) }}
+                                            </div>
+                                            <div class="form-group design_margin">
+                                                {{  form_widget(feedbackForm.email, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Email'}}) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{  form_widget(feedbackForm.number, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Телефон'}}) }}
+                                            </div>
+                                            <div class="form-group design_margin">
+                                                {{  form_widget(feedbackForm.topic, {'attr': {'class': 'form-control pb_height-50 reverse', 'placeholder':'Тема сообщение'}}) }}
+                                            </div>
+                                            <div class="form-group design_margin">
+                                                {{  form_widget(feedbackForm.message, {'attr': {'class': 'form-control pb_height-110 reverse', 'rows': '1', 'placeholder':'Комментарий'}}) }}
+                                            </div>
+                                            <div class="form-group politika custom-control custom-radio">
+                                                <div class="col-lg-2 m-5">
+                                                    <div>
+                                                        <div class="panel-body">
+                                                            {{ form_widget(feedbackForm.agree) }}
+                                                            {#<input type="checkbox" id="policy_full" name="policy" value="y" class="form-control reverse custom-control-input" required style="float: left">#}
                                                         </div>
                                                     </div>
+                                                </div>
 
-                                                    <div class="col-lg-10 m-5">
-                                                        <div>
-                                                            <div class="panel-body">
-                                                                <label class="custom-control-label" for="policy_full">Согласен с <a href="https://firpo.ru/privacy-policy/" target="_blank">политикой конфиденциальности</a></label>
-                                                            </div>
+                                                <div class="col-lg-10 m-5">
+                                                    <div>
+                                                        <div class="panel-body">
+                                                            <label class="custom-control-label" for="policy_full">Согласен с <a href="https://firpo.ru/privacy-policy/" target="_blank">политикой конфиденциальности</a></label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 text-center">
-                                                        {{  form_widget(feedbackForm.submit, {'attr': {'class': 'btn btn-primary btn-lg btn-block pb_btn-pill  btn-shadow-blue'}, label:'Отправить сообщение'}) }}
-                                                    </div>
                                                 </div>
-                                            </form>
-                                            {{ form_end(feedbackForm) }}
-
-                                        </div>
+                                                <div class="col-md-12 text-center">
+                                                    {{  form_widget(feedbackForm.submit, {'attr': {'class': 'btn btn-primary btn-lg btn-block pb_btn-pill  btn-shadow-blue'}, label:'Отправить сообщение'}) }}
+                                                </div>
+                                            </div>
+                                        </form>
+                                        {{ form_end(feedbackForm) }}
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-
-{#                        {{ form_start(feedbackForm) }}#}
-
-{#                        <div class="row">#}
-
-{#                            <div class="form-process design_margin"></div>#}
-
-{#                            <div class="col-md-6 col-sm-6 ">#}
-{#                                <div class="form-group design_margin">#}
-{#                                    {{  form_widget(feedbackForm.FIO, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Введите своё ФИО'}}) }}#}
-{#                                    <input type="text" id="cf-name" name="cf-name" placeholder="Введите своё ФИО" class="form-control fc-bordered light required">#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="col-md-6 col-sm-6">#}
-{#                                <div class="form-group design_margin">#}
-{#                                    {{  form_widget(feedbackForm.email, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Введите свою электронную почту'}}) }}#}
-{#                                    <input type="email" id="cf-email" name="cf-email" placeholder="Введите свою электронную почту" class="form-control fc-bordered light required">#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="col-md-12 col-sm-12">#}
-{#                                <div class="form-group design_margin">#}
-{#                                    {{  form_widget(feedbackForm.topic, {'attr': {'class': 'form-control fc-bordered light required', 'placeholder':'Тема письма'}}) }}#}
-{#                                    <input type="text" id="cf-subject" name="cf-subject" placeholder="Тема письма (Необязательно)" class="form-control fc-bordered light">#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="col-md-12 mb-20">#}
-{#                                <div class="form-group design_margin">#}
-{#                                    {{  form_widget(feedbackForm.message, {'attr': {'class': 'form-control fc-bordered light required', 'rows': '7', 'placeholder':'Наименование организации, номер телефона и текст сообщения'}}) }}#}
-{#                                    <textarea name="cf-message" id="cf-message" placeholder="Текст сообщения" class="form-control fc-bordered light required" rows="7"></textarea>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="col-lg-12 mb-20 ">#}
-{#                                <label class="lead text-center text-white mb-50 design_margin">#}
-{#                                    <input type="checkbox" class="custom-checkbox" id="isHappy" name="isHappy" value="">#}
-{#                                    <label for="happy" id="text_size_subtitle_1" class="text_adaptive_size_subtitle ">&nbsp Отправляя форму вы соглашаетесь на &nbsp <a href="https://firpo.ru/privacy-policy/" style="color: #ffffff" target="_blank"> <u> обработку персональных данных</u></a></label>#}
-{#                                </label>#}
-{#                            </div>#}
-{#                            <div class="col-md-12 hidden">#}
-{#                                <input type="text" id="cf-botcheck" name="cf-botcheck" value class="form-control form-control-noradius">#}
-{#                            </div>#}
-{#                            <div class="col-md-12 text-center">#}
-{#                                {{  form_widget(feedbackForm.submit, {'attr': {'class': 'btn btn-white btn-noradius'}, label:'Отправить сообщения'}) }}#}
-{#                                <button class="btn btn-white btn-noradius" type="submit" id="cf-submit" name="cf-submit">Отправить сообщения</button>#}
-{#                            </div>#}
-{#                        </div>#}
-
-{#                        {{ form_end(feedbackForm) }}#}
-{#                        <div id="form-success" >#}
-{#                            <div>#}
-{#                                Ваша заявка успешно отправлена!#}
-{#                            </div>#}
-{#                        </div>#}
-
-
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </section>
