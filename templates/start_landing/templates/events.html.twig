@@ -15,9 +15,9 @@
             <div id="portfolio-gallery" class="ed-carousel3 ed-slick dots-classic dots-light dots-outside">
                 {% for i in news %}
                     <article class="carousel-item3 portfolio-item web" style="margin-right: 2vh; margin-left: 2vh">
-                        <div class="project-container mb-0 scale_img_documents">
-                            <a href="{{ path('app_article_view', {'id': i.getId()}) }}" target="_blank">
-                                <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt style="height: 35vh">
+                        <div class="project-container mb-0 scale_img_documents" style="border-radius: 3rem">
+                            <a href="{{ path('app_article_view', {'id': i.getId()}) }}" target="_blank" style="margin: 1vh">
+                                <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt style="height: 35vh; border-radius: 2rem">
                                 <div class="overlay">
                                 </div>
 
@@ -35,7 +35,7 @@
                 {% for i in news %}
                     <article class="carousel-item4 portfolio-item web">
                         <a href="{{ path('app_article_view', {'id': i.getId()}) }}" target="_blank">
-                            <div class="project-container mb-0 scale_img">
+                            <div class="project-container mb-0 scale_img" style="border-radius: 3rem">
 
                                 <img src="{{ asset('/uploads/articleTitles/'~i.img) }}" alt>
                                 <div class="overlay">
