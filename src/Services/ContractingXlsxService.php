@@ -163,6 +163,9 @@ class ContractingXlsxService extends AbstractController
         $rangeTotal = 'A2:U'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:Z')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:Z')->getAlignment()->setVertical('center');
+
         // Запись файла
         $writer = new Xlsx($spreadsheet);
 

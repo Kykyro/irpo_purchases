@@ -853,7 +853,7 @@ class ProcurementProcedures
                 $this->getInitialFundsOfSubject(),
                 $this->getInitialEmployersFunds(),
                 $this->getInitialEducationalOrgFunds(),
-                (is_null($this->getPublicationDate())) ? '' : $this->getPublicationDate()->format('d.m.Y'),
+                (is_null($this->getPublicationDate())) ? (is_null($this->getPlannedPublicationDate())) ? '' : $this->getPlannedPublicationDate()->format('d.m.Y') : $this->getPublicationDate()->format('d.m.Y'),
                 (is_null($this->getDeadlineDate())) ? '' : $this->getDeadlineDate()->format('d.m.Y'),
                 (is_null($this->getDateOfSummingUp())) ? '' : $this->getDateOfSummingUp()->format('d.m.Y'),
                 $this->getPurchaseLink(),
