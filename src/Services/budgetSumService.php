@@ -52,24 +52,11 @@ class budgetSumService extends AbstractController
         foreach ($dump as $item){
             $dateTime = new \DateTime("@{$day->setTime(0,0,0,0)->getTimeStamp()}");
             $status = $item->getPurchasesStatus($dateTime);
-
-            if($item->getMethodOfDetermining() == 'Единственный поставщик')
-            {
-                if($status == 'contract') {
-                    $sum['FederalFunds'] += $item->getInitialFederalFunds();
-                    $sum['FundsOfSubject'] += $item->getInitialFundsOfSubject();
-                    $sum['EmployersFunds'] += $item->getInitialEmployersFunds();
-                    $sum['EducationalOrgFunds'] += $item->getInitialEducationalOrgFunds();
-                }
-            }
-            else
-            {
-                if($status == 'contract') {
-                    $sum['FederalFunds'] += $item->getFinFederalFunds();
-                    $sum['FundsOfSubject'] += $item->getFinFundsOfSubject();
-                    $sum['EmployersFunds'] += $item->getFinEmployersFunds();
-                    $sum['EducationalOrgFunds'] += $item->getFinFundsOfEducationalOrg();
-                }
+            if($status == 'contract') {
+                $sum['FederalFunds'] += $item->getFinFederalFunds();
+                $sum['FundsOfSubject'] += $item->getFinFundsOfSubject();
+                $sum['EmployersFunds'] += $item->getFinEmployersFunds();
+                $sum['EducationalOrgFunds'] += $item->getFinFundsOfEducationalOrg();
             }
         }
 
