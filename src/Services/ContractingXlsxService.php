@@ -83,20 +83,10 @@ class ContractingXlsxService extends AbstractController
                 $date = new \DateTime('now');
                 if($procedure->getPurchasesStatus($date) == 'contract')
                 {
-                    if($procedure->getMethodOfDetermining() == "Единственный поставщик")
-                    {
-                        $_data['G'] += $procedure->getInitialFederalFunds();
-                        $_data['N'] += $procedure->getInitialEmployersFunds();
-                        $_data['M'] += $procedure->getInitialFundsOfSubject();
-                        $_data['O'] += $procedure->getInitialEducationalOrgFunds();
-                    }
-                    else
-                    {
-                        $_data['G'] += $procedure->getfinFederalFunds();
-                        $_data['N'] += $procedure->getfinFundsOfSubject();
-                        $_data['M'] += $procedure->getfinEmployersFunds();
-                        $_data['O'] += $procedure->getfinFundsOfEducationalOrg();
-                    }
+                    $_data['G'] += $procedure->getfinFederalFunds();
+                    $_data['N'] += $procedure->getfinFundsOfSubject();
+                    $_data['M'] += $procedure->getfinEmployersFunds();
+                    $_data['O'] += $procedure->getfinFundsOfEducationalOrg();
 
                 }
                 elseif ($procedure->getPurchasesStatus($date) == 'announced')

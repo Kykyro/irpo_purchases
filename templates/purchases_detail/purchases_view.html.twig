@@ -211,15 +211,15 @@
                             <td class="col-md-3">
                                 Средства федерального бюджета
                             </td>
-                            <td>
+                            <td class="cell-number">
                                 {{ purchase.getInitialFederalFunds() }} ₽
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-3">
                                 Средства субъекта РФ
-                            </td>
-                            <td>
+                            </td >
+                            <td class="cell-number">
                                 {{ purchase.getInitialFundsOfSubject() }} ₽
                             </td>
                         </tr>
@@ -227,7 +227,7 @@
                             <td class="col-md-3">
                                 Средства работадателя
                             </td>
-                            <td>
+                            <td class="cell-number">
                                 {{ purchase.getInitialEmployersFunds() }} ₽
                             </td>
                         </tr>
@@ -235,7 +235,7 @@
                             <td class="col-md-3">
                                 Средства образовательной организации
                             </td>
-                            <td>
+                            <td class="cell-number">
                                 {{ purchase.getInitialEducationalOrgFunds() }} ₽
                             </td>
                         </tr>
@@ -267,113 +267,59 @@
         </div>
     </div>
 {% if not isPlanned %}
-    {% if isSoloSup %}
-        <div class="row">
-            <div class="col-lg-12 mb-2">
-                <div class="ibox collapsed border-bottom">
-                    <a class="collapse-link">
-                        <div class="ibox-title">
-                            <h5>
-                                Цена контракта / договора
-                            </h5>
-                            <div class="ibox-tools">
-                                <i class="fa fa-chevron-down"></i>
-                            </div>
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            Цена контракта / договора
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
                         </div>
-                    </a>
-                    <div class="ibox-content" style="display: none;">
-                        <table class="table table-bordered">
-                            <tr>
-                                <td class="col-md-3">
-                                    Средства федерального бюджета
-                                </td>
-                                <td>
-                                    {{ purchase.getInitialFederalFunds() }} ₽
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-3">
-                                    Средства субъекта РФ
-                                </td>
-                                <td>
-                                    {{ purchase.getInitialFundsOfSubject() }} ₽
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-3">
-                                    Средства работадателя
-                                </td>
-                                <td>
-                                    {{ purchase.getInitialEmployersFunds() }} ₽
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-3">
-                                    Средства образовательной организации
-                                </td>
-                                <td>
-                                    {{ purchase.getInitialEducationalOrgFunds() }} ₽
-                                </td>
-                            </tr>
-                        </table>
                     </div>
+                </a>
+                <div class="ibox-content" style="display: none;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="col-md-3">
+                                Средства федерального бюджета
+                            </td>
+                            <td class="cell-number">
+                                {{ purchase.getfinFederalFunds() }} ₽
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Средства субъекта РФ
+                            </td>
+                            <td class="cell-number">
+                                {{ purchase.getfinFundsOfSubject() }} ₽
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Средства работадателя
+                            </td>
+                            <td class="cell-number">
+                                {{ purchase.getfinEmployersFunds() }} ₽
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-3">
+                                Средства образовательной организации
+                            </td>
+                            <td class="cell-number">
+                                {{ purchase.getfinFundsOfEducationalOrg() }} ₽
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
-    {% else %}
-        <div class="row">
-            <div class="col-lg-12 mb-2">
-                <div class="ibox collapsed border-bottom">
-                    <a class="collapse-link">
-                        <div class="ibox-title">
-                            <h5>
-                                Цена контракта / договора
-                            </h5>
-                            <div class="ibox-tools">
-                                <i class="fa fa-chevron-down"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="ibox-content" style="display: none;">
-                        <table class="table table-bordered">
-                            <tr>
-                                <td class="col-md-3">
-                                    Средства федерального бюджета
-                                </td>
-                                <td>
-                                    {{ purchase.getfinFederalFunds() }} ₽
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-3">
-                                    Средства субъекта РФ
-                                </td>
-                                <td>
-                                    {{ purchase.getfinFundsOfSubject() }} ₽
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-3">
-                                    Средства работадателя
-                                </td>
-                                <td>
-                                    {{ purchase.getfinEmployersFunds() }} ₽
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-3">
-                                    Средства образовательной организации
-                                </td>
-                                <td>
-                                    {{ purchase.getfinFundsOfEducationalOrg() }} ₽
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
+    </div>
+
     <div class="row">
         <div class="col-lg-12 mb-2">
             <div class="ibox collapsed border-bottom">
@@ -393,7 +339,7 @@
                             <td class="col-md-3">
                                 Средства федерального бюджета
                             </td>
-                            <td>
+                            <td class="cell-number">
                                 {{ purchase.getFactFederalFunds() }} ₽
                             </td>
                         </tr>
@@ -401,7 +347,7 @@
                             <td class="col-md-3">
                                 Средства субъекта РФ
                             </td>
-                            <td>
+                            <td class="cell-number">
                                 {{ purchase.getFactFundsOfSubject() }} ₽
                             </td>
                         </tr>
@@ -409,7 +355,7 @@
                             <td class="col-md-3">
                                 Средства работадателя
                             </td>
-                            <td>
+                            <td class="cell-number">
                                 {{ purchase.getFactEmployersFunds() }} ₽
                             </td>
                         </tr>
@@ -417,7 +363,7 @@
                             <td class="col-md-3">
                                 Средства образовательной организации
                             </td>
-                            <td>
+                            <td class="cell-number">
                                 {{ purchase.getFactFundsOfEducationalOrg() }} ₽
                             </td>
                         </tr>

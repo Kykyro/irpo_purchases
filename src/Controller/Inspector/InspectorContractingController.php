@@ -35,6 +35,7 @@ class InspectorContractingController extends AbstractController
                 ],
                 'choices'  => [
                     '2021 год' => 2021,
+                    '2022 год' => 2022,
                     '2023 год' => 2023,
 
                 ],

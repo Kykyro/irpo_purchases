@@ -269,13 +269,8 @@
                             {% endif %}
 
 
+                            <td style="vertical-align: inherit; text-align: center">{{ i.getContractCost() }}₽</td>
 
-                            {# Стоимость договора #}
-                            {% if i.getMethodOfDetermining() == "Единственный поставщик" %}
-                                <td style="vertical-align: inherit; text-align: center">{{ i.getNMCK() }}₽</td>
-                            {% else %}
-                                <td style="vertical-align: inherit; text-align: center">{{ i.getContractCost() }}₽</td>
-                            {% endif %}
                             {# Источник финансирования #}
                             <td style="vertical-align: inherit; text-align: center">{{ i.getSourceOfFunding() }}</td>
                             {# Замечания #}

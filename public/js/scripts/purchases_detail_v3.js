@@ -151,8 +151,9 @@ $(document).ready(function () {
                 showFieldset = [0, 1, 3, 4, 5, 6];
 
                 hideStep(2);
+                // hideStep(3);
 
-                finSumRow.hide();
+                // finSumRow.hide();
                 setRequired(false, publication_date);
                 setRequired(true, conclusion_date);
                 setDisabled(true, publication_date, deadline_date, summing_up_date, purchases_link,
@@ -179,27 +180,32 @@ $(document).ready(function () {
             if(this._isPlanning === 0){
                 console.log('объявлена / закантрактована');
 
-                showFieldset = [0, 1, 2, 3, 4, 5, 6];
-                showFieldset.forEach((elem)=>{
-                    showStep(elem);
-                });
-
-                finSumRow.show();
                 if(this._determ === 0)
                 {
+                    showFieldset = [0, 1, 3, 4, 5, 6];
+                    showFieldset.forEach((elem)=>{
+                        showStep(elem);
+                    });
                     purchasePlacement.hide();
+                    setDisabled(true, publication_date, deadline_date, summing_up_date, purchases_link,
+                        purchases_number, postponement_date, postponement_comment, purchases_link, purchases_number);
                 }else
                 {
+                    showFieldset = [0, 1, 2, 3, 4, 5, 6];
+                    showFieldset.forEach((elem)=>{
+                        showStep(elem);
+                    });
                     purchasePlacement.show();
+                    setDisabled(false, publication_date, deadline_date, summing_up_date, purchases_link,
+                        purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date,
+                        fact_edication_org_funds, fact_employers_funds,
+                        fact_federal_funds, fact_funds_of_subject, contractStatusSelect, plannedPublicationDateRow);
                 }
 
 
-
+                // finSumRow.show();
                 plannedPublicationDateRow.hide();
-                setDisabled(false, publication_date, deadline_date, summing_up_date, purchases_link,
-                    purchases_number, postponement_date, postponement_comment, conclusion_date, delivery_date,
-                    fact_edication_org_funds, fact_employers_funds,
-                    fact_federal_funds, fact_funds_of_subject, contractStatusSelect, plannedPublicationDateRow);
+
 
             }
             else {
