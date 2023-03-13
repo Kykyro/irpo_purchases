@@ -1,11 +1,9 @@
-<section data-id="design_projects" class="ed-section pb-0" style="background-image: url({{ asset('img/img_start_landing/Background_1.jpg') }}); background-size: 135%; background-repeat: no-repeat; background-position: center; position: inherit" >
-    <div id="hide-on-mobile" class="block_left_list"></div>
+<section data-id="design_projects" class="ed-section pb-0" style="background-image: url({{ asset('img/img_start_landing/Background_1.jpg') }}); background-size: cover; background-repeat: inherit; background-position: center; position: sticky" >
     <div>
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-
                 <h2 id="text_size_header" class="text-center text-white text_adaptive_size_header">Дизайн-проекты пространств образовательно-производственных центров (кластеров).</h2>
-                <div class="divider divider-alt divider-center divider-light"></div>
+                <div class="divi    der divider-alt divider-center divider-light"></div>
                 <p id="text_size_subtitle_1" class="text-center text-white text_adaptive_size_subtitle design_margin"> Брендбук
                     <a href="{{ path('app_download_brandbook') }}" >
                         <button class="btn btn-sm">
@@ -30,10 +28,8 @@
                         </button>
                     </a>
                 </p>
-
             </div>
         </div>
-        <div id="hide-on-mobile" class="block_left_list"></div>
         <div class="container" style="margin-bottom: 3%">
             <div id="portfolio-gallery" class="ed-carousel ed-slick dots-classic dots-light dots-outside portfolio-gallery">
                 {% for i in designProjectExample %}
