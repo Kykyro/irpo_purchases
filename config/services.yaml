@@ -45,3 +45,7 @@ services:
     App\EventListener\DatabaseOnFlushListener:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+            arguments:
+                - '%env(DATABASE_URL)%'
