@@ -694,22 +694,62 @@
             var a = e(this),
                 t = a.data("arrows") || !0,
                 i = a.data("dots") || !0,
-                o = a.data("loop") || !1;
+                o = a.data("loop") || !0;
             a.slick({
                 arrows: t,
                 dots: i,
                 infinite: true,
-                autoplay: true,
+                autoplay: false,
                 autoplaySpeed: 10000,
                 speed: 1200,
                 waitForAnimate: false,
                 slide: ".carousel-item3",
-                slidesToShow: 2,
-                slidesToScroll: 2,
+                slidesToShow: 3,
+                slidesToScroll: 1,
                 pauseOnHover: false,
                 cssEase: 'linear',
                 responsive: [{
                     breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        infinite: !0,
+                        dots: !0
+                    }
+                }, {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }, {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }]
+            })
+        }))), void(e(".ed-carousel4").length > 0 && e(".ed-carousel4").each((function() {
+            var a = e(this),
+                t = a.data("arrows") || !0,
+                i = a.data("dots") || !0,
+                o = a.data("loop") || !0;
+            a.slick({
+                arrows: t,
+                dots: i,
+                infinite: true,
+                autoplay: false,
+                autoplaySpeed: 10000,
+                speed: 1200,
+                waitForAnimate: false,
+                slide: ".carousel-item4",
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                pauseOnHover: false,
+                cssEase: 'linear',
+                responsive: [{
+                    breakpoint: 1400,
                     settings: {
                         slidesToShow: 1,
                         slidesToScroll: 1,
@@ -717,7 +757,47 @@
                         dots: !0
                     }
                 }, {
-                    breakpoint: 600,
+                    breakpoint: 800,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }, {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }]
+            })
+        }))), void(e(".ed-carousel5").length > 0 && e(".ed-carousel5").each((function() {
+            var a = e(this),
+                t = a.data("arrows") || !0,
+                i = a.data("dots") || !0,
+                o = a.data("loop") || !0;
+            a.slick({
+                arrows: t,
+                dots: i,
+                infinite: true,
+                autoplay: false,
+                autoplaySpeed: 10000,
+                speed: 1200,
+                waitForAnimate: false,
+                slide: ".carousel-item5",
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                pauseOnHover: false,
+                cssEase: 'linear',
+                responsive: [{
+                    breakpoint: 1400,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        infinite: !0,
+                        dots: !0
+                    }
+                }, {
+                    breakpoint: 800,
                     settings: {
                         slidesToShow: 1,
                         slidesToScroll: 1

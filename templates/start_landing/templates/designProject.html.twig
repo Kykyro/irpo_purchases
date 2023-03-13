@@ -35,9 +35,9 @@
                 {% for i in designProjectExample %}
 
                     <article class="carousel-item portfolio-item web">
-                        <div class="project-container mb-0 scale_img">
+                        <div class="project-container mb-0">
                             <a href="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" alt>
+                                <img src="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" alt style="height: 35vh; object-fit:cover">
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
                                         <div class="overlay-inner background-dark-5 opacity-70"></div>
