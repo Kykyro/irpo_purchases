@@ -63,6 +63,11 @@
 
                     </div>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <span class="nav-label left-bar-color-text">Кластеры</span>
+                    </li>
+                {% endif %}
                 {% if is_granted('ROLE_REGION') %}
                     <li>
                         <a href="{{ path("app_main") }}"><i class="fa fa-home left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Добавление закупок</span></a>
@@ -85,6 +90,12 @@
                     </li>
                     <li>
                         <a href="{{ path("app_region_certificate") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справки </span></a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <span class="nav-label left-bar-color-text">Кураторы</span>
+
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_INSPECTOR') %}
@@ -111,9 +122,21 @@
                     </li>
 
                 {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <span class="nav-label left-bar-color-text">Журналист</span>
+
+                    </li>
+                {% endif %}
                 {% if is_granted('ROLE_JOURNALIST') %}
                     <li >
                         <a href="{{ path("app_journalist") }}"><i class="fa fa-compass left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Редактор главной страницы</span></a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <span class="nav-label left-bar-color-text">Админ</span>
+
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
