@@ -122,6 +122,11 @@ class UserInfo
      */
     private $clusterDocument;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $listOfAnotherOrganization = [];
+
 
     function __construct()
     {
@@ -437,6 +442,18 @@ class UserInfo
         }
 
         $this->clusterDocument = $clusterDocument;
+
+        return $this;
+    }
+
+    public function getListOfAnotherOrganization(): ?array
+    {
+        return $this->listOfAnotherOrganization;
+    }
+
+    public function setListOfAnotherOrganization(?array $listOfAnotherOrganization): self
+    {
+        $this->listOfAnotherOrganization = $listOfAnotherOrganization;
 
         return $this;
     }

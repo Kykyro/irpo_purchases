@@ -199,6 +199,15 @@ class RegistrationUserInfoFormType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
+            ->add('listOfAnotherOrganization', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'prototype' => true,
+                'delete_empty' => true,
+                'prototype_data' => '',
+                'allow_delete' => true,
+                'by_reference' => false,
+            ])
             ->add('extraFundsOO', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',

@@ -105,6 +105,47 @@
                 </button>
                 <hr>
                 <label>
+                    Список иных организаций
+                </label>
+                <div class="row js-another-organization-wrapper">
+                    <ul id="another-organization-fields-list"
+                        class="col-lg-8"
+                        data-prototype="{{ form_widget(userInfoForm.listOfAnotherOrganization.vars.prototype, {'attr':{'class': 'form-control'}})|e }}"
+                        data-widget-tags="{{
+                        '<li class="form-control"></li>'|e
+                        }}"
+                        data-widget-counter="{{ userInfoForm.listOfAnotherOrganization|length }}"
+                        data-delete-btn='
+                                        <div class="col-xs-12 js-another-organization-item">
+                                            <a href="#" class="js-remove-another-organization pull-right btn btn-danger">
+                                                <span class="fa fa-close "></span>
+                                            </a>
+                                            <span class="badge badge-primary">Новый</span>
+
+                                    '
+                    >
+                        {% for LAO in userInfoForm.listOfAnotherOrganization %}
+                            <li class="form-control">
+                                <div class="col-xs-12 js-another-organization-item">
+                                    <a href="#" class="js-remove-another-organization pull-right btn btn-danger">
+                                        <span class="fa fa-close "></span>
+                                    </a>
+                                    {{ form_row(LAO, {'attr':{'class': 'form-control'}}) }}
+                                </div>
+
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <button type="button"
+                        class="add-another-collection-widget btn btn-primary"
+                        data-list-selector="#another-organization-fields-list">
+                    <i class="fa fa-plus">
+                        Добавить Иные организацию
+                    </i>
+                </button>
+                <hr>
+                <label>
                     Объем финансирования
                 </label>
                 {{ form_row(userInfoForm.extraFundsOO, {"type":"number"}) }}
@@ -132,6 +173,13 @@
             });
             let employesrWraper = $('.js-employers-wrapper');
             employesrWraper.on('click', '.js-remove-employer', function(e) {
+                e.preventDefault();
+                $(this).closest('.form-control')
+                    .fadeOut()
+                    .remove();
+            });
+            let listOfAnotherOrganizationWraper = $('.js-another-organization-wrapper');
+            listOfAnotherOrganizationWraper.on('click', '.js-remove-another-organization', function(e) {
                 e.preventDefault();
                 $(this).closest('.form-control')
                     .fadeOut()

@@ -93,6 +93,15 @@
                             </ol>
                         </div>
 
+                        <h3>Иные организации</h3>
+                        <div>
+                            <ol>
+                                {% for i in  user_info.getListOfAnotherOrganization() %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+
 
                         <div class="ibox-footer">
 

@@ -38,11 +38,12 @@ class certificateOfContractingService extends AbstractController
             ->getResult()
             ;
     }
-    public function generateSertificate($id)
+    public function generateSertificate($id, $today = null)
     {
         $user = $this->getUserById($id);
         $userInfo = $user->getUserInfo();
-        $today = new \DateTime('now');
+        if(is_null($today))
+            $today = new \DateTime('now');
         $purchases = $this->getProcProc($user);
         $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
         $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, ' ');

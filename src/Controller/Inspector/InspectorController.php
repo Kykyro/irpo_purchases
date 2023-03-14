@@ -218,6 +218,16 @@ class InspectorController extends AbstractController
             }
             $user_info->setListOfEmployers($arr);
 
+            $arr = [];
+            $key = 1;
+            $empList = $user_info->getListOfAnotherOrganization();
+            foreach (array_keys($empList) as $i)
+            {
+                $arr[$key] = $empList[$i];
+                $key++;
+            }
+            $user_info->setListOfAnotherOrganization($arr);
+
             $entity_manger->persist($user_info);
             $entity_manger->flush();
             $user = $entity_manger->getRepository(User::class)
