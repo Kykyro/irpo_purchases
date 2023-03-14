@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\ProcurementProcedures;
 use App\Entity\User;
+use NumberFormatter;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -43,6 +44,9 @@ class certificateOfContractingService extends AbstractController
         $userInfo = $user->getUserInfo();
         $today = new \DateTime('now');
         $purchases = $this->getProcProc($user);
+        $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
+        $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, ' ');
+        $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
 
         $sum = [
             'contractFedFunds'=>0,
@@ -98,27 +102,27 @@ class certificateOfContractingService extends AbstractController
             'industry' => $userInfo->getDeclaredIndustry(),
             'date' => $today->format('d.m.Y'),
             'year' => $userInfo->getYear(),
-            'ExtraFundsEconomicSector' => $userInfo->getExtraFundsEconomicSector() * 1000,
-            'FinancingFundsOfSubject' => $userInfo->getFinancingFundsOfSubject() * 1000,
-            'ExtraFundsOO' => $userInfo->getExtraFundsOO() * 1000,
+            'ExtraFundsEconomicSector' => $fmt->format($userInfo->getExtraFundsEconomicSector() * 1000),
+            'FinancingFundsOfSubject' => $fmt->format($userInfo->getFinancingFundsOfSubject() * 1000),
+            'ExtraFundsOO' => $fmt->format($userInfo->getExtraFundsOO() * 1000),
 
-            'cFedFunds' => $sum['contractFedFunds'],
-            'cEmplFunds' => $sum['contractEmplFunds'],
-            'cRegionFunds' => $sum['contractRegionFunds'],
-            'cOOFunds' => $sum['contractOOFunds'],
-            'pcFedFunds' => $procent['contractFedFunds'],
-            'pcEmplFunds' => $procent['contractEmplFunds'],
-            'pcRegionFunds' => $procent['contractRegionFunds'],
-            'pcOOFunds' => $procent['contractOOFunds'],
+            'cFedFunds' => $fmt->format($sum['contractFedFunds']),
+            'cEmplFunds' => $fmt->format($sum['contractEmplFunds']),
+            'cRegionFunds' => $fmt->format($sum['contractRegionFunds']),
+            'cOOFunds' => $fmt->format($sum['contractOOFunds']),
+            'pcFedFunds' => $fmt->format($procent['contractFedFunds']),
+            'pcEmplFunds' => $fmt->format($procent['contractEmplFunds']),
+            'pcRegionFunds' => $fmt->format($procent['contractRegionFunds']),
+            'pcOOFunds' => $fmt->format($procent['contractOOFunds']),
 
-            'fFedFunds' => $sum['factFedFunds'],
-            'fEmplFunds' => $sum['factEmplFunds'],
-            'fRegionFunds' => $sum['factRegionFunds'],
-            'fOOFunds' => $sum['factOOFunds'],
-            'pfFedFunds' => $procent['factFedFunds'],
-            'pfEmplFunds' => $procent['factEmplFunds'],
-            'pfRegionFunds' => $procent['factRegionFunds'],
-            'pfOOFunds' => $procent['factOOFunds'],
+            'fFedFunds' => $fmt->format($sum['factFedFunds']),
+            'fEmplFunds' => $fmt->format($sum['factEmplFunds']),
+            'fRegionFunds' => $fmt->format($sum['factRegionFunds']),
+            'fOOFunds' => $fmt->format($sum['factOOFunds']),
+            'pfFedFunds' => $fmt->format($procent['factFedFunds']),
+            'pfEmplFunds' => $fmt->format($procent['factEmplFunds']),
+            'pfRegionFunds' => $fmt->format($procent['factRegionFunds']),
+            'pfOOFunds' => $fmt->format($procent['factOOFunds']),
         ]);
 
         $fileName = $userInfo->getOrganization().'_'.$today->format('d.m.Y').'.docx';
