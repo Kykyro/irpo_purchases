@@ -186,8 +186,8 @@ class JournalistInfrastrucureSheetsController extends AbstractController
             ])
             ->add("type", ChoiceType::class,[
                 'choices' => [
-                    'Инфраструктурные листы (Кластеры)' => 'cluster_IS',
-                    'Инфраструктурные листы  (Мастерские)' => 'workshops_IS',
+                    'Типовые инфраструктурные листы для оснащения зон по видам работ образовательно-производственных центров (кластеров)' => 'cluster_IS',
+                    'Типовые инфраструктурные листы для создания современных мастерских (учебно-производственных участков' => 'workshops_IS',
                 ],
                 'attr' => [
                     'class' => 'form-control'

@@ -27,7 +27,7 @@ class InfrastructureSheetController extends AbstractController
         $data = [];
 
         if ($type === 'cluster_IS'){
-            $title = 'Инфраструктурные листы (Кластеры)';
+            $title = 'Типовые инфраструктурные листы для оснащения зон по видам работ образовательно-производственных центров (кластеров)';
             $form = $this->createFormBuilder($data)
             ->add("search", TextType::class, [
                 'attr' => ['class' => 'form-control'],
@@ -59,7 +59,7 @@ class InfrastructureSheetController extends AbstractController
             ->getForm();
         }
         else if($type === 'workshops_IS'){
-            $title = 'Инфраструктурные листы  (Мастерские)';
+            $title = 'Типовые инфраструктурные листы для создания современных мастерских (учебно-производственных участков)';
             $form = $this->createFormBuilder($data)
             ->add("search", TextType::class, [
                 'attr' => ['class' => 'form-control'],
