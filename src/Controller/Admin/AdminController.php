@@ -161,6 +161,15 @@ class AdminController extends AbstractController
             }
             $userInfo->setListOfEmployers($arr);
 
+            $arr = [];
+            $key = 1;
+            $empList = $userInfo->getListOfAnotherOrganization();
+            foreach (array_keys($empList) as $i)
+            {
+                $arr[$key] = $empList[$i];
+                $key++;
+            }
+            $userInfo->setListOfAnotherOrganization($arr);
 
 
             $user->setUserInfo($userInfo);
