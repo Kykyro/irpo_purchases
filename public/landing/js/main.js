@@ -784,12 +784,12 @@
                 speed: 1200,
                 waitForAnimate: false,
                 slide: ".carousel-item5",
-                slidesToShow: 2,
+                slidesToShow: 3,
                 slidesToScroll: 1,
                 pauseOnHover: false,
                 cssEase: 'linear',
                 responsive: [{
-                    breakpoint: 1400,
+                    breakpoint: 3400,
                     settings: {
                         slidesToShow: 2,
                         slidesToScroll: 1,
