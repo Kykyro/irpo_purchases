@@ -7,6 +7,7 @@ use App\Form\ChoiceInputType;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use function PHPUnit\Framework\returnArgument;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,7 @@ class LandingDocumentationController extends AbstractController
             $title = 'Нормативная документация (КЛАСТЕРОВ СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ)';
         }
         else{
-            $this->redirectToRoute('app_start_landing');
+            return $this->redirectToRoute('app_start_landing');
         }
 //        dd($type);
         $query = $em->getRepository(Files::class)
