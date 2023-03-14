@@ -23,8 +23,14 @@ class LandingDocumentationController extends AbstractController
         if($type === 'workshops_files'){
             $title = 'Нормативная документация (Мастерские)';
         }
-        else{
+        elseif($type === 'cluster_files'){
             $title = 'Нормативная документация (Кластеры)';
+        }
+        elseif($type === 'little_cluster_files'){
+            $title = 'Нормативная документация (КЛАСТЕРОВ СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ)';
+        }
+        else{
+            $this->redirectToRoute('app_start_landing');
         }
 //        dd($type);
         $query = $em->getRepository(Files::class)

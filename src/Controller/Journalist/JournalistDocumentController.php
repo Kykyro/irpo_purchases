@@ -47,6 +47,7 @@ class JournalistDocumentController extends AbstractController
                 'choices' => [
                     'Нормативная документация (Кластеры)' => 'cluster_files',
                     'Нормативная документация (Мастерские)' => 'workshops_files',
+                    'Нормативная документация (КЛАСТЕРОВ СРЕДНЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ)' => 'little_cluster_files',
                 ]
             ])
             ->add('file_doc', FileType::class, [
