@@ -6465,6 +6465,11 @@ body.mobile .mobile-hidden {
 	line-height: calc(1px + 14 * (100vw /1280)) !important;
 }
 
+.text_adaptive_size_subtitle_2{
+	font-size: calc(1px + 35 * (20vw / 1280)) !important;
+	line-height: calc(1px + 14 * (100vw /1280)) !important;
+}
+
 .text_adaptive_size_rightbar{
 	font-size: calc(5px + 8 * (100vw / 1280)) !important;
 	line-height: calc(1px + 20 * (100vw /1280)) !important;
