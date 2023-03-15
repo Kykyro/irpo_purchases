@@ -1,5 +1,12 @@
 {% extends 'default/base.html.twig' %}
-
+{% block styles %}
+    <style>
+        .row-middle{
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
 {% block content %}
     <div class="row mt-5">
         <div class="col-lg-6 offset-lg-3">
@@ -13,23 +20,33 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <td class="col-md-10">Название</td>
+                                <td class="col-md-8">Название</td>
                                 <td class="col-md-2">Скачать</td>
+                                <td class="col-md-2">Скачать с указанием даты</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr  >
                                 <td>
                                     Справка о контрактации и расходовании средств в рамках оснащения образовательно-производственного центра (кластера)
                                 </td>
                                 <td>
                                     <a href="{{ path('app_region_certificate_download', {'id': user.getId()}) }}">
-                                        <button class="btn btn-primary">
+                                        <button class="btn btn-primary col-lg-12">
                                             <i class="fa fa-download">
                                                 Скачать
                                             </i>
                                         </button>
                                     </a>
+                                </td>
+                                <td>
+                                    {{ form_start(form) }}
+                                        <div class="form-group">
+                                            <label>Дата заполнения</label>
+                                            {{ form_widget(form.date) }}
+                                        </div>
+                                        {{ form_widget(form.submit, {'attr':{'class': 'btn btn-primary col-lg-12'}}) }}
+                                    {{ form_end(form) }}
                                 </td>
                             </tr>
                         </tbody>

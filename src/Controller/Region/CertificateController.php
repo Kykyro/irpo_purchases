@@ -7,6 +7,7 @@ use App\Entity\ProcurementProcedures;
 use App\Entity\PurchaseNote;
 use App\Entity\RfSubject;
 use App\Form\ChoiceInputType;
+use App\Form\formWithDate;
 use App\Form\purchasesFormType;
 use App\Services\certificateOfContractingService;
 use App\Services\FileService;
@@ -42,14 +43,27 @@ class CertificateController extends AbstractController
      * @return Response
      * @Route("/certificate", name="app_region_certificate")
      */
-    public function certificate(Request $request,  EntityManagerInterface $em, PaginatorInterface $paginator) : Response
+    public function certificate(Request $request, certificateOfContractingService $certificateOfContractingService) : Response
     {
 
         $user = $this->getUser();
+        $arr = [];
+        $form = $this->createForm(formWithDate::class, $arr);
+
+        $form->handleRequest($request);
+
+        if( $form->isSubmitted() and $form->isValid())
+        {
+            $data = $form->getData();
+
+            return $certificateOfContractingService->generateSertificate($user->getId(), $data['date']);
+        }
+
 
         return $this->render('region/templates/certificates.html.twig', [
             'controller_name' => 'RegionController',
-            'user' => $user
+            'user' => $user,
+            'form' => $form->createView()
         ]);
     }
 
@@ -60,6 +74,7 @@ class CertificateController extends AbstractController
     {
         return $certificateOfContractingService->generateSertificate($id);
     }
+
 
 
 
