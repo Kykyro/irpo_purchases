@@ -35,12 +35,12 @@
                 {% for i in designProjectExample %}
 
                     <article class="carousel-item portfolio-item web">
-                        <div class="project-container mb-0">
-                            <a href="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" data-size="3219x2081" class="portfolio-gallery__img--main">
-                                <img src="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" alt style="height: 35vh; object-fit:cover">
+                        <div class="project-container mb-0" style="border-radius: 3rem">
+                            <a href="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" data-size="3219x2081" class="portfolio-gallery__img--main" style="margin: 1vh">
+                                <img src="{{ asset('/uploads/designProjectExample/'~i.getPhoto()) }}" alt style="height: 30vh; object-fit:cover; border-radius: 2rem">
                                 <div class="overlay">
                                     <div class="overlay-wrapper">
-                                        <div class="overlay-inner background-dark-5 opacity-70"></div>
+                                        <div class="overlay-inner background-dark-5 opacity-70" style="border-radius: 2rem"></div>
                                         <div class="overlay-inner overlay-content"><i class="fa fa-search" aria-hidden="true"></i></div>
                                     </div>
                                 </div>
