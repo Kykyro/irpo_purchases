@@ -37,11 +37,16 @@
                 <div class="col-sm-12 col-form-label text-left">
 
                     {{ form_row(registrationForm.userInfo.rf_subject) }}
+                    {{ form_row(registrationForm.userInfo.initiatorOfCreation) }}
                     {{ form_row(registrationForm.userInfo.organization) }}
                     {{ form_row(registrationForm.userInfo.educational_organization) }}
                     {{ form_row(registrationForm.userInfo.cluster) }}
                     {{ form_row(registrationForm.userInfo.declared_industry) }}
                     {{ form_row(registrationForm.userInfo.year) }}
+                    <hr>
+                    {{ form_row(registrationForm.userInfo.extraFundsOO, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.extraFundsEconomicSector, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.financingFundsOfSubject, {"type":"number"}) }}
                     <hr>
                     {{ form_row(registrationForm.userInfo.studentsCount, {"type":"number"}) }}
                     {{ form_row(registrationForm.userInfo.programCount, {"type":"number"}) }}
@@ -53,8 +58,8 @@
                     {{ form_row(registrationForm.userInfo.amountOfExtraFunds, {"type":"number"}) }}
                 </div>
             </div>
-            {{ form_widget(registrationForm.userInfo.listOfEdicationOrganization, {"attr": {'class': 'hidden'}}) }}
-            {{ form_widget(registrationForm.userInfo.listOfEmployers, {"attr": {'class': 'hidden'}}) }}
+            <hr>
+
             <div class="form-group row m-3 ">
                 <div class="col-sm-12 col-form-label text-left d-flex justify-content-center">
                     {#<button type="submit" class="btn">Зарегистрировать</button>#}
@@ -67,50 +72,6 @@
 
 {% endblock %}
 {% block scripts %}
-    <script>
-        $(document).ready(function () {
-            let $wrapper = $('.js-edication-organization-wrapper');
-            $wrapper.on('click', '.js-remove-organization', function(e) {
-                e.preventDefault();
-                $(this).closest('.form-control')
-                    .fadeOut()
-                    .remove();
-            });
-            let employesrWraper = $('.js-employers-wrapper');
-            employesrWraper.on('click', '.js-remove-employer', function(e) {
-                e.preventDefault();
-                $(this).closest('.form-control')
-                    .fadeOut()
-                    .remove();
-            });
-            $('.add-another-collection-widget').click(function (e) {
-                var list = $($(this).attr('data-list-selector'));
-                // Try to find the counter of the list or use the length of the list
-                var counter = list.data('widget-counter');
 
-                // grab the prototype template
-                var newWidget = list.attr('data-prototype');
-                // replace the "__name__" used in the id and name of the prototype
-                // with a number that's unique to your emails
-                // end name attribute looks like name="contact[emails][2]"
-                counter++;
-                newWidget = newWidget.replace(/__name__/g, counter);
-                // Increase the counter
-                console.log(newWidget);
-
-                // And store it, the length cannot be used if deleting widgets is allowed
-                list.data('widget-counter', counter);
-
-                // create a new list element and add it to the list
-                var newElem = $(list.attr('data-widget-tags')).html(
-                    list.attr('data-delete-btn') +
-                    newWidget +
-                    '</div>'
-                );
-
-                newElem.appendTo(list);
-            });
-        });
-    </script>
 
 {% endblock %}
