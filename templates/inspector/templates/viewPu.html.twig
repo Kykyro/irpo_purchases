@@ -673,7 +673,7 @@
                                         {% for i in file %}
                                             {% if i.getOldVal() %}
                                                 <li>
-                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route':'purchases_files_directory'}) }}">
+                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getOldVal(), 'route':'purchases_files_directory'}) }}">
                                                         <i class="fa fa-download">
                                                             Договор/проект договора от {{ i.getCreatedAt().format('d.m.Y') }}
                                                         </i>
@@ -707,7 +707,7 @@
                                         {% for i in additionalAgreement %}
                                             {% if i.getOldVal() %}
                                                 <li>
-                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route':'additional_agreement_directory'}) }}">
+                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getOldVal(), 'route':'additional_agreement_directory'}) }}">
                                                         <i class="fa fa-download">
                                                             Дополнительный договор от {{ i.getCreatedAt().format('d.m.Y') }}
                                                         </i>
@@ -741,7 +741,7 @@
                                         {% for i in closingDocument %}
                                             {% if i.getOldVal() %}
                                                 <li>
-                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route':'closing_files_directory'}) }}">
+                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getOldVal(), 'route':'closing_files_directory'}) }}">
                                                         <i class="fa fa-download">
                                                             Закрывающий документ от {{ i.getCreatedAt().format('d.m.Y') }}
                                                         </i>
@@ -775,7 +775,7 @@
                                         {% for i in paymentOrder %}
                                             {% if i.getOldVal() %}
                                                 <li>
-                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route':'payment_orders_directory'}) }}">
+                                                    <a href="{{ path('app_download_file_by_route', {'file': i.getOldVal(), 'route':'payment_orders_directory'}) }}">
                                                         <i class="fa fa-download">
                                                             Платежное поручение от {{ i.getCreatedAt().format('d.m.Y') }}
                                                         </i>
