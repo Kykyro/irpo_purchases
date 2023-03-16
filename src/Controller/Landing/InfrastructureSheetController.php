@@ -26,8 +26,11 @@ class InfrastructureSheetController extends AbstractController
     {
         $data = [];
 
-        if ($type === 'cluster_IS'){
-            $title = 'Типовые инфраструктурные листы для оснащения зон по видам работ образовательно-производственных центров (кластеров)';
+        if ($type === 'cluster_IS' || $type === 'workshops_IS'){
+            if( $type === 'workshops_IS')
+                $title = 'Типовые инфраструктурные листы для создания современных мастерских (учебно-производственных участков)';
+            else
+                $title = 'Типовые инфраструктурные листы для оснащения зон по видам работ образовательно-производственных центров (кластеров)';
             $form = $this->createFormBuilder($data)
             ->add("search", TextType::class, [
                 'attr' => ['class' => 'form-control'],
@@ -58,19 +61,19 @@ class InfrastructureSheetController extends AbstractController
             ->setMethod('GET')
             ->getForm();
         }
-        else if($type === 'workshops_IS'){
-            $title = 'Типовые инфраструктурные листы для создания современных мастерских (учебно-производственных участков)';
-            $form = $this->createFormBuilder($data)
-            ->add("search", TextType::class, [
-                'attr' => ['class' => 'form-control'],
-                'required'   => false,
-
-            ])
-            
-            ->add("submit", SubmitType::class)
-            ->setMethod('GET')
-            ->getForm();
-        }
+//        else if($type === 'workshops_IS'){
+//            $title = 'Типовые инфраструктурные листы для создания современных мастерских (учебно-производственных участков)';
+//            $form = $this->createFormBuilder($data)
+//            ->add("search", TextType::class, [
+//                'attr' => ['class' => 'form-control'],
+//                'required'   => false,
+//
+//            ])
+//
+//            ->add("submit", SubmitType::class)
+//            ->setMethod('GET')
+//            ->getForm();
+//        }
         else{
             return $this->redirectToRoute('app_start_landing');
         }
