@@ -86,7 +86,7 @@
         <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>Добавление закупки</h5>
+                    <h5>Сформировать справку</h5>
 
                 </div>
                 <div class="ibox-content">
@@ -94,13 +94,31 @@
                         <div class="col-lg-3">
                             <label>Год</label>
                             <select id="year-input" class="form-control m-b" >
+                                <option></option>
                                 <option>2020</option>
                                 <option>2021</option>
                                 <option>2022</option>
                                 <option>2023</option>
                             </select>
                         </div>
-
+                        <div class="col-lg-3">
+                            <label>Отрасль</label>
+                            <select id="industry-input" class="form-control m-b select2" multiple="multiple">
+                                {#<option></option>#}
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Регион</label>
+                            <select id="region-input" class="form-control m-b select2" multiple="multiple">
+                                {#<option></option>#}
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Базовая организация</label>
+                            <select id="base-input" class="form-control m-b select2" >
+                                <option></option>
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
@@ -131,14 +149,15 @@
                                         <h3>
                                             <b>Субъект РФ:</b> {{ i.vars.attr["data-region"] }}
                                         </h3>
-
+                                        <h3>
+                                            <b>Отрасль:</b> {{ i.vars.attr["data-industry"] }} <br>
+                                        </h3>
 
                                     </div>
                                     <div class="col-lg-10">
                                         <hr>
                                         <b>Кластер:</b> {{ form_label(i) }} <br>
                                         <b>Год:</b> {{ i.vars.attr["data-year"] }} <br>
-
                                     </div>
                                 </div>
 
@@ -163,45 +182,121 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script>
         $(document).ready(function(){
+            $.fn.filterAttribute = function(attr, values, reverse) {
+                var remaining = [];
+                this.each(function(index, el) {
+                    for (var i = 0; i < values.length; i++) {
+                        if (el.getAttribute(attr) == values[i]) {
+                            remaining.push(el);
+                            break;
+                        }
+                    }
+                });
+                if (reverse) {
+                    return(this.not(remaining));
+                } else {
+                    return($(remaining));
+                }
+            }
+
             let yearInput = $('#year-input');
-            // let regionInput = $('#region-input');
+            let industryInput = $('#industry-input');
+            let regionInput = $('#region-input');
+            let baseInput = $('#base-input');
             let filterBtn = $('#filter-btn');
             let cancelFilterBtn = $('#cancel-filter-btn');
             function filter() {
                 cancelFilter();
                 console.log('Отфильтровано');
+                if(yearInput.val() !== ""){
+                    console.log('Год: ', yearInput.val());
+                    // let _year = "data-year!=" + yearInput.val();
 
-                let _year = "data-year!=" + yearInput.val();
-                let filtered_year = $('#clusters input['+_year+']');
-                filtered_year.closest('.form-control').hide();
+                    // yearInput.val().join('')
+                    let _year = "data-year!=" + yearInput.val();
+                    let filtered_year = $('#clusters input['+_year+']');
+                    filtered_year.closest('.form-control').hide();
+                }
+                if(industryInput.val().length > 0){
+                    console.log('Отрасль: ', industryInput.val());
+                    let value = industryInput.val();
+                    // let _industry = "data-industry!='" + industryInput.val() +"'";
+                    let filtered_industry = $('#clusters input[data-industry]').filterAttribute("data-industry", value, true);;
+                    filtered_industry.closest('.form-control').hide();
+                }
+                if(regionInput.val().length > 0){
+                    console.log('Регион: ', regionInput.val());
+
+                    let value = regionInput.val();
+                    let filtered_region = $('#clusters input[data-region]').filterAttribute("data-region", value, true);
+                    filtered_region.closest('.form-control').hide();
+                }
+                if(baseInput.val() !== ""){
+                    console.log('Базовая организация: ', baseInput.val());
+                    let _base = "data-base!='" + baseInput.val() +"'";
+                    let filtered_industry = $('#clusters input['+_base+']');
+                    filtered_industry.closest('.form-control').hide();
+                }
 
 
-                // regionInput.val().each((elem) => {
-                //     let _region = `data-region!=''`;
-                //         // "data-region!='" + elem + "'";
-                //     let filtered_region = $('#clusters input['+_region+']');
-                //     filtered_region.closest('.form-control').hide();
-                // });
-                //
-                // console.log(regionInput.val());
+
+
             }
             function cancelFilter() {
                 console.log('фильтр сброшен');
                 $('.form-control').show();
 
             }
+            function onLoad() {
+                let data = $('#clusters input');
+                let _industry = [];
+                let _region = [];
+                let _base = [];
+                data.each(function( index ) {
+                    _industry.push( $( this ).data("industry"));
+                    _region.push( $( this ).data("region"));
+                    _base.push( $( this ).data("base"));
+
+                });
+
+                let uniq_industry = [...new Set(_industry)];
+                uniq_industry.forEach((element) => {
+                    industryInput
+                        .append('<option>'+element+'</option>');
+                });
+
+                let uniq_region = [...new Set(_region.sort())];
+                uniq_region.forEach((element) => {
+                    regionInput
+                        .append('<option>'+element+'</option>');
+                });
+
+                let uniq_base = [...new Set(_base)];
+                uniq_base.forEach((element) => {
+                    baseInput
+                        .append('<option>'+element+'</option>');
+                });
+
+
+
+            }
+
+
+
             filterBtn.click((e) => {
                 filter();
             });
             cancelFilterBtn.click((e) => {
                 cancelFilter();
             });
-            // $('.select2').select2({
-            //     closeOnSelect : false,
-            //     placeholder : "Placeholder",
-            //     allowHtml: true,
-            //     allowClear: true
-            // });
+
+            $('.select2').select2({
+                closeOnSelect : false,
+                placeholder : "...",
+                allowHtml: true,
+                allowClear: true
+            });
+            onLoad();
         });
     </script>
 {% endblock %}

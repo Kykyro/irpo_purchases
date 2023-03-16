@@ -50,7 +50,9 @@ class makeCertificateForm extends AbstractType
                 'choice_attr' => ChoiceList::attr($this, function (?User $user) {
                     return $user ? [
                         'data-year' => $user->getUserInfo()->getYear(),
-                        'data-region' => is_null($user->getUserInfo()->getRfSubject()) ? '' : $user->getUserInfo()->getRfSubject()->getName()
+                        'data-region' => is_null($user->getUserInfo()->getRfSubject()) ? '' : $user->getUserInfo()->getRfSubject()->getName(),
+                        'data-industry' => $user->getUserInfo()->getDeclaredIndustry(),
+                        'data-base' => $user->getUserInfo()->getOrganization(),
                     ]
                     : [];
                 }),
@@ -62,7 +64,7 @@ class makeCertificateForm extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ],
-                'label' => 'Добавить'
+                'label' => 'Скачать'
 
             ]);
     }
