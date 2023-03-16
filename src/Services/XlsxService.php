@@ -687,6 +687,9 @@ class XlsxService extends AbstractController
         $sheet->setCellValue('X'.$end_cell, $finOrgFundSUM);
 
 
+        $sheet->getStyle('E'.$end_cell.':H'.$end_cell)->applyFromArray($styleFill);
+        $sheet->getStyle('U'.$end_cell.':X'.$end_cell)->applyFromArray($styleFill2);
+
         $row_arr = ['E', 'F', 'G', 'H', 'U', 'V', 'W', 'X', 'D', 'T', 'Z', 'AA', 'AB', 'AC'];
         foreach ($row_arr as $j){
             $sheet->getStyle($j.$end_cell)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
