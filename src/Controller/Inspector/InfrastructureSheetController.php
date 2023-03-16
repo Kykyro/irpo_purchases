@@ -57,7 +57,7 @@ class InfrastructureSheetController extends AbstractController
         $form_data = [];
         $form = $this->createFormBuilder($form_data)
             ->add("rf_subject", EntityType::class, [
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control select2'],
                 'required'   => false,
                 'class' => RfSubject::class,
                 'query_builder' => function (EntityRepository $er) {
