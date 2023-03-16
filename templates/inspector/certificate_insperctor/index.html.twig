@@ -94,10 +94,8 @@
                     <div class="row">
                         <div class="col-lg-3">
                             <label>Год</label>
-                            <select id="year-input" class="form-control m-b" >
-                                <option></option>
-                                <option>2022</option>
-                                <option>2023</option>
+                            <select id="year-input" class="form-control m-b select2" multiple="multiple">
+
                             </select>
                         </div>
                         <div class="col-lg-3">
@@ -112,14 +110,17 @@
                                 {#<option></option>#}
                             </select>
                         </div>
-                        <div class="col-lg-3">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-9">
                             <label>Базовая организация</label>
                             <select id="base-input" class="form-control m-b select2" >
                                 <option></option>
                             </select>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-lg-12">
                             <button id="filter-btn" type="button mr-3" class="btn">
                                 <i class="fa fa-check">
@@ -211,20 +212,18 @@
             function filter() {
                 cancelFilter();
                 console.log('Отфильтровано');
-                if(yearInput.val() !== ""){
+                if(yearInput.val().length > 0){
                     console.log('Год: ', yearInput.val());
-                    // let _year = "data-year!=" + yearInput.val();
 
-                    // yearInput.val().join('')
-                    let _year = "data-year!=" + yearInput.val();
-                    let filtered_year = $('#clusters input['+_year+']');
+                    let value = yearInput.val();
+                    let filtered_year = $('#clusters input[data-year]').filterAttribute("data-year", value, true);;
                     filtered_year.closest('.form-control').hide();
                 }
                 if(industryInput.val().length > 0){
                     console.log('Отрасль: ', industryInput.val());
                     let value = industryInput.val();
                     // let _industry = "data-industry!='" + industryInput.val() +"'";
-                    let filtered_industry = $('#clusters input[data-industry]').filterAttribute("data-industry", value, true);;
+                    let filtered_industry = $('#clusters input[data-industry]').filterAttribute("data-industry", value, true);
                     filtered_industry.closest('.form-control').hide();
                 }
                 if(regionInput.val().length > 0){
@@ -255,10 +254,12 @@
                 let _industry = [];
                 let _region = [];
                 let _base = [];
+                let _year = [];
                 data.each(function( index ) {
                     _industry.push( $( this ).data("industry"));
                     _region.push( $( this ).data("region"));
                     _base.push( $( this ).data("base"));
+                    _year.push( $( this ).data("year"));
 
                 });
 
@@ -277,6 +278,12 @@
                 let uniq_base = [...new Set(_base)];
                 uniq_base.forEach((element) => {
                     baseInput
+                        .append('<option>'+element+'</option>');
+                });
+
+                let uniq_year = [...new Set(_year.sort())];
+                uniq_year.forEach((element) => {
+                    yearInput
                         .append('<option>'+element+'</option>');
                 });
 
