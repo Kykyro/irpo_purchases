@@ -38,8 +38,11 @@ class makeCertificateForm extends AbstractType
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
+                        ->leftJoin('u.user_info', 'uf')
                         ->andWhere('u.roles LIKE :role')
+                        ->andWhere('uf.year > :year')
                         ->setParameter('role', '%REGION%')
+                        ->setParameter('year', 2021)
                         ;
                     },
                 'choice_label' => function ($clusters) {
