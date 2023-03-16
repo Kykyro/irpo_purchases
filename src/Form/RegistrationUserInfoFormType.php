@@ -35,6 +35,12 @@ class RegistrationUserInfoFormType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Субъект РФ'
             ])
+            ->add("initiatorOfCreation", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => true,
+                    'label' => 'Инициатор создания кластера '
+                ])
             ->add("organization", TextType::class,
                 [
                     'attr' => ['class' => 'form-control'],

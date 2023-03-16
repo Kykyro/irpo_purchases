@@ -127,6 +127,11 @@ class UserInfo
      */
     private $listOfAnotherOrganization = [];
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $initiatorOfCreation;
+
 
     function __construct()
     {
@@ -454,6 +459,18 @@ class UserInfo
     public function setListOfAnotherOrganization(?array $listOfAnotherOrganization): self
     {
         $this->listOfAnotherOrganization = $listOfAnotherOrganization;
+
+        return $this;
+    }
+
+    public function getInitiatorOfCreation(): ?string
+    {
+        return $this->initiatorOfCreation;
+    }
+
+    public function setInitiatorOfCreation(?string $initiatorOfCreation): self
+    {
+        $this->initiatorOfCreation = $initiatorOfCreation;
 
         return $this;
     }

@@ -1,7 +1,7 @@
 {% extends "default/base.html.twig" %}
 {% block styles %}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
-   <style>
+    <style>
         .select2-container {
             min-width: 400px;
         }
@@ -120,26 +120,31 @@
                     <hr>
                     {{ form_start(form) }}
 
-                        <div id="clusters" class="row">
-                            {% for i in form.clusters %}
-                                <div class="form-control col-lg-3 m-2">
-                                    <div class="row">
-                                        <div class="col-lg-1">
-                                            {{ form_widget(i) }}
-                                        </div>
-                                        <div class="col-lg-10">
-                                            {{ form_label(i) }}
-                                        </div>
-                                        <div class="col-lg-10">
-                                            <hr>
-                                            <b>Год:</b> {{ i.vars.attr["data-year"] }} <br>
-                                            <b>Регион:</b> {{ i.vars.attr["data-region"] }}
-                                        </div>
+                    <div id="clusters" class="row">
+                        {% for i in form.clusters %}
+                            <div class="form-control col-lg-3 m-2">
+                                <div class="row">
+                                    <div class="col-lg-1">
+                                        {{ form_widget(i) }}
                                     </div>
+                                    <div class="col-lg-10">
+                                        <h3>
+                                            <b>Субъект РФ:</b> {{ i.vars.attr["data-region"] }}
+                                        </h3>
 
+
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <hr>
+                                        <b>Кластер:</b> {{ form_label(i) }} <br>
+                                        <b>Год:</b> {{ i.vars.attr["data-year"] }} <br>
+
+                                    </div>
                                 </div>
-                            {% endfor %}
-                        </div>
+
+                            </div>
+                        {% endfor %}
+                    </div>
                     {{ form_end(form) }}
                 </div>
             </div>
