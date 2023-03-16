@@ -46,7 +46,7 @@
             {% if not purchase.isIsCancelled() %}
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#cancelledModal">
                     <div class="fa fa-warning"></div>
-                    Закупка отменена
+                    Закупка отменена / закупка не состоялась
                 </button>
             {% endif %}
             {% if is_granted('ROLE_INSPECTOR') %}
@@ -787,7 +787,7 @@
                 {{ form_start(cancelledForm) }}
                 <div class="modal-body">
                     <label>
-                        Причина отмены
+                        Причина
                     </label>
                     {{ form_widget(cancelledForm.cancelledComment) }}
                 </div>
