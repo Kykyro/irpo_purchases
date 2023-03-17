@@ -107,6 +107,7 @@ class InspectorPurchasesController extends AbstractController
             ->getQuery()
             ->getResult();
         $today = new \DateTimeImmutable('now');
+        $user = $entity_manager->getRepository(User::class)->find($id);
 
         $arr = [];
         $form = $this->createFormBuilder($arr)
@@ -136,7 +137,8 @@ class InspectorPurchasesController extends AbstractController
             'id' => $id,
             'initial_sum' => $budgetSumService->getInitialBudget($prodProc, $today),
             'fin_sum' => $budgetSumService->getFinBudget($prodProc, $today),
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'user' => $user
         ]);
     }
 
