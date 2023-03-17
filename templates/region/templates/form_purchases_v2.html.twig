@@ -215,7 +215,7 @@
                                 {{ form_widget(form.conractStatus) }}
                             </div>
                             <div class="form-group">
-                                <label>Договор/проект договора</label>
+                                <label>Договор / проект договора</label>
                                 {{ form_widget(form.file) }}
                                 {% if edit %}
                                 {% if file|length > 0 %}
@@ -240,6 +240,7 @@
                                     <a href="{{ path('app_download_file_by_route', {'file': pp.getFileDir(), 'route': 'purchases_files_directory'}) }}">
                                         <i class="fa fa-download">
                                             Договор / проект договора
+
                                         </i>
                                     </a>
                                 {% endif %}
