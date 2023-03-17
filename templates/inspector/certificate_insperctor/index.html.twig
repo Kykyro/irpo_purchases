@@ -110,6 +110,12 @@
                                 {#<option></option>#}
                             </select>
                         </div>
+                        <div class="col-lg-3">
+                            <label>Округ</label>
+                            <select id="district-input" class="form-control m-b select2" multiple="multiple">
+                                {#<option></option>#}
+                            </select>
+                        </div>
 
                     </div>
                     <div class="row">
@@ -217,6 +223,7 @@
             let industryInput = $('#industry-input');
             let regionInput = $('#region-input');
             let baseInput = $('#base-input');
+            let districtInput = $('#district-input');
             let filterBtn = $('#filter-btn');
             let cancelFilterBtn = $('#cancel-filter-btn');
             let chooseAllBtn = $('#choose-all-btn');
@@ -252,7 +259,13 @@
                     let filtered_industry = $('#clusters input['+_base+']');
                     filtered_industry.closest('.form-control').hide();
                 }
+                if(districtInput.val().length > 0){
+                    console.log('Округ: ', districtInput.val());
 
+                    let value = districtInput.val();
+                    let filtered_region = $('#clusters input[data-district]').filterAttribute("data-district", value, true);
+                    filtered_region.closest('.form-control').hide();
+                }
 
 
 
@@ -279,11 +292,13 @@
                 let _region = [];
                 let _base = [];
                 let _year = [];
+                let _district = [];
                 data.each(function( index ) {
                     _industry.push( $( this ).data("industry"));
                     _region.push( $( this ).data("region"));
                     _base.push( $( this ).data("base"));
                     _year.push( $( this ).data("year"));
+                    _district.push( $( this ).data("district"));
 
                 });
 
@@ -311,6 +326,12 @@
                         .append('<option>'+element+'</option>');
                 });
 
+                let uniq_district = [...new Set(_district.sort())];
+                uniq_district.forEach((element) => {
+                    districtInput
+                        .append('<option>'+element+'</option>');
+                });
+
 
 
             }
@@ -334,10 +355,31 @@
                 this.submit(); // use the native submit method of the form element
                 clearInput();
             });
-            $('#clusters .form-control').click((e) => {
-                console.log($(this));
-                $(this).addClass('danger');
+            $('#clusters .form-control').click(function() {  //use a class, since your ID gets mangled
+
+                if($(this).find('input').is(':checked'))
+                {
+                    // $(this).removeClass("panel-primary");      //add the class to the clicked element
+                    $(this).find('input').prop('checked',false);
+                }
+                else{
+                    // $(this).addClass("panel-primary");      //add the class to the clicked element
+                    $(this).find('input').prop('checked',true);
+                }
             });
+            $('#clusters input').click(function() {  //use a class, since your ID gets mangled
+
+                if($(this).is(':checked'))
+                {
+                    // $(this).removeClass("panel-primary");      //add the class to the clicked element
+                    $(this).prop('checked',false);
+                }
+                else{
+                    // $(this).addClass("panel-primary");      //add the class to the clicked element
+                    $(this).prop('checked',true);
+                }
+            });
+
             // submitBtn.click((e)=>{
             //     clearInput();
             // });

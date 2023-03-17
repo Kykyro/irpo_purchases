@@ -56,6 +56,7 @@ class makeCertificateForm extends AbstractType
                         'data-region' => is_null($user->getUserInfo()->getRfSubject()) ? '' : $user->getUserInfo()->getRfSubject()->getName(),
                         'data-industry' => $user->getUserInfo()->getDeclaredIndustry(),
                         'data-base' => $user->getUserInfo()->getOrganization(),
+                        'data-district' => is_null($user->getUserInfo()->getRfSubject()) ? '' : $user->getUserInfo()->getRfSubject()->getDistrict(),
                     ]
                     : [];
                 }),
