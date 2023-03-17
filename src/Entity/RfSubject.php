@@ -27,6 +27,11 @@ class RfSubject
      */
     private $timezone;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $district;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class RfSubject
     public function setTimezone(?int $timezone): self
     {
         $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    public function getDistrict(): ?string
+    {
+        return $this->district;
+    }
+
+    public function setDistrict(?string $district): self
+    {
+        $this->district = $district;
 
         return $this;
     }

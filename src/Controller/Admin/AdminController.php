@@ -323,6 +323,26 @@ class AdminController extends AbstractController
                     'required'   => false,
 
                 ])
+            ->add("district", ChoiceType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-control'
+                    ],
+                    'required'   => false,
+                    'choices'  => [
+
+                        'ДФО' => 'ДФО',
+                        'ПФО' => 'ПФО',
+                        'СЗФО' => 'СЗФО',
+                        'СКФО' => 'СКФО',
+                        'СФО' => 'СФО',
+                        'УФО' => 'УФО',
+                        'ЦФО' => 'ЦФО',
+                        'ЮФО' => 'ЮФО',
+
+
+                    ]
+                ])
             ->add('submit', SubmitType::class,[
                 'attr' => [
                     'class' => 'btn'
