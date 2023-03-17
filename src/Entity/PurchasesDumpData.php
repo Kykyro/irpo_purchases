@@ -59,6 +59,10 @@ class PurchasesDumpData
         }
         return $sum;
     }
+    public function getPurchases()
+    {
+        return $this->serializer->deserialize($this->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
+    }
 
 
 }

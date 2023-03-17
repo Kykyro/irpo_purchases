@@ -4,6 +4,7 @@ namespace App\Controller\Inspector;
 
 use App\Entity\Log;
 use App\Entity\PurchaseNote;
+use App\Entity\PurchasesDump;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
@@ -23,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Services\XlsxService;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  *
@@ -93,7 +95,7 @@ class InspectorPurchasesController extends AbstractController
     /**
      * @Route("/show-purchases/{id}", name="app_inspector_show_purchases", methods="GET|POST")
      */
-    public function showPurchases(Request $request, int $id, budgetSumService $budgetSumService, XlsxService $xlsxService): Response
+    public function showPurchases(Request $request, int $id, budgetSumService $budgetSumService, XlsxService $xlsxService, SerializerInterface $serializer): Response
     {
         $entity_manager = $this->getDoctrine()->getManager();
 
@@ -126,16 +128,38 @@ class InspectorPurchasesController extends AbstractController
 
         $budgetArr = [];
         $form2 = $this->createFormBuilder($budgetArr)
-            ->add('date_1', DateType::class, [
-                'widget' => 'single_text',
-                'required'   => true,
-                'label' => 'Дата 1'
+            ->add('date_1', EntityType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'class' => PurchasesDump::class,
+                'query_builder' => function (EntityRepository $er) use($user) {
+                    return $er->createQueryBuilder('d')
+                        ->andWhere('d.user = :user')
+                        ->setParameter('user', $user)
+                        ;
+                },
+                'choice_label' => function($dump){
+                    return $dump->getCreatedAt()->format('d.m.Y');
+                },
+                'label' => 'Тип'
             ])
-            ->add('date_2', DateType::class, [
-                'widget' => 'single_text',
-                'required'   => true,
-                'label' => 'Дата 1'
-            ])
+//            ->add('date_2', EntityType::class, [
+//                'attr' => [
+//                    'class' => 'form-control'
+//                ],
+//                'class' => PurchasesDump::class,
+//                'query_builder' => function (EntityRepository $er) use($user) {
+//                    return $er->createQueryBuilder('d')
+//                        ->andWhere('d.user = :user')
+//                        ->setParameter('user', $user)
+//                        ;
+//                },
+//                'choice_label' => function($dump){
+//                    return $dump->getCreatedAt()->format('d.m.Y');
+//                },
+//                'label' => 'Тип'
+//            ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn mt-3'
@@ -154,8 +178,11 @@ class InspectorPurchasesController extends AbstractController
         if($form2->isSubmitted() and $form2->isValid())
         {
             $date = $form2->getData();
-            $date_1 = \DateTimeImmutable::createFromMutable( $date['date_1']);
-            $date_2 = \DateTimeImmutable::createFromMutable( $date['date_2']);
+            $dump_1 = $serializer->deserialize($date['date_1']->getDump()->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
+            $date_1 = $date['date_1']->getCreatedAt();
+
+//            $dump_2 = $serializer->deserialize($date['date_2']->getDump()->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
+//            $date_2 = $date['date_2']->getCreatedAt();
 //            $immutable = \DateTimeImmutable::createFromMutable( $date );
 //            dd($date_1);
             return $this->render('inspector/templates/showPurchases.html.twig', [
@@ -164,16 +191,16 @@ class InspectorPurchasesController extends AbstractController
                 'id' => $id,
                 'initial_sum' => $budgetSumService->getInitialBudget($prodProc, $today),
                 'fin_sum' => $budgetSumService->getFinBudget($prodProc, $today),
-                'initial_sum_1' => $budgetSumService->getInitialBudget($prodProc, $date_1),
-                'fin_sum_1' => $budgetSumService->getFinBudget($prodProc, $date_1),
-                'initial_sum_2' => $budgetSumService->getInitialBudget($prodProc, $date_2),
-                'fin_sum_2' => $budgetSumService->getFinBudget($prodProc, $date_2),
+                'initial_sum_1' => $budgetSumService->getInitialBudget($dump_1, $date_1),
+                'fin_sum_1' => $budgetSumService->getFinBudget($dump_1, $date_1),
+//                'initial_sum_2' => $budgetSumService->getInitialBudget($dump_2, $date_2),
+//                'fin_sum_2' => $budgetSumService->getFinBudget($dump_2, $date_2),
                 'form' => $form->createView(),
                 'user' => $user,
                 'form2' => $form2->createView(),
                 'today' => $today,
                 'date_1' => $date_1,
-                'date_2' => $date_2,
+//                'date_2' => $date_2,
             ]);
         }
 
