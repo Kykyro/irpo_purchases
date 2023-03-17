@@ -34,6 +34,8 @@ class certificateByClustersService extends AbstractController
 
         $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки.docx');
         $replacements = [];
+        $replacementsWithGrand = [];
+        $replacements2022 = [];
 
         foreach ($users as $user)
         {
@@ -53,11 +55,32 @@ class certificateByClustersService extends AbstractController
                 'oo_funds' => $fmt->format($user_info->getExtraFundsOO() * 1000),
                 'base_org' => $user_info->getEducationalOrganization(),
             ];
+            if($user_info->getYear() === 2022)
+                array_push($replacements2022, $templateData);
+            else
+                if(strtolower($user_info->getEducationalOrganization()) == strtolower($user_info->getOrganization()))
+                    array_push($replacements, $templateData);
+                else
+                    array_push($replacementsWithGrand, $templateData);
 
-            array_push($replacements, $templateData);
         }
+        if(count($replacements) > 0)
+            $templateProcessor->cloneBlock('clusterInfo', 0, true, false, $replacements);
+        else
+            $templateProcessor->cloneBlock('clusterInfo', 0, true, false);
 
-        $templateProcessor->cloneBlock('clusterInfo', 0, true, false, $replacements);
+        if(count($replacements2022) > 0)
+            $templateProcessor->cloneBlock('old', 0, true, false, $replacements2022);
+        else
+            $templateProcessor->cloneBlock('old', 0, true, false);
+
+
+        if(count($replacementsWithGrand) > 0)
+            $templateProcessor->cloneBlock('WithGrant', 0, true, false, $replacementsWithGrand);
+        else
+            $templateProcessor->cloneBlock('WithGrant', 0, true, false);
+
+
 
 
         $fileName = 'Справка_'.$today->format('d.m.Y').'.docx';
