@@ -180,6 +180,14 @@ class InspectorPurchasesController extends AbstractController
             $date = $form2->getData();
             $dump_1 = $serializer->deserialize($date['date_1']->getDump()->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
             $date_1 = $date['date_1']->getCreatedAt();
+            $arr = [];
+            foreach ($dump_1 as $p)
+            {
+                if(!$p->getIsDeleted())
+                {
+                    array_push($arr, $p);
+                }
+            }
 
 //            $dump_2 = $serializer->deserialize($date['date_2']->getDump()->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
 //            $date_2 = $date['date_2']->getCreatedAt();
@@ -191,8 +199,8 @@ class InspectorPurchasesController extends AbstractController
                 'id' => $id,
                 'initial_sum' => $budgetSumService->getInitialBudget($prodProc, $today),
                 'fin_sum' => $budgetSumService->getFinBudget($prodProc, $today),
-                'initial_sum_1' => $budgetSumService->getInitialBudget($dump_1, $date_1),
-                'fin_sum_1' => $budgetSumService->getFinBudget($dump_1, $date_1),
+                'initial_sum_1' => $budgetSumService->getInitialBudget($arr, $date_1),
+                'fin_sum_1' => $budgetSumService->getFinBudget($arr, $date_1),
 //                'initial_sum_2' => $budgetSumService->getInitialBudget($dump_2, $date_2),
 //                'fin_sum_2' => $budgetSumService->getFinBudget($dump_2, $date_2),
                 'form' => $form->createView(),
