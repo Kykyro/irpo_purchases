@@ -1,7 +1,9 @@
 {% extends "default/base.html.twig" %}
 
 
-
+{% block styles %}
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
 
 {% block content %}
 <div class="row animated fadeInRight">
@@ -13,6 +15,50 @@
                         <h2 style="font-weight: bold">
                             Мои кластеры
                         </h2>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label>Год</label>
+                                <select id="year-input" class="form-control m-b select2" multiple="multiple">
+
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Отрасль</label>
+                                <select id="industry-input" class="form-control m-b select2" multiple="multiple">
+                                    {#<option></option>#}
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Регион</label>
+                                <select id="region-input" class="form-control m-b select2" multiple="multiple">
+                                    <option></option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Округ</label>
+                                <select id="district-input" class="form-control m-b select2" multiple="multiple">
+                                    <option></option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-12">
+                                <button id="filter-btn" type="button mr-3" class="btn">
+                                    <i class="fa fa-check">
+                                        Отфильтровать
+                                    </i>
+                                </button>
+                                <button id="cancel-filter-btn" type="button" class="btn">
+                                    <i class="fa fa-close">
+                                        Сбросить фильтр
+                                    </i>
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,5 +88,158 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $.fn.filterAttribute = function(attr, values, reverse) {
+                var remaining = [];
+                this.each(function(index, el) {
+                    for (var i = 0; i < values.length; i++) {
+                        if (el.getAttribute(attr) == values[i]) {
+                            remaining.push(el);
+                            break;
+                        }
+                    }
+                });
+                if (reverse) {
+                    return(this.not(remaining));
+                } else {
+                    return($(remaining));
+                }
+            }
 
+            let yearInput = $('#year-input');
+            let industryInput = $('#industry-input');
+            let regionInput = $('#region-input');
+            let baseInput = $('#base-input');
+            let districtInput = $('#district-input');
+            let filterBtn = $('#filter-btn');
+            let cancelFilterBtn = $('#cancel-filter-btn');
+            let chooseAllBtn = $('#choose-all-btn');
+            let chooseNullBtn = $('#choose-null-btn');
+
+            function filter() {
+                cancelFilter();
+                console.log('Отфильтровано');
+                if(yearInput.val().length > 0){
+                    console.log('Год: ', yearInput.val());
+
+                    let value = yearInput.val();
+                    let filtered_year = $('.cluster-card').filterAttribute("data-year", value, true);;
+                    filtered_year.hide();
+                }
+                if(industryInput.val().length > 0){
+                    console.log('Отрасль: ', industryInput.val());
+                    let value = industryInput.val();
+                    // let _industry = "data-industry!='" + industryInput.val() +"'";
+                    let filtered_industry = $('.cluster-card').filterAttribute("data-industry", value, true);
+                    filtered_industry.hide();
+                }
+                if(regionInput.val().length > 0){
+                    console.log('Регион: ', regionInput.val());
+
+                    let value = regionInput.val();
+                    let filtered_region = $('.cluster-card').filterAttribute("data-region", value, true);
+                    filtered_region.hide();
+                }
+                if(baseInput.val() !== ""){
+                    console.log('Базовая организация: ', baseInput.val());
+                    let _base = "data-base!='" + baseInput.val() +"'";
+                    let filtered_industry = $('#clusters input['+_base+']');
+                    filtered_industry.hide();
+                }
+                if(districtInput.val().length > 0){
+                    console.log('Округ: ', districtInput.val());
+
+                    let value = districtInput.val();
+                    let filtered_region = $('.cluster-card').filterAttribute("data-district", value, true);
+                    filtered_region.hide();
+                }
+
+
+
+            }
+            function cancelFilter() {
+                console.log('фильтр сброшен');
+                $('.cluster-card').show();
+                // let filtered_year = $('#clusters input[data-year]')
+                // clearInput();
+
+            }
+
+            function onLoad() {
+                let data = $('.cluster-card');
+                let _industry = [];
+                let _region = [];
+                let _base = [];
+                let _year = [];
+                let _district = [];
+                data.each(function( index ) {
+                    _industry.push( $( this ).data("industry"));
+                    _region.push( $( this ).data("region"));
+                    _base.push( $( this ).data("base"));
+                    _year.push( $( this ).data("year"));
+                    _district.push( $( this ).data("district"));
+
+                });
+
+                let uniq_industry = [...new Set(_industry)];
+                uniq_industry.forEach((element) => {
+                    industryInput
+                        .append('<option>'+element+'</option>');
+                });
+
+                let uniq_region = [...new Set(_region.sort())];
+                uniq_region.forEach((element) => {
+                    regionInput
+                        .append('<option>'+element+'</option>');
+                });
+
+                let uniq_base = [...new Set(_base)];
+                uniq_base.forEach((element) => {
+                    baseInput
+                        .append('<option>'+element+'</option>');
+                });
+
+                let uniq_year = [...new Set(_year.sort())];
+                uniq_year.forEach((element) => {
+                    yearInput
+                        .append('<option>'+element+'</option>');
+                });
+
+                let uniq_district = [...new Set(_district.sort())];
+                uniq_district.forEach((element) => {
+                    districtInput
+                        .append('<option>'+element+'</option>');
+                });
+
+
+
+            }
+
+
+
+            filterBtn.click((e) => {
+                filter();
+            });
+            cancelFilterBtn.click((e) => {
+                cancelFilter();
+            });
+            chooseAllBtn.click((e) => {
+                chooseAll();
+            });
+            chooseNullBtn.click((e) => {
+                clearInput();
+            });
+
+
+            $('.select2').select2({
+                closeOnSelect : false,
+                placeholder : "...",
+                allowHtml: true,
+                allowClear: true
+            });
+            onLoad();
+        });
+    </script>
 {% endblock %}

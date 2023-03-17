@@ -1,4 +1,17 @@
-<div class="col-lg-4 animated fadeIn">
+{% if i.getUserInfo().getRfSubject() is not null %}
+    {% set isRegion = true %}
+{% else %}
+    {% set isRegion = false %}
+{% endif %}
+<div class="col-lg-4 animated fadeIn cluster-card"
+     data-year="{{ i.getUserInfo().getYear() }}"
+     data-industry="{{ i.getUserInfo().getDeclaredIndustry() }}"
+     {% if isRegion %}
+         data-region="{{ i.getUserInfo().getRfSubject().getName() }}"
+         data-district="{{ i.getUserInfo().getRfSubject().getDistrict() }}"
+     {% endif %}
+
+>
     <div class="contact-box">
         <div class="row">
             <div class="col-lg-12">
@@ -7,6 +20,7 @@
                         {{ buttons }}
                     {% endif %}
                 </div>
+
                 <h3>
                     <strong>
                         {{ i.getUserInfo().getEducationalOrganization() }}
@@ -15,17 +29,20 @@
                 </h3>
 
 
-                {% if i.getUserInfo().getRfSubject() is not null %}
+                {% if isRegion %}
                     <p><i class="fa fa-map-marker"></i> {{ i.getUserInfo().getRfSubject().getName() }}</p>
                 {% else %}
                     <p class="red-bg"><i class="fa fa-map-marker"></i> Не указан регион!</p>
                 {% endif %}
-
+                <span class="badge badge-success">
+                    {{ i.getUserInfo().getYear() }} год
+                </span>
                 <address>
                     <b>Кластер: </b>{{ i.getUserInfo().getCluster() }}<br>
                     <b>Отрасль: </b>{{ i.getUserInfo().getDeclaredIndustry() }} <br>
                     <b>Организация: </b>{{ i.getUserInfo().getOrganization() }}<br>
                     <b>Пользователь: </b>{{ i.getUuid() }} <br>
+
                     {#<abbr title="Phone">P:</abbr> (123) 456-7890#}
                 </address>
                 <div>
