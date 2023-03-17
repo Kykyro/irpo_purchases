@@ -382,7 +382,7 @@
                                             </td>
                                             {% set sum = initial_sum['FederalFunds'] - initial_sum_1['FederalFunds'] %}
                                             {% if sum > 0 %}
-                                                <td class="cell-number text-primary">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% else %}
                                                 <td class="cell-number text-danger">{{ sum  }}</td>
                                             {% endif %}
@@ -394,7 +394,7 @@
                                             {% set sum = initial_sum['FundsOfSubject'] - initial_sum_1['FundsOfSubject'] %}
 
                                             {% if sum > 0 %}
-                                                <td class="cell-number text-primary">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% else %}
                                                 <td class="cell-number text-danger">{{ sum  }}</td>
                                             {% endif %}
@@ -404,7 +404,7 @@
                                             <td class="cell-number">{{ initial_sum_1['EmployersFunds'] }} </td>
                                             {% set sum = initial_sum['EmployersFunds'] - initial_sum_1['EmployersFunds']  %}
                                             {% if sum > 0 %}
-                                                <td class="cell-number text-primary">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% else %}
                                                 <td class="cell-number text-danger">{{ sum  }}</td>
                                             {% endif %}
@@ -414,7 +414,7 @@
                                             <td class="cell-number">{{ initial_sum_1['EducationalOrgFunds'] }} </td>
                                             {% set sum =  initial_sum['EducationalOrgFunds'] - initial_sum_1['EducationalOrgFunds'] %}
                                             {% if sum > 0 %}
-                                                <td class="cell-number text-primary">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% else %}
                                                 <td class="cell-number text-danger">{{ sum  }}</td>
                                             {% endif %}
@@ -435,7 +435,7 @@
                                             <td>
                                                 {% set sum = initial_sum_result - initial_sum_1_result  %}
                                                 {% if sum > 0 %}
-                                                    <b class="cell-number text-primary">{{ sum  }}</b>
+                                                    <b class="cell-number text-navy">{{ sum  }}</b>
                                                 {% else %}
                                                     <b class="cell-number text-danger">{{ sum  }}</b>
                                                 {% endif %}
@@ -462,9 +462,9 @@
                                             <td class="cell-number">{{  fin_sum_1['FederalFunds'] }} </td>
                                             {% set sum =  fin_sum['FederalFunds'] - fin_sum_1['FederalFunds'] %}
                                             {% if sum > 0 %}
-                                                <td class="cell-number text-primary">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% else %}
-                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% endif %}
 
                                         </tr>
@@ -473,9 +473,9 @@
                                             <td class="cell-number">{{ fin_sum_1['FundsOfSubject'] }} </td>
                                             {% set sum =  fin_sum['FundsOfSubject'] -fin_sum_1['FundsOfSubject'] %}
                                             {% if sum > 0 %}
-                                                <td class="cell-number text-primary">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% else %}
-                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% endif %}
 
                                         </tr>
@@ -484,9 +484,9 @@
                                             <td class="cell-number">{{ fin_sum_1['EmployersFunds'] }} </td>
                                             {% set sum =  fin_sum['EmployersFunds'] -fin_sum_1['EmployersFunds'] %}
                                             {% if sum > 0 %}
-                                                <td class="cell-number text-primary">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% else %}
-                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% endif %}
 
                                         </tr>
@@ -495,9 +495,9 @@
                                             <td class="cell-number"> {{ fin_sum_1['EducationalOrgFunds'] }} </td>
                                             {% set sum =  fin_sum['EducationalOrgFunds'] -fin_sum_1['EducationalOrgFunds']  %}
                                             {% if sum > 0 %}
-                                                <td class="cell-number text-primary">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% else %}
-                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
                                             {% endif %}
                                         </tr>
                                         <tr>
@@ -516,7 +516,7 @@
                                             <td>
                                                 {% set sum = fin_sum_result - fin_sum_1_result  %}
                                                 {% if sum > 0 %}
-                                                    <b class="cell-number text-primary">{{ sum  }}</b>
+                                                    <b class="cell-number text-navy">{{ sum  }}</b>
                                                 {% else %}
                                                     <b class="cell-number text-danger">{{ sum  }}</b>
                                                 {% endif %}
