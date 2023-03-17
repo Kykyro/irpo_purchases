@@ -23,6 +23,7 @@ parameters:
     contracting_tables_directory: '%kernel.project_dir%/public/uploads/contractingTables'
     repair_photos_directory: '%kernel.project_dir%/public/uploads/repairPhotos'
     cluster_documents_directory: '%kernel.project_dir%/public/uploads/clusterDocuments'
+    another_documents_directory: '%kernel.project_dir%/public/uploads/anotherDocument'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
 services:

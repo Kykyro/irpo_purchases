@@ -743,6 +743,24 @@
                                 </uL>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                Иные документы
+                            </td>
+                            <td>
+                                <ul>
+                                    {% for i in purchase.getAnotherDocuments()|reverse %}
+                                        <li>
+                                            <a href="{{ path('app_download_file_by_route', {'file': i.getFile(), 'route':'another_documents_directory'}) }}">
+                                                <i class="fa fa-download">
+                                                    Иной документ {{ i.getDateFormat() }}
+                                                </i>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>

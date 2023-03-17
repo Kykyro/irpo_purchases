@@ -433,6 +433,16 @@ class purchasesFormType extends AbstractType
                 'required'   => true,
 
             ])
+            ->add('anotherDocument', FileType::class, [
+                'multiple' => true,
+                'attr'     => [
+                    'class' => 'form-control',
+                    'multiple' => 'multiple'
+                ],
+                'label' => 'Иные документы',
+                'mapped' => false,
+                'required'   => false,
+            ])
         ;
 
 

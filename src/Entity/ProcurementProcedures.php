@@ -343,11 +343,17 @@ class ProcurementProcedures
      */
     private $plannedPublicationDate;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AnotherDocument::class, mappedBy="purchases")
+     */
+    private $anotherDocuments;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
         $this->setVersion(1);
         $this->purchaseNotes = new ArrayCollection();
+        $this->anotherDocuments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1253,6 +1259,36 @@ class ProcurementProcedures
     public function setPlannedPublicationDate(?\DateTimeInterface $plannedPublicationDate): self
     {
         $this->plannedPublicationDate = $plannedPublicationDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AnotherDocument>
+     */
+    public function getAnotherDocuments(): Collection
+    {
+        return $this->anotherDocuments;
+    }
+
+    public function addAnotherDocument(AnotherDocument $anotherDocument): self
+    {
+        if (!$this->anotherDocuments->contains($anotherDocument)) {
+            $this->anotherDocuments[] = $anotherDocument;
+            $anotherDocument->setPurchases($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnotherDocument(AnotherDocument $anotherDocument): self
+    {
+        if ($this->anotherDocuments->removeElement($anotherDocument)) {
+            // set the owning side to null (unless already changed)
+            if ($anotherDocument->getPurchases() === $this) {
+                $anotherDocument->setPurchases(null);
+            }
+        }
 
         return $this;
     }

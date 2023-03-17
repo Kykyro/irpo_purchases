@@ -2,6 +2,7 @@
 
 namespace App\Controller\Region;
 
+use App\Entity\AnotherDocument;
 use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
@@ -129,6 +130,17 @@ class RegionPurchasesController extends AbstractController
                 $procurement_procedure->setAdditionalAgreement($fileService->UploadFile($additionalAgreement_file, 'additional_agreement_directory'));
             $procurement_procedure->setChangeTime(new \DateTime('now'));
             $procurement_procedure->UpdateVersion();
+
+            $anotherDocument = $form->get('anotherDocument')->getData();
+            foreach ($anotherDocument as $doc)
+            {
+                $filename = $fileService->UploadFile($doc, 'another_documents_directory');
+                $_photo = new AnotherDocument();
+                $_photo->setFile($filename);
+                $_photo->setDate(new \DateTimeImmutable('now'));
+                $entity_manager->persist($_photo);
+                $procurement_procedure->addAnotherDocument($_photo);
+            }
 
             $entity_manager->persist($procurement_procedure);
             $entity_manager->flush();
