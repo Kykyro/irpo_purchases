@@ -30,8 +30,9 @@ class certificateByClustersService extends AbstractController
         $today = new \DateTime('now');
         $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
         $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
+        $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, 'руб.');
 
-        $templateProcessor = new TemplateProcessor('../public/word/aboutClusterCertificate.docx');
+        $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки.docx');
         $replacements = [];
 
         foreach ($users as $user)
@@ -50,6 +51,7 @@ class certificateByClustersService extends AbstractController
                 'rf_subject_funds' => $fmt->format($user_info->getFinancingFundsOfSubject() * 1000),
                 'economic_sector_funds' => $fmt->format($user_info->getExtraFundsEconomicSector() * 1000),
                 'oo_funds' => $fmt->format($user_info->getExtraFundsOO() * 1000),
+                'base_org' => $user_info->getEducationalOrganization(),
             ];
 
             array_push($replacements, $templateData);
