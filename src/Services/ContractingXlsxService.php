@@ -56,7 +56,7 @@ class ContractingXlsxService extends AbstractController
 //            ->getResult();
     }
 
-    public function downloadTable(int $year, \DateTime $today)
+    public function downloadTable(int $year, \DateTime $today = null)
     {
         $sheet_template = "../public/excel/contracting.xlsx";
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
@@ -80,8 +80,9 @@ class ContractingXlsxService extends AbstractController
             ];
             foreach ($procedures as $procedure)
             {
-                $date = new \DateTime('now');
-                if($procedure->getPurchasesStatus($date) == 'contract')
+                if(is_null($today))
+                    $today = new \DateTime('now');
+                if($procedure->getPurchasesStatus($today) == 'contract')
                 {
                     $_data['G'] += $procedure->getfinFederalFunds();
                     $_data['N'] += $procedure->getfinFundsOfSubject();
@@ -89,7 +90,7 @@ class ContractingXlsxService extends AbstractController
                     $_data['O'] += $procedure->getfinFundsOfEducationalOrg();
 
                 }
-                elseif ($procedure->getPurchasesStatus($date) == 'announced')
+                elseif ($procedure->getPurchasesStatus($today) == 'announced')
                 {
                     $_data['I'] += $procedure->getInitialFederalFunds();
                     $_data['P'] += $procedure->getInitialEmployersFunds();
