@@ -209,6 +209,7 @@
             let baseInput = $('#base-input');
             let filterBtn = $('#filter-btn');
             let cancelFilterBtn = $('#cancel-filter-btn');
+            let submitBtn = $('#make_certificate_form_submit');
             function filter() {
                 cancelFilter();
                 console.log('Отфильтровано');
@@ -247,7 +248,12 @@
             function cancelFilter() {
                 console.log('фильтр сброшен');
                 $('.form-control').show();
+                // let filtered_year = $('#clusters input[data-year]')
+                // clearInput();
 
+            }
+            function clearInput() {
+                let inputs = $('#clusters input').prop('checked',false);
             }
             function onLoad() {
                 let data = $('#clusters input');
@@ -299,7 +305,14 @@
             cancelFilterBtn.click((e) => {
                 cancelFilter();
             });
-
+            $('form[name="make_certificate_form"]').submit(function(e) {
+                e.preventDefault(); // don't submit multiple times
+                this.submit(); // use the native submit method of the form element
+                clearInput();
+            });
+            // submitBtn.click((e)=>{
+            //     clearInput();
+            // });
             $('.select2').select2({
                 closeOnSelect : false,
                 placeholder : "...",
