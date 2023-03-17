@@ -132,6 +132,16 @@
                                     Сбросить фильтр
                                 </i>
                             </button>
+                            <button id="choose-all-btn" type="button" class="btn btn-primary">
+                                <i class="fa fa-check-circle">
+                                    Выбрать все
+                                </i>
+                            </button>
+                            <button id="choose-null-btn" type="button" class="btn btn-warning">
+                                <i class="fa fa-box">
+                                    Снять выделение
+                                </i>
+                            </button>
                         </div>
 
                     </div>
@@ -209,7 +219,9 @@
             let baseInput = $('#base-input');
             let filterBtn = $('#filter-btn');
             let cancelFilterBtn = $('#cancel-filter-btn');
-            let submitBtn = $('#make_certificate_form_submit');
+            let chooseAllBtn = $('#choose-all-btn');
+            let chooseNullBtn = $('#choose-null-btn');
+
             function filter() {
                 cancelFilter();
                 console.log('Отфильтровано');
@@ -253,7 +265,13 @@
 
             }
             function clearInput() {
-                let inputs = $('#clusters input').prop('checked',false);
+                $('#clusters input').prop('checked',false);
+            }
+            function chooseAll() {
+                $('#clusters .form-control:visible input').prop('checked',true);
+            }
+            function clickOnCard(card) {
+
             }
             function onLoad() {
                 let data = $('#clusters input');
@@ -305,10 +323,20 @@
             cancelFilterBtn.click((e) => {
                 cancelFilter();
             });
+            chooseAllBtn.click((e) => {
+                chooseAll();
+            });
+            chooseNullBtn.click((e) => {
+                clearInput();
+            });
             $('form[name="make_certificate_form"]').submit(function(e) {
                 e.preventDefault(); // don't submit multiple times
                 this.submit(); // use the native submit method of the form element
                 clearInput();
+            });
+            $('#clusters .form-control').click((e) => {
+                console.log($(this));
+                $(this).addClass('danger');
             });
             // submitBtn.click((e)=>{
             //     clearInput();
