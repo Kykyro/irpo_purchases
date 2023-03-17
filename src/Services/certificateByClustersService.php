@@ -64,21 +64,44 @@ class certificateByClustersService extends AbstractController
                     array_push($replacementsWithGrand, $templateData);
 
         }
+
+
+
         if(count($replacements) > 0)
+        {
             $templateProcessor->cloneBlock('clusterInfo', 0, true, false, $replacements);
+            $templateProcessor->setValue('new_title', '2023 год');
+        }
+
         else
+        {
             $templateProcessor->cloneBlock('clusterInfo', 0, true, false);
+            $templateProcessor->setValue('new_title', '');
+        }
 
         if(count($replacements2022) > 0)
+        {
             $templateProcessor->cloneBlock('old', 0, true, false, $replacements2022);
-        else
-            $templateProcessor->cloneBlock('old', 0, true, false);
+            $templateProcessor->setValue('old_title', '2022 год');
+        }
 
+        else
+        {
+            $templateProcessor->cloneBlock('old', 0, true, false);
+            $templateProcessor->setValue('old_title', '');
+        }
 
         if(count($replacementsWithGrand) > 0)
+        {
             $templateProcessor->cloneBlock('WithGrant', 0, true, false, $replacementsWithGrand);
+            $templateProcessor->setValue('new_title', '2023 год');
+        }
         else
+        {
             $templateProcessor->cloneBlock('WithGrant', 0, true, false);
+            $templateProcessor->setValue('new_title', '');
+        }
+
 
 
 

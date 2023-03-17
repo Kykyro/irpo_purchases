@@ -124,12 +124,59 @@ class InspectorPurchasesController extends AbstractController
             ])
             ->getForm();
 
+        $budgetArr = [];
+        $form2 = $this->createFormBuilder($budgetArr)
+            ->add('date_1', DateType::class, [
+                'widget' => 'single_text',
+                'required'   => true,
+                'label' => 'Дата 1'
+            ])
+            ->add('date_2', DateType::class, [
+                'widget' => 'single_text',
+                'required'   => true,
+                'label' => 'Дата 1'
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn mt-3'
+                ],
+                'label' => 'Расчитать'
+            ])
+            ->getForm();
+
         $form->handleRequest($request);
+        $form2->handleRequest($request);
         if($form->isSubmitted() and $form->isValid())
         {
             $data = $form->getData();
             return $xlsxService->generatePurchasesProcedureTableWithDate($id, $data['date']);
         }
+        if($form2->isSubmitted() and $form2->isValid())
+        {
+            $date = $form2->getData();
+            $date_1 = \DateTimeImmutable::createFromMutable( $date['date_1']);
+            $date_2 = \DateTimeImmutable::createFromMutable( $date['date_2']);
+//            $immutable = \DateTimeImmutable::createFromMutable( $date );
+//            dd($date_1);
+            return $this->render('inspector/templates/showPurchases.html.twig', [
+                'controller_name' => 'InspectorController',
+                'prodProc' => $prodProc,
+                'id' => $id,
+                'initial_sum' => $budgetSumService->getInitialBudget($prodProc, $today),
+                'fin_sum' => $budgetSumService->getFinBudget($prodProc, $today),
+                'initial_sum_1' => $budgetSumService->getInitialBudget($prodProc, $date_1),
+                'fin_sum_1' => $budgetSumService->getFinBudget($prodProc, $date_1),
+                'initial_sum_2' => $budgetSumService->getInitialBudget($prodProc, $date_2),
+                'fin_sum_2' => $budgetSumService->getFinBudget($prodProc, $date_2),
+                'form' => $form->createView(),
+                'user' => $user,
+                'form2' => $form2->createView(),
+                'today' => $today,
+                'date_1' => $date_1,
+                'date_2' => $date_2,
+            ]);
+        }
+
 
         return $this->render('inspector/templates/showPurchases.html.twig', [
             'controller_name' => 'InspectorController',
@@ -138,7 +185,9 @@ class InspectorPurchasesController extends AbstractController
             'initial_sum' => $budgetSumService->getInitialBudget($prodProc, $today),
             'fin_sum' => $budgetSumService->getFinBudget($prodProc, $today),
             'form' => $form->createView(),
-            'user' => $user
+            'user' => $user,
+            'form2' => $form2->createView(),
+            'today' => $today,
         ]);
     }
 
