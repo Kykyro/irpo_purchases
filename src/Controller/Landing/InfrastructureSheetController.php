@@ -102,7 +102,7 @@ class InfrastructureSheetController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $form_data = $form->getData();
             $searchText = $form_data['search'];
-            if ($type === 'cluster_IS'){
+//            if ($type === 'cluster_IS'){
                 $UGPS = $form_data['UGPS'];
                 $industry = $form_data['industry'];
                 $query = $em->getRepository(InfrastructureSheetFiles::class)
@@ -127,17 +127,17 @@ class InfrastructureSheetController extends AbstractController
                     ->orderBy('a.id', 'ASC')
                     ->getQuery();
                 
-            }
-            else{
-                $query = $em->getRepository(InfrastructureSheetFiles::class)
-                    ->createQueryBuilder('a')
-                    ->andWhere('a.name LIKE :search')
-                    ->andWhere('a.type LIKE :type')
-                    ->setParameter('search', "%$searchText%")
-                    ->setParameter('type', "%$type%")
-                    ->orderBy('a.id', 'ASC')
-                    ->getQuery();
-            }
+//            }
+//            else{
+//                $query = $em->getRepository(InfrastructureSheetFiles::class)
+//                    ->createQueryBuilder('a')
+//                    ->andWhere('a.name LIKE :search')
+//                    ->andWhere('a.type LIKE :type')
+//                    ->setParameter('search', "%$searchText%")
+//                    ->setParameter('type', "%$type%")
+//                    ->orderBy('a.id', 'ASC')
+//                    ->getQuery();
+//            }
             
         }
 
