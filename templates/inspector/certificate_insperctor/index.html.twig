@@ -120,6 +120,18 @@
                                 {#<option></option>#}
                             </select>
                         </div>
+                        <div class="col-lg-3">
+                            <label>Зоны по видам работ</label>
+                            <select id="zone-input" class="form-control m-b select2" multiple="multiple">
+                                {#<option></option>#}
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>УГПС</label>
+                            <select id="ugps-input" class="form-control m-b select2" multiple="multiple">
+                                {#<option></option>#}
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-9">
@@ -221,13 +233,32 @@
                 } else {
                     return($(remaining));
                 }
-            }
+            };
+            $.fn.filterAttributeByJson = function(attr, values, reverse) {
+                var remaining = [];
+                this.each(function(index, el) {
+                    for (var i = 0; i < values.length; i++) {
+                        console.log(JSON.stringify(el.getAttribute(attr)));
+                        if (JSON.stringify(el.getAttribute(attr)).includes(values[i])) {
+                            remaining.push(el);
+                            break;
+                        }
+                    }
+                });
+                if (reverse) {
+                    return(this.not(remaining));
+                } else {
+                    return($(remaining));
+                }
+            };
 
             let yearInput = $('#year-input');
             let industryInput = $('#industry-input');
             let regionInput = $('#region-input');
             let baseInput = $('#base-input');
             let districtInput = $('#district-input');
+            let zoneInput = $('#zone-input');
+            let ugpsInput = $('#ugps-input');
             let filterBtn = $('#filter-btn');
             let cancelFilterBtn = $('#cancel-filter-btn');
             let chooseAllBtn = $('#choose-all-btn');
@@ -270,6 +301,20 @@
                     let filtered_region = $('#clusters input[data-district]').filterAttribute("data-district", value, true);
                     filtered_region.closest('.form-control').hide();
                 }
+                if(zoneInput.val().length > 0){
+                    console.log('Зона: ', zoneInput.val());
+
+                    let value = zoneInput.val();
+                    let filtered_region = $('#clusters input[data-zone]').filterAttributeByJson("data-zone", value, true);
+                    filtered_region.closest('.form-control').hide();
+                }
+                if(ugpsInput.val().length > 0){
+                    console.log('Угпс: ', ugpsInput.val());
+
+                    let value = ugpsInput.val();
+                    let filtered_region = $('#clusters input[data-ugps]').filterAttributeByJson("data-ugps", value, true);
+                    filtered_region.closest('.form-control').hide();
+                }
 
 
 
@@ -297,12 +342,20 @@
                 let _base = [];
                 let _year = [];
                 let _district = [];
+                let _ugps = [];
+                let _zone = [];
                 data.each(function( index ) {
                     _industry.push( $( this ).data("industry"));
                     _region.push( $( this ).data("region"));
                     _base.push( $( this ).data("base"));
                     _year.push( $( this ).data("year"));
                     _district.push( $( this ).data("district"));
+                    for(let i in $( this ).data("ugps"))
+                        _ugps.push( $( this ).data("ugps") [i]);
+                    _ugps.push( $( this ).data("ugps"));
+                    for(let i in $( this ).data("zone"))
+                        _zone.push( $( this ).data("zone")[i]);
+
 
                 });
 
@@ -336,7 +389,20 @@
                         .append('<option>'+element+'</option>');
                 });
 
+                let uniq_ugps = [...new Set(_ugps)];
+                uniq_ugps.forEach((element) => {
+                    ugpsInput
+                        .append('<option>'+element+'</option>');
+                });
 
+                let uniq_zone = [...new Set(_zone)];
+                uniq_zone.forEach((element) => {
+                    zoneInput
+                        .append('<option>'+element+'</option>');
+                });
+
+                // console.log(_ugps);
+                // console.log(_zone);
 
             }
 
