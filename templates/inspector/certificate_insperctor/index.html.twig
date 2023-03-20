@@ -222,6 +222,7 @@
                 var remaining = [];
                 this.each(function(index, el) {
                     for (var i = 0; i < values.length; i++) {
+
                         if (el.getAttribute(attr) == values[i]) {
                             remaining.push(el);
                             break;
@@ -238,7 +239,6 @@
                 var remaining = [];
                 this.each(function(index, el) {
                     for (var i = 0; i < values.length; i++) {
-                        console.log(JSON.stringify(el.getAttribute(attr)));
                         if (JSON.stringify(el.getAttribute(attr)).includes(values[i])) {
                             remaining.push(el);
                             break;

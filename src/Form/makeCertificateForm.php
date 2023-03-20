@@ -57,8 +57,8 @@ class makeCertificateForm extends AbstractType
                         'data-industry' => $user->getUserInfo()->getDeclaredIndustry(),
                         'data-base' => $user->getUserInfo()->getOrganization(),
                         'data-district' => is_null($user->getUserInfo()->getRfSubject()) ? '' : $user->getUserInfo()->getRfSubject()->getDistrict(),
-                        'data-zone' => json_encode($user->getUserInfo()->getZone()),
-                        'data-ugps' => json_encode($user->getUserInfo()->getUGPS()),
+                        'data-zone' => json_encode($user->getUserInfo()->getZone(), JSON_UNESCAPED_UNICODE),
+                        'data-ugps' => json_encode($user->getUserInfo()->getUGPS(), JSON_UNESCAPED_UNICODE),
                     ]
                     : [];
                 }),
