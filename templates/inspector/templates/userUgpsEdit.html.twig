@@ -1,0 +1,104 @@
+{% extends 'default/base.html.twig' %}
+
+
+{% block styles %}
+
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <div class="ibox">
+            <div class="ibox-title">
+
+            </div>
+            <div class="ibox-content">
+                {{ form_start(form) }}
+                <label>
+                    Профессии и специальности
+                </label>
+                <div class="row js-UGPS-wrapper">
+                    <ul id="UGPS-fields-list"
+                        class="col-lg-8"
+                        data-prototype="{{ form_widget(form.uGPS.vars.prototype, {'attr':{'class': 'form-control'}})|e }}"
+                        data-widget-tags="{{
+                        '<li class="form-control"></li>'|e
+                        }}"
+                        data-widget-counter="{{ form.uGPS|length }}"
+                        data-delete-btn='
+                                    <div class="col-xs-12 js-UGPS-item">
+                                        <a href="#" class="js-remove-UGPS pull-right btn btn-danger">
+                                            <span class="fa fa-close "></span>
+                                        </a>
+                                        <span class="badge badge-primary">Новый</span>
+
+                                '
+                    >
+                        {% for ugps in form.uGPS %}
+                            <li class="form-control">
+                                <div class="col-xs-12 js-UGPS-item">
+                                    <a href="#" class="js-remove-UGPS pull-right btn btn-danger">
+                                        <span class="fa fa-close "></span>
+                                    </a>
+                                    {{ form_row(ugps, {'attr':{'class': 'form-control'}}) }}
+                                </div>
+
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <button type="button"
+                        class="add-another-collection-widget btn btn-primary"
+                        data-list-selector="#UGPS-fields-list">
+                    <i class="fa fa-plus">
+                        Добавить УГПС
+                    </i>
+                </button>
+                {{ form_end(form) }}
+            </div>
+            <div class="ibox-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let listOfAnotherOrganizationWraper = $('.js-UGPS-wrapper');
+    listOfAnotherOrganizationWraper.on('click', '.js-remove-UGPS', function(e) {
+        e.preventDefault();
+        $(this).closest('.form-control')
+            .fadeOut()
+            .remove();
+    });
+    $('.add-another-collection-widget').click(function (e) {
+        var list = $($(this).attr('data-list-selector'));
+        // Try to find the counter of the list or use the length of the list
+        var counter = list.data('widget-counter');
+
+        // grab the prototype template
+        var newWidget = list.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your emails
+        // end name attribute looks like name="contact[emails][2]"
+        counter++;
+        newWidget = newWidget.replace(/__name__/g, counter);
+        // Increase the counter
+        console.log(newWidget);
+
+        // And store it, the length cannot be used if deleting widgets is allowed
+        list.data('widget-counter', counter);
+
+        // create a new list element and add it to the list
+        var newElem = $(list.attr('data-widget-tags')).html(
+            list.attr('data-delete-btn') +
+            newWidget +
+            '</div>'
+        );
+
+        newElem.appendTo(list);
+    });
+</script>
+{% endblock %}

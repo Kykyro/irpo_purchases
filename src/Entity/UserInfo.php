@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserInfoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -132,10 +134,23 @@ class UserInfo
      */
     private $initiatorOfCreation;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $uGPS = [];
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $zone = [];
+
+
+
 
     function __construct()
     {
         $this->setAccessToPurchases(false);
+        $this->uGPS = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -474,4 +489,30 @@ class UserInfo
 
         return $this;
     }
+
+    public function getUGPS(): ?array
+    {
+        return $this->uGPS;
+    }
+
+    public function setUGPS(?array $UGPS): self
+    {
+        $this->uGPS = $UGPS;
+
+        return $this;
+    }
+
+    public function getZone(): ?array
+    {
+        return $this->zone;
+    }
+
+    public function setZone(?array $zone): self
+    {
+        $this->zone = $zone;
+
+        return $this;
+    }
+
+
 }

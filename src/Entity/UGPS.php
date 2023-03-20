@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UGPSRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +24,16 @@ class UGPS
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=UserInfo::class, mappedBy="UGPS")
+     */
+    private $userInfos;
+
+    public function __construct()
+    {
+        $this->userInfos = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +47,33 @@ class UGPS
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserInfo>
+     */
+    public function getUserInfos(): Collection
+    {
+        return $this->userInfos;
+    }
+
+    public function addUserInfo(UserInfo $userInfo): self
+    {
+        if (!$this->userInfos->contains($userInfo)) {
+            $this->userInfos[] = $userInfo;
+            $userInfo->addUGP($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserInfo(UserInfo $userInfo): self
+    {
+        if ($this->userInfos->removeElement($userInfo)) {
+            $userInfo->removeUGP($this);
+        }
 
         return $this;
     }

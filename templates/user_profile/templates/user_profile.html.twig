@@ -388,3 +388,83 @@
         </div>
     </div>
 </div>
+<div class="row animated fadeInRight">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2 style="font-weight: bold; margin-top: -5px">Профессии и специальности</h2>
+                    </div>
+                    <div class="ibox-content">
+
+                        <h3>УГПС</h3>
+                        <div>
+                            <ol>
+                                {% for i in  user_info.getUGPS() %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+
+
+
+                        <div class="ibox-footer">
+                            {% if is_granted('ROLE_INSPECTOR') %}
+                                <a href="{{ path('app_inspector_user_ugps_edit', {'id': user_info.getId()}) }}">
+                                    <button class="btn btn-success col-lg-12">
+                                        <i class="fa fa-edit">
+                                            Редактировать "Профессии и специальности"
+                                        </i>
+                                    </button>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeInRight">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2 style="font-weight: bold; margin-top: -5px">Зоны по видам работ</h2>
+                    </div>
+                    <div class="ibox-content">
+
+
+                        <h3>Зоны по видам работ</h3>
+                        <div>
+                            <ol>
+                                {% for i in  user_info.getZone() %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+
+
+
+
+                        <div class="ibox-footer">
+                            {% if is_granted('ROLE_INSPECTOR') %}
+                                <a href="{{ path('app_inspector_user_zone_edit', {'id': user_info.getId()}) }}">
+                                    <button class="btn btn-success col-lg-12">
+                                        <i class="fa fa-edit">
+                                            Редактировать блок
+                                        </i>
+                                    </button>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
