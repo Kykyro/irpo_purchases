@@ -163,17 +163,18 @@ class certificateByClustersService extends AbstractController
             );
             if(strtolower($replacement['grant_name']) == strtolower($replacement['base_org']))
             {
-                $templateProcessor->cloneBlock('with_grant#'.$count, 1, true, false);
-                $templateProcessor->cloneBlock('without_grant#'.$count, 0, true, false);
+                $templateProcessor->cloneBlock('with_grant#'.$count, 0, true, false);
+                $templateProcessor->cloneBlock('without_grant#'.$count, 1, true, false);
                 $templateProcessor->setValues([
-                    'grant_name#'.$count => $replacement['grant_name'],
                     'base_org#'.$count => $replacement['base_org'],
                 ]);
             }
             else{
-                $templateProcessor->cloneBlock('with_grant#'.$count, 0, true, false);
-                $templateProcessor->cloneBlock('without_grant#'.$count, 1, true, false);
+                $templateProcessor->cloneBlock('with_grant#'.$count, 1, true, false);
+                $templateProcessor->cloneBlock('without_grant#'.$count, 0, true, false);
+
                 $templateProcessor->setValues([
+                    'grant_name#'.$count => $replacement['grant_name'],
                     'base_org#'.$count => $replacement['base_org'],
                 ]);
             }
