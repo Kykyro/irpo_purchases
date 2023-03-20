@@ -25,7 +25,7 @@ class certificateByClustersService extends AbstractController
 
     }
 
-    public function getCertificate($users)
+    public function getCertificate_2($users)
     {
         $today = new \DateTime('now');
         $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
@@ -69,8 +69,7 @@ class certificateByClustersService extends AbstractController
 
         if(count($replacements) > 0)
         {
-            $templateProcessor->cloneBlock('clusterInfo', 0, true, false, $replacements);
-            $templateProcessor->setValue('new_title', '2023 год');
+
         }
 
         else
@@ -113,5 +112,107 @@ class certificateByClustersService extends AbstractController
 
     }
 
+    public function getCertificate($users)
+    {
+        $today = new \DateTime('now');
+        $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
+        $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
+        $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, 'руб.');
+
+        $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2.docx');
+        $replacements = [];
+
+        foreach ($users as $user)
+        {
+            $user_info = $user->getUserInfo();
+            $templateData = [
+                'rf_subject' => is_null($user_info->getRfSubject())  ? '' : $user_info->getRfSubject()->getName() ,
+                'industry' => $user_info->getDeclaredIndustry(),
+                'cluster_name' => $user_info->getCluster(),
+                'grant_name' => $user_info->getOrganization(),
+                'intiator_name' => $user_info->getInitiatorOfCreation(),
+                'employers_count' => count($user_info->getListOfEmployers()),
+                'employers' => implode(", ", $user_info->getListOfEmployers()),
+                'web_oo_count' => count($user_info->getListOfEdicationOrganization()),
+                'web_oo' => implode(", ", $user_info->getListOfEdicationOrganization()),
+                'rf_subject_funds' => $fmt->format($user_info->getFinancingFundsOfSubject() * 1000),
+                'economic_sector_funds' => $fmt->format($user_info->getExtraFundsEconomicSector() * 1000),
+                'oo_funds' => $fmt->format($user_info->getExtraFundsOO() * 1000),
+                'base_org' => $user_info->getEducationalOrganization(),
+                'year' => $user_info->getYear(),
+
+            ];
+            array_push($replacements, $templateData);
+        }
+
+        $templateProcessor->cloneBlock('clusterInfo', count($replacements), true, true);
+        $count = 1;
+        foreach ($replacements as $replacement)
+        {
+            $templateProcessor->setValues(
+                [
+                    'rf_subject#'.$count => $replacement['rf_subject'],
+                    'industry#'.$count => $replacement['industry'],
+                    'cluster_name#'.$count => $replacement['cluster_name'],
+                    'intiator_name#'.$count => $replacement['intiator_name'],
+                    'employers_count#'.$count => $replacement['employers_count'],
+                    'employers#'.$count => $replacement['employers'],
+                    'rf_subject_funds#'.$count => $replacement['rf_subject_funds'],
+                    'economic_sector_funds#'.$count => $replacement['economic_sector_funds'],
+                ]
+            );
+            if(strtolower($replacement['grant_name']) == strtolower($replacement['base_org']))
+            {
+                $templateProcessor->cloneBlock('with_grant#'.$count, 1, true, false);
+                $templateProcessor->cloneBlock('without_grant#'.$count, 0, true, false);
+                $templateProcessor->setValues([
+                    'grant_name#'.$count => $replacement['grant_name'],
+                    'base_org#'.$count => $replacement['base_org'],
+                ]);
+            }
+            else{
+                $templateProcessor->cloneBlock('with_grant#'.$count, 0, true, false);
+                $templateProcessor->cloneBlock('without_grant#'.$count, 1, true, false);
+                $templateProcessor->setValues([
+                    'base_org#'.$count => $replacement['base_org'],
+                ]);
+            }
+            if($replacement['web_oo_count'] > 0)
+            {
+                $templateProcessor->cloneBlock('with_oo#'.$count, 1, true, false);
+                $templateProcessor->setValues([
+                    'web_oo_count#'.$count => $replacement['web_oo_count'],
+                    'web_oo#'.$count => $replacement['web_oo'],
+                ]);
+            }
+            else{
+                $templateProcessor->cloneBlock('with_oo#'.$count, 0, true, false);
+            }
+            if ($replacement['year'] > 2022)
+            {
+                $templateProcessor->cloneBlock('with_oo_funds#'.$count, 1, true, false);
+                $templateProcessor->setValues([
+                    'oo_funds#'.$count => $replacement['oo_funds'],
+
+                ]);
+            }
+            else
+            {
+                $templateProcessor->cloneBlock('with_oo_funds#'.$count, 0, true, false);
+            }
+
+
+
+            $count++;
+        }
+
+
+
+        $fileName = 'Справка_'.$today->format('d.m.Y').'.docx';
+        $filepath = $templateProcessor->save();
+
+        return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+
+    }
 
 }
