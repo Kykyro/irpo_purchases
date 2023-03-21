@@ -146,6 +146,13 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
+                                                    <td colspan="8">
+                                                        <h3>
+                                                            Общая зона
+                                                        </h3>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td class="col-sm-1">
                                                         № п/п
                                                     </td>
@@ -177,9 +184,11 @@
                                                 {#{% for item in form.tags %}#}
                                                     {#<li>{{ form_row(tag.name) }}</li>#}
                                                 {#{% endfor %}#}
+                                                {% set count = 1 %}
                                                 {% for i in infrastructure %}
+                                                    {% if i.getZoneType() == 'Общая зона' %}
                                                     <tr>
-                                                        <td>{{ loop.index }}</td>
+                                                        <td>{{ count }}</td>
                                                         <td>{{ i.getName() }}</td>
                                                         <td>{{ i.getType() }}</td>
                                                         <td>{{ i.getTotalNumber() }}</td>
@@ -192,6 +201,134 @@
                                                         {% endif %}
                                                         <td>{{ i.getComment() }}</td>
                                                     </tr>
+                                                        {% set count = count + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td colspan="8">
+                                                        <h3>
+                                                            Рабочее место учащегося
+                                                        </h3>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-sm-1">
+                                                        № п/п
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        Наименование
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Вид
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Общее кол-во
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Ед. измерения
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Фактическое <br> кол-во
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Дата поставки
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        Комментарий
+                                                    </td>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {#{% for item in form.tags %}#}
+                                                    {#<li>{{ form_row(tag.name) }}</li>#}
+                                                {#{% endfor %}#}
+                                                {% set count = 1 %}
+                                                {% for i in infrastructure %}
+                                                    {% if i.getZoneType() == 'Рабочее место учащегося' %}
+                                                    <tr>
+                                                        <td>{{ count }}</td>
+                                                        <td>{{ i.getName() }}</td>
+                                                        <td>{{ i.getType() }}</td>
+                                                        <td>{{ i.getTotalNumber() }}</td>
+                                                        <td>{{ i.getUnits() }}</td>
+                                                        <td>{{ i.getFactNumber() }}</td>
+                                                        {% if i.getDeliveryDate() %}
+                                                            <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                        {% else %}
+                                                            <td>Дата не указана</td>
+                                                        {% endif %}
+                                                        <td>{{ i.getComment() }}</td>
+                                                    </tr>
+                                                        {% set count = count + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td colspan="8">
+                                                        <h3>
+                                                            Рабочее место преподавателя
+                                                        </h3>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-sm-1">
+                                                        № п/п
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        Наименование
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Вид
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Общее кол-во
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Ед. измерения
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Фактическое <br> кол-во
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Дата поставки
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        Комментарий
+                                                    </td>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {#{% for item in form.tags %}#}
+                                                    {#<li>{{ form_row(tag.name) }}</li>#}
+                                                {#{% endfor %}#}
+                                                {% set count = 1 %}
+                                                {% for i in infrastructure %}
+                                                    {% if i.getZoneType() == 'Рабочее место преподавателя' %}
+                                                    <tr>
+                                                        <td>{{ count }}</td>
+                                                        <td>{{ i.getName() }}</td>
+                                                        <td>{{ i.getType() }}</td>
+                                                        <td>{{ i.getTotalNumber() }}</td>
+                                                        <td>{{ i.getUnits() }}</td>
+                                                        <td>{{ i.getFactNumber() }}</td>
+                                                        {% if i.getDeliveryDate() %}
+                                                            <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                        {% else %}
+                                                            <td>Дата не указана</td>
+                                                        {% endif %}
+                                                        <td>{{ i.getComment() }}</td>
+                                                    </tr>
+                                                        {% set count = count + 1 %}
+                                                    {% endif %}
                                                 {% endfor %}
                                             </tbody>
                                         </table>

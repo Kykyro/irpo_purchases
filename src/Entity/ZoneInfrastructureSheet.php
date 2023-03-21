@@ -57,6 +57,11 @@ class ZoneInfrastructureSheet
      */
     private $comment;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $zoneType;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +159,18 @@ class ZoneInfrastructureSheet
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getZoneType(): ?string
+    {
+        return $this->zoneType;
+    }
+
+    public function setZoneType(?string $zoneType): self
+    {
+        $this->zoneType = $zoneType;
 
         return $this;
     }

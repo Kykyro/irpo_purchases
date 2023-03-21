@@ -8,6 +8,7 @@
 
 namespace App\Form;
 use App\Entity\ZoneInfrastructureSheet;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -51,6 +52,15 @@ class infrastructureSheetType  extends AbstractType
                 ],
                 'label' => false,
                 'required' => true,
+                'empty_data' => '',
+            ])
+            ->add('zoneType', HiddenType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+
+                ],
+                'label' => false,
+                'required' => false,
                 'empty_data' => '',
             ])
         ;
