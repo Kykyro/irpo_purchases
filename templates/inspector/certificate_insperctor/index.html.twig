@@ -199,6 +199,31 @@
                             </div>
                         {% endfor %}
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-3">
+                                <label>
+                                    Опции
+                                </label>
+                            <ul class="list-group">
+                                {% for i in form.option %}
+                                    <li class="list-group-item">
+                                        {{ form_widget(i) }}
+                                        {{ form_label(i) }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+
+
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-9 ">
+                            {{ form_row(form.submit) }}
+                        </div>
+                    </div>
                     {{ form_end(form) }}
                 </div>
             </div>

@@ -112,7 +112,7 @@ class certificateByClustersService extends AbstractController
 
     }
 
-    public function getCertificate($users)
+    public function getCertificate($users, $ugps = false, $zone = false)
     {
         $today = new \DateTime('now');
         $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
@@ -140,6 +140,8 @@ class certificateByClustersService extends AbstractController
                 'oo_funds' => $fmt->format($user_info->getExtraFundsOO() * 1000),
                 'base_org' => $user_info->getEducationalOrganization(),
                 'year' => $user_info->getYear(),
+                'zone' => is_null($user_info->getZone()) ? [] : $user_info->getZone(),
+                'ugps' => is_null($user_info->getUGPS()) ? [] : $user_info->getUGPS(),
 
             ];
             array_push($replacements, $templateData);
@@ -200,6 +202,30 @@ class certificateByClustersService extends AbstractController
             else
             {
                 $templateProcessor->cloneBlock('with_oo_funds#'.$count, 0, true, false);
+            }
+
+            if($ugps and count($replacement['ugps']) > 0)
+            {
+                $templateProcessor->cloneBlock('ugps_block#'.$count, 1, true, false);
+                $_ugps_str = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', implode('\n', $replacement['ugps']) );
+                $templateProcessor->setValue('ugps#'.$count, $_ugps_str);
+
+            }
+            else
+            {
+                $templateProcessor->cloneBlock('ugps_block#'.$count, 0, true, false);
+            }
+
+            if($zone and count($replacement['zone']) > 0)
+            {
+                $templateProcessor->cloneBlock('zone_block#'.$count, 1, true, false);
+                $_zone_str = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', implode("\n", $replacement['zone']) );
+                $templateProcessor->setValue('zone#'.$count, $_zone_str);
+//                $templateProcessor->replaceBlock('zone#'.$count, implode('\n', $replacement['zone']));
+            }
+            else
+            {
+                $templateProcessor->cloneBlock('zone_block#'.$count, 0, true, false);
             }
 
 

@@ -64,7 +64,14 @@ class makeCertificateForm extends AbstractType
                 }),
 
             ])
-
+            ->add('option', ChoiceType::class, [
+                'choices'  => [
+                    'Зоны по видам работ' => 'zone',
+                    'УГПС' => 'ugps',
+                ],
+                'multiple' => true,
+                'expanded' => true,
+            ])
             ->add('submit', SubmitType::class,[
 
                 'attr' => [
