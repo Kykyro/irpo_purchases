@@ -1,7 +1,10 @@
-{% extends "journalist/index.html.twig" %}
+{% extends "default/base.html.twig" %}
 
 
+{% block styles %}
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
 
+{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -129,4 +132,17 @@
 {#    <div class="m-5">#}
 
 {#    </div>#}
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.select2').select2({
+                closeOnSelect : true,
+                placeholder : "...",
+                allowHtml: true,
+                allowClear: true
+            });
+        });
+    </script>
 {% endblock %}

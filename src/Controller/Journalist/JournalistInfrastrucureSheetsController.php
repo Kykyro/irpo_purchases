@@ -53,7 +53,7 @@ class JournalistInfrastrucureSheetsController extends AbstractController
         $data = [];
         $form = $this->createFormBuilder($data)
             ->add("industry", EntityType::class, [
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control select2'],
                 'required'   => false,
                 'class' => Industry::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -68,11 +68,11 @@ class JournalistInfrastrucureSheetsController extends AbstractController
                     'Мастерские' => 'workshops',
                 ],
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control select2'
                 ]
             ])
             ->add("UGPS", EntityType::class, [
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control select2'],
                 'required'   => false,
                 'class' => UGPS::class,
                 'query_builder' => function (EntityRepository $er) {
