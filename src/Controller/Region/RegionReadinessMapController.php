@@ -142,6 +142,7 @@ class RegionReadinessMapController extends AbstractController
         return $this->render('region_readiness_map/editInfrastructureSheet.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
             'form' =>$form->createView(),
+            'zone' => $zone,
 
 
         ]);

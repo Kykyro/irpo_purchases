@@ -3,12 +3,10 @@
     <link href="{{ asset('css/plugins/blueimp/css/blueimp-gallery.min.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-    <h1>
-        Карта готовности (Кластер)
-    </h1>
+
 
     {% set name = zone.getName() %}
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-lg-10 offset-lg-1 договоmb-2">
             <div class="ibox collapsed border-bottom">
                 <a class="collapse-link">
@@ -166,6 +164,11 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
+                                                    <td colspan="6">
+                                                        <h3>Общая зона</h3>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td class="col-md-1">
                                                         №
                                                     </td>
@@ -188,20 +191,126 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            {% set count = 1 %}
                                             {% for i in infrastructure %}
+                                                {% set zoneTypeValue = i.getZoneType() %}
+                                                {% if zoneTypeValue == 'Общая зона' %}
+                                                    <tr>
+                                                        <td>{{ count }}</td>
+                                                        <td>{{ i.getName() }}</td>
+                                                        <td>{{ i.getType() }}</td>
+                                                        <td>{{ i.getTotalNumber() }}</td>
+                                                        <td>{{ i.getFactNumber() }}</td>
+                                                        {% if i.getDeliveryDate() %}
+                                                            <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                        {% else %}
+                                                            <td>Дата не указана</td>
+                                                        {% endif %}
+                                                    </tr>
+                                                    {% set count = count + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ loop.index }}</td>
-                                                    <td>{{ i.getName() }}</td>
-                                                    <td>{{ i.getType() }}</td>
-                                                    <td>{{ i.getTotalNumber() }}</td>
-                                                    <td>{{ i.getFactNumber() }}</td>
-                                                    {% if i.getDeliveryDate() %}
-                                                        <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
-                                                    {% else %}
-                                                        <td>Дата не указана</td>
-                                                    {% endif %}
+                                                    <td colspan="6">
+                                                        <h3>Рабочее место учащегося</h3>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-md-1">
+                                                        №
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        Наименование
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Вид
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        Общее кол-во
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        Фактическое кол-во
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        Дата поставки
+                                                    </td>
 
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% set count = 1 %}
+                                            {% for i in infrastructure %}
+                                                {% set zoneTypeValue = i.getZoneType() %}
+                                                {% if zoneTypeValue == 'Рабочее место учащегося' %}
+                                                    <tr>
+                                                        <td>{{ count }}</td>
+                                                        <td>{{ i.getName() }}</td>
+                                                        <td>{{ i.getType() }}</td>
+                                                        <td>{{ i.getTotalNumber() }}</td>
+                                                        <td>{{ i.getFactNumber() }}</td>
+                                                        {% if i.getDeliveryDate() %}
+                                                            <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                        {% else %}
+                                                            <td>Дата не указана</td>
+                                                        {% endif %}
+                                                    </tr>
+                                                    {% set count = count + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <h3>Рабочее место преподавателя</h3>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-md-1">
+                                                        №
+                                                    </td>
+                                                    <td class="col-md-3">
+                                                        Наименование
+                                                    </td>
+                                                    <td class="col-md-1">
+                                                        Вид
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        Общее кол-во
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        Фактическое кол-во
+                                                    </td>
+                                                    <td class="col-md-2">
+                                                        Дата поставки
+                                                    </td>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% set count = 1 %}
+                                            {% for i in infrastructure %}
+                                                {% set zoneTypeValue = i.getZoneType() %}
+                                                {% if zoneTypeValue == 'Рабочее место преподавателя' %}
+                                                    <tr>
+                                                        <td>{{ count }}</td>
+                                                        <td>{{ i.getName() }}</td>
+                                                        <td>{{ i.getType() }}</td>
+                                                        <td>{{ i.getTotalNumber() }}</td>
+                                                        <td>{{ i.getFactNumber() }}</td>
+                                                        {% if i.getDeliveryDate() %}
+                                                            <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                        {% else %}
+                                                            <td>Дата не указана</td>
+                                                        {% endif %}
+                                                    </tr>
+                                                    {% set count = count + 1 %}
+                                                {% endif %}
                                             {% endfor %}
                                             </tbody>
                                         </table>
