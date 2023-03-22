@@ -27,8 +27,8 @@ class infrastructureSheetRegionEditType  extends AbstractType
                     'min' => '0',
                 ],
                 'label' => false,
-                'required' => true,
-                'empty_data' => '',
+                'required' => false,
+                'empty_data' => 0,
             ])
             ->add('deliveryDate', DateType::class, [
                 'attr' => [

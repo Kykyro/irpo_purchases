@@ -141,25 +141,49 @@ class ClusterAddresses
     public function getEquipmentDeliveryDeadline()
     {
         $zones = $this->getClusterZones();
-        foreach ($zones as $zone) {
-            $sheetList = $zone->getZoneInfrastructureSheets();
-            if(count($sheetList) > 0)
-            {
-                $_deadline = $sheetList[0]->getDeliveryDate();
-                foreach ($sheetList as $sheet)
+        if(count($zones) > 0)
+        {
+            $date = $zones[0]->getMaxEquipmentDeliveryDeadline();
+            foreach ($zones as $zone) {
+                $_date = $zone->getMaxEquipmentDeliveryDeadline();
+                if($date < $_date)
                 {
-                    $_date = $sheet->getDeliveryDate();
+                    $date = $_date;
                 }
             }
 
-
-
+            return $date;
         }
+        else
+        {
+            return null;
+        }
+
 
     }
     public function getDeadlineForCompletionOfRepairs()
     {
         $zones = $this->getClusterZones();
+        if(count($zones) > 0)
+        {
+            $date = $zones[0]->getZoneRepair()->getEndDate();
+
+            foreach ($zones as $zone)
+            {
+                $_date = $zone->getZoneRepair()->getEndDate();
+                if($date < $_date)
+                {
+                    $date = $_date;
+                }
+
+            }
+            return $date;
+
+        }
+        else
+        {
+            return null;
+        }
 
 
     }

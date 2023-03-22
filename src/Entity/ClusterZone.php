@@ -141,4 +141,29 @@ class ClusterZone
 
         return $this;
     }
+
+    public function getMaxEquipmentDeliveryDeadline()
+    {
+        if(count($this->zoneInfrastructureSheets) > 0)
+        {
+            $date =  $this->zoneInfrastructureSheets[0]->getDeliveryDate();
+
+            foreach ($this->zoneInfrastructureSheets as $i)
+            {
+                $_date = $i->getDeliveryDate();
+
+                if($date < $_date)
+                {
+                    $date = $_date;
+                }
+            }
+
+            return $date;
+        }
+        else
+        {
+            return null;
+        }
+
+    }
 }

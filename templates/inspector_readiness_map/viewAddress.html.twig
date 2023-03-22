@@ -40,11 +40,10 @@
                                                 <td>
                                                     Название
                                                 </td>
-                                                <td>Средний % по зонам подвидам работ</td>
-                                                <td>Средний % по общим зонам</td>
-                                                <td>Средний % в общем</td>
+                                                <td>% выполнения ремонтных работ</td>
+
                                                 <td>Крайний срок поставки оборудования</td>
-                                                <td>Крайняя дата завершения ремонта</td>
+                                                <td>Дата завершения ремонтных работ</td>
                                                 <td>
                                                     Действия
                                                 </td>
@@ -52,12 +51,21 @@
                                         </thead>
                                         <tbody>
                                             {% for i in zones %}
+
                                             <tr>
                                                 <td>{{ loop.index }}</td>
                                                 <td>{{ i.getName() }}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{ i.getZoneRepair().getTotalPercentage() }} %</td>
+                                                <td>
+                                                    {% if i.getMaxEquipmentDeliveryDeadline() %}
+                                                        {{ i.getMaxEquipmentDeliveryDeadline().format('d.m.Y') }}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if i.getZoneRepair().getEndDate() %}
+                                                        {{ i.getZoneRepair().getEndDate().format('d.m.Y') }}
+                                                    {% endif %}
+                                                </td>
                                                 <td>
                                                     <a href="{{ path('app_inspector_view_zone', {'id': i.getId()}) }}">
                                                         <button class="btn btn-success">
