@@ -13,9 +13,13 @@ use App\Form\infrastructureSheetZoneForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use ZipArchive;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * @Route("/inspector")
@@ -25,15 +29,109 @@ class InspectorReadinessMapController extends AbstractController
     /**
      * @Route("/readiness-map/{id}", name="app_inspector_readiness_map")
      */
-    public function index(int $id): Response
+    public function index(Request $request,int $id): Response
     {
 
         $user = $this->getDoctrine()->getManager()->getRepository(User::class)->find($id);
+        $photos = null;
+        $arr = [];
+        $form = $this->createFormBuilder($arr)
+            ->add('startDate', DateType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => false,
+                'required' => true,
+                'widget' => 'single_text',
+            ])
+            ->add('endDate', DateType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => false,
+                'required' => true,
+                'widget' => 'single_text',
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ],
+                'label' => 'Найти'
+            ])
+            ->add('download', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success'
+                ],
+                'label' => 'Скачать'
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $data = $form->getData();
+
+            $entity_manager = $this->getDoctrine()->getManager();
+            $photos = $entity_manager->getRepository(PhotosVersion::class)
+                ->createQueryBuilder('pv')
+                ->leftJoin('pv.repair', 'zr')
+                ->leftJoin('zr.clusterZone', 'cz')
+                ->leftJoin('cz.addres', 'ca')
+                ->leftJoin('ca.user', 'u')
+                ->andWhere('u.id = :userId')
+                ->andWhere('pv.createdAt >= :startDate')
+                ->andWhere('pv.createdAt <= :endDate')
+                ->setParameter('startDate', $data['startDate'])
+                ->setParameter('endDate', $data['endDate'])
+                ->setParameter('userId', $user->getId())
+                ->orderBy('cz.name', 'ASC')
+                ->getQuery()
+                ->getResult()
+                ;
+
+            if($form->get('download')->isClicked() and count($photos) > 0)
+                return $this->downloadPhotos($photos, $user->getUserInfo()->getCluster());
+        }
 
         return $this->render('inspector_readiness_map/index.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
             'user' => $user,
+            '_photos' => $photos,
+            'form' => $form->createView(),
         ]);
+    }
+
+    public function downloadPhotos($photos, $fileName = "file")
+    {
+//        $this->getParameter($directory);
+
+        $dir = '../public/uploads/repairPhotos/';
+
+        $files = [];
+        $filesNames = [];
+        foreach ($photos as $version)
+        {
+            foreach ($version->getRepairPhotos() as $i)
+            {
+                array_push($files, $dir . $i->getPhoto());
+                $photoDir = $version->getRepair()->getClusterZone()->getName();
+                array_push($filesNames,  $photoDir.'/'.$i->getPhoto());
+            }
+        }
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+        $zip = new ZipArchive();
+
+        $zip->open($temp_file, \ZipArchive::CREATE);
+
+        for ($i = 0; $i < count($files); $i++)
+        {
+            $zip->addFile($files[$i], $filesNames[$i]);
+        }
+
+
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+
     }
 
     /**
