@@ -2,23 +2,25 @@
 
 
 {% block content %}
-    <h1>
-        Карта готовности (Куратор)
-    </h1>
 
-    <div class="row">
+
+    <div class="row mt-3">
         <div class="col-lg-10 offset-lg-1 договоmb-2">
             <div class="ibox collapsed border-bottom">
-                <a class="collapse-link">
-                    <div class="ibox-title">
-                        <h5>
 
-                        </h5>
-                        <div class="ibox-tools">
-                            <i class="fa fa-chevron-down"></i>
-                        </div>
-                    </div>
-                </a>
+                <div class="ibox-title">
+                    <h5>
+
+                    </h5>
+                    <a href="{{ path('app_inspector_readiness_map', {'id': address.getUser().getId()}) }}">
+                        <button class="btn">
+                            <i class="fa fa-arrow-left">
+                                Назад
+                            </i>
+                        </button>
+                    </a>
+                </div>
+
 
                 <div class="ibox-content" style="display: block;">
                     <div class="tabs-container">
@@ -37,14 +39,14 @@
                                                 <td class="col-md-1">
                                                     № п/п
                                                 </td>
-                                                <td>
+                                                <td class="col-md-2">
                                                     Название
                                                 </td>
                                                 <td>% выполнения ремонтных работ</td>
 
                                                 <td>Крайний срок поставки оборудования</td>
                                                 <td>Дата завершения ремонтных работ</td>
-                                                <td>
+                                                <td class="col-md-1">
                                                     Действия
                                                 </td>
                                             </tr>
@@ -68,9 +70,16 @@
                                                 </td>
                                                 <td>
                                                     <a href="{{ path('app_inspector_view_zone', {'id': i.getId()}) }}">
-                                                        <button class="btn btn-success">
+                                                        <button class="btn btn-success col-lg-12 mb-2">
                                                             <i class="fa fa-search">
                                                                 Просмотр
+                                                            </i>
+                                                        </button>
+                                                    </a>
+                                                    <a href="{{ path('app_inspector_rm_delete_zone', {'zone_id': i.getId()}) }}">
+                                                        <button class="btn btn-danger col-lg-12 delete-alert">
+                                                            <i class="fa fa-trash">
+                                                                Удалить
                                                             </i>
                                                         </button>
                                                     </a>

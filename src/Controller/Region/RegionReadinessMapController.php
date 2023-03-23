@@ -48,16 +48,18 @@ class RegionReadinessMapController extends AbstractController
         {
             return $this->redirectToRoute('app_region_readiness_map');
         }
-        $query = $em->getRepository(PhotosVersion::class)
-            ->createQueryBuilder('p')
-            ->andWhere('p.repair = :repair')
-            ->orderBy('p.id', 'DESC')
+        $query = $em->getRepository(RepairPhotos::class)
+            ->createQueryBuilder('rp')
+            ->leftJoin('rp.version', 'v')
+            ->andWhere('v.repair = :repair')
+            ->orderBy('v.id', 'DESC')
             ->setParameter('repair', $repair)
             ->getQuery();
+
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            3 /*limit per page*/
+            10 /*limit per page*/
         );
 
         return $this->render('region_readiness_map/viewZone.html.twig', [
@@ -146,6 +148,20 @@ class RegionReadinessMapController extends AbstractController
 
 
         ]);
+    }
+
+    /**
+     * @Route("/readiness-map/delete-photo-region/{zone_id}/{photo_id}", name="app_region_rm_delete_photo_region")
+     */
+    public function photoDelete(int $zone_id, int $photo_id, FileService $fileService)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $photo = $entity_manager->getRepository(RepairPhotos::class)->find($photo_id);
+        $fileService->DeleteFile($photo->getPhoto(), 'repair_photos_directory');
+        $entity_manager->remove($photo);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_region_view_zone', ['id' => $zone_id]);
     }
 
 }

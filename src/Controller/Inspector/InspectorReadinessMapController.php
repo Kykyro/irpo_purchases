@@ -10,8 +10,11 @@ use App\Entity\ZoneInfrastructureSheet;
 use App\Form\addAddressesForm;
 use App\Form\addZoneForm;
 use App\Form\infrastructureSheetZoneForm;
+use App\Services\FileService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -38,7 +41,7 @@ class InspectorReadinessMapController extends AbstractController
         $form = $this->createFormBuilder($arr)
             ->add('startDate', DateType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => ''
                 ],
                 'label' => false,
                 'required' => true,
@@ -46,11 +49,25 @@ class InspectorReadinessMapController extends AbstractController
             ])
             ->add('endDate', DateType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => ' '
                 ],
                 'label' => false,
                 'required' => true,
                 'widget' => 'single_text',
+            ])
+            ->add('addres', EntityType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'query_builder' => function (EntityRepository $er) use ($user)
+                {
+                    return $er->createQueryBuilder('a')
+                        ->andWhere("a.user = :user")
+                        ->setParameter('user', $user);
+                },
+                'class' => ClusterAddresses::class,
+                'choice_label' => 'addresses',
+                'label' => 'Адрес'
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
@@ -79,18 +96,22 @@ class InspectorReadinessMapController extends AbstractController
                 ->leftJoin('cz.addres', 'ca')
                 ->leftJoin('ca.user', 'u')
                 ->andWhere('u.id = :userId')
+                ->andWhere('ca = :address')
                 ->andWhere('pv.createdAt >= :startDate')
                 ->andWhere('pv.createdAt <= :endDate')
                 ->setParameter('startDate', $data['startDate'])
                 ->setParameter('endDate', $data['endDate'])
                 ->setParameter('userId', $user->getId())
+                ->setParameter('address', $data['addres'])
                 ->orderBy('cz.name', 'ASC')
                 ->getQuery()
                 ->getResult()
                 ;
 
             if($form->get('download')->isClicked() and count($photos) > 0)
-                return $this->downloadPhotos($photos, $user->getUserInfo()->getCluster());
+                return $this->downloadPhotos(
+                    $photos,
+                    $user->getUserInfo()->getCluster().' '.str_replace('.', ' ', $data['addres']->getAddresses()));
         }
 
         return $this->render('inspector_readiness_map/index.html.twig', [
@@ -286,6 +307,43 @@ class InspectorReadinessMapController extends AbstractController
 
 
         ]);
+    }
+
+    /**
+     * @Route("/readiness-map/delete-zone-inspector/{zone_id}", name="app_inspector_rm_delete_zone")
+     */
+    public function deleteZone(int $zone_id, FileService $fileService)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $zone = $entity_manager->getRepository(ClusterZone::class)->find($zone_id);
+        $addres = $zone->getAddres();
+        $repair = $zone->getZoneRepair();
+        $zone->setZoneRepair(null);
+        $photoVersion = $repair->getPhotosVersions();
+        $infrastructureSheet = $zone->getZoneInfrastructureSheets();
+
+        foreach ($photoVersion as $i){
+            $photos = $i->getRepairPhotos();
+            $i->setRepair(null);
+            $repair->removePhotosVersion($i);
+            foreach ($photos as $photo)
+            {
+                $fileService->DeleteFile($photo->getPhoto(), 'repair_photos_directory');
+                $entity_manager->remove($photo);
+            }
+            $entity_manager->remove($i);
+        }
+
+        foreach ($infrastructureSheet as $i)
+        {
+            $entity_manager->remove($i);
+        }
+
+        $entity_manager->remove($repair);
+        $entity_manager->remove($zone);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_inspector_view_address', ['id' => $addres->getId()]);
     }
 
 }
