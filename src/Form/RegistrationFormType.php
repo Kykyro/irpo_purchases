@@ -58,11 +58,17 @@ class RegistrationFormType extends AbstractType
                             'проверяющий' => array
                             (
                                 'проверяющий' => 'ROLE_INSPECTOR'
+                            ),
+                            'наблюдатель' => array
+                            (
+                                'наблюдатель' => 'ROLE_SPECTATOR'
                             )
                         )
                     ,
                     'multiple' => true,
                     'required' => true,
+                    'expanded' => true,
+
                 ]
             )
         ;

@@ -147,7 +147,12 @@
                         <a href="{{ path("app_admin") }}"><i class="fa fa-wheelchair-alt left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Админ панель</span></a>
                     </li>
                 {% endif %}
-                {% if is_granted('ROLE_INSPECTOR') %}
+                {% if is_granted('ROLE_SPECTATOR') %}
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_inspector_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Кластеры</span></a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_USER') %}
                     <li > {# class="active" #}
                         <a href="{{ path("app_user_password_change") }}"><i class="fa fa-edit left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Сменить пароль</span></a>
                     </li>

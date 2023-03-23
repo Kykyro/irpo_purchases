@@ -54,6 +54,11 @@ class AuthAuthenticator extends AbstractLoginFormAuthenticator
         {
             return new RedirectResponse($this->urlGenerator->generate('app_inspector_infrastructure_sheet'));
         }
+        if(in_array('ROLE_SPECTATOR', $user->getRoles(), true))
+        {
+
+            return new RedirectResponse($this->urlGenerator->generate('app_inspector_infrastructure_sheet'));
+        }
         if(in_array('ROLE_REGION', $user->getRoles(), true))
         {
             return new RedirectResponse($this->urlGenerator->generate('app_main'));
@@ -62,7 +67,7 @@ class AuthAuthenticator extends AbstractLoginFormAuthenticator
         {
             return new RedirectResponse($this->urlGenerator->generate('app_admin'));
         }
-        return new RedirectResponse($this->urlGenerator->generate('app_main'));
+        return new RedirectResponse($this->urlGenerator->generate('app_login'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

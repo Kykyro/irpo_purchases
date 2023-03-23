@@ -70,7 +70,6 @@ class InfrastructureSheetController extends AbstractController
                 'attr' => ['class' => 'form-control'],
                 'required'   => false,
                 'choices'  => [
-                    '2021' => 2021,
                     '2022' => 2022,
                     '2023' => 2023,
                     '2024' => 2024,
@@ -90,8 +89,10 @@ class InfrastructureSheetController extends AbstractController
         $query = $em->getRepository(User::class)
             ->createQueryBuilder('a')
             ->leftJoin('a.user_info', 'uf')
-            ->where('a.roles LIKE :role')
-            ->setParameter('role', "%$role%");
+            ->andWhere('a.roles LIKE :role')
+            ->andWhere('uf.year > :_year')
+            ->setParameter('role', "%$role%")
+            ->setParameter('_year', 2021);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

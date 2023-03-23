@@ -3,6 +3,7 @@
 {% else %}
     {% set isRegion = false %}
 {% endif %}
+{% set isInspector = is_granted('ROLE_INSPECTOR') %}
 <div class="col-lg-4 animated fadeIn cluster-card"
      data-year="{{ i.getUserInfo().getYear() }}"
      data-industry="{{ i.getUserInfo().getDeclaredIndustry() }}"
@@ -15,11 +16,13 @@
     <div class="contact-box">
         <div class="row">
             <div class="col-lg-12">
+                {% if isInspector %}
                 <div class="row">
                     {% if  buttons is defined%}
                         {{ buttons }}
                     {% endif %}
                 </div>
+                {% endif %}
 
                 <h3>
                     <strong>
@@ -52,6 +55,7 @@
                             Подробная информация о кластере
                         </button>
                     </a>
+                    {% if isInspector %}
                     <a href="{{ path('app_inspector_infrastructure_sheet_upload', {'id': i.getId()}) }}">
                         <button class="btn btn-primary col-lg-12 mb-2">
                             <div class="fa fa-upload"></div>
@@ -64,18 +68,23 @@
                             Просмотр истории ИЛов
                         </button>
                     </a>
+                    {% endif %}
                     <a href="{{ path('app_inspector_show_purchases', {'id': i.getId()}) }}">
                         <button class="btn btn-warning col-lg-12 mb-2">
                             <div class="fa fa-archive"></div>
                             Просмотр Закупок
                         </button>
                     </a>
+                    {% if isInspector %}
                     <a href="{{ path('app_weekly_budget_amount', {'id': i.getId()}) }}">
                         <button class="btn btn-success col-lg-12 mb-2">
                             <div class="fa fa-money"></div>
                             Недельная сумма по бюджету
                         </button>
                     </a>
+                    {% endif %}
+
+                    {% if isInspector %}
                     <a href="{{ path('app_inspector_readiness_map', {'id': i.getId()}) }}">
                         <button class="btn btn-cyan col-lg-12 mb-2">
                             <div class="fa fa-check-circle"></div>
@@ -88,6 +97,7 @@
                             Переключиться
                         </button>
                     </a>
+                    {% endif %}
                 </div>
             </div>
         </div>

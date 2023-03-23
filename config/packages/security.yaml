@@ -1,6 +1,6 @@
 security:
     role_hierarchy:
-
+        ROLE_SPECTATOR: [ ROLE_SPECTATOR ]
         ROLE_USER: [ ROLE_USER ]
         ROLE_INSPECTOR: [ ROLE_INSPECTOR, ROLE_ALLOWED_TO_SWITCH  ]
         ROLE_REGION: [ ROLE_REGION ]
@@ -49,7 +49,7 @@ security:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/region, roles: ROLE_REGION }
          - { path: ^/journalist, roles: ROLE_JOURNALIST }
-         - { path: ^/inspector, roles: ROLE_INSPECTOR }
+         - { path: ^/inspector, roles: [ROLE_INSPECTOR, ROLE_SPECTATOR] }
          - { path: ^/download, roles: ROLE_INSPECTOR }
          - { path: ^/download, roles: ROLE_REGION }
 
