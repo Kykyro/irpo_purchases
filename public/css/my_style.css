@@ -194,7 +194,9 @@ input[type="text"], textarea {
      cursor: -webkit-grabbing;
      user-select: none;
  }
-
+table {
+    color: black;
+}
 
 
 
