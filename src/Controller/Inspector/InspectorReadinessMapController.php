@@ -151,7 +151,7 @@ class InspectorReadinessMapController extends AbstractController
         }
 
 
-        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        return $this->file($temp_file, $fileName.'.zip', ResponseHeaderBag::DISPOSITION_INLINE);
 
     }
 
