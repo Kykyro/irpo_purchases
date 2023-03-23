@@ -45,14 +45,14 @@
                                                {{ i.getAddresses() }}
                                            </td>
 
-                                           <td>
+                                           <td class="col-md-2">
                                                {% set zones = i.getClusterZones() %}
                                                {% if zones|length > 0 %}
                                                    <ul style=" list-style-type: none;" class="m-0 p-0">
                                                        {% for j in zones %}
                                                            <a href="{{ path('app_inspector_view_zone', {'id' : j.getId()}) }}">
                                                                <li>
-                                                                   <button class="btn btn-outline-dark mb-2 col-lg-12">
+                                                                   <button class="btn btn-outline-dark mb-2 col-lg-12" style="margin-bottom:4px;white-space: normal;">
                                                                       {{ j.getName() }}
                                                                    </button>
                                                                </li>
