@@ -383,23 +383,61 @@
             $('.add-another-collection-widget').click(addRow);
             $('.add-another-collection-widget-2').click(addRow);
             $('.add-another-collection-widget-3').click(addRow);
-            function splitLines(t) { return t.split(/\r\n|\r|\n/); }
+            function splitLines(t) { return t.split(/\t\n|\t|\n/); }
             function addRowsByTable(){
                 // let input = $('#rows-to-add');
                 let data = $($(this).attr('data-row-data'));
 
                 let zoneType = $(this).attr('data-zone-type');
-                let _data = splitLines(data.val());
+                // let _data = splitLines(data.val());
+                let _data = data.val().split('\n');
+                let value = _data.length;
+                let skipRow =  [];
+                for (let i = 0; i < value; i++)
+                {
+                    if(_data[i].split('\t').length < 3)
+                    {
+                        if(!_data[i].includes('\t'))
+                        {
+                           skipRow.push(i);
+                        }
+                    }
+                    else if(_data[i].split('\t').length < 2)
+                    {
+                        _data[i] = _data[i] + '\t';
+
+                    }
+                    else
+                    {
+                        _data[i] = _data[i] + '$$';
+                    }
+                }
+                _data = _data.join(' ');
+                _data = _data.split('$$');
+                value = _data.length;
+
                 console.log(_data);
+                // console.log(_data);
+                // for (let i = 0; i < _data.length; i++)
+                // {
+                //     if(!_data[i].includes('\t'))
+                //     {
+                //         console.log(_data[i]);
+                //     }
+                // }
                 let listSelector = $($(this).attr('data-list-selector'));
                 let list = $($(this).attr('data-list'));
                 // console.log($(this));
-                let value = _data.length;
+
 
                 for (let i = 0; i < value; i++)
                 {
                     if(_data[i].split('\t').length < 6)
-                        continue;
+                    {
+                        if(!_data[i].includes('\t'))
+                            continue;
+                    }
+
                     // console.log(listSelector);
                     let counter = listSelector.data('widget-counter');
 
