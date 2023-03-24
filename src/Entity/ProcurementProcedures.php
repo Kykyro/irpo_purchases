@@ -1202,6 +1202,8 @@ class ProcurementProcedures
         }
         else
         {
+            if(is_null($this->getPurchaseLink()))
+                return 'planning'; // планируется
             if (is_null($this->getPublicationDate()) or $this->getPublicationDate() > $day){
                 return 'planning'; // планируется
             }
