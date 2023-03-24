@@ -383,14 +383,14 @@
             $('.add-another-collection-widget').click(addRow);
             $('.add-another-collection-widget-2').click(addRow);
             $('.add-another-collection-widget-3').click(addRow);
+            function splitLines(t) { return t.split(/\r\n|\r|\n/); }
             function addRowsByTable(){
                 // let input = $('#rows-to-add');
                 let data = $($(this).attr('data-row-data'));
+
                 let zoneType = $(this).attr('data-zone-type');
-                let _data = data.val().split('\n');
-                _data.forEach((elem) => {
-                    console.log(elem.split('\t'))
-                });
+                let _data = splitLines(data.val());
+                console.log(_data);
                 let listSelector = $($(this).attr('data-list-selector'));
                 let list = $($(this).attr('data-list'));
                 // console.log($(this));
@@ -399,7 +399,7 @@
                 for (let i = 0; i < value; i++)
                 {
 
-                    console.log(listSelector);
+                    // console.log(listSelector);
                     let counter = listSelector.data('widget-counter');
 
                     let newWidget = listSelector.attr('data-prototype');
@@ -416,10 +416,10 @@
 
 
                     newElem.appendTo(list);
-                    if(_data[i])
+                    if(_data[i] && _data[i].split('\t').length >= 6)
                     {
                         let paste = _data[i].split('\t');
-                        console.log(paste);
+                        // console.log(paste);
                         $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_zoneType').val(zoneType);
                         $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_name').val(paste[0]);
                         $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_type').val(paste[2]);
