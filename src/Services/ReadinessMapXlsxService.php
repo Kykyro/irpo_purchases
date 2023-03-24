@@ -68,7 +68,7 @@ class ReadinessMapXlsxService extends AbstractController
                     'Фассад' => 0,
                     'Входная группа' => 0,
                     'Холл (фойе)' => 0,
-                    'Корридоры' => 0,
+                    'Коридоры' => 0,
                     'Зона по видам работ' => 0,
                 ];
             $adresses = $user->getClusterAddresses();
@@ -164,9 +164,9 @@ class ReadinessMapXlsxService extends AbstractController
             {
                 $_data['H'] = $_data['H']/$_countZone['Холл (фойе)'];
             }
-            if($_countZone['Корридоры'] > 0)
+            if($_countZone['Коридоры'] > 0)
             {
-                $_data['I'] = $_data['I']/$_countZone['Корридоры'];
+                $_data['I'] = $_data['I']/$_countZone['Коридоры'];
             }
             if($nearestDate and $lateDate)
             {
