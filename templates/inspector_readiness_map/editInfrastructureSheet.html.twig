@@ -398,7 +398,8 @@
 
                 for (let i = 0; i < value; i++)
                 {
-
+                    if(_data[i].split('\t').length < 6)
+                        continue;
                     // console.log(listSelector);
                     let counter = listSelector.data('widget-counter');
 
@@ -416,7 +417,7 @@
 
 
                     newElem.appendTo(list);
-                    if(_data[i] && _data[i].split('\t').length >= 6)
+                    if(_data[i] )
                     {
                         let paste = _data[i].split('\t');
                         // console.log(paste);
