@@ -125,10 +125,10 @@ class ReadinessMapXlsxService extends AbstractController
                         $_data['H'] += $repair->getTotalPercentage();
                         $_countZone['Холл (фойе)'] += 1;
                     }
-                    if($zone->getType()->getName() == "Корридоры")
+                    if($zone->getType()->getName() == "Коридоры")
                     {
                         $_data['I'] += $repair->getTotalPercentage();
-                        $_countZone['Корридоры'] += 1;
+                        $_countZone['Коридоры'] += 1;
                     }
                     if($zone->getType()->getName() == "Зона по видам работ")
                     {
