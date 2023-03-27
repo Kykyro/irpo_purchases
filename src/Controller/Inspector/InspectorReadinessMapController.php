@@ -17,6 +17,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,19 +56,19 @@ class InspectorReadinessMapController extends AbstractController
                 'required' => true,
                 'widget' => 'single_text',
             ])
-            ->add('addres', EntityType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'query_builder' => function (EntityRepository $er) use ($user)
-                {
-                    return $er->createQueryBuilder('a')
-                        ->andWhere("a.user = :user")
-                        ->setParameter('user', $user);
-                },
-                'class' => ClusterAddresses::class,
-                'choice_label' => 'addresses',
-                'label' => 'Адрес'
+            ->add('addres', HiddenType::class, [
+//                'attr' => [
+//                    'class' => 'form-control'
+//                ],
+//                'query_builder' => function (EntityRepository $er) use ($user)
+//                {
+//                    return $er->createQueryBuilder('a')
+//                        ->andWhere("a.user = :user")
+//                        ->setParameter('user', $user);
+//                },
+//                'class' => ClusterAddresses::class,
+//                'choice_label' => 'addresses',
+//                'label' => 'Адрес'
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
@@ -96,22 +97,24 @@ class InspectorReadinessMapController extends AbstractController
                 ->leftJoin('cz.addres', 'ca')
                 ->leftJoin('ca.user', 'u')
                 ->andWhere('u.id = :userId')
-                ->andWhere('ca = :address')
+//                ->andWhere('ca = :address')
                 ->andWhere('pv.createdAt >= :startDate')
                 ->andWhere('pv.createdAt <= :endDate')
                 ->setParameter('startDate', $data['startDate'])
                 ->setParameter('endDate', $data['endDate'])
                 ->setParameter('userId', $user->getId())
-                ->setParameter('address', $data['addres'])
+//                ->setParameter('address', $data['addres'])
                 ->orderBy('cz.name', 'ASC')
                 ->getQuery()
                 ->getResult()
                 ;
 
             if($form->get('download')->isClicked() and count($photos) > 0)
-                return $this->downloadPhotos(
-                    $photos,
-                    $user->getUserInfo()->getCluster().' '.str_replace('.', ' ', $data['addres']->getAddresses()));
+                return $this->downloadPhotos($photos, $user->getUserInfo()->getCluster());
+//                return $this->downloadPhotos(
+//                    $photos,
+//                    $user->getUserInfo()->getCluster().' '.str_replace('.', ' ', $data['addres']->getAddresses()));
+
         }
 
         return $this->render('inspector_readiness_map/index.html.twig', [
@@ -132,10 +135,12 @@ class InspectorReadinessMapController extends AbstractController
         $filesNames = [];
         foreach ($photos as $version)
         {
+            $addres = $version->getRepair()->getClusterZone()->getAddres()->getAddresses();
             foreach ($version->getRepairPhotos() as $i)
             {
+
                 array_push($files, $dir . $i->getPhoto());
-                $photoDir = $version->getRepair()->getClusterZone()->getName();
+                $photoDir = $addres.'/'.$version->getRepair()->getClusterZone()->getName();
                 array_push($filesNames,  $photoDir.'/'.$i->getPhoto());
             }
         }

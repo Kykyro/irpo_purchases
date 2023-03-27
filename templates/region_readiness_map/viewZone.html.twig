@@ -103,6 +103,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-lg-4">
+                                            {% if not repair.isNotPlanned() %}
                                             <h5>Демонтажные работы <b>{{ repair.getDismantling() }} %</b></h5>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-primary" style="width: {{ repair.getDismantling() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -115,6 +116,7 @@
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-warning" style="width: {{ repair.getFinishing() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
+                                            {% endif %}
                                             <h5>Брендирование <b>{{ repair.getBranding() }} %</b></h5>
                                             <div class="progress">
                                                 <div class="progress-bar  progress-bar-danger" style="width: {{ repair.getBranding() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -134,10 +136,13 @@
                                                     {% for i in pagination %}
                                                         {#{% for j in i.getRepairPhotos() %}#}
                                                             <div class="col-lg-2 form-control m-1">
-                                                                <a href="{{ path('app_region_rm_delete_photo_region', {'zone_id': zone.getId(), 'photo_id': i.getId()}) }}" class="pull-right btn btn-danger delete-alert">
-                                                                    <span class="fa fa-close "></span>
-                                                                </a>
-
+                                                                {% if i.allowToDelete(today) %}
+                                                                    <a href="{{ path('app_region_rm_delete_photo_region', {'zone_id': zone.getId(), 'photo_id': i.getId()}) }}" class="pull-right btn btn-danger delete-alert">
+                                                                        <span class="fa fa-trash "></span>
+                                                                    </a>
+                                                                {% endif %}
+                                                                {#{{ i.getVersion().getCreatedAt().format('d.m.Y') }}#}
+                                                                {#{{ i.allowToDelete(today) }}#}
                                                                 <a href="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" title="{{ name }}" data-gallery="">
                                                                     <img src="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" class="col-lg-12">
                                                                 </a>
@@ -187,7 +192,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="6">
+                                                    <td colspan="7">
                                                         <h3>Общая зона</h3>
                                                     </td>
                                                 </tr>
@@ -207,6 +212,9 @@
                                                     <td class="col-md-2">
                                                         Фактическое кол-во
                                                     </td>
+                                                    <td class="col-md-1">
+                                                        Введено в эксплатацию
+                                                    </td>
                                                     <td class="col-md-2">
                                                         Дата поставки
                                                     </td>
@@ -224,6 +232,7 @@
                                                         <td>{{ i.getType() }}</td>
                                                         <td>{{ i.getTotalNumber() }}</td>
                                                         <td>{{ i.getFactNumber() }}</td>
+                                                        <td>{{ i.getPutIntoOperation() }}</td>
                                                         {% if i.getDeliveryDate() %}
                                                             <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
                                                         {% else %}
@@ -238,7 +247,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="6">
+                                                    <td colspan="7">
                                                         <h3>Рабочее место учащегося</h3>
                                                     </td>
                                                 </tr>
@@ -258,6 +267,9 @@
                                                     <td class="col-md-2">
                                                         Фактическое кол-во
                                                     </td>
+                                                    <td class="col-md-1">
+                                                        Введено в эксплатацию
+                                                    </td>
                                                     <td class="col-md-2">
                                                         Дата поставки
                                                     </td>
@@ -275,6 +287,7 @@
                                                         <td>{{ i.getType() }}</td>
                                                         <td>{{ i.getTotalNumber() }}</td>
                                                         <td>{{ i.getFactNumber() }}</td>
+                                                        <td>{{ i.getPutIntoOperation() }}</td>
                                                         {% if i.getDeliveryDate() %}
                                                             <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
                                                         {% else %}
@@ -289,7 +302,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="6">
+                                                    <td colspan="7">
                                                         <h3>Рабочее место преподавателя</h3>
                                                     </td>
                                                 </tr>
@@ -309,6 +322,9 @@
                                                     <td class="col-md-2">
                                                         Фактическое кол-во
                                                     </td>
+                                                    <td class="col-md-1">
+                                                        Введено в эксплатацию
+                                                    </td>
                                                     <td class="col-md-2">
                                                         Дата поставки
                                                     </td>
@@ -326,6 +342,7 @@
                                                         <td>{{ i.getType() }}</td>
                                                         <td>{{ i.getTotalNumber() }}</td>
                                                         <td>{{ i.getFactNumber() }}</td>
+                                                        <td>{{ i.getPutIntoOperation() }}</td>
                                                         {% if i.getDeliveryDate() %}
                                                             <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
                                                         {% else %}

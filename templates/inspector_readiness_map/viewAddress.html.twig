@@ -30,7 +30,7 @@
                         <div class="tab-content">
                             <div role="tabpanel" id="tab-1" class="tab-pane active show">
                                 <div class="panel-body">
-                                    {% set zones = address.getClusterZones() %}
+                                    {% set zones = address.getSortedClusterZones() %}
 
                                     {% if zones|length > 0 %}
                                     <table class="table table-bordered">
@@ -53,38 +53,46 @@
                                         </thead>
                                         <tbody>
                                             {% for i in zones %}
+                                            {% if i.isDoNotTake() %}
+                                                <tr>
+                                                    <td>{{ loop.index }}</td>
+                                                    <td colspan="6" class="text-danger">{{ i.getName() }}</td>
 
-                                            <tr>
-                                                <td>{{ loop.index }}</td>
-                                                <td>{{ i.getName() }}</td>
-                                                <td>{{ i.getZoneRepair().getTotalPercentage() }} %</td>
-                                                <td>
-                                                    {% if i.getMaxEquipmentDeliveryDeadline() %}
-                                                        {{ i.getMaxEquipmentDeliveryDeadline().format('d.m.Y') }}
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    {% if i.getZoneRepair().getEndDate() %}
-                                                        {{ i.getZoneRepair().getEndDate().format('d.m.Y') }}
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    <a href="{{ path('app_inspector_view_zone', {'id': i.getId()}) }}">
-                                                        <button class="btn btn-success col-lg-12 mb-2">
-                                                            <i class="fa fa-search">
-                                                                Просмотр
-                                                            </i>
-                                                        </button>
-                                                    </a>
-                                                    <a href="{{ path('app_inspector_rm_delete_zone', {'zone_id': i.getId()}) }}">
-                                                        <button class="btn btn-danger col-lg-12 delete-alert">
-                                                            <i class="fa fa-trash">
-                                                                Удалить
-                                                            </i>
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td>{{ loop.index }}</td>
+                                                    <td>{{ i.getName() }}</td>
+                                                    <td>{{ i.getZoneRepair().getTotalPercentage() }} %</td>
+                                                    <td>
+                                                        {% if i.getMaxEquipmentDeliveryDeadline() %}
+                                                            {{ i.getMaxEquipmentDeliveryDeadline().format('d.m.Y') }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if i.getZoneRepair().getEndDate() %}
+                                                            {{ i.getZoneRepair().getEndDate().format('d.m.Y') }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ path('app_inspector_view_zone', {'id': i.getId()}) }}">
+                                                            <button class="btn btn-success col-lg-12 mb-2">
+                                                                <i class="fa fa-search">
+                                                                    Просмотр
+                                                                </i>
+                                                            </button>
+                                                        </a>
+                                                        <a href="{{ path('app_inspector_rm_delete_zone', {'zone_id': i.getId()}) }}">
+                                                            <button class="btn btn-danger col-lg-12 delete-alert">
+                                                                <i class="fa fa-trash">
+                                                                    Удалить
+                                                                </i>
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+
                                            {% endfor %}
                                         </tbody>
                                     </table>

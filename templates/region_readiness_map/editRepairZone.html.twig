@@ -23,6 +23,10 @@
                 <div class="ibox-content" style="display: block;">
 
                     <div class="form-group">
+                        {{ form_widget(form.notPlanned) }}
+                        <label>Ремон не запланирован</label>
+                    </div>
+                    <div class="form-group">
                         {{ form_row(form.Dismantling, {'type': 'number'}) }}
                     </div>
                     <div class="form-group">
@@ -76,4 +80,41 @@
 {% block scripts %}
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+           let notPlanned = $('#edit_zone_repair_form_notPlanned');
+           let dismalting = $('#edit_zone_repair_form_Dismantling');
+           let plasteringAndCommunication = $('#edit_zone_repair_form_plasteringAndCommunication');
+           let finishing = $('#edit_zone_repair_form_finishing');
+
+            function setDisabled(value, ...args) {
+                for (i = 0; i < args.length; i++){
+                    args[i].prop('disabled',value);
+                    if(value){
+                        args[i].val("");
+                    }
+                }
+            }
+
+           function notPlannedChage() {
+               if(notPlanned.is(':checked'))
+               {
+                   dismalting.val(100);
+                   plasteringAndCommunication.val(100);
+                   finishing.val(100);
+
+                   setDisabled(true, dismalting, plasteringAndCommunication, finishing);
+               }
+                else{
+                   setDisabled(false, dismalting, plasteringAndCommunication, finishing);
+               }
+
+
+           }
+
+           notPlanned.change(notPlannedChage);
+
+           notPlannedChage();
+        });
+    </script>
 {% endblock %}

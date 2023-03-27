@@ -317,5 +317,77 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public  function getMidRepairByZone()
+    {
+
+        $count = count($this->clusterAddresses);
+        $result = 0;
+        foreach ($this->clusterAddresses as $address)
+        {
+            $result += $address->getMidRepairByZone();
+        }
+
+
+        if($count > 0)
+            return $result/$count;
+        else
+            return 0;
+    }
+    public  function getMidRepairByCommon()
+    {
+
+        $count = count($this->clusterAddresses);
+        $result = 0;
+        foreach ($this->clusterAddresses as $address)
+        {
+            $result += $address->getMidRepairByCommon();
+        }
+
+        if($count > 0)
+            return $result/$count;
+        else
+            return 0;
+    }
+    public function getEquipmentDeliveryDeadline()
+    {
+        $arr = [];
+        foreach ($this->clusterAddresses as $address)
+        {
+            if($address->getEquipmentDeliveryDeadline())
+                array_push($arr, $address->getEquipmentDeliveryDeadline());
+        }
+        usort($arr, function($a, $b) {
+            $dateTimestamp1 = $a;
+            $dateTimestamp2 = $b;
+
+            return $dateTimestamp1 < $dateTimestamp2 ? -1: 1;
+        });
+        if(count($arr) > 0)
+            return $arr[count($arr)-1]->format('d.m.Y');
+        else
+            return null;
+    }
+    public function getDeadlineForCompletionOfRepairs()
+    {
+        $arr = [];
+        foreach ($this->clusterAddresses as $address)
+        {
+            if($address->getDeadlineForCompletionOfRepairs())
+                array_push($arr, $address->getDeadlineForCompletionOfRepairs());
+        }
+        usort($arr, function($a, $b) {
+            $dateTimestamp1 = $a;
+            $dateTimestamp2 = $b;
+
+            return $dateTimestamp1 < $dateTimestamp2 ? -1: 1;
+        });
+        if(count($arr) > 0)
+            return $arr[count($arr)-1]->format('d.m.Y');
+        else
+            return null;
+
+
+    }
+
 
 }

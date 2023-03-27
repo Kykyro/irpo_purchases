@@ -43,6 +43,9 @@ class addZoneForm extends AbstractType
                 'label' => 'Тип'
 
             ])
+            ->add('doNotTake', CheckboxType::class, [
+                'label' => 'НЕ считать как зону'
+            ])
             ->add('submit', SubmitType::class,[
 
                 'attr' => [

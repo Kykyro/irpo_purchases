@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ClusterAddressesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -73,7 +74,16 @@ class ClusterAddresses
      */
     public function getClusterZones(): Collection
     {
+
         return $this->clusterZones;
+    }
+
+    public function getSortedClusterZones()
+    {
+        $criteria = Criteria::create()
+            ->orderBy(array("type" => Criteria::ASC, "name" => Criteria::ASC));
+
+        return $this->clusterZones->matching($criteria);
     }
 
     public function addClusterZone(ClusterZone $clusterZone): self
@@ -105,7 +115,7 @@ class ClusterAddresses
         $result = 0;
         foreach ($zones as $zone)
         {
-            if($zone->getType()->getName() == "Зона по видам работ")
+            if($zone->getType()->getName() == "Зона по видам работ" and !$zone->isDoNotTake())
             {
                 $result += $zone->getZoneRepair()->getTotalPercentage();
                 $count++;

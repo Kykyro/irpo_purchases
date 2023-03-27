@@ -18,7 +18,7 @@
                         <div role="tabpanel" id="tab-{{ loop.index }}" class="tab-pane {% if loop.index == 1 %}active show{% endif %}">
                             <div class="panel-body">
 
-                                {% set zones = i.getClusterZones() %}
+                                {% set zones = i.getSortedClusterZones() %}
                                 {% if zones|length > 0 %}
                                     <table class="table table-bordered">
                                         <thead>
@@ -36,23 +36,36 @@
                                         </thead>
                                         <tbody>
                                         {% for j in zones %}
-                                            <tr>
-                                                <td>
-                                                    {{ loop.index }}
-                                                </td>
-                                                <td>
-                                                    {{ j.getName() }}
-                                                </td>
-                                                <td>
-                                                    <a href="{{ path('app_region_view_zone', {'id': j.getId()}) }}">
-                                                        <button class="btn btn-success">
-                                                            <i class="fa fa-search">
-                                                                Просмотр
-                                                            </i>
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            {% if j.isDoNotTake() %}
+                                                <tr>
+                                                    <td>
+                                                        {{ loop.index }}
+                                                    </td>
+                                                    <td colspan="2" class="text-danger">
+                                                        {{ j.getName() }}
+                                                    </td>
+
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td>
+                                                        {{ loop.index }}
+                                                    </td>
+                                                    <td>
+                                                        {{ j.getName() }}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ path('app_region_view_zone', {'id': j.getId()}) }}">
+                                                            <button class="btn btn-success">
+                                                                <i class="fa fa-search">
+                                                                    Просмотр
+                                                                </i>
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+
                                         {% endfor %}
                                         </tbody>
                                     </table>

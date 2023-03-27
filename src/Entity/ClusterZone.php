@@ -45,6 +45,11 @@ class ClusterZone
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $doNotTake;
+
     function __construct() {
         $this->setZoneRepair(new ZoneRepair());
         $this->zoneInfrastructureSheets = new ArrayCollection();
@@ -165,5 +170,17 @@ class ClusterZone
             return null;
         }
 
+    }
+
+    public function isDoNotTake(): ?bool
+    {
+        return $this->doNotTake;
+    }
+
+    public function setDoNotTake(?bool $doNotTake): self
+    {
+        $this->doNotTake = $doNotTake;
+
+        return $this;
     }
 }

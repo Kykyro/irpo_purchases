@@ -20,7 +20,7 @@ class PhotosVersion
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime_immutable")
      */
     private $createdAt;
 
@@ -37,7 +37,7 @@ class PhotosVersion
     public function __construct()
     {
         $this->repairPhotos = new ArrayCollection();
-        $this->setCreatedAt(new \DateTime('now'));
+        $this->setCreatedAt(new \DateTimeImmutable('now'));
     }
 
     public function getId(): ?int
@@ -45,12 +45,12 @@ class PhotosVersion
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

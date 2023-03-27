@@ -37,6 +37,7 @@ class editZoneRepairForm extends AbstractType
                 ],
                 'required'   => true,
                 'label' => 'Демонтажные работы',
+                'empty_data' => 100,
 
             ])
             ->add('plasteringAndCommunication', TextType::class, [
@@ -48,6 +49,7 @@ class editZoneRepairForm extends AbstractType
                 ],
                 'required'   => true,
                 'label' => 'Штукатурные и коммуникационные работы',
+                'empty_data' => 100,
 
             ])
             ->add('finishing', TextType::class, [
@@ -59,6 +61,7 @@ class editZoneRepairForm extends AbstractType
                 ],
                 'required'   => true,
                 'label' => 'Отделочные работы',
+                'empty_data' => 100,
 
             ])
             ->add('branding', TextType::class, [
@@ -70,6 +73,7 @@ class editZoneRepairForm extends AbstractType
                 ],
                 'required'   => true,
                 'label' => 'Брендирование',
+                'empty_data' => 0,
 
             ])
             ->add('endDate', DateType::class,[
@@ -101,6 +105,13 @@ class editZoneRepairForm extends AbstractType
                 ],
                 'label' => 'Сохранить'
 
+            ])
+            ->add('notPlanned', CheckboxType::class,[
+                'required' => false,
+                'attr' => [
+                    'class' => 'btn btn-outline-success',
+                ],
+                'label' => 'Ремон не запланирован',
             ]);
     }
 

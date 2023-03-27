@@ -41,6 +41,7 @@ class RegionReadinessMapController extends AbstractController
      */
     public function viewZone(int $id, Request $request, EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
+        $today = new \DateTimeImmutable('now');
         $user = $this->getUser();
         $zone = $this->getDoctrine()->getManager()->getRepository(ClusterZone::class)->find($id);
         $repair = $zone->getZoneRepair();
@@ -66,6 +67,7 @@ class RegionReadinessMapController extends AbstractController
             'controller_name' => 'RegionReadinessMapController',
             'zone' => $zone,
             'pagination' => $pagination,
+            'today' => $today
         ]);
     }
 

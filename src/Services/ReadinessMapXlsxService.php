@@ -82,7 +82,8 @@ class ReadinessMapXlsxService extends AbstractController
                 $zones = $adress->getClusterZones();
                 foreach ($zones as $zone)
                 {
-
+                    if($zone->isDoNotTake())
+                        continue;
                     $repair = $zone->getZoneRepair();
                     if($zoneCount == 0)
                     {

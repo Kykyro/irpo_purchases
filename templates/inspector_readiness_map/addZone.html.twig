@@ -23,8 +23,13 @@
                 <div class="ibox-content" style="display: block;">
                     {{ form_row(form.name) }}
                 </div>
+                <div class="ibox-content" id="checkbox-row" style="display: block;">
+                    {{ form_widget(form.doNotTake) }}
+                    <label>НЕ считать как зону</label>
+                </div>
                 <div class="ibox-footer">
                     {{ form_row(form.submit) }}
+
                 </div>
                 {{ form_end(form) }}
             </div>
@@ -39,15 +44,21 @@
         $(document).ready(function(){
             let typeInput = $('#add_zone_form_type');
             let nameInput = $('#add_zone_form_name');
+            let doNotTake = $('#add_zone_form_doNotTake');
+            let checkboxRow = $('#checkbox-row');
 
             function typeChange() {
                 let value = typeInput.val();
-                if(value != 5)
+                if(value == 5 )
                 {
-                    nameInput.val($( "#add_zone_form_type option:selected" ).text());
+
+                    checkboxRow.show();
+                    nameInput.val('');
                 }
                 else {
-                    nameInput.val('');
+                    nameInput.val($( "#add_zone_form_type option:selected" ).text());
+                    doNotTake.prop('checked', false);
+                    checkboxRow.hide();
                 }
             }
             typeInput.change(typeChange);

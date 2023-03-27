@@ -67,6 +67,11 @@ class ZoneRepair
      */
     private $photosVersions;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $notPlanned;
+
     public function __construct()
     {
         $this->photosVersions = new ArrayCollection();
@@ -217,6 +222,23 @@ class ZoneRepair
             }
         }
 
+        return $this;
+    }
+
+    public function isNotPlanned(): ?bool
+    {
+        return $this->notPlanned;
+    }
+
+    public function setNotPlanned(?bool $notPlanned): self
+    {
+        $this->notPlanned = $notPlanned;
+        if($this->notPlanned)
+        {
+            $this->setDismantling(100);
+            $this->setPlasteringAndCommunication(100);
+            $this->setFinishing(100);
+        }
         return $this;
     }
 }

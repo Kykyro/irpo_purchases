@@ -62,6 +62,11 @@ class ZoneInfrastructureSheet
      */
     private $zoneType;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $putIntoOperation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +176,18 @@ class ZoneInfrastructureSheet
     public function setZoneType(?string $zoneType): self
     {
         $this->zoneType = $zoneType;
+
+        return $this;
+    }
+
+    public function getPutIntoOperation(): ?int
+    {
+        return $this->putIntoOperation;
+    }
+
+    public function setPutIntoOperation(?int $putIntoOperation): self
+    {
+        $this->putIntoOperation = $putIntoOperation;
 
         return $this;
     }

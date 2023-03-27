@@ -55,4 +55,16 @@ class RepairPhotos
 
         return $this;
     }
+    public function allowToDelete($time){
+        $saveTime = $this->getVersion()->getCreatedAt();
+        $timeDiff = $saveTime->diff($time);
+
+        if((int)$timeDiff->format("%a") < 1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
