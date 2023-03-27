@@ -142,6 +142,7 @@ class ReadinessMapXlsxService extends AbstractController
 
             }
 
+
             $user_info = $user->getUserInfo();
             $row = $sheet->getHighestRow()+1;
             $sheet->setCellValue('A'.$row, $index);
