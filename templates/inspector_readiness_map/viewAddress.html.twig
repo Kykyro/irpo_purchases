@@ -56,8 +56,17 @@
                                             {% if i.isDoNotTake() %}
                                                 <tr>
                                                     <td>{{ loop.index }}</td>
-                                                    <td colspan="6" class="text-danger">{{ i.getName() }}</td>
+                                                    <td colspan="4" class="text-danger">{{ i.getName() }}</td>
+                                                    <td>
 
+                                                        <a href="{{ path('app_inspector_rm_delete_zone', {'zone_id': i.getId()}) }}">
+                                                            <button class="btn btn-danger col-lg-12 delete-alert">
+                                                                <i class="fa fa-trash">
+                                                                    Удалить
+                                                                </i>
+                                                            </button>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             {% else %}
                                                 <tr>
