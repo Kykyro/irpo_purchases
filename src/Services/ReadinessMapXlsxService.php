@@ -137,6 +137,7 @@ class ReadinessMapXlsxService extends AbstractController
                         $totalProcentZone += $repair->getTotalPercentage();
                     }
 
+
                     $zoneCount++;
                 }
 
