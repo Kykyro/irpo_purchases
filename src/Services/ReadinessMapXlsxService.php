@@ -138,6 +138,7 @@ class ReadinessMapXlsxService extends AbstractController
                     }
 
 
+
                     $zoneCount++;
                 }
 
