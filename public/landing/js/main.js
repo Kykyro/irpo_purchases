@@ -850,6 +850,46 @@
                     }
                 }]
             })
+        }))), void(e(".ed-carousel7").length > 0 && e(".ed-carousel7").each((function() {
+            var a = e(this),
+                t = a.data("arrows") || !0,
+                i = a.data("dots") || !0,
+                o = a.data("loop") || !0;
+            a.slick({
+                arrows: t,
+                dots: i,
+                infinite: true,
+                autoplay: false,
+                autoplaySpeed: 10000,
+                speed: 1200,
+                waitForAnimate: false,
+                slide: ".carousel-item7",
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                pauseOnHover: false,
+                cssEase: 'linear',
+                responsive: [{
+                    breakpoint: 3400,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        infinite: !0,
+                        dots: !0
+                    }
+                }, {
+                    breakpoint: 800,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }, {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }]
+            })
         })))) : (console.log("Slider: Slick not Defined."), !0)
     }
 

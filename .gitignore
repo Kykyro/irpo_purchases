@@ -9,6 +9,7 @@
 /var/
 /vendor/
 /public/uploads/
+/public/video/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
