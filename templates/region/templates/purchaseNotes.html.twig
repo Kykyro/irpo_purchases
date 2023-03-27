@@ -19,11 +19,11 @@
 
                     <table class="table table-bordered">
                         <thead>
-                        <tr>
+                        <tr style="text-align: center;">
                             <td class="col-md-1">
                                 №
                             </td>
-                            <td class="col-md-6">
+                            <td class="col-md-6" >
                                 Замечание
                             </td>
 
@@ -44,23 +44,23 @@
                         </thead>
                         <tbody>
                         {% for i in notes %}
-                            <tr>
-                                <td>
+                            <tr style="text-align: center;">
+                                <td style="vertical-align: middle">
                                     {{ loop.index }}
                                 </td>
-                                <td>
+                                <td style="vertical-align: middle">
                                     {{ i.getNote() }}
                                 </td>
 
-                                <td>
+                                <td style="vertical-align: middle">
                                     {{ i.getPurchase.getPurchaseObject() }}
                                 </td>
-                                <td>
+                                <td style="vertical-align: middle">
                                     {% if i.getCreadtedAt() %}
                                         {{ i.getCreadtedAt().format('d.m.Y') }}
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td style="vertical-align: middle">
                                     {% if i.isIsRead() %}
                                         <span class="badge badge-primary">
                                             <i class="fa fa-check">
@@ -76,7 +76,7 @@
                                         </span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td style="vertical-align: middle">
                                     <a href="{{ path('app_purchases_detail', {'id': i.getPurchase.getId()}) }}">
                                         <button class="btn btn-success">
                                             <i class="fa fa-search">
