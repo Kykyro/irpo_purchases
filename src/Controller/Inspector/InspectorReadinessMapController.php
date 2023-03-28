@@ -351,4 +351,29 @@ class InspectorReadinessMapController extends AbstractController
         return $this->redirectToRoute('app_inspector_view_address', ['id' => $addres->getId()]);
     }
 
+    /**
+     * @Route("/readiness-map/edit-zone/{id}", name="app_inspector_edit_zone")
+     */
+    public function editZone(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
+
+        $form = $this->createForm(addZoneForm::class, $zone);
+
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entity_manager->persist($zone);
+            $entity_manager->flush();
+
+            return $this->redirectToRoute('app_inspector_view_address', ['id'=>$zone->getAddres()->getId()]);
+        }
+
+        return $this->render('inspector_readiness_map/addZone.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+            'form' => $form->createView()
+        ]);
+    }
 }

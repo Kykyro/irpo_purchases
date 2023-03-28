@@ -91,6 +91,13 @@
                                                                 </i>
                                                             </button>
                                                         </a>
+                                                        <a href="{{ path('app_inspector_edit_zone', {'id': i.getId()}) }}">
+                                                            <button class="btn btn-warning col-lg-12 mb-2">
+                                                                <i class="fa fa-edit">
+                                                                    Радактировать
+                                                                </i>
+                                                            </button>
+                                                        </a>
                                                         <a href="{{ path('app_inspector_rm_delete_zone', {'zone_id': i.getId()}) }}">
                                                             <button class="btn btn-danger col-lg-12 delete-alert">
                                                                 <i class="fa fa-trash">
