@@ -210,11 +210,9 @@
                                 {% set title = _photos[0].getRepair().getClusterZone().getName() %}
                                 {% set addres = _photos[0].getRepair().getClusterZone().getAddres().getAddresses() %}
                                 <div class="row col-lg-12">
-                                {#<div class="text-left">#}
-                                    <h3>{{ title }} <br> <i class="fa fa-map-marker">{{ addres }}</i></h3>
-                                {#</div>#}
+                                    {#<h3 class="col-lg-12 mt-3">{{ title }} <br> <i class="fa fa-map-marker">{{ addres }}</i></h3>#}
 
-                                    {% for ver in _photos %}
+                                    {% for ver in _photos|reverse %}
                                         {% if
                                             title != ver.getRepair().getClusterZone().getName()
                                             or
@@ -222,11 +220,7 @@
                                         %}
                                             {% set title = ver.getRepair().getClusterZone().getName() %}
                                             {% set addres = ver.getRepair().getClusterZone().getAddres().getAddresses() %}
-                                            {#<div class="text-left">#}
-                                            {#<hr>#}
                                             <h3 class="col-lg-12 mt-3" >{{ title }} <br> <i class="fa fa-map-marker">{{ addres }}</i></h3>
-                                            {#<hr>#}
-                                            {#</div>#}
                                         {% endif %}
                                         {% for i in ver.getRepairPhotos() %}
                                             <div class="col-lg-2 p-1 ml-2 form-control" >
@@ -240,7 +234,9 @@
                                                     <img src="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" class="col-lg-12" >
                                                 </a>
 
-
+                                                <div class="col-lg-12">
+                                                    {{ ver.getCreatedAt().format('d.m.Y') }}
+                                                </div>
                                             </div>
 
                                         {% endfor %}

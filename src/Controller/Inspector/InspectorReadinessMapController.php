@@ -96,14 +96,11 @@ class InspectorReadinessMapController extends AbstractController
                 ->leftJoin('zr.clusterZone', 'cz')
                 ->leftJoin('cz.addres', 'ca')
                 ->leftJoin('ca.user', 'u')
-                ->andWhere('u.id = :userId')
-//                ->andWhere('ca = :address')
-                ->andWhere('pv.createdAt >= :startDate')
-                ->andWhere('pv.createdAt <= :endDate')
+                ->where('u.id = :userId')
+                ->andWhere('pv.createdAt >= :startDate and pv.createdAt <= :endDate')
                 ->setParameter('startDate', $data['startDate'])
                 ->setParameter('endDate', $data['endDate'])
                 ->setParameter('userId', $user->getId())
-//                ->setParameter('address', $data['addres'])
                 ->orderBy('cz.name', 'ASC')
                 ->getQuery()
                 ->getResult()
@@ -111,10 +108,6 @@ class InspectorReadinessMapController extends AbstractController
 
             if($form->get('download')->isClicked() and count($photos) > 0)
                 return $this->downloadPhotos($photos, $user->getUserInfo()->getCluster());
-//                return $this->downloadPhotos(
-//                    $photos,
-//                    $user->getUserInfo()->getCluster().' '.str_replace('.', ' ', $data['addres']->getAddresses()));
-
         }
 
         return $this->render('inspector_readiness_map/index.html.twig', [
@@ -127,8 +120,6 @@ class InspectorReadinessMapController extends AbstractController
 
     public function downloadPhotos($photos, $fileName = "file")
     {
-//        $this->getParameter($directory);
-
         $dir = '../public/uploads/repairPhotos/';
 
         $files = [];
