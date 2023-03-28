@@ -376,4 +376,32 @@ class InspectorReadinessMapController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/readiness-map/edit-addresses/{id}", name="app_inspector_edit_addresses")
+     */
+    public function editAddresses(Request $request, int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $addres = $entity_manager->getRepository(ClusterAddresses::class)->find($id);
+//        $user = $entity_manager->getRepository(User::class)->find($id);
+//        $addres->setUser($user);
+
+        $form = $this->createForm(addAddressesForm::class, $addres);
+
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entity_manager->persist($addres);
+            $entity_manager->flush();
+
+            return $this->redirectToRoute('app_inspector_readiness_map', ['id'=>$addres->getUser()->getId()]);
+        }
+
+        return $this->render('inspector_readiness_map/addAddresses.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+            'form' => $form->createView()
+        ]);
+    }
 }

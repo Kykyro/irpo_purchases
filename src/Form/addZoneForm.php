@@ -52,7 +52,7 @@ class addZoneForm extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ],
-                'label' => 'Добавить'
+                'label' => 'Сохранить'
 
             ]);
     }

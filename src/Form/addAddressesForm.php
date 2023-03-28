@@ -40,7 +40,7 @@ class addAddressesForm extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ],
-                'label' => 'Добавить'
+                'label' => 'Сохранить'
 
             ]);
     }
