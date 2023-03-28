@@ -23,14 +23,24 @@
                 </div>
                 {% macro printZoneInfrastructureSheets(sheet) %}
 
+                        {#{{ dump(sheet.vars.value) }}#}
+                        {% if sheet.vars.value %}
+                            {% set totalNumber = sheet.vars.value.totalNumber %}
+                            <td>
+                                {{ form_row(sheet.factNumber, {'type': 'number', 'attr': {'max':totalNumber}}) }}
+                            </td>
+                             <td>
+                                {{ form_row(sheet.putIntoOperation, {'type': 'number', 'attr': {'max':totalNumber}}) }}
+                            </td>
+                        {% else %}
+                             <td>
+                                {{ form_row(sheet.factNumber, {'type': 'number'}) }}
+                             </td>
+                             <td>
+                                {{ form_row(sheet.putIntoOperation, {'type': 'number'}) }}
+                            </td>
+                        {% endif %}
 
-
-                        <td>
-                            {{ form_row(sheet.factNumber, {'type': 'number'}) }}
-                        </td>
-                        <td>
-                            {{ form_row(sheet.putIntoOperation, {'type': 'number'}) }}
-                        </td>
                         <td>
                             {{ form_row(sheet.deliveryDate) }}
                         </td>
