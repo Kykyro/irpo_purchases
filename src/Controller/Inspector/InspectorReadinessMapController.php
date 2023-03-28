@@ -309,7 +309,7 @@ class InspectorReadinessMapController extends AbstractController
         return $this->render('inspector_readiness_map/editInfrastructureSheet.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
             'form' =>$form->createView(),
-
+            'id' => $id,
 
         ]);
     }

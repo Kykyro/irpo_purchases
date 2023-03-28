@@ -6,6 +6,7 @@
 {% block content %}
 
     {% set name = zone.getName() %}
+    {% set zoneType = zone.getType().getName() == 'Зона по видам работ' %}
     <div class="row mt-3">
         <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 mb-2">
             <div class="ibox collapsed border-bottom">
@@ -28,7 +29,9 @@
                     <div class="tabs-container">
                         <ul class="nav nav-tabs" role="tablist">
                             <li><a class="nav-link active show" data-toggle="tab" href="#tab-1"> Ремонт</a></li>
-                            <li><a class="nav-link" data-toggle="tab" href="#tab-2"> Инфраструктурный лист</a></li>
+                            {% if zoneType %}
+                                <li><a class="nav-link" data-toggle="tab" href="#tab-2"> Инфраструктурный лист</a></li>
+                            {% endif %}
                         </ul>
                         <div class="tab-content">
                             <div role="tabpanel" id="tab-1" class="tab-pane active show">
