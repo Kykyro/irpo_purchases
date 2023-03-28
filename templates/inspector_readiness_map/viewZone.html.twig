@@ -208,19 +208,19 @@
                                                 {% for i in infrastructure|reverse %}
                                                     {% if i.getZoneType() == 'Общая зона' %}
                                                     <tr>
-                                                        <td>{{ count }}</td>
-                                                        <td>{{ i.getName() }}</td>
-                                                        <td>{{ i.getType() }}</td>
-                                                        <td>{{ i.getTotalNumber() }}</td>
-                                                        <td>{{ i.getUnits() }}</td>
-                                                        <td>{{ i.getFactNumber() }}</td>
-                                                        <td>{{ i.getPutIntoOperation() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ count }}</td>
+                                                        <td style="vertical-align: inherit">{{ i.getName() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getType() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getTotalNumber() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getUnits() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getFactNumber() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getPutIntoOperation() }}</td>
                                                         {% if i.getDeliveryDate() %}
-                                                            <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                            <td style="vertical-align: inherit; text-align: center">{{ i.getDeliveryDate().format('d.m.Y') }}</td>
                                                         {% else %}
-                                                            <td>Дата не указана</td>
+                                                            <td style="vertical-align: inherit; text-align: center">Дата не указана</td>
                                                         {% endif %}
-                                                        <td>{{ i.getComment() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getComment() }}</td>
                                                     </tr>
                                                         {% set count = count + 1 %}
                                                     {% endif %}
@@ -275,19 +275,19 @@
                                                 {% for i in infrastructure|reverse %}
                                                     {% if i.getZoneType() == 'Рабочее место учащегося' %}
                                                     <tr>
-                                                        <td>{{ count }}</td>
-                                                        <td>{{ i.getName() }}</td>
-                                                        <td>{{ i.getType() }}</td>
-                                                        <td>{{ i.getTotalNumber() }}</td>
-                                                        <td>{{ i.getUnits() }}</td>
-                                                        <td>{{ i.getFactNumber() }}</td>
-                                                        <td>{{ i.getPutIntoOperation() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ count }}</td>
+                                                        <td style="vertical-align: inherit">{{ i.getName() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getType() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getTotalNumber() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getUnits() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getFactNumber() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getPutIntoOperation() }}</td>
                                                         {% if i.getDeliveryDate() %}
-                                                            <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                            <td style="vertical-align: inherit; text-align: center">{{ i.getDeliveryDate().format('d.m.Y') }}</td>
                                                         {% else %}
-                                                            <td>Дата не указана</td>
+                                                            <td style="vertical-align: inherit; text-align: center">Дата не указана</td>
                                                         {% endif %}
-                                                        <td>{{ i.getComment() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getComment() }}</td>
                                                     </tr>
                                                         {% set count = count + 1 %}
                                                     {% endif %}
@@ -342,19 +342,19 @@
                                                 {% for i in infrastructure|reverse %}
                                                     {% if i.getZoneType() == 'Рабочее место преподавателя' %}
                                                     <tr>
-                                                        <td>{{ count }}</td>
-                                                        <td>{{ i.getName() }}</td>
-                                                        <td>{{ i.getType() }}</td>
-                                                        <td>{{ i.getTotalNumber() }}</td>
-                                                        <td>{{ i.getUnits() }}</td>
-                                                        <td>{{ i.getFactNumber() }}</td>
-                                                        <td>{{ i.getPutIntoOperation() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ count }}</td>
+                                                        <td style="vertical-align: inherit">{{ i.getName() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getType() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getTotalNumber() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getUnits() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getFactNumber() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getPutIntoOperation() }}</td>
                                                         {% if i.getDeliveryDate() %}
-                                                            <td>{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                                            <td style="vertical-align: inherit; text-align: center">{{ i.getDeliveryDate().format('d.m.Y') }}</td>
                                                         {% else %}
-                                                            <td>Дата не указана</td>
+                                                            <td style="vertical-align: inherit; text-align: center">Дата не указана</td>
                                                         {% endif %}
-                                                        <td>{{ i.getComment() }}</td>
+                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getComment() }}</td>
                                                     </tr>
                                                         {% set count = count + 1 %}
                                                     {% endif %}

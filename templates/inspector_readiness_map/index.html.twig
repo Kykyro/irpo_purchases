@@ -21,18 +21,18 @@
                                        <thead>
                                        <tr>
 
-                                           <td class="col-md-2">
+                                           <td class="col-md-2" style="vertical-align: inherit; text-align: center">
                                                Адрес
                                            </td>
-                                           <td class="col-md-2">
+                                           <td class="col-md-2" style="vertical-align: inherit; text-align: center">
                                                Зоны
                                            </td>
-                                           <td>Средний % ремонтных работ зон под вид работ</td>
-                                           <td>Средний % ремонтных работ общих помещений</td>
-                                           <td>Средний % ремонтных работ в общем</td>
-                                           <td>Крайний срок поставки оборудования</td>
-                                           <td>Крайняя дата завершения ремонта</td>
-                                           <td class="col-md-1">
+                                           <td style="vertical-align: inherit; text-align: center">Средний % ремонтных работ зон под вид работ</td>
+                                           <td style="vertical-align: inherit; text-align: center">Средний % ремонтных работ общих помещений</td>
+                                           <td style="vertical-align: inherit; text-align: center">Средний % ремонтных работ в общем</td>
+                                           <td style="vertical-align: inherit; text-align: center">Крайний срок поставки оборудования</td>
+                                           <td style="vertical-align: inherit; text-align: center">Крайняя дата завершения ремонта</td>
+                                           <td class="col-md-1" style="vertical-align: inherit; text-align: center">
                                                Действия
                                            </td>
                                        </tr>
@@ -41,11 +41,11 @@
 
                                        <tr>
 
-                                           <td>
+                                           <td style="vertical-align: inherit; text-align: center">
                                                {{ i.getAddresses() }}
                                            </td>
 
-                                           <td class="col-md-2">
+                                           <td class="col-md-2" style="vertical-align: inherit; text-align: center">
                                                {% set zones = i.getSortedClusterZones() %}
                                                {% if zones|length > 0 %}
                                                    <ul style=" list-style-type: none;" class="m-0 p-0">
@@ -75,15 +75,15 @@
                                            </td>
                                            {% set repairMidByZone = i.getMidRepairByZone() %}
                                            {% set repairMidByCommon = i.getMidRepairByCommon() %}
-                                           <td>{{ repairMidByZone }} %</td>
-                                           <td>{{ repairMidByCommon }} %</td>
-                                           <td>{{ (repairMidByZone+repairMidByCommon)/2 }} %</td>
-                                           <td>
+                                           <td style="vertical-align: inherit; text-align: center">{{ repairMidByZone }} %</td>
+                                           <td style="vertical-align: inherit; text-align: center">{{ repairMidByCommon }} %</td>
+                                           <td style="vertical-align: inherit; text-align: center">{{ (repairMidByZone+repairMidByCommon)/2 }} %</td>
+                                           <td style="vertical-align: inherit; text-align: center">
                                                {% if i.getEquipmentDeliveryDeadline() %}
                                                    {{ i.getEquipmentDeliveryDeadline().format('d.m.Y') }}
                                                {% endif %}
                                            </td>
-                                           <td>
+                                           <td style="vertical-align: inherit; text-align: center">
                                                {% if i.getDeadlineForCompletionOfRepairs() %}
                                                    {{ i.getDeadlineForCompletionOfRepairs().format('d.m.Y') }}
                                                {% endif %}
@@ -158,11 +158,11 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ user.getMidRepairByZone() }}</td>
-                                    <td>{{ user.getMidRepairByCommon() }}</td>
-                                    <td>{{ (user.getMidRepairByZone()+user.getMidRepairByCommon())/2 }}</td>
-                                    <td>{{ user.getEquipmentDeliveryDeadline() }}</td>
-                                    <td>{{ user.getDeadlineForCompletionOfRepairs() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByZone() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByCommon() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ (user.getMidRepairByZone()+user.getMidRepairByCommon())/2 }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ user.getEquipmentDeliveryDeadline() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ user.getDeadlineForCompletionOfRepairs() }}</td>
                                 </tr>
                             </tbody>
                         </table>

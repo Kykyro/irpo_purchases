@@ -70,15 +70,15 @@
                                                 </tr>
                                             {% else %}
                                                 <tr>
-                                                    <td>{{ loop.index }}</td>
-                                                    <td>{{ i.getName() }}</td>
-                                                    <td>{{ i.getZoneRepair().getTotalPercentage() }} %</td>
-                                                    <td>
+                                                    <td style="vertical-align: inherit; text-align: center">{{ loop.index }}</td>
+                                                    <td style="vertical-align: inherit">{{ i.getName() }}</td>
+                                                    <td style="vertical-align: inherit; text-align: center">{{ i.getZoneRepair().getTotalPercentage() }} %</td>
+                                                    <td style="vertical-align: inherit; text-align: center">
                                                         {% if i.getMaxEquipmentDeliveryDeadline() %}
                                                             {{ i.getMaxEquipmentDeliveryDeadline().format('d.m.Y') }}
                                                         {% endif %}
                                                     </td>
-                                                    <td>
+                                                    <td style="vertical-align: inherit; text-align: center">
                                                         {% if i.getZoneRepair().getEndDate() %}
                                                             {{ i.getZoneRepair().getEndDate().format('d.m.Y') }}
                                                         {% endif %}
