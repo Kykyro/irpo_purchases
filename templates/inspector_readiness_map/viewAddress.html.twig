@@ -36,18 +36,18 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <td class="col-md-1">
-                                                    № п/п
+                                                <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                                    <strong>№ п/п</strong>
                                                 </td>
-                                                <td class="col-md-2">
-                                                    Название
+                                                <td class="col-md-2" style="vertical-align: inherit; text-align: center">
+                                                    <strong>Название</strong>
                                                 </td>
-                                                <td>% выполнения ремонтных работ</td>
+                                                <td style="vertical-align: inherit; text-align: center"><strong>% выполнения ремонтных работ</strong></td>
 
-                                                <td>Крайний срок поставки оборудования</td>
-                                                <td>Дата завершения ремонтных работ</td>
-                                                <td class="col-md-1">
-                                                    Действия
+                                                <td style="vertical-align: inherit; text-align: center"><strong>Крайний срок поставки оборудования</strong></td>
+                                                <td style="vertical-align: inherit; text-align: center"><strong>Дата завершения ремонтных работ</strong></td>
+                                                <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                                    <strong>Действия</strong>
                                                 </td>
                                             </tr>
                                         </thead>
@@ -57,7 +57,7 @@
                                                 <tr>
                                                     <td>{{ loop.index }}</td>
                                                     <td colspan="4" class="text-danger">{{ i.getName() }}</td>
-                                                    <td>
+                                                    <td style="vertical-align: inherit; text-align: center">
 
                                                         <a href="{{ path('app_inspector_rm_delete_zone', {'zone_id': i.getId()}) }}">
                                                             <button class="btn btn-danger col-lg-12 delete-alert">
@@ -71,7 +71,7 @@
                                             {% else %}
                                                 <tr>
                                                     <td style="vertical-align: inherit; text-align: center">{{ loop.index }}</td>
-                                                    <td style="vertical-align: inherit">{{ i.getName() }}</td>
+                                                    <td style="vertical-align: inherit; text-align: center">{{ i.getName() }}</td>
                                                     <td style="vertical-align: inherit; text-align: center">{{ i.getZoneRepair().getTotalPercentage() }} %</td>
                                                     <td style="vertical-align: inherit; text-align: center">
                                                         {% if i.getMaxEquipmentDeliveryDeadline() %}
@@ -83,7 +83,7 @@
                                                             {{ i.getZoneRepair().getEndDate().format('d.m.Y') }}
                                                         {% endif %}
                                                     </td>
-                                                    <td>
+                                                    <td style="vertical-align: inherit; text-align: center">
                                                         <a href="{{ path('app_inspector_view_zone', {'id': i.getId()}) }}">
                                                             <button class="btn btn-success col-lg-12 mb-2">
                                                                 <i class="fa fa-search">
