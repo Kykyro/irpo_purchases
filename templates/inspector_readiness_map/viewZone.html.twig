@@ -205,7 +205,7 @@
                                                     {#<li>{{ form_row(tag.name) }}</li>#}
                                                 {#{% endfor %}#}
                                                 {% set count = 1 %}
-                                                {% for i in infrastructure %}
+                                                {% for i in infrastructure|reverse %}
                                                     {% if i.getZoneType() == 'Общая зона' %}
                                                     <tr>
                                                         <td>{{ count }}</td>
@@ -272,7 +272,7 @@
                                                     {#<li>{{ form_row(tag.name) }}</li>#}
                                                 {#{% endfor %}#}
                                                 {% set count = 1 %}
-                                                {% for i in infrastructure %}
+                                                {% for i in infrastructure|reverse %}
                                                     {% if i.getZoneType() == 'Рабочее место учащегося' %}
                                                     <tr>
                                                         <td>{{ count }}</td>
@@ -339,7 +339,7 @@
                                                     {#<li>{{ form_row(tag.name) }}</li>#}
                                                 {#{% endfor %}#}
                                                 {% set count = 1 %}
-                                                {% for i in infrastructure %}
+                                                {% for i in infrastructure|reverse %}
                                                     {% if i.getZoneType() == 'Рабочее место преподавателя' %}
                                                     <tr>
                                                         <td>{{ count }}</td>
