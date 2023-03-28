@@ -68,13 +68,14 @@
                             Просмотр истории ИЛов
                         </button>
                     </a>
-                    {% endif %}
                     <a href="{{ path('app_inspector_show_purchases', {'id': i.getId()}) }}">
                         <button class="btn btn-warning col-lg-12 mb-2">
                             <div class="fa fa-archive"></div>
                             Просмотр Закупок
                         </button>
                     </a>
+                    {% endif %}
+
                     {% if isInspector %}
                     <a href="{{ path('app_weekly_budget_amount', {'id': i.getId()}) }}">
                         <button class="btn btn-success col-lg-12 mb-2">
