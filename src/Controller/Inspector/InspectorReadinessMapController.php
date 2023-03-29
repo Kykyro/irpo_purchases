@@ -197,6 +197,10 @@ class InspectorReadinessMapController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if($zone->getType()->getName() == "Иное")
+            {
+                $zone->getZoneRepair()->setBranding(100);
+            }
             $entity_manager->persist($zone);
             $entity_manager->flush();
 

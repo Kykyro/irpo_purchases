@@ -117,10 +117,12 @@
                                                 <div class="progress-bar progress-bar-warning" style="width: {{ repair.getFinishing() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             {% endif %}
+                                            {% if zone.getType().getName() != "Иное" %}
                                             <h5>Брендирование <b>{{ repair.getBranding() }} %</b></h5>
                                             <div class="progress">
                                                 <div class="progress-bar  progress-bar-danger" style="width: {{ repair.getBranding() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
+                                            {% endif %}
                                         </div>
                                     </div>
 

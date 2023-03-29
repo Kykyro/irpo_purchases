@@ -135,7 +135,8 @@ class ClusterAddresses
         $result = 0;
         foreach ($zones as $zone)
         {
-            if($zone->getType()->getName() != "Зона по видам работ")
+            $zoneType = $zone->getType()->getName();
+            if($zoneType != "Зона по видам работ" and $zoneType != "Иное")
             {
                 $result += $zone->getZoneRepair()->getTotalPercentage();
                 $count++;

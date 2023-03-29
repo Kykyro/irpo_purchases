@@ -58,6 +58,12 @@
                     checkboxRow.show();
                     // nameInput.val('');
                 }
+                else if(value == 6)
+                {
+
+                    doNotTake.prop('checked', false);
+                    checkboxRow.hide();
+                }
                 else {
                     nameInput.val($( "#add_zone_form_type option:selected" ).text());
                     doNotTake.prop('checked', false);
