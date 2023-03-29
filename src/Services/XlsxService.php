@@ -377,7 +377,7 @@ class XlsxService extends AbstractController
 
             // запись строк
             $sheet->setCellValue('A'.$row, $index);
-            $sheet->fromArray($val->getAsRow(), null, 'B'.$row);
+            $sheet->fromArray($val->getAsRow(), '', 'B'.$row);
 
             if($isNotComplite)
             {
@@ -671,10 +671,10 @@ class XlsxService extends AbstractController
         $sheet->setCellValue($finSumCell , "=SUM($finSumFormulaRange)");
         $rowSUM = $end_cell-1;
 
-        $sheet->setCellValue('Z'.$end_cell, "=SUM(Z14:Z$rowSUM)");
-        $sheet->setCellValue('AA'.$end_cell, "=SUM(AA14:AA$rowSUM)");
-        $sheet->setCellValue('AB'.$end_cell, "=SUM(AB14:AB$rowSUM)");
-        $sheet->setCellValue('AC'.$end_cell, "=SUM(AC14:AC$rowSUM)");
+//        $sheet->setCellValue('Z'.$end_cell, "=SUM(Z14:Z$rowSUM)");
+//        $sheet->setCellValue('AA'.$end_cell, "=SUM(AA14:AA$rowSUM)");
+//        $sheet->setCellValue('AB'.$end_cell, "=SUM(AB14:AB$rowSUM)");
+//        $sheet->setCellValue('AC'.$end_cell, "=SUM(AC14:AC$rowSUM)");
 
         $sheet->setCellValue('E'.$end_cell, $initialFedFundSUM);
         $sheet->setCellValue('F'.$end_cell, $initialSubFundSUM);
