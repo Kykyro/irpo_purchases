@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\ClusterAddresses;
 use App\Entity\User;
 
 use App\Entity\ZoneType;
+use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -47,6 +49,21 @@ class addZoneForm extends AbstractType
                 'label' => 'НЕ считать как зону',
                 'required' => false,
             ])
+            ->add('addres', EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => true,
+                'class' => ClusterAddresses::class,
+                'choice_label' => 'addresses',
+                'query_builder' => function (EntityRepository $er) use($options)
+                {
+                    return $er->createQueryBuilder('a')
+                        ->andWhere("a.user = :user")
+                        ->setParameter('user', $options['attr']['user'])
+//                        ->orderBy('a.organization', 'ASC')
+                        ;
+                },
+                'label' => 'Адрес'
+            ])
             ->add('submit', SubmitType::class,[
 
                 'attr' => [
@@ -56,6 +73,11 @@ class addZoneForm extends AbstractType
 
             ]);
     }
-
+    public function getDefaultOptions()
+    {
+        return array(
+            'user'         => null
+        );
+    }
 
 }

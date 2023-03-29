@@ -190,7 +190,9 @@ class InspectorReadinessMapController extends AbstractController
         $addres = $entity_manager->getRepository(ClusterAddresses::class)->find($id);
         $zone->setAddres($addres);
 
-        $form = $this->createForm(addZoneForm::class, $zone);
+        $form = $this->createForm(addZoneForm::class, $zone, [
+            'attr' => ['user' => $zone->getAddres()->getUser()->getId()]
+        ]);
 
 
         $form->handleRequest($request);
@@ -351,7 +353,9 @@ class InspectorReadinessMapController extends AbstractController
 
         $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
 
-        $form = $this->createForm(addZoneForm::class, $zone);
+        $form = $this->createForm(addZoneForm::class, $zone, [
+            'attr' => ['user' => $zone->getAddres()->getUser()->getId()]
+        ]);
 
 
         $form->handleRequest($request);
