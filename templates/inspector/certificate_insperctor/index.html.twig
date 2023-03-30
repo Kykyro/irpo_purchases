@@ -5,11 +5,18 @@
     <style>
         .select2-container {
             min-width: 400px;
+            /*min-height: 500px;*/
         }
 
         .select2-results__option {
             padding-right: 20px;
             vertical-align: middle;
+            /*min-height: 100px;*/
+        }
+        #select2-ugps-input-results {
+            /*padding-right: 20px;*/
+            /*vertical-align: middle;*/
+            min-height: 750px;
         }
         .select2-results__option:before {
             content: "";
@@ -22,7 +29,11 @@
             background-color: #fff;
             margin-right: 20px;
             vertical-align: middle;
+
+
         }
+
+
         .select2-results__option[aria-selected=true]:before {
             content: "\f00c";
             color: #fff;
@@ -55,8 +66,9 @@
 
             border-radius: 6px;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
-
+            min-height: 500px;
         }
+
 
     </style>
 {% endblock %}
@@ -126,7 +138,10 @@
                                 {#<option></option>#}
                             </select>
                         </div>
-                        <div class="col-lg-3">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-9">
                             <label>УГПС</label>
                             <select id="ugps-input" class="form-control m-b select2" multiple="multiple">
                                 {#<option></option>#}
@@ -485,6 +500,7 @@
                 allowClear: true
             });
             onLoad();
+
         });
     </script>
 {% endblock %}
