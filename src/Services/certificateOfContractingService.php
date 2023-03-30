@@ -87,14 +87,14 @@ class certificateOfContractingService extends AbstractController
         }
 
         $procent['contractFedFunds'] = ($sum['contractFedFunds'] * 100)/(100000000);
-        $procent['contractRegionFunds'] = ($sum['contractRegionFunds'] * 100)/($userInfo->getFinancingFundsOfSubject() * 1000);
-        $procent['contractOOFunds'] = ($sum['contractOOFunds'] * 100)/($userInfo->getExtraFundsOO() * 1000);
-        $procent['contractEmplFunds'] = ($sum['contractEmplFunds'] * 100)/($userInfo->getExtraFundsEconomicSector() * 1000);
+        $procent['contractRegionFunds'] = ($userInfo->getFinancingFundsOfSubject() > 0) ? ($sum['contractRegionFunds'] * 100)/($userInfo->getFinancingFundsOfSubject() * 1000) : 0;
+        $procent['contractOOFunds'] = ($userInfo->getExtraFundsOO() > 0) ? ($sum['contractOOFunds'] * 100)/($userInfo->getExtraFundsOO() * 1000) : 0;
+        $procent['contractEmplFunds'] = ($userInfo->getExtraFundsEconomicSector() > 0) ? ($sum['contractEmplFunds'] * 100)/($userInfo->getExtraFundsEconomicSector() * 1000) : 0;
 
-        $procent['factEmplFunds'] = ($sum['factEmplFunds'] * 100)/($userInfo->getExtraFundsEconomicSector() * 1000);
         $procent['factFedFunds'] = ($sum['factFedFunds'] * 100)/(100000000);
-        $procent['factOOFunds'] = ($sum['factOOFunds'] * 100)/($userInfo->getExtraFundsOO() * 1000);
-        $procent['factRegionFunds'] = ($sum['factRegionFunds'] * 100)/($userInfo->getFinancingFundsOfSubject() * 1000);
+        $procent['factEmplFunds'] = ($userInfo->getExtraFundsEconomicSector() > 0) ? ($sum['factEmplFunds'] * 100)/($userInfo->getExtraFundsEconomicSector() * 1000) : 0;
+        $procent['factOOFunds'] = ($userInfo->getExtraFundsOO() > 0) ? ($sum['factOOFunds'] * 100)/($userInfo->getExtraFundsOO() * 1000) : 0;
+        $procent['factRegionFunds'] = ($userInfo->getFinancingFundsOfSubject() > 0) ? ($sum['factRegionFunds'] * 100)/($userInfo->getFinancingFundsOfSubject() * 1000) : 0;
 
         $templateProcessor = new TemplateProcessor('../public/word/Справка_о_контрактации_и_расходовании_средств.docx');
         $templateProcessor->setValues([
