@@ -221,7 +221,14 @@
                                                 {% endif %}
                                             {% endfor %}
                                             <td>
+                                                {% if i.isHasFiles() %}
+                                                    <a href="{{ path('app_inspector_view_purchase', { 'id' : i.getId()}) }}" target="_blank">
+                                                       <span class="badge badge-primary">
+                                                        Есть прикрепленные файлы
+                                                    </span>
+                                                    </a>
 
+                                                {% endif %}
                                             </td>
                                         </tr>
                                     {% endfor %}

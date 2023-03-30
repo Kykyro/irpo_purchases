@@ -1294,4 +1294,18 @@ class ProcurementProcedures
 
         return $this;
     }
+
+    public function isHasFiles()
+    {
+        if($this->getFileDir())
+            return true;
+        if($this->getAdditionalAgreement())
+            return true;
+        if(count($this->getAnotherDocuments()) > 0)
+            return true;
+        if($this->getPaymentOrder())
+            return true;
+
+        return false;
+    }
 }
