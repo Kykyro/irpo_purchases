@@ -40,6 +40,28 @@
         {% endif %}
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>Поиск по предмету закупки</h5>
+            </div>
+            <div class="ibox-content">
+
+
+                    {{ form_start(form) }}
+                <div class="form-inline">
+                        {{ form_widget(form.search) }}
+                        {{ form_widget(form.submit) }}
+                        {{ form_widget(form.cancel) }}
+                </div>
+                    {{ form_end(form) }}
+
+
+            </div>
+        </div>
+    </div>
+</div>
 {% if purchases_with_note|length > 0 %}
     <div class="row animated fadeInRight">
         <div class="col-lg-10 offset-lg-1 " >

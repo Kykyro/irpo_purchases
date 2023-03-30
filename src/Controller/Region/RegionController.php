@@ -306,6 +306,28 @@ class RegionController extends AbstractController
         $user = $this->getUser();
         $user_id = $user->getId();
 
+        $form = $this->createFormBuilder([])
+            ->add('search', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control mr-3 col-md-9'
+                ],
+                'required' => false
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success mr-3 col-md-1'
+                ],
+                'label' => 'Поиск'
+            ])
+            ->add('cancel', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-danger col-md-1'
+                ],
+                'label' => 'Сбросить'
+            ])
+            ->setMethod('GET')
+            ->getForm();
+
         $purchasesWithNote = $em->getRepository(PurchaseNote::class)
             ->createQueryBuilder('n')
             ->leftJoin('n.purchase', 'p')
@@ -315,7 +337,6 @@ class RegionController extends AbstractController
             ->setParameter('isRead', false)
             ->getQuery()
             ->getResult();
-
         $query = $em->getRepository(ProcurementProcedures::class)
             ->createQueryBuilder('a')
             ->andWhere('a.user = :user_id')
@@ -323,7 +344,23 @@ class RegionController extends AbstractController
             ->orderBy('a.id', 'DESC')
             ->setParameter('user_id', "$user_id")
             ->setParameter('is_deleted', false)
-            ->getQuery();
+            ;
+        $form->handleRequest($request);
+        if($form->isSubmitted() and $form->isValid())
+        {
+            if($form->get('submit')->isClicked())
+            {
+                $search = $form->getData();
+                $search = $search['search'];
+                $query = $query
+                    ->andWhere('a.PurchaseObject LIKE :PurchaseObject')
+                    ->setParameter('PurchaseObject', "%$search%")
+                ;
+            }
+
+        }
+
+        $query = $query->getQuery();
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
@@ -334,6 +371,7 @@ class RegionController extends AbstractController
             'controller_name' => 'RegionController',
             'procurement_procedures' => $pagination,
             'purchases_with_note' => $purchasesWithNote,
+            'form' => $form->createView(),
         ]);
     }
 //@Route("/purchases-edit/{id}", name="app_purchases_edit", methods="GET|POST")
