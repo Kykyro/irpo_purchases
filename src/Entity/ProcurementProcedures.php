@@ -1202,8 +1202,12 @@ class ProcurementProcedures
         }
         else
         {
-            if(is_null($this->getPurchaseLink()) or !filter_var($this->getPurchaseLink(), FILTER_VALIDATE_URL))
+
+//            print '<pre>'; var_dump(filter_var($url, FILTER_VALIDATE_URL));
+//            dd(filter_var('https://vk.com?a=да', FILTER_VALIDATE_URL));
+            if(is_null($this->getPurchaseLink()) or !$this->validateUrl($this->getPurchaseLink()))
                 return 'planning'; // планируется
+
             if (is_null($this->getPublicationDate()) or $this->getPublicationDate() > $day){
                 return 'planning'; // планируется
             }
@@ -1227,6 +1231,14 @@ class ProcurementProcedures
                 return 'planning';
             }
         }
+    }
+
+    public function validateUrl($url)
+    {
+        $url = urlencode($url);
+        $url = str_replace(array('%3A', '%2F'), array(':', '/'), $url);
+
+        return filter_var($url, FILTER_VALIDATE_URL);
     }
 
     public function isIsCancelled(): ?bool
