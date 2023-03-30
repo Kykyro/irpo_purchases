@@ -11,39 +11,12 @@
                     {{ form_start(feedbackForm) }}
                     <div>
                         <div class="row" >
-                            <div class="col-lg-3 m-5" style="color: #FFFFFF; margin-top: 15rem">
-                                <div class="text-center">
-                                    <div class="panel-body">
-                                        <i class="glyphicon glyphicon-home" style="font-size: 12rem"></i>
-                                        <p>Наш Адрес</p>
-                                        <p>ул. Покровка, 27 строение 5 <br>
-                                            Москва, 101000
-                                        </p>
-                                    </div>
-                                    <div class="panel-body" style="border-top: 1px groove">
-                                        <i class="glyphicon glyphicon-envelope" style="font-size: 12rem"></i>
-                                        <p>Email</p>
-                                        <p>cluster@firpo.ru <br>
-                                        cluster2023@firpo.ru</p>
-                                    </div>
-                                </div>
+                            <div class="col-lg-6 align-items-center" style="margin-top: 13vh">
+                                <img src="{{ asset('/img/img_start_landing/Профессионалитет2023_белый.png') }}" alt>
+
                             </div>
-                            <div class="col-lg-3 m-5" style="color: #FFFFFF; margin-top: 15rem">
-                                <div class="text-center">
-                                    <div class="panel-body">
-                                        <i class="glyphicon glyphicon-user" style="font-size: 12rem"></i>
-                                        <p>Телефон горячей линии</p>
-                                        <p>+7 (977) 978-29-43</p> <br>
-                                    </div>
-                                    <div class="panel-body" style="border-top: 1px groove;">
-                                        <i class="glyphicon glyphicon-qrcode" style="font-size: 12rem"></i>
-                                        <p>Согласование <br> дизайн-проектов</p>
-                                        <p>+7(495)114-55-21(доб. 214)</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 m-5">
-                                <div class="panel" style="border-radius: 10px;">
+                            <div class="col-lg-6 m-5" style="margin-top: 10vh">
+                                <div class="panel" style="border-radius: 10px">
                                     <div class="panel-body">
                                         <form action="<?=$templateFolder;?>/ajax.php" class="bg-white rounded pb_form_v1 ajax_form" method="POST" >
                                             <input type="hidden" name="FORM" value="MAIN_FEEDBACK">
