@@ -120,7 +120,7 @@
                                             {% for i in pagination %}
                                                 <div class="text-left">
                                                     <h5>
-                                                        {{ i.getCreatedAt().format('m.d.Y') }}
+                                                        {{ i.getCreatedAt().format('d.m.Y') }}
                                                     </h5>
                                                 </div>
                                                 {% for j in i.getRepairPhotos() %}
