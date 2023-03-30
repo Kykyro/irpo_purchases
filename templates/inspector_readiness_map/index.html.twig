@@ -149,11 +149,11 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ общих помещений</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ в общем</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Крайний срок поставки оборудования</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Крайняя дата завершения ремонта</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ общих помещений</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ в общем</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайний срок поставки оборудования</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайняя дата завершения ремонта</strong></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,11 +170,11 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Общее кол-во оборудования по ИЛу</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Фактическое кол-во оборудования</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Введено в эксплуатацию</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Среднее фактическое</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center"><strong>Среднее введено в эксплуатацию</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Общее кол-во оборудования по ИЛу</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Фактическое кол-во оборудования</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Введено в эксплуатацию</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Среднее фактическое</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Среднее введено в эксплуатацию</strong></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -183,8 +183,8 @@
                                     <td style="vertical-align: inherit; text-align: center">{{ equipment['total'] }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ equipment['fact'] }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }}</td>
-                                    <td style="vertical-align: inherit; text-align: center">{{ (equipment['total']*equipment['fact'])/100 }}</td>
-                                    <td style="vertical-align: inherit; text-align: center">{{ (equipment['fact']*equipment['putInOperation'])/100 }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ (equipment['total']*equipment['fact'])/100 }} %</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ (equipment['fact']*equipment['putInOperation'])/100 }} %</td>
                                 </tr>
                             </tbody>
                         </table>
