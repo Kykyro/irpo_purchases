@@ -8,7 +8,7 @@
     {% set name = zone.getName() %}
     {% set zoneType = zone.getType().getName() == 'Зона по видам работ' %}
     <div class="row mt-3">
-        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 mb-2">
+        <div class="col-lg-12 col-md-12  mb-2">
             <div class="ibox collapsed border-bottom">
 
                 <div class="ibox-title">
@@ -149,6 +149,67 @@
                                     </div>
                                 </div>
                             </div>
+                            {% set thead %}
+                                <tr>
+                                    <td class="col-sm-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>№ п/п</strong>
+                                    </td>
+                                    <td class="col-md-3" style="vertical-align: inherit; text-align: center">
+                                        <strong>Наименование</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>Вид</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>Общее кол-во</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>Ед. измерения</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>Фактическое <br> кол-во</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>Введено в эксплуатацию</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>Дата поставки</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>ОКПД2</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>КТРУ</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>Страна-производитель</strong>
+                                    </td>
+                                    <td class="col-md-3" style="vertical-align: inherit; text-align: center">
+                                        <strong>Комментарий</strong>
+                                    </td>
+
+                                </tr>
+                            {% endset %}
+                            {% macro row(count, i) %}
+                                <tr>
+                                    <td style="vertical-align: inherit; text-align: center">{{ count }}</td>
+                                    <td style="vertical-align: inherit">{{ i.getName() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getType() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getTotalNumber() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getUnits() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getFactNumber() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getPutIntoOperation() }}</td>
+                                    {% if i.getDeliveryDate() %}
+                                        <td style="vertical-align: inherit; text-align: center">{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                    {% else %}
+                                        <td style="vertical-align: inherit; text-align: center">Дата не указана</td>
+                                    {% endif %}
+                                    <td>{{ i.getOKPD2() }}</td>
+                                    <td>{{ i.getKTRU() }}</td>
+                                    <td>{{ i.getCountryOfOrigin() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getComment() }}</td>
+                                </tr>
+                            {% endmacro %}
                             <div role="tabpanel" id="tab-2" class="tab-pane">
                                 <div class="panel-body">
                                     {% if infrastructure|length > 0 %}
@@ -162,45 +223,17 @@
                                             </a>
 
                                         </div>
+
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="9">
+                                                    <td colspan="12">
                                                         <h3>
                                                             Общая зона
                                                         </h3>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="col-sm-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>№ п/п</strong>
-                                                    </td>
-                                                    <td class="col-md-3" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Наименование</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Вид</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Общее кол-во</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Ед. измерения</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Фактическое <br> кол-во</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Введено в эксплуатацию</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Дата поставки</strong>
-                                                    </td>
-                                                    <td class="col-md-3" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Комментарий</strong>
-                                                    </td>
-
-                                                </tr>
+                                                {{ thead }}
                                             </thead>
                                             <tbody>
                                                 {#{% for item in form.tags %}#}
@@ -209,21 +242,7 @@
                                                 {% set count = 1 %}
                                                 {% for i in infrastructure|reverse %}
                                                     {% if i.getZoneType() == 'Общая зона' %}
-                                                    <tr>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ count }}</td>
-                                                        <td style="vertical-align: inherit">{{ i.getName() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getType() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getTotalNumber() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getUnits() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getFactNumber() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getPutIntoOperation() }}</td>
-                                                        {% if i.getDeliveryDate() %}
-                                                            <td style="vertical-align: inherit; text-align: center">{{ i.getDeliveryDate().format('d.m.Y') }}</td>
-                                                        {% else %}
-                                                            <td style="vertical-align: inherit; text-align: center">Дата не указана</td>
-                                                        {% endif %}
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getComment() }}</td>
-                                                    </tr>
+                                                        {{ _self.row(count, i) }}
                                                         {% set count = count + 1 %}
                                                     {% endif %}
                                                 {% endfor %}
@@ -232,42 +251,13 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="9">
+                                                    <td colspan="12">
                                                         <h3>
                                                             Рабочее место учащегося
                                                         </h3>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="col-sm-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>№ п/п</strong>
-                                                    </td>
-                                                    <td class="col-md-3" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Наименование</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Вид</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Общее кол-во</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Ед. измерения</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Фактическое <br> кол-во</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Введено в эксплуатацию</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Дата поставки</strong>
-                                                    </td>
-                                                    <td class="col-md-3" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Комментарий</strong>
-                                                    </td>
-
-                                                </tr>
+                                                {{ thead }}
                                             </thead>
                                             <tbody>
                                                 {#{% for item in form.tags %}#}
@@ -276,21 +266,7 @@
                                                 {% set count = 1 %}
                                                 {% for i in infrastructure|reverse %}
                                                     {% if i.getZoneType() == 'Рабочее место учащегося' %}
-                                                    <tr>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ count }}</td>
-                                                        <td style="vertical-align: inherit">{{ i.getName() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getType() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getTotalNumber() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getUnits() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getFactNumber() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getPutIntoOperation() }}</td>
-                                                        {% if i.getDeliveryDate() %}
-                                                            <td style="vertical-align: inherit; text-align: center">{{ i.getDeliveryDate().format('d.m.Y') }}</td>
-                                                        {% else %}
-                                                            <td style="vertical-align: inherit; text-align: center">Дата не указана</td>
-                                                        {% endif %}
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getComment() }}</td>
-                                                    </tr>
+                                                        {{ _self.row(count, i) }}
                                                         {% set count = count + 1 %}
                                                     {% endif %}
                                                 {% endfor %}
@@ -299,42 +275,13 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="9">
+                                                    <td colspan="12">
                                                         <h3>
                                                             Рабочее место преподавателя
                                                         </h3>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="col-sm-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>№ п/п</strong>
-                                                    </td>
-                                                    <td class="col-md-3" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Наименование</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Вид</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Общее кол-во</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Ед. измерения</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Фактическое <br> кол-во</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Введено в эксплуатацию</strong>
-                                                    </td>
-                                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Дата поставки</strong>
-                                                    </td>
-                                                    <td class="col-md-3" style="vertical-align: inherit; text-align: center">
-                                                        <strong>Комментарий</strong>
-                                                    </td>
-
-                                                </tr>
+                                                {{ thead }}
                                             </thead>
                                             <tbody>
                                                 {#{% for item in form.tags %}#}
@@ -343,21 +290,7 @@
                                                 {% set count = 1 %}
                                                 {% for i in infrastructure|reverse %}
                                                     {% if i.getZoneType() == 'Рабочее место преподавателя' %}
-                                                    <tr>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ count }}</td>
-                                                        <td style="vertical-align: inherit">{{ i.getName() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getType() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getTotalNumber() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getUnits() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getFactNumber() }}</td>
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getPutIntoOperation() }}</td>
-                                                        {% if i.getDeliveryDate() %}
-                                                            <td style="vertical-align: inherit; text-align: center">{{ i.getDeliveryDate().format('d.m.Y') }}</td>
-                                                        {% else %}
-                                                            <td style="vertical-align: inherit; text-align: center">Дата не указана</td>
-                                                        {% endif %}
-                                                        <td style="vertical-align: inherit; text-align: center">{{ i.getComment() }}</td>
-                                                    </tr>
+                                                        {{ _self.row(count, i) }}
                                                         {% set count = count + 1 %}
                                                     {% endif %}
                                                 {% endfor %}

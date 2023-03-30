@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
     {% set addresses = user.getClusterAddresses() %}
-    {% if addresses|length > 0 %}
+    {#{% if addresses|length > 0 %}#}
        <div class="row mt-3">
            <div class="col-lg-10 offset-lg-1">
                <div class="tabs-container">
@@ -12,6 +12,15 @@
                        {% for i in addresses %}
                         <li><a class="nav-link {% if loop.index == 1 %}active show{% endif %}" data-toggle="tab" href="#tab-{{ loop.index }}"> {{ i.getAddresses() }}</a></li>
                        {% endfor %}
+                       <li>
+                           <a class="nav-link show active   btn-primary" href="{{ path('app_inspector_add_addresses', {'id': user.getId()}) }}">
+                               {#<button class="btn btn-primary">#}
+                                   <i class="fa fa-plus">
+                                       Добавить Адрес
+                                   </i>
+                               {#</button>#}
+                           </a>
+                       </li>
                    </ul>
                    <div class="tab-content">
                        {% for i in addresses %}
@@ -124,16 +133,10 @@
                </div>
            </div>
        </div>
-    {% endif %}
+    {#{% endif %}#}
     <div class="row mt-3">
         <div class="col-lg-10 offset-lg-1">
-            <a href="{{ path('app_inspector_add_addresses', {'id': user.getId()}) }}">
-                <button class="btn btn-primary col-lg-12">
-                    <i class="fa fa-plus">
-                        Добавить Адрес
-                    </i>
-                </button>
-            </a>
+
         </div>
     </div>
     {% if addresses|length > 0 %}
@@ -142,15 +145,16 @@
                 <div class="ibox">
                     <div class="ibox-title">
                         <h5>
-                            Общий процент
+                            Общая статистика по кластеру
                         </h5>
                     </div>
                     <div class="ibox-content">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
                                     <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ общих помещений</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
+
                                     <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ в общем</strong></td>
                                     <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайний срок поставки оборудования</strong></td>
                                     <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайняя дата завершения ремонта</strong></td>
@@ -159,8 +163,9 @@
                             <tbody>
 
                                 <tr>
-                                    <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByZone() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByCommon() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByZone() }}</td>
+
                                     <td style="vertical-align: inherit; text-align: center">{{ (user.getMidRepairByZone()+user.getMidRepairByCommon())/2 }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ user.getEquipmentDeliveryDeadline() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ user.getDeadlineForCompletionOfRepairs() }}</td>
@@ -171,20 +176,24 @@
                             <thead>
                                 <tr>
                                     <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Общее кол-во оборудования по ИЛу</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Фактическое кол-во оборудования</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Поставлено оборудования</strong></td>
                                     <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Введено в эксплуатацию</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Среднее фактическое</strong></td>
-                                    <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Среднее введено в эксплуатацию</strong></td>
                                 </tr>
                             </thead>
                             <tbody>
                             {% set equipment = user.getCountOfEquipment() %}
                                 <tr>
                                     <td style="vertical-align: inherit; text-align: center">{{ equipment['total'] }}</td>
-                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['fact'] }}</td>
-                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }}</td>
-                                    <td style="vertical-align: inherit; text-align: center">{{ (equipment['total']*equipment['fact'])/100 }} %</td>
-                                    <td style="vertical-align: inherit; text-align: center">{{ (equipment['fact']*equipment['putInOperation'])/100 }} %</td>
+                                    {% if equipment['total'] > 0 %}
+                                        <td style="vertical-align: inherit; text-align: center">{{ equipment['fact'] }} / {{ (equipment['fact']/equipment['total'])*100 }} %</td>
+                                    {% else %}
+                                        <td>{{ equipment['fact'] }} / 0%</td>
+                                    {% endif %}
+                                    {% if equipment['fact'] > 0 %}
+                                        <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / {{ (equipment['putInOperation']/equipment['fact'])*100 }} %</td>
+                                    {% else %}
+                                        <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / 0%</td>
+                                    {% endif %}
                                 </tr>
                             </tbody>
                         </table>

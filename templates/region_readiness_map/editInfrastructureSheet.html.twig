@@ -5,7 +5,7 @@
 
 
     <div class="row mt-3">
-        <div class="col-lg-10 offset-lg-1 договоmb-2">
+        <div class="col-lg-12 mb-2">
             <a href="{{ path('app_region_view_zone', {'id': zone.getId()}) }}">
                 <button class="btn btn-success mb-3" type="button">
                     <i class="fa fa-arrow-left">
@@ -44,30 +44,40 @@
                         <td>
                             {{ form_row(sheet.deliveryDate) }}
                         </td>
+                        <td>{{ form_row(sheet.OKPD2) }}</td>
+                        <td>{{ form_row(sheet.KTRU) }}</td>
+                        <td>{{ form_row(sheet.countryOfOrigin) }}</td>
+
                         <td>
                             {{ form_row(sheet.comment) }}
                         </td>
 
 
                 {% endmacro %}
+                {% set thead %}
+                    <tr>
+                        <td class="col-md-2">Наименование</td>
+                        <td class="col-md-1">Общее кол-во</td>
+                        <td class="col-md-1">Фактическое кол-во</td>
+                        <td class="col-md-1">Введено в эксплуатацию</td>
+                        <td class="col-md-1">Дата поставки</td>
+                        <td class="col-md-1">ОКПД2</td>
+                        <td class="col-md-1">КТРУ</td>
+                        <td class="col-md-1">Страна-производитель</td>
+                        <td class="col-md-3">Комментарий</td>
+
+                    </tr>
+                {% endset %}
             <div class="ibox-content">
                 {{ form_start(form) }}
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <td colspan="8">
+                            <td colspan="10">
                                 <h3>Общая зона</h3>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="col-md-2">Наименование</td>
-                            <td class="col-md-1">Общее кол-во</td>
-                            <td class="col-md-1">Фактическое кол-во</td>
-                            <td class="col-md-1">Введено в эксплуатацию</td>
-                            <td class="col-md-1">Дата поставки</td>
-                            <td class="col-md-3">Комментарий</td>
-
-                        </tr>
+                        {{ thead }}
                     </thead>
 
                     <tbody class="sheets " id="sheets"
@@ -95,19 +105,11 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <td colspan="8">
+                            <td colspan="10">
                                 <h3>Рабочее место учащегося</h3>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="col-md-2">Наименование</td>
-                            <td class="col-md-1">Общее кол-во</td>
-                            <td class="col-md-1">Фактическое кол-во</td>
-                            <td class="col-md-1">Введено в эксплуатацию</td>
-                            <td class="col-md-1">Дата поставки</td>
-                            <td class="col-md-3">Комментарий</td>
-
-                        </tr>
+                        {{ thead }}
                     </thead>
 
                     <tbody class="sheets " id="sheets"
@@ -130,19 +132,11 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <td colspan="8">
+                            <td colspan="10">
                                 <h3>Рабочее место преподавател</h3>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="col-md-2">Наименование</td>
-                            <td class="col-md-1">Общее кол-во</td>
-                            <td class="col-md-1">Фактическое кол-во</td>
-                            <td class="col-md-1">Введено в эксплуатацию</td>
-                            <td class="col-md-1">Дата поставки</td>
-                            <td class="col-md-3">Комментарий</td>
-
-                        </tr>
+                       {{ thead }}
                     </thead>
 
                     <tbody class="sheets " id="sheets"

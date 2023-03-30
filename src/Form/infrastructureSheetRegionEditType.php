@@ -57,6 +57,30 @@ class infrastructureSheetRegionEditType  extends AbstractType
                 'required' => false,
                 'empty_data' => 0,
             ])
+            ->add('OKPD2', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => false,
+                'required' => false,
+                'empty_data' => "",
+            ])
+            ->add('KTRU', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => false,
+                'required' => false,
+                'empty_data' => "",
+            ])
+            ->add('countryOfOrigin', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => false,
+                'required' => false,
+                'empty_data' => "",
+            ])
 
         ;
     }

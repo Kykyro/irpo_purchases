@@ -67,6 +67,21 @@ class ZoneInfrastructureSheet
      */
     private $putIntoOperation;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $OKPD2;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $KTRU;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $countryOfOrigin;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -188,6 +203,42 @@ class ZoneInfrastructureSheet
     public function setPutIntoOperation(?int $putIntoOperation): self
     {
         $this->putIntoOperation = $putIntoOperation;
+
+        return $this;
+    }
+
+    public function getOKPD2(): ?string
+    {
+        return $this->OKPD2;
+    }
+
+    public function setOKPD2(?string $OKPD2): self
+    {
+        $this->OKPD2 = $OKPD2;
+
+        return $this;
+    }
+
+    public function getKTRU(): ?string
+    {
+        return $this->KTRU;
+    }
+
+    public function setKTRU(?string $KTRU): self
+    {
+        $this->KTRU = $KTRU;
+
+        return $this;
+    }
+
+    public function getCountryOfOrigin(): ?string
+    {
+        return $this->countryOfOrigin;
+    }
+
+    public function setCountryOfOrigin(?string $countryOfOrigin): self
+    {
+        $this->countryOfOrigin = $countryOfOrigin;
 
         return $this;
     }
