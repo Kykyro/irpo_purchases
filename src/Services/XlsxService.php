@@ -548,6 +548,11 @@ class XlsxService extends AbstractController
         $finEmpFundSUM = "=";
         $finOrgFundSUM = "=";
 
+        $factFedFundSUM = "=";
+        $factSubFundSUM = "=";
+        $factEmpFundSUM = "=";
+        $factOrgFundSUM = "=";
+
         // Инфо о процедурах
         $index = 1;
         foreach ($procedures as &$val) {
@@ -617,7 +622,18 @@ class XlsxService extends AbstractController
                             case "X":
                                 $finOrgFundSUM = $finOrgFundSUM.$cellCoordinates."+";
                                 break;
-
+                            case "Z":
+                                $factFedFundSUM = $factFedFundSUM.$cellCoordinates."+";
+                                break;
+                            case "AA":
+                                $factSubFundSUM = $factSubFundSUM.$cellCoordinates."+";
+                                break;
+                            case "AB":
+                                $factEmpFundSUM = $factEmpFundSUM.$cellCoordinates."+";
+                                break;
+                            case "AC":
+                                $factOrgFundSUM = $factOrgFundSUM.$cellCoordinates."+";
+                                break;
                         }
                     }
                 }
@@ -639,6 +655,11 @@ class XlsxService extends AbstractController
         $finSubFundSUM = substr($finSubFundSUM,0,-1);
         $finEmpFundSUM = substr($finEmpFundSUM,0,-1);
         $finOrgFundSUM = substr($finOrgFundSUM,0,-1);
+
+        $factFedFundSUM = substr($factFedFundSUM,0,-1);
+        $factSubFundSUM = substr($factSubFundSUM,0,-1);
+        $factEmpFundSUM = substr($factEmpFundSUM,0,-1);
+        $factOrgFundSUM = substr($factOrgFundSUM,0,-1);
 
         // стили
         $styleArray = [ 'borders' => [
@@ -669,12 +690,11 @@ class XlsxService extends AbstractController
         $finSumFormulaRange = 'T14:T'.($end_cell-1);
         $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
         $sheet->setCellValue($finSumCell , "=SUM($finSumFormulaRange)");
-        $rowSUM = $end_cell-1;
 
-//        $sheet->setCellValue('Z'.$end_cell, "=SUM(Z14:Z$rowSUM)");
-//        $sheet->setCellValue('AA'.$end_cell, "=SUM(AA14:AA$rowSUM)");
-//        $sheet->setCellValue('AB'.$end_cell, "=SUM(AB14:AB$rowSUM)");
-//        $sheet->setCellValue('AC'.$end_cell, "=SUM(AC14:AC$rowSUM)");
+        $sheet->setCellValue('Z'.$end_cell, $factFedFundSUM);
+        $sheet->setCellValue('AA'.$end_cell, $factSubFundSUM);
+        $sheet->setCellValue('AB'.$end_cell, $factEmpFundSUM);
+        $sheet->setCellValue('AC'.$end_cell, $factOrgFundSUM);
 
         $sheet->setCellValue('E'.$end_cell, $initialFedFundSUM);
         $sheet->setCellValue('F'.$end_cell, $initialSubFundSUM);
