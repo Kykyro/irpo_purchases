@@ -531,6 +531,12 @@ class XlsxService extends AbstractController
                 'startColor' => array('argb' => 'afd095')
             )
         );
+        $styleFill3 = array(
+            'fill' => array(
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array('argb' => 'ffd0a5')
+            )
+        );
         $styleFillCancelled = array(
             'fill' => array(
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
@@ -563,6 +569,7 @@ class XlsxService extends AbstractController
             // формулы суммирования
             $initialSUMRANGE = 'E'.$row.':H'.$row;
             $finSUMRANGE = 'U'.$row.':X'.$row;
+            $factSUMRANGE = 'Z'.$row.':AC'.$row;
 
             $row_arr = ['E', 'F', 'G', 'H', 'U', 'V', 'W', 'X', 'D', 'T', 'Z', 'AA', 'AB', 'AC'];
             foreach ($row_arr as $j){
@@ -622,6 +629,29 @@ class XlsxService extends AbstractController
                             case "X":
                                 $finOrgFundSUM = $finOrgFundSUM.$cellCoordinates."+";
                                 break;
+                            case "Z":
+                                $factFedFundSUM = $factFedFundSUM.$cellCoordinates."+";
+                                break;
+                            case "AA":
+                                $factSubFundSUM = $factSubFundSUM.$cellCoordinates."+";
+                                break;
+                            case "AB":
+                                $factEmpFundSUM = $factEmpFundSUM.$cellCoordinates."+";
+                                break;
+                            case "AC":
+                                $factOrgFundSUM = $factOrgFundSUM.$cellCoordinates."+";
+                                break;
+                        }
+                    }
+                }
+                foreach ($sheet->rangeToArray($factSUMRANGE, null, true, true, true ) as $_row){
+                    foreach (array_keys($_row) as $cell){
+                        $cellCoordinates = $cell.$row;
+                        if($sheet->getCell($cellCoordinates) != "" and (float)$sheet->getCell($cellCoordinates)->getValue() != 0){
+                            $sheet->getStyle($cellCoordinates)->applyFromArray($styleFill3);
+                        }
+
+                        switch ($cell) {
                             case "Z":
                                 $factFedFundSUM = $factFedFundSUM.$cellCoordinates."+";
                                 break;
