@@ -157,12 +157,34 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                                 <tr>
                                     <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByZone() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByCommon() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ (user.getMidRepairByZone()+user.getMidRepairByCommon())/2 }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ user.getEquipmentDeliveryDeadline() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ user.getDeadlineForCompletionOfRepairs() }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td style="vertical-align: inherit; text-align: center"><strong>Общее кол-во оборудования по ИЛу</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center"><strong>Фактическое кол-во оборудования</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center"><strong>Введено в эксплуатацию</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center"><strong>Среднее фактическое</strong></td>
+                                    <td style="vertical-align: inherit; text-align: center"><strong>Среднее введено в эксплуатацию</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% set equipment = user.getCountOfEquipment() %}
+                                <tr>
+                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['total'] }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['fact'] }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ (equipment['total']*equipment['fact'])/100 }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ (equipment['fact']*equipment['putInOperation'])/100 }}</td>
                                 </tr>
                             </tbody>
                         </table>

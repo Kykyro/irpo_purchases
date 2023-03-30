@@ -198,4 +198,26 @@ class ClusterAddresses
 
 
     }
+
+    public function getCountOfEquipment()
+    {
+        $zones = $this->getClusterZones();
+        $arr = [
+            'total' => 0,
+            'fact' => 0,
+            'putInOperation' => 0
+        ];
+
+        foreach ($zones as $zone)
+        {
+            $equipment = $zone->getCountOfEquipment();
+            if($equipment)
+                foreach ($equipment as $key => $value)
+                {
+                    $arr[$key] += $value;
+                }
+        }
+
+        return $arr;
+    }
 }

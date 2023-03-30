@@ -183,4 +183,28 @@ class ClusterZone
 
         return $this;
     }
+
+    public function getCountOfEquipment()
+    {
+
+        if($this->getZoneInfrastructureSheets())
+        {
+            $arr = [
+              'total' => 0,
+              'fact' => 0,
+              'putInOperation' => 0
+            ];
+            foreach ($this->getZoneInfrastructureSheets() as $infractSheet)
+            {
+                $arr['total'] += $infractSheet->getTotalNumber();
+                $arr['fact'] += $infractSheet->getFactNumber();
+                $arr['putInOperation'] += $infractSheet->getPutIntoOperation();
+            }
+
+            return $arr;
+        }
+        else{
+            return null;
+        }
+    }
 }

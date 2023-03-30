@@ -388,6 +388,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     }
+    public function getCountOfEquipment()
+    {
+        $addreses = $this->getClusterAddresses();
+        $arr = [
+            'total' => 0,
+            'fact' => 0,
+            'putInOperation' => 0
+        ];
 
+        foreach ($addreses as $addres)
+        {
+            $equipment = $addres->getCountOfEquipment();
+            if($equipment)
+                foreach ($equipment as $key => $value)
+                {
+                    $arr[$key] += $value;
+                }
+        }
+
+        return $arr;
+    }
 
 }
