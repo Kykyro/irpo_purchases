@@ -235,6 +235,7 @@
             webvisor:true
         });
     </script>
+
     <noscript><div><img src="https://mc.yandex.ru/watch/91567100" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
 
@@ -291,6 +292,23 @@
 <script type="text/javascript" src="{{ asset('landing/js/main.js') }}"></script>
 <script src="{{ asset('/landing/js/form.js') }}"></script>
 <script src="{{ asset('/landing/js/map.js') }}"></script>
+
+<script>
+    $(document).ready(function(e) {
+        $('audio,video').bind('play', function() {
+            activated = this;
+            $('audio,video').each(function() {
+                if(this != activated) this.pause();
+            });
+        });
+        $(".video-js").click(function(){
+            activated = this;
+            $('.video-js').each(function() {
+                if(this != activated) _V_($(this).attr("id")).pause();
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
