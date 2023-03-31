@@ -207,7 +207,7 @@ class certificateByClustersService extends AbstractController
             if($ugps and count($replacement['ugps']) > 0)
             {
                 $templateProcessor->cloneBlock('ugps_block#'.$count, 1, true, false);
-                $_ugps_str = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', implode('\n', $replacement['ugps']) );
+                $_ugps_str = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', implode("\n", $replacement['ugps']) );
                 $templateProcessor->setValue('ugps#'.$count, $_ugps_str);
 
             }
