@@ -54,7 +54,7 @@ class certificateReadinessMap extends AbstractController
 
         $countAddres = 1;
         foreach ($addresses as $addres){
-            $zones = $addres->getClusterZones();
+            $zones = $addres->getSortedClusterZones();
             $zoneCount = 1;
             $templateProcessor->setValue('adress#'.$countAddres, $addres->getAddresses());
             $templateProcessor->cloneRow('row#'.$countAddres, count($zones));
@@ -81,7 +81,7 @@ class certificateReadinessMap extends AbstractController
         $zoneCount = 1;
 
         foreach ($addresses as $addres){
-            $zones = $addres->getClusterZones();
+            $zones = $addres->getSortedClusterZones();
 
 
             foreach ($zones as $zone)
