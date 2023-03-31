@@ -10,6 +10,7 @@ use App\Entity\ZoneInfrastructureSheet;
 use App\Form\addAddressesForm;
 use App\Form\addZoneForm;
 use App\Form\infrastructureSheetZoneForm;
+use App\Services\certificateReadinessMap;
 use App\Services\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -402,5 +403,16 @@ class InspectorReadinessMapController extends AbstractController
             'controller_name' => 'InspectorReadinessMapController',
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/readiness-map/download/{id}", name="app_inspector_readiness_map_download")
+     */
+    public function downloadReadinessMap(int $id, certificateReadinessMap $readinessMap)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $entity_manager->getRepository(User::class)->find($id);
+
+        return $readinessMap->getCertificate($user);
     }
 }

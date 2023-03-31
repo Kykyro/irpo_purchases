@@ -149,6 +149,23 @@ class ClusterAddresses
         else
             return 0;
     }
+    public  function getCountOfWorkZone()
+    {
+        $zones = $this->getClusterZones();
+        $count = 0;
+
+        foreach ($zones as $zone)
+        {
+            $zoneType = $zone->getType()->getName();
+            if($zoneType == "Зона по видам работ" and !$zone->isDoNotTake())
+            {
+                $count++;
+            }
+
+        }
+
+        return $count;
+    }
     public function getEquipmentDeliveryDeadline()
     {
         $zones = $this->getClusterZones();

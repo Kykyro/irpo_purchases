@@ -207,4 +207,66 @@ class ClusterZone
             return null;
         }
     }
+    public function getCountOfEquipmentByType()
+    {
+
+        if($this->getZoneInfrastructureSheets())
+        {
+            $arr = [
+              'furniture' => 0,
+              'PO' => 0,
+              'equipment' => 0,
+              'furniture_put' => 0,
+              'PO_put' => 0,
+              'equipment_put' => 0,
+
+            ];
+            foreach ($this->getZoneInfrastructureSheets() as $infractSheet)
+            {
+//                dump(mb_strtolower($infractSheet->getType(),'UTF-8') );
+                if(mb_strtolower($infractSheet->getType(),'UTF-8') == 'мебель')
+                {
+                    $arr['furniture'] += $infractSheet->getTotalNumber();
+                    $arr['furniture_put'] += $infractSheet->getPutIntoOperation();
+
+                }
+
+                if(str_contains(mb_strtolower($infractSheet->getType(),'UTF-8'),'оборудование'))
+                {
+                    $arr['equipment'] += $infractSheet->getTotalNumber();
+                    $arr['equipment_put'] += $infractSheet->getPutIntoOperation();
+                }
+
+                if(mb_strtolower($infractSheet->getType(),'UTF-8') == 'по')
+                {
+                    $arr['PO'] += $infractSheet->getTotalNumber();
+                    $arr['PO_put'] += $infractSheet->getPutIntoOperation();
+                }
+
+            }
+//            dd($arr);
+            return $arr;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getAllComments()
+    {
+        if($this->getZoneInfrastructureSheets())
+        {
+            $arr = [];
+            foreach ($this->getZoneInfrastructureSheets() as $infractSheet)
+            {
+                if($infractSheet->getComment())
+                    array_push($arr, $infractSheet->getComment());
+            }
+
+            return $arr;
+        }
+        else{
+            return [];
+        }
+    }
 }

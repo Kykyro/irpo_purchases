@@ -409,5 +409,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $arr;
     }
+    public  function getCountOfWorkZone()
+    {
+        $addreses = $this->getClusterAddresses();
+        $count = 0;
 
+        foreach ($addreses as $addres)
+        {
+            $count += $addres->getCountOfWorkZone();
+
+        }
+
+        return $count;
+    }
 }
