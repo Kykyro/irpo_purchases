@@ -219,6 +219,9 @@ class ClusterZone
               'furniture_put' => 0,
               'PO_put' => 0,
               'equipment_put' => 0,
+              'furniture_fact' => 0,
+              'PO_fact' => 0,
+              'equipment_fact' => 0,
 
             ];
             foreach ($this->getZoneInfrastructureSheets() as $infractSheet)
@@ -227,6 +230,7 @@ class ClusterZone
                 if(mb_strtolower($infractSheet->getType(),'UTF-8') == 'мебель')
                 {
                     $arr['furniture'] += $infractSheet->getTotalNumber();
+                    $arr['furniture_fact'] += $infractSheet->getFactNumber();
                     $arr['furniture_put'] += $infractSheet->getPutIntoOperation();
 
                 }
@@ -234,12 +238,14 @@ class ClusterZone
                 if(str_contains(mb_strtolower($infractSheet->getType(),'UTF-8'),'оборудование'))
                 {
                     $arr['equipment'] += $infractSheet->getTotalNumber();
+                    $arr['equipment_fact'] += $infractSheet->getFactNumber();
                     $arr['equipment_put'] += $infractSheet->getPutIntoOperation();
                 }
 
                 if(mb_strtolower($infractSheet->getType(),'UTF-8') == 'по')
                 {
                     $arr['PO'] += $infractSheet->getTotalNumber();
+                    $arr['PO_fact'] += $infractSheet->getFactNumber();
                     $arr['PO_put'] += $infractSheet->getPutIntoOperation();
                 }
 

@@ -94,9 +94,9 @@ class certificateReadinessMap extends AbstractController
                     $comments = (count($comments) > 0) ? implode("\n", $comments) : '';
                     $comments =   str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', $comments );;
 
-                    $_furniture = ($equipment['furniture'] > 0) ? ($equipment['furniture_put']/$equipment['furniture'])*100 : 0;
-                    $_PO = ($equipment['PO'] > 0) ? ($equipment['PO_put']/$equipment['PO'])*100 : 0;
-                    $_equipment = ($equipment['equipment'] > 0) ? ($equipment['equipment_put']/$equipment['equipment'])*100 : 0;
+                    $_furniture = ($equipment['furniture'] > 0) ? ($equipment['furniture_fact']/$equipment['furniture'])*100 : 0;
+                    $_PO = ($equipment['PO'] > 0) ? ($equipment['PO_fact']/$equipment['PO'])*100 : 0;
+                    $_equipment = ($equipment['equipment'] > 0) ? ($equipment['equipment_fact']/$equipment['equipment'])*100 : 0;
                     $equipment_count = ($equipment_count['total'] > 0) ? ($equipment_count['putInOperation']/$equipment_count['total'])*100 : 0;
 
                     $templateProcessor->setValue('row_i#'.$zoneCount, $zoneCount);
@@ -110,7 +110,9 @@ class certificateReadinessMap extends AbstractController
                     $templateProcessor->setValue('PO#'.$zoneCount, round($_PO,2));
                     $templateProcessor->setValue('equipment#'.$zoneCount, round($_equipment, 2));
                     $templateProcessor->setValue('equipment_all#'.$zoneCount, round($equipment_count,2));
+
                     $templateProcessor->setValue('comment#'.$zoneCount, $comments);
+
                     $zoneCount++;
                 }
 
