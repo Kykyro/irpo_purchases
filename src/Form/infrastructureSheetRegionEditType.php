@@ -81,6 +81,14 @@ class infrastructureSheetRegionEditType  extends AbstractType
                 'required' => false,
                 'empty_data' => "",
             ])
+            ->add('model', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => false,
+                'required' => false,
+                'empty_data' => "",
+            ])
 
         ;
     }

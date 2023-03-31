@@ -36,9 +36,7 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                                    <strong>№ п/п</strong>
-                                                </td>
+
                                                 <td class="col-md-2" style="vertical-align: inherit; text-align: center">
                                                     <strong>Название</strong>
                                                 </td>
@@ -55,7 +53,7 @@
                                             {% for i in zones %}
                                             {% if i.isDoNotTake() %}
                                                 <tr>
-                                                    <td>{{ loop.index }}</td>
+
                                                     <td colspan="4" class="text-danger">{{ i.getName() }}</td>
                                                     <td style="vertical-align: inherit; text-align: center">
 
@@ -70,7 +68,7 @@
                                                 </tr>
                                             {% else %}
                                                 <tr>
-                                                    <td style="vertical-align: inherit; text-align: center">{{ loop.index }}</td>
+
                                                     <td style="vertical-align: inherit; text-align: center">{{ i.getName() }}</td>
                                                     <td style="vertical-align: inherit; text-align: center">{{ i.getZoneRepair().getTotalPercentage() }} %</td>
                                                     <td style="vertical-align: inherit; text-align: center">

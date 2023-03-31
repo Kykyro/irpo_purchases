@@ -82,6 +82,11 @@ class ZoneInfrastructureSheet
      */
     private $countryOfOrigin;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $model;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -239,6 +244,18 @@ class ZoneInfrastructureSheet
     public function setCountryOfOrigin(?string $countryOfOrigin): self
     {
         $this->countryOfOrigin = $countryOfOrigin;
+
+        return $this;
+    }
+
+    public function getModel(): ?string
+    {
+        return $this->model;
+    }
+
+    public function setModel(?string $model): self
+    {
+        $this->model = $model;
 
         return $this;
     }

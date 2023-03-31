@@ -154,7 +154,7 @@
                                     <td class="col-sm-1" style="vertical-align: inherit; text-align: center">
                                         <strong>№ п/п</strong>
                                     </td>
-                                    <td class="col-md-3" style="vertical-align: inherit; text-align: center">
+                                    <td class="col-md-2" style="vertical-align: inherit; text-align: center">
                                         <strong>Наименование</strong>
                                     </td>
                                     <td class="col-md-1" style="vertical-align: inherit; text-align: center">
@@ -182,6 +182,9 @@
                                         <strong>КТРУ</strong>
                                     </td>
                                     <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>Марка / модель</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
                                         <strong>Страна-производитель</strong>
                                     </td>
                                     <td class="col-md-3" style="vertical-align: inherit; text-align: center">
@@ -206,6 +209,7 @@
                                     {% endif %}
                                     <td>{{ i.getOKPD2() }}</td>
                                     <td>{{ i.getKTRU() }}</td>
+                                    <td>{{ i.getModel() }}</td>
                                     <td>{{ i.getCountryOfOrigin() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ i.getComment() }}</td>
                                 </tr>
@@ -227,7 +231,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="12">
+                                                    <td colspan="22">
                                                         <h3>
                                                             Общая зона
                                                         </h3>
@@ -251,7 +255,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="12">
+                                                    <td colspan="22">
                                                         <h3>
                                                             Рабочее место учащегося
                                                         </h3>
@@ -275,7 +279,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="12">
+                                                    <td colspan="22">
                                                         <h3>
                                                             Рабочее место преподавателя
                                                         </h3>
