@@ -253,6 +253,7 @@ class purchasesFormType extends AbstractType
         ->add('file', FileType::class, [
                 'attr' => [
                     'class' => 'form-control',
+//                    'data-file' => 'aaaa',
                 ],
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,

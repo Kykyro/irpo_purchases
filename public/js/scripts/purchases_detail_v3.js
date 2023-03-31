@@ -203,6 +203,7 @@ $(document).ready(function () {
                 }
 
 
+
                 // finSumRow.show();
                 plannedPublicationDateRow.hide();
 
@@ -239,6 +240,7 @@ $(document).ready(function () {
             this._contract = value;
             if(this._contract === 0){
                 console.log('не подписан');
+                setRequired(false, file);
 
                 hideDeliver(true);
                 contract_info_block.hide('fast');
@@ -259,7 +261,16 @@ $(document).ready(function () {
             }
             else {
                 console.log('подписан');
-
+                if(file.data('file'))
+                {
+                    console.log('есть договор');
+                    setRequired(false, file);
+                }
+                else
+                {
+                    console.log('нет договора');
+                    setRequired(true, file);
+                }
                 hideDeliver(false);
                 contract_info_block.show('fast');
                 setDisabled(false,  conclusion_date, delivery_date,  fin_edication_org_funds, fin_employers_funds,

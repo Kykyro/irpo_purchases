@@ -216,7 +216,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Договор / проект договора</label>
-                                {{ form_widget(form.file) }}
+
+                                {{ form_widget(form.file, {'attr' : {'data-file' : form.vars.value.fileDir}}) }}
                                 {% if edit %}
                                 {% if file|length > 0 %}
                                     <label>
@@ -493,5 +494,5 @@
 
     <script src="{{ asset('js/plugins/steps/jquery.steps.min.js') }}"></script>
     <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('js/scripts/purchases_detail_v3.js?v=0.3') }}"></script>
+    <script src="{{ asset('js/scripts/purchases_detail_v3.js?v=0.4') }}"></script>
 {% endblock %}
