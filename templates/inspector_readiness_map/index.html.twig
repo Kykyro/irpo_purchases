@@ -84,9 +84,9 @@
                                            </td>
                                            {% set repairMidByZone = i.getMidRepairByZone() %}
                                            {% set repairMidByCommon = i.getMidRepairByCommon() %}
-                                           <td style="vertical-align: inherit; text-align: center">{{ repairMidByZone }} %</td>
-                                           <td style="vertical-align: inherit; text-align: center">{{ repairMidByCommon }} %</td>
-                                           <td style="vertical-align: inherit; text-align: center">{{ (repairMidByZone+repairMidByCommon)/2 }} %</td>
+                                           <td style="vertical-align: inherit; text-align: center">{{ repairMidByZone|round(2, 'floor') }} %</td>
+                                           <td style="vertical-align: inherit; text-align: center">{{ repairMidByCommon|round(2, 'floor') }} %</td>
+                                           <td style="vertical-align: inherit; text-align: center">{{ ((repairMidByZone+repairMidByCommon)/2)|round(2, 'floor') }} %</td>
                                            <td style="vertical-align: inherit; text-align: center">
                                                {% if i.getEquipmentDeliveryDeadline() %}
                                                    {{ i.getEquipmentDeliveryDeadline().format('d.m.Y') }}
