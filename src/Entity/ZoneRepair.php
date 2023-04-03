@@ -6,6 +6,7 @@ use App\Repository\ZoneRepairRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Annotations\Log;
 
 /**
  * @ORM\Entity(repositoryClass=ZoneRepairRepository::class)
@@ -26,31 +27,37 @@ class ZoneRepair
 
 
     /**
+     * @Log
      * @ORM\Column(type="date", nullable=true)
      */
     private $endDate;
 
     /**
+     * @Log
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
 
     /**
+     * @Log
      * @ORM\Column(type="integer")
      */
     private $Dismantling;
 
     /**
+     * @Log
      * @ORM\Column(type="integer")
      */
     private $plasteringAndCommunication;
 
     /**
+     * @Log
      * @ORM\Column(type="integer")
      */
     private $finishing;
 
     /**
+     * @Log
      * @ORM\Column(type="integer")
      */
     private $branding;

@@ -4,6 +4,7 @@ namespace App\Controller\Inspector;
 
 use App\Entity\ClusterAddresses;
 use App\Entity\ClusterZone;
+use App\Entity\Log;
 use App\Entity\PhotosVersion;
 use App\Entity\User;
 use App\Entity\ZoneInfrastructureSheet;
@@ -414,5 +415,27 @@ class InspectorReadinessMapController extends AbstractController
         $user = $entity_manager->getRepository(User::class)->find($id);
 
         return $readinessMap->getCertificate($user);
+    }
+    /**
+     * @Route("/readiness-map/history/{id}", name="app_inspector_readiness_map_history")
+     */
+    public function readinessMapHistory(int $id, certificateReadinessMap $readinessMap)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $entity_manager->getRepository(User::class)->find($id);
+        $addresses = $user->getClusterAddresses();
+
+        $repairHistory = $entity_manager->getRepository(Log::class)
+            ->createQueryBuilder('l')
+            ->andWhere('i.object_class = :object_class')
+            ->setParameter('object_class', 'ZoneRepair')
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('inspector_readiness_map/addAddresses.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+
+        ]);
     }
 }

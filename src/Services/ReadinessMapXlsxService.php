@@ -25,11 +25,12 @@ class ReadinessMapXlsxService extends AbstractController
 
         return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
             ->leftJoin('u.user_info', 'uf')
+            ->leftJoin('uf.rf_subject', 'rf')
             ->andWhere('u.roles LIKE :role')
             ->andWhere('uf.year = :year')
             ->setParameter('role', '%REGION%')
             ->setParameter('year', $year)
-            ->orderBy('u.uuid', 'ASC')
+            ->orderBy('rf.name', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -87,16 +88,16 @@ class ReadinessMapXlsxService extends AbstractController
                     $repair = $zone->getZoneRepair();
                     if($zoneCount == 0)
                     {
-                        if($repair->getEndDate() >= $today)
-                        {
+//                        if($repair->getEndDate() >= $today)
+//                        {
                             $nearestDate = $repair->getEndDate();
                             $lateDate = $repair->getEndDate();
-                        }
-                        else
-                        {
-                            $nearestDate = $today;
-                            $lateDate = $today;
-                        }
+//                        }
+//                        else
+//                        {
+//                            $nearestDate = $today;
+//                            $lateDate = $today;
+//                        }
 
 
                     }
@@ -188,21 +189,19 @@ class ReadinessMapXlsxService extends AbstractController
 
             $other_arr = [
                 '',
-                $_data['F'],
-                $_data['G'],
-                $_data['H'],
-                $_data['I'],
+                round($_data['F'], 2),
+                round($_data['G'], 2),
+                round($_data['H'], 2),
+                round($_data['I'], 2),
                 "=SUM(F$row:I$row)/4",
                 $_countZone['Зона по видам работ'],
-                $totalProcentZone,
+                round($totalProcentZone, 2),
                 "=L$row/K$row",
                 "=(J$row+M$row)/2",
                 $nearestDate,
                 $lateDate,
-                $dateMidFormula,
-                '0',
-                '',
-                '',
+                'Куратор',
+
 
             ];
             $sheet->fromArray($other_arr, null, 'E'.$row);
@@ -210,7 +209,7 @@ class ReadinessMapXlsxService extends AbstractController
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
 
-            $spreadsheet->getActiveSheet()->getStyle("O$row:Q$row")
+            $spreadsheet->getActiveSheet()->getStyle("O$row:P$row")
                 ->getNumberFormat()
                 ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
 //
@@ -227,9 +226,11 @@ class ReadinessMapXlsxService extends AbstractController
             ]
         ];
         $end_cell = $index;
-        $rangeTotal = 'A2:U'.$end_cell;
+        $rangeTotal = 'A2:Q'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:Q')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:Q')->getAlignment()->setVertical('center');
         // Запись файла
         $writer = new Xlsx($spreadsheet);
 

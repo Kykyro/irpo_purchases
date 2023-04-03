@@ -422,4 +422,55 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $count;
     }
+    public function getZones()
+    {
+        $addreses = $this->getClusterAddresses();
+        $arr = [];
+
+        foreach ($addreses as $addrese)
+        {
+            $arr = array_merge($arr, $addrese->getSortedClusterZones());
+        }
+
+
+
+        return $arr;
+    }
+
+    public function getSortedZones(){
+        $clusters = $this->getZones();
+
+        $common = [];
+        $work = [];
+
+        foreach ($clusters as $cluster)
+        {
+            if($cluster->getType()->getName() == 'Зона по видам работ')
+            {
+                array_push($work, $cluster);
+            }
+            else
+            {
+                array_push($common, $cluster);
+            }
+        }
+
+        if(count($work) > 0)
+        {
+            for($i = 0; $i < count($work); $i++)
+            {
+                for($j = 0; $j < count($work); $j++)
+                {
+                    if(substr($work[$i]->getName(), 0,strpos($work[$i]->getName(), ' ')) < substr($work[$j]->getName(), 0, strpos($work[$j]->getName(), ' ')))
+                    {
+                        $_work = $work[$i];
+                        $work[$i] = $work[$j];
+                        $work[$j] = $_work;
+                    }
+                }
+            }
+        }
+
+        return array_merge($common, $work);
+    }
 }
