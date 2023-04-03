@@ -151,9 +151,26 @@ class ContractingXlsxService extends AbstractController
             ]
         ];
         $end_cell = $index;
-        $rangeTotal = 'A2:U'.$end_cell;
+        $rangeTotal = 'A2:U'.($end_cell+1);
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+
+        $sumRow = $end_cell + 1;
+        $sheet->setCellValue('G'.$sumRow, "=SUM(G2:G$end_cell)");
+        $sheet->setCellValue('I'.$sumRow, "=SUM(I2:I$end_cell)");
+        $sheet->setCellValue('K'.$sumRow, "=SUM(K2:K$end_cell)");
+        $sheet->setCellValue('M'.$sumRow, "=SUM(M2:M$end_cell)");
+        $sheet->setCellValue('O'.$sumRow, "=SUM(O2:O$end_cell)");
+        $sheet->setCellValue('P'.$sumRow, "=SUM(P2:P$end_cell)");
+        $sheet->setCellValue('Q'.$sumRow, "=SUM(Q2:Q$end_cell)");
+        $sheet->setCellValue('R'.$sumRow, "=SUM(R2:R$end_cell)");
+
+        $curency_cell = ['G', 'I', 'K', 'M', 'N', 'O', 'P', 'Q', 'R'];
+        foreach ($curency_cell as $cell)
+        {
+            $sheet->getStyle("$cell$sumRow")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+        }
+        
         $sheet->getStyle('A:Z')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:Z')->getAlignment()->setVertical('center');
 
