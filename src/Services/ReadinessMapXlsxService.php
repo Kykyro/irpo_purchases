@@ -189,13 +189,13 @@ class ReadinessMapXlsxService extends AbstractController
 
             $other_arr = [
                 '',
-                round($_data['F'], 2),
-                round($_data['G'], 2),
-                round($_data['H'], 2),
-                round($_data['I'], 2),
-                "=SUM(F$row:I$row)/4",
+                $_data['F']/100,
+                $_data['G']/100,
+                $_data['H']/100,
+                $_data['I']/100,
+                "=AVERAGE(F$row:I$row)",
                 $_countZone['Зона по видам работ'],
-                round($totalProcentZone, 2),
+                $totalProcentZone/100,
                 "=L$row/K$row",
                 "=(J$row+M$row)/2",
                 $nearestDate,
@@ -208,6 +208,11 @@ class ReadinessMapXlsxService extends AbstractController
 
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
+            $curency_cell = ['E', 'F', 'G', 'H', 'I', 'J', 'L', 'M', 'N'];
+            foreach ($curency_cell as $cell)
+            {
+                $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+            }
 
             $spreadsheet->getActiveSheet()->getStyle("O$row:P$row")
                 ->getNumberFormat()
