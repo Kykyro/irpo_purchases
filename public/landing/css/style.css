@@ -2912,6 +2912,221 @@ button.slick-next.slick-disabled {
 	right: 30px;
 }
 
+/*------------------------------------------------------------------
+[10.2 Slick]
+*/
+.slick-slider {
+	position: relative;
+}
+
+.slick-slide {
+	position: relative;
+	outline: none;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.slick-slide * {
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.slider-item > .item-content {
+	position: relative;
+	padding: 90px 0;
+}
+
+.slick-prev2,
+.slick-next2 {
+	position: absolute;
+	display: block;
+	height: 50px;
+	width: 50px;
+	line-height: 50px;
+	font-size: 0;
+	cursor: pointer;
+	background: #eadfcd;
+	color: #333;
+	text-align: center;
+	left: 0%;
+	-webkit-transform: translate(0, -50%);
+	-moz-transform: translate(0, -50%);
+	-ms-transform: translate(0, -50%);
+	-o-transform: translate(0, -50%);
+	transform: translate(0, -50%);
+	padding: 0;
+	border: none;
+	outline: none;
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	z-index: 2;
+	-webkit-transition: all .2s ease-out;
+	-moz-transition: all .2s ease-out;
+	-o-transition: all .2s ease-out;
+	transition: all 0.2s ease-out;
+	visibility: hidden;
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	opacity: 0;
+}
+
+button.slick-prev2.slick-disabled,
+button.slick-next2.slick-disabled {
+	opacity: 0;
+}
+
+.slick-prev2 {
+	left: -50px;
+}
+
+.slick-next2 {
+	left: -50px;
+}
+
+button.slick-prev2.slick-disabled {
+	left: -50px;
+}
+
+button.slick-next2.slick-disabled {
+	left: -50px;
+}
+
+.slick-slider:hover .slick-prev2,
+.slick-slider:hover .slick-next2,
+.slider-section:hover .slick-slider .slick-prev2,
+.slider-section:hover .slick-slider .slick-next2 {
+	visibility: visible;
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+	opacity: 1;
+}
+
+.slick-slider:hover .slick-prev2,
+.slider-section:hover .slick-slider .slick-prev2 {
+	left: 45%;
+}
+
+.slick-slider:hover .slick-next2,
+.slider-section:hover .slick-slider .slick-next2 {
+	left: 45%;
+}
+
+.slick-prev2:before,
+.slick-next2:before {
+	font-family: FontAwesome;
+	font-size: 24px;
+	line-height: 50px;
+	color: #272727;
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+	opacity: .5;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.slick-prev2:before {
+	content: '\f106';
+}
+
+.slick-next2:before {
+	content: '\f107';
+}
+
+/* Dots - Classic */
+.ed-slick.dots-classic .slick-dots2 {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	list-style: none;
+	display: block;
+	text-align: center;
+	padding: 0;
+	margin: 0 0 15px;
+	width: 100%;
+}
+
+.ed-slick.dots-classic .slick-dots2 li {
+	position: relative;
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	margin-top: 10%;
+	padding: 0;
+	cursor: pointer;
+}
+
+.ed-slick.dots-classic .slick-dots2 li button {
+	position: relative;
+	font-size: 0;
+	line-height: 0;
+	display: block;
+	width: 20px;
+	height: 20px;
+	padding: 5px;
+	cursor: pointer;
+	color: transparent;
+	border: 0;
+	outline: none;
+	background: transparent;
+}
+
+.ed-slick.dots-classic .slick-dots2 li button::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: 8px;
+	height: 8px;
+	background: #fff;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+.ed-slick.dots-classic .slick-dots2 li.slick-active button::before {
+	width: 14px;
+	height: 14px;
+	-webkit-border-radius: 14px;
+	-moz-border-radius: 14px;
+	border-radius: 14px;
+}
+
+.ed-slick.dots-classic.dots-dark .slick-dots2 li button::before {
+	background: #272727;
+}
+
+.ed-slick.dots-classic.dots-outside .slick-dots2 {
+	position: relative;
+	margin: 15px 0 0;
+}
+
+/* Carousel */
+.ed-carousel {
+	margin-left: -15px;
+	margin-right: -15px;
+}
+
+.ed-carousel .carousel-item {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.ed-carousel.slick-slider:hover .slick-prev {
+	left: 30px;
+}
+
+.ed-carousel.slick-slider:hover .slick-next {
+	right: 30px;
+}
+
 
 /*------------------------------------------------------------------
 [12. Utility]
