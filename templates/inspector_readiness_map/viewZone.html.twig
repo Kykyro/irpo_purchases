@@ -345,7 +345,8 @@
     <script>
         $(document).ready(function(){
             $('thead').click(function(event) {
-                $(event.target).parent().parent().parent().find('.tbody').toggle('fast');
+                console.log($(event.target).parent().parent().parent());
+                $(event.target).parent().parent().parent().parent().find('.tbody').toggle('fast');
             })
         });
     </script>
