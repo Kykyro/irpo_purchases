@@ -267,6 +267,11 @@ class certificateByClustersService extends AbstractController
         $region_arr = [];
         $clusters_arr = [];
         $industry_arr = [];
+        $employers_arr = [];
+        $edicationOrganization_arr = [];
+        $UGPS_arr = [];
+        $zone_arr = [];
+//        $anotherOrganization_arr = [];
         foreach ($users as $user)
         {
             $user_info = $user->getUserInfo();
@@ -274,6 +279,13 @@ class certificateByClustersService extends AbstractController
             array_push($region_arr, $user_info->getRfSubject()->getName());
             array_push($clusters_arr, $user_info->getCluster());
             array_push($industry_arr, $user_info->getDeclaredIndustry());
+            $employers_arr = array_merge($employers_arr,
+                (is_null($user_info->getListOfEmployers()) ? [] : $user_info->getListOfEmployers()));
+            $edicationOrganization_arr = array_merge($edicationOrganization_arr,
+                (is_null($user_info->getListOfEdicationOrganization())) ? [] : $user_info->getListOfEdicationOrganization());
+            $UGPS_arr = array_merge($UGPS_arr,  (is_null($user_info->getUGPS()) ? [] : $user_info->getUGPS()));
+            $zone_arr = array_merge($zone_arr,  (is_null($user_info->getZone()) ? [] : $user_info->getZone()));
+//            $anotherOrganization_arr = array_merge($anotherOrganization_arr,  $user_info->getListOfAnotherOrganization());
 
             $row =
                 [
@@ -310,11 +322,14 @@ class certificateByClustersService extends AbstractController
             count(array_unique($clusters_arr)),
             '',
             '',
-            '',
-            '',
+            count(array_unique($employers_arr)),
+            count(array_unique($edicationOrganization_arr)),
             "=SUM(J2:J$index)",
             "=SUM(K2:K$index)",
             "=SUM(L2:L$index)",
+            count(array_unique($UGPS_arr)),
+            count(array_unique($zone_arr)),
+
         ];
         $result_row_title = [
             '',
