@@ -229,7 +229,8 @@
                                         </div>
 
                                         <table class="table table-bordered">
-                                            <thead>
+
+                                            <thead class="table-head">
                                                 <tr>
                                                     <td colspan="22">
                                                         <h3>
@@ -239,7 +240,7 @@
                                                 </tr>
                                                 {{ thead }}
                                             </thead>
-                                            <tbody>
+                                            <tbody class="tbody">
                                                 {#{% for item in form.tags %}#}
                                                     {#<li>{{ form_row(tag.name) }}</li>#}
                                                 {#{% endfor %}#}
@@ -253,7 +254,7 @@
                                             </tbody>
                                         </table>
                                         <table class="table table-bordered">
-                                            <thead>
+                                            <thead class="table-head">
                                                 <tr>
                                                     <td colspan="22">
                                                         <h3>
@@ -263,7 +264,7 @@
                                                 </tr>
                                                 {{ thead }}
                                             </thead>
-                                            <tbody>
+                                            <tbody  class="tbody">
                                                 {#{% for item in form.tags %}#}
                                                     {#<li>{{ form_row(tag.name) }}</li>#}
                                                 {#{% endfor %}#}
@@ -277,7 +278,7 @@
                                             </tbody>
                                         </table>
                                         <table class="table table-bordered">
-                                            <thead>
+                                            <thead class="table-head">
                                                 <tr>
                                                     <td colspan="22">
                                                         <h3>
@@ -287,7 +288,7 @@
                                                 </tr>
                                                 {{ thead }}
                                             </thead>
-                                            <tbody>
+                                            <tbody  class="tbody">
                                                 {#{% for item in form.tags %}#}
                                                     {#<li>{{ form_row(tag.name) }}</li>#}
                                                 {#{% endfor %}#}
@@ -341,4 +342,11 @@
     <script src="{{ asset('js/inspinia.js') }}"></script>
     <script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
     <script src="{{ asset('js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('thead').click(function(event) {
+                $(event.target).parent().parent().parent().find('.tbody').toggle('fast');
+            })
+        });
+    </script>
 {% endblock %}

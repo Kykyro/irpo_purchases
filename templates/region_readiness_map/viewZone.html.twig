@@ -180,7 +180,7 @@
                             </div>
                             {% set thead %}
                                 <tr>
-                                    <td class="col-sm-1" style="vertical-align: inherit; text-align: center">
+                                    <td  style="vertical-align: inherit; text-align: center">
                                         <strong>№ п/п</strong>
                                     </td>
                                     <td class="col-md-3" style="vertical-align: inherit; text-align: center">
@@ -211,6 +211,9 @@
                                         <strong>КТРУ</strong>
                                     </td>
                                     <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>Марка / модель</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
                                         <strong>Страна-производитель</strong>
                                     </td>
                                     <td class="col-md-3" style="vertical-align: inherit; text-align: center">
@@ -233,9 +236,10 @@
                                     {% else %}
                                         <td style="vertical-align: inherit; text-align: center">Дата не указана</td>
                                     {% endif %}
-                                    <td>{{ i.getOKPD2() }}</td>
-                                    <td>{{ i.getKTRU() }}</td>
-                                    <td>{{ i.getCountryOfOrigin() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getOKPD2() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getKTRU() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getModel() }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getCountryOfOrigin() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ i.getComment() }}</td>
                                 </tr>
                             {% endmacro %}
@@ -255,7 +259,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="12">
+                                                    <td colspan="20">
                                                         <h3>Общая зона</h3>
                                                     </td>
                                                 </tr>
@@ -275,7 +279,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="12">
+                                                    <td colspan="20">
                                                         <h3>Рабочее место учащегося</h3>
                                                     </td>
                                                 </tr>
@@ -295,7 +299,7 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td colspan="12">
+                                                    <td colspan="20">
                                                         <h3>Рабочее место преподавателя</h3>
                                                     </td>
                                                 </tr>
