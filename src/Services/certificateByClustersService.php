@@ -263,10 +263,18 @@ class certificateByClustersService extends AbstractController
             ]
         ];
 
-
+        $district_arr = [];
+        $region_arr = [];
+        $clusters_arr = [];
+        $industry_arr = [];
         foreach ($users as $user)
         {
             $user_info = $user->getUserInfo();
+            array_push($district_arr, $user_info->getRfSubject()->getDistrict());
+            array_push($region_arr, $user_info->getRfSubject()->getName());
+            array_push($clusters_arr, $user_info->getCluster());
+            array_push($industry_arr, $user_info->getDeclaredIndustry());
+
             $row =
                 [
                     $index, // № п/п
@@ -293,18 +301,25 @@ class certificateByClustersService extends AbstractController
             $sheet->fromArray($row, '', 'A'.($index+1));
             $index++;
         }
-//        $result_row = [
-//            '',
-//            count(array_unique($sheet->rangeToArray('B2:B'.$index))),
-//            count(array_unique($sheet->rangeToArray('C2:C'.$index))),
-//            count(array_unique($sheet->rangeToArray('D2:D'.$index))),
-//            count(array_unique($sheet->rangeToArray('E2:E'.$index))),
-//
-//        ];
+//        dd(($sheet->rangeToArray('B2:B'.$index, null, true, true, false, false)));
+        $result_row = [
+            '',
+            count(array_unique($district_arr)),
+            count(array_unique($region_arr)),
+            count(array_unique($industry_arr)),
+            count(array_unique($clusters_arr)),
+            '',
+            '',
+            '',
+            '',
+            "=SUM(J2:J$index)",
+            "=SUM(K2:K$index)",
+            "=SUM(L2:L$index)",
+        ];
         $result_row_title = [
             '',
             'Итого округов',
-            'Итого регион',
+            'Итого регионов',
             'Итого отраслей',
             'Итого кластеров',
             '',
@@ -320,9 +335,13 @@ class certificateByClustersService extends AbstractController
         ];
         $index++;
         $sheet->fromArray($result_row_title, '', 'A'.($index));
+        $row_arr = ['J', 'K', 'L'];
 
         $index++;
-//        $sheet->fromArray($result_row, '', 'A'.($index));
+        $sheet->fromArray($result_row, '', 'A'.($index));
+        foreach ($row_arr as $j){
+            $sheet->getStyle($j.($index))->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+        }
         $rangeTotal = 'A2:O'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
@@ -342,19 +361,21 @@ class certificateByClustersService extends AbstractController
 
     public function arrayToStringList($arr)
     {
+        if(is_null($arr))
+            return '';
         $str = "";
         $index = 1;
-        if(count($arr) > 0)
-        {
+//        if(count($arr) > 0)
+//        {
 //            if(count($arr) === 1)
 //                return $arr[0];
 
-            foreach ($arr as $a)
-            {
-                $str = $str."$index) ".$a."\n";
-                $index++;
-            }
+        foreach ($arr as $a)
+        {
+            $str = $str."$index) ".$a."\n";
+            $index++;
         }
+//        }
 
 
 
