@@ -150,7 +150,8 @@ class ReadinessMapXlsxService extends AbstractController
             $user_info_arr = [
                 $user_info->getRfSubject()->getName(),
                 $user_info->getDeclaredIndustry(),
-                $user_info->getOrganization()
+                $user_info->getEducationalOrganization()
+
             ];
             $sheet->fromArray($user_info_arr, null, 'B'.$row);
 

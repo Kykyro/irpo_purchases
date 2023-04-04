@@ -29,10 +29,19 @@ class CertificateInsperctorController extends AbstractController
         if($form->isSubmitted() and $form->isValid())
         {
             $data = $form->getData();
-            $ugps = in_array('ugps', $data['option']);
-            $zone = in_array('zone', $data['option']);
-//            dd($ugps);
-            return $byClustersService->getCertificate($data['clusters'], $ugps, $zone);
+            if($form->get('submit')->isClicked())
+            {
+//                dd('a');
+                $ugps = in_array('ugps', $data['option']);
+                $zone = in_array('zone', $data['option']);
+                return $byClustersService->getCertificate($data['clusters'], $ugps, $zone);
+
+            }
+            else
+            {
+//                dd('b');
+                return $byClustersService->getTableCertificate($data['clusters']);
+            }
         }
 
         return $this->render('inspector/certificate_insperctor/index.html.twig', [

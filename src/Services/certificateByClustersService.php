@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Entity\UserInfo;
 use NumberFormatter;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -240,6 +242,123 @@ class certificateByClustersService extends AbstractController
 
         return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
 
+    }
+
+    public function getTableCertificate($users)
+    {
+        $sheet_template = "../public/excel/справка_под_задачи_минпроса.xlsx";
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
+        $sheet = $spreadsheet->getActiveSheet();
+        $today = new \DateTime('now');
+        $index = 1;
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'font' => [
+                'size'  => 11,
+                'name'  => 'Times New Roman'
+            ]
+        ];
+
+
+        foreach ($users as $user)
+        {
+            $user_info = $user->getUserInfo();
+            $row =
+                [
+                    $index, // № п/п
+                    $user_info->getRfSubject()->getDistrict(), // Округ
+                    $user_info->getRfSubject()->getName(),// Регион
+                    $user_info->getDeclaredIndustry(), // Отрасль
+                    $user_info->getCluster(), // Наименование центра (кластера)
+                    $user_info->getInitiatorOfCreation(), // Инициатор создания центра
+                    $user_info->getOrganization(), // Базовая образовательная организация (грантополучатель)
+                    $this->arrayToStringList( $user_info->getListOfEmployers()), // Работодатели
+                    $this->arrayToStringList($user_info->getListOfEdicationOrganization()), // Образовательные организации
+                    $user_info->getExtraFundsEconomicSector() * 1000, // Объем внебюджетных средств, направляемых участниками центра из числа организаций, действующих в реальном секторе экономики
+                    $user_info->getFinancingFundsOfSubject() * 1000, // Объём финансирования из средств субъекта РФ (руб.)
+                    $user_info->getExtraFundsOO() * 1000, // Объём финансирования из средств субъекта РФ (руб.)
+                    $this->arrayToStringList( $user_info->getUGPS()), // Наименование профессий и специальностей, реализуемых в кластере
+                    $this->arrayToStringList( $user_info->getZone()), // Зоны по виду работ, созданные в рамках проекта
+                    $this->arrayToStringList( $user_info->getListOfAnotherOrganization()) // Иные организации
+                ]
+            ;
+            $row_arr = ['J', 'K', 'L'];
+            foreach ($row_arr as $j){
+                $sheet->getStyle($j.($index+1))->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+            }
+            $sheet->fromArray($row, '', 'A'.($index+1));
+            $index++;
+        }
+//        $result_row = [
+//            '',
+//            count(array_unique($sheet->rangeToArray('B2:B'.$index))),
+//            count(array_unique($sheet->rangeToArray('C2:C'.$index))),
+//            count(array_unique($sheet->rangeToArray('D2:D'.$index))),
+//            count(array_unique($sheet->rangeToArray('E2:E'.$index))),
+//
+//        ];
+        $result_row_title = [
+            '',
+            'Итого округов',
+            'Итого регион',
+            'Итого отраслей',
+            'Итого кластеров',
+            '',
+            '',
+            'Итого работодателей',
+            'Итого образовательных организаций',
+            'Итого средств от реального сектора экономики',
+            'Итого средств от субъектов',
+            'Итого средств от ОО',
+            'Итого профессий и специальностей',
+            'Итого зон по виду работ',
+            '',
+        ];
+        $index++;
+        $sheet->fromArray($result_row_title, '', 'A'.($index));
+
+        $index++;
+//        $sheet->fromArray($result_row, '', 'A'.($index));
+        $rangeTotal = 'A2:O'.$index;
+        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getRowDimension($index)->setRowHeight(-1);
+
+        // Запись файла
+        $writer = new Xlsx($spreadsheet);
+
+        $fileName = 'Карта готовности(ремонт)_'.$today->format('d-m-Y').'.xlsx';
+
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+        $writer->save($temp_file);
+
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    public function arrayToStringList($arr)
+    {
+        $str = "";
+        $index = 1;
+        if(count($arr) > 0)
+        {
+//            if(count($arr) === 1)
+//                return $arr[0];
+
+            foreach ($arr as $a)
+            {
+                $str = $str."$index) ".$a."\n";
+                $index++;
+            }
+        }
+
+
+
+        return $str;
     }
 
 }

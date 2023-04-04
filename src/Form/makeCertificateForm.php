@@ -79,7 +79,16 @@ class makeCertificateForm extends AbstractType
                 ],
                 'label' => 'Скачать'
 
-            ]);
+            ])
+            ->add('submit_xslx', SubmitType::class,[
+
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ],
+                'label' => 'Скачать как таблицу'
+
+            ])
+        ;
     }
 
 
