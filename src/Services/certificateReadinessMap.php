@@ -57,11 +57,11 @@ class certificateReadinessMap extends AbstractController
             $zones = $addres->getSortedClusterZones();
             $zoneCount = 1;
             $templateProcessor->setValue('adress#'.$countAddres, $addres->getAddresses());
-            $templateProcessor->cloneRow('row#'.$countAddres, count($zones));
+            $templateProcessor->cloneRow('zone_name#'.$countAddres, count($zones));
             foreach ($zones as $zone)
             {
                 $zone_repait = $zone->getZoneRepair();
-                $templateProcessor->setValue('row#'.$countAddres.'#'.$zoneCount, $zoneCount);
+//                $templateProcessor->setValue('row#'.$countAddres.'#'.$zoneCount, $zoneCount);
                 $templateProcessor->setValue('zone_name#'.$countAddres.'#'.$zoneCount, $zone->getName());
                 $templateProcessor->setValue('repair_procent#'.$countAddres.'#'.$zoneCount, round($zone_repait->getTotalPercentage(), 1));
                 $templateProcessor->setValue('repair_deadline#'.$countAddres.'#'.$zoneCount,
@@ -77,7 +77,7 @@ class certificateReadinessMap extends AbstractController
         // блок Оснащение учебно-производственных площадок оборудованием.
 //        $countAddres = 0;
         $templateProcessor->cloneBlock('block_ii', 1, true, false);
-        $templateProcessor->cloneRow('row_i', $workZoneCount);
+        $templateProcessor->cloneRow('zone_name_ii', $workZoneCount);
         $zoneCount = 1;
 
 
@@ -99,7 +99,7 @@ class certificateReadinessMap extends AbstractController
                 $_equipment = ($equipment['equipment'] > 0) ? ($equipment['equipment_fact']/$equipment['equipment'])*100 : 0;
                 $equipment_count = ($equipment_count['total'] > 0) ? ($equipment_count['putInOperation']/$equipment_count['total'])*100 : 0;
 
-                $templateProcessor->setValue('row_i#'.$zoneCount, $zoneCount);
+//                $templateProcessor->setValue('row_i#'.$zoneCount, $zoneCount);
                 $templateProcessor->setValue('zone_name_ii#'.$zoneCount, $zone->getName());
                 $templateProcessor->setValue('deadline_ii#'.$zoneCount,
                     ($zone->getMaxEquipmentDeliveryDeadline()) ?

@@ -39,7 +39,7 @@ class articleEditForm extends AbstractType
                 'attr' => ['class' => 'form-control mb-3'],
                 'constraints' => [
                     new File([
-                        'maxSize' => '10M',
+                        'maxSize' => '30M',
                         'mimeTypes' => [
                             'image/*',
                         ],
