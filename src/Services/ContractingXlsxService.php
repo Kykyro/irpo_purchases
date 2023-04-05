@@ -151,7 +151,7 @@ class ContractingXlsxService extends AbstractController
             ]
         ];
         $end_cell = $index;
-        $rangeTotal = 'A2:U'.($end_cell+1);
+        $rangeTotal = 'A2:S'.($end_cell+1);
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
 
