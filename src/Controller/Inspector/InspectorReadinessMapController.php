@@ -58,20 +58,7 @@ class InspectorReadinessMapController extends AbstractController
                 'required' => true,
                 'widget' => 'single_text',
             ])
-            ->add('addres', HiddenType::class, [
-//                'attr' => [
-//                    'class' => 'form-control'
-//                ],
-//                'query_builder' => function (EntityRepository $er) use ($user)
-//                {
-//                    return $er->createQueryBuilder('a')
-//                        ->andWhere("a.user = :user")
-//                        ->setParameter('user', $user);
-//                },
-//                'class' => ClusterAddresses::class,
-//                'choice_label' => 'addresses',
-//                'label' => 'Адрес'
-            ])
+            ->add('addres', HiddenType::class, [])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary'

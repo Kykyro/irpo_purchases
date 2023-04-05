@@ -365,7 +365,7 @@ class certificateByClustersService extends AbstractController
         // Запись файла
         $writer = new Xlsx($spreadsheet);
 
-        $fileName = 'Карта готовности(ремонт)_'.$today->format('d-m-Y').'.xlsx';
+        $fileName = 'Справка_по_кластерам_'.$today->format('d-m-Y').'.xlsx';
 
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 

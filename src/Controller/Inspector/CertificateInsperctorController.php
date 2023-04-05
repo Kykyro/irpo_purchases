@@ -29,9 +29,10 @@ class CertificateInsperctorController extends AbstractController
         if($form->isSubmitted() and $form->isValid())
         {
             $data = $form->getData();
-            if($form->get('submit')->isClicked())
+
+            if(!$form->get('download_as_table')->getData())
             {
-//                dd('a');
+
                 $ugps = in_array('ugps', $data['option']);
                 $zone = in_array('zone', $data['option']);
                 return $byClustersService->getCertificate($data['clusters'], $ugps, $zone);
@@ -39,7 +40,7 @@ class CertificateInsperctorController extends AbstractController
             }
             else
             {
-//                dd('b');
+
                 return $byClustersService->getTableCertificate($data['clusters']);
             }
         }

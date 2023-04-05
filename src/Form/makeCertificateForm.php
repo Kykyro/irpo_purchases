@@ -80,13 +80,17 @@ class makeCertificateForm extends AbstractType
                 'label' => 'Скачать'
 
             ])
-            ->add('submit_xslx', SubmitType::class,[
-
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ],
-                'label' => 'Скачать как таблицу'
-
+//            ->add('submit_xslx', SubmitType::class,[
+//
+//                'attr' => [
+//                    'class' => 'btn btn-primary'
+//                ],
+//                'label' => 'Скачать как таблицу'
+//
+//            ])
+            ->add('download_as_table', CheckboxType::class, [
+                'label' => 'Cкачать как таблицу',
+                'required' => false,
             ])
         ;
     }

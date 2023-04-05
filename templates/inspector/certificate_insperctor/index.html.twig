@@ -236,8 +236,12 @@
                     <hr>
                     <div class="row">
                         <div class="col-lg-9 ">
+
+                            {{ form_widget(form.download_as_table) }}
+                            {{ form_label(form.download_as_table) }}
+                            <hr>
                             {{ form_row(form.submit) }}
-                            {{ form_row(form.submit_xslx) }}
+
                         </div>
                     </div>
                     {{ form_end(form) }}
