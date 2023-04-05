@@ -200,9 +200,16 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <a href="{{ path('app_inspector_readiness_map_download', {'id': user.getId()}) }}">
-                                    <button class="btn btn-success">
+                                    <button class="btn btn-primary">
                                         <i class="fa fa-download">
                                             Скачать справку
+                                        </i>
+                                    </button>
+                                </a>
+                                <a href="{{ path('app_inspector_readiness_map_archive', {'id': user.getId()}) }}">
+                                    <button class="btn btn-warning">
+                                        <i class="fa fa-archive">
+                                            Архив справок
                                         </i>
                                     </button>
                                 </a>

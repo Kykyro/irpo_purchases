@@ -24,6 +24,8 @@ parameters:
     repair_photos_directory: '%kernel.project_dir%/public/uploads/repairPhotos'
     cluster_documents_directory: '%kernel.project_dir%/public/uploads/clusterDocuments'
     another_documents_directory: '%kernel.project_dir%/public/uploads/anotherDocument'
+    readiness_map_archive_directory: '%kernel.project_dir%/public/uploads/readinessMapArchive'
+    readiness_map_template_file: '%kernel.project_dir%/public/word/Карта готовности Кластеры.docx'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
 services:

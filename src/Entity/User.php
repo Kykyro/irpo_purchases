@@ -71,6 +71,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $clusterAddresses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ReadinessMapArchive::class, mappedBy="user")
+     */
+    private $readinessMapArchives;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -96,6 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->purchasesDumps = new ArrayCollection();
         $this->purchaseNotes = new ArrayCollection();
         $this->clusterAddresses = new ArrayCollection();
+        $this->readinessMapArchives = new ArrayCollection();
     }
 
 
@@ -472,5 +478,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return array_merge($common, $work);
+    }
+
+    /**
+     * @return Collection<int, ReadinessMapArchive>
+     */
+    public function getReadinessMapArchives(): Collection
+    {
+        return $this->readinessMapArchives;
+    }
+
+    public function addReadinessMapArchive(ReadinessMapArchive $readinessMapArchive): self
+    {
+        if (!$this->readinessMapArchives->contains($readinessMapArchive)) {
+            $this->readinessMapArchives[] = $readinessMapArchive;
+            $readinessMapArchive->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReadinessMapArchive(ReadinessMapArchive $readinessMapArchive): self
+    {
+        if ($this->readinessMapArchives->removeElement($readinessMapArchive)) {
+            // set the owning side to null (unless already changed)
+            if ($readinessMapArchive->getUser() === $this) {
+                $readinessMapArchive->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

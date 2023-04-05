@@ -26,7 +26,7 @@ class certificateReadinessMap extends AbstractController
 
     }
 
-    public function getCertificate(User $user)
+    public function getCertificate(User $user, $save = false, $file = '../public/word/Карта готовности Кластеры.docx')
     {
         $today = new \DateTime('now');
         $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
@@ -34,9 +34,13 @@ class certificateReadinessMap extends AbstractController
         $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, 'руб.');
         $user_info = $user->getUserInfo();
         $addresses = $user->getClusterAddresses();
+        if(is_null($addresses))
+        {
+            return false;
+        }
         $workZoneCount = $user->getCountOfWorkZone();
 
-        $templateProcessor = new TemplateProcessor('../public/word/Карта готовности Кластеры.docx');
+        $templateProcessor = new TemplateProcessor($file);
 
 
         // Заголовок
@@ -123,16 +127,34 @@ class certificateReadinessMap extends AbstractController
 
         }
 
+        if($save)
+        {
+            $fileName = 'Карта готовности_'.
+                $user->getId()
+                .$today->format('d-m-Y').'_'.uniqid().'.docx';
 
-        $fileName = 'Карта готовности_'.
-            $user->getUserInfo()->getEducationalOrganization().
-            '_'.$today->format('d.m.Y').
-            '.docx';
-        $filepath = $templateProcessor->save();
+            if (!file_exists($this->getParameter('readiness_map_archive_directory'))) {
+                mkdir($this->getParameter('readiness_map_archive_directory'), 0777, true);
+            }
 
-        return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+            $templateProcessor->saveAs($this->getParameter('readiness_map_archive_directory').'/'.$fileName);
+
+            return $fileName;
+        }
+        else
+        {
+            $fileName = 'Карта готовности_'.
+                $user->getUserInfo()->getEducationalOrganization().
+                '_'.$today->format('d.m.Y').
+                '.docx';
+            $filepath = $templateProcessor->save();
+
+            return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
+
 
     }
+
 
 
 

@@ -425,4 +425,19 @@ class InspectorReadinessMapController extends AbstractController
 
         ]);
     }
+
+    /**
+     * @Route("/readiness-map/archive/{id}", name="app_inspector_readiness_map_archive")
+     */
+    public function readinessMapArchive(int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $entity_manager->getRepository(User::class)->find($id);
+
+
+        return $this->render('inspector_readiness_map/readinessMapArcheve.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+            'user' => $user
+        ]);
+    }
 }
