@@ -101,7 +101,7 @@ class InspectorReadinessMapController extends AbstractController
                 ->where('u.id = :userId')
                 ->andWhere('pv.createdAt >= :startDate and pv.createdAt <= :endDate')
                 ->setParameter('startDate', $data['startDate'])
-                ->setParameter('endDate', $data['endDate'])
+                ->setParameter('endDate', $data['endDate']->setTime(23,59,59,0))
                 ->setParameter('userId', $user->getId())
                 ->orderBy('cz.name', 'ASC')
                 ->getQuery()
