@@ -66,7 +66,7 @@ class ReadinessMapXlsxService extends AbstractController
             ];
             $_countZone =
                 [
-                    'Фассад' => 0,
+                    'Фасад' => 0,
                     'Входная группа' => 0,
                     'Холл (фойе)' => 0,
                     'Коридоры' => 0,
@@ -115,7 +115,7 @@ class ReadinessMapXlsxService extends AbstractController
                     if($zone->getType()->getName() == "Фасад")
                     {
                         $_data['F'] += $repair->getTotalPercentage();
-                        $_countZone['Фассад'] += 1;
+                        $_countZone['Фасад'] += 1;
                     }
                     if($zone->getType()->getName() == "Входная группа")
                     {
@@ -156,9 +156,9 @@ class ReadinessMapXlsxService extends AbstractController
             $sheet->fromArray($user_info_arr, null, 'B'.$row);
 
             $dateMidFormula = "";
-            if($_countZone['Фассад'] > 0)
+            if($_countZone['Фасад'] > 0)
             {
-                $_data['F'] = $_data['F']/$_countZone['Фассад'];
+                $_data['F'] = $_data['F']/$_countZone['Фасад'];
             }
             if($_countZone['Входная группа'] > 0)
             {
