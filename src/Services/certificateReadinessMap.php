@@ -63,9 +63,10 @@ class certificateReadinessMap extends AbstractController
                 $zone_repait = $zone->getZoneRepair();
 //                $templateProcessor->setValue('row#'.$countAddres.'#'.$zoneCount, $zoneCount);
                 $templateProcessor->setValue('zone_name#'.$countAddres.'#'.$zoneCount, $zone->getName());
-                $templateProcessor->setValue('repair_procent#'.$countAddres.'#'.$zoneCount, round($zone_repait->getTotalPercentage(), 1));
+                $templateProcessor->setValue('repair_procent#'.$countAddres.'#'.$zoneCount,
+                    str_replace('.', ',', round($zone_repait->getTotalPercentage(), 1)));
                 $templateProcessor->setValue('repair_deadline#'.$countAddres.'#'.$zoneCount,
-                    ($zone_repait->getEndDate()) ? $zone_repait->getEndDate()->format('d.m.Y') : '');
+                    ($zone_repait->getEndDate()) ? $zone_repait->getEndDate()->format('d.m.Y') : '-');
                 $templateProcessor->setValue('comment#'.$countAddres.'#'.$zoneCount, $zone_repait->getComment());
 
                 $zoneCount++;
@@ -104,12 +105,16 @@ class certificateReadinessMap extends AbstractController
                 $templateProcessor->setValue('deadline_ii#'.$zoneCount,
                     ($zone->getMaxEquipmentDeliveryDeadline()) ?
                         $zone->getMaxEquipmentDeliveryDeadline()->format('d.m.Y') :
-                        '');
+                        '-');
 
-                $templateProcessor->setValue('furniture#'.$zoneCount, round($_furniture, 1));
-                $templateProcessor->setValue('PO#'.$zoneCount, round($_PO,1));
-                $templateProcessor->setValue('equipment#'.$zoneCount, round($_equipment, 1));
-                $templateProcessor->setValue('equipment_all#'.$zoneCount, round($equipment_count,1));
+                $templateProcessor->setValue('furniture#'.$zoneCount,
+                    str_replace('.', ',', round($_furniture, 1)));
+                $templateProcessor->setValue('PO#'.$zoneCount,
+                    str_replace('.', ',', round($_PO,1)));
+                $templateProcessor->setValue('equipment#'.$zoneCount,
+                    str_replace('.', ',', round($_equipment, 1)));
+                $templateProcessor->setValue('equipment_all#'.$zoneCount,
+                    str_replace('.', ',', round($equipment_count,1)));
 
                 $templateProcessor->setValue('comment#'.$zoneCount, $comments);
 
