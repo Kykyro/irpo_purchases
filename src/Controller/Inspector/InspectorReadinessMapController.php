@@ -6,6 +6,7 @@ use App\Entity\ClusterAddresses;
 use App\Entity\ClusterZone;
 use App\Entity\Log;
 use App\Entity\PhotosVersion;
+use App\Entity\RepairPhotos;
 use App\Entity\User;
 use App\Entity\ZoneInfrastructureSheet;
 use App\Form\addAddressesForm;
@@ -439,5 +440,19 @@ class InspectorReadinessMapController extends AbstractController
             'controller_name' => 'InspectorReadinessMapController',
             'user' => $user
         ]);
+    }
+
+    /**
+     * @Route("/readiness-map/delete-photo-region/{zone_id}/{photo_id}", name="app_inspector_rm_delete_photo_region")
+     */
+    public function photoDelete(int $zone_id, int $photo_id, FileService $fileService)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $photo = $entity_manager->getRepository(RepairPhotos::class)->find($photo_id);
+        $fileService->DeleteFile($photo->getPhoto(), 'repair_photos_directory');
+        $entity_manager->remove($photo);
+        $entity_manager->flush();
+
+        return $this->redirectToRoute('app_inspector_view_zone', ['id' => $zone_id]);
     }
 }
