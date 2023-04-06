@@ -13,7 +13,7 @@
             vertical-align: middle;
             /*min-height: 100px;*/
         }
-        #select2-ugps-input-results {
+        #make_certificate_form_UGPS {
             /*padding-right: 20px;*/
             /*vertical-align: middle;*/
             max-height: 750px;
@@ -102,6 +102,7 @@
                     <h5>Сформировать справку</h5>
 
                 </div>
+                {{ form_start(form) }}
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-lg-3">
@@ -138,14 +139,22 @@
                                 {#<option></option>#}
                             </select>
                         </div>
+                        <div class="col-lg-3">
+                            <label>Работадатели</label>
+                            <select id="employer-input" class="form-control m-b select2" multiple="multiple">
+                                {#<option></option>#}
+                            </select>
+                        </div>
 
                     </div>
                     <div class="row">
                         <div class="col-lg-9">
                             <label>УГПС</label>
-                            <select id="ugps-input" class="form-control m-b select2" multiple="multiple">
+                            {#<select id="ugps-input" class="form-control m-b select2" multiple="multiple">#}
                                 {#<option></option>#}
-                            </select>
+                            {#</select>#}
+
+                            {{ form_widget(form.UGPS) }}
                         </div>
                     </div>
                     <div class="row">
@@ -158,22 +167,22 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-lg-12">
-                            <button id="filter-btn" type="button mr-3" class="btn">
+                            <button id="filter-btn" type="button mr-3" class="btn" type="button">
                                 <i class="fa fa-check">
                                     Отфильтровать
                                 </i>
                             </button>
-                            <button id="cancel-filter-btn" type="button" class="btn">
+                            <button id="cancel-filter-btn" type="button" class="btn"  type="button">
                                 <i class="fa fa-close">
                                     Сбросить фильтр
                                 </i>
                             </button>
-                            <button id="choose-all-btn" type="button" class="btn btn-primary">
+                            <button id="choose-all-btn" type="button" class="btn btn-primary"  type="button">
                                 <i class="fa fa-check-circle">
                                     Выбрать все
                                 </i>
                             </button>
-                            <button id="choose-null-btn" type="button" class="btn btn-warning">
+                            <button id="choose-null-btn" type="button" class="btn btn-warning"  type="button">
                                 <i class="fa fa-box">
                                     Снять выделение
                                 </i>
@@ -182,7 +191,7 @@
 
                     </div>
                     <hr>
-                    {{ form_start(form) }}
+
 
                     <div id="clusters" class="row">
                         {% for i in form.clusters %}
@@ -239,6 +248,9 @@
 
                             {{ form_widget(form.download_as_table) }}
                             {{ form_label(form.download_as_table) }}
+                            <hr>
+                            {{ form_widget(form.as_choose) }}
+                            {{ form_label(form.as_choose) }}
                             <hr>
                             {{ form_row(form.submit) }}
 
@@ -298,18 +310,19 @@
             };
 
             let yearInput = $('#year-input');
+            let employersInput = $('#employer-input');
             let industryInput = $('#industry-input');
             let regionInput = $('#region-input');
             let baseInput = $('#base-input');
             let districtInput = $('#district-input');
             let zoneInput = $('#zone-input');
-            let ugpsInput = $('#ugps-input');
+            let ugpsInput = $('#make_certificate_form_UGPS');
             let filterBtn = $('#filter-btn');
             let cancelFilterBtn = $('#cancel-filter-btn');
             let chooseAllBtn = $('#choose-all-btn');
             let chooseNullBtn = $('#choose-null-btn');
 
-            function filter() {
+            function filter(event) {
                 cancelFilter();
                 console.log('Отфильтровано');
                 if(yearInput.val().length > 0){
@@ -360,9 +373,16 @@
                     let filtered_region = $('#clusters input[data-ugps]').filterAttributeByJson("data-ugps", value, true);
                     filtered_region.closest('.form-control').hide();
                 }
+                if(employersInput.val().length > 0){
+                    console.log('Угпс: ', employersInput.val());
+
+                    let value = employersInput.val();
+                    let filtered_region = $('#clusters input[data-employers]').filterAttributeByJson("data-employers", value, true);
+                    filtered_region.closest('.form-control').hide();
+                }
 
 
-
+                event.preventDefault();
             }
             function cancelFilter() {
                 console.log('фильтр сброшен');
@@ -389,6 +409,7 @@
                 let _district = [];
                 let _ugps = [];
                 let _zone = [];
+                let _employers = [];
                 data.each(function( index ) {
                     _industry.push( $( this ).data("industry"));
                     _region.push( $( this ).data("region"));
@@ -397,9 +418,11 @@
                     _district.push( $( this ).data("district"));
                     for(let i in $( this ).data("ugps"))
                         _ugps.push( $( this ).data("ugps") [i]);
-                    _ugps.push( $( this ).data("ugps"));
+                    // _ugps.push( $( this ).data("ugps"));
                     for(let i in $( this ).data("zone"))
                         _zone.push( $( this ).data("zone")[i]);
+                    for(let i in $( this ).data("employers"))
+                        _employers.push( $( this ).data("employers")[i]);
 
 
                 });
@@ -445,6 +468,11 @@
                     zoneInput
                         .append('<option>'+element+'</option>');
                 });
+                let uniq_employers = [...new Set(_employers)];
+                uniq_employers.forEach((element) => {
+                    employersInput
+                        .append('<option>'+element+'</option>');
+                });
 
                 // console.log(_ugps);
                 // console.log(_zone);
@@ -454,7 +482,7 @@
 
 
             filterBtn.click((e) => {
-                filter();
+                filter(e);
             });
             cancelFilterBtn.click((e) => {
                 cancelFilter();

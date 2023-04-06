@@ -121,8 +121,10 @@ class InspectorReadinessMapController extends AbstractController
             {
 
                 array_push($files, $dir . $i->getPhoto());
-                $photoDir = $addres.'/'.$version->getRepair()->getClusterZone()->getName();
-                array_push($filesNames,  $photoDir.'/'.$i->getPhoto());
+                $photoDir = $addres;
+                $path_parts = pathinfo($i->getPhoto());
+                array_push($filesNames,  $photoDir.'/'.$version->getRepair()->getClusterZone()->getName()
+                    .'_'.uniqid().'.'.$path_parts['extension']);
             }
         }
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);

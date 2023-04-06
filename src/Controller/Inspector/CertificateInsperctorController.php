@@ -26,10 +26,22 @@ class CertificateInsperctorController extends AbstractController
         $form = $this->createForm(makeCertificateForm::class, $arr);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() and $form->isValid())
+        if($form->isSubmitted() )
         {
             $data = $form->getData();
+            $ugps = [];
+            if($form->get('as_choose')->getData())
+            {
+                $ugps = $form->get('UGPS')->getErrors()[0]->getMessageParameters()['{{ value }}'];
+                $ugps = explode(',',$ugps);
+                for($i = 0; $i < count($ugps); $i++)
+                {
+                    $ugps[$i] = trim(str_replace('"', '', $ugps[$i]));
+                }
 
+            }
+
+//            dd($ugps);
             if(!$form->get('download_as_table')->getData())
             {
 
@@ -41,7 +53,7 @@ class CertificateInsperctorController extends AbstractController
             else
             {
 
-                return $byClustersService->getTableCertificate($data['clusters']);
+                return $byClustersService->getTableCertificate($data['clusters'], $ugps);
             }
         }
 

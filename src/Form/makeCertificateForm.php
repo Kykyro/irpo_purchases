@@ -19,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\File;
@@ -59,6 +61,7 @@ class makeCertificateForm extends AbstractType
                         'data-district' => is_null($user->getUserInfo()->getRfSubject()) ? '' : $user->getUserInfo()->getRfSubject()->getDistrict(),
                         'data-zone' => json_encode($user->getUserInfo()->getZone(), JSON_UNESCAPED_UNICODE),
                         'data-ugps' => json_encode($user->getUserInfo()->getUGPS(), JSON_UNESCAPED_UNICODE),
+                        'data-employers' => json_encode($user->getUserInfo()->getListOfEmployers(), JSON_UNESCAPED_UNICODE),
                     ]
                     : [];
                 }),
@@ -80,20 +83,38 @@ class makeCertificateForm extends AbstractType
                 'label' => 'Скачать'
 
             ])
-//            ->add('submit_xslx', SubmitType::class,[
-//
-//                'attr' => [
-//                    'class' => 'btn btn-primary'
-//                ],
-//                'label' => 'Скачать как таблицу'
-//
-//            ])
+
             ->add('download_as_table', CheckboxType::class, [
                 'label' => 'Cкачать как таблицу',
                 'required' => false,
             ])
+            ->add('as_choose', CheckboxType::class, [
+                'label' => 'Как в выборке',
+                'required' => false,
+            ])
+            ->add('UGPS', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control m-b select2 select2-ugps-input-results '
+                ],
+                'mapped' => false,
+                'multiple' => true,
+//                'expanded' => false,
+                'required' => false,
+//                'allow_add' => TRUE,
+
+            ])
+
         ;
+
+        $builder->get('UGPS')->resetViewTransformers();
+
     }
+//    public function configureOptions(OptionsResolver $resolver): void
+//    {
+//        $resolver->setDefaults([
+//            'validation_groups' => false,
+//        ]);
+//    }
 
 
 }
