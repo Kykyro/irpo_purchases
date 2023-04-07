@@ -189,6 +189,7 @@ class ReadinessMapXlsxService extends AbstractController
 
 
             $other_arr = [
+                '',
                 $_data['F']/100,
                 $_data['G']/100,
                 $_data['H']/100,
