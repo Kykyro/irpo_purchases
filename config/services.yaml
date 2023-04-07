@@ -49,8 +49,8 @@ services:
     App\EventListener\DatabaseOnFlushListener:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
-    App\Twig\AppExtension:
-        lazy: true
+#    App\Twig\AppExtension:
+#        lazy: true
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
             arguments:
                 - '%env(DATABASE_URL)%'
