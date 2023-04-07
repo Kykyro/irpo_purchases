@@ -252,6 +252,14 @@
                             </div>
                         {{ form_end(form) }}
                         <hr>
+                        <a href="{{ path('app_inspector_rm_actual_gallery_region', {'id': user.getId()}) }}">
+                            <button class="btn btn-warning" type="button">
+                                <i class="fa fa-photo">
+                                    Актуальная галерея
+                                </i>
+                            </button>
+                        </a>
+                        <hr>
 
                         {% if _photos %}
                         <div class="row">

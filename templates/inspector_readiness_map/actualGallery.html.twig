@@ -1,0 +1,99 @@
+{% extends 'default/base.html.twig' %}
+{% block styles %}
+    <link href="{{ asset('css/plugins/blueimp/css/blueimp-gallery.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1 mt-1">
+            <a href="{{ path('app_inspector_readiness_map', {'id': user.getId()}) }}">
+                <button class="btn btn-success ">
+                    <i class="fa fa-arrow-left">
+                        Назад
+                    </i>
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1 mb-2">
+            <div class="ibox  border-bottom">
+
+                <div class="ibox-title">
+
+                    <h5>
+                        Актуальная галерея
+                    </h5>
+
+                </div>
+                <div class="ibox-content">
+                    {% if _photos %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="lightBoxGallery">
+
+                                    <div class="row col-lg-12">
+                                        {#<h3 class="col-lg-12 mt-3">{{ title }} <br> <i class="fa fa-map-marker">{{ addres }}</i></h3>#}
+                                    {% for p in _photos %}
+                                        {% set title = '' %}
+                                        {% set addres = '' %}
+                                        {% for ver in p|reverse %}
+                                            {% if
+                                                title != ver.getRepair().getClusterZone().getName()
+                                                or
+                                                addres != ver.getRepair().getClusterZone().getAddres().getAddresses()
+                                            %}
+                                                {% set title = ver.getRepair().getClusterZone().getName() %}
+                                                {% set addres = ver.getRepair().getClusterZone().getAddres().getAddresses() %}
+                                                <h3 class="col-lg-12 mt-3" >{{ title }} <br> <i class="fa fa-map-marker">{{ addres }}</i></h3>
+                                            {% endif %}
+                                            {% for i in ver.getRepairPhotos() %}
+                                                <div class="col-lg-2 p-1 ml-2 form-control" >
+                                                    <a href="{{ path('app_download_file_by_route', {'route': 'repair_photos_directory', 'file': i.getPhoto()}) }}">
+                                                    <span class="btn btn-primary pull-right">
+                                                        <i class="fa fa-download">Скачать</i>
+                                                    </span>
+                                                    </a>
+
+                                                    <a href="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" title="{{ title }}" data-gallery="">
+                                                        <img src="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" class="col-lg-12" >
+                                                    </a>
+
+                                                    <div class="col-lg-12">
+                                                        {{ ver.getCreatedAt().format('d.m.Y') }}
+                                                    </div>
+                                                </div>
+
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                    </div>
+
+                                    <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                                    <div id="blueimp-gallery" class="blueimp-gallery">
+                                        <div class="slides"></div>
+                                        <h3 class="title"></h3>
+                                        <a class="prev">‹</a>
+                                        <a class="next">›</a>
+                                        <a class="close">×</a>
+                                        <a class="play-pause"></a>
+                                        <ol class="indicator"></ol>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+{% endblock %}

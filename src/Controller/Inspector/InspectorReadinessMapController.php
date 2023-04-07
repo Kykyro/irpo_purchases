@@ -457,4 +457,58 @@ class InspectorReadinessMapController extends AbstractController
 
         return $this->redirectToRoute('app_inspector_view_zone', ['id' => $zone_id]);
     }
+
+    /**
+     * @Route("/readiness-map/actual-gallery/{id}", name="app_inspector_rm_actual_gallery_region")
+     */
+    public function actualGallery(int $id)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $entity_manager->getRepository(User::class)->find($id);
+//        $gallery = $photos = $entity_manager->getRepository(PhotosVersion::class)
+//            ->createQueryBuilder('pv')
+//            ->leftJoin('pv.repair', 'zr')
+//            ->leftJoin('zr.clusterZone', 'cz')
+//            ->leftJoin('cz.addres', 'ca')
+//            ->leftJoin('ca.user', 'u')
+//            ->where('u.id = :userId')
+//            ->setParameter('userId', $user->getId())
+//            ->orderBy('pv.createdAt', 'ASC')
+//            ->setMaxResults(1)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+        $arr = [];
+        $zones = $entity_manager->getRepository(ClusterZone::class)
+            ->createQueryBuilder('cz')
+            ->leftJoin('cz.addres', 'ca')
+            ->leftJoin('ca.user', 'u')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $user->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+        foreach ($zones as $zone)
+        {
+            $gallery = $entity_manager->getRepository(PhotosVersion::class)
+                ->createQueryBuilder('pv')
+                ->leftJoin('pv.repair', 'zr')
+                ->leftJoin('zr.clusterZone', 'cz')
+                ->where('cz.id = :zoneId')
+                ->setParameter('zoneId', $zone->getId())
+                ->orderBy('pv.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getResult()
+            ;
+            array_push($arr, $gallery);
+        }
+
+
+        return $this->render('inspector_readiness_map/actualGallery.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+            '_photos' => $arr,
+            'user' => $user
+        ]);
+    }
 }

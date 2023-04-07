@@ -29,6 +29,7 @@ parameters:
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
 services:
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -48,7 +49,8 @@ services:
     App\EventListener\DatabaseOnFlushListener:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
-
+    App\Twig\AppExtension:
+        lazy: true
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
             arguments:
                 - '%env(DATABASE_URL)%'
