@@ -125,15 +125,23 @@
                                             {% for i in pagination %}
                                                 {% for j in i.getRepairPhotos() %}
 
-                                                    <div class="form-control col-lg-2 mr-2">
-                                                        <h5 class="pull-left">
+                                                    <div class="form-control col-lg-2 mr-2 photo">
+                                                        <h5 class="pull-left" style="height: 30px">
                                                             {{ i.getCreatedAt().format('d.m.Y') }}
                                                         </h5>
-                                                        <a href="{{ path('app_inspector_rm_delete_photo_region', {'zone_id': zone.getId(), 'photo_id': j.getId()}) }}">
+                                                        <div class="button-toggle" >
+                                                            <a href="{{ path('app_inspector_rm_delete_photo_region', {'zone_id': zone.getId(), 'photo_id': j.getId()}) }}">
                                                             <span class="btn btn-danger pull-right delete-alert">
-                                                            <i class="fa fa-trash"></i>
-                                                        </span>
-                                                        </a>
+                                                                <i class="fa fa-trash"></i>
+                                                            </span>
+                                                            </a>
+                                                            <a href="{{ path('app_download_file_by_route', {'route': 'repair_photos_directory', 'file': j.getPhoto()}) }}">
+                                                            <span class="btn btn-primary pull-right ">
+                                                                <i class="fa fa-download"></i>
+                                                            </span>
+                                                            </a>
+                                                        </div>
+
 
                                                         <a href="{{ asset('/uploads/repairPhotos/'~j.getPhoto()) }}" title="{{ name }}" data-gallery="">
                                                             <img src="{{ asset('/uploads/repairPhotos/'~j.getPhoto()) }}" class=" col-lg-12">
@@ -361,7 +369,18 @@
             $('thead').click(function(event) {
                 console.log($(event.target).parent().parent().parent());
                 $(event.target).parent().parent().parent().parent().find('.tbody').toggle('fast');
-            })
+            });
+
+            $('.photo').on({
+                mouseenter: function() {
+                    $( this ).find( ".button-toggle" ).show('fast');
+                }, mouseleave: function() {
+                    $( this ).find( ".button-toggle" ).hide('fast');
+                }
+            });
+
+
+            $(".button-toggle").hide();
         });
     </script>
 {% endblock %}
