@@ -51,7 +51,7 @@ class ReadinessMapXlsxService extends AbstractController
     {
         $sheet_template = "../public/excel/readinessMap.xlsx";
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
-        $sheet = $spreadsheet->getActiveSheet();
+        $sheet = $spreadsheet->getSheetByName('Ремонтные работы');
         $today = new \DateTime('now');
         $index = 1;
         $users = $this->getUsersByYear($year);
@@ -86,22 +86,10 @@ class ReadinessMapXlsxService extends AbstractController
                     if($zone->isDoNotTake())
                         continue;
                     $repair = $zone->getZoneRepair();
-                    if($zoneCount == 0)
-                    {
-//                        if($repair->getEndDate() >= $today)
-//                        {
-                            $nearestDate = $repair->getEndDate();
-                            $lateDate = $repair->getEndDate();
-//                        }
-//                        else
-//                        {
-//                            $nearestDate = $today;
-//                            $lateDate = $today;
-//                        }
-
-
+                    if($zoneCount == 0) {
+                        $nearestDate = $repair->getEndDate();
+                        $lateDate = $repair->getEndDate();
                     }
-
 
 
                     $_nearestDate = $repair->getEndDate();
@@ -237,10 +225,90 @@ class ReadinessMapXlsxService extends AbstractController
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getStyle('A:Q')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:Q')->getAlignment()->setVertical('center');
+
+        $sheet = $spreadsheet->getSheetByName('Оборудование');
+        $index = 1;
+        foreach ($users as $user)
+        {
+            $adresses = $user->getClusterAddresses();
+            $zoneCount = 0;
+            $procentage = [
+                'F' => 0,
+                'G' => 0,
+                'H' => 0,
+                'furniture' => 0,
+                'furniture_fact' => 0,
+                'PO' => 0,
+                'PO_fact' => 0,
+                'equipment' => 0,
+                'equipment_fact' => 0,
+            ];
+            foreach ($adresses as $adress) {
+
+                $zones = $adress->getClusterZones();
+                foreach ($zones as $zone) {
+                    if($zone->getType()->getName() == "Зона по видам работ")
+                    {
+                        $zoneCount++;
+                        $arr = $zone->getCountOfEquipmentByType();
+                        $procentage['F'] += ($arr['furniture'] > 0) ? ($arr['furniture_fact'] / $arr['furniture']) * 100 : 0;
+                        $procentage['G'] += ($arr['PO'] > 0) ? ($arr['PO_fact'] / $arr['PO']) * 100 : 0;
+                        $procentage['H'] += ($arr['equipment'] > 0) ? ($arr['equipment_fact'] / $arr['equipment']) * 100 : 0;
+                        $procentage['furniture'] += $arr['furniture'];
+                        $procentage['furniture_fact'] += $arr['furniture_fact'];
+                        $procentage['PO'] += $arr['PO'];
+                        $procentage['PO_fact'] += $arr['PO_fact'];
+                        $procentage['equipment'] += $arr['equipment'];
+                        $procentage['equipment_fact'] += $arr['equipment_fact'];
+                    }
+
+
+                }
+
+            }
+            $user_info = $user->getUserInfo();
+            $row = $sheet->getHighestRow()+1;
+            $sheet->setCellValue('A'.$row, $index);
+            $user_info_arr = [
+                $user_info->getRfSubject()->getName(),
+                $user_info->getDeclaredIndustry(),
+                $user_info->getEducationalOrganization(),
+                $zoneCount,
+                round($procentage['F'], 2),
+                round($procentage['G'], 2),
+                round($procentage['H'], 2),
+                '3?',
+                ($procentage['furniture'] > 0) ? round(($procentage['furniture_fact'] / $procentage['furniture']) * 100, 2) : 0,
+                ($procentage['PO'] > 0) ? round(($procentage['PO_fact'] / $procentage['PO']) * 100, 2) : 0,
+                ($procentage['equipment'] > 0) ? round(($procentage['equipment_fact'] / $procentage['equipment']) * 100, 2) : 0,
+                '7?',
+                '8?',
+                '9?',
+                '10?',
+                '11?',
+                '12?',
+                $user->getEquipmentDeliveryDeadline(),
+                '14?',
+                'Комментарий',
+                'Куратор'
+
+            ];
+            $sheet->fromArray($user_info_arr, null, 'B'.$row);
+
+            $sheet->getRowDimension($index+1)->setRowHeight(65);
+            $index++;
+        }
+        $end_cell = $index;
+        $rangeTotal = 'A2:V'.$end_cell;
+        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:V')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:V')->getAlignment()->setVertical('center');
+
         // Запись файла
         $writer = new Xlsx($spreadsheet);
 
-        $fileName = 'Карта готовности(ремонт)_'.$today->format('d-m-Y').'.xlsx';
+        $fileName = 'Карта готовности_'.$today->format('d-m-Y').'.xlsx';
 
 
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
