@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello listclustersController!{% endblock %}
+
+{% block body %}
+<body style="background-image: url({{ asset('img/img_start_landing/Background_1.jpg') }}); background-size: cover; background-repeat: inherit; background-position: center; position: sticky">
+    <main class="main-wrapper">
+        <section class="section-wrap pb-72 col-lg-12">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <a href="#">
+                            <div class="feature box-shadow hover-up hover-line">
+                                <img src="{{ asset('/img/img_start_landing/closeup-shot-of-laboratory-microscope-lens-for-conducting-coronavirus-research_181624-44734.jpg') }}" alt style="padding: 2rem;border-radius: 6rem">
+                                <h4 class="feature__title">Наименование базовой образовательной организации</h4>
+                                <h6 class="feature__title">Год создания</h6>
+                                <p class="feature__text">Субъект РФ </p>
+                                <p class="feature__title">Заявленная отрасль </p>
+                                <h5 class="feature__title">Наименование кластера </h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+{% endblock %}
