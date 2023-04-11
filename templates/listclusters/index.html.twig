@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello listclustersController!{% endblock %}
+
 
 {% block body %}
 <body style="background-image: url({{ asset('img/img_start_landing/Background_1.jpg') }}); background-size: cover; background-repeat: inherit; background-position: center; position: sticky">
@@ -8,18 +8,55 @@
         <section class="section-wrap pb-72 col-lg-12">
             <div class="container">
                 <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox">
+                            {{ form_start(form) }}
+                            <div class="ibox-content">
+                                    <div class="form-group">
+                                        <label>Поиск</label>
+                                        {{ form_widget(form.search) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Регион</label>
+                                        {{ form_widget(form.rf_subject) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Год</label>
+                                        {{ form_widget(form.year) }}
+                                    </div>
+                            </div>
+                            <div class="ibox-footer">
+                                <button class="btn btn-success col-lg-2 ">
+                                    <i class="fa fa-search m-0"> Поиск</i>
+                                </button>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for i in pagination %}
+                        {% set userInfo = i.getUserInfo() %}
                     <div class="col-lg-4">
                         <a href="#">
                             <div class="feature box-shadow hover-up hover-line">
                                 <img src="{{ asset('/img/img_start_landing/closeup-shot-of-laboratory-microscope-lens-for-conducting-coronavirus-research_181624-44734.jpg') }}" alt style="padding: 2rem;border-radius: 6rem">
-                                <h4 class="feature__title">Наименование базовой образовательной организации</h4>
-                                <h6 class="feature__title">Год создания</h6>
-                                <p class="feature__text">Субъект РФ </p>
-                                <p class="feature__title">Заявленная отрасль </p>
-                                <h5 class="feature__title">Наименование кластера </h5>
+                                {#<h4 class="feature__title">Наименование базовой образовательной организации</h4>#}
+                                <h4 class="feature__title">{{ userInfo.getEducationalOrganization() }}</h4>
+                                <h6 class="feature__title">Год создания: {{ userInfo.getYear() }}</h6>
+                                <p class="feature__text">Субъект РФ: {{ userInfo.getRfSubject().getName() }} </p>
+                                <p class="feature__title">Заявленная отрасль: {{ userInfo.getDeclaredIndustry() }} </p>
+                                <h5 class="feature__title"><b>Наименование кластера:</b> {{ userInfo.getCluster() }} </h5>
                             </div>
                         </a>
                     </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                    </div>
+
                 </div>
             </div>
         </section>
