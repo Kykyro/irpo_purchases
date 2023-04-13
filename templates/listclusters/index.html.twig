@@ -11,9 +11,9 @@
                     <div class="col-lg-12">
                         <div class="ibox">
                             {{ form_start(form) }}
-                            <div class="ibox-content">
+                            <div class="ibox-content" style="border-radius: 20px">
                                     <div class="form-group">
-                                        <label>Поиск</label>
+                                        <label>Наименование</label>
                                         {{ form_widget(form.search) }}
                                     </div>
                                     <div class="form-group">
@@ -24,13 +24,13 @@
                                         <label>Год</label>
                                         {{ form_widget(form.year) }}
                                     </div>
-                            </div>
                             <div class="ibox-footer">
-                                <button class="btn btn-success col-lg-2 ">
-                                    <i class="fa fa-search m-0"> Поиск</i>
+                                <button class="col-lg-12 btn" style="background: #1043cc; border-radius: 25px;font-family: Roboto">
+                                    <i class="fa m-0">Найти</i>
                                 </button>
                             </div>
                             {{ form_end(form) }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,14 +39,14 @@
                         {% set userInfo = i.getUserInfo() %}
                     <div class="col-lg-4">
                         <a href="#">
-                            <div class="feature box-shadow hover-up hover-line">
-                                <img src="{{ asset('uploads/clusterPhoto/'~userInfo.getPhoto()) }}" alt style="padding: 2rem;border-radius: 6rem">
+                            <div class="feature box-shadow hover-up hover-line" style="height: 550px; vertical-align: inherit; text-align: center">
+                                <img src="{{ asset('uploads/clusterPhoto/'~userInfo.getPhoto()) }}" alt style="padding: 2rem;border-radius: 6rem; height: 200px">
                                 {#<h4 class="feature__title">Наименование базовой образовательной организации</h4>#}
-                                <h4 class="feature__title">{{ userInfo.getEducationalOrganization() }}</h4>
-                                <h6 class="feature__title">Год создания: {{ userInfo.getYear() }}</h6>
-                                <p class="feature__text">Субъект РФ: {{ userInfo.getRfSubject().getName() }} </p>
-                                <p class="feature__title">Заявленная отрасль: {{ userInfo.getDeclaredIndustry() }} </p>
-                                <h5 class="feature__title"><b>Наименование кластера:</b> {{ userInfo.getCluster() }} </h5>
+                                <h4 class="feature__title" style="color: #000000">{{ userInfo.getDeclaredIndustry() }} </h4>
+                                <h6 class="feature__title" style="color: #000000">{{ userInfo.getYear() }}</h6>
+                                <p class="feature__title" style="color: #000000">{{ userInfo.getEducationalOrganization() }}</p>
+                                <p class="feature__text">{{ userInfo.getRfSubject().getName() }} </p>
+{#                                <h5 class="feature__title"><b>Наименование кластера:</b> {{ userInfo.getCluster() }} </h5>#}
                             </div>
                         </a>
                     </div>
