@@ -189,7 +189,7 @@ class ReadinessMapXlsxService extends AbstractController
                 "=(J$row+M$row)/2",
                 $nearestDate,
                 $lateDate,
-                'Куратор',
+                $user->getCurator(),
 
 
             ];
@@ -236,12 +236,16 @@ class ReadinessMapXlsxService extends AbstractController
                 'F' => 0,
                 'G' => 0,
                 'H' => 0,
+                'I' => 0,
                 'furniture' => 0,
                 'furniture_fact' => 0,
                 'PO' => 0,
                 'PO_fact' => 0,
                 'equipment' => 0,
                 'equipment_fact' => 0,
+                'furniture_put' => 0,
+                'equipment_put' => 0,
+                'PO_put' => 0,
             ];
             foreach ($adresses as $adress) {
 
@@ -254,12 +258,20 @@ class ReadinessMapXlsxService extends AbstractController
                         $procentage['F'] += ($arr['furniture'] > 0) ? ($arr['furniture_fact'] / $arr['furniture']) * 100 : 0;
                         $procentage['G'] += ($arr['PO'] > 0) ? ($arr['PO_fact'] / $arr['PO']) * 100 : 0;
                         $procentage['H'] += ($arr['equipment'] > 0) ? ($arr['equipment_fact'] / $arr['equipment']) * 100 : 0;
+
+                        $total = $arr['furniture'] + $arr['PO'] + $arr['equipment'];
+                        $total_put = $arr['furniture_put'] + $arr['equipment_put'] + $arr['PO_put'];
+                        $procentage['I'] += ($total > 0) ? ($total_put/ $total) * 100 : 0;
+
                         $procentage['furniture'] += $arr['furniture'];
                         $procentage['furniture_fact'] += $arr['furniture_fact'];
                         $procentage['PO'] += $arr['PO'];
                         $procentage['PO_fact'] += $arr['PO_fact'];
                         $procentage['equipment'] += $arr['equipment'];
                         $procentage['equipment_fact'] += $arr['equipment_fact'];
+                        $procentage['furniture_put'] += $arr['furniture_put'];
+                        $procentage['equipment_put'] += $arr['equipment_put'];
+                        $procentage['PO_put'] += $arr['PO_put'];
                     }
 
 
@@ -269,6 +281,16 @@ class ReadinessMapXlsxService extends AbstractController
             $user_info = $user->getUserInfo();
             $row = $sheet->getHighestRow()+1;
             $sheet->setCellValue('A'.$row, $index);
+            $total = $procentage['furniture'] + $procentage['PO'] + $procentage['equipment'];
+            $total_put = $procentage['furniture_put'] + $procentage['equipment_put'] + $procentage['PO_put'];
+            $count = 0;
+            if($procentage['furniture'] > 0)
+                $count++;
+            if($procentage['PO'] > 0)
+                $count++;
+            if($procentage['equipment'])
+                $count++;
+
             $user_info_arr = [
                 $user_info->getRfSubject()->getName(),
                 $user_info->getDeclaredIndustry(),
@@ -277,20 +299,20 @@ class ReadinessMapXlsxService extends AbstractController
                 round($procentage['F'], 2),
                 round($procentage['G'], 2),
                 round($procentage['H'], 2),
-                '3?',
+                round($procentage['I'], 2),
                 ($procentage['furniture'] > 0) ? round(($procentage['furniture_fact'] / $procentage['furniture']) * 100, 2) : 0,
                 ($procentage['PO'] > 0) ? round(($procentage['PO_fact'] / $procentage['PO']) * 100, 2) : 0,
                 ($procentage['equipment'] > 0) ? round(($procentage['equipment_fact'] / $procentage['equipment']) * 100, 2) : 0,
-                '7?',
-                '8?',
-                '9?',
-                '10?',
-                '11?',
-                '12?',
+                "=Sum(J$row:L$row)/$count",
+                ($total > 0) ? round(($total_put / $total) * 100, 2) : 0,
+                '-',
+                '-',
+                '-',
+                '-',
                 $user->getEquipmentDeliveryDeadline(),
-                '14?',
-                'Комментарий',
-                'Куратор'
+                '-',
+                '',
+                $user->getCurator()
 
             ];
             $sheet->fromArray($user_info_arr, null, 'B'.$row);

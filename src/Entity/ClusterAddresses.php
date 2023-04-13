@@ -221,6 +221,29 @@ class ClusterAddresses
 
 
     }
+    public function getMinEquipmentDeliveryDeadline()
+    {
+        $zones = $this->getClusterZones();
+        if(count($zones) > 0)
+        {
+            $date = $zones[0]->getMinEquipmentDeliveryDeadline();
+            foreach ($zones as $zone) {
+                $_date = $zone->getMinEquipmentDeliveryDeadline();
+                if($date > $_date and $_date != null)
+                {
+                    $date = $_date;
+                }
+            }
+
+            return $date;
+        }
+        else
+        {
+            return null;
+        }
+
+
+    }
     public function getDeadlineForCompletionOfRepairs()
     {
         $zones = $this->getClusterZones();

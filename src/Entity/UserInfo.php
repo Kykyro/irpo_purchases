@@ -144,6 +144,16 @@ class UserInfo
      */
     private $zone = [];
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $curator;
+
 
 
 
@@ -510,6 +520,30 @@ class UserInfo
     public function setZone(?array $zone): self
     {
         $this->zone = $zone;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getCurator(): ?string
+    {
+        return $this->curator;
+    }
+
+    public function setCurator(?string $curator): self
+    {
+        $this->curator = $curator;
 
         return $this;
     }

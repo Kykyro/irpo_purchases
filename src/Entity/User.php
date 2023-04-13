@@ -373,6 +373,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         else
             return null;
     }
+    public function getMinEquipmentDeliveryDeadline()
+    {
+        $arr = [];
+        foreach ($this->clusterAddresses as $address)
+        {
+            if($address->getMinEquipmentDeliveryDeadline())
+                array_push($arr, $address->getMinEquipmentDeliveryDeadline());
+        }
+        usort($arr, function($a, $b) {
+            $dateTimestamp1 = $a;
+            $dateTimestamp2 = $b;
+
+            return ($dateTimestamp1 > $dateTimestamp2 ) ? -1: 1;
+        });
+        if(count($arr) > 0)
+            return $arr[count($arr)-1]->format('d.m.Y');
+        else
+            return null;
+    }
     public function getDeadlineForCompletionOfRepairs()
     {
         $arr = [];

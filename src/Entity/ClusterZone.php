@@ -171,6 +171,30 @@ class ClusterZone
         }
 
     }
+    public function getMinEquipmentDeliveryDeadline()
+    {
+        if(count($this->zoneInfrastructureSheets) > 0)
+        {
+            $date =  $this->zoneInfrastructureSheets[0]->getDeliveryDate();
+
+            foreach ($this->zoneInfrastructureSheets as $i)
+            {
+                $_date = $i->getDeliveryDate();
+
+                if($date > $_date and $_date != null)
+                {
+                    $date = $_date;
+                }
+            }
+
+            return $date;
+        }
+        else
+        {
+            return null;
+        }
+
+    }
 
     public function isDoNotTake(): ?bool
     {
