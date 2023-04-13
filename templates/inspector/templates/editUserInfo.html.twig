@@ -6,6 +6,8 @@
         <div class="col-sm-12 col-form-label text-left">
             <strong>
                 {{ form_start(userInfoForm) }}
+                {{ form_row(userInfoForm.curator) }}
+                {{ form_row(userInfoForm._photo) }}
                 {{ form_row(userInfoForm.rf_subject) }}
                 {{ form_row(userInfoForm.initiatorOfCreation) }}
                 {{ form_row(userInfoForm.organization) }}

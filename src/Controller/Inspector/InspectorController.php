@@ -185,7 +185,7 @@ class InspectorController extends AbstractController
     /**
      * @Route("/cluster-info-edit/{id}", name="app_inspector_edit_info_about_cluster")
      */
-    public function editUserInfo(int $id, Request $request){
+    public function editUserInfo(int $id, Request $request, FileService $fileService){
 
         $entity_manger = $this->getDoctrine()->getManager();
         $user_info = $entity_manger->getRepository(UserInfo::class)->find($id);
@@ -197,6 +197,10 @@ class InspectorController extends AbstractController
         if($form->isSubmitted() and $form->isValid())
         {
 
+            $photo = $form->get('_photo')->getData();
+
+            if($photo)
+                $user_info->setPhoto($fileService->UploadFile($photo, 'cluster_photo_directory'));
 
             $arr = [];
             $key = 1;

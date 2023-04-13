@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -48,6 +49,13 @@ class inspectorUserEditFormType extends AbstractType
                     'attr' => ['class' => 'form-control'],
                     'required'   => true,
                     'label' => 'Инициатор создания кластера '
+                ])
+            ->add("curator", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => false,
+                    'label' => 'Куратор ',
+
                 ])
             ->add("educational_organization", TextType::class,
                 [
@@ -252,6 +260,13 @@ class inspectorUserEditFormType extends AbstractType
 
                 'required'   => true,
                 'label' => 'Объём финансирования из средств  субъекта РФ'
+            ])
+            ->add('_photo', FileType::class, [
+                'attr' => [
+                    'class' => 'form-control col-lg-12'
+                ],
+                'mapped' => false,
+                'label' => 'Фотография'
             ])
         ;
     }

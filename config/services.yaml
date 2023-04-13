@@ -26,6 +26,7 @@ parameters:
     another_documents_directory: '%kernel.project_dir%/public/uploads/anotherDocument'
     readiness_map_archive_directory: '%kernel.project_dir%/public/uploads/readinessMapArchive'
     readiness_map_template_file: '%kernel.project_dir%/public/word/Карта готовности Кластеры.docx'
+    cluster_photo_directory: '%kernel.project_dir%/public/uploads/clusterPhoto'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
 services:

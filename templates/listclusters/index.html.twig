@@ -40,7 +40,7 @@
                     <div class="col-lg-4">
                         <a href="#">
                             <div class="feature box-shadow hover-up hover-line">
-                                <img src="{{ asset('/img/img_start_landing/closeup-shot-of-laboratory-microscope-lens-for-conducting-coronavirus-research_181624-44734.jpg') }}" alt style="padding: 2rem;border-radius: 6rem">
+                                <img src="{{ asset('uploads/clusterPhoto/'~userInfo.getPhoto()) }}" alt style="padding: 2rem;border-radius: 6rem">
                                 {#<h4 class="feature__title">Наименование базовой образовательной организации</h4>#}
                                 <h4 class="feature__title">{{ userInfo.getEducationalOrganization() }}</h4>
                                 <h6 class="feature__title">Год создания: {{ userInfo.getYear() }}</h6>
