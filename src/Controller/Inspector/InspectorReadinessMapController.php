@@ -459,13 +459,15 @@ class InspectorReadinessMapController extends AbstractController
     }
 
     /**
-     * @Route("/readiness-map/repair-history", name="app_inspector_rm_repair_history")
+     * @Route("/readiness-map/repair/history/{id}", name="app_inspector_rm_repair_history")
      */
-    public function repairHistory()
+    public function repairHistory(int $id)
     {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $entity_manager->getRepository(User::class)->find($id);
         return $this->render('inspector_readiness_map/repairHistory.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
-
+            'user' => $user
         ]);
     }
 
