@@ -333,7 +333,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $zones = $address->getClusterZones();
             foreach ($zones as $zone)
             {
-                if($zone->getType()->getName() == 'Зона по видам работ')
+                if($zone->getType()->getName() == 'Зона по видам работ' and !$zone->isDoNotTake())
                 {
                     $count++;
                     $result += $zone->getZoneRepair()->getTotalPercentage();
@@ -358,7 +358,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $zones = $address->getClusterZones();
             foreach ($zones as $zone)
             {
-                if($zone->getType()->getName() != 'Зона по видам работ')
+                $zoneType = $zone->getType()->getName();
+                if($zoneType != 'Зона по видам работ' and $zoneType != "Иное")
                 {
                     $count++;
                     $result += $zone->getZoneRepair()->getTotalPercentage();
