@@ -485,7 +485,7 @@
         }))) : (g.css("display", "none") && g.css("display", "table"), v.hasClass("open") && v.removeClass("open"), C.length && (C.hasClass("fullpage-wrapper") && !C.hasClass("fp-destroyed") || C.fullpage({
             menu: "#menu",
             lockAnchors: !1,
-            anchors: ["home", "events", "map", "il", "documentation", "design_projects", "employees", "feedback"],
+            anchors: ["home", "events", "map", "listclusters", "il", "documentation", "design_projects", "employees", "feedback"],
             scrollingSpeed: 500,
             autoScrolling: !0,
             controlArrows: !0,
