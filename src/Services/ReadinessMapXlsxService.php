@@ -142,23 +142,27 @@ class ReadinessMapXlsxService extends AbstractController
 
             ];
             $sheet->fromArray($user_info_arr, null, 'B'.$row);
-
+            $count = 0;
             $dateMidFormula = "";
             if($_countZone['Фасад'] > 0)
             {
                 $_data['F'] = $_data['F']/$_countZone['Фасад'];
+                $count++;
             }
             if($_countZone['Входная группа'] > 0)
             {
                 $_data['G'] = $_data['G']/$_countZone['Входная группа'];
+                $count++;
             }
             if($_countZone['Холл (фойе)'] > 0)
             {
                 $_data['H'] = $_data['H']/$_countZone['Холл (фойе)'];
+                $count++;
             }
             if($_countZone['Коридоры'] > 0)
             {
                 $_data['I'] = $_data['I']/$_countZone['Коридоры'];
+                $count++;
             }
             if($nearestDate and $lateDate)
             {
@@ -182,7 +186,7 @@ class ReadinessMapXlsxService extends AbstractController
                 $_data['G']/100,
                 $_data['H']/100,
                 $_data['I']/100,
-                "=AVERAGE(F$row:I$row)",
+                "=SUM(F$row:I$row)/$count",
                 $_countZone['Зона по видам работ'],
                 $totalProcentZone/100,
                 "=L$row/K$row",
