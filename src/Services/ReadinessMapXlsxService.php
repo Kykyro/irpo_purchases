@@ -189,7 +189,7 @@ class ReadinessMapXlsxService extends AbstractController
                 "=(J$row+M$row)/2",
                 $nearestDate,
                 $lateDate,
-                $user->getCurator(),
+                $user_info->getCurator(),
 
 
             ];
@@ -312,7 +312,7 @@ class ReadinessMapXlsxService extends AbstractController
                 $user->getEquipmentDeliveryDeadline(),
                 '-',
                 '',
-                $user->getCurator()
+                $user_info->getCurator()
 
             ];
             $sheet->fromArray($user_info_arr, null, 'B'.$row);
