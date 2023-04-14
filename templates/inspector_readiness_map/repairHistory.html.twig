@@ -1,0 +1,54 @@
+{% extends 'default/base.html.twig' %}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Address
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>
+                                Зона
+                            </td>
+                            <td>
+                                Актуальный ремонт
+                            </td>
+                            <td>
+                                Ремонт на дату <b>12.12.23</b>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Фасад
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+
+{% endblock %}

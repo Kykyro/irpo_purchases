@@ -326,13 +326,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public  function getMidRepairByZone()
     {
 
-        $count = count($this->clusterAddresses);
+        $count = 0;
         $result = 0;
         foreach ($this->clusterAddresses as $address)
         {
-            $result += $address->getMidRepairByZone();
-        }
+            $zones = $address->getClusterZones();
+            foreach ($zones as $zone)
+            {
+                if($zone->getType()->getName() == 'Зона по видам работ')
+                {
+                    $count++;
+                    $result += $zone->getZoneRepair()->getTotalPercentage();
+                }
 
+            }
+
+        }
 
         if($count > 0)
             return $result/$count;
@@ -342,11 +351,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public  function getMidRepairByCommon()
     {
 
-        $count = count($this->clusterAddresses);
+        $count = 0;
         $result = 0;
         foreach ($this->clusterAddresses as $address)
         {
-            $result += $address->getMidRepairByCommon();
+            $zones = $address->getClusterZones();
+            foreach ($zones as $zone)
+            {
+                if($zone->getType()->getName() != 'Зона по видам работ')
+                {
+                    $count++;
+                    $result += $zone->getZoneRepair()->getTotalPercentage();
+                }
+
+            }
+
         }
 
         if($count > 0)

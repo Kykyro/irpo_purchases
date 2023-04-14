@@ -459,6 +459,17 @@ class InspectorReadinessMapController extends AbstractController
     }
 
     /**
+     * @Route("/readiness-map/repair-history", name="app_inspector_rm_repair_history")
+     */
+    public function repairHistory()
+    {
+        return $this->render('inspector_readiness_map/repairHistory.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+
+        ]);
+    }
+
+    /**
      * @Route("/readiness-map/actual-gallery/{id}", name="app_inspector_rm_actual_gallery_region")
      */
     public function actualGallery(int $id)
