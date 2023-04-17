@@ -151,6 +151,9 @@
                     <li > {# class="active" #}
                         <a href="{{ path("app_inspector_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Кластеры</span></a>
                     </li>
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_certificate_by_cluster_insperctor") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справка по кластерам </span></a>
+                    </li>
                 {% endif %}
                 {% if is_granted('ROLE_USER') %}
                     <li > {# class="active" #}
