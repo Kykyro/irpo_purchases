@@ -39,6 +39,11 @@ class ZoneRepairRepository extends ServiceEntityRepository
         }
     }
 
+    public function getRepairByRepairDumpGroup()
+    {
+
+    }
+
 //    /**
 //     * @return ZoneRepair[] Returns an array of ZoneRepair objects
 //     */

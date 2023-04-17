@@ -6,6 +6,8 @@ use App\Entity\ClusterAddresses;
 use App\Entity\ClusterZone;
 use App\Entity\Log;
 use App\Entity\PhotosVersion;
+use App\Entity\RepairDump;
+use App\Entity\RepairDumpGroup;
 use App\Entity\RepairPhotos;
 use App\Entity\User;
 use App\Entity\ZoneInfrastructureSheet;
@@ -25,6 +27,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use ZipArchive;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -440,7 +443,8 @@ class InspectorReadinessMapController extends AbstractController
 
         return $this->render('inspector_readiness_map/readinessMapArcheve.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
-            'user' => $user
+            'user' => $user,
+
         ]);
     }
 
@@ -461,13 +465,52 @@ class InspectorReadinessMapController extends AbstractController
     /**
      * @Route("/readiness-map/repair/history/{id}", name="app_inspector_rm_repair_history")
      */
-    public function repairHistory(int $id)
+    public function repairHistory(int $id, Request $request, SerializerInterface $serializer)
     {
         $entity_manager = $this->getDoctrine()->getManager();
         $user = $entity_manager->getRepository(User::class)->find($id);
+
+        $arr = [];
+        $form = $this->createFormBuilder($arr)
+            ->add('dump', EntityType::class, [
+                'attr' => ['class' => 'form-control select2'],
+                'required'   => false,
+                'class' => RepairDumpGroup::class,
+                'query_builder' => function (EntityRepository $er) use($user) {
+                    return $er->createQueryBuilder('g')
+                        ->leftJoin('g.repairDump', 'r')
+                        ->andWhere('r.user = :user')
+                        ->setParameter('user', $user)
+                        ->orderBy('g.createdAt', 'ASC')
+                        ;
+                },
+                'choice_label' => function($dump){
+                    return $dump->getCreatedAt()->format('d.m.Y');
+                },
+                'label' => 'Дата'
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success'
+                ],
+                'label' => 'Найти',
+            ])
+            ->getForm();
+
+        $repair_dump = null;
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $repair_dump = $form->getData();
+            $repair_dump = $repair_dump['dump']->getRepairDump();
+        }
         return $this->render('inspector_readiness_map/repairHistory.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
-            'user' => $user
+            'user' => $user,
+            'form' => $form->createView(),
+            'dump' => $repair_dump,
+            'serializer' => $serializer,
+
         ]);
     }
 

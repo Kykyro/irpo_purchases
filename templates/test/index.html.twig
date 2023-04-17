@@ -118,29 +118,7 @@
 
                     </div>
                     <hr>
-                    {{ form_start(form) }}
 
-                        <div id="clusters" class="row">
-                            {% for i in form.clusters %}
-                                <div class="form-control col-lg-3 m-2">
-                                    <div class="row">
-                                        <div class="col-lg-1">
-                                            {{ form_widget(i) }}
-                                        </div>
-                                        <div class="col-lg-10">
-                                            {{ form_label(i) }}
-                                        </div>
-                                        <div class="col-lg-10">
-                                            <hr>
-                                            <b>Год:</b> {{ i.vars.attr["data-year"] }} <br>
-                                            <b>Регион:</b> {{ i.vars.attr["data-region"] }}
-                                        </div>
-                                    </div>
-
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
@@ -153,50 +131,5 @@
 {% endblock %}
 
 {% block scripts %}
-    {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
-    {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>#}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            let yearInput = $('#year-input');
-            // let regionInput = $('#region-input');
-            let filterBtn = $('#filter-btn');
-            let cancelFilterBtn = $('#cancel-filter-btn');
-            function filter() {
-                cancelFilter();
-                console.log('Отфильтровано');
 
-                let _year = "data-year!=" + yearInput.val();
-                let filtered_year = $('#clusters input['+_year+']');
-                filtered_year.closest('.form-control').hide();
-
-
-                // regionInput.val().each((elem) => {
-                //     let _region = `data-region!=''`;
-                //         // "data-region!='" + elem + "'";
-                //     let filtered_region = $('#clusters input['+_region+']');
-                //     filtered_region.closest('.form-control').hide();
-                // });
-                //
-                // console.log(regionInput.val());
-            }
-            function cancelFilter() {
-                console.log('фильтр сброшен');
-                $('.form-control').show();
-
-            }
-            filterBtn.click((e) => {
-                filter();
-            });
-            cancelFilterBtn.click((e) => {
-                cancelFilter();
-            });
-            // $('.select2').select2({
-            //     closeOnSelect : false,
-            //     placeholder : "Placeholder",
-            //     allowHtml: true,
-            //     allowClear: true
-            // });
-        });
-    </script>
 {% endblock %}

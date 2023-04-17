@@ -15,10 +15,21 @@
                         </button>
                     </a>
                 </div>
+                <div class="ibox-content">
+                    {{ form_start(form) }}
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>
     {% set addresses = user.getClusterAddresses() %}
+    {#{% for d in dump %}#}
+    {#<h6>#}
+
+    {#{{ dump(d.getRepair().getClusterZone().getName()) }}#}
+    {#</h6>#}
+    {#{% endfor %}#}
+    {% set count = 0 %}
     {% for adres in addresses %}
         {% set zones = adres.getSortedClusterZones() %}
         <div class="row">
@@ -45,7 +56,9 @@
                                         Актуальный ремонт
                                     </td>
                                     <td class="col-md-5">
-                                        Ремонт на дату <b>12.12.2023</b>
+                                        {% if dump %}
+                                            Ремонт на дату <b>12.12.2023</b>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             </thead>
@@ -101,8 +114,13 @@
                                         </div>
                                     </td>
                                     {# dump #}
+                                    {% if dump %}
                                     <td>
-                                        {#{% set repair = zone.getZoneRepair() %}#}
+                                        {#<h6>#}
+                                            {#{{  }}#}
+                                        {#</h6>#}
+                                        {#<hr>#}
+                                        {% set repair = dump[count].getEntity(serializer) %}
                                         <h5>Общий процент <b>{{ repair.getTotalPercentage() }} %</b></h5>
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -145,7 +163,11 @@
                                             </div>
                                         </div>
                                     </td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
                                 </tr>
+                                {% set count = count + 1 %}
                             {% endfor %}
                             </tbody>
                         </table>

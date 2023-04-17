@@ -5,6 +5,7 @@ namespace App\Controller\Test;
 
 use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
+use App\Entity\RepairDump;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Form\ChoiceInputType;
@@ -37,28 +38,51 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class TestController extends AbstractController
 {
+    private $serializer;
+//    private $entity_manager;
+
+    public function __construct(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
+//        $this->entity_manager = $em;
+
+//        parent::__construct();
+    }
     /**
      * @Route("/test", name="app_test")
      * @Route("/test/{id}", name="app_test_id")
      */
     public function index(Request $request, int $id = null, certificateByClustersService $byClustersService): Response
     {
-        $arr = [];
-        $entity_manager = $this->getDoctrine()->getManager();
-        $regions = $entity_manager->getRepository(RfSubject::class)->findAll();
-        $form = $this->createForm(makeCertificateForm::class, $arr);
 
-        $form->handleRequest($request);
-        if($form->isSubmitted() and $form->isValid())
+        $entity_manager = $this->getDoctrine()->getManager();
+        $user = $entity_manager->getRepository(User::class)->find($id);
+        $adreses = $user->getClusterAddresses();
+        foreach ($adreses as $adrese)
         {
-            $data = $form->getData();
-            return $byClustersService->getCertificate($data['clusters']);
+            $zones = $adrese->getSortedClusterZones();
+            foreach ($zones as $zone)
+            {
+                $repair = $zone->getZoneRepair();
+                $jsonContent =  $this->serializer->serialize($repair, 'json',['groups' => ['dump_data']]);
+                $jsonContent = utf8_encode($jsonContent);
+//                dump($zone->getId());
+//                dump($jsonContent);
+                $dump = new RepairDump();
+                $dump->setRepair($repair);
+                $dump->setDump($jsonContent);
+                dump($dump);
+
+            }
+
         }
+        dd();
+
 
         return $this->render('test/index.html.twig', [
             'controller_name' => 'RegionController',
-            'form' => $form->createView(),
-            'regions' => $regions
+
+
 
         ]);
     }

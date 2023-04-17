@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotations\Log;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ZoneRepairRepository::class)
@@ -21,42 +22,49 @@ class ZoneRepair
     private $id;
 
     /**
+     *
      * @ORM\OneToOne(targetEntity=ClusterZone::class, inversedBy="zoneRepair", cascade={"persist", "remove"})
      */
     private $clusterZone;
 
 
     /**
+     * @Groups("dump_data")
      * @Log
      * @ORM\Column(type="date", nullable=true)
      */
     private $endDate;
 
     /**
+     * @Groups("dump_data")
      * @Log
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
 
     /**
+     * @Groups("dump_data")
      * @Log
      * @ORM\Column(type="integer")
      */
     private $Dismantling;
 
     /**
+     * @Groups("dump_data")
      * @Log
      * @ORM\Column(type="integer")
      */
     private $plasteringAndCommunication;
 
     /**
+     * @Groups("dump_data")
      * @Log
      * @ORM\Column(type="integer")
      */
     private $finishing;
 
     /**
+     * @Groups("dump_data")
      * @Log
      * @ORM\Column(type="integer")
      */
@@ -79,6 +87,11 @@ class ZoneRepair
      */
     private $notPlanned;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RepairDump::class, mappedBy="repair")
+     */
+    private $repairDumps;
+
     public function __construct()
     {
         $this->photosVersions = new ArrayCollection();
@@ -86,6 +99,7 @@ class ZoneRepair
         $this->setPlasteringAndCommunication(0);
         $this->setFinishing(0);
         $this->setBranding(0);
+        $this->repairDumps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -248,4 +262,36 @@ class ZoneRepair
         }
         return $this;
     }
+
+    /**
+     * @return Collection<int, RepairDump>
+     */
+    public function getRepairDumps(): Collection
+    {
+        return $this->repairDumps;
+    }
+
+    public function addRepairDump(RepairDump $repairDump): self
+    {
+        if (!$this->repairDumps->contains($repairDump)) {
+            $this->repairDumps[] = $repairDump;
+            $repairDump->setRepair($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairDump(RepairDump $repairDump): self
+    {
+        if ($this->repairDumps->removeElement($repairDump)) {
+            // set the owning side to null (unless already changed)
+            if ($repairDump->getRepair() === $this) {
+                $repairDump->setRepair(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

@@ -5,6 +5,8 @@ namespace App\Command;
 
 
 use App\Entity\ProcurementProcedures;
+use App\Entity\RepairDump;
+use App\Entity\RepairDumpGroup;
 use App\Entity\User;
 use App\Entity\PurchasesDump;
 use Symfony\Component\Console\Command\Command;
@@ -17,13 +19,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Shapecode\Bundle\CronBundle\Annotation\CronJob;
 
 
-/**
- * @CronJob("5 3 * * 5,6")
- */
-class weeklyReportCommand extends Command
+///**
+// * @CronJob("5 3 * * 5,6")
+// */
+class weeklyRepairReportCommand extends Command
 {
 
-    protected static $defaultName = 'app:purchases:dump';
+    protected static $defaultName = 'app:repair:dump';
 
     private $serializer;
     private $entity_manager;
@@ -62,20 +64,30 @@ class weeklyReportCommand extends Command
             ->getResult();
 
         foreach ($clusters as $cluster){
+            $dumpGroup = new RepairDumpGroup();
 
-            $pp = $this->entity_manager->getRepository(ProcurementProcedures::class)
-                ->createQueryBuilder('a')
-                ->andWhere('a.user = :uid')
-                ->setParameter('uid', $cluster->getId())
-                ->getQuery()
-                ->getResult();
-            $jsonContent =  $this->serializer->serialize($pp, 'json',['groups' => ['dump_data']]);
-            $jsonContent = utf8_encode($jsonContent);
-            $purchasesDump = new PurchasesDump();
-            $purchasesDump->setUser($cluster);
-            $purchasesDump->getDump()->setDump($jsonContent);
-            $this->entity_manager->persist($purchasesDump);
+            $adreses = $cluster->getClusterAddresses();
+            foreach ($adreses as $adrese)
+            {
+                $zones = $adrese->getSortedClusterZones();
+                foreach ($zones as $zone)
+                {
+                    $repair = $zone->getZoneRepair();
+                    if(is_null($repair->getComment()))
+                        $repair->setComment('-');
+                    $jsonContent =  $this->serializer->serialize($repair, 'json',['groups' => ['dump_data']]);
+                    $jsonContent = utf8_encode($jsonContent);
+                    $dump = new RepairDump();
+                    $dump->setRepair($repair);
+                    $dump->setUser($cluster);
+                    $dump->setDump($jsonContent);
+                    $dump->setRepairDumpGroup($dumpGroup);
+                    $this->entity_manager->persist($dump);
+                }
+            }
+            $this->entity_manager->persist($dumpGroup);
         }
+
 
 
 

@@ -76,6 +76,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $readinessMapArchives;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RepairDump::class, mappedBy="user")
+     */
+    private $repairDumps;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +107,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->purchaseNotes = new ArrayCollection();
         $this->clusterAddresses = new ArrayCollection();
         $this->readinessMapArchives = new ArrayCollection();
+        $this->repairDumps = new ArrayCollection();
     }
 
 
@@ -543,6 +549,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($readinessMapArchive->getUser() === $this) {
                 $readinessMapArchive->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RepairDump>
+     */
+    public function getRepairDumps(): Collection
+    {
+        return $this->repairDumps;
+    }
+
+    public function addRepairDump(RepairDump $repairDump): self
+    {
+        if (!$this->repairDumps->contains($repairDump)) {
+            $this->repairDumps[] = $repairDump;
+            $repairDump->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairDump(RepairDump $repairDump): self
+    {
+        if ($this->repairDumps->removeElement($repairDump)) {
+            // set the owning side to null (unless already changed)
+            if ($repairDump->getUser() === $this) {
+                $repairDump->setUser(null);
             }
         }
 
