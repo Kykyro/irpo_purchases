@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ZoneRepairRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotations\Log;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -83,6 +84,7 @@ class ZoneRepair
     private $photosVersions;
 
     /**
+     * @Groups("dump_data")
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $notPlanned;

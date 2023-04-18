@@ -501,8 +501,8 @@ class InspectorReadinessMapController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-//            $repair_dump = $form->getData();
-//            $repair_dump = $repair_dump['dump']->getRepairDump();
+            $repair_dump = $form->getData();
+            $repair_dump = $repair_dump['dump'];
         }
         return $this->render('inspector_readiness_map/repairHistory.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',

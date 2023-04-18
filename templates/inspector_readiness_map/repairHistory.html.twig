@@ -57,7 +57,7 @@
                                     </td>
                                     <td class="col-md-5">
                                         {% if dump %}
-                                            Ремонт на дату <b>12.12.2023</b>
+                                            Ремонт на дату <b>{{ dump.getCreatedAt().format('d.m.Y') }}</b>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -115,13 +115,22 @@
                                     </td>
                                     {# dump #}
                                     {% if dump %}
+                                        {% macro different(diff) %}
+                                            <i class="{% if diff > 0 %}
+                                                text-navy
+                                            {% elseif diff == 0 %}
+                                            {% else %}
+                                                text-danger
+                                            {% endif %}">
+                                                ({{ diff }} %)
+                                            </i>
+                                        {% endmacro %}
                                     <td>
-                                        {#<h6>#}
-                                            {#{{  }}#}
-                                        {#</h6>#}
-                                        {#<hr>#}
-                                        {% set repair = dump[count].getEntity(serializer) %}
-                                        <h5>Общий процент <b>{{ repair.getTotalPercentage() }} %</b></h5>
+                                        {% set actual_repair = repair %}
+                                        {% set repair = adres.getRepairDump(dump, zone) %}
+                                        {% set repair = repair[0].getEntity(serializer) %}
+                                        {% set diff = repair.getTotalPercentage() - actual_repair.getTotalPercentage() %}
+                                        <h5>Общий процент <b>{{ repair.getTotalPercentage() }} %</b> {{ _self.different(diff) }}</h5>
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="progress">
@@ -137,15 +146,18 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 {% if not repair.isNotPlanned() %}
-                                                    <h5>Демонтажные работы <b>{{ repair.getDismantling() }} %</b></h5>
+                                                    {% set diff = repair.getDismantling() - actual_repair.getDismantling() %}
+                                                    <h5>Демонтажные работы <b>{{ repair.getDismantling() }} %</b> {{ _self.different(diff) }}</h5>
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-primary" style="width: {{ repair.getDismantling() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
-                                                    <h5>Штукатурные и коммуникационные работы <b>{{ repair.getPlasteringAndCommunication() }} %</b></h5>
+                                                    {% set diff = repair.getPlasteringAndCommunication() - actual_repair.getPlasteringAndCommunication() %}
+                                                    <h5>Штукатурные и коммуникационные работы <b>{{ repair.getPlasteringAndCommunication() }} %</b> {{ _self.different(diff) }}</h5>
                                                     <div class="progress">
                                                         <div class="progress-bar  progress-bar-success" style="width: {{ repair.getPlasteringAndCommunication() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
-                                                    <h5>Отделочные работы <b>{{ repair.getFinishing() }} %</b></h5>
+                                                    {% set diff = repair.getFinishing() - actual_repair.getFinishing() %}
+                                                    <h5>Отделочные работы <b>{{ repair.getFinishing() }} %</b> {{ _self.different(diff) }}</h5>
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-warning" style="width: {{ repair.getFinishing() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
@@ -154,8 +166,8 @@
                                                 {% endif %}
                                                 {% if zone.getType().getName() != "Иное" %}
 
-
-                                                    <h5>Брендирование <b>{{ repair.getBranding() }} %</b></h5>
+                                                    {% set diff = repair.getBranding() - actual_repair.getBranding() %}
+                                                    <h5>Брендирование <b>{{ repair.getBranding() }} %</b> {{ _self.different(diff) }}</h5>
                                                     <div class="progress">
                                                         <div class="progress-bar  progress-bar-danger" style="width: {{ repair.getBranding() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>

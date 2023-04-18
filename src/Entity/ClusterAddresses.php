@@ -292,4 +292,19 @@ class ClusterAddresses
 
         return $arr;
     }
+    public function getRepairDump($group, $zone)
+    {
+
+        $repair = $zone->getZoneRepair();
+
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('repairDumpGroup', $group))
+            ->orderBy(['createdAt' => 'DESC'])
+        ;
+
+//        dd( $repair->getRepairDumps()->matching($criteria));
+        return $repair->getRepairDumps()->matching($criteria);
+
+
+    }
 }
