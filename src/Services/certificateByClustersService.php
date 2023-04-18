@@ -307,7 +307,8 @@ class certificateByClustersService extends AbstractController
                     $user_info->getExtraFundsOO() * 1000, // Объём финансирования из средств субъекта РФ (руб.)
                     $this->arrayToStringList( $_ugps), // Наименование профессий и специальностей, реализуемых в кластере
                     $this->arrayToStringList( $user_info->getZone()), // Зоны по виду работ, созданные в рамках проекта
-                    $this->arrayToStringList( $user_info->getListOfAnotherOrganization()) // Иные организации
+                    $this->arrayToStringList( $user_info->getListOfAnotherOrganization()), // Иные организации
+                    $user_info->getYear()
                 ]
             ;
             $row_arr = ['J', 'K', 'L'];
@@ -361,7 +362,7 @@ class certificateByClustersService extends AbstractController
         foreach ($row_arr as $j){
             $sheet->getStyle($j.($index))->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
         }
-        $rangeTotal = 'A2:O'.$index;
+        $rangeTotal = 'A2:P'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getRowDimension($index)->setRowHeight(-1);
