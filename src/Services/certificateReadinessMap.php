@@ -120,7 +120,7 @@ class certificateReadinessMap extends AbstractController
                 $templateProcessor->setValue('equipment_all#'.$zoneCount,
                     str_replace('.', ',', round($equipment_count,1)));
 
-                $templateProcessor->setValue('comment#'.$zoneCount, $comments);
+//                $templateProcessor->setValue('comment#'.$zoneCount, $comments);
 
                 $zoneCount++;
             }
