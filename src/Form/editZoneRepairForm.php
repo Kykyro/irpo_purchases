@@ -112,7 +112,7 @@ class editZoneRepairForm extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-outline-success',
                 ],
-                'label' => 'Ремон не запланирован',
+                'label' => 'Ремонт не запланирован',
             ]);
     }
 
