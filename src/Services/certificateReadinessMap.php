@@ -95,9 +95,9 @@ class certificateReadinessMap extends AbstractController
             {
                 $equipment = $zone->getCountOfEquipmentByType();
                 $equipment_count = $zone->getCountOfEquipment();
-                $comments = $zone->getAllComments();
-                $comments = (count($comments) > 0) ? implode("\n", $comments) : '';
-                $comments =   str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', $comments );;
+//                $comments = $zone->getAllComments();
+//                $comments = (count($comments) > 0) ? implode("\n", $comments) : '';
+//                $comments =   str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', $comments );;
 
                 $_furniture = ($equipment['furniture'] > 0) ? ($equipment['furniture_fact']/$equipment['furniture'])*100 : 0;
                 $_PO = ($equipment['PO'] > 0) ? ($equipment['PO_fact']/$equipment['PO'])*100 : 0;
