@@ -266,7 +266,9 @@ class inspectorUserEditFormType extends AbstractType
                     'class' => 'form-control col-lg-12'
                 ],
                 'mapped' => false,
-                'label' => 'Фотография'
+                'label' => 'Фотография',
+
+                'required'   => false,
             ])
         ;
     }
