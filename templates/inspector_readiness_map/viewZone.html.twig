@@ -19,7 +19,7 @@
 
 
                 <div class="ibox-content" style="display: block;">
-                    <a href="{{ path('app_inspector_readiness_map', {'id': zone.getAddres().getUser().getId()}) }}">
+                    <a href="{{ path('app_inspector_readiness_map', {'id': zone.getAddres().getUser().getId(), 'tab':zone.getAddres().getId()}) }}">
                         <button class="btn mb-3">
                             <i class="fa fa-arrow-left">
                                 Назад
