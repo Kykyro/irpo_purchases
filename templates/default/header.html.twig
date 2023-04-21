@@ -123,6 +123,9 @@
                     <li > {# class="active" #}
                         <a href="{{ path("app_feedback") }}"><i class="fa fa-at left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Обратная связь <span class="label float-right mt-1" id="feedback-count"></span></span></a>
                     </li>
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_admin_org_list") }}"><i class="fa fa-building left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Список организаций </span></a>
+                    </li>
 
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
