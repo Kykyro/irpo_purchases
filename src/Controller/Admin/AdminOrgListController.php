@@ -32,7 +32,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Knp\Component\Pager\PaginatorInterface;
 /**
  *
- * @Route("/journalist")
+ * @Route("/inspector")
  *
  */
 class AdminOrgListController extends AbstractController
