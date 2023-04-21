@@ -95,16 +95,12 @@ class certificateReadinessMap extends AbstractController
             {
                 $equipment = $zone->getCountOfEquipmentByType();
                 $equipment_count = $zone->getCountOfEquipment();
-//                $comments = $zone->getAllComments();
-//                $comments = (count($comments) > 0) ? implode("\n", $comments) : '';
-//                $comments =   str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', $comments );;
 
                 $_furniture = ($equipment['furniture'] > 0) ? ($equipment['furniture_fact']/$equipment['furniture'])*100 : 0;
                 $_PO = ($equipment['PO'] > 0) ? ($equipment['PO_fact']/$equipment['PO'])*100 : 0;
                 $_equipment = ($equipment['equipment'] > 0) ? ($equipment['equipment_fact']/$equipment['equipment'])*100 : 0;
                 $equipment_count = ($equipment_count['total'] > 0) ? ($equipment_count['putInOperation']/$equipment_count['total'])*100 : 0;
 
-//                $templateProcessor->setValue('row_i#'.$zoneCount, $zoneCount);
                 $templateProcessor->setValue('zone_name_ii#'.$zoneCount, $zone->getName());
                 $templateProcessor->setValue('deadline_ii#'.$zoneCount,
                     ($zone->getMaxEquipmentDeliveryDeadline()) ?
@@ -112,11 +108,17 @@ class certificateReadinessMap extends AbstractController
                         '-');
 
                 $templateProcessor->setValue('furniture#'.$zoneCount,
-                    str_replace('.', ',', round($_furniture, 1)));
+                    ($equipment['furniture'] > 0) ?
+                    "Мебель на ".str_replace('.', ',', round($_furniture, 1))." (%); </w:t><w:br/><w:t xml:space=\"preserve\">" :
+                    "");
                 $templateProcessor->setValue('PO#'.$zoneCount,
-                    str_replace('.', ',', round($_PO,1)));
+                    ($equipment['PO'] > 0) ?
+                    "Программное обеспечение на ".str_replace('.', ',', round($_PO,1))." (%); </w:t><w:br/><w:t xml:space=\"preserve\">"  :
+                    "");
                 $templateProcessor->setValue('equipment#'.$zoneCount,
-                    str_replace('.', ',', round($_equipment, 1)));
+                    ($equipment['equipment'] > 0) ?
+                    "Оборудование на ".str_replace('.', ',', round($_equipment, 1))." (%); </w:t><w:br/><w:t xml:space=\"preserve\">"  :
+                    "");
                 $templateProcessor->setValue('equipment_all#'.$zoneCount,
                     str_replace('.', ',', round($equipment_count,1)));
 
@@ -129,8 +131,7 @@ class certificateReadinessMap extends AbstractController
 
         if($save)
         {
-            $fileName = 'Карта готовности_'.
-                $user->getId()
+            $fileName = 'Карта готовности_'
                 .$today->format('d-m-Y').'_'.uniqid().'.docx';
 
             if (!file_exists($this->getParameter('readiness_map_archive_directory'))) {
