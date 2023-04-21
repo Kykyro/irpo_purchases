@@ -87,8 +87,13 @@ class XlsxEdAndEmplListService extends AbstractController
                      array_push($columnArrayEmpl, $empl);
                  }
             }
+            $columnArrayOrg = array_unique($columnArrayOrg);
+            $columnArrayEmpl = array_unique($columnArrayEmpl);
+
             $columnArrayOrg = array_chunk($columnArrayOrg, 1);
             $columnArrayEmpl = array_chunk($columnArrayEmpl, 1);
+
+
             $spreadsheet->getSheetByName($title)
                 ->fromArray(
                     $columnArrayOrg,   // The data to set
