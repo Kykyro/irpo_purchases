@@ -300,15 +300,19 @@ class ReadinessMapXlsxService extends AbstractController
                 $user_info->getDeclaredIndustry(),
                 $user_info->getEducationalOrganization(),
                 $zoneCount,
-                round($procentage['F'], 2),
-                round($procentage['G'], 2),
-                round($procentage['H'], 2),
-                round($procentage['I'], 2),
-                ($procentage['furniture'] > 0) ? round(($procentage['furniture_fact'] / $procentage['furniture']) * 100, 2) : 0,
-                ($procentage['PO'] > 0) ? round(($procentage['PO_fact'] / $procentage['PO']) * 100, 2) : 0,
-                ($procentage['equipment'] > 0) ? round(($procentage['equipment_fact'] / $procentage['equipment']) * 100, 2) : 0,
+                round($procentage['F'], 2)/100,
+                round($procentage['G'], 2)/100,
+                round($procentage['H'], 2)/100,
+                round($procentage['I'], 2)/100,
+                $this->midleProc($procentage['furniture'], $procentage['furniture_fact']),
+                $this->midleProc($procentage['PO'], $procentage['PO_fact']),
+                $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
+//                ($procentage['furniture'] > 0) ? round(($procentage['furniture_fact'] / $procentage['furniture']), 2) : "-",
+//                ($procentage['PO'] > 0) ? round(($procentage['PO_fact'] / $procentage['PO']) , 2) : "-",
+//                ($procentage['equipment'] > 0) ? round(($procentage['equipment_fact'] / $procentage['equipment']) , 2) : "-",
                 "=Sum(J$row:L$row)/$count",
-                ($total > 0) ? round(($total_put / $total) * 100, 2) : 0,
+                $this->midleProc($total, $total_put),
+//                ($total > 0) ? round(($total_put / $total) , 2) : 0,
                 '-',
                 '-',
                 '-',
@@ -319,7 +323,12 @@ class ReadinessMapXlsxService extends AbstractController
                 $user_info->getCurator()
 
             ];
-            $sheet->fromArray($user_info_arr, null, 'B'.$row);
+            $sheet->fromArray($user_info_arr, "0", 'B'.$row);
+            $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N'];
+            foreach ($proc_cell as $cell)
+            {
+                $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+            }
 
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
@@ -330,6 +339,7 @@ class ReadinessMapXlsxService extends AbstractController
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getStyle('A:V')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:V')->getAlignment()->setVertical('center');
+
 
         // Запись файла
         $writer = new Xlsx($spreadsheet);
@@ -344,7 +354,21 @@ class ReadinessMapXlsxService extends AbstractController
 
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
+    public function midleProc($total, $fact)
+    {
+        if($total > 0){
+            $result = $fact / $total;
 
+            if($result > 0)
+                return round($result, 2);
+            else
+                return "0%";
+        }
+        else
+        {
+            return "-";
+        }
+    }
 
     public function generateTable(int $year)
     {
