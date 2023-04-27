@@ -60,7 +60,10 @@ class infrastructureSheetRegionEditType  extends AbstractType
             ->add('OKPD2', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
+                    'placeholder' => '_ _ . _ _ . _ _ . _ _ _',
+                    'data-mask' => '00.00.00.000'
                 ],
+
                 'label' => false,
                 'required' => false,
                 'empty_data' => "",
@@ -68,6 +71,8 @@ class infrastructureSheetRegionEditType  extends AbstractType
             ->add('KTRU', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
+                    'placeholder' => '_ _ . _ _ . _ _ . _ _ _ - _ _ _ _ _ _ _ _',
+                    'data-mask' => '00.00.00.000-00000000'
                 ],
                 'label' => false,
                 'required' => false,
@@ -76,6 +81,7 @@ class infrastructureSheetRegionEditType  extends AbstractType
             ->add('countryOfOrigin', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
+
                 ],
                 'label' => false,
                 'required' => false,
