@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Form\InspectorPurchasesFindFormType;
 use App\Services\budgetSumService;
+use App\Services\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\ProcurementProcedures;
@@ -283,6 +284,20 @@ class InspectorPurchasesController extends AbstractController
             'versionInfo' => $purchase->getVersionInfoAndDate(),
 
         ]);
+    }
+
+    /**
+     * @Route("/purchases-history/delete/{purchases_id}/{path}", name="purchases_history_delete")
+     */
+    public function deleteHistory(int $purchases_id, FileService $fileService, string $path)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $history = $entity_manager->getRepository(Log::class)->find($purchases_id);
+        $id = $history->getForeignKey();
+        $fileService->DeleteFile($history->getOldVal(), $path);
+        $entity_manager->remove($history);
+        $entity_manager->flush();
+        return $this->redirectToRoute('app_inspector_view_purchase', ['id' => $id]);
     }
 
     /**
