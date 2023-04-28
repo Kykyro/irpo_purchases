@@ -59,7 +59,7 @@ class infrastructureSheetRegionEditType  extends AbstractType
             ])
             ->add('OKPD2', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control okpd2',
                     'placeholder' => '_ _ . _ _ . _ _ . _ _ _',
                     'data-mask' => '00.00.00.000'
                 ],
@@ -70,7 +70,7 @@ class infrastructureSheetRegionEditType  extends AbstractType
             ])
             ->add('KTRU', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control ktru',
                     'placeholder' => '_ _ . _ _ . _ _ . _ _ _ - _ _ _ _ _ _ _ _',
                     'data-mask' => '00.00.00.000-00000000'
                 ],

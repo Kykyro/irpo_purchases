@@ -173,9 +173,22 @@
 {% block scripts %}
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/plugins/mask-plugin/jquery.mask.min.js') }}"></script>
     <script>
         $(document).ready(function(){
+            $("form").validate();
+            $.validator.messages.minlength = $.validator.format("Указан неполный код.");
+            $.validator.addClassRules({
+                okpd2 : {
+                    minlength: 12
+                },
+                ktru : {
+                    minlength: 21
+                }
+            });
+
+
 
         });
     </script>
