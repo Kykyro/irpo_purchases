@@ -26,6 +26,7 @@
                         {#{{ dump(sheet.vars.value) }}#}
                         {% if sheet.vars.value %}
                             {% set totalNumber = sheet.vars.value.totalNumber %}
+
                             <td>
                                 {{ form_row(sheet.factNumber, {'type': 'number', 'attr': {'max':totalNumber}}) }}
                             </td>
@@ -46,7 +47,16 @@
                         </td>
                         <td>{{ form_row(sheet.OKPD2) }}</td>
                         <td>{{ form_row(sheet.KTRU) }}</td>
-                        <td>{{ form_row(sheet.model) }}</td>
+                         {% if sheet.vars.value %}
+                            {% set showModel = sheet.vars.value.isHasModel %}
+                            {% if showModel %}
+                               <td>{{ form_row(sheet.model, {'disabled' : true}) }}</td>
+                            {% else %}
+                                <td>{{ form_row(sheet.model) }}</td>
+                            {% endif %}
+                        {% else %}
+                            <td>{{ form_row(sheet.model) }}</td>
+                        {% endif %}
                         <td>{{ form_row(sheet.countryOfOrigin) }}</td>
 
                         <td>

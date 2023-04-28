@@ -40,6 +40,9 @@
                             {{ form_row(sheet.totalNumber, {'type': 'number'}) }}
                         </td>
                         <td>
+                            {{ form_row(sheet.isHasModel) }}
+                        </td>
+                        <td>
                             <button class="btn btn-danger js-remove-sheets" type="button">
                                 <i class="fa fa-trash">
                                     Удалить
@@ -61,6 +64,7 @@
                             <td class="col-md-2">Вид</td>
                             <td class="col-md-2">Ед.измерения</td>
                             <td class="col-md-2">Общее кол-во</td>
+                            <td class="col-md-1">Не указывать модель?</td>
                             {#<td class="col-md-2">Тип</td>#}
                             <td class="col-md-1"> Действия </td>
                         </tr>

@@ -8,6 +8,7 @@
 
 namespace App\Form;
 use App\Entity\ZoneInfrastructureSheet;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
@@ -62,6 +63,14 @@ class infrastructureSheetType  extends AbstractType
                 'label' => false,
                 'required' => false,
                 'empty_data' => '',
+            ])
+            ->add('isHasModel', CheckboxType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => false,
+                'required' => false,
+
             ])
         ;
     }

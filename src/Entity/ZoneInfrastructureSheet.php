@@ -87,6 +87,11 @@ class ZoneInfrastructureSheet
      */
     private $model;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isHasModel;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -256,6 +261,18 @@ class ZoneInfrastructureSheet
     public function setModel(?string $model): self
     {
         $this->model = $model;
+
+        return $this;
+    }
+
+    public function isIsHasModel(): ?bool
+    {
+        return $this->isHasModel;
+    }
+
+    public function setIsHasModel(?bool $isHasModel): self
+    {
+        $this->isHasModel = $isHasModel;
 
         return $this;
     }
