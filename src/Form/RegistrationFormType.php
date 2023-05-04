@@ -70,6 +70,10 @@ class RegistrationFormType extends AbstractType
                             'Куратор маленьких кластеров' => array
                             (
                                 'Куратор маленьких кластеров' => 'ROLE_SMALL_CURATOR'
+                            ),
+                            'Аналитик' => array
+                            (
+                                'Аналитик' => 'ROLE_ANALYTIC'
                             )
                         )
                     ,
