@@ -8,18 +8,18 @@
                 <a href="{{ path('app_admin_users') }}">Назад</a>
             </div>
         </div>
+        {{ form_start(userForm) }}
         <div class="ibox-content block-shadow">
             <div class="form-group row m-3">
                 <div class="col-lg-12 col-form-label text-left">
-                    <strong>
-                {{ form_start(userForm) }}
-                    {{ form_row(userForm.roles,{
-                        label: 'Роли',
-                        attr: {
-                            class: 'col-lg-12'
-                        }
-                    }) }}
-                    </strong>
+                    {% for role in userForm.roles %}
+                        <strong>
+
+                            {{ form_widget(role) }}
+                            {{ form_label(role) }}
+                        </strong>
+                        <br>
+                    {% endfor %}
                 </div>
                 <div class="col-lg-12 col-form-label text-left">
                     <strong>

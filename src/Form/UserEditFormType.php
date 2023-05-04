@@ -40,18 +40,27 @@ class UserEditFormType extends AbstractType
                             (
                                 'регион' => 'ROLE_REGION'
                             ),
-                            'Проверяющий' => array
+                            'проверяющий' => array
                             (
                                 'проверяющий' => 'ROLE_INSPECTOR'
                             ),
-                            'Журналист' => array
+                            'наблюдатель' => array
                             (
-                                'проверяющий' => 'ROLE_JOURNALIST'
+                                'наблюдатель' => 'ROLE_SPECTATOR'
+                            ),
+                            'Маленький кластер' => array
+                            (
+                                'Маленький кластер' => 'ROLE_SMALL_CLUSTERS'
+                            ),
+                            'Куратор маленьких кластеров' => array
+                            (
+                                'Куратор маленьких кластеров' => 'ROLE_SMALL_CURATOR'
                             )
                         )
                     ,
                     'multiple' => true,
                     'required' => true,
+                    'expanded' => true,
                 ]
             )
             ->add('name', TextType::class, [
