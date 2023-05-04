@@ -71,7 +71,7 @@ class infrastructureSheetRegionEditType  extends AbstractType
             ->add('KTRU', TextType::class, [
                 'attr' => [
                     'class' => 'form-control ktru',
-                    'placeholder' => '_ _ . _ _ . _ _ . _ _ _ - _ _ _ _ _ _ _ _',
+                    'placeholder' => '_ _ . _ _ . _ _ . _ _ _ - _ _ _ _ _ _ ',
                     'data-mask' => '00.00.00.000-000000'
                 ],
                 'label' => false,
