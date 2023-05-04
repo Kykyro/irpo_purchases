@@ -154,6 +154,18 @@
                     <li >
                         <a href="{{ path("app_journalist") }}"><i class="fa fa-compass left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Редактор главной страницы</span></a>
                     </li>
+
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <span class="nav-label left-bar-color-text">Аналитик</span>
+
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ANALYTIC') %}
+                    <li>
+                        <a href="{{ path("app_statistic_and_analytic") }}"><i class="fa fa-area-chart left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Статистика</span></a>
+                    </li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <li>

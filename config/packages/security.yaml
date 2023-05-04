@@ -1,5 +1,6 @@
 security:
     role_hierarchy:
+        ROLE_ANALYTIC:  [ ROLE_ANALYTIC ]
         ROLE_SMALL_CURATOR: [ ROLE_SMALL_CURATOR ]
         ROLE_SMALL_CLUSTERS: [ ROLE_SMALL_CLUSTERS ]
         ROLE_SPECTATOR: [ ROLE_SPECTATOR ]
