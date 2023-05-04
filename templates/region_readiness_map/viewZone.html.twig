@@ -138,11 +138,11 @@
                                                     {% for i in pagination %}
                                                         {#{% for j in i.getRepairPhotos() %}#}
                                                             <div class="col-lg-2 form-control m-1">
-                                                                {% if i.allowToDelete(today) %}
-                                                                    <a href="{{ path('app_region_rm_delete_photo_region', {'zone_id': zone.getId(), 'photo_id': i.getId()}) }}" class="pull-right btn btn-danger delete-alert">
-                                                                        <span class="fa fa-trash "></span>
-                                                                    </a>
-                                                                {% endif %}
+                                                                {#{% if i.allowToDelete(today) %}#}
+                                                                    {#<a href="{{ path('app_region_rm_delete_photo_region', {'zone_id': zone.getId(), 'photo_id': i.getId()}) }}" class="pull-right btn btn-danger delete-alert">#}
+                                                                        {#<span class="fa fa-trash "></span>#}
+                                                                    {#</a>#}
+                                                                {#{% endif %}#}
                                                                 {#{{ i.getVersion().getCreatedAt().format('d.m.Y') }}#}
                                                                 {#{{ i.allowToDelete(today) }}#}
                                                                 <a href="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" title="{{ name }}" data-gallery="">

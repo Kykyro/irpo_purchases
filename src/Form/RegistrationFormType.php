@@ -62,6 +62,14 @@ class RegistrationFormType extends AbstractType
                             'наблюдатель' => array
                             (
                                 'наблюдатель' => 'ROLE_SPECTATOR'
+                            ),
+                            'Маленький кластер' => array
+                            (
+                                'Маленький кластер' => 'ROLE_SMALL_CLUSTERS'
+                            ),
+                            'Куратор маленьких кластеров' => array
+                            (
+                                'Куратор маленьких кластеров' => 'ROLE_SMALL_CURATOR'
                             )
                         )
                     ,

@@ -26,13 +26,21 @@
                     </strong>
                 </div>
             </div>
+            <hr>
             <div class="form-group row m-3 ">
                 <div class="col-sm-5 col-form-label text-left">
-                    <strong>
-                        {{ form_row(registrationForm.roles) }}
-                    </strong>
+                    {% for role in registrationForm.roles %}
+                        <strong>
+
+                            {{ form_widget(role) }}
+                            {{ form_label(role) }}
+                        </strong>
+                        <br>
+                    {% endfor %}
+
                 </div>
             </div>
+            <hr>
             <div class="form-group row m-3 ">
                 <div class="col-sm-12 col-form-label text-left">
 

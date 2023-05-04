@@ -45,10 +45,14 @@ class RegistrationClusterFormType extends AbstractType
                         array
                         (
 
-                            'Пользователь' => array
+                            'Производственный кластер' => array
                             (
-                                'регион' => 'ROLE_REGION'
-                            )
+                                'Производственный кластер' => 'ROLE_REGION'
+
+                            ),
+                            'Малый кластер' => [
+                                'Малый кластер' => 'ROLE_SMALL_CLUSTERS'
+                            ]
                         )
                     ,
                     'multiple' => true,

@@ -217,7 +217,7 @@ class RegionController extends AbstractController
     {
         $user = $this->getUser();
         $user_info = $user->getUserInfo();
-
+//        dd($user_info);
         return $this->render('user_profile/base.html.twig', [
             'controller_name' => 'DefaultController',
             'user_info' => $user_info

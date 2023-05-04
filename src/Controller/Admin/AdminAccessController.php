@@ -46,8 +46,9 @@ class AdminAccessController extends AbstractController
 
         $clusters = $entity_manager->getRepository(User::class)
             ->createQueryBuilder('a')
-            ->andWhere('a.roles LIKE :role')
-            ->setParameter('role', "%ROLE_REGION%")
+            ->andWhere('a.roles LIKE :role_1 OR a.roles LIKE :role_2')
+            ->setParameter('role_1', "%REGION%")
+            ->setParameter('role_2', "%SMALL_CLUSTERS%")
             ->getQuery()
             ->getResult();
 

@@ -154,13 +154,18 @@ class UserInfo
      */
     private $curator;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ogrnip;
+
 
 
 
     function __construct()
     {
         $this->setAccessToPurchases(false);
-        $this->uGPS = new ArrayCollection();
+//        $this->uGPS = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -544,6 +549,18 @@ class UserInfo
     public function setCurator(?string $curator): self
     {
         $this->curator = $curator;
+
+        return $this;
+    }
+
+    public function getOgrnip(): ?string
+    {
+        return $this->ogrnip;
+    }
+
+    public function setOgrnip(?string $ogrnip): self
+    {
+        $this->ogrnip = $ogrnip;
 
         return $this;
     }

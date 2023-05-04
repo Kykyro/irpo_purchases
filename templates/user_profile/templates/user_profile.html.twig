@@ -401,6 +401,7 @@
                         <h3>УГПС</h3>
                         <div>
                             <ol>
+                                {#{{ dump(user_info.getUGPS()) }}#}
                                 {% for i in  user_info.getUGPS() %}
                                     <li>{{ i }}</li>
                                 {% endfor %}
