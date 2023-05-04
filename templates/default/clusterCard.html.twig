@@ -24,6 +24,8 @@
                 </div>
                 {% endif %}
 
+
+
                 <h3>
                     <strong>
                         {{ i.getUserInfo().getEducationalOrganization() }}
@@ -40,6 +42,17 @@
                 <span class="badge badge-success">
                     {{ i.getUserInfo().getYear() }} год
                 </span>
+                <br>
+                {% if "ROLE_SMALL_CLUSTERS" in  i.getRoles() %}
+                    <span class="badge badge-success">
+                        Малый кластер
+                    </span>
+                {% endif %}
+                {% if "ROLE_REGION" in  i.getRoles() %}
+                    <span class="badge badge-primary">
+                        Производственный кластер
+                    </span>
+                {% endif %}
                 <address>
                     <b>Кластер: </b>{{ i.getUserInfo().getCluster() }}<br>
                     <b>Отрасль: </b>{{ i.getUserInfo().getDeclaredIndustry() }} <br>
