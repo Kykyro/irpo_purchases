@@ -72,7 +72,7 @@ class infrastructureSheetRegionEditType  extends AbstractType
                 'attr' => [
                     'class' => 'form-control ktru',
                     'placeholder' => '_ _ . _ _ . _ _ . _ _ _ - _ _ _ _ _ _ _ _',
-                    'data-mask' => '00.00.00.000-00000000'
+                    'data-mask' => '00.00.00.000-000000'
                 ],
                 'label' => false,
                 'required' => false,
