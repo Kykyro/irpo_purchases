@@ -1,12 +1,17 @@
 {% extends 'default/base.html.twig' %}
 
 {% block content %}
+    {% if role == 'small' %}
+        {% set prefix = 'Малые кластеры' %}
+    {% else %}
+        {% set prefix = 'Производственные кластеры' %}
+    {% endif %}
     <div class="row mt-5">
         <div class="offset-lg-3 col-lg-6">
             <div class="ibox ">
                 <div class="ibox-title">
                     <h2>
-                        Актуальная выгрузка
+                        Актуальная выгрузка ({{ prefix }})
 
                     </h2>
                     <div class="ibox-tools">

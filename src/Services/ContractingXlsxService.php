@@ -19,7 +19,7 @@ class ContractingXlsxService extends AbstractController
 {
 
 
-    public function getUsersByYear($year){
+    public function getUsersByYear($year, $role){
         $entity_manger = $this->getDoctrine()->getManager();
 
         return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
@@ -27,12 +27,13 @@ class ContractingXlsxService extends AbstractController
             ->leftJoin('uf.rf_subject', 'rf')
             ->andWhere('u.roles LIKE :role')
             ->andWhere('uf.year = :year')
-            ->setParameter('role', '%REGION%')
+            ->setParameter('role', $role)
             ->setParameter('year', $year)
             ->orderBy('rf.name', 'ASC')
             ->getQuery()
             ->getResult();
     }
+
 
     public function getProcedures($user)
     {
@@ -47,16 +48,9 @@ class ContractingXlsxService extends AbstractController
             ->setParameter('isDeleted', false)
             ->getQuery()
             ->getResult();
-//            ->createQueryBuilder('pp')
-//            ->andWhere('pp.user = :user')
-//            ->andWhere('pp.isDeleted = :isDeleted')
-//            ->setParameter('user', $user)
-//            ->setParameter('isDeleted', false)
-//            ->getQuery()
-//            ->getResult();
     }
 
-    public function downloadTable(int $year, \DateTime $today = null)
+    public function downloadTable(int $year, \DateTime $today = null, string $role = 'cluster')
     {
         $sheet_template = "../public/excel/contracting.xlsx";
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
@@ -64,7 +58,10 @@ class ContractingXlsxService extends AbstractController
 
         $grant = 100000000;
         $index = 1;
-        $users = $this->getUsersByYear($year);
+        if($role == 'cluster')
+            $users = $this->getUsersByYear($year, '%REGION%');
+        else
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS%');
         foreach ($users as $user)
         {
             $procedures = $this->getProcedures($user);
