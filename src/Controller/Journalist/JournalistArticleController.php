@@ -5,6 +5,7 @@ namespace App\Controller\Journalist;
 use App\Entity\Article;
 use App\Form\articleEditForm;
 
+use App\Services\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,7 +71,7 @@ class JournalistArticleController extends AbstractController
      * @Route("/new-article", name="app_new_article")
      * @Route("/edit-article/{id}", name="app_edit_article")
      */
-    public function newArticle(Request $request, SluggerInterface $slugger, int $id = null): Response
+    public function newArticle(Request $request, SluggerInterface $slugger, int $id = null, FileService $fileService): Response
     {
         $entity_manager = $this->getDoctrine()->getManager();
         if($id){
@@ -85,45 +86,39 @@ class JournalistArticleController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $file = $form->get('imgTitle')->getData();
-            $articleFiles = $form->get('file')->getData();
 
-            if($articleFiles){
-                $originalFilename = pathinfo($articleFiles->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $articleFiles->guessExtension();
+            $img = $form->get('imgTitle')->getData();
+//            $articleFile = $form->get('file')->getData();
+            $articleFiles = $form->get('articleFiles');
+            foreach ($articleFiles as $_articleFile)
+            {
+                $_af = $_articleFile->getData();
+                $_file = $_articleFile['article_file']->getData();
+                $_delete = $_articleFile['delete']->getData();
 
-                // Move the file to the directory where brochures are stored
-                try {
-                    $articleFiles->move(
-                        $this->getParameter('article_files_directory'),
-                        $newFilename
-                    );
-                    $article->setArticleFile($newFilename);
-                } catch (FileException $e) {
-                    throw new HttpException(500, $e->getMessage());
+                if($_delete){
+                    $_af->setArticle(null);
+                    $_af_file = $_af->getFile();
+                    if($_af_file)
+                        $fileService->DeleteFile($_af_file, 'article_files_directory');
+                    $entity_manager->remove($_af);
+                    continue;
                 }
+
+                if(is_null($_af->getArticle()))
+                    $_af->setArticle($article);
+
+                if($_file){
+                    $_af->setFile($fileService->UploadFile($_file, 'article_files_directory'));
+                }
+                $entity_manager->persist($_af);
             }
+//            if($articleFile){
+//                $fileService->UploadFile($articleFile, 'article_files_directory');
+//            }
 
-
-
-            if ($file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $file->move(
-                        $this->getParameter('article_title_img_directory'),
-                        $newFilename
-                    );
-                    $article->setImg($newFilename);
-                } catch (FileException $e) {
-                    throw new HttpException(500, $e->getMessage());
-                }
+            if ($img) {
+                $fileService->UploadFile($img, 'article_title_img_directory');
             }
 
             $entity_manager->persist($article);

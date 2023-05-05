@@ -158,6 +158,16 @@
                                     </div>
                                 {% endif %}
 
+                                {% for _file in article.getArticleFiles() %}
+                                    <div class="">
+                                        <div class="files">
+                                            <div>
+                                                <div class="fa fa-file"></div>
+                                                <a href="{{ path('app_download_article_file', {'file': _file.getFile()}) }}">{{ _file.getName() }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

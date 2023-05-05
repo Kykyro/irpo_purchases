@@ -49,6 +49,19 @@ class Article
      */
     private $articleFile;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ArticleFiles::class, mappedBy="article")
+     */
+    private $articleFiles;
+
+
+
+    public function __construct()
+    {
+        $this->name = new ArrayCollection();
+        $this->articleFiles = new ArrayCollection();
+    }
+
 
 
 
@@ -130,5 +143,33 @@ class Article
         return $this;
     }
 
+    /**
+     * @return Collection<int, ArticleFiles>
+     */
+    public function getArticleFiles(): Collection
+    {
+        return $this->articleFiles;
+    }
 
+    public function addArticleFile(ArticleFiles $articleFile): self
+    {
+        if (!$this->articleFiles->contains($articleFile)) {
+            $this->articleFiles[] = $articleFile;
+            $articleFile->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleFile(ArticleFiles $articleFile): self
+    {
+        if ($this->articleFiles->removeElement($articleFile)) {
+            // set the owning side to null (unless already changed)
+            if ($articleFile->getArticle() === $this) {
+                $articleFile->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
 }

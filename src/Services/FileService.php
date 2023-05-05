@@ -23,6 +23,11 @@ class FileService extends AbstractController
         $this->filesystem = new Filesystem();
     }
 
+    /**
+     * @param $file
+     * @param $directory
+     * @return string
+     */
     public function UploadFile($file, $directory)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -42,6 +47,10 @@ class FileService extends AbstractController
         return $newFilename;
     }
 
+    /**
+     * @param $fileName
+     * @param $directory
+     */
     public function DeleteFile($fileName, $directory){
         $fullPath = $this->getParameter($directory).'/'.$fileName;
 

@@ -1,7 +1,37 @@
-{% extends "journalist/index.html.twig" %}
+{% extends "default/base.html.twig" %}
 
 
 {% block content %}
+    {% macro articleFileMacro(file) %}
+            <div>
+                <span class="pull-right badge mb-3">
+                    <i class="fa fa-trash"></i>
+                    {{ form_label(file.delete) }}
+                    {{ form_widget(file.delete) }}
+                </span>
+
+            </div>
+            <div>
+                {{ form_row(file.name) }}
+            </div>
+            <div>
+
+                {% if file.vars.value %}
+                    {% set _file = file.vars.value.file %}
+                    {% set required = _file is null %}
+                    {#{{ dump(required) }}#}
+                    {{ form_row(file.article_file, {'required': required}) }}
+                    {% if not required  %}
+                        <a href="{{ path('app_download_file_by_route', {'file':_file, 'route':'article_files_directory' }) }}">
+                            <i class="fa fa-download"></i>
+                            {{ _file }}
+                        </a>
+                    {% endif %}
+                {% else %}
+                    {{ form_row(file.article_file) }}
+                {% endif %}
+            </div>
+    {% endmacro %}
 <div class="row">
     <div class="col-sm-10 offset-sm-1 ">
         <div class="wrapper wrapper-content ">
@@ -22,12 +52,54 @@
                         {{ form_widget(form.content) }}
                         <hr>
 
-                        <label> Название файла </label>
-                        {{ form_widget(form.fileName) }}
+                        {#<label> Название файла </label>#}
+                        {#{{ form_widget(form.fileName) }}#}
 
-                        <label> Прикрепить файлы </label>
-                        {{ form_widget(form.file) }}
+                        {#<label> Прикрепить файлы </label>#}
+                        {#{{ form_widget(form.file) }}#}
+                        <div class="form-group" id="sheets"
+                             data-index="{{ form.articleFiles|length > 0 ? form.articleFiles|last.vars.name + 1 : 0 }}"
+                             data-prototype='{{ _self.articleFileMacro(form.articleFiles.vars.prototype|e) }}'
+                             data-widget-tags="{{
+                             '<div class="form-group form-control"></div>'|e
+                             }}"
+                             data-delete-btn='
+                                    <div class="col-xs-12 ">
+                                        <a href="#" class="js-remove-file pull-right btn btn-danger">
+                                            <span class="fa fa-close "></span>
+                                        </a>
+                                        <span class="badge badge-primary">Новый</span>
+                                    </div>
 
+                                '
+
+                             data-widget-counter="{{ form.articleFiles|length }}"
+                        >
+                            {% for _file in form.articleFiles %}
+                                <div class="form-control form-group">
+                                    {#<div class="col-xs-12">#}
+                                        {#<a href="#" class="js-remove-file pull-right btn btn-danger">#}
+                                            {#<span class="fa fa-close "></span>#}
+                                        {#</a>#}
+                                    {#</div>#}
+                                    {{ _self.articleFileMacro(_file) }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                        <button
+                                class="btn btn-success add-article-file"
+                                type="button"
+                                data-list-selector="#sheets"
+                                data-list="#sheets"
+                                data-zone-type="Рабочее место преподавателя"
+                        >
+                            <i class="fa fa-plus">
+                                Добавить фаил
+                            </i>
+                        </button>
+                        <hr>
                         {{ form_widget(form.submit) }}
                     {{ form_end(form) }}
                 </div>
@@ -36,4 +108,50 @@
     </div>
 </div>
 
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function() {
+            let $wrapper = $('#sheets');
+            console.log($wrapper);
+            $wrapper.on('click', '.js-remove-file', function (e) {
+                e.preventDefault();
+                $(this).closest('.form-group')
+                    .fadeOut()
+                    .remove();
+            });
+
+            function addRow() {
+
+                let listSelector = $($(this).attr('data-list-selector'));
+                let list = $($(this).attr('data-list'));
+
+                // Try to find the counter of the list or use the length of the list
+                let counter = listSelector.data('widget-counter');
+
+                // grab the prototype template
+                let newWidget = listSelector.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                counter++;
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+
+                // And store it, the length cannot be used if deleting widgets is allowed
+                listSelector.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                let newElem = $(listSelector.attr('data-widget-tags')).html(
+                    listSelector.attr('data-delete-btn') +
+                    newWidget +
+                    '</div>'
+                );
+
+                newElem.appendTo(list);
+            }
+            $('.add-article-file').click(addRow);
+        })
+
+    </script>
 {% endblock %}
