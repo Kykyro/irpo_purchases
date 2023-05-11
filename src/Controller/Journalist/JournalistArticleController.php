@@ -118,7 +118,7 @@ class JournalistArticleController extends AbstractController
 //            }
 
             if ($img) {
-                $fileService->UploadFile($img, 'article_title_img_directory');
+                $article->setImg($fileService->UploadFile($img, 'article_title_img_directory'));
             }
 
             $entity_manager->persist($article);

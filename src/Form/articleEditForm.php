@@ -54,7 +54,10 @@ class articleEditForm extends AbstractType
                     'uiColor' => '#ffffff',
                     'applicationTitle' => 'Редактор статей',
 
-                ),
+
+
+                )
+
             ))
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-outline-success col-lg-4 mt-3'],
