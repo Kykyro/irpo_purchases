@@ -135,15 +135,17 @@
                         </div>
                         <div class="col-lg-3">
                             <label>Зоны по видам работ</label>
-                            <select id="zone-input" class="form-control m-b select2" multiple="multiple">
+                            {#<select id="zone-input" class="form-control m-b select2" multiple="multiple">#}
                                 {#<option></option>#}
-                            </select>
+                            {#</select>#}
+                            {{ form_widget(form.zones) }}
                         </div>
                         <div class="col-lg-3">
                             <label>Работадатели</label>
-                            <select id="employer-input" class="form-control m-b select2" multiple="multiple">
+                            {#<select id="employer-input" class="form-control m-b select2" multiple="multiple">#}
                                 {#<option></option>#}
-                            </select>
+                            {#</select>#}
+                            {{ form_widget(form.employers) }}
                         </div>
 
                     </div>
@@ -163,6 +165,7 @@
                             <select id="base-input" class="form-control m-b select2" >
                                 <option></option>
                             </select>
+                            {#{{ form_widget(form.base_org) }}#}
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -310,12 +313,12 @@
             };
 
             let yearInput = $('#year-input');
-            let employersInput = $('#employer-input');
+            let employersInput = $('#make_certificate_form_employers');
             let industryInput = $('#industry-input');
             let regionInput = $('#region-input');
             let baseInput = $('#base-input');
             let districtInput = $('#district-input');
-            let zoneInput = $('#zone-input');
+            let zoneInput = $('#make_certificate_form_zones');
             let ugpsInput = $('#make_certificate_form_UGPS');
             let filterBtn = $('#filter-btn');
             let cancelFilterBtn = $('#cancel-filter-btn');
@@ -374,7 +377,7 @@
                     filtered_region.closest('.form-control').hide();
                 }
                 if(employersInput.val().length > 0){
-                    console.log('Угпс: ', employersInput.val());
+                    console.log('Работадатели: ', employersInput.val());
 
                     let value = employersInput.val();
                     let filtered_region = $('#clusters input[data-employers]').filterAttributeByJson("data-employers", value, true);
@@ -469,6 +472,7 @@
                         .append('<option>'+element+'</option>');
                 });
                 let uniq_employers = [...new Set(_employers)];
+                // console.log(uniq_employers);
                 uniq_employers.forEach((element) => {
                     employersInput
                         .append('<option>'+element+'</option>');

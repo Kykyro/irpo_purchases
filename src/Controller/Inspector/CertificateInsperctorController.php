@@ -30,14 +30,18 @@ class CertificateInsperctorController extends AbstractController
         {
             $data = $form->getData();
             $ugps = [];
+            $employeers = [];
+            $zones = [];
             if($form->get('as_choose')->getData())
             {
-                $ugps = $form->get('UGPS')->getErrors()[0]->getMessageParameters()['{{ value }}'];
-                $ugps = explode(',',$ugps);
-                for($i = 0; $i < count($ugps); $i++)
-                {
-                    $ugps[$i] = trim(str_replace('"', '', $ugps[$i]));
-                }
+//                dd($form);
+                if(count($form->get('UGPS')->getErrors()) > 0)
+                    $ugps = $this->getFromError($form->get('UGPS')->getErrors()[0]->getMessageParameters()['{{ value }}']);
+                if(count($form->get('employers')->getErrors()) > 0)
+                    $employeers = $this->getFromError($form->get('employers')->getErrors()[0]->getMessageParameters()['{{ value }}']);
+                if(count($form->get('zones')->getErrors()) > 0)
+                    $zones = $this->getFromError($form->get('zones')->getErrors()[0]->getMessageParameters()['{{ value }}']);
+
 
             }
 
@@ -53,7 +57,7 @@ class CertificateInsperctorController extends AbstractController
             else
             {
 
-                return $byClustersService->getTableCertificate($data['clusters'], $ugps);
+                return $byClustersService->getTableCertificate($data['clusters'], $ugps, $employeers, $zones);
             }
         }
 
@@ -63,4 +67,15 @@ class CertificateInsperctorController extends AbstractController
             'regions' => $regions
         ]);
     }
+
+    public function getFromError($arr)
+    {
+        $arr = explode(',', $arr);
+        for($i = 0; $i < count($arr); $i++)
+        {
+            $arr[$i] = trim(str_replace('"', '', $arr[$i]));
+        }
+        return $arr;
+    }
+
 }

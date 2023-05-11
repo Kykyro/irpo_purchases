@@ -244,7 +244,7 @@ class certificateByClustersService extends AbstractController
 
     }
 
-    public function getTableCertificate($users, $ugps=[])
+    public function getTableCertificate($users, $ugps=[], $employeers=[], $zones=[])
     {
         $sheet_template = "../public/excel/справка_под_задачи_минпроса.xlsx";
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
@@ -286,11 +286,24 @@ class certificateByClustersService extends AbstractController
             $UGPS_arr = array_merge($UGPS_arr,  (is_null($user_info->getUGPS()) ? [] : $user_info->getUGPS()));
             $zone_arr = array_merge($zone_arr,  (is_null($user_info->getZone()) ? [] : $user_info->getZone()));
 //            $anotherOrganization_arr = array_merge($anotherOrganization_arr,  $user_info->getListOfAnotherOrganization());
+
             $_ugps = $user_info->getUGPS();
+            $_employeers = $user_info->getListOfEmployers();
+            $_zones = $user_info->getZone();
+
             if(count($ugps) > 0)
             {
                 $_ugps = $this->findFillter($ugps, $_ugps);
             }
+            if(count($employeers) > 0)
+            {
+                $_employeers = $this->findFillter($employeers, $_employeers);
+            }
+            if(count($zones) > 0)
+            {
+                $_zones = $this->findFillter($zones, $_zones);
+            }
+
             $row =
                 [
                     $index, // № п/п
@@ -300,13 +313,13 @@ class certificateByClustersService extends AbstractController
                     $user_info->getCluster(), // Наименование центра (кластера)
                     $user_info->getInitiatorOfCreation(), // Инициатор создания центра
                     $user_info->getOrganization(), // Базовая образовательная организация (грантополучатель)
-                    $this->arrayToStringList( $user_info->getListOfEmployers()), // Работодатели
+                    $this->arrayToStringList( $_employeers), // Работодатели
                     $this->arrayToStringList($user_info->getListOfEdicationOrganization()), // Образовательные организации
                     $user_info->getExtraFundsEconomicSector() * 1000, // Объем внебюджетных средств, направляемых участниками центра из числа организаций, действующих в реальном секторе экономики
                     $user_info->getFinancingFundsOfSubject() * 1000, // Объём финансирования из средств субъекта РФ (руб.)
                     $user_info->getExtraFundsOO() * 1000, // Объём финансирования из средств субъекта РФ (руб.)
                     $this->arrayToStringList( $_ugps), // Наименование профессий и специальностей, реализуемых в кластере
-                    $this->arrayToStringList( $user_info->getZone()), // Зоны по виду работ, созданные в рамках проекта
+                    $this->arrayToStringList( $_zones), // Зоны по виду работ, созданные в рамках проекта
                     $this->arrayToStringList( $user_info->getListOfAnotherOrganization()), // Иные организации
                     $user_info->getYear()
                 ]
@@ -386,7 +399,7 @@ class certificateByClustersService extends AbstractController
         {
             foreach ($arr as $j)
             {
-                if($i == $j)
+                if(str_contains(strtolower($i), strtolower($j)))
                 {
                     array_push($_arr, $i);
                 }

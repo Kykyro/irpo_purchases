@@ -94,7 +94,7 @@ class makeCertificateForm extends AbstractType
             ])
             ->add('UGPS', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'form-control m-b select2 select2-ugps-input-results '
+                    'class' => 'form-control m-b select2 select2-ugps-input-results ',
                 ],
                 'mapped' => false,
                 'multiple' => true,
@@ -103,6 +103,29 @@ class makeCertificateForm extends AbstractType
 //                'allow_add' => TRUE,
 
             ])
+            ->add('employers', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control m-b select2 '
+                ],
+                'mapped' => false,
+                'multiple' => true,
+//                'expanded' => false,
+                'required' => false,
+//                'allow_add' => TRUE,
+
+            ])
+            ->add('zones', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control m-b select2 '
+                ],
+                'mapped' => false,
+                'multiple' => true,
+//                'expanded' => false,
+                'required' => false,
+//                'allow_add' => TRUE,
+
+            ])
+
 
         ;
 
