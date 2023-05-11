@@ -59,6 +59,10 @@ class UserEditFormType extends AbstractType
                             'Аналитик' => array
                             (
                                 'Аналитик' => 'ROLE_ANALYTIC'
+                            ),
+                            'Журналист' => array
+                            (
+                                'Журналист' => 'ROLE_JOURNALIST'
                             )
                         )
                     ,
