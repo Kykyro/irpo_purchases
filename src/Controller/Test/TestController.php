@@ -20,6 +20,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -55,27 +58,38 @@ class TestController extends AbstractController
     public function index(Request $request, int $id = null, certificateByClustersService $byClustersService): Response
     {
 
-        $entity_manager = $this->getDoctrine()->getManager();
-        $user = $entity_manager->getRepository(User::class)->find($id);
-        $adreses = $user->getClusterAddresses();
-        foreach ($adreses as $adrese)
-        {
-            $zones = $adrese->getSortedClusterZones();
-            foreach ($zones as $zone)
-            {
-                $repair = $zone->getZoneRepair();
-                $jsonContent =  $this->serializer->serialize($repair, 'json',['groups' => ['dump_data']]);
-                $jsonContent = utf8_encode($jsonContent);
-//                dump($zone->getId());
-//                dump($jsonContent);
-                $dump = new RepairDump();
-                $dump->setRepair($repair);
-                $dump->setDump($jsonContent);
-                dump($dump);
+//        $entity_manager = $this->getDoctrine()->getManager();
+//        $user = $entity_manager->getRepository(User::class)->find($id);
+//        $adreses = $user->getClusterAddresses();
+//        foreach ($adreses as $adrese)
+//        {
+//            $zones = $adrese->getSortedClusterZones();
+//            foreach ($zones as $zone)
+//            {
+//                $repair = $zone->getZoneRepair();
+//                $jsonContent =  $this->serializer->serialize($repair, 'json',['groups' => ['dump_data']]);
+//                $jsonContent = utf8_encode($jsonContent);
+////                dump($zone->getId());
+////                dump($jsonContent);
+//                $dump = new RepairDump();
+//                $dump->setRepair($repair);
+//                $dump->setDump($jsonContent);
+//                dump($dump);
+//
+//            }
+//
+//        }
+        $email = (new Email())
+            ->from('support@mtb-spo.ru')
+            ->to('vova.199@mail.ru')
+            ->subject('Hello!')
+            ->text('test message')
+            ;
 
-            }
-
-        }
+        $dns = 'smtp://mailhog:1025';
+        $transport = Transport::fromDsn($dns);
+        $mailer = new Mailer($transport);
+        $mailer->send($email);
         dd();
 
 

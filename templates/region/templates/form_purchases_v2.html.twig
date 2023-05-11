@@ -411,13 +411,13 @@
                             <label>Платежное поручение</label>
                             {{ form_widget(form.paymentOrder_file) }}
                             {% if edit %}
-                            {% if additionalAgreement|length > 0 %}
+                            {% if paymentOrder|length > 0 %}
                                 <label>
                                     Прикрепленные файлы
                                 </label>
                                 <ul>
                                     {% if edit %}
-                                    {% for i in  additionalAgreement %}
+                                    {% for i in  paymentOrder %}
                                         {% if i.getNewVal() %}
                                         <li>
                                             <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route': 'payment_orders_directory'}) }}">
