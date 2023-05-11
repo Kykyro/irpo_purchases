@@ -3,3 +3,13 @@
 twig:
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+#fos_ck_editor:
+#    default_config: my_config
+#    configs:
+#        my_config:
+#            stylesSet: "my_styles"
+#    styles:
+#        my_styles:
+#            - { name: "Абзац", element: "p", styles: { color: "text-align:justify; text-indent:30px;" }}
+#            - { name: "CSS Style", element: "span", attributes: { class: "my_style" }}
+#            - { name: "Widget Style", type: widget, widget: "my_widget", attributes: { class: "my_widget_style" }}

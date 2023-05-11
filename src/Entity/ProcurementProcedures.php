@@ -297,7 +297,7 @@ class ProcurementProcedures
     private $deleteReason;
 
     /**
-     *
+     * @Log
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $additionalAgreement;

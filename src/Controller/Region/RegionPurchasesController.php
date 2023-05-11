@@ -103,7 +103,7 @@ class RegionPurchasesController extends AbstractController
             ->andWhere('l.field_name LIKE :add')
             ->andWhere('l.foreign_key = :key')
             ->setParameter('key', "$id")
-            ->setParameter('add', "%additionalAgreement%")
+            ->setParameter('add', "additionalAgreement%")
             ->getQuery()
             ->getResult();
 

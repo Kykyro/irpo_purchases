@@ -289,7 +289,7 @@ class certificateByClustersService extends AbstractController
             $_ugps = $user_info->getUGPS();
             if(count($ugps) > 0)
             {
-                $_ugps = $this->findFillter($_ugps);
+                $_ugps = $this->findFillter($ugps, $_ugps);
             }
             $row =
                 [
@@ -378,11 +378,11 @@ class certificateByClustersService extends AbstractController
 
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
-    public  function  findFillter($arr)
+    public  function  findFillter($arr, $find_arr)
     {
         $_arr = [];
 
-        foreach ($arr as $i)
+        foreach ($find_arr as $i)
         {
             foreach ($arr as $j)
             {
