@@ -44,6 +44,12 @@ class inspectorUserEditFormType extends AbstractType
                     'required'   => true,
                     'label' => 'Наименование организации грантополучателя '
                 ])
+            ->add("city", TextType::class,
+                [
+                    'attr' => ['class' => 'form-control'],
+                    'required'   => true,
+                    'label' => 'Город '
+                ])
             ->add("initiatorOfCreation", TextType::class,
                 [
                     'attr' => ['class' => 'form-control'],

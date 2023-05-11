@@ -159,6 +159,11 @@ class UserInfo
      */
     private $ogrnip;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $city;
+
 
 
 
@@ -561,6 +566,18 @@ class UserInfo
     public function setOgrnip(?string $ogrnip): self
     {
         $this->ogrnip = $ogrnip;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
