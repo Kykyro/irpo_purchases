@@ -63,18 +63,31 @@ class XlsxEdAndEmplListService extends AbstractController
             $myWorkSheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, $title);
             $spreadsheet->addSheet($myWorkSheet);
         }
+        $additSheets = ['Статистика', 'Список'];
+        foreach ($additSheets as $i)
+        {
+            $myWorkSheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, $i);
+            $spreadsheet->addSheet($myWorkSheet);
+        }
+
+
         $sheetIndex = $spreadsheet->getIndex(
             $spreadsheet->getSheetByName('Worksheet')
         );
         $spreadsheet->removeSheetByIndex($sheetIndex);
-
-
+        ;
+        $totalArray = [
+            'org' => [],
+            'empl' => [],
+            'baseOO' => []
+        ];
         foreach ($arr as $i)
         {
             $title = "{$i[0]->getYear()}";
             $columnArrayOrg = [];
             $columnArrayEmpl = [];
-            $titles = ['Образовательные организации', 'Работодатели'];
+            $columnArrayBaseOO = [];
+            $titles = ['Базовые ОО','Образовательные организации', 'Работодатели'];
 
             foreach ($i as $user_info)
             {
@@ -86,24 +99,35 @@ class XlsxEdAndEmplListService extends AbstractController
                  {
                      array_push($columnArrayEmpl, $empl);
                  }
+                 array_push($columnArrayBaseOO, $user_info->getEducationalOrganization());
             }
             $columnArrayOrg = array_unique($columnArrayOrg);
             $columnArrayEmpl = array_unique($columnArrayEmpl);
 
+            array_push($totalArray['org'], $columnArrayOrg);
+            array_push($totalArray['empl'], $columnArrayEmpl);
+            array_push($totalArray['baseOO'], $columnArrayBaseOO);
+
             $columnArrayOrg = array_chunk($columnArrayOrg, 1);
             $columnArrayEmpl = array_chunk($columnArrayEmpl, 1);
+            $columnArrayBaseOO = array_chunk($columnArrayBaseOO, 1);
 
 
             $spreadsheet->getSheetByName($title)
                 ->fromArray(
-                    $columnArrayOrg,   // The data to set
+                    $columnArrayBaseOO,   // The data to set
                     NULL,          // Array values with this value will not be set
                     'A2'            // Top left coordinate of the worksheet range where
                 //    we want to set these values (default is A1)
                 )->fromArray(
-                    $columnArrayEmpl,   // The data to set
+                    $columnArrayOrg,   // The data to set
                     NULL,          // Array values with this value will not be set
                     'B2'            // Top left coordinate of the worksheet range where
+                //    we want to set these values (default is A1)
+                )->fromArray(
+                    $columnArrayEmpl,   // The data to set
+                    NULL,          // Array values with this value will not be set
+                    'C2'            // Top left coordinate of the worksheet range where
                 //    we want to set these values (default is A1)
                 )->fromArray(
                     $titles,   // The data to set
@@ -115,7 +139,10 @@ class XlsxEdAndEmplListService extends AbstractController
             ;
             $spreadsheet->getSheetByName($title)->getColumnDimension('A')->setAutoSize(TRUE);
             $spreadsheet->getSheetByName($title)->getColumnDimension('B')->setAutoSize(TRUE);
+            $spreadsheet->getSheetByName($title)->getColumnDimension('C')->setAutoSize(TRUE);
+
         }
+
 
         // Create Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
