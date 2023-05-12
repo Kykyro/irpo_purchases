@@ -149,6 +149,14 @@
                         </div>
 
                     </div>
+                    <div class="row ">
+                        <div class="col-lg-3">
+                            <label>Город</label>
+                            <select id="city-input" class="form-control m-b select2" multiple="multiple">
+                                {#<option></option>#}
+                            </select>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-9">
                             <label>УГПС</label>
@@ -168,6 +176,7 @@
                             {#{{ form_widget(form.base_org) }}#}
                         </div>
                     </div>
+
                     <div class="row mt-3">
                         <div class="col-lg-12">
                             <button id="filter-btn" type="button mr-3" class="btn" type="button">
@@ -312,6 +321,7 @@
                 }
             };
 
+            let cityInput = $('#city-input');
             let yearInput = $('#year-input');
             let employersInput = $('#make_certificate_form_employers');
             let industryInput = $('#industry-input');
@@ -347,6 +357,13 @@
 
                     let value = regionInput.val();
                     let filtered_region = $('#clusters input[data-region]').filterAttribute("data-region", value, true);
+                    filtered_region.closest('.form-control').hide();
+                }
+                if(cityInput.val().length > 0){
+                    console.log('Город: ', regionInput.val());
+
+                    let value = cityInput.val();
+                    let filtered_region = $('#clusters input[data-region]').filterAttribute("data-city", value, true);
                     filtered_region.closest('.form-control').hide();
                 }
                 if(baseInput.val() !== ""){
@@ -413,12 +430,14 @@
                 let _ugps = [];
                 let _zone = [];
                 let _employers = [];
+                let _city = [];
                 data.each(function( index ) {
                     _industry.push( $( this ).data("industry"));
                     _region.push( $( this ).data("region"));
                     _base.push( $( this ).data("base"));
                     _year.push( $( this ).data("year"));
                     _district.push( $( this ).data("district"));
+                    _city.push( $( this ).data("city"));
                     for(let i in $( this ).data("ugps"))
                         _ugps.push( $( this ).data("ugps") [i]);
                     // _ugps.push( $( this ).data("ugps"));
@@ -433,6 +452,12 @@
                 let uniq_industry = [...new Set(_industry)];
                 uniq_industry.forEach((element) => {
                     industryInput
+                        .append('<option>'+element+'</option>');
+                });
+
+                let uniq_city = [...new Set(_city)];
+                uniq_city.forEach((element) => {
+                    cityInput
                         .append('<option>'+element+'</option>');
                 });
 
