@@ -47,7 +47,7 @@ class inspectorUserEditFormType extends AbstractType
             ->add("city", TextType::class,
                 [
                     'attr' => ['class' => 'form-control'],
-                    'required'   => true,
+                    'required'   => false,
                     'label' => 'Город '
                 ])
             ->add("initiatorOfCreation", TextType::class,
