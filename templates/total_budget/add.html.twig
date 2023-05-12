@@ -1,0 +1,43 @@
+{% extends 'default/base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="row mt-3">
+        <div class="col-lg-8 offset-lg-2">
+            <a href="{{ path("app_total_budget") }}">
+                <button type="button" class="btn btn-outline-dark mb-3">
+                    <i class="fa fa-arrow-left"></i>
+                    Назад
+                </button>
+            </a>
+            {{ form_start(form) }}
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Общий бюджет
+                    </h5>
+                </div>
+                <div class="ibox-content">
+
+                        {{ form_row(form.year) }}
+                        {{ form_row(form.role) }}
+                        <hr>
+                        {{ form_row(form.federal, {'type':'number'}) }}
+                        {{ form_row(form.employeers, {'type':'number'}) }}
+                        {{ form_row(form.subject, {'type':'number'}) }}
+                        {{ form_row(form.Edicational, {'type':'number'}) }}
+
+                </div>
+                <div class="ibox-footer">
+                    {{ form_row(form.submit) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
