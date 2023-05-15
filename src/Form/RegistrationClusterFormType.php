@@ -50,8 +50,14 @@ class RegistrationClusterFormType extends AbstractType
                                 'Производственный кластер' => 'ROLE_REGION'
 
                             ),
-                            'Малый кластер' => [
+                            'Малый кластерLOT_' => [
                                 'Малый кластер' => 'ROLE_SMALL_CLUSTERS'
+                            ],
+                            'Малый кластер лот 1' => [
+                                'Малый кластер лот 1' => 'ROLE_SMALL_CLUSTERS_LOT_1'
+                            ],
+                            'Малый кластер лот 2' => [
+                                'Малый кластер лот 2' => 'ROLE_SMALL_CLUSTERS_LOT_2'
                             ]
                         )
                     ,

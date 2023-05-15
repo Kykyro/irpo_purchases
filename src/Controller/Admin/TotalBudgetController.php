@@ -106,7 +106,8 @@ class TotalBudgetController extends AbstractController
                 'choices'  => [
 
                     'Производственный кластер' => "ROLE_REGION",
-                    'Малый кластер' => "ROLE_SMALL_CLUSTER",
+                    'Малый кластер лот 1' => "ROLE_SMALL_CLUSTER_LOT_1",
+                    'Малый кластер лот 2' => "ROLE_SMALL_CLUSTER_LOT_2",
 
                 ],
                 'required'   => true,

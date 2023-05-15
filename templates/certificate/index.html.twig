@@ -1,0 +1,41 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+    {{ include('default/inDevelopment.html.twig') }}
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Да-да
+                </h5>
+            </div>
+            <div class="ibox-content">
+
+            </div>
+            <div class="ibox-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row">
+        <div class="row col-lg-12">
+
+                {% for i in pagination %}
+                    {{ include('default/clusterCard.html.twig', {'i': i}) }}
+                {% endfor %}
+
+
+
+        </div>
+    </div>
+    {#<div class="row">#}
+        <div class="navigation">
+            {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+        </div>
+    {#</div>#}
+    <div class="row p-2">
+
+    </div>
+{% endblock %}

@@ -115,5 +115,13 @@
                 </div>
             </div>
         </div>
+
+        <div class="ibox-footer mt-3">
+            {% for tag in i.getUserTags() %}
+                <span class="badge">
+                    {{ tag.getTag() }}
+                </span>
+            {% endfor %}
+        </div>
     </div>
 </div>

@@ -81,6 +81,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $repairDumps;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=UserTags::class, mappedBy="users")
+     */
+    private $userTags;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,6 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->clusterAddresses = new ArrayCollection();
         $this->readinessMapArchives = new ArrayCollection();
         $this->repairDumps = new ArrayCollection();
+        $this->userTags = new ArrayCollection();
     }
 
 
@@ -580,6 +586,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($repairDump->getUser() === $this) {
                 $repairDump->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserTags>
+     */
+    public function getUserTags(): Collection
+    {
+        return $this->userTags;
+    }
+
+    public function addUserTag(UserTags $userTag): self
+    {
+        if (!$this->userTags->contains($userTag)) {
+            $this->userTags[] = $userTag;
+            $userTag->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserTag(UserTags $userTag): self
+    {
+        if ($this->userTags->removeElement($userTag)) {
+            $userTag->removeUser($this);
         }
 
         return $this;

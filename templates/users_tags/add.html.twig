@@ -1,0 +1,22 @@
+{% extends 'default/base.html.twig' %}
+
+{% block title %}Hello UsersTagsController!{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Добавить теги
+                </h5>
+            </div>
+            <div class="ibox-content">
+                {{ form_start(form) }}
+                {{ form_end(form) }}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

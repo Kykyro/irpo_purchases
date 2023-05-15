@@ -1,0 +1,52 @@
+{% extends 'default/base.html.twig' %}
+
+{% block title %}Hello UsersTagsController!{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Теги
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <div class="col-lg-12 mb-3">
+                    <a href="{{ path('app_users_tags_add') }}">
+                        <button class="btn btn-outline-success col-lg-12">
+                            <i class="fa fa-plus"></i>
+                            Добавить тег
+                        </button>
+                    </a>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="col-md-1">Id</td>
+                            <td class="col-md-3">Тег</td>
+                            <td class="col-md-1">Кол-во пользователей</td>
+                            <td class="col-md-1">Редактировать</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tag in  pagination %}
+                            <tr>
+                                <td>{{ tag.getId() }}</td>
+                                <td>{{ tag.getTag() }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="ibox-footer">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
