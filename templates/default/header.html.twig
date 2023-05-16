@@ -65,7 +65,7 @@
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
                     <li>
-                        <span class="nav-label left-bar-color-text">Кластеры</span>
+                        <span class="nav-label badge badge-primary">Кластеры</span>
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_REGION') or is_granted("ROLE_SMALL_CLUSTERS") %}
@@ -92,13 +92,11 @@
                         <a href="{{ path("app_region_certificate") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справки </span></a>
                     </li>
                 {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_INSPECTOR') %}
                     <li>
-                        <span class="nav-label left-bar-color-text">Кураторы</span>
+                        <span class="nav-label badge badge-primary">Производственные кластеры</span>
 
                     </li>
-                {% endif %}
-                {% if is_granted('ROLE_INSPECTOR') %}
                     {#<li > #}{# class="active" #}
                         {#<a href="{{ path("app_inspector_main") }}"><i class="fa fa-archive left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Закупки</span></a>#}
                     {#</li>#}
@@ -108,9 +106,7 @@
                     <li > {# class="active" #}
                         <a href="{{ path("app_inspector_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Производственные кластеры</span></a>
                     </li>
-                    <li > {# class="active" #}
-                        <a href="{{ path("app_inspector_my_clusters") }}"><i class="fa fa-star left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Мои кластеры</span></a>
-                    </li>
+
                     <li >
                         <a href="{{ path("app_inspector_contracting") }}"><i class="fa fa-money left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Актуальная выгрузка (ПК)</span></a>
                     </li>
@@ -123,18 +119,14 @@
                     </li>
 
                 {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
+
+                {% if is_granted('ROLE_SMALL_CURATOR') %}
                     <li>
-                        <span class="nav-label left-bar-color-text">Малый куратор</span>
+                        <span class="nav-label badge badge-primary">Малые кластеры</span>
 
                     </li>
-                {% endif %}
-                {% if is_granted('ROLE_SMALL_CURATOR') %}
                     <li > {# class="active" #}
                         <a href="{{ path("app_sc_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Малые кластеры</span></a>
-                    </li>
-                    <li > {# class="active" #}
-                        <a href="{{ path("app_inspector_my_clusters") }}"><i class="fa fa-star left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Мои кластеры</span></a>
                     </li>
                     <li >
                         <a href="{{ path("app_inspector_sc_contracting") }}"><i class="fa fa-money left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Актуальная выгрузка (МК)</span></a>
@@ -144,25 +136,22 @@
                     </li>
                 {% endif %}
 
-                {% if is_granted('ROLE_ADMIN') %}
+
+                {% if is_granted('ROLE_JOURNALIST') %}
                     <li>
-                        <span class="nav-label left-bar-color-text">Журналист</span>
+                        <span class="nav-label  badge badge-primary">Журналист</span>
 
                     </li>
-                {% endif %}
-                {% if is_granted('ROLE_JOURNALIST') %}
                     <li >
                         <a href="{{ path("app_journalist") }}"><i class="fa fa-compass left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Редактор главной страницы</span></a>
                     </li>
 
                 {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_ANALYTIC') %}
                     <li>
-                        <span class="nav-label left-bar-color-text">Аналитик</span>
+                        <span class="nav-label badge badge-primary">Аналитик</span>
 
                     </li>
-                {% endif %}
-                {% if is_granted('ROLE_ANALYTIC') %}
                     <li>
                         <a href="{{ path("app_statistic_and_analytic") }}"><i class="fa fa-area-chart left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Статистика</span></a>
                     </li>
@@ -170,13 +159,12 @@
                         {#<a href="{{ path("app_certificate") }}"><i class="fa fa-pencil left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справки по всем кластерам</span></a>#}
                     {#</li>#}
                 {% endif %}
+
                 {% if is_granted('ROLE_ADMIN') %}
                     <li>
-                        <span class="nav-label left-bar-color-text">Админ</span>
+                        <span class="nav-label badge badge-primary">Админ</span>
 
                     </li>
-                {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
                     <li >
                         <a href="{{ path("app_admin") }}"><i class="fa fa-wheelchair-alt left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Админ панель</span></a>
                     </li>
@@ -190,11 +178,23 @@
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') %}
+                    <li>
+                        <hr>
+                    </li>
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_inspector_my_clusters") }}"><i class="fa fa-star left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Мои кластеры</span></a>
+                    </li>
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_inspector_contracting_history") }}"><i class="fa fa-save left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Сохраненная выгрузка</span></a>
+                    </li>
                     <li > {# class="active" #}
                         <a href="{{ path("app_feedback") }}"><i class="fa fa-at left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Обратная связь <span class="label float-right mt-1" id="feedback-count"></span></span></a>
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_USER') %}
+                    <li>
+                        <hr>
+                    </li>
                     <li > {# class="active" #}
                         <a href="{{ path("app_user_password_change") }}"><i class="fa fa-edit left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Сменить пароль</span></a>
                     </li>

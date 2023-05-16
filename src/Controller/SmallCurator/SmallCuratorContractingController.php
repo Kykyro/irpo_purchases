@@ -64,6 +64,16 @@ class SmallCuratorContractingController extends AbstractController
 
                 ],
             ])
+            ->add('lot', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'choices' => [
+                    'Лот 1' => 1,
+                    'Лот 2' => 2,
+
+                ],
+            ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success'
@@ -80,15 +90,20 @@ class SmallCuratorContractingController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+
+            if($data['lot'] == 1)
+            {
+                $_role = "lot_1";
+            }
+            else{
+                $_role = "lot_2";
+            }
             if ($data['type'] == 1) {
-                if ($data['date']) {
-                    return $contractingXlsxService->downloadTable($data['year'], $data['date'], $role);
-                }
-                $today = new \DateTime('now');
-                return $contractingXlsxService->downloadTable($data['year'], $today, $role);
+                $data['date'] = ($data['date']) ? $data['date'] :  new \DateTime('now');
+                return $contractingXlsxService->downloadTable($data['year'], $data['date'], $_role);
             }
             if ($data['type'] == 2) {
-                return $readinessMapXlsxService->downloadTable($data['year'], $role);
+                return $readinessMapXlsxService->downloadTable($data['year'], $_role);
             }
 
 

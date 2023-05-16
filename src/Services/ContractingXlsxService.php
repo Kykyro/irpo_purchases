@@ -89,7 +89,7 @@ class ContractingXlsxService extends AbstractController
     }
 
 
-    public function downloadTable(int $year, \DateTime $today = null, string $role = 'cluster')
+    public function downloadTable(int $year, \DateTime $today = null, string $role = 'cluster', bool $save = false)
     {
         $sheet_template = "../public/excel/contracting.xlsx";
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
@@ -97,10 +97,14 @@ class ContractingXlsxService extends AbstractController
 
         $grant = 100000000;
         $index = 1;
-        if($role == 'cluster')
-            $users = $this->getUsersByYear($year, '%REGION%');
+
+        if($role == 'lot_1')
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
+        else if($role == 'lot_1')
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
         else
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS%');
+            $users = $this->getUsersByYear($year, '%REGION%');
+
         foreach ($users as $user)
         {
             $procedures = $this->getProcedures($user);
@@ -175,6 +179,7 @@ class ContractingXlsxService extends AbstractController
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
         }
+
         $styleArray = [
             'borders' => [
                 'allBorders' => [
@@ -186,6 +191,7 @@ class ContractingXlsxService extends AbstractController
                 'name'  => 'Times New Roman'
             ]
         ];
+
         $end_cell = $index;
         $rangeTotal = 'A2:S'.($end_cell+2);
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
@@ -212,11 +218,14 @@ class ContractingXlsxService extends AbstractController
         $sheet->getStyle('A:Z')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:Z')->getAlignment()->setVertical('center');
 
-        $totalProcentageCell = ($row+2);
-        if($role == 'cluster')
-            $totalProcentageRow = $this->getTotalProcentageRow($year, '%REGION%', $totalProcentageCell);
+        $totalProcentageCell = (isset($row)) ? ($row+2) : 3;
+        if($role == 'lot_1')
+            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $totalProcentageCell);
+        else if($role == 'lot_2')
+            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $totalProcentageCell);
         else
-            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTERS%', $totalProcentageCell);
+            $totalProcentageRow = $this->getTotalProcentageRow($year, '%REGION%', $totalProcentageCell);
+
 
         $sheet->fromArray($totalProcentageRow, null, 'G'.$totalProcentageCell);
 
@@ -231,7 +240,13 @@ class ContractingXlsxService extends AbstractController
 
         $writer->save($temp_file);
 
+        if($save)
+        {
+            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
+        else{
+            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
 
-        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }

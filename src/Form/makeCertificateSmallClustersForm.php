@@ -46,7 +46,7 @@ class makeCertificateSmallClustersForm extends AbstractType
                         ->setParameter('role', '%ROLE_SMALL_CLUSTERS%')
                         ->setParameter('year', 2021)
                         ;
-                    },
+                },
                 'choice_label' => function ($clusters) {
                     return $clusters->getUserInfo()->getCluster();
                 },
@@ -61,9 +61,10 @@ class makeCertificateSmallClustersForm extends AbstractType
                         'data-district' => is_null($user->getUserInfo()->getRfSubject()) ? '' : $user->getUserInfo()->getRfSubject()->getDistrict(),
                         'data-zone' => json_encode($user->getUserInfo()->getZone(), JSON_UNESCAPED_UNICODE),
                         'data-ugps' => json_encode($user->getUserInfo()->getUGPS(), JSON_UNESCAPED_UNICODE),
+                        'data-city' => json_encode($user->getUserInfo()->getCity(), JSON_UNESCAPED_UNICODE),
                         'data-employers' => json_encode($user->getUserInfo()->getListOfEmployers(), JSON_UNESCAPED_UNICODE),
                     ]
-                    : [];
+                        : [];
                 }),
 
             ])
@@ -94,7 +95,7 @@ class makeCertificateSmallClustersForm extends AbstractType
             ])
             ->add('UGPS', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'form-control m-b select2 select2-ugps-input-results '
+                    'class' => 'form-control m-b select2 select2-ugps-input-results ',
                 ],
                 'mapped' => false,
                 'multiple' => true,
@@ -103,6 +104,29 @@ class makeCertificateSmallClustersForm extends AbstractType
 //                'allow_add' => TRUE,
 
             ])
+            ->add('employers', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control m-b select2 '
+                ],
+                'mapped' => false,
+                'multiple' => true,
+//                'expanded' => false,
+                'required' => false,
+//                'allow_add' => TRUE,
+
+            ])
+            ->add('zones', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control m-b select2 '
+                ],
+                'mapped' => false,
+                'multiple' => true,
+//                'expanded' => false,
+                'required' => false,
+//                'allow_add' => TRUE,
+
+            ])
+
 
         ;
 

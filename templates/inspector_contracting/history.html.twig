@@ -1,54 +1,46 @@
 {% extends 'default/base.html.twig' %}
 
 {% block content %}
-    <div class="row mt-5">
+    {{ include('default/inDevelopment.html.twig') }}
+    <div class="row mt-3">
         <div class="offset-lg-3 col-lg-6">
-            <div class="ibox ">
+            <div class="ibox">
                 <div class="ibox-title">
-                    <h2>
-                        Контрактация - Кассовые расходы (История)
-
-                    </h2>
-                    <div class="ibox-tools">
-
-                    </div>
+                    <h5>
+                        История
+                    </h5>
                 </div>
                 <div class="ibox-content">
-                    <table class="table-bordered table">
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <td>
-                                    Дата создания
-                                </td>
-                                <td>
-                                    Скачать файл
-                                </td>
+                                <td class="col-md-2">Дата</td>
+                                <td class="col-md-2">Тип</td>
+                                <td class="col-md-1">Скачать</td>
                             </tr>
                         </thead>
                         <tbody>
-                        {% for i in contractingTables %}
-                            <tr>
-                                <td>
-                                    {{ i.getCreatedAt().format('d.m.Y') }}
-                                </td>
-                                <td>
-                                    <a href="{{ path('app_download_file_by_route', {'file': i.getName(), 'route': 'contracting_tables_directory' }) }}">
-                                        <i class="fa fa-download">
-                                            Скачать
-                                        </i>
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                            {% for i in 1..10 %}
+                                <tr>
+                                    <td>12.12.12</td>
+                                    <td>afafafa</td>
+                                    <td>
+                                        <a href="#">
+                                            <button class="btn btn-success">
+                                                <i class="fa fa-download"></i>
+                                                Скачать
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
-                </div>
-                <div class="ibox-footer">
-
                 </div>
             </div>
         </div>
     </div>
+
 
 {% endblock %}
 

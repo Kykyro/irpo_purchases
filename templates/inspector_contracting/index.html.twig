@@ -35,6 +35,14 @@
                         </label>
                         {{ form_widget(form.type) }}
                     </div>
+                    {% if form.lot is defined %}
+                    <div class="form-group">
+                        <label>
+                            Лот
+                        </label>
+                        {{ form_widget(form.lot) }}
+                    </div>
+                    {% endif %}
                     <div class="form-group">
                         <label>
                             Дата проверки
@@ -54,7 +62,6 @@
             </div>
         </div>
     </div>
-
 
 
 {% endblock %}

@@ -95,16 +95,13 @@ class InspectorContractingController extends AbstractController
     public function history(Request $request, ContractingXlsxService $contractingXlsxService): Response
     {
 
-       $contractingTables = $this->getDoctrine()->getManager()
-           ->getRepository(ContractingTables::class)
-           ->findAll();
 
 
 
 
         return $this->render('inspector_contracting/history.html.twig', [
             'controller_name' => 'InspectorContractingController',
-            'contractingTables' => $contractingTables
+
         ]);
     }
 }
