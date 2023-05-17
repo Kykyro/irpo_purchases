@@ -89,18 +89,19 @@ class ContractingXlsxService extends AbstractController
     }
 
 
-    public function downloadTable(int $year, \DateTime $today = null, string $role = 'cluster', bool $save = false)
+    public function downloadTable(int $year, \DateTime $today = null, string $role = 'cluster', $save = null)
     {
-        $sheet_template = "../public/excel/contracting.xlsx";
+        $sheet_template = $this->getParameter('contrating_template_file');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
         $sheet = $spreadsheet->getActiveSheet();
-
+        if(is_null($today))
+            $today = new \DateTime('now');
         $grant = 100000000;
         $index = 1;
 
         if($role == 'lot_1')
             $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
-        else if($role == 'lot_1')
+        else if($role == 'lot_2')
             $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
         else
             $users = $this->getUsersByYear($year, '%REGION%');
@@ -120,8 +121,7 @@ class ContractingXlsxService extends AbstractController
             ];
             foreach ($procedures as $procedure)
             {
-                if(is_null($today))
-                    $today = new \DateTime('now');
+
                 if($procedure->getPurchasesStatus($today) == 'contract')
                 {
                     $_data['G'] += $procedure->getfinFederalFunds();
@@ -233,18 +233,31 @@ class ContractingXlsxService extends AbstractController
         // Запись файла
         $writer = new Xlsx($spreadsheet);
 
-        $fileName = 'Контрактация - Кассовые расходы_'.$today->format('d-m-Y').'.xlsx';
 
-
-        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
-
-        $writer->save($temp_file);
 
         if($save)
         {
-            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+//            dd();
+            $fileName = 'Контрактация - Кассовые расходы_'.$today->format('d-m-Y').'_'.uniqid().'.xlsx';
+            if (!file_exists($this->getParameter('contracting_tables_directory'))) {
+                mkdir($this->getParameter('contracting_tables_directory'), 0777, true);
+            }
+
+            $writer->save($this->getParameter('contracting_tables_directory').'/'.$fileName);
+
+            return $fileName;
+//            contracting_tables_directory
+//            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
         }
         else{
+//            dd();
+            $fileName = 'Контрактация - Кассовые расходы_'.$today->format('d-m-Y').'.xlsx';
+
+
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+            $writer->save($temp_file);
+
             return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
         }
 

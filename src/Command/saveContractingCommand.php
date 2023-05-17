@@ -22,9 +22,9 @@ use Shapecode\Bundle\CronBundle\Annotation\CronJob;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 
-///**
-// * @CronJob("1 *\/1 * * 5")
-// */
+/**
+ * @CronJob("15 3 * * 5,6")
+ */
 class saveContractingCommand extends Command
 {
 
@@ -52,14 +52,26 @@ class saveContractingCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $types = [
+            'Контрактация (Производственные кластеры)' => 'cluster',
+            'Контрактация (Малые кластеры Лот 1)' => 'lot_1',
+            'Контрактация (Малые кластеры Лот 2)' => 'lot_2',
+        ];
         $io = new SymfonyStyle($input, $output);
         $now = new \DateTimeImmutable('now');
         $year = $now->format('Y');
-        $contractingTable = new ContractingTables();
-        $contractingTable->setCreatedAt(new \DateTimeImmutable('now'));
-        $contractingTable->setName($this->contractingService->generateTable((int)$year));
 
-        $this->entity_manager->persist($contractingTable);
+        foreach ($types as $type)
+        {
+            $contractingTable = new ContractingTables();
+            $contractingTable->setCreatedAt(new \DateTimeImmutable('now'));
+            $contractingTable->setName($this->contractingService->downloadTable((int)$year, null, $type, true));
+            $contractingTable->setType($type);
+            $contractingTable->setYear($year);
+            $this->entity_manager->persist($contractingTable);
+        }
+
+
         $this->entity_manager->flush();
 
         $io->success(sprintf('Таблица контрактации сохранена'));

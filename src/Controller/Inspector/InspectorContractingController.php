@@ -7,6 +7,8 @@ use App\Entity\ProcurementProcedures;
 use App\Entity\User;
 use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -92,16 +94,31 @@ class InspectorContractingController extends AbstractController
     /**
      * @Route("/contracting-history", name="app_inspector_contracting_history")
      */
-    public function history(Request $request, ContractingXlsxService $contractingXlsxService): Response
+    public function history(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
 
+        $dict = [
+            'cluster'=> 'Контрактация (Производственные кластеры)' ,
+            'lot_1' => 'Контрактация (Малые кластеры Лот 1)',
+            'lot_2' => 'Контрактация (Малые кластеры Лот 2)' ,
+        ];
+        $query = $entityManager->getRepository(ContractingTables::class)
+            ->createQueryBuilder('a')
+            ;
 
+        $query = $query->getQuery();
 
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
 
 
         return $this->render('inspector_contracting/history.html.twig', [
             'controller_name' => 'InspectorContractingController',
-
+            'contracts' => $pagination,
+            'dict' => $dict
         ]);
     }
 }
