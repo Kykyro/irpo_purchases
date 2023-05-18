@@ -25,7 +25,7 @@
                                     <td>{{ i.getCreatedAt().format('d.m.Y') }}</td>
                                     <td>{{ dict[i.getType()] }}</td>
                                     <td>
-                                        <a href="{{ path('app_download_file_by_route', {'route': 'contracting_tables_directory', 'file': i.getName()}) }}">
+                                        <a href="{{ path('app_download_file_by_route', {'route': download_path, 'file': i.getName()}) }}">
                                             <button class="btn btn-success">
                                                 <i class="fa fa-download"></i>
                                                 Скачать

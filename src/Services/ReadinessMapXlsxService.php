@@ -47,17 +47,22 @@ class ReadinessMapXlsxService extends AbstractController
             ->getResult();
     }
 
-    public function downloadTable(int $year, string $role = 'cluster')
+    public function downloadTable(int $year, string $role = 'cluster', $save = false)
     {
-        $sheet_template = "../public/excel/readinessMap.xlsx";
+//        $sheet_template = "../public/excel/readinessMap.xlsx";
+        $sheet_template = $this->getParameter('readiness_map_table_template_file');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
         $sheet = $spreadsheet->getSheetByName('Ремонтные работы');
         $today = new \DateTime('now');
         $index = 1;
-        if($role == 'cluster')
-            $users = $this->getUsersByYear($year, '%REGION%');
+
+        if($role == 'lot_1')
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
+        else if($role == 'lot_2')
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
         else
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS%');
+            $users = $this->getUsersByYear($year, '%REGION%');
+
         foreach ($users as $user)
         {
             $_data = [
@@ -347,15 +352,28 @@ class ReadinessMapXlsxService extends AbstractController
         // Запись файла
         $writer = new Xlsx($spreadsheet);
 
-        $fileName = 'Карта готовности_'.$today->format('d-m-Y').'.xlsx';
+        if($save)
+        {
+            $fileName = 'Карта готовности_'.$today->format('d-m-Y').'_'.uniqid().'.xlsx';
+            if (!file_exists($this->getParameter('readiness_map_saves_directory'))) {
+                mkdir($this->getParameter('readiness_map_saves_directory'), 0777, true);
+            }
+
+            $writer->save($this->getParameter('readiness_map_saves_directory').'/'.$fileName);
+
+            return $fileName;
+        }
+        else{
+            $fileName = 'Карта готовности_'.$today->format('d-m-Y').'.xlsx';
+
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+            $writer->save($temp_file);
 
 
-        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
 
-        $writer->save($temp_file);
-
-
-        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
     public function midleProc($total, $fact)
     {

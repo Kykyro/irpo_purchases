@@ -4,6 +4,7 @@ namespace App\Controller\Inspector;
 
 use App\Entity\ContractingTables;
 use App\Entity\ProcurementProcedures;
+use App\Entity\ReadinessMapSaves;
 use App\Entity\User;
 use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
@@ -118,7 +119,39 @@ class InspectorContractingController extends AbstractController
         return $this->render('inspector_contracting/history.html.twig', [
             'controller_name' => 'InspectorContractingController',
             'contracts' => $pagination,
-            'dict' => $dict
+            'dict' => $dict,
+            'download_path' => 'contracting_tables_directory',
+        ]);
+    }
+    /**
+     * @Route("/rm-history", name="app_inspector_rm_history")
+     */
+    public function history_rm(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
+    {
+
+        $dict = [
+            'cluster'=> 'Карты готовности (Производственные кластеры)' ,
+            'lot_1' => 'Карты готовности (Малые кластеры Лот 1)',
+            'lot_2' => 'Карты готовности (Малые кластеры Лот 2)' ,
+        ];
+        $query = $entityManager->getRepository(ReadinessMapSaves::class)
+            ->createQueryBuilder('a')
+            ;
+
+        $query = $query->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
+
+
+        return $this->render('inspector_contracting/history.html.twig', [
+            'controller_name' => 'InspectorContractingController',
+            'contracts' => $pagination,
+            'dict' => $dict,
+            'download_path' => 'readiness_map_saves_directory',
         ]);
     }
 }
