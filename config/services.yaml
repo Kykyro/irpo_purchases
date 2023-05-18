@@ -32,6 +32,7 @@ parameters:
     readiness_map_saves_directory: '%kernel.project_dir%/public/uploads/readinessMapSaves'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
 
+
 services:
 
     # default configuration for services in *this* file
