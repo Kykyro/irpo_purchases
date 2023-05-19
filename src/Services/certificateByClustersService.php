@@ -27,93 +27,6 @@ class certificateByClustersService extends AbstractController
 
     }
 
-    public function getCertificate_2($users)
-    {
-        $today = new \DateTime('now');
-        $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
-        $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
-        $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, 'руб.');
-
-        $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки.docx');
-        $replacements = [];
-        $replacementsWithGrand = [];
-        $replacements2022 = [];
-
-        foreach ($users as $user)
-        {
-            $user_info = $user->getUserInfo();
-            $templateData = [
-                'rf_subject' => is_null($user_info->getRfSubject())  ? '' : $user_info->getRfSubject()->getName() ,
-                'industry' => $user_info->getDeclaredIndustry(),
-                'cluster_name' => $user_info->getCluster(),
-                'grant_name' => $user_info->getOrganization(),
-                'intiator_name' => $user_info->getInitiatorOfCreation(),
-                'employers_count' => count($user_info->getListOfEmployers()),
-                'employers' => implode(", ", $user_info->getListOfEmployers()),
-                'web_oo_count' => count($user_info->getListOfEdicationOrganization()),
-                'web_oo' => implode(", ", $user_info->getListOfEdicationOrganization()),
-                'rf_subject_funds' => $fmt->format($user_info->getFinancingFundsOfSubject() * 1000),
-                'economic_sector_funds' => $fmt->format($user_info->getExtraFundsEconomicSector() * 1000),
-                'oo_funds' => $fmt->format($user_info->getExtraFundsOO() * 1000),
-                'base_org' => $user_info->getEducationalOrganization(),
-            ];
-            if($user_info->getYear() === 2022)
-                array_push($replacements2022, $templateData);
-            else
-                if(strtolower($user_info->getEducationalOrganization()) == strtolower($user_info->getOrganization()))
-                    array_push($replacements, $templateData);
-                else
-                    array_push($replacementsWithGrand, $templateData);
-
-        }
-
-
-
-        if(count($replacements) > 0)
-        {
-
-        }
-
-        else
-        {
-            $templateProcessor->cloneBlock('clusterInfo', 0, true, false);
-            $templateProcessor->setValue('new_title', '');
-        }
-
-        if(count($replacements2022) > 0)
-        {
-            $templateProcessor->cloneBlock('old', 0, true, false, $replacements2022);
-            $templateProcessor->setValue('old_title', '2022 год');
-        }
-
-        else
-        {
-            $templateProcessor->cloneBlock('old', 0, true, false);
-            $templateProcessor->setValue('old_title', '');
-        }
-
-        if(count($replacementsWithGrand) > 0)
-        {
-            $templateProcessor->cloneBlock('WithGrant', 0, true, false, $replacementsWithGrand);
-            $templateProcessor->setValue('new_title', '2023 год');
-        }
-        else
-        {
-            $templateProcessor->cloneBlock('WithGrant', 0, true, false);
-            $templateProcessor->setValue('new_title', '');
-        }
-
-
-
-
-
-        $fileName = 'Справка_'.$today->format('d.m.Y').'.docx';
-        $filepath = $templateProcessor->save();
-
-        return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
-
-    }
-
     public function getCertificate($users, $ugps = false, $zone = false)
     {
         $today = new \DateTime('now');
@@ -121,36 +34,18 @@ class certificateByClustersService extends AbstractController
         $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
         $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, 'руб.');
 
-        $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2.docx');
+        $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2 (копия).docx');
         $replacements = [];
 
         foreach ($users as $user)
         {
-            $user_info = $user->getUserInfo();
-            $templateData = [
-                'rf_subject' => is_null($user_info->getRfSubject())  ? '' : $user_info->getRfSubject()->getName() ,
-                'industry' => $user_info->getDeclaredIndustry(),
-                'cluster_name' => $user_info->getCluster(),
-                'grant_name' => $user_info->getOrganization(),
-                'intiator_name' => $user_info->getInitiatorOfCreation(),
-                'employers_count' => count($user_info->getListOfEmployers()),
-                'employers' => implode(", ", $user_info->getListOfEmployers()),
-                'web_oo_count' => count($user_info->getListOfEdicationOrganization()),
-                'web_oo' => implode(", ", $user_info->getListOfEdicationOrganization()),
-                'rf_subject_funds' => $fmt->format($user_info->getFinancingFundsOfSubject() * 1000),
-                'economic_sector_funds' => $fmt->format($user_info->getExtraFundsEconomicSector() * 1000),
-                'oo_funds' => $fmt->format($user_info->getExtraFundsOO() * 1000),
-                'base_org' => $user_info->getEducationalOrganization(),
-                'year' => $user_info->getYear(),
-                'zone' => is_null($user_info->getZone()) ? [] : $user_info->getZone(),
-                'ugps' => is_null($user_info->getUGPS()) ? [] : $user_info->getUGPS(),
-
-            ];
+            $templateData = $this->getTemplateData($user, $fmt);
             array_push($replacements, $templateData);
         }
 
         $templateProcessor->cloneBlock('clusterInfo', count($replacements), true, true);
         $count = 1;
+
         foreach ($replacements as $replacement)
         {
             $templateProcessor->setValues(
@@ -165,6 +60,7 @@ class certificateByClustersService extends AbstractController
                     'economic_sector_funds#'.$count => $replacement['economic_sector_funds'],
                 ]
             );
+
             if(strtolower($replacement['grant_name']) == strtolower($replacement['base_org']))
             {
                 $templateProcessor->cloneBlock('with_grant#'.$count, 0, true, false);
@@ -182,6 +78,7 @@ class certificateByClustersService extends AbstractController
                     'base_org#'.$count => $replacement['base_org'],
                 ]);
             }
+
             if($replacement['web_oo_count'] > 0)
             {
                 $templateProcessor->cloneBlock('with_oo#'.$count, 1, true, false);
@@ -193,6 +90,7 @@ class certificateByClustersService extends AbstractController
             else{
                 $templateProcessor->cloneBlock('with_oo#'.$count, 0, true, false);
             }
+
             if ($replacement['year'] > 2022)
             {
                 $templateProcessor->cloneBlock('with_oo_funds#'.$count, 1, true, false);
@@ -206,31 +104,36 @@ class certificateByClustersService extends AbstractController
                 $templateProcessor->cloneBlock('with_oo_funds#'.$count, 0, true, false);
             }
 
-            if($ugps and count($replacement['ugps']) > 0)
-            {
-                $templateProcessor->cloneBlock('ugps_block#'.$count, 1, true, false);
-                $_ugps_str = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', implode("\n", $replacement['ugps']) );
-                $templateProcessor->setValue('ugps#'.$count, $_ugps_str);
+            $this->setBlockWithList(
+                    $templateProcessor,
+                    $replacement['ugps'],
+                    $ugps,
+                    $count,
+                    'ugps_block',
+                    'ugps'
+            );
 
-            }
-            else
-            {
-                $templateProcessor->cloneBlock('ugps_block#'.$count, 0, true, false);
-            }
+            $this->setBlockWithList(
+                    $templateProcessor,
+                    $replacement['zone'],
+                    $zone,
+                    $count,
+                    'zone_block',
+                    'zone'
+            );
 
-            if($zone and count($replacement['zone']) > 0)
+            $blocks = [
+                'fed_budget',
+                'reg_budget',
+                'empl_budget',
+                'extra_budget',
+                'repair_block',
+                'eqp_block'
+            ];
+            foreach ($blocks as $block)
             {
-                $templateProcessor->cloneBlock('zone_block#'.$count, 1, true, false);
-                $_zone_str = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', implode("\n", $replacement['zone']) );
-                $templateProcessor->setValue('zone#'.$count, $_zone_str);
-//                $templateProcessor->replaceBlock('zone#'.$count, implode('\n', $replacement['zone']));
+                $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false);
             }
-            else
-            {
-                $templateProcessor->cloneBlock('zone_block#'.$count, 0, true, false);
-            }
-
-
 
             $count++;
         }
@@ -243,7 +146,45 @@ class certificateByClustersService extends AbstractController
         return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
 
     }
+    public function getTemplateData($user, $fmt)
+    {
+        $user_info = $user->getUserInfo();
+        return [
+            'rf_subject' => is_null($user_info->getRfSubject())  ? '' : $user_info->getRfSubject()->getName() ,
+            'industry' => $user_info->getDeclaredIndustry(),
+            'cluster_name' => $user_info->getCluster(),
+            'grant_name' => $user_info->getOrganization(),
+            'intiator_name' => $user_info->getInitiatorOfCreation(),
+            'employers_count' => count($user_info->getListOfEmployers()),
+            'employers' => implode(", ", $user_info->getListOfEmployers()),
+            'web_oo_count' => count($user_info->getListOfEdicationOrganization()),
+            'web_oo' => implode(", ", $user_info->getListOfEdicationOrganization()),
+            'rf_subject_funds' => $fmt->format($user_info->getFinancingFundsOfSubject() * 1000),
+            'economic_sector_funds' => $fmt->format($user_info->getExtraFundsEconomicSector() * 1000),
+            'oo_funds' => $fmt->format($user_info->getExtraFundsOO() * 1000),
+            'base_org' => $user_info->getEducationalOrganization(),
+            'year' => $user_info->getYear(),
+            'zone' => is_null($user_info->getZone()) ? [] : $user_info->getZone(),
+            'ugps' => is_null($user_info->getUGPS()) ? [] : $user_info->getUGPS(),
 
+        ];
+    }
+
+    public function setBlockWithList($templateProcessor, $value, $isTrue, $count, $block, $replace){
+        if($isTrue and count($value) > 0)
+        {
+            $templateProcessor->cloneBlock($block.'#'.$count, 1, true, false);
+            $_ugps_str = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', implode("\n", $value) );
+            $templateProcessor->setValue($replace.'#'.$count, $_ugps_str);
+        }
+        else
+        {
+            $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false);
+        }
+    }
+
+
+//    EXCELE
     public function getTableCertificate($users, $ugps=[], $employeers=[], $zones=[])
     {
         $sheet_template = "../public/excel/справка_под_задачи_минпроса.xlsx";
