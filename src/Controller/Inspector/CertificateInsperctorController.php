@@ -51,7 +51,7 @@ class CertificateInsperctorController extends AbstractController
 
                 $ugps = in_array('ugps', $data['option']);
                 $zone = in_array('zone', $data['option']);
-                return $byClustersService->getCertificate($data['clusters'], $ugps, $zone);
+                return $byClustersService->getCertificate($data['clusters'], $data['option']);
 
             }
             else

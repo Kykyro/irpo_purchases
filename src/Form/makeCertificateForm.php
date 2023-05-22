@@ -72,6 +72,9 @@ class makeCertificateForm extends AbstractType
                 'choices'  => [
                     'Зоны по видам работ' => 'zone',
                     'УГПС' => 'ugps',
+//                    'Расходы' => 'budget',
+                    'Оборудование' => 'equipment',
+                    'Ремонт' => 'repair',
                 ],
                 'multiple' => true,
                 'expanded' => true,

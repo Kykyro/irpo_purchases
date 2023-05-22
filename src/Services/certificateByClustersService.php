@@ -27,12 +27,14 @@ class certificateByClustersService extends AbstractController
 
     }
 
-    public function getCertificate($users, $ugps = false, $zone = false)
+    public function getCertificate($users, $options = [])
     {
         $today = new \DateTime('now');
         $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
         $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
         $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, 'руб.');
+        $ugps = in_array('ugps', $options);
+        $zone = in_array('zone', $options);
 
         $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2 (копия).docx');
         $replacements = [];
@@ -48,6 +50,7 @@ class certificateByClustersService extends AbstractController
 
         foreach ($replacements as $replacement)
         {
+            $user = $replacement['user'];
             $templateProcessor->setValues(
                 [
                     'rf_subject#'.$count => $replacement['rf_subject'],
@@ -123,16 +126,21 @@ class certificateByClustersService extends AbstractController
             );
 
             $blocks = [
-                'fed_budget',
-                'reg_budget',
-                'empl_budget',
-                'extra_budget',
-                'repair_block',
-                'eqp_block'
+                'fed_budget' => in_array('budget', $options),
+                'reg_budget' => in_array('budget', $options),
+                'empl_budget' => in_array('budget', $options),
+                'extra_budget' => in_array('budget', $options),
+                'repair_block' => in_array('repair', $options),
+                'eqp_block' => in_array('equipment', $options)
             ];
-            foreach ($blocks as $block)
+            foreach ($blocks as $block => $show)
             {
-                $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false);
+                if($show)
+                    $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false,
+                        $this->getDataForOptionalBlocks($block, $user, $count));
+                else
+                    $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false);
+
             }
 
             $count++;
@@ -150,6 +158,7 @@ class certificateByClustersService extends AbstractController
     {
         $user_info = $user->getUserInfo();
         return [
+            'user' => $user,
             'rf_subject' => is_null($user_info->getRfSubject())  ? '' : $user_info->getRfSubject()->getName() ,
             'industry' => $user_info->getDeclaredIndustry(),
             'cluster_name' => $user_info->getCluster(),
@@ -181,6 +190,56 @@ class certificateByClustersService extends AbstractController
         {
             $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false);
         }
+    }
+
+    public function getDataForOptionalBlocks($block, $user, $count)
+    {
+        if($user->getuserInfo()->getYear() < 2023)
+            return null;
+        $today = new \DateTimeImmutable('now');
+        $today = $today->format('d.m.Y');
+        if($block == 'fed_budget')
+        {
+            return [];
+        }
+        if($block == 'reg_budget')
+        {
+            return [];
+        }
+        if($block == 'empl_budget')
+        {
+            return [];
+        }
+        if($block == 'extra_budget')
+        {
+            return [];
+        }
+        if($block == 'repair_block')
+        {
+
+            $repairCommon = round($user->getMidRepairByCommon(), 2);
+            $repairZone = round($user->getMidRepairByZone(), 2);
+            return [[
+              'today_repair#'.$count => $today,
+              'repair_common#'.$count => $repairCommon < 100 ? $repairCommon.' %' : 'завершены полностью',
+              'repair_zone#'.$count => $repairZone  < 100 ? $repairZone.' %' : 'завершены полностью',
+              'repair_all#'.$count => ($repairCommon + $repairZone)/2 < 100 ? round(($repairCommon + $repairZone)/2, 2).' %' : 'завершены полностью',
+              'repair_deadline#'.$count => $user->getDeadlineForCompletionOfRepairs(),
+            ]];
+        }
+        if($block == 'eqp_block')
+        {
+            $eqp = $user->getCountOfEquipment();
+            $fact = round(($eqp['fact']/$eqp['total'])*100, 2);
+            $putInOperation = round(($eqp['putInOperation']/$eqp['total'])*100, 2);
+            return [[
+                'today_eqp#'.$count => $today,
+                'eqp_fact#'.$count => $fact == 0 ? 'на текущий момент равна нулю' : $fact.' %',
+                'eqp_in_operation#'.$count => $putInOperation,
+                'eqp_deadline#'.$count => $user->getEquipmentDeliveryDeadline(),
+            ]];
+        }
+        return [];
     }
 
 
