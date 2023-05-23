@@ -3,7 +3,7 @@
 {% else %}
     {% set isRegion = false %}
 {% endif %}
-{% set isInspector = is_granted('ROLE_INSPECTOR') %}
+{% set isInspector = is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR')  %}
 <div class="col-lg-4 animated fadeIn cluster-card"
      data-year="{{ i.getUserInfo().getYear() }}"
      data-industry="{{ i.getUserInfo().getDeclaredIndustry() }}"
