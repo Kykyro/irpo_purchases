@@ -169,6 +169,7 @@
                                             {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
                                         </div>
                                     </div>
+                                    {% if zone.getDesignProjectFile() %}
                                     <hr>
                                     <h5>
                                         Дизайн-проект
@@ -184,6 +185,7 @@
                                             />
                                         </div>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             {% set thead %}
