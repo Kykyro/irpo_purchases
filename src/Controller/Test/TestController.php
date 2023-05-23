@@ -79,18 +79,18 @@ class TestController extends AbstractController
 //            }
 //
 //        }
-        $email = (new Email())
-            ->from('support@mtb-spo.ru')
-            ->to('vova.199@mail.ru')
-            ->subject('Hello!')
-            ->text('test message')
-            ;
-
-        $dns = 'smtp://mailhog:1025';
-        $transport = Transport::fromDsn($dns);
-        $mailer = new Mailer($transport);
-        $mailer->send($email);
-        dd();
+//        $email = (new Email())
+//            ->from('support@mtb-spo.ru')
+//            ->to('vova.199@mail.ru')
+//            ->subject('Hello!')
+//            ->text('test message')
+//            ;
+//
+//        $dns = 'smtp://mailhog:1025';
+//        $transport = Transport::fromDsn($dns);
+//        $mailer = new Mailer($transport);
+//        $mailer->send($email);
+//        dd();
 
 
         return $this->render('test/index.html.twig', [

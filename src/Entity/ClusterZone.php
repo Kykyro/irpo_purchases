@@ -50,6 +50,11 @@ class ClusterZone
      */
     private $doNotTake;
 
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $designProjectFile;
+
     function __construct() {
         $this->setZoneRepair(new ZoneRepair());
         $this->zoneInfrastructureSheets = new ArrayCollection();
@@ -298,5 +303,17 @@ class ClusterZone
         else{
             return [];
         }
+    }
+
+    public function getDesignProjectFile(): ?string
+    {
+        return $this->designProjectFile;
+    }
+
+    public function setDesignProjectFile(?string $designProjectFile): self
+    {
+        $this->designProjectFile = $designProjectFile;
+
+        return $this;
     }
 }

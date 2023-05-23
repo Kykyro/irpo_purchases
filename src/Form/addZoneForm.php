@@ -64,6 +64,21 @@ class addZoneForm extends AbstractType
                 },
                 'label' => 'Адрес'
             ])
+            ->add('designProject', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'Дизайн проект',
+                'attr' => ['class' => 'form-control mb-3'],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '200M',
+//                        'mimeTypes' => [
+//                            'application/pdf',
+//                        ],
+//                        'mimeTypesMessage' => 'Некорректный формат файла',
+                    ])
+                ],
+            ])
             ->add('submit', SubmitType::class,[
 
                 'attr' => [

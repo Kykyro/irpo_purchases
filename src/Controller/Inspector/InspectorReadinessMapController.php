@@ -346,7 +346,7 @@ class InspectorReadinessMapController extends AbstractController
     /**
      * @Route("/readiness-map/edit-zone/{id}", name="app_inspector_edit_zone")
      */
-    public function editZone(Request $request, int $id)
+    public function editZone(Request $request, int $id, FileService $fileService)
     {
         $entity_manager = $this->getDoctrine()->getManager();
 
@@ -359,6 +359,14 @@ class InspectorReadinessMapController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $designProject = $form->get('designProject')->getData();
+            if($designProject)
+            {
+                $zone->setDesignProjectFile($fileService->UploadFile($designProject, 'zones_design_project_directory'));
+            }
+
+
+
             $entity_manager->persist($zone);
             $entity_manager->flush();
 
