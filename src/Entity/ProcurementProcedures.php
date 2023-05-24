@@ -965,6 +965,17 @@ class ProcurementProcedures
             return 0;
         }
     }
+    public function getFactCost(){
+        $sum = $this->getFactEmployersFunds() + $this->getFactFederalFunds() +
+            $this->getFactFundsOfSubject() + $this->getFactFundsOfEducationalOrg();
+
+        if($sum > 0){
+            return $sum;
+        }
+        else{
+            return 0;
+        }
+    }
 
     public function getSourceOfFunding(){
         $source = "";

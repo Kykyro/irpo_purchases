@@ -90,7 +90,17 @@ class ProcurementProceduresRepository extends ServiceEntityRepository
 
         return $arr;
     }
-
+    public function findByUser(User $user) : array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.isDeleted = FALSE')
+            ->andWhere('p.user = :val')
+            ->setParameter('val', $user)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 //    /**
 //     * @return ProcurementProcedures[] Returns an array of ProcurementProcedures objects
 //     */

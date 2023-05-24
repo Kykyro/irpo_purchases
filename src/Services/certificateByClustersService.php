@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Entity\ProcurementProcedures;
 use App\Entity\UserInfo;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use NumberFormatter;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpWord\Exception\CopyFileException;
@@ -20,11 +23,11 @@ use Symfony\Component\Filesystem\Path;
 
 class certificateByClustersService extends AbstractController
 {
+    private $entityManager;
 
-
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-
+        $this->entityManager = $entityManager;
     }
 
     public function getCertificate($users, $options = [])
@@ -137,7 +140,7 @@ class certificateByClustersService extends AbstractController
             {
                 if($show)
                     $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false,
-                        $this->getDataForOptionalBlocks($block, $user, $count));
+                        $this->getDataForOptionalBlocks($block, $user, $count, $fmt));
                 else
                     $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false);
 
@@ -192,27 +195,150 @@ class certificateByClustersService extends AbstractController
         }
     }
 
-    public function getDataForOptionalBlocks($block, $user, $count)
+    public function getDataForOptionalBlocks($block, $user, $count, $fmt)
     {
         if($user->getuserInfo()->getYear() < 2023)
             return null;
-        $today = new \DateTimeImmutable('now');
-        $today = $today->format('d.m.Y');
+        $_today = new \DateTime('now');
+        $today = $_today->format('d.m.Y');
         if($block == 'fed_budget')
         {
-            return [];
+            $values = [
+                'initial' => 0,
+                'contract' => 0,
+                'fact' => 0,
+            ];
+            $purchases = $this->entityManager
+                ->getRepository(ProcurementProcedures::class)
+                ->findByUser($user);
+            foreach ($purchases as $purchase)
+            {
+                $status = $purchase->getPurchasesStatus($_today);
+                if($status == 'cancelled' or $status == 'planning')
+                    continue;
+
+                if($status == 'announced')
+                {
+                    $values['initial'] += $purchase->getInitialFederalFunds();
+                }
+                if($status == 'contract')
+                {
+                    $values['contract'] += $purchase->getFinFederalFunds();
+                    $values['fact'] += $purchase->getFactFederalFunds();
+                }
+            }
+            return [[
+                'today_budget#'.$count => $today,
+                'fed_budget_contract#'.$count => $fmt->format($values['contract']),
+                'fed_budget_initial#'.$count => $fmt->format($values['initial']),
+                'fed_budget_fact#'.$count => $values['fact'] > 0 ?
+                    $fmt->format($values['fact']) : 'на текущий момент равно нулю',
+            ]];
         }
         if($block == 'reg_budget')
         {
-            return [];
+            if ($user->getuserInfo()->getFinancingFundsOfSubject() == 0)
+                return null;
+            $values = [
+                'initial' => 0,
+                'contract' => 0,
+                'fact' => 0,
+            ];
+            $purchases = $this->entityManager
+                ->getRepository(ProcurementProcedures::class)
+                ->findByUser($user);
+            foreach ($purchases as $purchase)
+            {
+                $status = $purchase->getPurchasesStatus($_today);
+                if($status == 'cancelled' or $status == 'planning')
+                    continue;
+
+                if($status == 'announced')
+                {
+                    $values['initial'] += $purchase->getInitialFundsOfSubject();
+                }
+                if($status == 'contract')
+                {
+                    $values['contract'] += $purchase->getFinFundsOfSubject();
+                    $values['fact'] += $purchase->getFactFundsOfSubject();
+                }
+            }
+            return [[
+                'reg_budget_contract#'.$count => $fmt->format($values['contract']),
+                'reg_budget_initial#'.$count => $fmt->format($values['initial']),
+                'reg_budget_fact#'.$count => $values['fact'] > 0 ?
+                    $fmt->format($values['fact']) : 'на текущий момент равно нулю',
+            ]];
         }
         if($block == 'empl_budget')
         {
-            return [];
+            if ($user->getuserInfo()->getExtraFundsEconomicSector() == 0)
+                return null;
+            $values = [
+                'initial' => 0,
+                'contract' => 0,
+                'fact' => 0,
+            ];
+            $purchases = $this->entityManager
+                ->getRepository(ProcurementProcedures::class)
+                ->findByUser($user);
+            foreach ($purchases as $purchase)
+            {
+                $status = $purchase->getPurchasesStatus($_today);
+                if($status == 'cancelled' or $status == 'planning')
+                    continue;
+
+                if($status == 'announced')
+                {
+                    $values['initial'] += $purchase->getInitialEmployersFunds();
+                }
+                if($status == 'contract')
+                {
+                    $values['contract'] += $purchase->getFinEmployersFunds();
+                    $values['fact'] += $purchase->getFactEmployersFunds();
+                }
+            }
+            return [[
+                'empl_budget_contract#'.$count => $fmt->format($values['contract']),
+                'empl_budget_initial#'.$count => $fmt->format($values['initial']),
+                'empl_budget_fact#'.$count => $values['fact'] > 0 ?
+                    $fmt->format($values['fact']) : 'на текущий момент равно нулю',
+            ]];
         }
         if($block == 'extra_budget')
         {
-            return [];
+            if ($user->getuserInfo()->getExtraFundsOO() == 0)
+                return null;
+            $values = [
+                'initial' => 0,
+                'contract' => 0,
+                'fact' => 0,
+            ];
+            $purchases = $this->entityManager
+                ->getRepository(ProcurementProcedures::class)
+                ->findByUser($user);
+            foreach ($purchases as $purchase)
+            {
+                $status = $purchase->getPurchasesStatus($_today);
+                if($status == 'cancelled' or $status == 'planning')
+                    continue;
+
+                if($status == 'announced')
+                {
+                    $values['initial'] += $purchase->getInitialEducationalOrgFunds();
+                }
+                if($status == 'contract')
+                {
+                    $values['contract'] += $purchase->getFinFundsOfEducationalOrg();
+                    $values['fact'] += $purchase->getFactFundsOfEducationalOrg();
+                }
+            }
+            return [[
+                'extra_budget_contract#'.$count => $fmt->format($values['contract']),
+                'extra_budget_initial#'.$count => $fmt->format($values['initial']),
+                'extra_budget_fact#'.$count => $values['fact'] > 0 ?
+                    $fmt->format($values['fact']) : 'на текущий момент равно нулю',
+            ]];
         }
         if($block == 'repair_block')
         {
