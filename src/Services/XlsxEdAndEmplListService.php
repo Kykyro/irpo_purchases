@@ -24,8 +24,9 @@ class XlsxEdAndEmplListService extends AbstractController
             ->createQueryBuilder('a')
             ->leftJoin('a.user_info', 'uf')
             ->andWhere('uf.year > :year')
-            ->andWhere('a.roles LIKE :role')
+            ->andWhere('a.roles LIKE :role or a.roles LIKE :role2')
             ->setParameter('role', "%ROLE_REGION%")
+            ->setParameter('role2', "%ROLE_SMALL_CLUSTERS%")
             ->setParameter('year', 2021)
             ->orderBy('uf.year', 'ASC')
             ->getQuery()
@@ -36,12 +37,24 @@ class XlsxEdAndEmplListService extends AbstractController
         {
             foreach ($clusters as $cluster)
             {
-                if(!array_key_exists($cluster->getUserInfo()->getYear(), $arr))
+                if(in_array('ROLE_SMALL_CLUSTERS_LOT_2', $cluster->getRoles()))
                 {
-                    $arr[$cluster->getUserInfo()->getYear()] = [];
+                    $key = $cluster->getUserInfo()->getYear()." Лот 2";
+                }
+                else if(in_array('ROLE_SMALL_CLUSTERS_LOT_1', $cluster->getRoles()))
+                {
+                    $key = $cluster->getUserInfo()->getYear()." Лот 1";
+                }
+                else{
+                    $key = $cluster->getUserInfo()->getYear();
                 }
 
-                array_push($arr[$cluster->getUserInfo()->getYear()], $cluster->getUserInfo());
+                if(!array_key_exists($key, $arr))
+                {
+                    $arr[$key] = [];
+                }
+
+                array_push($arr[$key], $cluster);
             }
         }
         return $arr;
@@ -59,7 +72,21 @@ class XlsxEdAndEmplListService extends AbstractController
         $arr = $this->getClusters();
         foreach ($arr as $i)
         {
-            $title = "{$i[0]->getYear()}";
+//            dd($i[0]);
+            $cluster = $i[0];
+            if(in_array('ROLE_SMALL_CLUSTERS_LOT_2', $cluster->getRoles()))
+            {
+                $key = $cluster->getUserInfo()->getYear()." лот 2";
+            }
+            else if(in_array('ROLE_SMALL_CLUSTERS_LOT_1', $cluster->getRoles()))
+            {
+                $key = $cluster->getUserInfo()->getYear()." лот 1";
+            }
+            else{
+                $key = $cluster->getUserInfo()->getYear();
+            }
+
+            $title = (string)$key;
             $myWorkSheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, $title);
             $spreadsheet->addSheet($myWorkSheet);
         }
@@ -83,14 +110,28 @@ class XlsxEdAndEmplListService extends AbstractController
         ];
         foreach ($arr as $i)
         {
-            $title = "{$i[0]->getYear()}";
+            $cluster = $i[0];
+            if(in_array('ROLE_SMALL_CLUSTERS_LOT_2', $cluster->getRoles()))
+            {
+                $key = $cluster->getUserInfo()->getYear()." лот 2";
+            }
+            else if(in_array('ROLE_SMALL_CLUSTERS_LOT_1', $cluster->getRoles()))
+            {
+                $key = $cluster->getUserInfo()->getYear()." лот 1";
+            }
+            else{
+                $key = $cluster->getUserInfo()->getYear();
+            }
+
+            $title = (string)$key;
             $columnArrayOrg = [];
             $columnArrayEmpl = [];
             $columnArrayBaseOO = [];
             $titles = ['Базовые ОО','Образовательные организации', 'Работодатели'];
 
-            foreach ($i as $user_info)
+            foreach ($i as $user)
             {
+                $user_info = $user->getUserInfo();
                  foreach ($user_info->getListOfEdicationOrganization() as $org)
                  {
                      array_push($columnArrayOrg, $org);
