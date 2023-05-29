@@ -485,7 +485,7 @@
         }))) : (g.css("display", "none") && g.css("display", "table"), v.hasClass("open") && v.removeClass("open"), C.length && (C.hasClass("fullpage-wrapper") && !C.hasClass("fp-destroyed") || C.fullpage({
             menu: "#menu",
             lockAnchors: !1,
-            anchors: ["home", "events", "map", "listclusters", "il", "documentation", "design_projects", "employees", "feedback"],
+            anchors: ["home", "events", "map", "participating_industries", "listclusters", "il", "documentation", "design_projects", /*"employees",*/ "feedback"],
             scrollingSpeed: 500,
             autoScrolling: !0,
             controlArrows: !0,
@@ -923,6 +923,46 @@
                     }
                 }, {
                     breakpoint: 800,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }, {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }]
+            })
+        }))), void(e(".ed-carousel9").length > 0 && e(".ed-carousel9").each((function() {
+            var a = e(this),
+                t = a.data("arrows") || !0,
+                i = a.data("dots") || !0,
+                o = a.data("loop") || !1;
+            a.slick({
+                arrows: t,
+                dots: i,
+                infinite: true,
+                autoplay: false,
+                autoplaySpeed: 10000,
+                speed: 1200,
+                waitForAnimate: false,
+                slide: ".carousel-item9",
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                pauseOnHover: false,
+                cssEase: 'linear',
+                responsive: [{
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        infinite: !0,
+                        dots: !0
+                    }
+                }, {
+                    breakpoint: 600,
                     settings: {
                         slidesToShow: 1,
                         slidesToScroll: 1
