@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class listclustersController extends AbstractController
 {
     /**
-     * @Route("/listclusters", name="app_listclusters")
+     * @Route("/listclusters/{search_ind}/{_year}", name="app_listclusters")
      */
-    public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
+    public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator, $search_ind="", $_year=""): Response
     {
         $arr = [];
         $form = $this->createFormBuilder($arr)
@@ -61,7 +61,7 @@ class listclustersController extends AbstractController
         else{
             $page = 1;
         }
-        $pageLimit = 9;
+        $pageLimit = 100;
 
         $query = $em->getRepository(User::class)
             ->createQueryBuilder('u')
@@ -69,6 +69,11 @@ class listclustersController extends AbstractController
             ->leftJoin('uf.rf_subject', 'r')
             ->orderBy('r.name', 'ASC')
             ->andWhere('uf.year > :year')
+            ->andWhere('
+                uf.Declared_industry LIKE :search_ind
+                and uf.year = :_year
+                ')
+
             ->setParameter('year', 2021)
             ;
 
@@ -76,6 +81,9 @@ class listclustersController extends AbstractController
 
         if($form->isSubmitted() and $form->isValid())
         {
+            $pageLimit = 12;
+            $search_ind = "";
+            $_year = "";
             $data = $form->getData();
 //            dd($data);
             if($data['rf_subject'])
@@ -96,7 +104,9 @@ class listclustersController extends AbstractController
                 ;
 
         }
-
+        $query = $query
+            ->setParameter('_year', $_year)
+            ->setParameter('search_ind', "%$search_ind%");
         $query = $query->getQuery();
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
