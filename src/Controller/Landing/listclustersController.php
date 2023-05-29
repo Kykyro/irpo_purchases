@@ -61,7 +61,7 @@ class listclustersController extends AbstractController
         else{
             $page = 1;
         }
-        $pageLimit = 100;
+        $pageLimit = 12;
 
         $query = $em->getRepository(User::class)
             ->createQueryBuilder('u')
@@ -69,11 +69,6 @@ class listclustersController extends AbstractController
             ->leftJoin('uf.rf_subject', 'r')
             ->orderBy('r.name', 'ASC')
             ->andWhere('uf.year > :year')
-            ->andWhere('
-                uf.Declared_industry LIKE :search_ind
-                and uf.year = :_year
-                ')
-
             ->setParameter('year', 2021)
             ;
 
@@ -81,9 +76,8 @@ class listclustersController extends AbstractController
 
         if($form->isSubmitted() and $form->isValid())
         {
-            $pageLimit = 12;
-            $search_ind = "";
-            $_year = "";
+//            $pageLimit = 12;
+
             $data = $form->getData();
 //            dd($data);
             if($data['rf_subject'])
@@ -104,9 +98,21 @@ class listclustersController extends AbstractController
                 ;
 
         }
-        $query = $query
-            ->setParameter('_year', $_year)
-            ->setParameter('search_ind', "%$search_ind%");
+        else{
+            if($_year && $search_ind)
+            {
+                $pageLimit = 100;
+                $query = $query
+                    ->andWhere('
+                        uf.Declared_industry LIKE :search_ind
+                        and uf.year = :_year
+                    ')
+                    ->setParameter('_year', $_year)
+                    ->setParameter('search_ind', "%$search_ind%");
+            }
+
+        }
+
         $query = $query->getQuery();
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
