@@ -6715,5 +6715,14 @@ body.mobile .mobile-hidden {
 	filter:alpha(opacity=100);
 }
 
+.number_op{
+	opacity: 0;
+}
+
+.viz{
+	opacity: 1;
+	transition: 5s;
+}
+
 
 
