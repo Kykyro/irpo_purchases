@@ -70,7 +70,7 @@ class CertificateInsperctorController extends AbstractController
 
     public function getFromError($arr)
     {
-        $arr = explode(',', $arr);
+        $arr = explode('", ', $arr);
         for($i = 0; $i < count($arr); $i++)
         {
             $arr[$i] = trim(str_replace('"', '', $arr[$i]));
