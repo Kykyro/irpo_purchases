@@ -3,6 +3,27 @@
 
 
 {% block body %}
+    <style>
+        .img-cluster {
+            width: 100%;
+            border-radius: 1rem;
+        }
+        .cluster-box {
+            height: 650px;
+            flex-direction: column;
+            display: flex;
+            justify-content: space-around;
+        }
+        .cluster-photo-block{
+            display: inline-block;
+            align-self: flex-start;
+        }
+        .cluster-info-block {
+            display: inline-block;
+            align-self: flex-end;
+            text-align: center;
+        }
+    </style>
 <body style="background-image: url({{ asset('img/img_start_landing/Background_1.jpg') }}); background-size: cover; background-repeat: inherit; background-position: center; position: sticky">
     <main class="main-wrapper">
         <section class="section-wrap pb-72 col-lg-12">
@@ -39,14 +60,17 @@
                         {% set userInfo = i.getUserInfo() %}
                     <div class="col-lg-4">
                         <a href="#">
-                            <div class="feature box-shadow hover-up hover-line" style="height: 650px; vertical-align: inherit; text-align: center">
-                                <img src="{{ asset('uploads/clusterPhoto/'~userInfo.getPhoto()) }}" alt style="padding: 2rem;height: 28vh; border-radius: 6rem; width: 28vh">
-                                {#<h4 class="feature__title">Наименование базовой образовательной организации</h4>#}
-                                <h4 class="feature__title" style="color: #000000">{{ userInfo.getDeclaredIndustry() }} </h4>
-                                <h6 class="feature__title" style="color: #000000">{{ userInfo.getYear() }}</h6>
-                                <p class="feature__title" style="color: #000000">{{ userInfo.getEducationalOrganization() }}</p>
-                                <p class="feature__text">{{ userInfo.getRfSubject().getName() }} </p>
-{#                                <h5 class="feature__title"><b>Наименование кластера:</b> {{ userInfo.getCluster() }} </h5>#}
+                            <div class="feature box-shadow hover-up hover-line cluster-box" >
+
+                                <div class="cluster-photo-block">
+                                    <img src="{{ asset('uploads/clusterPhoto/'~userInfo.getPhoto()) }}" alt class="img-cluster">
+                                </div>
+                                <div class="cluster-info-block">
+                                    <h4 class="feature__title" style="color: #000000">{{ userInfo.getDeclaredIndustry() }} </h4>
+                                    <h6 class="feature__title" style="color: #000000">{{ userInfo.getYear() }}</h6>
+                                    <p class="feature__title" style="color: #000000">{{ userInfo.getEducationalOrganization() }}</p>
+                                    <p class="feature__text">{{ userInfo.getRfSubject().getName() }} </p>
+                                </div>
                             </div>
                         </a>
                     </div>
