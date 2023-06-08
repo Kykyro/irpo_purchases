@@ -386,7 +386,11 @@ class certificateByClustersService extends AbstractController
             'font' => [
                 'size'  => 11,
                 'name'  => 'Times New Roman'
-            ]
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+            ],
         ];
 
         $district_arr = [];
@@ -456,7 +460,9 @@ class certificateByClustersService extends AbstractController
                 $sheet->getStyle($j.($index+1))->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
             }
             $sheet->fromArray($row, '', 'A'.($index+1));
+
             $index++;
+            $sheet->getRowDimension($index)->setRowHeight(-1);
         }
 //        dd(($sheet->rangeToArray('B2:B'.$index, null, true, true, false, false)));
         $result_row = [
