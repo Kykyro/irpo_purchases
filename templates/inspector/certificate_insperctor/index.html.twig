@@ -285,7 +285,289 @@
     {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>#}
     {#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>#}
     <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
-    <script>
+    {% if controller_name == 'SmallCuratorCertificateController' %}
+        <script>
+            $(document).ready(function(){
+                $.fn.filterAttribute = function(attr, values, reverse) {
+                    var remaining = [];
+                    this.each(function(index, el) {
+                        for (var i = 0; i < values.length; i++) {
+
+                            if (el.getAttribute(attr) == values[i]) {
+                                remaining.push(el);
+                                break;
+                            }
+                        }
+                    });
+                    if (reverse) {
+                        return(this.not(remaining));
+                    } else {
+                        return($(remaining));
+                    }
+                };
+                $.fn.filterAttributeByJson = function(attr, values, reverse) {
+                    var remaining = [];
+                    this.each(function(index, el) {
+                        for (var i = 0; i < values.length; i++) {
+                            if (JSON.stringify(el.getAttribute(attr)).includes(values[i])) {
+                                remaining.push(el);
+                                break;
+                            }
+                        }
+                    });
+                    if (reverse) {
+                        return(this.not(remaining));
+                    } else {
+                        return($(remaining));
+                    }
+                };
+
+                let cityInput = $('#city-input');
+                let yearInput = $('#year-input');
+                let employersInput = $('#make_certificate_small_clusters_form_employers');
+                let industryInput = $('#industry-input');
+                let regionInput = $('#region-input');
+                let baseInput = $('#base-input');
+                let districtInput = $('#district-input');
+                let zoneInput = $('#make_certificate_small_clusters_form_zones');
+                let ugpsInput = $('#make_certificate_small_clusters_form_UGPS');
+                let filterBtn = $('#filter-btn');
+                let cancelFilterBtn = $('#cancel-filter-btn');
+                let chooseAllBtn = $('#choose-all-btn');
+                let chooseNullBtn = $('#choose-null-btn');
+
+                function filter(event) {
+                    cancelFilter();
+                    console.log('Отфильтровано');
+                    if(yearInput.val().length > 0){
+                        console.log('Год: ', yearInput.val());
+
+                        let value = yearInput.val();
+                        let filtered_year = $('#clusters input[data-year]').filterAttribute("data-year", value, true);;
+                        filtered_year.closest('.form-control').hide();
+                    }
+                    if(industryInput.val().length > 0){
+                        console.log('Отрасль: ', industryInput.val());
+                        let value = industryInput.val();
+                        // let _industry = "data-industry!='" + industryInput.val() +"'";
+                        let filtered_industry = $('#clusters input[data-industry]').filterAttribute("data-industry", value, true);
+                        filtered_industry.closest('.form-control').hide();
+                    }
+                    if(regionInput.val().length > 0){
+                        console.log('Регион: ', regionInput.val());
+
+                        let value = regionInput.val();
+                        let filtered_region = $('#clusters input[data-region]').filterAttribute("data-region", value, true);
+                        filtered_region.closest('.form-control').hide();
+                    }
+                    if(cityInput.val().length > 0){
+                        console.log('Город: ', regionInput.val());
+
+                        let value = cityInput.val();
+                        let filtered_region = $('#clusters input[data-region]').filterAttribute("data-city", value, true);
+                        filtered_region.closest('.form-control').hide();
+                    }
+                    if(baseInput.val() !== ""){
+                        console.log('Базовая организация: ', baseInput.val());
+                        let _base = "data-base!='" + baseInput.val() +"'";
+                        let filtered_industry = $('#clusters input['+_base+']');
+                        filtered_industry.closest('.form-control').hide();
+                    }
+                    if(districtInput.val().length > 0){
+                        console.log('Округ: ', districtInput.val());
+
+                        let value = districtInput.val();
+                        let filtered_region = $('#clusters input[data-district]').filterAttribute("data-district", value, true);
+                        filtered_region.closest('.form-control').hide();
+                    }
+                    if(zoneInput.val().length > 0){
+                        console.log('Зона: ', zoneInput.val());
+
+                        let value = zoneInput.val();
+                        let filtered_region = $('#clusters input[data-zone]').filterAttributeByJson("data-zone", value, true);
+                        filtered_region.closest('.form-control').hide();
+                    }
+                    if(ugpsInput.val().length > 0){
+                        console.log('Угпс: ', ugpsInput.val());
+
+                        let value = ugpsInput.val();
+                        let filtered_region = $('#clusters input[data-ugps]').filterAttributeByJson("data-ugps", value, true);
+                        filtered_region.closest('.form-control').hide();
+                    }
+                    if(employersInput.val().length > 0){
+                        console.log('Работадатели: ', employersInput.val());
+
+                        let value = employersInput.val();
+                        let filtered_region = $('#clusters input[data-employers]').filterAttributeByJson("data-employers", value, true);
+                        filtered_region.closest('.form-control').hide();
+                    }
+
+
+                    event.preventDefault();
+                }
+                function cancelFilter() {
+                    console.log('фильтр сброшен');
+                    $('.form-control').show();
+                    // let filtered_year = $('#clusters input[data-year]')
+                    // clearInput();
+
+                }
+                function clearInput() {
+                    $('#clusters input').prop('checked',false);
+                }
+                function chooseAll() {
+                    $('#clusters .form-control:visible input').prop('checked',true);
+                }
+                function clickOnCard(card) {
+
+                }
+                function onLoad() {
+                    let data = $('#clusters input');
+                    let _industry = [];
+                    let _region = [];
+                    let _base = [];
+                    let _year = [];
+                    let _district = [];
+                    let _ugps = [];
+                    let _zone = [];
+                    let _employers = [];
+                    let _city = [];
+                    data.each(function( index ) {
+                        _industry.push( $( this ).data("industry"));
+                        _region.push( $( this ).data("region"));
+                        _base.push( $( this ).data("base"));
+                        _year.push( $( this ).data("year"));
+                        _district.push( $( this ).data("district"));
+                        _city.push( $( this ).data("city"));
+                        for(let i in $( this ).data("ugps"))
+                            _ugps.push( $( this ).data("ugps") [i]);
+                        // _ugps.push( $( this ).data("ugps"));
+                        for(let i in $( this ).data("zone"))
+                            _zone.push( $( this ).data("zone")[i]);
+                        for(let i in $( this ).data("employers"))
+                            _employers.push( $( this ).data("employers")[i]);
+
+
+                    });
+
+                    let uniq_industry = [...new Set(_industry)];
+                    uniq_industry.forEach((element) => {
+                        industryInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    let uniq_city = [...new Set(_city)];
+                    uniq_city.forEach((element) => {
+                        cityInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    let uniq_region = [...new Set(_region.sort())];
+                    uniq_region.forEach((element) => {
+                        regionInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    let uniq_base = [...new Set(_base)];
+                    uniq_base.forEach((element) => {
+                        baseInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    let uniq_year = [...new Set(_year.sort())];
+                    uniq_year.forEach((element) => {
+                        yearInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    let uniq_district = [...new Set(_district.sort())];
+                    uniq_district.forEach((element) => {
+                        districtInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    let uniq_ugps = [...new Set(_ugps)];
+                    uniq_ugps.forEach((element) => {
+                        ugpsInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    let uniq_zone = [...new Set(_zone)];
+                    uniq_zone.forEach((element) => {
+                        zoneInput
+                            .append('<option>'+element+'</option>');
+                    });
+                    let uniq_employers = [...new Set(_employers)];
+                    // console.log(uniq_employers);
+                    uniq_employers.forEach((element) => {
+                        employersInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    // console.log(_ugps);
+                    // console.log(_zone);
+
+                }
+
+
+
+                filterBtn.click((e) => {
+                    filter(e);
+                });
+                cancelFilterBtn.click((e) => {
+                    cancelFilter();
+                });
+                chooseAllBtn.click((e) => {
+                    chooseAll();
+                });
+                chooseNullBtn.click((e) => {
+                    clearInput();
+                });
+                $('form[name="make_certificate_small_clusters_form"]').submit(function(e) {
+                    e.preventDefault(); // don't submit multiple times
+                    this.submit(); // use the native submit method of the form element
+                    clearInput();
+                });
+                $('#clusters .form-control').click(function() {  //use a class, since your ID gets mangled
+
+                    if($(this).find('input').is(':checked'))
+                    {
+                        // $(this).removeClass("panel-primary");      //add the class to the clicked element
+                        $(this).find('input').prop('checked',false);
+                    }
+                    else{
+                        // $(this).addClass("panel-primary");      //add the class to the clicked element
+                        $(this).find('input').prop('checked',true);
+                    }
+                });
+                $('#clusters input').click(function() {  //use a class, since your ID gets mangled
+
+                    if($(this).is(':checked'))
+                    {
+                        // $(this).removeClass("panel-primary");      //add the class to the clicked element
+                        $(this).prop('checked',false);
+                    }
+                    else{
+                        // $(this).addClass("panel-primary");      //add the class to the clicked element
+                        $(this).prop('checked',true);
+                    }
+                });
+
+                // submitBtn.click((e)=>{
+                //     clearInput();
+                // });
+                $('.select2').select2({
+                    closeOnSelect : false,
+                    placeholder : "...",
+                    allowHtml: true,
+                    allowClear: true
+                });
+                onLoad();
+
+            });
+        </script>
+    {% else %}
+        <script>
         $(document).ready(function(){
             $.fn.filterAttribute = function(attr, values, reverse) {
                 var remaining = [];
@@ -565,4 +847,5 @@
 
         });
     </script>
+    {% endif %}
 {% endblock %}
