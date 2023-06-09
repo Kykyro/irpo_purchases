@@ -100,15 +100,15 @@
                         </div>
 
 
-                        <h3>Работодатели</h3>
-                        <div>
-                            <ol>
-                                {% for i in  user_info.getListOfEmployers() %}
-                                    <li>{{ i }}</li>
-                                {% endfor %}
-                            </ol>
-                        </div>
-                        <h3>Работодатели <span class="badge badge-info">new</span></h3>
+                        {#<h3>Работодатели</h3>#}
+                        {#<div>#}
+                            {#<ol>#}
+                                {#{% for i in  user_info.getListOfEmployers() %}#}
+                                    {#<li>{{ i }}</li>#}
+                                {#{% endfor %}#}
+                            {#</ol>#}
+                        {#</div>#}
+                        <h3>Работодатели </h3>
                         <div>
                             <ol>
                                 {% for i in  user_info.getEmployers() %}
