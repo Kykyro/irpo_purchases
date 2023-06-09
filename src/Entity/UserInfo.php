@@ -433,7 +433,12 @@ $this->employers = new ArrayCollection();
 
         return $this->listOfEmployers;
     }
+    public function getListOfEmployersOld(): ?array
+    {
 
+
+        return $this->listOfEmployers;
+    }
     public function setListOfEmployers(?array $listOfEmployers): self
     {
         $this->listOfEmployers = $listOfEmployers;

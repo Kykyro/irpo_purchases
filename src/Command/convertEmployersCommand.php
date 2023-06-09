@@ -54,11 +54,13 @@ class convertEmployersCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $users_info = $this->entity_manager->getRepository(UserInfo::class)->findAll();
+
+
         $emploers_array = [];
         foreach ($users_info as $user_info)
         {
-            if($user_info->getListOfEmployers())
-                $emploers_array = array_merge($emploers_array, $user_info->getListOfEmployers());
+            if($user_info->getListOfEmployersOld())
+                $emploers_array = array_merge($emploers_array, $user_info->getListOfEmployersOld());
         }
         $emploers_array = array_unique($emploers_array);
 
@@ -78,12 +80,13 @@ class convertEmployersCommand extends Command
             {
                 $empl_entity->addUserInfo($uf);
             }
+            $io->success(sprintf("$employers"));
             $this->entity_manager->persist($empl_entity);
         }
 
 
         $this->entity_manager->flush();
-
+//        dd();
         $io->success(sprintf('Работадатели конвертированы'));
 
         return 0;
