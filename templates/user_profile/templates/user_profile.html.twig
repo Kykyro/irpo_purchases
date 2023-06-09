@@ -108,7 +108,14 @@
                                 {% endfor %}
                             </ol>
                         </div>
-
+                        <h3>Работодатели <span class="badge badge-info">new</span></h3>
+                        <div>
+                            <ol>
+                                {% for i in  user_info.getEmployers() %}
+                                    <li>{{ i.getName() }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
                         <h3>Иные организации</h3>
                         <div>
                             <ol>

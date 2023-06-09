@@ -1,0 +1,165 @@
+<?php
+
+namespace App\Controller\Admin;
+
+use App\Entity\Employers;
+use App\Entity\ProcurementProcedures;
+use App\Entity\RfSubject;
+use App\Entity\User;
+use App\Entity\UserInfo;
+use App\Form\RegistrationUserInfoFormType;
+use App\Form\UserEditFormType;
+use App\Form\RegistrationFormType;
+use App\Form\UserPasswordEditFormType;
+use App\Security\LoginFormAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use function Sodium\add;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\FormFactoryInterface;
+use Knp\Component\Pager\PaginatorInterface;
+
+
+
+class AdminEmployersController extends AbstractController
+{
+
+
+
+    /**
+     *
+     * @Route("/analyst/employers", name="app_analyst_employers")
+     */
+    public function employers(Request $request, EntityManagerInterface $em,  PaginatorInterface $paginator)
+    {
+        $arr = [];
+
+        $query = $em->getRepository(Employers::class)
+            ->createQueryBuilder('e')
+            ->orderBy('e.name', 'ASC')
+        ;
+
+        $form = $this->createFormBuilder($arr)
+            ->add('search', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'required' => false,
+                'label' => 'Поиск'
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success'
+                ],
+                'label' => 'Поиск'
+            ])
+            ->setMethod('GET')
+            ->getForm();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $data = $form->getData();
+//            dd($data);
+            $data = $data['search'];
+            $query = $query
+                ->andWhere('e.name LIKE :search')
+                ->setParameter('search', "%$data%");
+        }
+
+        $query = $query->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
+
+        return $this->render('analyst/templates/employers.html.twig', [
+            'pagination' => $pagination,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     *
+     * @Route("/analyst/employers-edit/{id}", name="app_analyst_employer_edit")
+     * @Route("/analyst/employers-add", name="app_analyst_employer_add")
+     *
+     */
+    public function editEmployers(Request $request, EntityManagerInterface $em,  int $id=null)
+    {
+        if($id)
+            $empl = $em->getRepository(Employers::class)->find($id);
+        else
+            $empl = new Employers();
+
+        $form = $this->createFormBuilder($empl)
+            ->add('name', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Название'
+            ])
+            ->add('description', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Описание',
+                'required' => false
+            ])
+            ->add('userInfos', EntityType::class, array(
+                'class'     => UserInfo::class,
+                'expanded'  => false,
+                'multiple'  => true,
+                'by_reference' => false,
+                'choice_label' => function ($uf) {
+                    return $uf->getEducationalOrganization();
+                },
+                'attr' => [
+                    'class' => 'form-control m-b  select2',
+                ],
+                'required' => false,
+
+            ))
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success'
+                ],
+                'label' => 'Сохранить'
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $data = $form->getData();
+            foreach ($data->getUserInfos() as $info)
+                $empl->addUserInfo($info);
+            $em->persist($empl);
+//            dd($empl);
+            $em->flush();
+            return $this->redirectToRoute('app_admin_employers');
+        }
+
+        return $this->render('analyst/templates/employerEdit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+}

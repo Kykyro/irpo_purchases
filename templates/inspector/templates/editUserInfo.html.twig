@@ -1,6 +1,9 @@
 {% extends 'default/base.html.twig' %}
 
-
+{% block styles %}
+    {#<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />#}
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
 {% block content %}
     <div class="ibox-content">
         <div class="col-sm-12 col-form-label text-left">
@@ -67,46 +70,46 @@
                     </i>
                 </button>
                 <hr>
-                <label>
-                    Список работадателей
-                </label>
-                <div class="row js-employers-wrapper">
-                    <ul id="employers-fields-list"
-                        class="col-lg-8"
-                        data-prototype="{{ form_widget(userInfoForm.listOfEmployers.vars.prototype, {'attr':{'class': 'form-control'}})|e }}"
-                        data-widget-tags="{{
-                        '<li class="form-control"></li>'|e
-                        }}"
-                        data-widget-counter="{{ userInfoForm.listOfEmployers|length }}"
-                        data-delete-btn='
-                                        <div class="col-xs-12 js-employers-item">
-                                            <a href="#" class="js-remove-employer pull-right btn btn-danger">
-                                                <span class="fa fa-close "></span>
-                                            </a>
-                                            <span class="badge badge-primary">Новый</span>
 
-                                    '
-                    >
-                        {% for LE in userInfoForm.listOfEmployers %}
-                            <li class="form-control">
-                                <div class="col-xs-12 js-employers-item">
-                                    <a href="#" class="js-remove-employer pull-right btn btn-danger">
-                                        <span class="fa fa-close "></span>
-                                    </a>
-                                    {{ form_row(LE, {'attr':{'class': 'form-control'}}) }}
-                                </div>
+                {{ form_row(userInfoForm.employers) }}
+                {#<div class="row js-employers-wrapper">#}
+                    {#<ul id="employers-fields-list"#}
+                        {#class="col-lg-8"#}
+                        {#data-prototype="{{ form_widget(userInfoForm.listOfEmployers.vars.prototype, {'attr':{'class': 'form-control'}})|e }}"#}
+                        {#data-widget-tags="{{#}
+                        {#'<li class="form-control"></li>'|e#}
+                        {#}}"#}
+                        {#data-widget-counter="{{ userInfoForm.listOfEmployers|length }}"#}
+                        {#data-delete-btn='#}
+                                        {#<div class="col-xs-12 js-employers-item">#}
+                                            {#<a href="#" class="js-remove-employer pull-right btn btn-danger">#}
+                                                {#<span class="fa fa-close "></span>#}
+                                            {#</a>#}
+                                            {#<span class="badge badge-primary">Новый</span>#}
 
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <button type="button"
-                        class="add-another-collection-widget btn btn-primary"
-                        data-list-selector="#employers-fields-list">
-                    <i class="fa fa-plus">
-                        Добавить работадателя
-                    </i>
-                </button>
+                                    {#'#}
+                    {#>#}
+                        {#{% for LE in userInfoForm.listOfEmployers %}#}
+                            {#<li class="form-control">#}
+                                {#<div class="col-xs-12 js-employers-item">#}
+                                    {#<a href="#" class="js-remove-employer pull-right btn btn-danger">#}
+                                        {#<span class="fa fa-close "></span>#}
+                                    {#</a>#}
+                                    {#{{ form_row(LE, {'attr':{'class': 'form-control'}}) }}#}
+                                {#</div>#}
+
+                            {#</li>#}
+                        {#{% endfor %}#}
+                    {#</ul>#}
+                {#</div>#}
+                {#<button type="button"#}
+                        {#class="add-another-collection-widget btn btn-primary"#}
+                        {#data-list-selector="#employers-fields-list">#}
+                    {#<i class="fa fa-plus">#}
+                        {#Добавить работадателя#}
+                    {#</i>#}
+                {#</button>#}
+
                 <hr>
                 <label>
                     Список иных организаций
@@ -166,6 +169,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function () {
             let $wrapper = $('.js-edication-organization-wrapper');
@@ -215,6 +219,13 @@
                 );
 
                 newElem.appendTo(list);
+            });
+
+            $('.select2').select2({
+                closeOnSelect : false,
+                placeholder : "...",
+                allowHtml: true,
+                allowClear: true
             });
         });
     </script>

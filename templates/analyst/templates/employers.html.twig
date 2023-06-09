@@ -1,0 +1,84 @@
+
+{% extends "default/base.html.twig" %}
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="ibox">
+                {{ form_start(form) }}
+                <div class="ibox-content">
+
+                    {{ form_row(form.search) }}
+                </div>
+                <div class="ibox-footer">
+                    {{ form_row(form.submit) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Работадатели
+                    </h5>
+                    <a href="{{ path('app_analyst_employer_add') }}">
+                        <span class="pull-right btn btn-success">
+                            <i class="fa fa-plus"></i>
+                            Добавить работадателя
+                        </span>
+                    </a>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td >id</td>
+                                <td class="col-md-5">Работадатель</td>
+                                <td class="col-md-3">Описание</td>
+                                <td class="col-md-3">Кластер</td>
+                                <td class="col-md-1">Действие</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in pagination %}
+                                <tr>
+                                    <td>{{ i.getId() }}</td>
+                                    <td>{{ i.getName() }}</td>
+                                    <td>{{ i.getDescription() }}</td>
+                                    <td>
+                                        <ol>
+                                        {% for uf in i.getUserInfos() %}
+                                            <li>
+                                                {{ uf.getEducationalOrganization() }}
+                                            </li>
+                                        {% endfor %}
+                                        </ol>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('app_analyst_employer_edit', {'id': i.getId()}) }}">
+                                            <button class="btn btn-info col-lg-12">
+                                                <i class="fa fa-edit"></i>
+                                                Редактировать
+                                            </button>
+                                        </a>
+                                        <a href="#">
+                                            <button class="btn btn-danger col-lg-12 delete-alert">
+                                                <i class="fa fa-trash"></i>
+                                                Удалить
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="ibox-footer">
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

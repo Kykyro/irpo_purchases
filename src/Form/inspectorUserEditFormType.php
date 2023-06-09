@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Employers;
 use App\Entity\RfSubject;
 use App\Entity\User;
 //use Doctrine\DBAL\Types\TextType;
@@ -213,15 +214,15 @@ class inspectorUserEditFormType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-            ->add('listOfEmployers', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'allow_add' => true,
-                'prototype' => true,
-                'delete_empty' => true,
-                'prototype_data' => '',
-                'allow_delete' => true,
-                'by_reference' => false,
-            ])
+//            ->add('listOfEmployers', CollectionType::class, [
+//                'entry_type' => TextType::class,
+//                'allow_add' => true,
+//                'prototype' => true,
+//                'delete_empty' => true,
+//                'prototype_data' => '',
+//                'allow_delete' => true,
+//                'by_reference' => false,
+//            ])
             ->add('listOfAnotherOrganization', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
@@ -276,6 +277,21 @@ class inspectorUserEditFormType extends AbstractType
 
                 'required'   => false,
             ])
+            ->add('employers', EntityType::class, array(
+                'class'     => Employers::class,
+                'expanded'  => false,
+                'multiple'  => true,
+                'by_reference' => false,
+                'choice_label' => function ($uf) {
+                    return $uf->getName();
+                },
+                'attr' => [
+                    'class' => 'form-control m-b  select2',
+                ],
+                'required' => false,
+                'label' => 'Список работадателей '
+
+            ))
         ;
     }
 

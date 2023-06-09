@@ -164,6 +164,11 @@ class UserInfo
      */
     private $city;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Employers::class, inversedBy="userInfos")
+     */
+    private $employers;
+
 
 
 
@@ -171,6 +176,7 @@ class UserInfo
     {
         $this->setAccessToPurchases(false);
 //        $this->uGPS = new ArrayCollection();
+$this->employers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -418,6 +424,13 @@ class UserInfo
 
     public function getListOfEmployers(): ?array
     {
+        $arr = [];
+        foreach ($this->employers as $employer)
+        {
+            array_push($arr, $employer->getName());
+        }
+        return $arr;
+
         return $this->listOfEmployers;
     }
 
@@ -578,6 +591,30 @@ class UserInfo
     public function setCity(?string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employers>
+     */
+    public function getEmployers(): Collection
+    {
+        return $this->employers;
+    }
+
+    public function addEmployer(Employers $employer): self
+    {
+        if (!$this->employers->contains($employer)) {
+            $this->employers[] = $employer;
+        }
+
+        return $this;
+    }
+
+    public function removeEmployer(Employers $employer): self
+    {
+        $this->employers->removeElement($employer);
 
         return $this;
     }
