@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Employers;
+use App\Entity\EmployersCategory;
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
 use App\Entity\User;
@@ -50,6 +51,7 @@ class AdminEmployersController extends AbstractController
 
         $query = $em->getRepository(Employers::class)
             ->createQueryBuilder('e')
+            ->leftJoin('e.employersCategories', 'cat')
             ->orderBy('e.name', 'ASC')
         ;
 
@@ -61,6 +63,20 @@ class AdminEmployersController extends AbstractController
                 'required' => false,
                 'label' => 'Поиск'
             ])
+            ->add('employersCategories', EntityType::class, array(
+                'class'     => EmployersCategory::class,
+                'expanded'  => false,
+                'multiple'  => false,
+                'by_reference' => false,
+                'choice_label' => function ($cat) {
+                    return $cat->getName();
+                },
+                'attr' => [
+                    'class' => 'form-control m-b  select2',
+                ],
+                'required' => false,
+                'label' => 'Категория'
+            ))
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success'
@@ -75,10 +91,17 @@ class AdminEmployersController extends AbstractController
         {
             $data = $form->getData();
 //            dd($data);
-            $data = $data['search'];
+            $search = $data['search'];
             $query = $query
                 ->andWhere('e.name LIKE :search')
-                ->setParameter('search', "%$data%");
+                ->setParameter('search', "%$search%");
+            if($data['employersCategories'])
+            {
+                $cat = $data['employersCategories'];
+                $query = $query
+                    ->andWhere('cat.name = :cat')
+                    ->setParameter('cat', $cat->getName());
+            }
         }
 
         $query = $query->getQuery();
@@ -137,6 +160,20 @@ class AdminEmployersController extends AbstractController
                 'required' => false,
 
             ))
+            ->add('employersCategories', EntityType::class, array(
+                'class'     => EmployersCategory::class,
+                'expanded'  => false,
+                'multiple'  => true,
+                'by_reference' => false,
+                'choice_label' => function ($cat) {
+                    return $cat->getName();
+                },
+                'attr' => [
+                    'class' => 'form-control m-b  select2',
+                ],
+                'required' => false,
+                'label' => 'Категория'
+            ))
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success'
@@ -154,7 +191,7 @@ class AdminEmployersController extends AbstractController
             $em->persist($empl);
 //            dd($empl);
             $em->flush();
-            return $this->redirectToRoute('app_admin_employers');
+            return $this->redirectToRoute('app_analyst_employers');
         }
 
         return $this->render('analyst/templates/employerEdit.html.twig', [
@@ -162,4 +199,44 @@ class AdminEmployersController extends AbstractController
         ]);
     }
 
+    /**
+     *
+     * @Route("/analyst/employers-category-edit/{id}", name="app_analyst_employer_category_edit")
+     * @Route("/analyst/employers-category-add", name="app_analyst_employer_category_add")
+     *
+     */
+    public function editEmployersCategory(Request $request, EntityManagerInterface $em,  int $id=null)
+    {
+        if($id)
+            $emplCat = $em->getRepository(EmployersCategory::class)->find($id);
+        else
+            $emplCat = new EmployersCategory();
+
+        $form = $this->createFormBuilder($emplCat)
+            ->add('name', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Название'
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success'
+                ],
+                'label' => 'Сохранить'
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $em->persist($emplCat);
+            $em->flush();
+            return $this->redirectToRoute('app_analyst_employers');
+        }
+
+        return $this->render('analyst/templates/employerCategoryEdit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

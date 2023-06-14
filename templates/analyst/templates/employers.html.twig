@@ -1,6 +1,9 @@
 
 {% extends "default/base.html.twig" %}
-
+{% block styles %}
+    {#<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />#}
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
 {% block content %}
     <div class="row mt-3">
         <div class="col-lg-10 offset-lg-1">
@@ -9,6 +12,10 @@
                 <div class="ibox-content">
 
                     {{ form_row(form.search) }}
+                </div>
+                <div class="ibox-content">
+
+                    {{ form_row(form.employersCategories) }}
                 </div>
                 <div class="ibox-footer">
                     {{ form_row(form.submit) }}
@@ -20,12 +27,21 @@
                     <h5>
                         Работадатели
                     </h5>
-                    <a href="{{ path('app_analyst_employer_add') }}">
-                        <span class="pull-right btn btn-success">
-                            <i class="fa fa-plus"></i>
-                            Добавить работадателя
-                        </span>
-                    </a>
+                    <div class="pull-right">
+                        <a href="{{ path('app_analyst_employer_add') }}">
+                            <span class=" btn btn-outline-success">
+                                <i class="fa fa-plus"></i>
+                                Добавить работадателя
+                            </span>
+                        </a>
+                        <a href="{{ path('app_analyst_employer_category_add') }}">
+                            <span class=" btn btn-outline-primary">
+                                <i class="fa fa-plus"></i>
+                                Добавить категории
+                            </span>
+                        </a>
+                    </div>
+
                 </div>
                 <div class="ibox-content">
                     <table class="table table-bordered">
@@ -33,7 +49,8 @@
                             <tr>
                                 <td >id</td>
                                 <td class="col-md-5">Работадатель</td>
-                                <td class="col-md-3">Описание</td>
+                                <td class="col-md-2">Описание</td>
+                                <td class="col-md-2">Категории</td>
                                 <td class="col-md-3">Кластер</td>
                                 <td class="col-md-1">Действие</td>
                             </tr>
@@ -46,6 +63,15 @@
                                     <td>{{ i.getDescription() }}</td>
                                     <td>
                                         <ol>
+                                        {% for cat in i.getEmployersCategories() %}
+                                            <li>
+                                                {{ cat.getName() }}
+                                            </li>
+                                        {% endfor %}
+                                        </ol>
+                                    </td>
+                                    <td>
+                                        <ol>
                                         {% for uf in i.getUserInfos() %}
                                             <li>
                                                 {{ uf.getEducationalOrganization() }}
@@ -53,6 +79,7 @@
                                         {% endfor %}
                                         </ol>
                                     </td>
+
                                     <td>
                                         <a href="{{ path('app_analyst_employer_edit', {'id': i.getId()}) }}">
                                             <button class="btn btn-info col-lg-12">
@@ -81,4 +108,22 @@
         </div>
     </div>
 
+{% endblock %}
+{% block scripts %}
+    {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
+    {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>#}
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>#}
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.select2').select2({
+                closeOnSelect : false,
+                placeholder : "...",
+                allowHtml: true,
+                allowClear: true
+            });
+            onLoad();
+
+        });
+    </script>
 {% endblock %}

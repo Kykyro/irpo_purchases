@@ -34,9 +34,15 @@ class Employers
      */
     private $userInfos;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=EmployersCategory::class, mappedBy="employers")
+     */
+    private $employersCategories;
+
     public function __construct()
     {
         $this->userInfos = new ArrayCollection();
+        $this->employersCategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,6 +96,33 @@ class Employers
     {
         if ($this->userInfos->removeElement($userInfo)) {
             $userInfo->removeEmployer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EmployersCategory>
+     */
+    public function getEmployersCategories(): Collection
+    {
+        return $this->employersCategories;
+    }
+
+    public function addEmployersCategory(EmployersCategory $employersCategory): self
+    {
+        if (!$this->employersCategories->contains($employersCategory)) {
+            $this->employersCategories[] = $employersCategory;
+            $employersCategory->addEmployer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployersCategory(EmployersCategory $employersCategory): self
+    {
+        if ($this->employersCategories->removeElement($employersCategory)) {
+            $employersCategory->removeEmployer($this);
         }
 
         return $this;
