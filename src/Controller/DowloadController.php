@@ -50,7 +50,7 @@ class DowloadController extends AbstractController
      */
     public function MemoFileDownload(): Response
     {
-        return $this->file('../public/files/Памятка_по_созданию_дизайн_проектов_кластеров.pdf');
+        return $this->file('../public/files/Создание_дизайн_проекта_Профессионалитет_2023.pdf');
     }
     /**
      * @Route("/region-is-download/{file}", name="app_download_region_is_file")
