@@ -39,20 +39,21 @@ class EmployersRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Employers[] Returns an array of Employers objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Employers[] Returns an array of Employers objects
+     */
+    public function getEmployers(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.employersCategories', 'cat')
+            ->leftJoin('e.userInfos', 'uf')
+            ->andWhere('uf.year > :year')
+            ->setParameter('year', 2021)
+            ->orderBy('e.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Employers
 //    {

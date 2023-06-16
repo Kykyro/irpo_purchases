@@ -13,6 +13,7 @@ use App\Form\UserEditFormType;
 use App\Form\RegistrationFormType;
 use App\Form\UserPasswordEditFormType;
 use App\Security\LoginFormAuthenticator;
+use App\Services\XlsxEmployersService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use function Sodium\add;
@@ -52,6 +53,9 @@ class AdminEmployersController extends AbstractController
         $query = $em->getRepository(Employers::class)
             ->createQueryBuilder('e')
             ->leftJoin('e.employersCategories', 'cat')
+            ->leftJoin('e.userInfos', 'uf')
+            ->andWhere('uf.year > :year')
+            ->setParameter('year', 2021)
             ->orderBy('e.name', 'ASC')
         ;
 
@@ -239,4 +243,13 @@ class AdminEmployersController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/analyst/employers-download-table", name="app_analyst_employer_table_download")
+     */
+    public function downloadTable(XlsxEmployersService $employersService)
+    {
+        return $employersService->generate();
+    }
+
 }

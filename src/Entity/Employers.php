@@ -127,4 +127,42 @@ class Employers
 
         return $this;
     }
+
+    public function getAsRow()
+    {
+        $row = [
+            $this->getName(),
+            $this->getDescription(),
+            $this->arrayEmployersToStringList($this->getEmployersCategories()),
+            $this->arrayUserInfosToStringList($this->getUserInfos())
+        ];
+        return $row;
+
+    }
+    private function arrayEmployersToStringList($arr)
+    {
+        if(is_null($arr))
+            return '';
+        $str = "";
+        $index = 1;
+        foreach ($arr as $a)
+        {
+            $str = $str."$index) ".$a->getName()."\n";
+            $index++;
+        }
+        return $str;
+    }
+    private function arrayUserInfosToStringList($arr)
+    {
+        if(is_null($arr))
+            return '';
+        $str = "";
+        $index = 1;
+        foreach ($arr as $a)
+        {
+            $str = $str."$index) ".$a->getEducationalOrganization()."\n";
+            $index++;
+        }
+        return $str;
+    }
 }
