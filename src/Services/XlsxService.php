@@ -645,7 +645,7 @@ class XlsxService extends AbstractController
                         }
                     }
                 }
-                if($deliveryDate <= $today and !is_null($deliveryDate))
+//                if($deliveryDate <= $today and !is_null($deliveryDate))
                 foreach ($sheet->rangeToArray($factSUMRANGE, null, true, true, true ) as $_row){
                     foreach (array_keys($_row) as $cell){
                         $cellCoordinates = $cell.$row;
