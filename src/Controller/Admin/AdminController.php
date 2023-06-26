@@ -76,8 +76,8 @@ class AdminController extends AbstractController
             $search = $form_data['search'];
             $query = $em->getRepository(User::class)
                 ->createQueryBuilder('u')
-                ->andWhere('u.uuid LIKE :uuid')
-                ->setParameter('uuid', "%$search%");
+                ->andWhere('u.uuid LIKE :search or u.roles LIKE :search')
+                ->setParameter('search', "%$search%");
 
             $query = $query->orderBy('u.id', 'DESC')->getQuery();
         }
