@@ -4,7 +4,7 @@
 
 
 {% block content %}
-    {% set isInspector = is_granted('ROLE_INSPECTOR') %}
+    {% set isInspector = is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR')  %}
     {% if isInspector %}
     <div class="row mt-5">
         <div class="col-lg-10 offset-lg-1">
