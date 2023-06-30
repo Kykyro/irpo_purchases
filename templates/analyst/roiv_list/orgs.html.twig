@@ -1,0 +1,48 @@
+{% extends 'default/base.html.twig' %}
+
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Список профессиональных образовательных организаций
+                        <b>
+                            {{ roiv.getUserInfo().getRfSubject().getName() }}
+                        </b>
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <td>Полное наименование профессиональной образовательной организации</td>
+                            <td>Сокращенное наименование профессиональной образовательной организации</td>
+                            <td>Действия</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in orgs %}
+                            <tr>
+                                <td>{{ i.getFullName() }}</td>
+                                <td>{{ i.getShortName() }}</td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+
+
+        </div>
+    </div>
+
+
+{% endblock %}

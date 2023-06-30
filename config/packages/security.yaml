@@ -1,6 +1,7 @@
 security:
     role_hierarchy:
         ROLE_ANALYTIC:  [ ROLE_ANALYTIC ]
+        ROLE_ROIV:  [ ROLE_ROIV ]
         ROLE_SMALL_CURATOR: [ ROLE_SMALL_CURATOR, ROLE_ALLOWED_TO_SWITCH ]
         ROLE_SMALL_CLUSTERS: [ ROLE_SMALL_CLUSTERS ]
         ROLE_SMALL_CLUSTERS_LOT_1: [ ROLE_SMALL_CLUSTERS_LOT_1 ]
@@ -52,6 +53,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/roiv, roles: ROLE_ROIV }
          - { path: ^/region, roles: [ROLE_REGION, ROLE_SMALL_CLUSTERS] }
          - { path: ^/journalist, roles: ROLE_JOURNALIST }
          - { path: ^/inspector, roles: [ROLE_INSPECTOR, ROLE_SPECTATOR, ROLE_SMALL_CURATOR] }

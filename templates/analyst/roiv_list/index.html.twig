@@ -1,0 +1,45 @@
+{% extends 'default/base.html.twig' %}
+
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Список РОИВов
+                    </h5>
+                </div>
+                <div class="ibox-content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            {% for i in users %}
+                <div class="col-lg-4">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>
+                                {{ i.getUserInfo().getRfSubject().getName() }}
+                            </h5>
+                        </div>
+                        <div class="ibox-content">
+                            <a href="{{ path('app_roiv_orgs', {'id': i.getId()}) }}">
+                                <button class="btn btn-primary col-lg-12">
+                                    Список образовательных организаций
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

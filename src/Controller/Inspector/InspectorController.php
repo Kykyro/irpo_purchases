@@ -177,7 +177,8 @@ class InspectorController extends AbstractController
 
         return $this->render('inspector/templates/infoAboutCluster.html.twig', [
             'controller_name' => 'InspectorController',
-            'user_info' => $user_info
+            'user_info' => $user_info,
+            'user' => $user
 
         ]);
     }

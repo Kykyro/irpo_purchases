@@ -161,9 +161,21 @@
                     <li>
                         <a href="{{ path("app_analyst_employers") }}"><i class="fa fa-star-half-empty left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Список работадателей</span></a>
                     </li>
+                    <li>
+                        <a href="{{ path("app_roiv_list") }}"><i class="fa fa-bank left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Список РОИВов</span></a>
+                    </li>
                     {#<li>#}
                         {#<a href="{{ path("app_certificate") }}"><i class="fa fa-pencil left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справки по всем кластерам</span></a>#}
                     {#</li>#}
+                {% endif %}
+                {% if is_granted('ROLE_ROIV') %}
+                    <li>
+                        <span class="nav-label badge badge-primary">РОИВ</span>
+
+                    </li>
+                    <li>
+                        <a href="{{ path("app_roiv") }}"><i class="fa fa-list left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Список организаций</span></a>
+                    </li>
                 {% endif %}
 
                 {% if is_granted('ROLE_ADMIN') %}

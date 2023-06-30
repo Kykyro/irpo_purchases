@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RfSubjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,19 @@ class RfSubject
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $district;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ProfEduOrg::class, mappedBy="region")
+     */
+    private $profEduOrgs;
+
+
+
+    public function __construct()
+    {
+        $this->fullName = new ArrayCollection();
+        $this->profEduOrgs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -72,4 +87,35 @@ class RfSubject
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ProfEduOrg>
+     */
+    public function getProfEduOrgs(): Collection
+    {
+        return $this->profEduOrgs;
+    }
+
+    public function addProfEduOrg(ProfEduOrg $profEduOrg): self
+    {
+        if (!$this->profEduOrgs->contains($profEduOrg)) {
+            $this->profEduOrgs[] = $profEduOrg;
+            $profEduOrg->setRegion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfEduOrg(ProfEduOrg $profEduOrg): self
+    {
+        if ($this->profEduOrgs->removeElement($profEduOrg)) {
+            // set the owning side to null (unless already changed)
+            if ($profEduOrg->getRegion() === $this) {
+                $profEduOrg->setRegion(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
