@@ -89,17 +89,17 @@ class RoivController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    /**
-     * @Route("/building-list/{id}", name="app_roiv_building_list")
-     */
-    public function buildingList(EntityManagerInterface $em, int $id): Response
-    {
+//    /**
+//     * @Route("/building-list/{id}", name="app_roiv_building_list")
+//     */
+//    public function buildingList(EntityManagerInterface $em, int $id): Response
+//    {
 //        $buildings = $em->getRepository(Building::class)
 //            ->findAllByRegion($user->getUserInfo()->getRfSubject()->getId());
 
-        return $this->render('roiv/buildingList.html.twig', [
-            'controller_name' => 'ROIVListController',
-            'orgs' => $orgs,
-        ]);
-    }
+//        return $this->render('roiv/buildingList.html.twig', [
+//            'controller_name' => 'ROIVListController',
+//            'orgs' => $orgs,
+//        ]);
+//    }
 }
