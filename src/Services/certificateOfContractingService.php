@@ -58,7 +58,7 @@ class certificateOfContractingService extends AbstractController
         }
         elseif (in_array('ROLE_SMALL_CLUSTERS_LOT_2', $user->getRoles()))
         {
-            $grant = 60000000;
+            $grant = 60500000;
         }
         else{
             throw new Exception('Ошибка роли');
