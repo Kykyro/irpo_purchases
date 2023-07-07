@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Entity\ProcurementProcedures;
 use App\Entity\User;
+use Exception;
 use NumberFormatter;
 use PhpOffice\PhpWord\TemplateProcessor;
+use function PHPUnit\Framework\throwException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -44,6 +46,25 @@ class certificateOfContractingService extends AbstractController
         $userInfo = $user->getUserInfo();
         if(is_null($today))
             $today = new \DateTime('now');
+
+
+        if(in_array('ROLE_REGION', $user->getRoles()))
+        {
+            $grant = 100000000;
+        }
+        elseif (in_array('ROLE_SMALL_CLUSTERS_LOT_1', $user->getRoles()))
+        {
+            $grant = 70000000;
+        }
+        elseif (in_array('ROLE_SMALL_CLUSTERS_LOT_2', $user->getRoles()))
+        {
+            $grant = 60000000;
+        }
+        else{
+            throw new Exception('Ошибка роли');
+        }
+
+
         $purchases = $this->getProcProc($user);
         $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
         $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, ' ');
@@ -86,12 +107,12 @@ class certificateOfContractingService extends AbstractController
             }
         }
 
-        $procent['contractFedFunds'] = ($sum['contractFedFunds'] * 100)/(100000000);
+        $procent['contractFedFunds'] = ($sum['contractFedFunds'] * 100)/($grant);
         $procent['contractRegionFunds'] = ($userInfo->getFinancingFundsOfSubject() > 0) ? ($sum['contractRegionFunds'] * 100)/($userInfo->getFinancingFundsOfSubject() * 1000) : 0;
         $procent['contractOOFunds'] = ($userInfo->getExtraFundsOO() > 0) ? ($sum['contractOOFunds'] * 100)/($userInfo->getExtraFundsOO() * 1000) : 0;
         $procent['contractEmplFunds'] = ($userInfo->getExtraFundsEconomicSector() > 0) ? ($sum['contractEmplFunds'] * 100)/($userInfo->getExtraFundsEconomicSector() * 1000) : 0;
 
-        $procent['factFedFunds'] = ($sum['factFedFunds'] * 100)/(100000000);
+        $procent['factFedFunds'] = ($sum['factFedFunds'] * 100)/($grant);
         $procent['factEmplFunds'] = ($userInfo->getExtraFundsEconomicSector() > 0) ? ($sum['factEmplFunds'] * 100)/($userInfo->getExtraFundsEconomicSector() * 1000) : 0;
         $procent['factOOFunds'] = ($userInfo->getExtraFundsOO() > 0) ? ($sum['factOOFunds'] * 100)/($userInfo->getExtraFundsOO() * 1000) : 0;
         $procent['factRegionFunds'] = ($userInfo->getFinancingFundsOfSubject() > 0) ? ($sum['factRegionFunds'] * 100)/($userInfo->getFinancingFundsOfSubject() * 1000) : 0;
@@ -106,6 +127,7 @@ class certificateOfContractingService extends AbstractController
             'ExtraFundsEconomicSector' => $fmt->format($userInfo->getExtraFundsEconomicSector() * 1000),
             'FinancingFundsOfSubject' => $fmt->format($userInfo->getFinancingFundsOfSubject() * 1000),
             'ExtraFundsOO' => $fmt->format($userInfo->getExtraFundsOO() * 1000),
+            'GrantFunds' => $fmt->format($grant),
 
             'cFedFunds' => $fmt->format($sum['contractFedFunds']),
             'cEmplFunds' => $fmt->format($sum['contractEmplFunds']),
