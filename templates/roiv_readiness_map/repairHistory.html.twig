@@ -1,0 +1,200 @@
+{% extends 'default/base.html.twig' %}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <a href="{{ path('app_inspector_readiness_map', {'id': user.getId()}) }}">
+                        <button class="btn btn-success">
+                            <i class="fa fa-arrow-left">
+                                Назад
+                            </i>
+                        </button>
+                    </a>
+                </div>
+                <div class="ibox-content">
+                    {{ form_start(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% set addresses = user.getClusterAddresses() %}
+    {#{% for d in dump %}#}
+    {#<h6>#}
+
+    {#{{ dump(d.getRepair().getClusterZone().getName()) }}#}
+    {#</h6>#}
+    {#{% endfor %}#}
+    {% set count = 0 %}
+    {% for adres in addresses %}
+        {% set zones = adres.getSortedClusterZones() %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <a class="collapse-link">
+                        <div class="ibox-title">
+                            <h5>
+                                {{ adres.getAddresses() }}
+                            </h5>
+                            <div class="ibox-tools">
+                                <i class="fa fa-chevron-up"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="ibox-content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td class="col-md-2">
+                                        Зона
+                                    </td>
+                                    <td class="col-md-5">
+                                        Актуальный ремонт
+                                    </td>
+                                    <td class="col-md-5">
+                                        {% if dump %}
+                                            Ремонт на дату <b>{{ dump.getCreatedAt().format('d.m.Y') }}</b>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for zone in zones %}
+
+                                <tr>
+                                    <td>
+                                        {{ zone.getName() }}
+                                    </td>
+                                    <td>
+                                        {% set repair = zone.getZoneRepair() %}
+                                        <h5>Общий процент <b>{{ repair.getTotalPercentage() }} %</b></h5>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-primary" role="progressbar" style="width: {{ repair.getDismaltingPercentage() }}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ repair.getPlasteringAndCommunicationPercentage()  }}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width: {{ repair.getFinishingPercentage() }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: {{ repair.getBrandingPercentage() }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                {% if not repair.isNotPlanned() %}
+                                                    <h5>Демонтажные работы <b>{{ repair.getDismantling() }} %</b></h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-primary" style="width: {{ repair.getDismantling() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <h5>Штукатурные и коммуникационные работы <b>{{ repair.getPlasteringAndCommunication() }} %</b></h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar  progress-bar-success" style="width: {{ repair.getPlasteringAndCommunication() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <h5>Отделочные работы <b>{{ repair.getFinishing() }} %</b></h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-warning" style="width: {{ repair.getFinishing() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                {% else %}
+                                                    <span class="badge badge-success">Ремонт не предусмотрен</span>
+                                                {% endif %}
+                                                {% if zone.getType().getName() != "Иное" %}
+
+
+                                                    <h5>Брендирование <b>{{ repair.getBranding() }} %</b></h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar  progress-bar-danger" style="width: {{ repair.getBranding() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    {# dump #}
+                                    {% if dump %}
+                                        {% macro different(diff) %}
+                                            <i class="{% if diff > 0 %}
+                                                text-navy
+                                            {% elseif diff == 0 %}
+                                            {% else %}
+                                                text-danger
+                                            {% endif %}">
+                                                ({{ diff }} %)
+                                            </i>
+                                        {% endmacro %}
+                                    <td>
+                                        {% set actual_repair = repair %}
+                                        {% set repair = adres.getRepairDump(dump, zone) %}
+                                        {% if repair|length > 0 %}
+                                            {% set repair = repair[0].getEntity(serializer) %}
+
+                                            {% set diff = repair.getTotalPercentage() - actual_repair.getTotalPercentage() %}
+                                            <h5>Общий процент <b>{{ repair.getTotalPercentage() }} %</b> {{ _self.different(diff) }}</h5>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-primary" role="progressbar" style="width: {{ repair.getDismaltingPercentage() }}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ repair.getPlasteringAndCommunicationPercentage()  }}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar progress-bar-warning" role="progressbar" style="width: {{ repair.getFinishingPercentage() }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: {{ repair.getBrandingPercentage() }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    {% if not repair.isNotPlanned() %}
+                                                        {% set diff = repair.getDismantling() - actual_repair.getDismantling() %}
+                                                        <h5>Демонтажные работы <b>{{ repair.getDismantling() }} %</b> {{ _self.different(diff) }}</h5>
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-primary" style="width: {{ repair.getDismantling() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                        {% set diff = repair.getPlasteringAndCommunication() - actual_repair.getPlasteringAndCommunication() %}
+                                                        <h5>Штукатурные и коммуникационные работы <b>{{ repair.getPlasteringAndCommunication() }} %</b> {{ _self.different(diff) }}</h5>
+                                                        <div class="progress">
+                                                            <div class="progress-bar  progress-bar-success" style="width: {{ repair.getPlasteringAndCommunication() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                        {% set diff = repair.getFinishing() - actual_repair.getFinishing() %}
+                                                        <h5>Отделочные работы <b>{{ repair.getFinishing() }} %</b> {{ _self.different(diff) }}</h5>
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-warning" style="width: {{ repair.getFinishing() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    {% else %}
+                                                        <span class="badge badge-success">Ремонт не предусмотрен</span>
+                                                    {% endif %}
+                                                    {% if zone.getType().getName() != "Иное" %}
+
+                                                        {% set diff = repair.getBranding() - actual_repair.getBranding() %}
+                                                        <h5>Брендирование <b>{{ repair.getBranding() }} %</b> {{ _self.different(diff) }}</h5>
+                                                        <div class="progress">
+                                                            <div class="progress-bar  progress-bar-danger" style="width: {{ repair.getBranding() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                </tr>
+                                {% set count = count + 1 %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+
+{% endblock %}

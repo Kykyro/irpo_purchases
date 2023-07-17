@@ -1,0 +1,125 @@
+{% extends 'default/base.html.twig' %}
+
+
+{% block content %}
+
+
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 mb-2">
+            <div class="ibox collapsed border-bottom">
+
+                <div class="ibox-title">
+                    <h5>
+
+                    </h5>
+                    <a href="{{ path('app_roiv_readiness_map', {'id': address.getUser().getId()}) }}">
+                        <button class="btn">
+                            <i class="fa fa-arrow-left">
+                                Назад
+                            </i>
+                        </button>
+                    </a>
+                </div>
+
+
+                <div class="ibox-content" style="display: block;">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li><a class="nav-link active show" data-toggle="tab" href="#tab-1"> {{ address.getAddresses() }}</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" id="tab-1" class="tab-pane active show">
+                                <div class="panel-body">
+                                    {% set zones = address.getSortedClusterZones() %}
+
+                                    {% if zones|length > 0 %}
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <td class="col-md-2" style="vertical-align: inherit; text-align: center">
+                                                    <strong>Название</strong>
+                                                </td>
+                                                <td style="vertical-align: inherit; text-align: center"><strong>% выполнения ремонтных работ</strong></td>
+
+                                                <td style="vertical-align: inherit; text-align: center"><strong>Крайний срок поставки оборудования</strong></td>
+                                                <td style="vertical-align: inherit; text-align: center"><strong>Дата завершения ремонтных работ</strong></td>
+                                                <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                                    <strong>Действия</strong>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in zones %}
+                                            {% if i.isDoNotTake() %}
+                                                <tr>
+
+                                                    <td colspan="5" class="text-danger">{{ i.getName() }}</td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+
+                                                    <td style="vertical-align: inherit; text-align: center">{{ i.getName() }}</td>
+                                                    <td style="vertical-align: inherit; text-align: center">{{ i.getZoneRepair().getTotalPercentage() }} %</td>
+                                                    <td style="vertical-align: inherit; text-align: center">
+                                                        {% if i.getMaxEquipmentDeliveryDeadline() %}
+                                                            {{ i.getMaxEquipmentDeliveryDeadline().format('d.m.Y') }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td style="vertical-align: inherit; text-align: center">
+                                                        {% if i.getZoneRepair().getEndDate() %}
+                                                            {{ i.getZoneRepair().getEndDate().format('d.m.Y') }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td style="vertical-align: inherit; text-align: center">
+                                                        <a href="{{ path('app_roiv_view_zone', {'id': i.getId()}) }}">
+                                                            <button class="btn btn-success col-lg-12 mb-2">
+                                                                <i class="fa fa-search">
+                                                                    Просмотр
+                                                                </i>
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+
+                                           {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                        <div class="col-lg-4">
+                                            <div class="panel panel-warning">
+                                                <div class="panel-heading">
+                                                    <i class="fa fa-warning"></i> Нет зон
+                                                </div>
+                                                <div class="panel-body">
+                                                    <a href="{{ path('app_inspector_add_zone', {'id': address.getId()}) }}">
+                                                        <button class="btn btn-outline-warning">
+                                                            <i class="fa fa-plus"> Добавить зону </i>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="ibox-footer">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
+{% endblock %}

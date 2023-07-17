@@ -1,0 +1,277 @@
+{% extends "default/base.html.twig" %}
+
+
+{% block style %}
+
+{% endblock %}
+
+{% block content %}
+{% set buttons %}
+    <div class="row">
+        <div class="col-lg-5 m-1">
+            <a href="{{ path('download_purchases_xlsx_roiv', {'user_id': id}) }}">
+                <button class="btn-gray-all btn btn-outline-success">
+                    <div class="fa fa-table"></div>
+                    Скачать таблицу
+                </button>
+            </a>
+        </div>
+    </div>
+{% endset %}
+    <div class="row">
+        <div class="col-lg-12 mt-3">
+            <div class="ibox">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Инфо о кластере</h5>
+                        <div class="ibox-tools">
+
+                            <i class="fa fa-chevron-up"></i>
+
+
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content">
+                    {% set user_info = user.getUserInfo() %}
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td class="col-md-4">
+                                Субъект РФ
+                            </td>
+                            <td style="vertical-align: middle">
+                                {% if  user_info.getRfSubject() %}
+                                    {{ user_info.getRfSubject().getName() }}
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                Инициатор создания кластера
+                            </td>
+                            <td style="vertical-align: middle">
+                                {{ user_info.getInitiatorOfCreation() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                Наименование организации грантополучателя
+                            </td>
+                            <td style="vertical-align: middle">
+                                {{ user_info.getOrganization() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                Наименование базовой образовательной организации
+                            </td>
+                            <td style="vertical-align: middle">
+                                {{ user_info.getEducationalOrganization() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                Наименование кластера
+                            </td>
+                            <td style="vertical-align: middle">
+                                {{ user_info.getCluster() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                Заявленная отрасль
+                            </td>
+                            <td style="vertical-align: middle">
+                                {{ user_info.getDeclaredIndustry() }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{{ include('inspector/templates/prodProcTable.html.twig', {'buttons': buttons}) }}
+
+
+{% if prodProc|length > 0 %}
+    <div class="row ">
+        <div class="col-lg-12 ">
+            <div class="ibox collapsed">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Список закупок</h5>
+                        <div class="ibox-tools">
+
+                            <i class="fa fa-chevron-up"></i>
+
+
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content  table-responsive horizontal-drag">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                        <tr>
+                            {#<th>ID</th>#}
+
+                            <th>Предмет закупки</th>
+                            <th>Способ определения поставщика</th>
+                            <th>НМЦК</th>
+                            <th>Дата публикации извещения</th>
+                            <th>Дата окончания подачи заявок</th>
+                            <th>Дата подведения итогов</th>
+                            <th>Дата заключения договоров</th>
+                            <th>Стоимость договора</th>
+                            <th>Источник финансирования</th>
+                            <th>Замечания</th>
+
+
+                            {#<th>Действия</th>#}
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for i in prodProc %}
+                            <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
+                                {#<td>#}
+                                    {#{{ i.getId() }}#}
+                                {#</td>#}
+                                {# Предмет закупки #}
+                                <td>{{ i.getPurchaseObject() }} </td>
+                                {# Способ определения поставщика #}
+                                <td>{{ i.getMethodOfDetermining() }}</td>
+                                {# НМЦК #}
+                                <td class="cell-number"> {{ i.getNMCK() }}</td>
+
+                                {# даты #}
+                                {# Дата публикации извещения #}
+                                {% if i.getPublicationDate is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getPublicationDate().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата окончания подачи заявок #}
+                                {% if i.getDeadlineDate is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getDeadlineDate().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата подведения итогов #}
+                                {% if i.getDateOfSummingUp is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getDateOfSummingUp().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата заключения договоров #}
+                                {% if i.getDateOfConclusion is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getDateOfConclusion().format("d.m.y") }}</td>
+                                {% endif %}
+
+
+
+                                {# Стоимость договора #}
+                                <td class="cell-number">{{ i.getContractCost() }}</td>
+                                {# Источник финансирования #}
+                                <td>{{ i.getSourceOfFunding() }}</td>
+                                {# Замечания #}
+                                <td>
+                                    {% set notes = i.getPurchaseNotes()|length %}
+                                    {% if notes > 0 %}
+                                        <a href="#">
+                                         <span class="badge badge-warning notes-count">
+                                            {{ notes }} замечаний
+                                        </span>
+                                        </a>
+
+                                    {% else %}
+                                        <span class="badge badge-success">
+                                        Нет замечаний
+                                    </span>
+                                    {% endif %}
+
+                                </td>
+                                {# Действия #}
+                                {#<td>#}
+                                    {#<a href="{{ path('app_inspector_view_purchase', { 'id' : i.getId()}) }}" target="_blank">#}
+                                        {#<button class="btn btn-info col-lg-12" >#}
+                                            {#<div class="fa fa-info"></div>#}
+                                            {#Просмотр#}
+                                        {#</button>#}
+                                    {#</a>#}
+                                {#</td>#}
+                            </tr>
+                        {% endfor %}
+
+
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    {#{{ asset_version('') }}#}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+
+    <script>
+        const slider = document.querySelector('.horizontal-drag');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+
+            isDown = true;
+            slider.classList.add('active_scroll')
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mouseup', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+
+            if (!isDown) return;
+            e.preventDefault()
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 3;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+{% endblock %}

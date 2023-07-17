@@ -7,13 +7,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class RegistrationFormType extends AbstractType
+class RegistrationRoivFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -43,50 +44,28 @@ class RegistrationFormType extends AbstractType
                     'choices' =>
                         array
                         (
-                            'Админ' => array
-                            (
-                                'админ' => 'ROLE_ADMIN'
-                            ),
-                            'супер админ' => array
-                            (
-                                'супер админ' => 'ROLE_SUPERADMIN'
-                            ),
-                            'Пользователь' => array
-                            (
-                                'регион' => 'ROLE_REGION'
-                            ),
-                            'проверяющий' => array
-                            (
-                                'проверяющий' => 'ROLE_INSPECTOR'
-                            ),
-                            'наблюдатель' => array
-                            (
-                                'наблюдатель' => 'ROLE_SPECTATOR'
-                            ),
-                            'Маленький кластер' => array
-                            (
-                                'Маленький кластер' => 'ROLE_SMALL_CLUSTERS'
-                            ),
-                            'Куратор маленьких кластеров' => array
-                            (
-                                'Куратор маленьких кластеров' => 'ROLE_SMALL_CURATOR'
-                            ),
-                            'Аналитик' => array
-                            (
-                                'Аналитик' => 'ROLE_ANALYTIC'
-                            ),
+
                             'РОИВ' => array
                             (
                                 'РОИВ' => 'ROLE_ROIV'
-                            )
+
+                            ),
                         )
                     ,
                     'multiple' => true,
                     'required' => true,
-                    'expanded' => true,
-
+                    'label' => 'Роль',
+                     'expanded' => true,
                 ]
             )
+            ->add('userInfo', RegistrationUserInfoRoivFormType::class)
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success btn-lg'
+                ],
+                'label' => 'Создать'
+            ])
+
         ;
     }
 

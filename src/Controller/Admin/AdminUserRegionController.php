@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
 use App\Entity\User;
+use App\Form\RegistrationRoivFormType;
 use App\Form\UserEditFormType;
 use App\Form\RegistrationClusterFormType;
 use App\Form\UserPasswordEditFormType;
@@ -62,6 +63,39 @@ class AdminUserRegionController extends AbstractController
         }
 
         return $this->render('admin/templates/userRegionAdd.html.twig', [
+            'controller_name' => 'AdminController',
+            'registrationForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/add-user-roiv", name="app_admin_add_user_roiv")
+     */
+    public function addRoiv(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    {
+        $user = new \App\Entity\User();
+
+        $form = $this->createForm(RegistrationRoivFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
+
+
+            return $this->redirectToRoute("app_admin_users");
+        }
+
+        return $this->render('admin/templates/userRoivAdd.html.twig', [
             'controller_name' => 'AdminController',
             'registrationForm' => $form->createView(),
         ]);

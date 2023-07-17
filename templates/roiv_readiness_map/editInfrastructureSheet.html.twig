@@ -1,0 +1,490 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+    {% import _self as formMacros %}
+
+
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1 mb-2">
+                    <a href="{{ path('app_inspector_view_zone', {'id': id}) }}">
+                        <button class="btn btn-success mb-2">
+                            <i class="fa fa-arrow-left">
+                                Назад
+                            </i>
+                        </button>
+                    </a>
+            <div class="ibox border-bottom">
+
+                <div class="ibox-title">
+
+                    <h5>
+                        Редактирование инфраструктурного листа
+                    </h5>
+
+                </div>
+                {% macro printZoneInfrastructureSheets(sheet) %}
+
+                        <td>
+                            {{ form_row(sheet.name) }}
+                            {{ form_row(sheet.zoneType) }}
+
+
+                        </td>
+                        <td>
+                            {{ form_row(sheet.type) }}
+                        </td>
+                        <td>
+                            {{ form_row(sheet.units) }}
+                        </td>
+                        <td>
+                            {{ form_row(sheet.totalNumber, {'type': 'number'}) }}
+                        </td>
+                        <td>
+                            {{ form_row(sheet.isHasModel) }}
+                        </td>
+                        <td>
+                            <button class="btn btn-danger js-remove-sheets" type="button">
+                                <i class="fa fa-trash">
+                                    Удалить
+                                </i>
+                            </button>
+                        </td>
+                {% endmacro %}
+
+            <div class="ibox-content">
+                {{ form_start(form) }}
+                <h4>
+                    Общая зона
+                </h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+
+                            <td class="col-md-3">Наименование</td>
+                            <td class="col-md-2">Вид</td>
+                            <td class="col-md-2">Ед.измерения</td>
+                            <td class="col-md-2">Общее кол-во</td>
+                            <td class="col-md-1">Не указывать модель?</td>
+                            {#<td class="col-md-2">Тип</td>#}
+                            <td class="col-md-1"> Действия </td>
+                        </tr>
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+                           data-index="{{ form.zoneInfrastructureSheets|length > 0 ? form.zoneInfrastructureSheets|last.vars.name + 1 : 0 }}"
+                           data-prototype='{{ formMacros.printZoneInfrastructureSheets(form.zoneInfrastructureSheets.vars.prototype|e) }}'
+                           data-widget-tags="{{
+                           '<tr></tr>'|e
+                           }}"
+                           data-widget-counter="{{ form.zoneInfrastructureSheets|length }}"
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                            {% set zoneTypeValue = sheet.vars.value.zoneType %}
+                            {% if zoneTypeValue == 'Общая зона' %}
+                                <tr>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <button
+                                        class="btn btn-success add-another-collection-widget"
+                                        type="button"
+                                        data-list-selector="#sheets"
+                                        data-list="#sheets"
+                                        data-zone-type="Общая зона"
+                                >
+                                    <i class="fa fa-plus">
+                                        Добавить
+                                    </i>
+                                </button>
+                                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#deleteModal"
+
+                                >
+                                    <i class="fa fa-plus-circle">
+                                        Добавить из таблицы
+                                    </i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <hr>
+                <h4>
+                    Рабочее место учащегося
+                </h4>
+                 <table class="table table-bordered">
+                    <thead>
+                        <tr>
+
+                            <td class="col-md-3">Наименование</td>
+                            <td class="col-md-2">Вид</td>
+                            <td class="col-md-2">Ед.измерения</td>
+                            <td class="col-md-2">Общее кол-во</td>
+                            {#<td class="col-md-2">Тип</td>#}
+                            <td class="col-md-1"> Действия </td>
+                        </tr>
+                    </thead>
+
+                    <tbody class="sheets " id="sheets-2"
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                            {% set zoneTypeValue = sheet.vars.value.zoneType %}
+                            {% if zoneTypeValue == 'Рабочее место учащегося' %}
+                                <tr>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <button
+                                        class="btn btn-success add-another-collection-widget-2"
+                                        type="button"
+                                        data-list-selector="#sheets"
+                                        data-list="#sheets-2"
+                                        data-zone-type="Рабочее место учащегося"
+                                >
+                                    <i class="fa fa-plus">
+                                        Добавить
+                                    </i>
+                                </button>
+                                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#modal-2">
+                                    <i class="fa fa-plus-circle">
+                                        Добавить из таблицы
+                                    </i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <hr>
+                <h4>
+                    Рабочее место преподавателя
+                </h4>
+                 <table class="table table-bordered">
+                    <thead>
+                        <tr>
+
+                            <td class="col-md-3">Наименование</td>
+                            <td class="col-md-2">Вид</td>
+                            <td class="col-md-2">Ед.измерения</td>
+                            <td class="col-md-2">Общее кол-во</td>
+                            {#<td class="col-md-2">Тип</td>#}
+                            <td class="col-md-1"> Действия </td>
+                        </tr>
+                    </thead>
+
+                    <tbody class="sheets " id="sheets-3"
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                            {% set zoneTypeValue = sheet.vars.value.zoneType %}
+                            {% if zoneTypeValue == 'Рабочее место преподавателя' %}
+                                <tr>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <button
+                                        class="btn btn-success add-another-collection-widget-3"
+                                        type="button"
+                                        data-list-selector="#sheets"
+                                        data-list="#sheets-3"
+                                        data-zone-type="Рабочее место преподавателя"
+                                >
+                                    <i class="fa fa-plus">
+                                        Добавить
+                                    </i>
+                                </button>
+                                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#modal-3">
+                                    <i class="fa fa-plus-circle">
+                                        Добавить из таблицы
+                                    </i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <hr>
+
+                    <div class="ibox-footer">
+                        {{ form_row(form.submit) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавление пунков ИЛ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>
+                            Данные
+                        </label>
+                        <textarea class="form-control" id="rows-data" name="text"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="add-many-row" class="btn btn-primary"
+                        {#data-dismiss="modal"#}
+                        type="button"
+                        data-list-selector="#sheets"
+                        data-list="#sheets"
+                        data-zone-type="Общая зона"
+                        data-row-data="#rows-data"
+                    >
+                        Добавить
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" type="button">Отмена</button>
+                </div>
+                {#{{ form_end(form) }}#}
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавление пунков ИЛ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>
+                            Данные
+                        </label>
+                        <textarea class="form-control" id="rows-data-2" name="text"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="add-many-row-2" class="btn btn-primary"
+                        {#data-dismiss="modal"#}
+                        type="button"
+                        data-list-selector="#sheets"
+                        data-list="#sheets-2"
+                        data-zone-type="Рабочее место учащегося"
+                        data-row-data="#rows-data-2"
+                    >
+                        Добавить
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" type="button">Отмена</button>
+                </div>
+                {#{{ form_end(form) }}#}
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавление пунков ИЛ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>
+                            Данные
+                        </label>
+                        <textarea class="form-control" id="rows-data-3" name="text"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="add-many-row-3" class="btn btn-primary"
+                        {#data-dismiss="modal"#}
+                        type="button"
+                        data-list-selector="#sheets"
+                        data-list="#sheets-3"
+                        data-zone-type="Рабочее место преподавателя"
+                        data-row-data="#rows-data-3"
+                    >
+                        Добавить
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" type="button">Отмена</button>
+                </div>
+                {#{{ form_end(form) }}#}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            let $wrapper = $('.sheets');
+            $wrapper.on('click', '.js-remove-sheets', function(e) {
+                e.preventDefault();
+                $(this).closest('tr')
+                    .fadeOut()
+                    .remove();
+            });
+            function addRow()
+            {
+
+                let listSelector = $($(this).attr('data-list-selector'));
+                let list = $($(this).attr('data-list'));
+                let zoneType = $(this).attr('data-zone-type');
+                console.log(zoneType);
+                // Try to find the counter of the list or use the length of the list
+                let counter = listSelector.data('widget-counter');
+
+                // grab the prototype template
+                let newWidget = listSelector.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                counter++;
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+
+                // And store it, the length cannot be used if deleting widgets is allowed
+                listSelector.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                let newElem = $(listSelector.attr('data-widget-tags')).html(
+                    listSelector.attr('data-delete-btn') +
+                    newWidget +
+                    '</div>'
+                );
+
+                newElem.appendTo(list);
+                 $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_zoneType').val(zoneType);
+            }
+
+            $('.add-another-collection-widget').click(addRow);
+            $('.add-another-collection-widget-2').click(addRow);
+            $('.add-another-collection-widget-3').click(addRow);
+            function splitLines(t) { return t.split(/\t\n|\t|\n/); }
+            function addRowsByTable(){
+                // let input = $('#rows-to-add');
+                let data = $($(this).attr('data-row-data'));
+
+                let zoneType = $(this).attr('data-zone-type');
+                // let _data = splitLines(data.val());
+                let _data = data.val().split('\n');
+                let value = _data.length;
+                let skipRow =  [];
+                for (let i = 0; i < value; i++)
+                {
+                    if(_data[i].split('\t').length < 3)
+                    {
+                        if(!_data[i].includes('\t'))
+                        {
+                           skipRow.push(i);
+                        }
+                    }
+                    else if(_data[i].split('\t').length < 2)
+                    {
+                        _data[i] = _data[i] + '\t';
+
+                    }
+                    else
+                    {
+                        _data[i] = _data[i] + '$$';
+                    }
+                }
+                _data = _data.join(' ');
+                _data = _data.split('$$');
+                value = _data.length;
+
+                console.log(_data);
+                // console.log(_data);
+                // for (let i = 0; i < _data.length; i++)
+                // {
+                //     if(!_data[i].includes('\t'))
+                //     {
+                //         console.log(_data[i]);
+                //     }
+                // }
+                let listSelector = $($(this).attr('data-list-selector'));
+                let list = $($(this).attr('data-list'));
+                // console.log($(this));
+
+
+                for (let i = 0; i < value; i++)
+                {
+                    if(_data[i].split('\t').length < 6)
+                    {
+                        if(!_data[i].includes('\t'))
+                            continue;
+                    }
+
+                    // console.log(listSelector);
+                    let counter = listSelector.data('widget-counter');
+
+                    let newWidget = listSelector.attr('data-prototype');
+
+                    counter++;
+                    newWidget = newWidget.replace(/__name__/g, counter);
+
+                    listSelector.data('widget-counter', counter);
+
+                    // create a new list element and add it to the list
+                    let newElem = $(listSelector.attr('data-widget-tags')).html(
+                        newWidget
+                    );
+
+
+                    newElem.appendTo(list);
+                    if(_data[i] )
+                    {
+                        let paste = _data[i].split('\t');
+                        // console.log(paste);
+                        $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_zoneType').val(zoneType);
+                        $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_name').val(paste[0]);
+                        $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_type').val(paste[2]);
+                        $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_units').val(paste[4]);
+                        $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_totalNumber').val(paste[5]);
+
+                    }
+
+                }
+                data.val('')
+            }
+            $('#add-many-row').click(addRowsByTable);
+            $('#add-many-row-2').click(addRowsByTable);
+            $('#add-many-row-3').click(addRowsByTable);
+            // let formInputs = $('#sheets :input');
+
+        });
+    </script>
+{% endblock %}

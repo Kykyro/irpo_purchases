@@ -174,8 +174,11 @@
 
                     </li>
                     <li>
-                        <a href="{{ path("app_roiv") }}"><i class="fa fa-list left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Список организаций</span></a>
+                        <a href="{{ path("app_roiv_cluster_list") }}"><i class="fa fa-list left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Список кластеров</span></a>
                     </li>
+                    {#<li>#}
+                        {#<a href="{{ path("app_roiv") }}"><i class="fa fa-list left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Список организаций</span></a>#}
+                    {#</li>#}
                 {% endif %}
 
                 {% if is_granted('ROLE_ADMIN') %}

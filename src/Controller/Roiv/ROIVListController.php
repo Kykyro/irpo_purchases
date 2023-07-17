@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Roiv;
 
 use App\Entity\Building;
 use App\Entity\ProfEduOrg;

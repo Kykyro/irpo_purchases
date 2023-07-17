@@ -33,6 +33,14 @@
                                     Список образовательных организаций
                                 </button>
                             </a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">
+                                    <button class="btn btn-warning col-lg-12">
+                                        <div class="fa fa-leaf"></div>
+                                        Переключиться
+                                    </button>
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,59 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+
+
+    <div class="row mt-3">
+        <div class="col-lg-6 offset-lg-3 договоmb-2">
+            <div class="ibox border-bottom">
+
+                <div class="ibox-title">
+                    <h5>
+                        Архив карт готовности по неделям
+                    </h5>
+                </div>
+
+                <div class="ibox-content" style="display: block">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td>№ п/п</td>
+                                <td class="col-md-10">Дата сохранения</td>
+                                <td class="col-md-2">Действия</td>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in user.getReadinessMapArchives()|reverse %}
+                                <tr>
+                                    <td>{{ loop.index }} </td>
+                                    {% if i.getCreatedAt() %}
+                                        <td> {{ i.getCreatedAt().format('d.m.Y') }}</td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="{{ path('app_download_file_by_route',
+                                            {'route': 'readiness_map_archive_directory', 'file': i.getFile}) }}">
+                                            <button class="btn btn-primary col-lg-12">
+                                                <i class="fa fa-download">
+                                                    Скачать
+                                                </i>
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+
+{% endblock %}
