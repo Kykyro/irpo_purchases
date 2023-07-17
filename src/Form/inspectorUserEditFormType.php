@@ -236,7 +236,7 @@ class inspectorUserEditFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'type' => 'number',
-                    'step' => '.01',
+                    'step' => '.001',
                     'min' => '0',
                     'max' => '99999999999'
                 ],
@@ -248,7 +248,7 @@ class inspectorUserEditFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'type' => 'number',
-                    'step' => '.01',
+                    'step' => '.001',
                     'min' => '0',
                     'max' => '99999999999'
                 ],
@@ -260,7 +260,7 @@ class inspectorUserEditFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'type' => 'number',
-                    'step' => '.01',
+                    'step' => '.001',
                     'min' => '0',
                     'max' => '99999999999'
                 ],

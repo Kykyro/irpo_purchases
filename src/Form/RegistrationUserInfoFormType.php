@@ -219,7 +219,7 @@ class RegistrationUserInfoFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'type' => 'number',
-                    'step' => '.01',
+                    'step' => '.001',
                     'min' => '0',
                     'max' => '99999999999'
                 ],
@@ -231,7 +231,7 @@ class RegistrationUserInfoFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'type' => 'number',
-                    'step' => '.01',
+                    'step' => '.001',
                     'min' => '0',
                     'max' => '99999999999'
                 ],
@@ -243,13 +243,13 @@ class RegistrationUserInfoFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'type' => 'number',
-                    'step' => '.01',
+                    'step' => '.001',
                     'min' => '0',
                     'max' => '99999999999'
                 ],
 
                 'required'   => true,
-                'label' => 'Объём финансирования из средств  субъекта РФ'
+                'label' => 'Объём финансирования из средств субъекта РФ'
             ])
         ;
     }
