@@ -332,7 +332,7 @@ class ReadinessMapXlsxService extends AbstractController
 
             ];
             $sheet->fromArray($user_info_arr, "0", 'B'.$row);
-            $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N'];
+            $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'K'];
             foreach ($proc_cell as $cell)
             {
                 $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
@@ -381,7 +381,7 @@ class ReadinessMapXlsxService extends AbstractController
             $result = $fact / $total;
 
             if($result > 0)
-                return round($result, 2);
+                return $result;
             else
                 return "0%";
         }
