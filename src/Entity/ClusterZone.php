@@ -225,9 +225,12 @@ class ClusterZone
             ];
             foreach ($this->getZoneInfrastructureSheets() as $infractSheet)
             {
+                if(str_contains(mb_strtolower($infractSheet->getType(),'UTF-8'),'оборудование'))
+                {
                 $arr['total'] += $infractSheet->getTotalNumber();
                 $arr['fact'] += $infractSheet->getFactNumber();
                 $arr['putInOperation'] += $infractSheet->getPutIntoOperation();
+                }
             }
 
             return $arr;
