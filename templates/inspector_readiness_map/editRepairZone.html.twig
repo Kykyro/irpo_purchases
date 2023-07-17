@@ -1,0 +1,120 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+
+    <div class="row mt-3">
+        <div class="col-lg-6 offset-lg-3 договоmb-2">
+            <a href="{{ path('app_inspector_view_zone', {'id': zone.getId()}) }}">
+                <button class="btn btn-success mb-3" type="button">
+                    <i class="fa fa-arrow-left">
+                        Назад
+                    </i>
+                </button>
+            </a>
+            <div class="ibox border-bottom">
+
+                    <div class="ibox-title">
+                        <h5>
+                            Изменение состояния ремонта. Зона - {{ zone.getName() }}
+                        </h5>
+                    </div>
+
+                {{ form_start(form) }}
+                <div class="ibox-content" style="display: block;">
+
+                    <div class="form-group">
+                        {{ form_widget(form.notPlanned) }}
+                        <label>Ремон не запланирован</label>
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.Dismantling, {'type': 'number'}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.plasteringAndCommunication, {'type': 'number'}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.finishing, {'type': 'number'}) }}
+                    </div>
+                    <div class="form-group" {% if zone.getType().getName() == 'Иное' %}  style="display: none" {% endif %}>
+                        {{ form_row(form.branding, {'type': 'number'}) }}
+                    </div>
+                    <div class="form-group">
+                        <label>Дата окончания</label>
+                        <br>
+                        {{ form_widget(form.endDate) }}
+
+                    </div>
+                    <div class="form-group " style="display: none">
+                        <label>Фотографии</label>
+                        <br>
+                        {{ form_widget(form.images, {'disabled':true}) }}
+
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.comment) }}
+                    </div>
+
+                </div>
+                <div class="ibox-footer ">
+                    <div class="row ml-2">
+                        {{ form_row(form.submit) }}
+                        <a href="{{ path('app_inspector_view_zone', {'id': zone.getId()}) }}">
+                            <button class="btn btn-outline-danger ml-3" type="button">
+                                <i class="fa fa-close">
+                                    Отмена
+                                </i>
+                            </button>
+                        </a>
+                    </div>
+
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+           let notPlanned = $('#edit_zone_repair_form_notPlanned');
+           let dismalting = $('#edit_zone_repair_form_Dismantling');
+           let plasteringAndCommunication = $('#edit_zone_repair_form_plasteringAndCommunication');
+           let finishing = $('#edit_zone_repair_form_finishing');
+
+            function setDisabled(value, ...args) {
+                for (i = 0; i < args.length; i++){
+                    args[i].prop('disabled',value);
+                    if(value){
+                        args[i].val("");
+                    }
+                }
+            }
+
+           function notPlannedChage() {
+               if(notPlanned.is(':checked'))
+               {
+                   dismalting.val(100);
+                   plasteringAndCommunication.val(100);
+                   finishing.val(100);
+
+                   setDisabled(true, dismalting, plasteringAndCommunication, finishing);
+               }
+                else{
+                   setDisabled(false, dismalting, plasteringAndCommunication, finishing);
+               }
+
+
+           }
+
+           notPlanned.change(notPlannedChage);
+
+           notPlannedChage();
+        });
+    </script>
+{% endblock %}

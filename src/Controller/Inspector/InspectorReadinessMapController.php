@@ -13,6 +13,7 @@ use App\Entity\User;
 use App\Entity\ZoneInfrastructureSheet;
 use App\Form\addAddressesForm;
 use App\Form\addZoneForm;
+use App\Form\editZoneRepairForm;
 use App\Form\infrastructureSheetZoneForm;
 use App\Services\certificateReadinessMap;
 use App\Services\FileService;
@@ -573,6 +574,32 @@ class InspectorReadinessMapController extends AbstractController
             'controller_name' => 'InspectorReadinessMapController',
             '_photos' => $arr,
             'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route("/readiness-map/edit-repair-zone/{id}", name="app_inspector_edit_repair_zone")
+     */
+    public function editRepairZone(Request $request, int $id, FileService $fileService): Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
+
+
+        $repair = $zone->getZoneRepair();
+        $form = $this->createForm(editZoneRepairForm::class, $repair);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entity_manager->persist($repair);
+            $entity_manager->flush();
+
+            return $this->redirectToRoute('app_inspector_view_zone', ['id'=>$zone->getId()]);
+        }
+
+        return $this->render('inspector_readiness_map/editRepairZone.html.twig', [
+            'zone' => $zone,
+            'form' => $form->createView()
         ]);
     }
 }
