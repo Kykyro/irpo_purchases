@@ -51,6 +51,7 @@ class XlsxEmployersService extends AbstractController
             'Описание',
             'Категории',
             'Кластер',
+            'год'
         ];
         /** @var Spreadsheet $spreadsheet */
         $spreadsheet = new Spreadsheet();
@@ -66,7 +67,7 @@ class XlsxEmployersService extends AbstractController
             $sheet->fromArray($row, null, 'A'.$row_index);
         }
         $index = $sheet->getHighestRow()+1;
-        $rangeTotal = 'A1:D'.$index;
+        $rangeTotal = 'A1:E'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getColumnDimension('A')->setWidth(50);
