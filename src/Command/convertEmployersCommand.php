@@ -42,7 +42,7 @@ class convertEmployersCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Конвертировать работадателей')
+            ->setDescription('Конвертировать работодателей')
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Dry run')
         ;
     }

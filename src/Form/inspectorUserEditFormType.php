@@ -289,7 +289,7 @@ class inspectorUserEditFormType extends AbstractType
                     'class' => 'form-control m-b  select2',
                 ],
                 'required' => false,
-                'label' => 'Список работадателей '
+                'label' => 'Список работодателей '
 
             ))
         ;
