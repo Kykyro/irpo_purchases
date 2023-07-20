@@ -45,6 +45,7 @@ class AdminEmployersController extends AbstractController
     /**
      *
      * @Route("/analyst/employers", name="app_analyst_employers")
+     *
      */
     public function employers(Request $request, EntityManagerInterface $em,  PaginatorInterface $paginator)
     {

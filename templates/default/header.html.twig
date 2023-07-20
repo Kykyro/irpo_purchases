@@ -211,9 +211,13 @@
                     <li > {# class="active" #}
                         <a href="{{ path("app_inspector_rm_history") }}"><i class="fa fa-map-o left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Сохраненные карты готовности</span></a>
                     </li>
+                    <li>
+                        <a href="{{ path("app_analyst_employers") }}"><i class="fa fa-star-half-empty left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Список работадателей</span></a>
+                    </li>
                     <li > {# class="active" #}
                         <a href="{{ path("app_feedback") }}"><i class="fa fa-at left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Обратная связь <span class="label float-right mt-1" id="feedback-count"></span></span></a>
                     </li>
+
                 {% endif %}
                 {% if is_granted('ROLE_USER') %}
                     <li>

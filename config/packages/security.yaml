@@ -57,6 +57,7 @@ security:
          - { path: ^/region, roles: [ROLE_REGION, ROLE_SMALL_CLUSTERS] }
          - { path: ^/journalist, roles: ROLE_JOURNALIST }
          - { path: ^/inspector, roles: [ROLE_INSPECTOR, ROLE_SPECTATOR, ROLE_SMALL_CURATOR] }
+         - { path: ^/analyst, roles: [ROLE_INSPECTOR, ROLE_ANALYTIC, ROLE_SMALL_CURATOR] }
          - { path: ^/download, roles: ROLE_INSPECTOR }
          - { path: ^/download, roles: ROLE_REGION }
 
