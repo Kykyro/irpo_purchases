@@ -80,24 +80,25 @@ class InspectorReadinessMapController extends AbstractController
 
 
         $adresses = $user->getClusterAddresses();
+        $procentage = [
+            'F' => 0,
+            'G' => 0,
+            'H' => 0,
+            'I' => 0,
+            'furniture' => 0,
+            'furniture_fact' => 0,
+            'PO' => 0,
+            'PO_fact' => 0,
+            'equipment' => 0,
+            'equipment_fact' => 0,
+            'furniture_put' => 0,
+            'equipment_put' => 0,
+            'PO_put' => 0,
+        ];
         foreach ($adresses as $adress) {
 
             $zones = $adress->getClusterZones();
-            $procentage = [
-                'F' => 0,
-                'G' => 0,
-                'H' => 0,
-                'I' => 0,
-                'furniture' => 0,
-                'furniture_fact' => 0,
-                'PO' => 0,
-                'PO_fact' => 0,
-                'equipment' => 0,
-                'equipment_fact' => 0,
-                'furniture_put' => 0,
-                'equipment_put' => 0,
-                'PO_put' => 0,
-            ];
+
             foreach ($zones as $zone) {
                 if($zone->getType()->getName() == "Зона по видам работ")
                 {
