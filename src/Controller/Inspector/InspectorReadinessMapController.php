@@ -123,7 +123,7 @@ class InspectorReadinessMapController extends AbstractController
             $count++;
         if($procentage['PO'] > 0)
             $count++;
-        if($procentage['equipment'])
+        if($procentage['equipment'] > 0)
             $count++;
         $proc = [
             'total' =>   $procentage['furniture']+$procentage['PO']+$procentage['equipment'],
