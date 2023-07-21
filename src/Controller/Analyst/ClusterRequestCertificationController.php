@@ -27,6 +27,9 @@ class ClusterRequestCertificationController extends AbstractController
         if(!is_null($file)){
             $requests = $certificateService->parse($file->getFile());
         }
+        else{
+            $request = null;
+        }
 
         if($uploadForm->isSubmitted() and $uploadForm->isValid())
         {
@@ -35,6 +38,7 @@ class ClusterRequestCertificationController extends AbstractController
             {
                 $file = new ClustersRequestCertification();
             }
+
             if($_file)
             {
                 $file->setFile($fileService->UploadFile($_file, 'cluster_request_table_directory'));
