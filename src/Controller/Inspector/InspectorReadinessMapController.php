@@ -163,13 +163,13 @@ class InspectorReadinessMapController extends AbstractController
             if($form->get('download')->isClicked() and count($photos) > 0)
                 return $this->downloadPhotos($photos, $user->getUserInfo()->getCluster());
         }
-
+//        dd($proc);
         return $this->render('inspector_readiness_map/index.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
             'user' => $user,
             '_photos' => $photos,
             'form' => $form->createView(),
-//            'proc' => $proc,
+            'proc' => $proc,
             'mtb_fact' => round((($proc['furniture']+$proc['PO']+$proc['equipment'])/$count)*100, 2),
 //            'mtb_put' => round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2),
         ]);
