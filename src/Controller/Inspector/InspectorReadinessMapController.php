@@ -79,61 +79,61 @@ class InspectorReadinessMapController extends AbstractController
             ->getForm();
 
 
-//        $adresses = $user->getClusterAddresses();
-//        foreach ($adresses as $adress) {
-//
-//            $zones = $adress->getClusterZones();
-//            $procentage = [
-//                'F' => 0,
-//                'G' => 0,
-//                'H' => 0,
-//                'I' => 0,
-//                'furniture' => 0,
-//                'furniture_fact' => 0,
-//                'PO' => 0,
-//                'PO_fact' => 0,
-//                'equipment' => 0,
-//                'equipment_fact' => 0,
-//                'furniture_put' => 0,
-//                'equipment_put' => 0,
-//                'PO_put' => 0,
-//            ];
-//            foreach ($zones as $zone) {
-//                if($zone->getType()->getName() == "Зона по видам работ")
-//                {
-//                    $arr = $zone->getCountOfEquipmentByType();
-//
-//                    $procentage['furniture'] += $arr['furniture'];
-//                    $procentage['furniture_fact'] += $arr['furniture_fact'];
-//                    $procentage['PO'] += $arr['PO'];
-//                    $procentage['PO_fact'] += $arr['PO_fact'];
-//                    $procentage['equipment'] += $arr['equipment'];
-//                    $procentage['equipment_fact'] += $arr['equipment_fact'];
-//                    $procentage['furniture_put'] += $arr['furniture_put'];
-//                    $procentage['equipment_put'] += $arr['equipment_put'];
-//                    $procentage['PO_put'] += $arr['PO_put'];
-//                }
-//
-//
-//            }
-//
-//        }
-//        $count = 0;
-//        if($procentage['furniture'] > 0)
-//            $count++;
-//        if($procentage['PO'] > 0)
-//            $count++;
-//        if($procentage['equipment'])
-//            $count++;
-//        $proc = [
-//            'total' =>   $procentage['furniture']+$procentage['PO']+$procentage['equipment'],
-//            'furniture' => $this->midleProc($procentage['furniture'], $procentage['furniture_fact']),
-//            'PO' => $this->midleProc($procentage['PO'], $procentage['PO_fact']),
-//            'equipment' => $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
-//            'fact' => $procentage['furniture_fact']+$procentage['PO_fact']+$procentage['equipment_fact'],
-//            'put' => $procentage['furniture_put']+$procentage['PO_put']+$procentage['equipment_put'],
-//
-//        ];
+        $adresses = $user->getClusterAddresses();
+        foreach ($adresses as $adress) {
+
+            $zones = $adress->getClusterZones();
+            $procentage = [
+                'F' => 0,
+                'G' => 0,
+                'H' => 0,
+                'I' => 0,
+                'furniture' => 0,
+                'furniture_fact' => 0,
+                'PO' => 0,
+                'PO_fact' => 0,
+                'equipment' => 0,
+                'equipment_fact' => 0,
+                'furniture_put' => 0,
+                'equipment_put' => 0,
+                'PO_put' => 0,
+            ];
+            foreach ($zones as $zone) {
+                if($zone->getType()->getName() == "Зона по видам работ")
+                {
+                    $arr = $zone->getCountOfEquipmentByType();
+
+                    $procentage['furniture'] += $arr['furniture'];
+                    $procentage['furniture_fact'] += $arr['furniture_fact'];
+                    $procentage['PO'] += $arr['PO'];
+                    $procentage['PO_fact'] += $arr['PO_fact'];
+                    $procentage['equipment'] += $arr['equipment'];
+                    $procentage['equipment_fact'] += $arr['equipment_fact'];
+                    $procentage['furniture_put'] += $arr['furniture_put'];
+                    $procentage['equipment_put'] += $arr['equipment_put'];
+                    $procentage['PO_put'] += $arr['PO_put'];
+                }
+
+
+            }
+
+        }
+        $count = 0;
+        if($procentage['furniture'] > 0)
+            $count++;
+        if($procentage['PO'] > 0)
+            $count++;
+        if($procentage['equipment'])
+            $count++;
+        $proc = [
+            'total' =>   $procentage['furniture']+$procentage['PO']+$procentage['equipment'],
+            'furniture' => $this->midleProc($procentage['furniture'], $procentage['furniture_fact']),
+            'PO' => $this->midleProc($procentage['PO'], $procentage['PO_fact']),
+            'equipment' => $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
+            'fact' => $procentage['furniture_fact']+$procentage['PO_fact']+$procentage['equipment_fact'],
+            'put' => $procentage['furniture_put']+$procentage['PO_put']+$procentage['equipment_put'],
+
+        ];
 
 
 
@@ -170,7 +170,7 @@ class InspectorReadinessMapController extends AbstractController
             '_photos' => $photos,
             'form' => $form->createView(),
 //            'proc' => $proc,
-//            'mtb_fact' => round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2),
+            'mtb_fact' => round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2),
 //            'mtb_put' => round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2),
         ]);
     }
@@ -187,7 +187,7 @@ class InspectorReadinessMapController extends AbstractController
         }
         else
         {
-            return "-";
+            return 0;
         }
     }
 
