@@ -24,7 +24,7 @@ class ClusterRequestCertificationController extends AbstractController
         $uploadForm = $this->createForm(clustersRequestsFileForm::class);
         $uploadForm->handleRequest($request);
 
-        if($file){
+        if(!is_null($file)){
             $requests = $certificateService->parse($file->getFile());
         }
 
