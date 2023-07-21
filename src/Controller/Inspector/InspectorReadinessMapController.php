@@ -170,7 +170,7 @@ class InspectorReadinessMapController extends AbstractController
             '_photos' => $photos,
             'form' => $form->createView(),
 //            'proc' => $proc,
-            'mtb_fact' => round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2),
+            'mtb_fact' => (round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2))*100,
 //            'mtb_put' => round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2),
         ]);
     }
