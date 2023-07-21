@@ -33,6 +33,8 @@ parameters:
     readiness_map_saves_directory: '%kernel.project_dir%/public/uploads/readinessMapSaves'
     zones_design_project_directory: '%kernel.project_dir%/public/uploads/zonesDesignProject'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
+    cluster_request_table_directory: '%kernel.project_dir%/public/uploads/clusterRequestTable'
+    cluster_request_certificate: '%kernel.project_dir%/public/word/справка по заявкам.docx'
 
 
 services:

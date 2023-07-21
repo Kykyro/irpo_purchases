@@ -1,0 +1,458 @@
+{% extends 'default/base.html.twig' %}
+
+{% block styles %}
+    {#<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />#}
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+    <style>
+        .select2-container {
+            min-width: 400px;
+            /*min-height: 500px;*/
+        }
+
+        .select2-results__option {
+            padding-right: 20px;
+            vertical-align: middle;
+            /*min-height: 100px;*/
+        }
+        #make_certificate_form_UGPS {
+            /*padding-right: 20px;*/
+            /*vertical-align: middle;*/
+            max-height: 750px;
+        }
+        .select2-results__option:before {
+            content: "";
+            display: inline-block;
+            position: relative;
+            height: 20px;
+            width: 20px;
+            border: 2px solid #e9e9e9;
+            border-radius: 4px;
+            background-color: #fff;
+            margin-right: 20px;
+            vertical-align: middle;
+
+
+        }
+
+
+        .select2-results__option[aria-selected=true]:before {
+            content: "\f00c";
+            color: #fff;
+            background-color: #f77750;
+            border: 0;
+            display: inline-block;
+            padding-left: 3px;
+        }
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: #fff;
+        }
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: #eaeaeb;
+            color: #272727;
+        }
+        .select2-container--default .select2-selection--multiple {
+            margin-bottom: 10px;
+        }
+        .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
+            border-radius: 4px;
+        }
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #f77750;
+            border-width: 2px;
+        }
+        .select2-container--default .select2-selection--multiple {
+            border-width: 2px;
+        }
+        .select2-container--open .select2-dropdown--below {
+
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            /*min-height: 500px;*/
+        }
+
+
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Файл
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    {{ form_start(uploadForm) }}
+
+                    {{ form_end(uploadForm) }}
+                </div>
+                <div class="ibox-footer">
+                    {% if file %}
+                    <a href="{{ path('app_download_file_by_route', {'file': file.getFile(), 'route': 'cluster_request_table_directory'}) }}">
+                        <button class="btn btn-success">
+                            <i class="fa fa-download"></i>
+                            Скачать файл
+                        </button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if file %}
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>
+                            Справка
+                        </h5>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label>Год</label>
+                                <select id="year-input" class="form-control m-b select2" multiple="multiple">
+
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Отрасль</label>
+                                <select id="industry-input" class="form-control m-b select2" multiple="multiple">
+                                    {#<option></option>#}
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Регион</label>
+                                <select id="region-input" class="form-control m-b select2" multiple="multiple">
+                                    {#<option></option>#}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label>Итог</label>
+                                <select id="status-input" class="form-control m-b select2" multiple="multiple">
+
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Кластер</label>
+                                <select id="cluster-input" class="form-control m-b select2" multiple="multiple">
+                                    {#<option></option>#}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-12">
+                                <button id="filter-btn" type="button" class="btn" type="button">
+                                    <i class="fa fa-check">
+                                        Отфильтровать
+                                    </i>
+                                </button>
+                                <button id="cancel-filter-btn" type="button" class="btn"  type="button">
+                                    <i class="fa fa-close">
+                                        Сбросить фильтр
+                                    </i>
+                                </button>
+                                <button id="choose-all-btn" type="button" class="btn btn-primary"  type="button">
+                                    <i class="fa fa-check-circle">
+                                        Выбрать все
+                                    </i>
+                                </button>
+                                <button id="choose-null-btn" type="button" class="btn btn-warning"  type="button">
+                                    <i class="fa fa-box">
+                                        Снять выделение
+                                    </i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row mt-3">
+                            <form action="{{ url('app_cluster_request_certification_download', {'filename': file.getFile()}) }}" method="post">
+
+                            <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td class="col-md-1"></td>
+                                            <td class="col-md-1">Кластер</td>
+                                            <td class="col-md-1">Год участия</td>
+                                            <td class="col-md-1">Субъект РФ</td>
+                                            <td class="col-md-1">Отрасль</td>
+                                            <td class="col-md-2">Грантополучатель</td>
+                                            <td class="col-md-2">Название базы ПОО</td>
+                                            <td class="col-md-1">Итог</td>
+                                            <td class="col-md-3">Причина отклонения</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="clusters">
+                                    {% set index = 0 %}
+                                    {% for i in requests %}
+                                        <tr class="request-row"
+
+                                        >
+                                            <td>
+                                                <input type="checkbox" name="cluster[]" value="{{ index }}"
+                                                       data-id="{{ index }}"
+                                                       data-cluster="{{ i[0] }}"
+                                                       data-year="{{ i[1] }}"
+                                                       data-region="{{ i[2] }}"
+                                                       data-industry="{{ i[3] }}"
+                                                       data-status="{{ i[6] }}"
+                                                >
+                                            </td>
+                                            <td>{{ i[0] }}</td>
+                                            <td>{{ i[1] }}</td>
+                                            <td>{{ i[2] }}</td>
+                                            <td>{{ i[3] }}</td>
+                                            <td>{{ i[4] }}</td>
+                                            <td>{{ i[5] }}</td>
+                                            <td>{{ i[6] }}</td>
+                                            <td>{{ i[7] }}</td>
+                                        </tr>
+                                        {% set index = index+1 %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <button  type="submit" class="btn btn-success">
+                                    <i class="fa fa-download"></i>
+                                    Скачать справку
+                                </button>
+                            <input type="hidden" name="token" value="{{ csrf_token('request-download') }}"/>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
+    {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>#}
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>#}
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+
+        <script>
+            $(document).ready(function(){
+                $.fn.filterAttribute = function(attr, values, reverse) {
+                    var remaining = [];
+                    this.each(function(index, el) {
+                        for (var i = 0; i < values.length; i++) {
+
+                            if (el.getAttribute(attr) == values[i]) {
+                                remaining.push(el);
+                                break;
+                            }
+                        }
+                    });
+                    if (reverse) {
+                        return(this.not(remaining));
+                    } else {
+                        return($(remaining));
+                    }
+                };
+                $.fn.filterAttributeByJson = function(attr, values, reverse) {
+                    var remaining = [];
+                    this.each(function(index, el) {
+                        for (var i = 0; i < values.length; i++) {
+                            if (JSON.stringify(el.getAttribute(attr)).includes(values[i])) {
+                                remaining.push(el);
+                                break;
+                            }
+                        }
+                    });
+                    if (reverse) {
+                        return(this.not(remaining));
+                    } else {
+                        return($(remaining));
+                    }
+                };
+
+
+                let yearInput = $('#year-input');
+                let industryInput = $('#industry-input');
+                let regionInput = $('#region-input');
+                let statusInput = $('#status-input');
+                let clusterInput = $('#cluster-input');
+
+                let filterBtn = $('#filter-btn');
+                let cancelFilterBtn = $('#cancel-filter-btn');
+                let chooseAllBtn = $('#choose-all-btn');
+                let chooseNullBtn = $('#choose-null-btn');
+
+                function filter(event) {
+                    cancelFilter();
+                    console.log('Отфильтровано');
+                    if(yearInput.val().length > 0){
+                        console.log('Год: ', yearInput.val());
+
+                        let value = yearInput.val();
+                        let filtered_year = $('#clusters input[data-year]').filterAttribute("data-year", value, true);;
+                        filtered_year.closest('tr').hide();
+                    }
+                    if(industryInput.val().length > 0){
+                        console.log('Отрасль: ', industryInput.val());
+                        let value = industryInput.val();
+                        // let _industry = "data-industry!='" + industryInput.val() +"'";
+                        let filtered_industry = $('#clusters input[data-industry]').filterAttribute("data-industry", value, true);
+                        filtered_industry.closest('tr').hide();
+                    }
+                    if(regionInput.val().length > 0){
+                        console.log('Регион: ', regionInput.val());
+
+                        let value = regionInput.val();
+                        let filtered_region = $('#clusters input[data-region]').filterAttribute("data-region", value, true);
+                        filtered_region.closest('tr').hide();
+                    }
+                    if(statusInput.val().length > 0){
+                        console.log('Итог: ', statusInput.val());
+
+                        let value = statusInput.val();
+                        let filtered_region = $('#clusters input[data-status]').filterAttribute("data-status", value, true);
+                        filtered_region.closest('tr').hide();
+                    }
+                    if(clusterInput.val().length > 0){
+                        console.log('Кластер: ', clusterInput.val());
+
+                        let value = clusterInput.val();
+                        let filtered_region = $('#clusters input[data-cluster]').filterAttribute("data-cluster", value, true);
+                        filtered_region.closest('tr').hide();
+                    }
+
+
+
+                    event.preventDefault();
+                }
+                function cancelFilter() {
+                    console.log('фильтр сброшен');
+                    $('tr').show();
+                    // let filtered_year = $('#clusters input[data-year]')
+                    // clearInput();
+
+                }
+                function clearInput() {
+                    $('#clusters input').prop('checked',false);
+                }
+                function chooseAll() {
+                    $('#clusters tr:visible input').prop('checked',true);
+                }
+                function clickOnCard(card) {
+
+                }
+                function onLoad() {
+                    let data = $('#clusters input');
+                    let _industry = [];
+                    let _region = [];
+                    let _year = [];
+                    let _cluster = [];
+                    let _status = [];
+
+                    data.each(function( index ) {
+                        _industry.push( $( this ).data("industry"));
+                        _region.push( $( this ).data("region"));
+                        _year.push( $( this ).data("year"));
+                        _cluster.push( $( this ).data("cluster"));
+                        _status.push( $( this ).data("status"));
+                    });
+
+                    let uniq_industry = [...new Set(_industry)];
+                    uniq_industry.forEach((element) => {
+                        industryInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+
+
+                    let uniq_region = [...new Set(_region.sort())];
+                    uniq_region.forEach((element) => {
+                        regionInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    let uniq_year = [...new Set(_year.sort())];
+                    uniq_year.forEach((element) => {
+                        yearInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+                    let uniq_cluster = [...new Set(_cluster.sort())];
+                    uniq_cluster.forEach((element) => {
+                        clusterInput
+                            .append('<option>'+element+'</option>');
+                    });
+
+
+                    let uniq_status = [...new Set(_status.sort())];
+                    uniq_status.forEach((element) => {
+                        statusInput
+                            .append('<option>'+element+'</option>');
+                    });
+                }
+
+
+
+                filterBtn.click((e) => {
+                    filter(e);
+                });
+                cancelFilterBtn.click((e) => {
+                    cancelFilter();
+                });
+                chooseAllBtn.click((e) => {
+                    chooseAll();
+                });
+                chooseNullBtn.click((e) => {
+                    clearInput();
+                });
+                $('form[name="make_certificate_form"]').submit(function(e) {
+                    e.preventDefault(); // don't submit multiple times
+                    this.submit(); // use the native submit method of the form element
+                    clearInput();
+                });
+                $('#clusters .form-control').click(function() {  //use a class, since your ID gets mangled
+
+                    if($(this).find('input').is(':checked'))
+                    {
+                        // $(this).removeClass("panel-primary");      //add the class to the clicked element
+                        $(this).find('input').prop('checked',false);
+                    }
+                    else{
+                        // $(this).addClass("panel-primary");      //add the class to the clicked element
+                        $(this).find('input').prop('checked',true);
+                    }
+                });
+                $('#clusters input').click(function() {  //use a class, since your ID gets mangled
+
+                    if($(this).is(':checked'))
+                    {
+                        // $(this).removeClass("panel-primary");      //add the class to the clicked element
+                        $(this).prop('checked',false);
+                    }
+                    else{
+                        // $(this).addClass("panel-primary");      //add the class to the clicked element
+                        $(this).prop('checked',true);
+                    }
+                });
+
+                // submitBtn.click((e)=>{
+                //     clearInput();
+                // });
+                $('.select2').select2({
+                    closeOnSelect : false,
+                    placeholder : "...",
+                    allowHtml: true,
+                    allowClear: true
+                });
+                onLoad();
+
+            });
+        </script>
+{% endblock %}
