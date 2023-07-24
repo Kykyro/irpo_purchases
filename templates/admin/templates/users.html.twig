@@ -1,51 +1,69 @@
 
-{% extends "admin/base.html.twig" %}
+{% extends "default/base.html.twig" %}
 
 {% block content %}
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center mt-3">
     <div class="col-sm-10">
     <div class="row">
         <div class="col-sm-12">
 
             <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Пользователи</h5>
+                </div>
                 <div class="ibox-content">
                     {# <span class="text-muted small float-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014</span> #}
-                    <h2>Пользователи</h2>
-                    
-                    <div class="input-group">
-                         {{ form_start(form) }}
-                            <label> Имя пользователя </label>
-                            {{ form_widget(form.search) }}
 
-                            {{ form_widget(form.submit) }}
-                        {{ form_end(form) }}
+                    <div class="row">
+                        <div class="col-lg-6 border-right">
+                            {{ form_start(form) }}
+                            <div class="col-sm-12">
+                                <label> Имя пользователя </label>
+                                {{ form_widget(form.search) }}
+                            </div>
+                            <div class="col-sm-12">
+                                <label> Роль </label><br>
+                                {{ form_widget(form.roles) }}
+                            </div>
+                            <hr>
+                            <div class="col-sm-12">
+                                {{ form_widget(form.submit) }}
+                            </div>
+
+                            {{ form_end(form) }}
+                        </div>
+                        <div class="col-lg-6">
+                            <div>
+                                <a href="{{ path('app_admin_user_add') }}">
+                                    <button class="btn btn-success col-lg-12">
+                                        <div class="fa fa-plug"></div>
+                                        Добавить пользователя
+                                    </button>
+                                </a>
+                            </div>
+                            <div>
+                                <a href="{{ path('app_admin_add_user_region') }}">
+                                    <button class="btn btn-success col-lg-12 mt-1">
+                                        <div class="fa fa-home"></div>
+                                        Добавить Кластер
+                                    </button>
+                                </a>
+                            </div>
+                            <div>
+                                <a href="{{ path('app_admin_add_user_roiv') }}">
+                                    <button class="btn btn-success col-lg-12 mt-1">
+                                        <div class="fa fa-leaf"></div>
+                                        Добавить РОИВ
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
+                    <hr>
+
                     <div class="clients-list">
-                        <div>
-                            <a href="{{ path('app_admin_user_add') }}">
-                                <button class="btn btn-success col-lg-4">
-                                    <div class="fa fa-plug"></div>
-                                    Добавить пользователя
-                                </button>
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{{ path('app_admin_add_user_region') }}">
-                                <button class="btn btn-success col-lg-4">
-                                    <div class="fa fa-home"></div>
-                                    Добавить Кластер
-                                </button>
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{{ path('app_admin_add_user_roiv') }}">
-                                <button class="btn btn-success col-lg-4">
-                                    <div class="fa fa-leaf"></div>
-                                    Добавить РОИВ
-                                </button>
-                            </a>
-                        </div>
+
                         {# <span class="float-right small text-muted">1406 Elements</span> #}
 
                         <div class="tab-content">

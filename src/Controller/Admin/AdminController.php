@@ -54,12 +54,63 @@ class AdminController extends AbstractController
         $data = [];
         $form = $this->createFormBuilder($data)
             ->add("search", TextType::class, [
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control m-b'],
                 'required'   => false,
                 'label' => 'Имя пользователя'
             ])
+            ->add(
+                'roles',
+                ChoiceType::class,
+                [
+                    'choices' =>
+                        array
+                        (
+                            'Админ' => array
+                            (
+                                'админ' => 'ROLE_ADMIN'
+                            ),
+                            'супер админ' => array
+                            (
+                                'супер админ' => 'ROLE_SUPERADMIN'
+                            ),
+                            'Пользователь' => array
+                            (
+                                'регион' => 'ROLE_REGION'
+                            ),
+                            'Куратор' => array
+                            (
+                                'Куратор' => 'ROLE_INSPECTOR'
+                            ),
+                            'наблюдатель' => array
+                            (
+                                'наблюдатель' => 'ROLE_SPECTATOR'
+                            ),
+                            'Маленький кластер' => array
+                            (
+                                'Маленький кластер' => 'ROLE_SMALL_CLUSTERS'
+                            ),
+                            'Куратор маленьких кластеров' => array
+                            (
+                                'Куратор маленьких кластеров' => 'ROLE_SMALL_CURATOR'
+                            ),
+                            'Аналитик' => array
+                            (
+                                'Аналитик' => 'ROLE_ANALYTIC'
+                            ),
+                            'РОИВ' => array
+                            (
+                                'РОИВ' => 'ROLE_ROIV'
+                            )
+                        )
+                    ,
+                    'required' => false,
+                    'expanded' => false,
+                    'label' => 'Роль',
+                    'attr' => ['class' => 'form-control'],
+                ]
+            )
             ->add("submit", SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary mt-3 mb-3'],
+                'attr' => ['class' => 'btn btn-primary mb-3 col-lg-12'],
                 'label' => 'Поиск'
             ])
             ->setMethod('GET')
@@ -67,21 +118,27 @@ class AdminController extends AbstractController
 
         $query = $em->getRepository(User::class)
             ->createQueryBuilder('u')
-            ->orderBy('u.id', 'DESC')
-            ->getQuery();
+
+            ;
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $form_data = $form->getData();
             $search = $form_data['search'];
+            $role = $form_data['roles'];
+//            dd($role);
             $query = $em->getRepository(User::class)
                 ->createQueryBuilder('u')
-                ->andWhere('u.uuid LIKE :search or u.roles LIKE :search')
-                ->setParameter('search', "%$search%");
-
-            $query = $query->orderBy('u.id', 'DESC')->getQuery();
+                ->andWhere('u.uuid LIKE :search or 
+                            u.roles LIKE :search')
+                ->andWhere('u.roles LIKE :roles')
+                ->setParameter('search', "%$search%")
+                ->setParameter('roles', "%$role%");
         }
 
+        $query = $query
+                ->orderBy('u.id', 'DESC')
+                ->getQuery();
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
