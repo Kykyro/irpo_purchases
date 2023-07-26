@@ -365,6 +365,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         $count = 0;
         $result = 0;
+        $arr_type = [
+          'Фасад' => 0,
+          'Входная группа' => 0,
+          'Холл (фойе)' => 0,
+          'Коридоры' => 0,
+          'Фасад_count' => 0,
+          'Входная группа_count' => 0,
+          'Холл (фойе)_count' => 0,
+          'Коридоры_count' => 0,
+        ];
         foreach ($this->clusterAddresses as $address)
         {
             $zones = $address->getClusterZones();
@@ -373,14 +383,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $zoneType = $zone->getType()->getName();
                 if($zoneType != 'Зона по видам работ' and $zoneType != "Иное")
                 {
-                    $count++;
-                    $result += $zone->getZoneRepair()->getTotalPercentage();
+                    if ($zoneType == 'Фасад')
+                    {
+                        $arr_type['Фасад'] += $zone->getZoneRepair()->getTotalPercentage();
+                        $arr_type['Фасад_count']++;
+                    }
+
+                    if ($zoneType == 'Входная группа')
+                    {
+                        $arr_type['Входная группа'] += $zone->getZoneRepair()->getTotalPercentage();
+                        $arr_type['Входная группа_count']++;
+                    }
+                    if ($zoneType == 'Холл (фойе)')
+                    {
+                        $arr_type['Холл (фойе)'] += $zone->getZoneRepair()->getTotalPercentage();
+                        $arr_type['Холл (фойе)_count']++;
+                    }
+                    if ($zoneType == 'Коридоры')
+                    {
+                        $arr_type['Коридоры'] += $zone->getZoneRepair()->getTotalPercentage();
+                        $arr_type['Коридоры_count']++;
+                    }
                 }
 
             }
 
         }
+        $result = 0;
+        if($arr_type['Фасад_count'] > 0)
+        {
+            $result += $arr_type['Фасад']/$arr_type['Фасад_count'];
+            $count++;
+        }
 
+        if($arr_type['Входная группа_count'] > 0)
+        {
+            $result += $arr_type['Входная группа']/$arr_type['Входная группа_count'];
+            $count++;
+        }
+        if($arr_type['Холл (фойе)_count'] > 0)
+        {
+            $result += $arr_type['Холл (фойе)']/$arr_type['Холл (фойе)_count'];
+            $count++;
+        }
+        if($arr_type['Коридоры_count'] > 0)
+        {
+            $result += $arr_type['Коридоры']/$arr_type['Коридоры_count'];
+            $count++;
+        }
         if($count > 0)
             return $result/$count;
         else
