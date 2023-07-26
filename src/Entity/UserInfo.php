@@ -169,6 +169,12 @@ class UserInfo
      */
     private $employers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ClusterPerfomanceIndicators::class, mappedBy="userInfo")
+     * @ORM\OrderBy({"year" = "ASC"})
+     */
+    private $clusterPerfomanceIndicators;
+
 
 
 
@@ -177,6 +183,7 @@ class UserInfo
         $this->setAccessToPurchases(false);
 //        $this->uGPS = new ArrayCollection();
 $this->employers = new ArrayCollection();
+$this->clusterPerfomanceIndicators = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -620,6 +627,36 @@ $this->employers = new ArrayCollection();
     public function removeEmployer(Employers $employer): self
     {
         $this->employers->removeElement($employer);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ClusterPerfomanceIndicators>
+     */
+    public function getClusterPerfomanceIndicators(): Collection
+    {
+        return $this->clusterPerfomanceIndicators;
+    }
+
+    public function addClusterPerfomanceIndicator(ClusterPerfomanceIndicators $clusterPerfomanceIndicator): self
+    {
+        if (!$this->clusterPerfomanceIndicators->contains($clusterPerfomanceIndicator)) {
+            $this->clusterPerfomanceIndicators[] = $clusterPerfomanceIndicator;
+            $clusterPerfomanceIndicator->setUserInfo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClusterPerfomanceIndicator(ClusterPerfomanceIndicators $clusterPerfomanceIndicator): self
+    {
+        if ($this->clusterPerfomanceIndicators->removeElement($clusterPerfomanceIndicator)) {
+            // set the owning side to null (unless already changed)
+            if ($clusterPerfomanceIndicator->getUserInfo() === $this) {
+                $clusterPerfomanceIndicator->setUserInfo(null);
+            }
+        }
 
         return $this;
     }

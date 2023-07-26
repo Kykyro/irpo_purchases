@@ -319,6 +319,18 @@
         </div>
     </div>
 </div>
+{% if is_granted('ROLE_REGION') or is_granted("ROLE_SMALL_CLUSTERS") %}
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 ">
+            <a href="{{ path('app_perfomance_indicators_edit', {'id': user_info.getId()}) }}">
+                <button class="btn btn-success col-lg-12">
+                    <i class="fa fa-edit"></i>
+                    Редактировать "Показатели результативности деятельности кластера"
+                </button>
+            </a>
+        </div>
+    </div>
+{% endif %}
 {% if 'ROLE_REGION' in user.getRoles() %}
 <div class="row animated fadeInRight">
     <div class="col-sm-10 offset-sm-1 ">
@@ -333,9 +345,26 @@
                     </div>
                     <div class="ibox-content">
                         <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td class="col-md-6">
+                                        Год
+                                    </td>
+                                    <td style="vertical-align: middle">
+                                        {{ user_info.getYear() }}
+                                    </td>
+                                    {% for i in user_info.getClusterPerfomanceIndicators() %}
+                                        <td style="vertical-align: middle">
+                                            {{ i.getYear() }}
+                                        </td>
+                                    {% endfor %}
+
+                                </tr>
+                            </thead>
                             <tbody>
+
                             <tr>
-                                <td class="col-md-6">
+                                <td>
                                     Количество обучающихся по образовательным программам среднего профессионального образования в рамках федерального проекта "Профессионалитет", разработанных в том числе с применением автоматизированных методов конструирования указанных образовательных программ
                                 </td>
                                 <td style="vertical-align: middle">
@@ -343,65 +372,105 @@
                                     {{ user_info.getStudentsCount() }}
 
                                 </td>
+                                {% for i in user_info.getClusterPerfomanceIndicators() %}
+                                    <td style="vertical-align: middle">
+                                        {{ i.getStudentCount() }}
+                                    </td>
+                                {% endfor %}
                             </tr>
                             <tr>
-                                <td class="col-md-6">
+                                <td>
                                     Количество реализуемых образовательных программ в интересах организации реального сектора экономики
                                 </td>
                                 <td style="vertical-align: middle">
                                     {{ user_info.getProgramCount() }}
                                 </td>
+                                {% for i in user_info.getClusterPerfomanceIndicators() %}
+                                    <td style="vertical-align: middle">
+                                        {{ i.getProgramCount() }}
+                                    </td>
+                                {% endfor %}
                             </tr>
                             <tr>
-                                <td class="col-md-6">
+                                <td>
                                     Количество педагогических работников, владеющих актуальными педагогическими, производственными (профильными), цифровыми навыками или навыками конструирования образовательных программ под запросы работодателей и экономики
                                 </td>
                                 <td style="vertical-align: middle">
                                     {{ user_info.getTeacherCount() }}
                                 </td>
+                                {% for i in user_info.getClusterPerfomanceIndicators() %}
+                                    <td style="vertical-align: middle">
+                                        {{ i.getTeacherCount() }}
+                                    </td>
+                                {% endfor %}
                             </tr>
                             <tr>
-                                <td class="col-md-6">
+                                <td>
                                     Количество работников организаций реального сектора экономики, владеющих актуальными педагогическими навыками, цифровыми навыками или навыками конструирования образовательных программ под запросы работодателей и экономики, включенных в образовательный процесс в качестве преподавателей и мастеров производственного обучения по совместительству
                                 </td>
                                 <td style="vertical-align: middle">
                                     {{ user_info.getWorkerCount() }}
                                 </td>
+                                {% for i in user_info.getClusterPerfomanceIndicators() %}
+                                    <td style="vertical-align: middle">
+                                        {{ i.getWorkerCount() }}
+                                    </td>
+                                {% endfor %}
                             </tr>
                             <tr>
-                                <td class="col-md-6">
+                                <td>
                                     Количество обучающихся по образовательным программам среднего профессионального образования в рамках федерального проекта "Профессионалитет", разработанных, в том числе, с применением автоматизированных методов конструирования указанных образовательных программ, прошедших практическую подготовку на базе образовательно- производственного центра с закреплением наставника, работающего в организации реального сектора экономики
                                 </td>
                                 <td style="vertical-align: middle">
                                     {{ user_info.getStudentsCountWithMentor() }}
                                 </td>
+                                {% for i in user_info.getClusterPerfomanceIndicators() %}
+                                    <td style="vertical-align: middle">
+                                        {{ i.getStudentCountWithMentor() }}
+                                    </td>
+                                {% endfor %}
                             </tr>
                             <tr>
-                                <td class="col-md-6">
+                                <td>
                                     Количество заключенных с гарантией трудоустройства выпускников договоров о целевом обучении по образовательным программам среднего профессионального образования в рамках федерального проекта "Профессионалитет", разработанных в том числе с применением автоматизированных методов конструирования указанных образовательных программ (единиц)
 
                                 </td>
                                 <td style="vertical-align: middle">
                                     {{ user_info.getJobSecurityCount() }}
                                 </td>
+                                {% for i in user_info.getClusterPerfomanceIndicators() %}
+                                    <td style="vertical-align: middle">
+                                        {{ i.getJobSecurityCount() }}
+                                    </td>
+                                {% endfor %}
                             </tr>
                             <tr>
-                                <td class="col-md-6">
+                                <td>
                                     Объем финансирования (включая расходы на оплату труда преподавателей и мастеров производственного обучения) образовательных организаций, являющихся участниками центра, обеспечиваемый их учредителями, который не может быть менее объемов финансирования образовательных организаций до создания центра <strong>тыс.руб.</strong>
 
                                 </td>
                                 <td style="vertical-align: middle" class="cell-number">
                                     {{ user_info.getAmountOfFunding() }} ₽
                                 </td>
+                                {% for i in user_info.getClusterPerfomanceIndicators() %}
+                                    <td style="vertical-align: middle">
+                                        {{ i.getAmountOfFunding() }}
+                                    </td>
+                                {% endfor %}
                             </tr>
                             <tr>
-                                <td class="col-md-6">
+                                <td>
                                     Объем внебюджетных средств (включая стоимость безвозмездно переданного образовательным организациям, являющимся участниками центра, имущества, необходимого для реализации основных профессиональных образовательных программ, основных программ профессионального обучения и дополнительных профессиональных программ), направляемых участниками центра из числа организаций, действующих в реальном секторе экономики, на развитие центра <strong>тыс.руб.</strong>
 
                                 </td>
                                 <td style="vertical-align: middle" class="cell-number">
                                     {{ user_info.getAmountOfExtraFunds() }} ₽
                                 </td>
+                                {% for i in user_info.getClusterPerfomanceIndicators() %}
+                                    <td style="vertical-align: middle">
+                                        {{ i.getAmountOfExtraFunds() }}
+                                    </td>
+                                {% endfor %}
                             </tr>
                             </tbody>
                         </table>
@@ -426,9 +495,21 @@
                         </div>
                         <div class="ibox-content">
                             <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td class="col-md-6">
+                                            Год
+                                        </td>
+                                        <td style="vertical-align: middle">
+
+                                            {{ user_info.getYear() }}
+
+                                        </td>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                 <tr>
-                                    <td class="col-md-6">
+                                    <td>
                                         Количество обучающихся по образовательным
                                         программам
                                         среднего
@@ -450,7 +531,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-6">
+                                    <td>
                                         Количество реализуемых образовательных программ
                                         образовательного кластера в интересах организаций,
                                         участвующих в реализации программы деятельности
@@ -461,7 +542,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-6">
+                                    <td>
                                         Количество
                                         педагогических
                                         работников
@@ -483,7 +564,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-6">
+                                    <td>
                                         Количество работников, участвующих в реализации
                                         программы
                                         деятельности
@@ -515,7 +596,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-6">
+                                    <td>
                                         Количество обучающихся по образовательным
                                         программам
                                         среднего
@@ -542,7 +623,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-6">
+                                    <td>
                                         Количество
                                         заключенных
                                         с
@@ -566,7 +647,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-6">
+                                    <td>
                                         Объем финансирования (включая расходы на оплату
                                         труда
                                         преподавателей
@@ -590,7 +671,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-6">
+                                    <td>
                                         Объем внебюджетных средств (включая стоимость
                                         безвозмездно
                                         переданного

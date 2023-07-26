@@ -1,0 +1,111 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+    {% import _self as formMacros %}
+    {% macro perfomanceIndicator(pi) %}
+        <div class="panel panel-success pt-3 pb-5 pl-2 pr-2">
+            <button class="btn btn-danger js-remove-sheets" type="button">
+                <i class="fa fa-trash">
+                    Удалить
+                </i>
+            </button>
+            {{ form_row(pi.year) }}
+            {{ form_row(pi.studentCount, {"type":"number"}) }}
+            {{ form_row(pi.programCount, {"type":"number"}) }}
+            {{ form_row(pi.teacherCount, {"type":"number"}) }}
+            {{ form_row(pi.workerCount, {"type":"number"}) }}
+            {{ form_row(pi.studentCountWithMentor, {"type":"number"}) }}
+            {{ form_row(pi.jobSecurityCount, {"type":"number"}) }}
+            {{ form_row(pi.amountOfFunding, {"type":"number"}) }}
+            {{ form_row(pi.amountOfExtraFunds, {"type":"number"}) }}
+
+        </div>
+    {% endmacro %}
+
+
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            {{ form_start(form) }}
+            <div class="clusterPerfomanceIndicators " id="clusterPerfomanceIndicators"
+                   data-index="{{ form.clusterPerfomanceIndicators|length > 0 ? form.clusterPerfomanceIndicators|last.vars.name + 1 : 0 }}"
+                   data-prototype='{{ formMacros.perfomanceIndicator(form.clusterPerfomanceIndicators.vars.prototype|e) }}'
+                   data-widget-tags="{{
+                   '<div></div>'|e
+                   }}"
+                   data-widget-counter="{{ form.clusterPerfomanceIndicators|length }}"
+            >
+
+                {% for pi in form.clusterPerfomanceIndicators %}
+
+                    <div class="">
+                        {{ formMacros.perfomanceIndicator(pi) }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+            <button
+                    class="btn btn-success add-another-collection-widget"
+                    type="button"
+                    data-list-selector="#clusterPerfomanceIndicators"
+                    data-list="#clusterPerfomanceIndicators"
+            >
+                <i class="fa fa-plus">
+                    Добавить
+                </i>
+            </button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/inspinia.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        let $wrapper = $('.clusterPerfomanceIndicators');
+        $wrapper.on('click', '.js-remove-sheets', function(e) {
+            e.preventDefault();
+            $(this).closest('.panel')
+                .fadeOut()
+                .remove();
+        });
+        function addRow()
+        {
+
+            let listSelector = $($(this).attr('data-list-selector'));
+            let list = $($(this).attr('data-list'));
+            let zoneType = $(this).attr('data-zone-type');
+
+            // Try to find the counter of the list or use the length of the list
+            let counter = listSelector.data('widget-counter');
+
+            // grab the prototype template
+            let newWidget = listSelector.attr('data-prototype');
+            // replace the "__name__" used in the id and name of the prototype
+            // with a number that's unique to your emails
+            // end name attribute looks like name="contact[emails][2]"
+            counter++;
+            newWidget = newWidget.replace(/__name__/g, counter);
+            // Increase the counter
+
+            // And store it, the length cannot be used if deleting widgets is allowed
+            listSelector.data('widget-counter', counter);
+
+            // create a new list element and add it to the list
+            let newElem = $(listSelector.attr('data-widget-tags')).html(
+
+                newWidget +
+                '</div>'
+            );
+
+            newElem.appendTo(list);
+            // $('#perfomance_indicator_edit_form_'+counter+'_zoneType').val(zoneType);
+        }
+
+        $('.add-another-collection-widget').click(addRow);
+
+
+    });
+</script>
+{% endblock %}
