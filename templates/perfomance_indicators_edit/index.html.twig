@@ -24,8 +24,9 @@
 
 
     <div class="row">
+        {{ form_start(form) }}
         <div class="col-lg-10 offset-lg-1">
-            {{ form_start(form) }}
+
             <div class="clusterPerfomanceIndicators " id="clusterPerfomanceIndicators"
                    data-index="{{ form.clusterPerfomanceIndicators|length > 0 ? form.clusterPerfomanceIndicators|last.vars.name + 1 : 0 }}"
                    data-prototype='{{ formMacros.perfomanceIndicator(form.clusterPerfomanceIndicators.vars.prototype|e) }}'
@@ -44,18 +45,26 @@
                 {% endfor %}
 
             </div>
-            <button
-                    class="btn btn-success add-another-collection-widget"
-                    type="button"
-                    data-list-selector="#clusterPerfomanceIndicators"
-                    data-list="#clusterPerfomanceIndicators"
-            >
-                <i class="fa fa-plus">
-                    Добавить
-                </i>
-            </button>
-            {{ form_end(form) }}
+            <div class="row">
+                <button
+                        class="btn btn-success add-another-collection-widget"
+                        type="button"
+                        data-list-selector="#clusterPerfomanceIndicators"
+                        data-list="#clusterPerfomanceIndicators"
+                >
+                    <i class="fa fa-plus">
+                        Добавить
+                    </i>
+                </button>
+                {{ form_widget(form.submit) }}
+            </div>
+
+
         </div>
+        {{ form_end(form) }}
+    </div>
+    <div class="row mt-5">
+
     </div>
 {% endblock %}
 {% block scripts %}
