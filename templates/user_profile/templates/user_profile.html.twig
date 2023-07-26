@@ -539,12 +539,20 @@
                                         (тыс. руб.)
                                     </b>
                                 </td>
-                                <td style="vertical-align: middle" class="cell-number">
-                                    {{ user_info.getAmountOfFunding() }} ₽
+                                <td style="vertical-align: middle" >
+                                    <j class="cell-number">{{ user_info.getAmountOfFunding() }} ₽</j>
+                                    <b>
+                                        (тыс. руб.)
+                                    </b>
+
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle">
-                                        {{ i.getAmountOfFunding() }}
+                                    <td style="vertical-align: middle" >
+                                        <j class="cell-number">{{ i.getAmountOfFunding() }}</j>
+                                        <b>
+                                            (тыс. руб.)
+                                        </b>
+
                                     </td>
                                 {% endfor %}
                             </tr>
@@ -555,12 +563,19 @@
                                         (тыс. руб.)
                                     </b>
                                 </td>
-                                <td style="vertical-align: middle" class="cell-number">
-                                    {{ user_info.getAmountOfExtraFunds() }} ₽
+                                <td style="vertical-align: middle" >
+                                    <j class="cell-number">{{ user_info.getAmountOfExtraFunds() }} ₽</j>
+                                    <b>
+                                        (тыс. руб.)
+                                    </b>
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle">
-                                        {{ i.getAmountOfExtraFunds() }}
+                                    <td style="vertical-align: middle" >
+                                        <j class="cell-number">{{ i.getAmountOfExtraFunds() }}</j>
+                                        <b>
+                                            (тыс. руб.)
+                                        </b>
+
                                     </td>
                                 {% endfor %}
                             </tr>
