@@ -319,7 +319,7 @@
         </div>
     </div>
 </div>
-{% if is_granted('ROLE_REGION') or is_granted("ROLE_SMALL_CLUSTERS") %}
+{% if is_granted('ROLE_INSPECTOR') or is_granted("ROLE_SMALL_CLUSTERS") %}
     <div class="row">
         <div class="col-sm-10 offset-sm-1 ">
             <a href="{{ path('app_perfomance_indicators_edit', {'id': user_info.getId()}) }}">
