@@ -68,11 +68,23 @@
         numberCells.each((elem) => {
             let _cell = $(numberCells[elem]);
             let _text = "";
-            console.log();
+
             if(isFloat(parseFloat(_cell.text())) || isInt(parseInt(_cell.text())))
                 _text = parseFloat(_cell.text()).toLocaleString('ru-RU') + " ₽";
 
             _cell.text(_text);
+
+        });
+        let numberCellsInd = $('.cell-number-ind');
+        numberCellsInd.each((elem) => {
+            let _cell = $(numberCellsInd[elem]);
+            let _text = "";
+
+            if(isFloat(parseFloat(_cell.text())) || isInt(parseInt(_cell.text())))
+                _text = parseFloat(_cell.text()).toLocaleString('ru-RU');
+
+            _cell.text(_text);
+
         });
     });
 </script>

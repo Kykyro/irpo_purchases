@@ -540,7 +540,7 @@
                                     </b>
                                 </td>
                                 <td style="vertical-align: middle" >
-                                    <j class="cell-number">{{ user_info.getAmountOfFunding() }} ₽</j>
+                                    <j class="cell-number-ind">{{ user_info.getAmountOfFunding() }} ₽</j>
                                     <b>
                                         (тыс. руб.)
                                     </b>
@@ -548,7 +548,7 @@
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
                                     <td style="vertical-align: middle" >
-                                        <j class="cell-number">{{ i.getAmountOfFunding() }}</j>
+                                        <j class="cell-number-ind">{{ i.getAmountOfFunding() }}</j>
                                         <b>
                                             (тыс. руб.)
                                         </b>
@@ -564,14 +564,14 @@
                                     </b>
                                 </td>
                                 <td style="vertical-align: middle" >
-                                    <j class="cell-number">{{ user_info.getAmountOfExtraFunds() }} ₽</j>
+                                    <j class="cell-number-ind">{{ user_info.getAmountOfExtraFunds() }} ₽</j>
                                     <b>
                                         (тыс. руб.)
                                     </b>
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
                                     <td style="vertical-align: middle" >
-                                        <j class="cell-number">{{ i.getAmountOfExtraFunds() }}</j>
+                                        <j class="cell-number-ind">{{ i.getAmountOfExtraFunds() }}</j>
                                         <b>
                                             (тыс. руб.)
                                         </b>
