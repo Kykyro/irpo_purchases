@@ -63,11 +63,20 @@
 
                     </div>
                 </li>
+                {% if is_granted('ROLE_SMI') %}
+                    <li>
+                        <span class="nav-label badge badge-primary">СМИ</span>
+                    </li>
+                    <li>
+                        <a href="{{ path("app_smi") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Кластеры </span></a>
+                    </li>
+                {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <li>
                         <span class="nav-label badge badge-primary">Кластеры</span>
                     </li>
                 {% endif %}
+
                 {% if is_granted('ROLE_REGION') or is_granted("ROLE_SMALL_CLUSTERS") %}
                     <li>
                         <a href="{{ path("app_main") }}"><i class="fa fa-home left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Добавление закупок</span></a>
