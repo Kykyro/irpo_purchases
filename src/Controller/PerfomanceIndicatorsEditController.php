@@ -33,7 +33,10 @@ class PerfomanceIndicatorsEditController extends AbstractController
                 $pi->setUserInfo($user_info);
                 $em->persist($pi);
             }
+//            dd($user_info->getClusterPerfomanceIndicators());
             $em->persist($user_info);
+
+
             $em->flush();
 //            dd($form->getData());
             return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id'=> $user_info->getId()]);
