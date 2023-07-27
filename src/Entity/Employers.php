@@ -39,10 +39,16 @@ class Employers
      */
     private $employersCategories;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EmployersContact::class, mappedBy="employer")
+     */
+    private $employersContacts;
+
     public function __construct()
     {
         $this->userInfos = new ArrayCollection();
         $this->employersCategories = new ArrayCollection();
+        $this->employersContacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,5 +190,35 @@ class Employers
             $index++;
         }
         return $str;
+    }
+
+    /**
+     * @return Collection<int, EmployersContact>
+     */
+    public function getEmployersContacts(): Collection
+    {
+        return $this->employersContacts;
+    }
+
+    public function addEmployersContact(EmployersContact $employersContact): self
+    {
+        if (!$this->employersContacts->contains($employersContact)) {
+            $this->employersContacts[] = $employersContact;
+            $employersContact->setEmployer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployersContact(EmployersContact $employersContact): self
+    {
+        if ($this->employersContacts->removeElement($employersContact)) {
+            // set the owning side to null (unless already changed)
+            if ($employersContact->getEmployer() === $this) {
+                $employersContact->setEmployer(null);
+            }
+        }
+
+        return $this;
     }
 }

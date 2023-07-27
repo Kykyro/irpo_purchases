@@ -175,6 +175,11 @@ class UserInfo
      */
     private $clusterPerfomanceIndicators;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ContactInfo::class, mappedBy="userInfo", cascade={"persist", "remove"})
+     */
+    private $contactInfo;
+
 
 
 
@@ -182,8 +187,8 @@ class UserInfo
     {
         $this->setAccessToPurchases(false);
 //        $this->uGPS = new ArrayCollection();
-$this->employers = new ArrayCollection();
-$this->clusterPerfomanceIndicators = new ArrayCollection();
+        $this->employers = new ArrayCollection();
+        $this->clusterPerfomanceIndicators = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -657,6 +662,28 @@ $this->clusterPerfomanceIndicators = new ArrayCollection();
                 $clusterPerfomanceIndicator->setUserInfo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getContactInfo(): ?ContactInfo
+    {
+        return $this->contactInfo;
+    }
+
+    public function setContactInfo(?ContactInfo $contactInfo): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($contactInfo === null && $this->contactInfo !== null) {
+            $this->contactInfo->setUserInfo(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($contactInfo !== null && $contactInfo->getUserInfo() !== $this) {
+            $contactInfo->setUserInfo($this);
+        }
+
+        $this->contactInfo = $contactInfo;
 
         return $this;
     }
