@@ -55,17 +55,18 @@ class contactDirectorType  extends AbstractType
                            Почта
                             '
             ])
-            ->add('photo', FileType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-
-                'required'   => false,
-                'mapped' => false,
-                'label' => '
-                          Фотография
-                            '
-            ])
+//            ->add('photo', FileType::class, [
+//                'attr' => [
+//                    'class' => 'form-control',
+//                    'accept' => "image/*"
+//                ],
+//
+//                'required'   => false,
+//                'mapped' => false,
+//                'label' => '
+//                          Фотография
+//                            '
+//            ])
 
         ;
     }
