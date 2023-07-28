@@ -1,0 +1,60 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <td>id</td>
+                            <td>Зона</td>
+                            <td>Год</td>
+                            <td>Регион</td>
+                            <td>Базовая ОО</td>
+                            <td>Тип</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for zone in zones %}
+                            {% set user = zone.getAddres().getUser() %}
+                            {% set userInfo = user.getUserInfo() %}
+                            <tr>
+                                <td>{{ zone.getId() }}</td>
+                                <td>
+                                    {% if 'ROLE_REGION' in user.getRoles() %}
+                                        <a href="{{ path('app_inspector_view_zone', {'id':zone.getId()}) }}" target="_blank" >
+                                    {% elseif 'ROLE_SMALL_CLUSTERS' in user.getRoles() %}
+                                        <a href="{{ path('app_inspector_view_zone', {'id':zone.getId()}) }}" target="_blank" >
+                                    {% else %}
+                                        <a href="#">
+                                    {% endif %}
+                                        {{ zone.getName() }}
+                                    </a>
+                                </td>
+                                <td>{{ userInfo.getYear() }}</td>
+                                <td>{{ userInfo.getRfSubject().getName() }}</td>
+                                <td>{{ userInfo.getEducationalOrganization() }}</td>
+                                <td>
+                                    {% if 'ROLE_REGION' in user.getRoles() %}
+                                        ОПЦ(К)
+                                    {% endif %}
+                                    {% if 'ROLE_SMALL_CLUSTERS' in user.getRoles() %}
+                                        СПО кластер
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

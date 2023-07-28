@@ -90,12 +90,14 @@
                         Контактная информация не найдена
                     </div>
                     <div class="panel-body">
+                        {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS') or is_granted('ROLE_SMALL_CURATOR') or is_granted('ROLE_INSPECTOR') %}
                         <a href="{{ path('app_edit_contact_info' , {'id': user_info.getId()}) }}">
                             <button class="btn btn-success ">
                                 <i class="fa fa-plus"></i>
                                 Добавить контактную информацию
                             </button>
                         </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
