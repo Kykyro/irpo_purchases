@@ -19,33 +19,36 @@
 
     <div class="row">
         <div class="col-lg-10 offset-lg-1">
-            {% for i in users %}
-                <div class="col-lg-4">
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>
-                                {{ i.getUserInfo().getRfSubject().getName() }}
-                            </h5>
-                        </div>
-                        <div class="ibox-content">
-                            <a href="{{ path('app_roiv_orgs', {'id': i.getId()}) }}">
-                                <button class="btn btn-primary col-lg-12">
-                                    Список образовательных организаций
-                                </button>
-                            </a>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">
-                                    <button class="btn btn-warning col-lg-12">
-                                        <div class="fa fa-leaf"></div>
-                                        Переключиться
+            <div class="row">
+                {% for i in users %}
+                    <div class="col-lg-4">
+                        <div class="ibox">
+                            <div class="ibox-title">
+                                <h5>
+                                    {{ i.getUserInfo().getRfSubject().getName() }}
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <a href="{{ path('app_roiv_orgs', {'id': i.getId()}) }}">
+                                    <button class="btn btn-primary col-lg-12">
+                                        Список образовательных организаций
                                     </button>
                                 </a>
-                            {% endif %}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">
+                                        <button class="btn btn-warning col-lg-12">
+                                            <div class="fa fa-leaf"></div>
+                                            Переключиться
+                                        </button>
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            {% endfor %}
+                {% endfor %}
+            </div>
+
         </div>
     </div>
 
