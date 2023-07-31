@@ -91,6 +91,77 @@
             </div>
         </div>
     </div>
+
+        <div class="row mt-3">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>
+                            Общая статистика по кластеру
+                        </h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ общих помещений</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ в общем</strong></td>
+
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайняя дата завершения ремонта</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByCommon()|round(2, 'floor') }} %</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByZone()|round(2, 'floor') }} %</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ ((user.getMidRepairByZone()+user.getMidRepairByCommon())/2)|round(2, 'floor') }} %</td>
+
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getEquipmentDeliveryDeadline() }}</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getDeadlineForCompletionOfRepairs() }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Общее кол-во оборудования по ИЛу</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Поставлено оборудования</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Введено в эксплуатацию</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % укомплектованности МТБ</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set equipment = user.getCountOfEquipment() %}
+                            <tr>
+                                <td style="vertical-align: inherit; text-align: center">{{ equipment['total'] }}</td>
+                                {#<td style="vertical-align: inherit; text-align: center">#}
+                                {#{{ proc['fact'] }} / {{ mtb_fact }}#}
+                                {#</td>#}
+                                {% if equipment['total'] > 0 %}
+                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['fact'] }} / {{ ((equipment['fact']/equipment['total'])*100)|round(2, 'floor') }} %</td>
+                                {% else %}
+                                    <td>{{ equipment['fact'] }} / 0%</td>
+                                {% endif %}
+
+                                {% if equipment['total'] > 0 %}
+                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / {{ ((equipment['putInOperation']/equipment['total'])*100)|round(2, 'floor') }} %</td>
+                                {% else %}
+                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / 0%</td>
+                                {% endif %}
+
+                                <td style="vertical-align: inherit; text-align: center">
+                                    {{ mtb_fact }} %
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
 

@@ -37,7 +37,8 @@ class InfrastructureListCheckerController extends AbstractController
                 foreach ($zones as $zone)
                 {
                     if(count($zone->getZoneInfrastructureSheets()) == 0
-                    and $zone->getType()->getName() == 'Зона по видам работ')
+                    and $zone->getType()->getName() == 'Зона по видам работ'
+                    and !$zone->isDoNotTake())
                     {
                         array_push($zone_arr, $zone);
 //                        dd();
