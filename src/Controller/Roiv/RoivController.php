@@ -5,10 +5,13 @@ namespace App\Controller\Roiv;
 use App\Entity\Building;
 use App\Entity\ProcurementProcedures;
 use App\Entity\ProfEduOrg;
+use App\Entity\PurchasesDump;
 use App\Entity\User;
 use App\Services\budgetSumService;
 use App\Services\XlsxService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -146,16 +149,67 @@ class RoivController extends AbstractController
             ->getForm();
 
         $budgetArr = [];
-
+        $form2 = $this->createFormBuilder($budgetArr)
+            ->add('date_1', EntityType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'class' => PurchasesDump::class,
+                'query_builder' => function (EntityRepository $er) use($user) {
+                    return $er->createQueryBuilder('d')
+                        ->andWhere('d.user = :user')
+                        ->setParameter('user', $user)
+                        ;
+                },
+                'choice_label' => function($dump){
+                    return $dump->getCreatedAt()->format('d.m.Y');
+                },
+                'label' => 'Тип'
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn mt-3'
+                ],
+                'label' => 'Расчитать'
+            ])
+            ->getForm();
 
         $form->handleRequest($request);
+        $form2->handleRequest($request);
+
+
 
         if($form->isSubmitted() and $form->isValid())
         {
             $data = $form->getData();
             return $xlsxService->generatePurchasesProcedureTableWithDate($id, $data['date']);
         }
+        if($form2->isSubmitted() and $form2->isValid()) {
+            $date = $form2->getData();
+            $dump_1 = $serializer->deserialize($date['date_1']->getDump()->getDump(), 'App\Entity\ProcurementProcedures[]', 'json');
+            $date_1 = $date['date_1']->getCreatedAt();
+            $arr = [];
+            foreach ($dump_1 as $p) {
+                if (!$p->getIsDeleted()) {
+                    array_push($arr, $p);
+                }
+            }
 
+            return $this->render('roiv/showPurchases.html.twig', [
+                'controller_name' => 'InspectorController',
+                'prodProc' => $prodProc,
+                'id' => $id,
+                'initial_sum' => $budgetSumService->getInitialBudget($prodProc, $today),
+                'fin_sum' => $budgetSumService->getFinBudget($prodProc, $today),
+                'initial_sum_1' => $budgetSumService->getInitialBudget($arr, $date_1),
+                'fin_sum_1' => $budgetSumService->getFinBudget($arr, $date_1),
+                'form' => $form->createView(),
+                'user' => $user,
+                'form2' => $form2->createView(),
+                'today' => $today,
+                'date_1' => $date_1,
+            ]);
+        }
 
         return $this->render('roiv/showPurchases.html.twig', [
             'controller_name' => 'InspectorController',
@@ -166,6 +220,9 @@ class RoivController extends AbstractController
             'form' => $form->createView(),
             'user' => $user,
             'today' => $today,
+            'form2' => $form2->createView(),
+
+
         ]);
     }
 
