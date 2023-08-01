@@ -24,13 +24,6 @@ class SmiController extends AbstractController
      */
     public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
-
-
-
-
-
-
-
         $role = 'ROLE_REGION';
 
         $form_data = [];
@@ -68,9 +61,7 @@ class SmiController extends AbstractController
         $query = $em->getRepository(User::class)
             ->createQueryBuilder('a')
             ->leftJoin('a.user_info', 'uf')
-//            ->andWhere('a.roles LIKE :role')
             ->andWhere('uf.year > :_year')
-//            ->setParameter('role', "%$role%")
             ->setParameter('_year', 2021);
 
         $form->handleRequest($request);
