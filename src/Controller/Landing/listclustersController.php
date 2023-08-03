@@ -38,6 +38,8 @@ class listclustersController extends AbstractController
                     '2022' => 2022,
                     '2023' => 2023,
                     '2024' => 2024,
+                    '2025' => 2025,
+                    '2026' => 2026,
 
                 ],
 
@@ -101,13 +103,15 @@ class listclustersController extends AbstractController
         else{
             if($_year && $search_ind)
             {
+                $_year_array = explode(', ', $_year);
                 $pageLimit = 100;
                 $query = $query
                     ->andWhere('
                         uf.Declared_industry LIKE :search_ind
-                        and uf.year = :_year
+                        and uf.year in (:_year)
                     ')
-                    ->setParameter('_year', $_year)
+                    ->setParameter('_year', $_year_array, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
+//                    ->setParameter('_year', $_year)
                     ->setParameter('search_ind', "%$search_ind%");
             }
 
