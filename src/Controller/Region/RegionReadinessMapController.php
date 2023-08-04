@@ -10,6 +10,7 @@ use App\Form\infrastructureSheetZoneRegionEditForm;
 use App\Services\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -235,14 +236,15 @@ class RegionReadinessMapController extends AbstractController
     /**
      * @Route("/readiness-map/delete-photo-region/{zone_id}/{photo_id}", name="app_region_rm_delete_photo_region")
      */
-    public function photoDelete(int $zone_id, int $photo_id, FileService $fileService)
+    public function photoDelete(int $zone_id, int $photo_id, FileService $fileService, LoggerInterface $logger)
     {
 //        $entity_manager = $this->getDoctrine()->getManager();
 //        $photo = $entity_manager->getRepository(RepairPhotos::class)->find($photo_id);
 //        $fileService->DeleteFile($photo->getPhoto(), 'repair_photos_directory');
 //        $entity_manager->remove($photo);
 //        $entity_manager->flush();
-
+        $user = $this->getUser()->getId();
+        $logger->info("Удаление фотографии userID: $user");
         return $this->redirectToRoute('app_region_view_zone', ['id' => $zone_id]);
     }
 
