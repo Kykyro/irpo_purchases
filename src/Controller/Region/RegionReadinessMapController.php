@@ -237,11 +237,11 @@ class RegionReadinessMapController extends AbstractController
      */
     public function photoDelete(int $zone_id, int $photo_id, FileService $fileService)
     {
-        $entity_manager = $this->getDoctrine()->getManager();
-        $photo = $entity_manager->getRepository(RepairPhotos::class)->find($photo_id);
-        $fileService->DeleteFile($photo->getPhoto(), 'repair_photos_directory');
-        $entity_manager->remove($photo);
-        $entity_manager->flush();
+//        $entity_manager = $this->getDoctrine()->getManager();
+//        $photo = $entity_manager->getRepository(RepairPhotos::class)->find($photo_id);
+//        $fileService->DeleteFile($photo->getPhoto(), 'repair_photos_directory');
+//        $entity_manager->remove($photo);
+//        $entity_manager->flush();
 
         return $this->redirectToRoute('app_region_view_zone', ['id' => $zone_id]);
     }
