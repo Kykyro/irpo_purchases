@@ -142,6 +142,7 @@ class Employers
             $this->arrayEmployersToStringList($this->getEmployersCategories()),
             $this->arrayUserInfosToStringList($this->getUserInfos()),
             $this->arrayYears($this->getUserInfos()),
+            $this->arrayIndustry($this->getUserInfos()),
         ];
         return $row;
 
@@ -187,6 +188,25 @@ class Employers
         foreach ($years as $a)
         {
             $str = $str."$index) ".$a."\n";
+            $index++;
+        }
+        return $str;
+    }
+    private function arrayIndustry($arr){
+        if(is_null($arr))
+            return '';
+        $str = "";
+        $index = 1;
+        $years = [];
+        foreach ($arr as $a)
+        {
+            array_push($years, $a->getDeclaredIndustry());
+
+        }
+        $years = array_unique($years);
+        foreach ($years as $a)
+        {
+            $str = $str.$a."\n";
             $index++;
         }
         return $str;
