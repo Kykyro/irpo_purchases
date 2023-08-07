@@ -62,6 +62,8 @@
         </div>
     </div>
 </div>
+{% include 'default/instruction_button.html.twig' with {'file': 'Описание_инструкция_к_системе_закупки (2).pdf', 'button_text': 'Скачать инструкцию по закупкам'} %}
+
 {% if purchases_with_note|length > 0 %}
     <div class="row animated fadeInRight">
         <div class="col-lg-10 offset-lg-1 " >
@@ -343,15 +345,16 @@
                 </table>
 
             </div>
-            <div class="row">
+
                 <div class="navigation">
                     {{ knp_pagination_render(procurement_procedures, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
                 </div>
-            </div>
+
         </div>
 
     </div>
 </div>
+
 {% if procurement_procedures|length > 0 %}
 <div class="row animated fadeInRight">
     <div class="col-lg-10 offset-lg-1">
