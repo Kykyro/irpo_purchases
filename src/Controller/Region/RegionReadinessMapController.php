@@ -175,6 +175,21 @@ class RegionReadinessMapController extends AbstractController
 
             foreach ($photosFromForm as $photo)
             {
+
+                if(!str_contains($photo->getMimeType(), 'image/'))
+                {
+                    return $this->render('region_readiness_map/editRepairZone.html.twig', [
+                        'controller_name' => 'RegionReadinessMapController',
+                        'zone' => $zone,
+                        'form' => $form->createView(),
+                        'error' => 'Неверный формат файла'
+                    ]);
+                }
+
+            }
+
+            foreach ($photosFromForm as $photo)
+            {
                 $filename = $fileService->UploadFile($photo, 'repair_photos_directory');
                 $_photo = new RepairPhotos();
                 $_photo->setPhoto($filename);
