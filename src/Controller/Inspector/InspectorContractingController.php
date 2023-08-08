@@ -8,6 +8,7 @@ use App\Entity\ReadinessMapSaves;
 use App\Entity\User;
 use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
+use App\Services\XlsxPerformanceIndicatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -27,7 +28,8 @@ class InspectorContractingController extends AbstractController
     /**
      * @Route("/contracting-actual", name="app_inspector_contracting")
      */
-    public function index(Request $request, ContractingXlsxService $contractingXlsxService, ReadinessMapXlsxService $readinessMapXlsxService): Response
+    public function index(Request $request, ContractingXlsxService $contractingXlsxService,
+                          ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService): Response
     {
 
         $arr = [];
@@ -50,6 +52,7 @@ class InspectorContractingController extends AbstractController
                 'choices'  => [
                     'Контрактация' => 1,
                     'Карта готовности(ремонт)' => 2,
+                    'Показатели результативности' => 3,
 
                 ],
             ])
@@ -78,9 +81,13 @@ class InspectorContractingController extends AbstractController
                 $today = new \DateTime('now');
                 return $contractingXlsxService->downloadTable($data['year'], $today);
             }
+
             if($data['type'] == 2)
             {
                 return $readinessMapXlsxService->downloadTable($data['year']);
+            }
+            if($data['type'] == 3){
+                return $indicatorService->generateTable($data['year'], "ROLE_REGION");
             }
 
 
