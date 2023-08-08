@@ -46,14 +46,30 @@ class XlsxPerformanceIndicatorService extends AbstractController
 
     public function generateTable($year, $role)
     {
-        $users = $this->getUsers($year, $role);
+        if($role == "lot_1")
+        {
 
-        return $this->tableGenerator($users, $year, $this->getDict($role, $year));
+            $users = $this->getUsers($year, "ROLE_SMALL_CLUSTERS_LOT_1");
+            $role = "ROLE_SMALL_CLUSTERS";
+        }
+        elseif($role == "lot_2")
+        {
+
+            $users = $this->getUsers($year, "ROLE_SMALL_CLUSTERS_LOT_2");
+            $role = "ROLE_SMALL_CLUSTERS";
+        }
+        else
+        {
+            $users = $this->getUsers($year, $role);
+        }
+
+
+        return $this->tableGenerator($users, $year, $this->getDict($role, $year), $this->getTitle($role));
     }
 
 
 
-    public function tableGenerator($users, $year, $dict)
+    public function tableGenerator($users, $year, $dict, $title)
     {
         $sheet_template = "../public/excel/PerformanceIndicator.xlsx";
 
@@ -75,6 +91,7 @@ class XlsxPerformanceIndicatorService extends AbstractController
                 'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
             ],
         ];
+        $sheet->setCellValue("A1", $title);
         $yearCol = ['F', 'N', 'V'];
         $i = 0;
         foreach ($yearCol as $col)
@@ -238,5 +255,21 @@ class XlsxPerformanceIndicatorService extends AbstractController
         }
 
 
+    }
+
+    private function getTitle($role)
+    {
+        if ('ROLE_REGION' == "$role")
+        {
+            return "Приложение 1. Данные по показателям, указанным в Приложении 5, программ деятельности образовательно-производственных центров (кластеров) с уточнением значений  по каждому году реализации Проекта";
+        }
+        elseif ('ROLE_REGION' == "$role")
+        {
+            return "Приложение 1. Данные по показателям, указанным в Приложении 5, программ деятельности кластеров СПО с уточнением значений  по каждому году реализации Проекта";
+        }
+        else
+        {
+            return "Приложение 1. Данные по показателям, указанным в Приложении 5, программ деятельности образовательно-производственных центров (кластеров) с уточнением значений  по каждому году реализации Проекта";
+        }
     }
 }

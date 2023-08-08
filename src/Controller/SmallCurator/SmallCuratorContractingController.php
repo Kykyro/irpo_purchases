@@ -10,6 +10,7 @@ use App\Entity\UserInfo;
 use App\Form\InspectorPurchasesFindFormType;
 use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
+use App\Services\XlsxPerformanceIndicatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\ProcurementProcedures;
@@ -38,7 +39,7 @@ class SmallCuratorContractingController extends AbstractController
     /**
      * @Route("/small-cluster/contracting-actual", name="app_inspector_sc_contracting")
      */
-    public function index(Request $request, ContractingXlsxService $contractingXlsxService, ReadinessMapXlsxService $readinessMapXlsxService): Response
+    public function index(Request $request, ContractingXlsxService $contractingXlsxService, ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService): Response
     {
         $role = 'small';
         $arr = [];
@@ -61,6 +62,7 @@ class SmallCuratorContractingController extends AbstractController
                 'choices' => [
                     'Контрактация' => 1,
                     'Карта готовности(ремонт)' => 2,
+                    'Показатели результативности' => 3,
 
                 ],
             ])
@@ -104,6 +106,9 @@ class SmallCuratorContractingController extends AbstractController
             }
             if ($data['type'] == 2) {
                 return $readinessMapXlsxService->downloadTable($data['year'], $_role);
+            }
+            if($data['type'] == 3){
+                return $indicatorService->generateTable($data['year'], $_role);
             }
 
 
