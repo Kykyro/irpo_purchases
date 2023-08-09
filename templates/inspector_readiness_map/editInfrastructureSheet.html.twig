@@ -22,6 +22,7 @@
                     </h5>
 
                 </div>
+
                 {% macro printZoneInfrastructureSheets(sheet) %}
 
                         <td>
@@ -52,7 +53,16 @@
                 {% endmacro %}
 
             <div class="ibox-content">
+            {% if form.vars.errors|length %}
+                <div class="panel panel-danger">
+                    <div class="panel-danger"></div>
+                    <div class="panel-body">
+                        {{ form.vars.errors }}
+                    </div>
+                </div>
+                {% endif %}
                 {{ form_start(form) }}
+                {{ form_row(form._token) }}
                 <h4>
                     Общая зона
                 </h4>
