@@ -64,3 +64,4 @@ services:
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
             arguments:
                 - '%env(DATABASE_URL)%'
+                - { db_table: 'new_session', db_id_col: 'sess_id' }
