@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\ClusterZone;
 use App\Entity\User;
 
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -33,6 +34,7 @@ class infrastructureSheetZoneForm extends AbstractType
                 'entry_type' => infrastructureSheetType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
+
             ]
             )
 
@@ -45,6 +47,11 @@ class infrastructureSheetZoneForm extends AbstractType
 
             ]);
     }
-
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => ClusterZone::class,
+        ]);
+    }
 
 }

@@ -344,37 +344,38 @@ class InspectorReadinessMapController extends AbstractController
     /**
      * @Route("/readiness-map/infrastructure-sheet/{id}", name="app_inspector_rm_infrastructure_sheet")
      */
-    public function editInfrastructureSheet(Request $request, int $id)
+    public function editInfrastructureSheet(Request $request, int $id, EntityManagerInterface $em)
     {
-        $entity_manager = $this->getDoctrine()->getManager();
 
-        $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
-
+        $zone = $em->getRepository(ClusterZone::class)->find($id);
 
         $form = $this->createForm(infrastructureSheetZoneForm::class, $zone);
-//        dd($request);
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() and $form->isValid())
         {
+
             foreach ($zone->getZoneInfrastructureSheets() as $sheet)
             {
+
                 if($sheet->getName() == "")
                 {
                     if(!is_null($sheet->getId()))
-                        $entity_manager->remove($sheet);
-
+                    {
+                        $em->remove($sheet);
+                    }
                 }
                 else
                 {
                     $sheet->setZone($zone);
-                    $entity_manager->persist($sheet);
+                    $em->persist($sheet);
                 }
-
             }
-            $entity_manager->persist($zone);
 
-            $entity_manager->flush();
+            $em->persist($zone);
+
+            $em->flush();
 
             return $this->redirectToRoute('app_inspector_view_zone', ['id' => $id]);
         }

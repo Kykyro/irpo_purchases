@@ -113,8 +113,9 @@ class ClusterZone
     /**
      * @return Collection<int, ZoneInfrastructureSheet>
      */
-    public function getZoneInfrastructureSheets(): Collection
+    public function getZoneInfrastructureSheets()
     {
+
         return $this->zoneInfrastructureSheets;
     }
 
