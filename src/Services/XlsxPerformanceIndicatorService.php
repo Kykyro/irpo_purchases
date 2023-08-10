@@ -106,7 +106,7 @@ class XlsxPerformanceIndicatorService extends AbstractController
         {
             $row_index = $sheet->getHighestRow()+1;
 
-            $sheet->fromArray($this->getRow($user, $index), null, 'A'.$row_index);
+            $sheet->fromArray($this->getRow($user, $index), "'0", 'A'.$row_index);
             $row_arr = ['K', 'L', 'S', 'T', 'AA', 'AB'];
             foreach ($row_arr as $j){
                 $sheet->getStyle($j.$row_index)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
