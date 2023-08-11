@@ -27,6 +27,8 @@ class StatisticAndAnalyticController extends AbstractController
                     '2021 год' => 2021,
                     '2022 год' => 2022,
                     '2023 год' => 2023,
+                    '2024 год' => 2024,
+                    '2025 год' => 2025,
 
                 ],
                 'label' => 'Год',

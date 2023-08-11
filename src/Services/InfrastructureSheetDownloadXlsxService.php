@@ -79,6 +79,7 @@ class InfrastructureSheetDownloadXlsxService extends AbstractController
                             $_sheet->getOKPD2(),
                             $_sheet->getKTRU(),
                             $_sheet->getComment(),
+                            $cluster->getUserInfo()->getDeclaredIndustry(),
 
                         ];
                         $row = $sheet->getHighestRow()+1;
@@ -89,11 +90,11 @@ class InfrastructureSheetDownloadXlsxService extends AbstractController
             }
         }
         $last_row = $sheet->getHighestRow()+1;
-        $rangeTotal = 'A2:M'.$last_row;
+        $rangeTotal = 'A2:N'.$last_row;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
-        $sheet->getStyle('A:M')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:M')->getAlignment()->setVertical('center');
-        $sheet->getStyle('A:M')->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:N')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:N')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:N')->getAlignment()->setWrapText(true);
 
         // Create Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
