@@ -1,7 +1,3 @@
-
-
-
-
 <div class="row animated fadeInRight">
     <div class="col-sm-10 offset-sm-1 ">
         <div class="wrapper wrapper-content ">
@@ -163,24 +159,26 @@
                                         <thead>
                                         <tr>
                                             <td class="col-md-2">Отвественный за</td>
-                                            <td class="col-md-2">ФИО</td>
-                                            <td class="col-md-2">Моб.Телефон</td>
-                                            <td class="col-md-2">Почта</td>
+                                            <td class="col-md-2  text-center">ФИО</td>
+                                            <td class="col-md-2 text-center">Моб.Телефон</td>
+                                            <td class="col-md-2 text-center">Почта</td>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {% for i in contactInfo.getResponsibleContacts() %}
                                         <tr>
-                                            <td>
+                                            <td class="text-left align-middle">
                                                 {% for type in i.getResponsibleContactTypes() %}
-                                                    <p>
-                                                        {{ type.getName() }}
+                                                    <p class="mb-0">
+                                                        - {{ type.getName() }}
                                                     </p>
+
+
                                                 {% endfor %}
                                             </td>
-                                            <td>{{ i.getFIO() }}</td>
-                                            <td>{{ i.getPhoneNumber() }}</td>
-                                            <td>{{ i.getEmail() }}</td>
+                                            <td class="text-center align-middle">{{ i.getFIO() }}</td>
+                                            <td class="text-center align-middle">{{ i.getPhoneNumber() }}</td>
+                                            <td class="text-center align-middle">{{ i.getEmail() }}</td>
                                         </tr>
                                         {% endfor %}
 
@@ -196,20 +194,20 @@
                                     <thead>
                                     <tr>
                                         <td class="col-md-2">Работодатель</td>
-                                        <td class="col-md-2">ФИО</td>
-                                        <td class="col-md-2">Должность</td>
-                                        <td class="col-md-2">Моб.Телефон</td>
-                                        <td class="col-md-2">Почта</td>
+                                        <td class="col-md-2 text-center">ФИО</td>
+                                        <td class="col-md-2 text-center">Должность</td>
+                                        <td class="col-md-2 text-center">Моб.Телефон</td>
+                                        <td class="col-md-2 text-center">Почта</td>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {% for rd in contactInfo.getEmployersContacts()  %}
                                         <tr>
-                                            <td>{{ rd.getEmployer().getName() }}</td>
-                                            <td>{{ rd.getFIO() }}</td>
-                                            <td>{{ rd.getPost() }}</td>
-                                            <td>{{ rd.getPhoneNumber() }}</td>
-                                            <td>{{ rd.getEmail() }}</td>
+                                            <td class="text-left align-middle">{{ rd.getEmployer().getName() }}</td>
+                                            <td class="text-center align-middle">{{ rd.getFIO() }}</td>
+                                            <td class="text-center align-middle">{{ rd.getPost() }}</td>
+                                            <td class="text-center align-middle">{{ rd.getPhoneNumber() }}</td>
+                                            <td class="text-center align-middle">{{ rd.getEmail() }}</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
