@@ -95,7 +95,7 @@ class EmployersContact
 
     public function setPost(?string $post): self
     {
-        $this->�post = $post;
+        $this->post = $post;
 
         return $this;
     }
