@@ -384,7 +384,7 @@
 
 
                             <div class="ibox-footer">
-                                {% if is_granted('ROLE_INSPECTOR') %}
+                                {% if is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') %}
                                     <a href="{{ path('app_inspector_edit_cluster_document', {'id': user_info.getId()}) }}">
                                         <button class="btn btn-success col-lg-12">
                                             <i class="fa fa-edit">
@@ -753,7 +753,7 @@
 
 
                         <div class="ibox-footer">
-                            {% if is_granted('ROLE_INSPECTOR') %}
+                            {% if is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') %}
                                 <a href="{{ path('app_inspector_user_ugps_edit', {'id': user_info.getId()}) }}">
                                     <button class="btn btn-success col-lg-12">
                                         <i class="fa fa-edit">
@@ -794,7 +794,7 @@
 
 
                         <div class="ibox-footer">
-                            {% if is_granted('ROLE_INSPECTOR') %}
+                            {% if is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') %}
                                 <a href="{{ path('app_inspector_user_zone_edit', {'id': user_info.getId()}) }}">
                                     <button class="btn btn-success col-lg-12">
                                         <i class="fa fa-edit">
