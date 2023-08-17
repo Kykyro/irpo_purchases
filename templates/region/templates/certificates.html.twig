@@ -26,10 +26,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr  >
+                            <tr>
+                                {% if is_granted('ROLE_REGION') %}
                                 <td>
                                     Справка о контрактации и расходовании средств в рамках оснащения образовательно-производственного центра (кластера)
                                 </td>
+                                {% endif %}
+                                {% if is_granted('ROLE_SMALL_CLUSTERS') %}
+                                    <td>
+                                        Справка о контрактации и расходовании средств в рамках оснащения образовательного кластера среднего профессионального образования
+                                    </td>
+                                {% endif %}
                                 <td>
                                     <a href="{{ path('app_region_certificate_download', {'id': user.getId()}) }}">
                                         <button class="btn btn-primary col-lg-12">
