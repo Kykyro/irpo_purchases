@@ -100,11 +100,20 @@ class ContractingXlsxService extends AbstractController
         $index = 1;
 
         if($role == 'lot_1')
+        {
+            $grant = 70000000;
             $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
+        }
+
         else if($role == 'lot_2')
+        {
+            $grant = 60500000;
             $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
+        }
         else
+        {
             $users = $this->getUsersByYear($year, '%REGION%');
+        }
 
         foreach ($users as $user)
         {
