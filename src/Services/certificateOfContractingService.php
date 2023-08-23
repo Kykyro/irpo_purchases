@@ -43,6 +43,15 @@ class certificateOfContractingService extends AbstractController
     public function generateSertificate($id, $today = null)
     {
         $user = $this->getUserById($id);
+
+        //TODO: сделать потом нормально
+        if(in_array('ROLE_REGION', $user->getRoles()))
+        {
+            $title = 'Справка о контрактации и расходовании средств в рамках оснащения образовательно-производственного центра (кластера)';
+        }
+        else{
+            $title = 'Справка о контрактации и расходовании средств в рамках оснащения образовательного кластера среднего профессионального образования';
+        }
         $userInfo = $user->getUserInfo();
         if(is_null($today))
             $today = new \DateTime('now');
@@ -119,6 +128,7 @@ class certificateOfContractingService extends AbstractController
 
         $templateProcessor = new TemplateProcessor('../public/word/Справка_о_контрактации_и_расходовании_средств.docx');
         $templateProcessor->setValues([
+            'title' => $title,
             'rf_subject' => $userInfo->getRfSubject()->getName(),
             'base_organization' => $userInfo->getOrganization(),
             'industry' => $userInfo->getDeclaredIndustry(),
