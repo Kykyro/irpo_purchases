@@ -204,11 +204,27 @@
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_SPECTATOR') %}
+
+                    <li>
+                        <span class="nav-label badge badge-primary">Производственные кластеры</span>
+                    </li>
+
                     <li > {# class="active" #}
-                        <a href="{{ path("app_inspector_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Кластеры</span></a>
+                        <a href="{{ path("app_inspector_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Производственные кластеры</span></a>
                     </li>
                     <li > {# class="active" #}
                         <a href="{{ path("app_certificate_by_cluster_insperctor") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справка по кластерам </span></a>
+                    </li>
+
+                    <li>
+                        <span class="nav-label badge badge-primary">Малые кластеры</span>
+                    </li>
+
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_sc_infrastructure_sheet") }}"><i class="fa fa-table left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Кластеры СПО</span></a>
+                    </li>
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_certificate_by_cluster_insperctor_sc") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справка по кластерам СПО </span></a>
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') %}
