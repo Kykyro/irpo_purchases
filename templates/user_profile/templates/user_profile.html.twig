@@ -104,12 +104,14 @@
                 <div class="wrapper wrapper-content ">
                     <div class="ibox-content block-shadow ">
                         <div class="ibox ">
+                            {% if is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') or is_granted('ROLE_SMALL_CLUSTERS') or is_granted('ROLE_REGION') %}
                             <a href="{{ path('app_edit_contact_info' , {'id': user_info.getId()}) }}">
                                 <button class="btn btn-success pull-right">
                                     <i class="fa fa-edit"></i>
                                     Редактировать контактную информацию
                                 </button>
                             </a>
+                            {% endif %}
                             <a class="collapse-link">
                                 <div class="ibox-title">
                                     <h2 style="font-weight: bold; margin-top: -5px">Контактные данные</h2>
@@ -117,8 +119,6 @@
 
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
-
-
                                 </div>
                             </a>
                             <div class="ibox-content" style="display: none">
