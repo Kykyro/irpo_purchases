@@ -71,6 +71,10 @@ class UserEditFormType extends AbstractType
                             'СМИ' => array
                             (
                                 'СМИ' => 'ROLE_SMI'
+                            ),
+                            'Дисциплина' => array
+                            (
+                                'Дисциплина' => 'ROLE_DISCIPLINE'
                             )
                         )
                     ,

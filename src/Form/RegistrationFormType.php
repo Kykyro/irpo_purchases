@@ -78,6 +78,10 @@ class RegistrationFormType extends AbstractType
                             'РОИВ' => array
                             (
                                 'РОИВ' => 'ROLE_ROIV'
+                            ),
+                            'Дисциплина' => array
+                            (
+                                'Дисциплина' => 'ROLE_DISCIPLINE'
                             )
                         )
                     ,

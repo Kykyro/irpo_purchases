@@ -14,6 +14,7 @@ security:
         ROLE_JOURNALIST: [ ROLE_JOURNALIST ]
         ROLE_ADMIN: [ ROLE_USER, ROLE_INSPECTOR, ROLE_REGION, ROLE_JOURNALIST ]
         ROLE_SUPERADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+        ROLE_DISCIPLINE: [ ROLE_DISCIPLINE ]
 
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
@@ -57,7 +58,7 @@ security:
          - { path: ^/roiv, roles: [ROLE_SMI, ROLE_ROIV] }
          - { path: ^/region, roles: [ROLE_REGION, ROLE_SMALL_CLUSTERS] }
          - { path: ^/journalist, roles: ROLE_JOURNALIST }
-         - { path: ^/inspector, roles: [ROLE_INSPECTOR, ROLE_SPECTATOR, ROLE_SMALL_CURATOR] }
+         - { path: ^/inspector, roles: [ROLE_INSPECTOR, ROLE_SPECTATOR, ROLE_SMALL_CURATOR, ROLE_DISCIPLINE] }
          - { path: ^/analyst, roles: [ROLE_INSPECTOR, ROLE_ANALYTIC, ROLE_SMALL_CURATOR] }
          - { path: ^/smi, roles: [ROLE_SMI] }
          - { path: ^/download, roles: ROLE_INSPECTOR }
