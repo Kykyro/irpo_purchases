@@ -229,9 +229,9 @@ class ContractingXlsxService extends AbstractController
 
         $totalProcentageCell = (isset($row)) ? ($row+2) : 3;
         if($role == 'lot_1')
-            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $totalProcentageCell);
+            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_1%', $totalProcentageCell);
         else if($role == 'lot_2')
-            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $totalProcentageCell);
+            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_2%', $totalProcentageCell);
         else
             $totalProcentageRow = $this->getTotalProcentageRow($year, '%REGION%', $totalProcentageCell);
 
