@@ -228,6 +228,7 @@ class ContractingXlsxService extends AbstractController
         $sheet->getStyle('A:Z')->getAlignment()->setVertical('center');
 
         $totalProcentageCell = (isset($row)) ? ($row+2) : 3;
+
         if($role == 'lot_1')
             $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_1%', $totalProcentageCell);
         else if($role == 'lot_2')
