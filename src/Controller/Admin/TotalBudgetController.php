@@ -26,7 +26,8 @@ class TotalBudgetController extends AbstractController
         $totalBudget = $entityManager->getRepository(TotalBudget::class)->findAll();
         $roleMask = [
             "ROLE_REGION" => 'Производственный кластер' ,
-            "ROLE_SMALL_CLUSTER" => 'Малый кластер',
+            "ROLE_SMALL_CLUSTER_LOT_1" => 'Малый кластер лот 1',
+            "ROLE_SMALL_CLUSTER_LOT_2" => 'Малый кластер лот 2',
         ];
         return $this->render('total_budget/index.html.twig', [
             'controller_name' => 'TotalBudgetController',
