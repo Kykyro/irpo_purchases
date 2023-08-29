@@ -71,8 +71,8 @@ class SmallCuratorContractingController extends AbstractController
                     'class' => 'form-control'
                 ],
                 'choices' => [
-                    'Лот 1' => 1,
-                    'Лот 2' => 2,
+                    'Лот 1' => "lot_1",
+                    'Лот 2' => "lot_2",
 
                 ],
             ])
@@ -93,13 +93,8 @@ class SmallCuratorContractingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if($data['lot'] == 1)
-            {
-                $_role = "lot_1";
-            }
-            else{
-                $_role = "lot_2";
-            }
+            $_role = $data['lot'];
+
             if ($data['type'] == 1) {
                 $data['date'] = ($data['date']) ? $data['date'] :  new \DateTime('now');
                 return $contractingXlsxService->downloadTable($data['year'], $data['date'], $_role);

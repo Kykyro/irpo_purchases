@@ -44,6 +44,26 @@ class Employers
      */
     private $employersContacts;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $inn;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $altName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $shortName;
+
     public function __construct()
     {
         $this->userInfos = new ArrayCollection();
@@ -238,6 +258,54 @@ class Employers
                 $employersContact->setEmployer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInn(): ?string
+    {
+        return $this->inn;
+    }
+
+    public function setInn(?string $inn): self
+    {
+        $this->inn = $inn;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getAltName(): ?string
+    {
+        return $this->altName;
+    }
+
+    public function setAltName(?string $altName): self
+    {
+        $this->altName = $altName;
+
+        return $this;
+    }
+
+    public function getShortName(): ?string
+    {
+        return $this->shortName;
+    }
+
+    public function setShortName(?string $shortName): self
+    {
+        $this->shortName = $shortName;
 
         return $this;
     }
