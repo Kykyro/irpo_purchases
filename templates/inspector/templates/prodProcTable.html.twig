@@ -224,18 +224,18 @@
                                         <td>
 
                                             {% if i.isHasFiles() %}
-                                                {% if is_granted('ROLE_REGION') or is_granted("ROLE_SMALL_CLUSTERS") %}
-                                                    <a href="{{ path('app_inspector_view_purchase', { 'id' : i.getId()}) }}"
-                                                       target="_blank">
-                                                       <span class="badge badge-primary">
-                                                            Есть прикрепленные файлы
-                                                        </span>
-                                                    </a>
-                                                {% else %}
+                                                {#{% if is_granted('ROLE_REGION') or is_granted("ROLE_SMALL_CLUSTERS") %}#}
+                                                    {#<a href="{{ path('app_inspector_view_purchase', { 'id' : i.getId()}) }}"#}
+                                                       {#target="_blank">#}
+                                                       {#<span class="badge badge-primary">#}
+                                                            {#Есть прикрепленные файлы#}
+                                                        {#</span>#}
+                                                    {#</a>#}
+                                                {#{% else %}#}
                                                     <span class="badge badge-primary">
                                                             Есть прикрепленные файлы
                                                         </span>
-                                                {% endif %}
+                                                {#{% endif %}#}
 
                                             {% endif %}
 

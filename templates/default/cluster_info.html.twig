@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-lg-12 mt-3">
+        <div class="ibox">
+            <a class="collapse-link">
+                <div class="ibox-title">
+                    <h5>Инфо о кластере</h5>
+                    <div class="ibox-tools">
+
+                        <i class="fa fa-chevron-up"></i>
+
+
+                    </div>
+                </div>
+            </a>
+            <div class="ibox-content">
+                {#{% set user_info = user.getUserInfo() %}#}
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            Субъект РФ
+                        </td>
+                        <td style="vertical-align: middle">
+                            {% if  user_info.getRfSubject() %}
+                                {{ user_info.getRfSubject().getName() }}
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            Инициатор создания кластера
+                        </td>
+                        <td style="vertical-align: middle">
+                            {{ user_info.getInitiatorOfCreation() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            Наименование организации грантополучателя
+                        </td>
+                        <td style="vertical-align: middle">
+                            {{ user_info.getOrganization() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            Наименование базовой образовательной организации
+                        </td>
+                        <td style="vertical-align: middle">
+                            {{ user_info.getEducationalOrganization() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            Наименование кластера
+                        </td>
+                        <td style="vertical-align: middle">
+                            {{ user_info.getCluster() }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            Заявленная отрасль
+                        </td>
+                        <td style="vertical-align: middle">
+                            {{ user_info.getDeclaredIndustry() }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
