@@ -44,14 +44,6 @@ class certificateOfContractingService extends AbstractController
     {
         $user = $this->getUserById($id);
 
-        //TODO: сделать потом нормально
-        if(in_array('ROLE_REGION', $user->getRoles()))
-        {
-            $title = 'Справка о контрактации и расходовании средств в рамках оснащения образовательно-производственного центра (кластера)';
-        }
-        else{
-            $title = 'Справка о контрактации и расходовании средств в рамках оснащения образовательного кластера среднего профессионального образования';
-        }
         $userInfo = $user->getUserInfo();
         if(is_null($today))
             $today = new \DateTime('now');
@@ -59,14 +51,17 @@ class certificateOfContractingService extends AbstractController
 
         if(in_array('ROLE_REGION', $user->getRoles()))
         {
+            $title = 'Справка о контрактации и расходовании средств в рамках оснащения образовательно-производственного центра (кластера)';
             $grant = 100000000;
         }
         elseif (in_array('ROLE_SMALL_CLUSTERS_LOT_1', $user->getRoles()))
         {
+            $title = 'Справка о контрактации и расходовании средств в рамках оснащения образовательного кластера среднего профессионального образования';
             $grant = 70000000;
         }
         elseif (in_array('ROLE_SMALL_CLUSTERS_LOT_2', $user->getRoles()))
         {
+            $title = 'Справка о контрактации и расходовании средств в рамках оснащения образовательного кластера среднего профессионального образования';
             $grant = 60500000;
         }
         else{
@@ -127,6 +122,31 @@ class certificateOfContractingService extends AbstractController
         $procent['factRegionFunds'] = ($userInfo->getFinancingFundsOfSubject() > 0) ? ($sum['factRegionFunds'] * 100)/($userInfo->getFinancingFundsOfSubject() * 1000) : 0;
 
         $templateProcessor = new TemplateProcessor('../public/word/Справка_о_контрактации_и_расходовании_средств.docx');
+
+        if($userInfo->getExtraFundsEconomicSector() > 0) {
+            $templateProcessor->cloneBlock('ExtraFundsEconomicSector_BLOCK_1', 1);
+            $templateProcessor->cloneBlock('ExtraFundsEconomicSector_BLOCK_2', 0);
+        } else {
+            $templateProcessor->cloneBlock('ExtraFundsEconomicSector_BLOCK_2', 1);
+            $templateProcessor->cloneBlock('ExtraFundsEconomicSector_BLOCK_1', 0);
+        }
+
+        if($userInfo->getFinancingFundsOfSubject() > 0) {
+            $templateProcessor->cloneBlock('FinancingFundsOfSubject_BLOCK_1', 1);
+            $templateProcessor->cloneBlock('FinancingFundsOfSubject_BLOCK_2', 0);
+        } else {
+            $templateProcessor->cloneBlock('FinancingFundsOfSubject_BLOCK_2', 1);
+            $templateProcessor->cloneBlock('FinancingFundsOfSubject_BLOCK_1', 0);
+        }
+
+        if($userInfo->getExtraFundsOO() > 0) {
+            $templateProcessor->cloneBlock('ExtraFundsOO_BLOCK_1', 1);
+            $templateProcessor->cloneBlock('ExtraFundsOO_BLOCK_2', 0);
+        } else {
+            $templateProcessor->cloneBlock('ExtraFundsOO_BLOCK_2', 1);
+            $templateProcessor->cloneBlock('ExtraFundsOO_BLOCK_1', 0);
+        }
+
         $templateProcessor->setValues([
             'title' => $title,
             'rf_subject' => $userInfo->getRfSubject()->getName(),
