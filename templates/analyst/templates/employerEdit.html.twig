@@ -15,17 +15,21 @@
                     </h5>
 
 
-
-
                 </div>
                 <div class="ibox-content">
                     {{ form_start(form) }}
-                        {{ form_row(form.name) }}
-                        {{ form_row(form.description) }}
-                        {{ form_row(form.userInfos) }}
-                        {{ form_row(form.employersCategories) }}
-                        <hr>
-                        {{ form_row(form.submit) }}
+                    {{ form_row(form.name) }}
+                    <hr>
+                    {{ form_row(form.altName) }}
+                    {{ form_row(form.shortName) }}
+                    {{ form_row(form.inn) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.employersCategories) }}
+                    <hr>
+                    {{ form_row(form.userInfos) }}
+
+                    <hr>
+                    {{ form_row(form.submit) }}
                     {{ form_end(form) }}
                 </div>
                 <div class="ibox-footer">

@@ -182,7 +182,6 @@ class UserInfo
 
 
 
-
     function __construct()
     {
         $this->setAccessToPurchases(false);

@@ -144,6 +144,24 @@ class AdminEmployersController extends AbstractController
                 ],
                 'label' => 'Название'
             ])
+            ->add('altName', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Название (альтернативно)'
+            ])
+            ->add('shortName', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Сокращенное название'
+            ])
+            ->add('inn', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'ИНН'
+            ])
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control'
@@ -163,6 +181,7 @@ class AdminEmployersController extends AbstractController
                     'class' => 'form-control m-b  select2',
                 ],
                 'required' => false,
+                'label' => 'Кластеры'
 
             ))
             ->add('employersCategories', EntityType::class, array(

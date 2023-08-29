@@ -54,6 +54,7 @@ class UserInfoRepository extends ServiceEntityRepository
     }
 
 
+
 //    /**
 //     * @return UserInfo[] Returns an array of UserInfo objects
 //     */

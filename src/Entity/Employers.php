@@ -158,11 +158,16 @@ class Employers
     {
         $row = [
             $this->getName(),
+            $this->getAltName(),
+            $this->getShortName(),
             $this->getDescription(),
             $this->arrayEmployersToStringList($this->getEmployersCategories()),
             $this->arrayUserInfosToStringList($this->getUserInfos()),
             $this->arrayYears($this->getUserInfos()),
             $this->arrayIndustry($this->getUserInfos()),
+            $this->getInn(),
+            $this->getCity(),
+
         ];
         return $row;
 
@@ -193,6 +198,7 @@ class Employers
         }
         return $str;
     }
+
     private function arrayYears($arr){
         if(is_null($arr))
             return '';

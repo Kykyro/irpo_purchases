@@ -48,11 +48,16 @@ class XlsxEmployersService extends AbstractController
         ];
         $headerRow = [
             'Работадатель',
+            'Наименование',
+            'Сокращенное наименование',
             'Описание',
             'Категории',
             'Кластер',
             'Год',
             'Отрасль',
+            'ИНН',
+            'Город',
+            'Тип кластера',
         ];
         /** @var Spreadsheet $spreadsheet */
         $spreadsheet = new Spreadsheet();
@@ -65,17 +70,21 @@ class XlsxEmployersService extends AbstractController
         {
             $row_index = $sheet->getHighestRow()+1;
             $row = $employer->getAsRow();
+            $sheet->setCellValue("K$row_index", $this->getRoles($employer));
             $sheet->fromArray($row, null, 'A'.$row_index);
         }
         $index = $sheet->getHighestRow()+1;
-        $rangeTotal = 'A1:F'.$index;
+        $rangeTotal = 'A1:K'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getColumnDimension('A')->setWidth(50);
         $sheet->getColumnDimension('B')->setWidth(30);
-        $sheet->getColumnDimension('C')->setWidth(20);
-        $sheet->getColumnDimension('E')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(30);
+        $sheet->getColumnDimension('D')->setWidth(50);
+        $sheet->getColumnDimension('E')->setWidth(30);
         $sheet->getColumnDimension('F')->setWidth(50);
+        $sheet->getColumnDimension('G')->setWidth(20);
+        $sheet->getColumnDimension('H')->setWidth(50);
 
         // Create Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
@@ -89,5 +98,41 @@ class XlsxEmployersService extends AbstractController
 
         // Return the excel file as an attachment
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    private function getRoles($employer)
+    {
+        $userInfos = $employer->getUserInfos();
+        if(count($userInfos))
+        {
+            $userInfoId = $userInfos[0]->getId();
+
+            $user =  $this->entity_manager->getRepository(User::class)
+                ->createQueryBuilder('u')
+                ->leftJoin('u.user_info', 'uf')
+                ->andWhere('uf.id LIKE :id')
+                ->setParameter('id', $userInfoId)
+                ->getQuery()
+                ->getResult()
+                ;
+            if(count($user))
+            {
+                $roles =  implode(" | ", $user[0]->getRoles());
+                if(str_contains($roles, "ROLE_SMALL_CLUSTERS"))
+                    return "Кластер СПО";
+                else if(str_contains($roles, "ROLE_REGION"))
+                    return "ОПЦ(К)";
+                else
+                    return "";
+
+            }
+            else{
+                return "";
+            }
+
+        }
+        else{
+            return "";
+        }
     }
 }
