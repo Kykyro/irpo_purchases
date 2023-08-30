@@ -7,6 +7,8 @@ use App\Entity\User;
 use Exception;
 use NumberFormatter;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Settings;
 use function PHPUnit\Framework\throwException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -40,7 +42,7 @@ class certificateOfContractingService extends AbstractController
             ->getResult()
             ;
     }
-    public function generateSertificate($id, $today = null)
+    public function generateSertificate($id, $today = null, $option)
     {
         $user = $this->getUserById($id);
 
@@ -154,9 +156,9 @@ class certificateOfContractingService extends AbstractController
             'industry' => $userInfo->getDeclaredIndustry(),
             'date' => $today->format('d.m.Y'),
             'year' => $userInfo->getYear(),
-            'ExtraFundsEconomicSector' => $fmt->format($userInfo->getExtraFundsEconomicSector() * 1000),
-            'FinancingFundsOfSubject' => $fmt->format($userInfo->getFinancingFundsOfSubject() * 1000),
-            'ExtraFundsOO' => $fmt->format($userInfo->getExtraFundsOO() * 1000),
+            'ExtraFundsEconomicSector' => $fmt->format($option['ExtraFundsEconomicSector']),
+            'FinancingFundsOfSubject' => $fmt->format($option['FinancingFundsOfSubject']),
+            'ExtraFundsOO' => $fmt->format($option['ExtraFundsOO']),
             'GrantFunds' => $fmt->format($grant),
 
             'cFedFunds' => $fmt->format($sum['contractFedFunds']),
@@ -178,9 +180,14 @@ class certificateOfContractingService extends AbstractController
             'pfOOFunds' => $fmt->format($procent['factOOFunds']),
         ]);
 
-        $fileName = $userInfo->getOrganization().'_'.$today->format('d.m.Y').'.docx';
+        $fileName = $userInfo->getOrganization().'_'.$today->format('d.m.Y').'.pdf';
         $filepath = $templateProcessor->save();
 
-        return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        Settings::setPdfRendererName(Settings::PDF_RENDERER_TCPDF);
+        Settings::setPdfRendererPath('vendor/tecnickcom');
+        $phpWord = IOFactory::load($filepath, 'Word2007');
+        $phpWord->save('document.pdf', 'PDF');
+
+        return $this->file($phpWord, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }

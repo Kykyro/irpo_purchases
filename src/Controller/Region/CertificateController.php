@@ -45,25 +45,55 @@ class CertificateController extends AbstractController
      */
     public function certificate(Request $request, certificateOfContractingService $certificateOfContractingService) : Response
     {
-
         $user = $this->getUser();
+        $userInfo = $user->getUserInfo();
         $arr = [];
-        $form = $this->createForm(formWithDate::class, $arr);
+
+        $form = $this->createFormBuilder($arr)
+            ->add('ExtraFundsEconomicSector', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '.01',
+                        'min' => '0',
+                        'max' => '99999999999'
+                ],
+                'label' => 'Средства организаций реального сектора экономики',
+                'data' => $userInfo->getExtraFundsEconomicSector() * 1000
+            ])
+            ->add('FinancingFundsOfSubject', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '.01',
+                    'min' => '0',
+                    'max' => '99999999999'
+                ],
+                'label' => 'Средства субъекта РФ',
+                'data' => $userInfo->getFinancingFundsOfSubject() * 1000
+            ])
+            ->add('ExtraFundsOO', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '.01',
+                    'min' => '0',
+                    'max' => '99999999999'
+                ],
+                'label' => 'Средства образовательной организации',
+                'data' => $userInfo->getExtraFundsOO() * 1000,
+            ])
+            ->getForm();
 
         $form->handleRequest($request);
 
-        if( $form->isSubmitted() and $form->isValid())
+        if($form->isSubmitted() and $form->isValid())
         {
-            $data = $form->getData();
-
-            return $certificateOfContractingService->generateSertificate($user->getId(), $data['date']);
+            return $certificateOfContractingService->generateSertificate($user->getId(), null, $form->getData());
         }
-
 
         return $this->render('region/templates/certificates.html.twig', [
             'controller_name' => 'RegionController',
             'user' => $user,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+
         ]);
     }
 

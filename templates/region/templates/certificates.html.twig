@@ -22,7 +22,7 @@
                             <tr>
                                 <td class="col-md-8">Название</td>
                                 <td class="col-md-2">Скачать</td>
-                                <td class="col-md-2">Скачать с указанием даты</td>
+                                {#<td class="col-md-2">Скачать с указанием даты</td>#}
                             </tr>
                         </thead>
                         <tbody>
@@ -38,28 +38,44 @@
                                     </td>
                                 {% endif %}
                                 <td>
-                                    <a href="{{ path('app_region_certificate_download', {'id': user.getId()}) }}">
-                                        <button class="btn btn-primary col-lg-12">
-                                            <i class="fa fa-download">
-                                                Скачать
-                                            </i>
-                                        </button>
-                                    </a>
+                                    <button type="button" class="btn btn-primary col-lg-12" data-toggle="modal" data-target="#Modal">
+                                        <i class="fa fa-download">
+                                            Скачать
+                                        </i>
+                                    </button>
                                 </td>
-                                <td>
-                                    {{ form_start(form) }}
-                                        <div class="form-group">
-                                            <label>Дата заполнения</label>
-                                            {{ form_widget(form.date) }}
-                                        </div>
-                                        {{ form_widget(form.submit, {'attr':{'class': 'btn btn-primary col-lg-12'}}) }}
-                                    {{ form_end(form) }}
-                                </td>
+                                {#<td>#}
+
+                                {#</td>#}
                             </tr>
                         </tbody>
                     </table>
 
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">Справка о контрактации и расходовании средств</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{ form_start(form) }}
+                <div class="modal-body">
+                    {{ form_row(form.ExtraFundsEconomicSector, {"type":"number"}) }}
+                    {{ form_row(form.FinancingFundsOfSubject, {"type":"number"}) }}
+                    {{ form_row(form.ExtraFundsOO, {"type":"number"}) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Скачать</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
