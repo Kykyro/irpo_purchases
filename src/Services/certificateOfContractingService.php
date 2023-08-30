@@ -183,11 +183,19 @@ class certificateOfContractingService extends AbstractController
         $fileName = $userInfo->getOrganization().'_'.$today->format('d.m.Y').'.pdf';
         $filepath = $templateProcessor->save();
 
-        Settings::setPdfRendererName(Settings::PDF_RENDERER_TCPDF);
-        Settings::setPdfRendererPath('vendor/tecnickcom');
-        $phpWord = IOFactory::load($filepath, 'Word2007');
-        $phpWord->save('document.pdf', 'PDF');
+        Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
+        Settings::setPdfRendererPath('.');
+        Settings::setOutputEscapingEnabled(true);
+        Settings::setMeasurementUnit(Settings::UNIT_MM);
+//        Settings::setCompatibility(true);
 
-        return $this->file($phpWord, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        Settings::setDefaultFontName('dejavu sans');
+        Settings::setDefaultFontSize(12);
+
+        $phpWord = IOFactory::load($filepath);
+//        $phpWord->setDefaultFontName('dejavu sans');
+
+//        return $this->file($filepath,  $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        return $this->file($phpWord->save($fileName, 'PDF', true), $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }
