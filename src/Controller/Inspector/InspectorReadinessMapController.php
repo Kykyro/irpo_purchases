@@ -131,6 +131,9 @@ class InspectorReadinessMapController extends AbstractController
             'furniture' => $this->midleProc($procentage['furniture'], $procentage['furniture_fact']),
             'PO' => $this->midleProc($procentage['PO'], $procentage['PO_fact']),
             'equipment' => $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
+            'furniture_put' => $this->midleProc($procentage['furniture'], $procentage['furniture_put']),
+            'PO_put' => $this->midleProc($procentage['PO'], $procentage['PO_put']),
+            'equipment_put' => $this->midleProc($procentage['equipment'], $procentage['equipment_put']),
             'fact' => $procentage['furniture_fact']+$procentage['PO_fact']+$procentage['equipment_fact'],
             'put' => $procentage['furniture_put']+$procentage['PO_put']+$procentage['equipment_put'],
 
@@ -172,6 +175,7 @@ class InspectorReadinessMapController extends AbstractController
             'form' => $form->createView(),
             'proc' => $proc,
             'mtb_fact' => ($count > 0) ? round((($proc['furniture']+$proc['PO']+$proc['equipment'])/$count)*100, 2): 0,
+            'mtb_put' => ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put'])/$count)*100, 2): 0,
 //            'mtb_put' => round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2),
         ]);
     }

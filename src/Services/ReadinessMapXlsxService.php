@@ -319,7 +319,9 @@ class ReadinessMapXlsxService extends AbstractController
 //                ($procentage['PO'] > 0) ? round(($procentage['PO_fact'] / $procentage['PO']) , 2) : "-",
 //                ($procentage['equipment'] > 0) ? round(($procentage['equipment_fact'] / $procentage['equipment']) , 2) : "-",
                 "=Sum(J$row:L$row)/$count",
-                $this->midleProc($total, $total_put),
+                ($count > 0) ? ($this->midleProc($procentage['furniture'], $procentage['furniture_put'])+
+                $this->midleProc($procentage['PO'], $procentage['PO_put'])+
+                $this->midleProc($procentage['equipment'], $procentage['equipment_put']))/$count : 0,
 //                ($total > 0) ? round(($total_put / $total) , 2) : 0,
                 '-',
                 '-',
@@ -331,7 +333,7 @@ class ReadinessMapXlsxService extends AbstractController
                 $user_info->getCurator()
 
             ];
-            $sheet->fromArray($user_info_arr, "0", 'B'.$row);
+            $sheet->fromArray($user_info_arr, "-", 'B'.$row);
             $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'K'];
             foreach ($proc_cell as $cell)
             {
@@ -383,11 +385,11 @@ class ReadinessMapXlsxService extends AbstractController
             if($result > 0)
                 return $result;
             else
-                return "0%";
+                return 0;
         }
         else
         {
-            return "-";
+            return null;
         }
     }
 

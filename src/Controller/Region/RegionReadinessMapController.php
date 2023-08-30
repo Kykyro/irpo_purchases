@@ -83,6 +83,10 @@ class RegionReadinessMapController extends AbstractController
             'equipment' => $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
             'fact' => $procentage['furniture_fact']+$procentage['PO_fact']+$procentage['equipment_fact'],
             'put' => $procentage['furniture_put']+$procentage['PO_put']+$procentage['equipment_put'],
+            'furniture_put' => $this->midleProc($procentage['furniture'], $procentage['furniture_put']),
+            'PO_put' => $this->midleProc($procentage['PO'], $procentage['PO_put']),
+            'equipment_put' => $this->midleProc($procentage['equipment'], $procentage['equipment_put']),
+
 
         ];
 
@@ -97,6 +101,7 @@ class RegionReadinessMapController extends AbstractController
             'user' => $user,
             'proc' => $proc,
             'mtb_fact' => ($count > 0) ? round((($proc['furniture']+$proc['PO']+$proc['equipment'])/$count)*100, 2): 0,
+            'mtb_put' => ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put'])/$count)*100, 2): 0,
 
         ]);
     }
