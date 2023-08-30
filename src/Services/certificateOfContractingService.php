@@ -180,7 +180,7 @@ class certificateOfContractingService extends AbstractController
             'pfOOFunds' => $fmt->format($procent['factOOFunds']),
         ]);
 
-        $fileName = $userInfo->getOrganization().'_'.$today->format('d.m.Y').'.pdf';
+        $fileName = $userInfo->getOrganization().'_'.$today->format('d.m.Y').'.docx';
         $filepath = $templateProcessor->save();
 
 //        Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
