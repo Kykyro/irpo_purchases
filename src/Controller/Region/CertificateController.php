@@ -69,7 +69,7 @@ class CertificateController extends AbstractController
                 'attr' => [
                     'class' => 'form-control',
                     'step' => '.01',
-                        'min' => '0',
+                        'min' => $userInfo->getExtraFundsEconomicSector() * 1000,
                         'max' => '99999999999'
                 ],
                 'label' => 'Средства организаций реального сектора экономики',
@@ -79,7 +79,7 @@ class CertificateController extends AbstractController
                 'attr' => [
                     'class' => 'form-control',
                     'step' => '.01',
-                    'min' => '0',
+                    'min' => $userInfo->getFinancingFundsOfSubject() * 1000,
                     'max' => '99999999999'
                 ],
                 'label' => 'Средства субъекта РФ',
@@ -89,7 +89,7 @@ class CertificateController extends AbstractController
                 'attr' => [
                     'class' => 'form-control',
                     'step' => '.01',
-                    'min' => '0',
+                    'min' => $userInfo->getExtraFundsOO() * 1000,
                     'max' => '99999999999'
                 ],
                 'label' => 'Средства образовательной организации',

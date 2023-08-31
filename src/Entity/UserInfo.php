@@ -186,6 +186,11 @@ class UserInfo
      */
     private $contractCertifications;
 
+    /**
+     * @ORM\OneToOne(targetEntity=CertificateFunds::class, mappedBy="userInfo", cascade={"persist", "remove"})
+     */
+    private $certificateFunds;
+
 
 
     function __construct()
@@ -720,6 +725,28 @@ class UserInfo
                 $contractCertification->setUserInfo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCertificateFunds(): ?CertificateFunds
+    {
+        return $this->certificateFunds;
+    }
+
+    public function setCertificateFunds(?CertificateFunds $certificateFunds): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($certificateFunds === null && $this->certificateFunds !== null) {
+            $this->certificateFunds->setUserInfo(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($certificateFunds !== null && $certificateFunds->getUserInfo() !== $this) {
+            $certificateFunds->setUserInfo($this);
+        }
+
+        $this->certificateFunds = $certificateFunds;
 
         return $this;
     }
