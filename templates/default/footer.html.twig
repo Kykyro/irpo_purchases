@@ -109,36 +109,36 @@
 {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CURATOR') %}
     <script>
         $(document).ready(function(){
-            // fetch('/api/infrastructure-sheet-notification').then(function(response) {
-            //     response.json().then(function(data) {
-            //         let infrastructureSheetCount = $('#infrastructure-sheet-count');
-            //
-            //         if(data === '0'){
-            //             infrastructureSheetCount.hide();
-            //         }
-            //         else{
-            //             toastr.info('Вам прислали '+ data + ' новых инфраструктурных листов');
-            //             infrastructureSheetCount.html(data);
-            //
-            //         }
-            //     })
-            // });
-            // fetch('/api/purchase-notes').then(function(response) {
-            //     response.json().then(function(data) {
-            //         let purchaseNote = $('#purchase-notes-count');
-            //
-            //         if(data === '0'){
-            //             purchaseNote.hide();
-            //         }
-            //         else{
-            //             toastr.info('Есть новые замечания к закупкам');
-            //             console.log(data);
-            //             purchaseNote.html(data.toString());
-            //
-            //         }
-            //     })
-            // });
-            fetch({{ path('app_api_certificate_notification') }}).then(function(response) {
+            fetch('/api/infrastructure-sheet-notification').then(function(response) {
+                response.json().then(function(data) {
+                    let infrastructureSheetCount = $('#infrastructure-sheet-count');
+
+                    if(data === '0'){
+                        infrastructureSheetCount.hide();
+                    }
+                    else{
+                        toastr.info('Вам прислали '+ data + ' новых инфраструктурных листов');
+                        infrastructureSheetCount.html(data);
+
+                    }
+                })
+            });
+            fetch('/api/purchase-notes').then(function(response) {
+                response.json().then(function(data) {
+                    let purchaseNote = $('#purchase-notes-count');
+
+                    if(data === '0'){
+                        purchaseNote.hide();
+                    }
+                    else{
+                        toastr.info('Есть новые замечания к закупкам');
+                        console.log(data);
+                        purchaseNote.html(data.toString());
+
+                    }
+                })
+            });
+            fetch('https://mtb-spo.ru/api/certificate-notification').then(function(response) {
                 response.json().then(function(data) {
 
                     let purchaseNote = $('#certificate-notification');
