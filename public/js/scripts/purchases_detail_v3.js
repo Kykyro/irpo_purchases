@@ -303,6 +303,7 @@ $(document).ready(function () {
         //     f_sum = getSum(initial_federal_funds, initial_funds_of_subject,
         //         initial_employers_funds, initial_edication_org_funds);
         // else
+
             f_sum = getSum(fin_federal_funds, fin_funds_of_subject,
                 fin_employers_funds, fin_edication_org_funds);
 
