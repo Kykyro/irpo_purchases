@@ -106,7 +106,7 @@
         })
     </script>
 {% endif %}
-{% if is_granted('ROLE_REGION') %}
+{% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CURATOR') %}
     <script>
         $(document).ready(function(){
             fetch('/api/infrastructure-sheet-notification').then(function(response) {
@@ -136,6 +136,52 @@
                         purchaseNote.html(data.toString());
 
                     }
+                })
+            });
+            fetch('/api/certificate-notification').then(function(response) {
+                response.json().then(function(data) {
+
+                    let purchaseNote = $('#certificate-notification');
+                    if(data === null)
+                        return;
+                    console.log(data);
+                    if(data.includes("Справка не прислана"))
+                    {
+                        console.log(1);
+                        purchaseNote.addClass('badge-danger');
+                        purchaseNote.find('i').addClass('fa-times');
+                        return;
+                    }
+                    if(data.includes("Файл на проверке"))
+                    {
+                        console.log(2);
+                        purchaseNote.addClass('badge-warning');
+                        purchaseNote.find('i').addClass('fa-repeat');
+                        return;
+                    }
+                    if(data.includes("Новый файл на проверке"))
+                    {
+                        console.log(3);
+                        purchaseNote.addClass('badge-warning');
+                        purchaseNote.find('i').addClass('fa-repeat');
+                        return;
+                    }
+                    if(data.includes("Отправлен на доработку"))
+                    {
+                        console.log(4);
+                        purchaseNote.addClass('badge-danger');
+                        purchaseNote.find('i').addClass('fa-times');
+                        return;
+                    }
+                    if(data.includes("Справка принята"))
+                    {
+                        console.log(5);
+                        purchaseNote.addClass('badge-primary');
+                        purchaseNote.find('i').addClass('fa-thumbs-up');
+                        return;
+                    }
+                    console.log('?????');
+                    purchaseNote.hide();
                 })
             });
         })
