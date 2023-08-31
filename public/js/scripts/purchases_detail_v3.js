@@ -299,15 +299,18 @@ $(document).ready(function () {
     }
     function FinSumGreatedThenFactSum() {
         let f_sum;
-        if(formState === 'Единственный поставщик')
-            f_sum = getSum(initial_federal_funds, initial_funds_of_subject,
-                initial_employers_funds, initial_edication_org_funds);
-        else
+        // if(formState === 'Единственный поставщик')
+        //     f_sum = getSum(initial_federal_funds, initial_funds_of_subject,
+        //         initial_employers_funds, initial_edication_org_funds);
+        // else
             f_sum = getSum(fin_federal_funds, fin_funds_of_subject,
                 fin_employers_funds, fin_edication_org_funds);
 
         let fact_sum = getSum(fact_federal_funds, fact_funds_of_subject,
             fact_employers_funds, fact_edication_org_funds);
+
+        console.log(f_sum);
+        console.log(fact_sum);
 
         if(f_sum >= fact_sum)
             return true;
