@@ -159,7 +159,7 @@
                         <div class="modal-body">
                             {% set file = i.getUserInfo().getContractCertifications().last().getFile() %}
                             {% if file %}
-                                <a href="">
+                                <a href="{{ path('app_download_file_by_route', {'file': file, 'route': 'certificate_files_directory'}) }}">
                                     <i class="fa fa-download"></i> {{ file }}
                                 </a>
                                 <hr>
