@@ -106,7 +106,7 @@
         })
     </script>
 {% endif %}
-{% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CURATOR') %}
+{% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS') %}
     <script>
         $(document).ready(function(){
             fetch('https://mtb-spo.ru/api/purchase-notes').then(function(response) {
