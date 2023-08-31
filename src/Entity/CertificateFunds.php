@@ -37,6 +37,15 @@ class CertificateFunds
      */
     private $extraFunds;
 
+
+    function __construct($user_info)
+    {
+//        $this->setUserInfo($user_info);
+        $this->setEconomicFunds($user_info->getExtraFundsEconomicSector()*1000);
+        $this->setSubjectFunds($user_info->getFinancingFundsOfSubject()*1000);
+        $this->setExtraFunds($user_info->getExtraFundsOO()*1000);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

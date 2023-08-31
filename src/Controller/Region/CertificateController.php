@@ -2,6 +2,7 @@
 
 namespace App\Controller\Region;
 
+use App\Entity\CertificateFunds;
 use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
 use App\Entity\PurchaseNote;
@@ -43,7 +44,7 @@ class CertificateController extends AbstractController
      * @return Response
      * @Route("/certificate", name="app_region_certificate")
      */
-    public function certificate(Request $request, certificateOfContractingService $certificateOfContractingService) : Response
+    public function certificate(Request $request, certificateOfContractingService $certificateOfContractingService, EntityManagerInterface $em) : Response
     {
         $user = $this->getUser();
         $userInfo = $user->getUserInfo();
@@ -55,6 +56,16 @@ class CertificateController extends AbstractController
             'Справка принята' => '-primary',
 
         ];
+        if(is_null($userInfo->getCertificateFunds()))
+        {
+            $certificateFunds = new CertificateFunds($userInfo);
+            $userInfo->setCertificateFunds($certificateFunds);
+
+        }
+        else
+        {
+            $certificateFunds = $userInfo->getCertificateFunds();
+        }
 
         $contractCertificate = $userInfo->getContractCertifications();
         if(count($contractCertificate))
@@ -69,11 +80,11 @@ class CertificateController extends AbstractController
                 'attr' => [
                     'class' => 'form-control',
                     'step' => '.01',
-                        'min' => $userInfo->getExtraFundsEconomicSector() * 1000,
+                        'min' => $userInfo->getExtraFundsEconomicSector() ,
                         'max' => '99999999999'
                 ],
                 'label' => 'Средства организаций реального сектора экономики',
-                'data' => $userInfo->getExtraFundsEconomicSector() * 1000
+                'data' => $certificateFunds->getEconomicFunds()
             ])
             ->add('FinancingFundsOfSubject', TextType::class, [
                 'attr' => [
@@ -83,7 +94,7 @@ class CertificateController extends AbstractController
                     'max' => '99999999999'
                 ],
                 'label' => 'Средства субъекта РФ',
-                'data' => $userInfo->getFinancingFundsOfSubject() * 1000
+                'data' => $certificateFunds->getSubjectFunds()
             ])
             ->add('ExtraFundsOO', TextType::class, [
                 'attr' => [
@@ -93,7 +104,7 @@ class CertificateController extends AbstractController
                     'max' => '99999999999'
                 ],
                 'label' => 'Средства образовательной организации',
-                'data' => $userInfo->getExtraFundsOO() * 1000,
+                'data' => $certificateFunds->getExtraFunds() ,
             ])
             ->getForm();
 
@@ -101,7 +112,17 @@ class CertificateController extends AbstractController
 
         if($form->isSubmitted() and $form->isValid())
         {
-            return $certificateOfContractingService->generateSertificate($user->getId(), null, $form->getData());
+            $data = $form->getData();
+
+            $certificateFunds->setEconomicFunds($data['ExtraFundsEconomicSector']);
+            $certificateFunds->setSubjectFunds($data['FinancingFundsOfSubject']);
+            $certificateFunds->setExtraFunds($data['ExtraFundsOO']);
+
+            $em->persist($userInfo);
+            $em->persist($certificateFunds);
+            $em->flush();
+
+            return $certificateOfContractingService->generateSertificate($user->getId(), null, $data);
         }
 
         return $this->render('region/templates/certificates.html.twig', [
