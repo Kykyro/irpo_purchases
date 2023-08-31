@@ -20,9 +20,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Shapecode\Bundle\CronBundle\Annotation\CronJob;
 
 
-///**
-// * @CronJob("5 3 * * 5,6")
-// */
+/**
+ * @CronJob("5 3 * * 2")
+ */
 class weeklyContractCertificateCommand extends Command
 {
 
