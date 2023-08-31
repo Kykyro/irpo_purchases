@@ -36,6 +36,7 @@ parameters:
     cluster_request_table_directory: '%kernel.project_dir%/public/uploads/clusterRequestTable'
     cluster_request_certificate: '%kernel.project_dir%/public/word/справка по заявкам.docx'
     pdf_files_directory: '%kernel.project_dir%/public/pdf/'
+    certificate_files_directory: '%kernel.project_dir%/public/uploads/certificate/'
 
 
 services:

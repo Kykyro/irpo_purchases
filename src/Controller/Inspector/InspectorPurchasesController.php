@@ -111,7 +111,7 @@ class InspectorPurchasesController extends AbstractController
             ->getResult();
         $today = new \DateTimeImmutable('now');
         $user = $entity_manager->getRepository(User::class)->find($id);
-
+        $contractingCertificates = $user->getUserInfo()->getContractCertifications();
         $arr = [];
         $form = $this->createFormBuilder($arr)
             ->add('date', DateType::class, [
@@ -224,6 +224,7 @@ class InspectorPurchasesController extends AbstractController
             'user' => $user,
             'form2' => $form2->createView(),
             'today' => $today,
+            'contractingCertificates' => $contractingCertificates,
         ]);
     }
 

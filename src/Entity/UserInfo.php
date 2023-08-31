@@ -180,6 +180,12 @@ class UserInfo
      */
     private $contactInfo;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ContractCertification::class, mappedBy="userInfo")
+     * @ORM\OrderBy({"id" = "ASC"})
+     */
+    private $contractCertifications;
+
 
 
     function __construct()
@@ -188,6 +194,7 @@ class UserInfo
 //        $this->uGPS = new ArrayCollection();
         $this->employers = new ArrayCollection();
         $this->clusterPerfomanceIndicators = new ArrayCollection();
+        $this->contractCertifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -683,6 +690,36 @@ class UserInfo
         }
 
         $this->contactInfo = $contactInfo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ContractCertification>
+     */
+    public function getContractCertifications(): Collection
+    {
+        return $this->contractCertifications;
+    }
+
+    public function addContractCertification(ContractCertification $contractCertification): self
+    {
+        if (!$this->contractCertifications->contains($contractCertification)) {
+            $this->contractCertifications[] = $contractCertification;
+            $contractCertification->setUserInfo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContractCertification(ContractCertification $contractCertification): self
+    {
+        if ($this->contractCertifications->removeElement($contractCertification)) {
+            // set the owning side to null (unless already changed)
+            if ($contractCertification->getUserInfo() === $this) {
+                $contractCertification->setUserInfo(null);
+            }
+        }
 
         return $this;
     }

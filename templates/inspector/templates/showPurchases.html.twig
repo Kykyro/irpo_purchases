@@ -624,9 +624,55 @@
             </div>
         </div>
     </div>
+
 {% endif %}
 
+    <div class="row ">
+        <div class="col-lg-12 ">
+            <div class="ibox collapsed">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Справки о контрактации</h5>
+                        <div class="ibox-tools">
 
+                            <i class="fa fa-chevron-up"></i>
+
+
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content">
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <td class="col-md-2">Дата</td>
+                               <td class="col-md-2">Статус</td>
+                               <td class="col-md-2">Скачать</td>
+                           </tr>
+                       </thead>
+                       <tbody>
+                            {% for i in contractingCertificates %}
+                                <tr>
+                                    <td>{{ i.getCreatedAt().format('d.m.Y') }}</td>
+                                    <td>{{ i.getStatus() }}</td>
+                                    <td>
+                                        {% if i.getFile() %}
+                                            <a href="{{ path('app_download_file_by_route', {'file': i.getFile(), 'route': 'certificate_files_directory'}) }}">
+                                                <i class="fa fa-download"></i> {{ i.getFile() }}
+                                            </a>
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                       </tbody>
+                   </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 

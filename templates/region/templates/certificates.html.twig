@@ -5,7 +5,11 @@
             vertical-align: middle;
             text-align: center;
         }
+        .custom-file-label::after{
+            content:"Обзор"
+        }
     </style>
+    {#<link href="{{ asset("css/plugins/jasny/jasny-bootstrap.min.css") }}" rel="stylesheet">#}
 {% endblock %}
 {% block content %}
     <div class="row mt-5">
@@ -20,8 +24,12 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <td class="col-md-8">Название</td>
+                                <td class="col-md-5">Название</td>
                                 <td class="col-md-2">Скачать</td>
+                                {% if(contract_certificate) %}
+                                <td class="col-md-1">Статус</td>
+                                <td class="col-md-4">Загрузить</td>
+                                {% endif %}
                                 {#<td class="col-md-2">Скачать с указанием даты</td>#}
                             </tr>
                         </thead>
@@ -44,13 +52,34 @@
                                         </i>
                                     </button>
                                 </td>
+                                {% if(contract_certificate) %}
+                                <td>
+                                    <p>
+                                        <span class="badge badge{{ status_lib[contract_certificate.getStatus()] }} col-sm-12">
+                                            {{ contract_certificate.getStatus() }}
+                                        </span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <form action="{{ path('app_region_certificate_upload') }}" method="post" enctype="multipart/form-data">
+                                        <div class="custom-file">
+                                            <input id="logo" type="file" class="custom-file-input" name="file">
+                                            <label for="logo" class="custom-file-label">Выбрать файл...</label>
+                                        </div>
+                                        <button  type="submit" class="btn btn-success col-sm-12 mt-2">
+                                            <i class="fa fa-upload"></i>
+                                            Отправить
+                                        </button>
+                                        <input type="hidden" name="token" value="{{ csrf_token('upload-certification') }}"/>
+                                    </form>
+                                </td>
+                                {% endif %}
                                 {#<td>#}
 
                                 {#</td>#}
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -79,4 +108,13 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+    {#<script src="{{ asset("js/plugins/jasny/jasny-bootstrap.min.js") }}"></script>#}
+    <script>
+        $('.custom-file-input').on('change', function() {
+            let fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        });
+    </script>
 {% endblock %}

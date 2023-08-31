@@ -47,6 +47,21 @@ class CertificateController extends AbstractController
     {
         $user = $this->getUser();
         $userInfo = $user->getUserInfo();
+        $statusLib = [
+            'Справка не прислана' => '-danger',
+            'Файл на проверке' => '-warning',
+            'Новый файл на проверке' => '-warning',
+            'Отправлен на доработку' => '-danger',
+            'Справка принята' => '-primary',
+
+        ];
+
+        $contractCertificate = $userInfo->getContractCertifications();
+        if(count($contractCertificate))
+            $contractCertificate = $contractCertificate->last();
+        else
+            $contractCertificate = null;
+
         $arr = [];
 
         $form = $this->createFormBuilder($arr)
@@ -93,6 +108,8 @@ class CertificateController extends AbstractController
             'controller_name' => 'RegionController',
             'user' => $user,
             'form' => $form->createView(),
+            'contract_certificate' => $contractCertificate,
+            'status_lib' => $statusLib,
 
         ]);
     }
@@ -103,6 +120,37 @@ class CertificateController extends AbstractController
     public function downloadCertificate(certificateOfContractingService $certificateOfContractingService, int $id)
     {
         return $certificateOfContractingService->generateSertificate($id);
+    }
+
+    /**
+     * @Route("/certificate-upload/", name="app_region_certificate_upload")
+     */
+    public function uploadCertificate(Request $request, FileService $fileService, EntityManagerInterface $em)
+    {
+        $submittedToken = $request->request->get('token');
+        $user = $this->getUser();
+        $userInfo = $user->getUserInfo();
+
+        if ($this->isCsrfTokenValid('upload-certification', $submittedToken)) {
+            $contractCertificate = $userInfo->getContractCertifications()->last();
+            if($request->files->get('file'))
+            {
+                if($contractCertificate->getFile())
+                    $contractCertificate->setStatus('Новый файл на проверке');
+                else
+                    $contractCertificate->setStatus('Файл на проверке');
+
+                $contractCertificate->setFile($fileService->UploadFile($request->files->get('file'), 'certificate_files_directory'));
+
+            }
+
+
+            $em->persist($contractCertificate);
+            $em->flush();
+
+
+        }
+        return $this->redirectToRoute("app_region_certificate");
     }
 
 

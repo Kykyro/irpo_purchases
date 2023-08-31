@@ -3,27 +3,48 @@
 {% else %}
     {% set isRegion = false %}
 {% endif %}
-{% set isInspector = is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR')  %}
+{% set isInspector = is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') %}
 <div class="col-lg-4 animated fadeIn cluster-card"
      data-year="{{ i.getUserInfo().getYear() }}"
      data-industry="{{ i.getUserInfo().getDeclaredIndustry() }}"
-     {% if isRegion %}
-         data-region="{{ i.getUserInfo().getRfSubject().getName() }}"
-         data-district="{{ i.getUserInfo().getRfSubject().getDistrict() }}"
-     {% endif %}
+        {% if isRegion %}
+            data-region="{{ i.getUserInfo().getRfSubject().getName() }}"
+            data-district="{{ i.getUserInfo().getRfSubject().getDistrict() }}"
+        {% endif %}
 
 >
     <div class="contact-box">
         <div class="row">
             <div class="col-lg-12">
                 {% if isInspector %}
-                <div class="row">
-                    {% if  buttons is defined%}
-                        {{ buttons }}
-                    {% endif %}
-                </div>
-                {% endif %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% if i.getUserInfo().getContractCertifications()|length > 0 %}
+                                {% set statusLib = {
+                                    'Справка не прислана' : '-danger',
+                                    'Файл на проверке' : '-warning',
+                                    'Новый файл на проверке' : '-warning',
+                                    'Отправлен на доработку' : '-danger',
+                                    'Справка принята' : '-primary',
 
+                                } %}
+                                {% set status = i.getUserInfo().getContractCertifications().last().getStatus() %}
+                                <a type="button" data-toggle="modal" data-target="#contractCertificateModal-{{ i.getUserIdentifier() }}">
+                                    <span class="badge badge{{ statusLib[status] }} pull-right">
+                                        {{ status }}
+                                    </span>
+                                </a>
+
+                            {% endif %}
+                            {% if  buttons is defined %}
+                                {{ buttons }}
+                            {% endif %}
+
+
+                        </div>
+
+                    </div>
+                {% endif %}
 
 
                 <h3>
@@ -69,48 +90,48 @@
                         </button>
                     </a>
                     {% if isInspector %}
-                    {#<a href="{{ path('app_inspector_infrastructure_sheet_upload', {'id': i.getId()}) }}">#}
+                        {#<a href="{{ path('app_inspector_infrastructure_sheet_upload', {'id': i.getId()}) }}">#}
                         {#<button class="btn btn-primary col-lg-12 mb-2">#}
-                            {#<div class="fa fa-upload"></div>#}
-                            {#Загрузить ИЛ#}
+                        {#<div class="fa fa-upload"></div>#}
+                        {#Загрузить ИЛ#}
                         {#</button>#}
-                    {#</a>#}
-                    {#<a href="{{ path('app_inspector_infrastructure_sheet_region_view', {'id': i.getId()}) }}">#}
+                        {#</a>#}
+                        {#<a href="{{ path('app_inspector_infrastructure_sheet_region_view', {'id': i.getId()}) }}">#}
                         {#<button class="btn btn-info col-lg-12 mb-2">#}
-                            {#<div class="fa fa-search"></div>#}
-                            {#Просмотр истории ИЛов#}
+                        {#<div class="fa fa-search"></div>#}
+                        {#Просмотр истории ИЛов#}
                         {#</button>#}
-                    {#</a>#}
-                    <a href="{{ path('app_inspector_show_purchases', {'id': i.getId()}) }}">
-                        <button class="btn btn-info col-lg-12 mb-2">
-                            <div class="fa fa-archive"></div>
-                            Просмотр Закупок
-                        </button>
-                    </a>
+                        {#</a>#}
+                        <a href="{{ path('app_inspector_show_purchases', {'id': i.getId()}) }}">
+                            <button class="btn btn-info col-lg-12 mb-2">
+                                <div class="fa fa-archive"></div>
+                                Просмотр Закупок
+                            </button>
+                        </a>
                     {% endif %}
 
                     {% if isInspector %}
-                    <a href="{{ path('app_weekly_budget_amount', {'id': i.getId()}) }}">
-                        <button class="btn btn-success col-lg-12 mb-2">
-                            <div class="fa fa-money"></div>
-                            Недельная сумма по бюджету
-                        </button>
-                    </a>
+                        <a href="{{ path('app_weekly_budget_amount', {'id': i.getId()}) }}">
+                            <button class="btn btn-success col-lg-12 mb-2">
+                                <div class="fa fa-money"></div>
+                                Недельная сумма по бюджету
+                            </button>
+                        </a>
                     {% endif %}
 
                     {% if isInspector %}
-                    <a href="{{ path('app_inspector_readiness_map', {'id': i.getId()}) }}">
-                        <button class="btn btn-primary col-lg-12 mb-2">
-                            <div class="fa fa-check-circle"></div>
-                            Карта готовности
-                        </button>
-                    </a>
-                    <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">
-                        <button class="btn btn-warning col-lg-12">
-                            <div class="fa fa-leaf"></div>
-                            Переключиться
-                        </button>
-                    </a>
+                        <a href="{{ path('app_inspector_readiness_map', {'id': i.getId()}) }}">
+                            <button class="btn btn-primary col-lg-12 mb-2">
+                                <div class="fa fa-check-circle"></div>
+                                Карта готовности
+                            </button>
+                        </a>
+                        <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">
+                            <button class="btn btn-warning col-lg-12">
+                                <div class="fa fa-leaf"></div>
+                                Переключиться
+                            </button>
+                        </a>
                     {% endif %}
                 </div>
             </div>
@@ -123,5 +144,60 @@
                 </span>
             {% endfor %}
         </div>
+        {% if isInspector and i.getUserInfo().getContractCertifications()|length > 0 %}
+            <div class="modal fade" id="contractCertificateModal-{{ i.getUserIdentifier() }}" tabindex="-1"
+                 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"> {{ i.getUserInfo().getEducationalOrganization() }} </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ path('app_certificate_approve', {'id': i.getUserInfo().getContractCertifications().last().getId()}) }}" method="post">
+                        <div class="modal-body">
+                            {% set file = i.getUserInfo().getContractCertifications().last().getFile() %}
+                            {% if file %}
+                                <a href="">
+                                    <i class="fa fa-download"></i> {{ file }}
+                                </a>
+                                <hr>
+
+
+                                    <div class="col-sm-10">
+                                        <div>
+                                            <label>
+                                                <input type="radio" checked="" value="Справка принята" id="optionsRadios1" name="optionsRadios">
+                                                Принято
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input type="radio" value="Отправлен на доработку" id="optionsRadios2" name="optionsRadios">
+                                                На доработку
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="token" value="{{ csrf_token('approve-certification') }}"/>
+
+                            {% else %}
+                                <p>
+                                    <span class="badge badge-danger">Справки нет</span>
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+
+                            {% if file %}
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                            {% endif %}
+                            <button type="button" class="btn" data-dismiss="modal">Закрыть</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
