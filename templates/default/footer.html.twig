@@ -109,7 +109,7 @@
 {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS') %}
     <script>
         $(document).ready(function(){
-            fetch('https://mtb-spo.ru/api/purchase-notes').then(function(response) {
+            fetch('/api/purchase-notes').then(function(response) {
                 response.json().then(function(data) {
                     let purchaseNote = $('#purchase-notes-count');
 
@@ -124,7 +124,7 @@
                     }
                 })
             });
-            fetch('https://mtb-spo.ru/api/certificate-notification').then(function(response) {
+            fetch('/api/certificate-notification').then(function(response) {
                 response.json().then(function(data) {
 
                     let purchaseNote = $('#certificate-notification');
