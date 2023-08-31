@@ -128,7 +128,12 @@
                 response.json().then(function(data) {
 
                     let purchaseNote = $('#certificate-notification');
-
+                    if(typeof data === 'object')
+                    {
+                        console.log('?????');
+                        purchaseNote.hide();
+                        return;
+                    }
                     console.log(data);
                     if(data.includes("Справка не прислана"))
                     {
