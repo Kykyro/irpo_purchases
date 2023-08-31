@@ -29,11 +29,13 @@
 
                                 } %}
                                 {% set status = i.getUserInfo().getContractCertifications().last().getStatus() %}
+                                <b>Состояние справки о контрактации: </b>
                                 <a type="button" data-toggle="modal" data-target="#contractCertificateModal-{{ i.getUserIdentifier() }}">
-                                    <span class="badge badge{{ statusLib[status] }} pull-right">
+                                    <span class="badge badge{{ statusLib[status] }}">
                                         {{ status }}
                                     </span>
                                 </a>
+                                <hr>
 
                             {% endif %}
                             {% if  buttons is defined %}
