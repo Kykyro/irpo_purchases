@@ -109,20 +109,6 @@
 {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CURATOR') %}
     <script>
         $(document).ready(function(){
-            fetch('https://mtb-spo.ru/api/infrastructure-sheet-notification').then(function(response) {
-                response.json().then(function(data) {
-                    let infrastructureSheetCount = $('#infrastructure-sheet-count');
-
-                    if(data === '0'){
-                        infrastructureSheetCount.hide();
-                    }
-                    else{
-                        toastr.info('Вам прислали '+ data + ' новых инфраструктурных листов');
-                        infrastructureSheetCount.html(data);
-
-                    }
-                })
-            });
             fetch('https://mtb-spo.ru/api/purchase-notes').then(function(response) {
                 response.json().then(function(data) {
                     let purchaseNote = $('#purchase-notes-count');
