@@ -91,7 +91,7 @@
 {% if is_granted('ROLE_INSPECTOR') %}
     <script>
         $(document).ready(function(){
-            fetch('/api/feedback-unviewed').then(function(response) {
+            fetch('https://mtb-spo.ru/api/feedback-unviewed').then(function(response) {
                 response.json().then(function(data) {
                     let feedbackCount = $('#feedback-count');
                     if(data === '0'){
@@ -109,7 +109,7 @@
 {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CURATOR') %}
     <script>
         $(document).ready(function(){
-            fetch('/api/infrastructure-sheet-notification').then(function(response) {
+            fetch('https://mtb-spo.ru/api/infrastructure-sheet-notification').then(function(response) {
                 response.json().then(function(data) {
                     let infrastructureSheetCount = $('#infrastructure-sheet-count');
 
@@ -123,7 +123,7 @@
                     }
                 })
             });
-            fetch('/api/purchase-notes').then(function(response) {
+            fetch('https://mtb-spo.ru/api/purchase-notes').then(function(response) {
                 response.json().then(function(data) {
                     let purchaseNote = $('#purchase-notes-count');
 
