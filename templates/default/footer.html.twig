@@ -142,8 +142,7 @@
                 response.json().then(function(data) {
 
                     let purchaseNote = $('#certificate-notification');
-                    if(data === null)
-                        return;
+
                     console.log(data);
                     if(data.includes("Справка не прислана"))
                     {
