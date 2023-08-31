@@ -661,7 +661,7 @@
                                     {% endif %}
                                     {% if additionalAgreement|length > 0 %}
                                         {% for i in additionalAgreement %}
-                                            {% if i.getOldVal() %}
+                                            {% if i.getNewVal() %}
                                             <li>
                                                 <a href="{{ path('app_download_file_by_route', {'file': i.getNewVal(), 'route':'additional_agreement_directory'}) }}">
                                                     <i class="fa fa-download">
