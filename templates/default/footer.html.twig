@@ -138,7 +138,7 @@
                     }
                 })
             });
-            fetch({{ path('app_api_certificate_notification') }}).then(function(response) {
+            fetch('/api/certificate-notification').then(function(response) {
                 response.json().then(function(data) {
 
                     let purchaseNote = $('#certificate-notification');

@@ -25,10 +25,10 @@ class ApiCertificateNotificationController extends AbstractController
     public function getClusterByYear(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-
-        $serializer = new Serializer($normalizers, $encoders);
+//        $encoders = [new JsonEncoder()];
+//        $normalizers = [new ObjectNormalizer()];
+//
+//        $serializer = new Serializer($normalizers, $encoders);
 
         $user = $this->getUser();
         $contractCertificate = $user->getUserInfo()->getContractCertifications();
@@ -37,9 +37,10 @@ class ApiCertificateNotificationController extends AbstractController
         else
             $contractCertificate = null;
 
-        $jsonContent = json_encode($contractCertificate, JSON_UNESCAPED_UNICODE);;
 
+//        $jsonContent = $serializer->serialize($contractCertificate, 'json');
+//        $jsonContent = utf8_encode($jsonContent);
 
-        return new JsonResponse($jsonContent);
+        return new JsonResponse($contractCertificate);
     }
 }
