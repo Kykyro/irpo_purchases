@@ -442,7 +442,11 @@ class certificateByClustersService extends AbstractController
                     $user_info->getDeclaredIndustry(), // Отрасль
                     $user_info->getCluster(), // Наименование центра (кластера)
                     $user_info->getInitiatorOfCreation(), // Инициатор создания центра
-                    $user_info->getOrganization(), // Базовая образовательная организация (грантополучатель)
+
+                    $user_info->getOrganization() == $user_info->getEducationalOrganization() ?
+                    $user_info->getEducationalOrganization()." (".$user_info->getOrganization().")" :
+                    $user_info->getEducationalOrganization(), // Базовая образовательная организация (грантополучатель)
+
                     $this->arrayToStringList( $_employeers), // Работодатели
                     $this->arrayToStringList($user_info->getListOfEdicationOrganization()), // Образовательные организации
                     $user_info->getExtraFundsEconomicSector() * 1000, // Объем внебюджетных средств, направляемых участниками центра из числа организаций, действующих в реальном секторе экономики
