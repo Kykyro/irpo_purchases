@@ -27,6 +27,57 @@
             Сервер столкнулся с чем-то неожиданным, что не позволило ему выполнить запрос. Мы приносим свои извинения.
 
         </div>
+
+    </div>
+<hr>
+    <div class="row">
+        <div class="col-sm-8 offset-sm-2">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    {{ exception.message }}
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td colspan="2"> Информация об ошибке</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Сообщение</td>
+                                <td>{{ exception.message }}</td>
+                            </tr>
+                            <tr>
+                                <td>Код</td>
+                                <td>{{ exception.code }}</td>
+                            </tr>
+                            <tr>
+                                <td>Класс</td>
+                                <td>{{ exception.class }}</td>
+                            </tr>
+                            <tr>
+                                <td>Код статуса</td>
+                                <td>{{ exception.statusCode }}</td>
+                            </tr>
+                            <tr>
+                                <td>Текст статуса</td>
+                                <td>{{ exception.statusText }}</td>
+                            </tr>
+                            <tr>
+                                <td>Файл</td>
+                                <td>{{ exception.file }}</td>
+                            </tr>
+                            <tr>
+                                <td>Строка</td>
+                                <td>{{ exception.line }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Mainly scripts -->
