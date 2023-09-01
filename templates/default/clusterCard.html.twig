@@ -160,10 +160,17 @@
                         <form action="{{ path('app_certificate_approve', {'id': i.getUserInfo().getContractCertifications().last().getId()}) }}" method="post">
                         <div class="modal-body">
                             {% set file = i.getUserInfo().getContractCertifications().last().getFile() %}
+                            {% set table = i.getUserInfo().getContractCertifications().last().getPurchasesTable() %}
                             {% if file %}
                                 <a href="{{ path('app_download_file_by_route', {'file': file, 'route': 'certificate_files_directory'}) }}">
                                     <i class="fa fa-download"></i> {{ file }}
                                 </a>
+                                {% if table %}
+                                    <hr>
+                                    <a href="{{ path('app_download_file_by_route', {'file': table, 'route': 'purchases_table_directory'}) }}">
+                                        <i class="fa fa-download"></i> Таблица закупок
+                                    </a>
+                                {% endif %}
                                 <hr>
 
 

@@ -12,6 +12,7 @@ use App\Form\formWithDate;
 use App\Form\purchasesFormType;
 use App\Services\certificateOfContractingService;
 use App\Services\FileService;
+use App\Services\XlsxService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -146,7 +147,7 @@ class CertificateController extends AbstractController
     /**
      * @Route("/certificate-upload/", name="app_region_certificate_upload")
      */
-    public function uploadCertificate(Request $request, FileService $fileService, EntityManagerInterface $em)
+    public function uploadCertificate(Request $request, FileService $fileService, EntityManagerInterface $em, XlsxService $xlsxService)
     {
         $submittedToken = $request->request->get('token');
         $user = $this->getUser();
@@ -164,6 +165,16 @@ class CertificateController extends AbstractController
                 else
                     $contractCertificate->setStatus('Файл на проверке');
 
+                if($contractCertificate->getPurchasesTable())
+                {
+                    $fileService->DeleteFile($contractCertificate->getPurchasesTable(), 'purchases_table_directory');
+                    $contractCertificate->setPurchasesTable($xlsxService->generatePurchasesProcedureTable($userInfo->getId(), true));
+
+                }
+                else
+                {
+                    $contractCertificate->setPurchasesTable($xlsxService->generatePurchasesProcedureTable($userInfo->getId(), true));
+                }
 
                 $contractCertificate->setFile($fileService->UploadFile($request->files->get('file'), 'certificate_files_directory'));
 

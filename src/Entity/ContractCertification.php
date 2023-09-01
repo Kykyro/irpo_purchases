@@ -37,6 +37,11 @@ class ContractCertification
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $purchasesTable;
+
     function __construct(?UserInfo $userInfo)
     {
         $this->setStatus("Справка не прислана");
@@ -94,6 +99,18 @@ class ContractCertification
     public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getPurchasesTable(): ?string
+    {
+        return $this->purchasesTable;
+    }
+
+    public function setPurchasesTable(?string $purchasesTable): self
+    {
+        $this->purchasesTable = $purchasesTable;
 
         return $this;
     }

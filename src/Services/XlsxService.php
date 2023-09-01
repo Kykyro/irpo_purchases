@@ -279,14 +279,14 @@ class XlsxService extends AbstractController
         return $user;
 
     }
-    public function generatePurchasesProcedureTable(int $user_id)
+    public function generatePurchasesProcedureTable(int $user_id, $save=false)
     {
         $procedures = $this->getProcedureById($user_id);
         $today = new \DateTime('now');
         $user = $this->getUserById($user_id);
         $userInfo = $user->getUserInfo();
 
-        return $this->tableGeneratorWithFactFunds($userInfo, $procedures, $today);
+        return $this->tableGeneratorWithFactFunds($userInfo, $procedures, $today, $save);
 
 
     }
@@ -503,9 +503,9 @@ class XlsxService extends AbstractController
 
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
-    public function tableGeneratorWithFactFunds($userInfo, $procedures, $today)
+    public function tableGeneratorWithFactFunds($userInfo, $procedures, $today, $save=false)
     {
-        $sheet_template = "../public/excel/ProcurementProceduresTable_v2.xlsx";
+        $sheet_template = $this->getParameter('procurement_procedures_table_directory');
         //load spreadsheet
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
 
@@ -750,12 +750,28 @@ class XlsxService extends AbstractController
         //write it again to Filesystem with the same name (=replace)
         $writer = new Xlsx($spreadsheet);
 
-        $fileName = $userInfo->getRfSubject()->getName().'_'.'.xlsx';
-        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 
-        $writer->save($temp_file);
+        if($save)
+        {
+            $fileName = $userInfo->getRfSubject()->getName().'_'.uniqid().'.xlsx';
+            if (!file_exists($this->getParameter('purchases_table_directory'))) {
+                mkdir($this->getParameter('purchases_table_directory'), 0777, true);
+            }
+
+            $writer->save($this->getParameter('purchases_table_directory').'/'.$fileName);
+
+            return $fileName;
+        }
+        else
+        {
+            $fileName = $userInfo->getRfSubject()->getName().'_'.'.xlsx';
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+            $writer->save($temp_file);
 
 
-        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
+
     }
 }

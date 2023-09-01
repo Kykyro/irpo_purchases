@@ -37,6 +37,8 @@ parameters:
     cluster_request_certificate: '%kernel.project_dir%/public/word/справка по заявкам.docx'
     pdf_files_directory: '%kernel.project_dir%/public/pdf/'
     certificate_files_directory: '%kernel.project_dir%/public/uploads/certificate/'
+    purchases_table_directory: '%kernel.project_dir%/public/uploads/purchasesTable/'
+    procurement_procedures_table_directory: '%kernel.project_dir%/public/excel/ProcurementProceduresTable_v2.xlsx'
 
 
 services:
