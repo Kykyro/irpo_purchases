@@ -157,9 +157,13 @@ class CertificateController extends AbstractController
             if($request->files->get('file'))
             {
                 if($contractCertificate->getFile())
+                {
                     $contractCertificate->setStatus('Новый файл на проверке');
+                    $fileService->DeleteFile($contractCertificate->getFile(), 'certificate_files_directory');
+                }
                 else
                     $contractCertificate->setStatus('Файл на проверке');
+
 
                 $contractCertificate->setFile($fileService->UploadFile($request->files->get('file'), 'certificate_files_directory'));
 
