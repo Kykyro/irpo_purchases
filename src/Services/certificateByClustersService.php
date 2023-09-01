@@ -442,10 +442,11 @@ class certificateByClustersService extends AbstractController
                     $user_info->getDeclaredIndustry(), // Отрасль
                     $user_info->getCluster(), // Наименование центра (кластера)
                     $user_info->getInitiatorOfCreation(), // Инициатор создания центра
-
-                    $user_info->getOrganization() != $user_info->getEducationalOrganization() ?
-                    $user_info->getEducationalOrganization()." (".$user_info->getOrganization().")" :
-                    $user_info->getEducationalOrganization(), // Базовая образовательная организация (грантополучатель)
+                    $user_info->getEducationalOrganization(),// Базовая образовательная организация
+                    $user_info->getOrganization(),//(грантополучатель)
+//                    $user_info->getOrganization() != $user_info->getEducationalOrganization() ?
+//                    $user_info->getEducationalOrganization()." (".$user_info->getOrganization().")" :
+//                    $user_info->getEducationalOrganization(),
 
                     $this->arrayToStringList( $_employeers), // Работодатели
                     $this->arrayToStringList($user_info->getListOfEdicationOrganization()), // Образовательные организации
@@ -459,7 +460,7 @@ class certificateByClustersService extends AbstractController
                     $user_info->getCity()
                 ]
             ;
-            $row_arr = ['J', 'K', 'L'];
+            $row_arr = ['M', 'K', 'L'];
             foreach ($row_arr as $j){
                 $sheet->getStyle($j.($index+1))->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
             }
@@ -477,6 +478,7 @@ class certificateByClustersService extends AbstractController
             count(array_unique($clusters_arr)),
             '',
             '',
+            '',
             count(array_unique($employers_arr)),
             count(array_unique($edicationOrganization_arr)),
             "=SUM(J2:J$index)",
@@ -492,6 +494,7 @@ class certificateByClustersService extends AbstractController
             'Итого регионов',
             'Итого отраслей',
             'Итого кластеров',
+            '',
             '',
             '',
             'Итого работодателей',
@@ -512,7 +515,7 @@ class certificateByClustersService extends AbstractController
         foreach ($row_arr as $j){
             $sheet->getStyle($j.($index))->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
         }
-        $rangeTotal = 'A2:Q'.$index;
+        $rangeTotal = 'A2:R'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getRowDimension($index)->setRowHeight(-1);
