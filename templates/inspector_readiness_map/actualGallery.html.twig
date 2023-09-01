@@ -45,7 +45,10 @@
                                             %}
                                                 {% set title = ver.getRepair().getClusterZone().getName() %}
                                                 {% set addres = ver.getRepair().getClusterZone().getAddres().getAddresses() %}
-                                                <h3 class="col-lg-12 mt-3" >{{ title }} <br> <i class="fa fa-map-marker">{{ addres }}</i></h3>
+
+                                                <a target="_blank" class="col-lg-12 mt-3"  href="{{ path('app_inspector_view_zone', {'id' : ver.getRepair().getClusterZone().getId()}) }}">
+                                                    <h3 >{{ title }} <br> <i class="fa fa-map-marker">{{ addres }}</i></h3>
+                                                </a>
                                             {% endif %}
                                             {% for i in ver.getRepairPhotos() %}
                                                 <div class="col-lg-2 p-1 ml-2 form-control" >
@@ -65,7 +68,9 @@
                                                 </div>
 
                                             {% endfor %}
+
                                         {% endfor %}
+
                                     {% endfor %}
                                     </div>
 
