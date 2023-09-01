@@ -443,7 +443,7 @@ class certificateByClustersService extends AbstractController
                     $user_info->getCluster(), // Наименование центра (кластера)
                     $user_info->getInitiatorOfCreation(), // Инициатор создания центра
 
-                    $user_info->getOrganization() == $user_info->getEducationalOrganization() ?
+                    $user_info->getOrganization() != $user_info->getEducationalOrganization() ?
                     $user_info->getEducationalOrganization()." (".$user_info->getOrganization().")" :
                     $user_info->getEducationalOrganization(), // Базовая образовательная организация (грантополучатель)
 
