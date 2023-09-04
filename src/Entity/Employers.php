@@ -163,10 +163,13 @@ class Employers
             $this->getDescription(),
             $this->arrayEmployersToStringList($this->getEmployersCategories()),
             $this->arrayUserInfosToStringList($this->getUserInfos()),
+
             $this->arrayYears($this->getUserInfos()),
             $this->arrayIndustry($this->getUserInfos()),
             $this->getInn(),
             $this->getCity(),
+            '',
+            $this->arrayRegionToStringList($this->getUserInfos()),
 
         ];
         return $row;
@@ -194,6 +197,19 @@ class Employers
         foreach ($arr as $a)
         {
             $str = $str."$index) ".$a->getEducationalOrganization()."\n";
+            $index++;
+        }
+        return $str;
+    }
+    private function arrayRegionToStringList($arr)
+    {
+        if(is_null($arr))
+            return '';
+        $str = "";
+        $index = 1;
+        foreach ($arr as $a)
+        {
+            $str = $str."$index) ".$a->getRfSubject()->getName()."\n";
             $index++;
         }
         return $str;

@@ -58,6 +58,7 @@ class XlsxEmployersService extends AbstractController
             'ИНН',
             'Город',
             'Тип кластера',
+            'Регион',
         ];
         /** @var Spreadsheet $spreadsheet */
         $spreadsheet = new Spreadsheet();
@@ -70,11 +71,12 @@ class XlsxEmployersService extends AbstractController
         {
             $row_index = $sheet->getHighestRow()+1;
             $row = $employer->getAsRow();
-            $sheet->setCellValue("K$row_index", $this->getRoles($employer));
+
             $sheet->fromArray($row, null, 'A'.$row_index);
+            $sheet->setCellValue("K$row_index", $this->getRoles($employer));
         }
         $index = $sheet->getHighestRow()+1;
-        $rangeTotal = 'A1:K'.$index;
+        $rangeTotal = 'A1:L'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getColumnDimension('A')->setWidth(50);
@@ -85,6 +87,7 @@ class XlsxEmployersService extends AbstractController
         $sheet->getColumnDimension('F')->setWidth(50);
         $sheet->getColumnDimension('G')->setWidth(20);
         $sheet->getColumnDimension('H')->setWidth(50);
+        $sheet->getColumnDimension('L')->setWidth(50);
 
         // Create Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
