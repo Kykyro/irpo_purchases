@@ -141,7 +141,7 @@ class RegionPurchasesController extends AbstractController
                 $entity_manager->persist($_photo);
                 $procurement_procedure->addAnotherDocument($_photo);
             }
-
+            $procurement_procedure->setIsRead(false);
             $entity_manager->persist($procurement_procedure);
             $entity_manager->flush();
 

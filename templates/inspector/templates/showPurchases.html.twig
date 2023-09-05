@@ -61,6 +61,7 @@
                         <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Просмотренно</th>
 
                             <th>Предмет закупки</th>
                             <th>Способ определения поставщика</th>
@@ -84,6 +85,17 @@
                             <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
                                 <td>
                                     {{ i.getId() }}
+                                </td>
+                                <td>
+                                    {% if i.isIsRead() %}
+                                        <span class="badge badge-primary">
+                                            <i class="fa fa-check"></i>
+                                        </span>
+                                    {% else %}
+                                        <span class="badge badge-warning">
+                                            <i class="fa fa-times"></i>
+                                        </span>
+                                    {% endif %}
                                 </td>
                                 {# Предмет закупки #}
                                 <td>{{ i.getPurchaseObject() }} </td>
@@ -651,7 +663,7 @@
                            </tr>
                        </thead>
                        <tbody>
-                            {% for i in contractingCertificates %}
+                            {% for i in contractingCertificates|reverse %}
                                 <tr>
                                     <td>{{ i.getCreatedAt().format('d.m.Y') }}</td>
                                     <td>{{ i.getStatus() }}</td>

@@ -3,6 +3,7 @@
 namespace App\Controller\Inspector;
 
 use App\Entity\ClusterDocument;
+use App\Entity\Log;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
@@ -10,8 +11,10 @@ use App\Form\clusterDocumentForm;
 use App\Form\InspectorPurchasesFindFormType;
 use App\Form\inspectorUserEditFormType;
 use App\Services\FileService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\ProcurementProcedures;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -312,6 +315,74 @@ class InspectorController extends AbstractController
 
         ]);
 
+    }
+    /**
+     * @Route("/purchases-history/{id}", name="app_purchases_history")
+     */
+    public function historyPurchases(Request $request, int $id, EntityManagerInterface $em, PaginatorInterface $paginator) : Response
+    {
+
+        $query = $em->getRepository(Log::class)
+            ->createQueryBuilder('a')
+            ->andWhere('a.object_class = :obj')
+            ->andWhere('a.foreign_key = :fk')
+            ->orderBy('a.version', 'DESC')
+            ->setParameter('obj', "ProcurementProcedures")
+            ->setParameter('fk', $id)
+            ->getQuery()
+        ;
+        $dictionary = [
+            'PurchaseObject' => 'Объект закупки',
+            'MethodOfDetermining' => 'способ определение поставщика',
+            'PurchaseLink' => 'ссылка на закупку',
+            'PurchaseNumber' => 'номер закупки',
+            'DateOfConclusion' => 'дата заключения договора',
+            'DeliveryTime' => 'время поставки',
+            'Comments' => 'комментарий',
+            'fileDir' => 'название файла Договор/ предмет договора',
+            'initialFederalFunds' => 'начальный ФБ',
+            'initialFundsOfSubject' => 'начальный РБ',
+            'initialEmployersFunds' => 'начальный РД',
+            'initialEducationalOrgFunds' => 'начальный ОО',
+            'supplierName' => 'поставщик',
+            'supplierINN' => 'ИНН поставщика',
+            'supplierKPP' => 'КПП поставщика',
+            'finFederalFunds' => 'цена контракта ФБ',
+            'finFundsOfSubject' => 'цена контракта РБ',
+            'finEmployersFunds' => 'цена контракта РД',
+            'finFundsOfEducationalOrg' => 'цена контракта ОО',
+            'publicationDate' => 'дата публицации',
+            'deadlineDate' => 'дата оканчания подачи заявок',
+            'dateOfSummingUp' => '',
+            'postponementDate' => 'Дата переноса',
+            'postonementComment' => 'Комментарий переноса',
+            'isPlanned' => 'На стадии планирования?',
+            'isHasPrepayment' => 'Есть авансовый платеж?',
+            'prepayment' => 'Авансовый платеж %',
+            'conractStatus' => 'Статус договора',
+            'factFederalFunds' => 'Фактическое расходование ФБ',
+            'factFundsOfSubject' => 'Фактическое расходование РБ',
+            'factEmployersFunds' => 'Фактическое расходование РД',
+            'factFundsOfEducationalOrg' => 'Фактическое расходование ОО',
+            'closingDocument' => 'Закрывающий документ',
+            'paymentOrder' => 'Платежное поручение',
+            'additionalAgreement' => 'Дополнительное соглащение',
+            'hasAdditionalAgreement' => 'Есть дополнительное соглашение?',
+            'prepaymentDate' => 'дата авансового платежа',
+            '' => '',
+        ];
+//        $count = $query->getSingleScalarResult();
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
+        return $this->render('purchases_detail/templates/history.html.twig', [
+            'controller_name' => 'RegionController',
+            'pagination' => $pagination,
+            'field_dict' => $dictionary,
+        ]);
     }
 //    /**
 //     * @Route("/a", name="a")

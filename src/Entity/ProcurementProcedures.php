@@ -348,6 +348,11 @@ class ProcurementProcedures
      */
     private $anotherDocuments;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isRead;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -1330,5 +1335,17 @@ class ProcurementProcedures
             return true;
 
         return false;
+    }
+
+    public function isIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(?bool $isRead): self
+    {
+        $this->isRead = $isRead;
+
+        return $this;
     }
 }
