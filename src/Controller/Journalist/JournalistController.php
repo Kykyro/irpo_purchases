@@ -48,10 +48,13 @@ class JournalistController extends AbstractController
 
             if($form->isSubmitted() && $form->isValid()){
                 $organization = $form->get('organization')->getData();
+
+
                 if($organization){
 
                     $map->setOrganization(array(trim(preg_replace('/\s\s+/', '', $organization))));
                 }
+//                dd($map);
                 $entity_manager->persist($map);
                 $entity_manager->flush();
 
