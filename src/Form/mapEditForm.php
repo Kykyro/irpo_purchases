@@ -54,7 +54,7 @@ class mapEditForm extends AbstractType
                 'label' => 'Заголовок'
             ])
             ->add('organization', TextareaType::class, [
-                'attr' => ['class' => 'form-control mb-3 hidden-row'],
+                'attr' => ['class' => 'form-control mb-3 '],
                 'required'   => false,
                 'label' => 'Заголовок',
                 'mapped' => false,

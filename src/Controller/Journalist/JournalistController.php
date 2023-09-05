@@ -58,7 +58,7 @@ class JournalistController extends AbstractController
                 $entity_manager->persist($map);
                 $entity_manager->flush();
 
-                return $this->redirectToRoute('app_map_edit');
+//                return $this->redirectToRoute('app_map_edit');
 
             }
             return $this->render('journalist/templates/map.html.twig', [
