@@ -19,10 +19,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class listclustersController extends AbstractController
 {
     /**
-     * @Route("/listclusters/{search_ind}/{_year}", name="app_listclusters")
+     * @Route("/list-clusters/{search_ind}/{_year}/{type}", name="app_listclusters")
+     * @Route("/list-clusters-type/{type}", name="app_list_clusters_with_type")
      */
-    public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator, $search_ind="", $_year=""): Response
+    public function index(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator, $search_ind="", $_year="", $type=null): Response
     {
+
+//        dd($this);
         $arr = [];
         $form = $this->createFormBuilder($arr)
             ->add('search', TextType::class, [
@@ -73,6 +76,24 @@ class listclustersController extends AbstractController
             ->andWhere('uf.year > :year')
             ->setParameter('year', 2021)
             ;
+
+        if($type == "cluster")
+        {
+            $query = $query
+                ->andWhere('u.roles LIKE :role')
+                ->setParameter('role', "%ROLE_REGION%");
+        }
+        elseif ($type == "small-cluster")
+        {
+            $query = $query
+                ->andWhere('u.roles LIKE :role')
+                ->setParameter('role', "%ROLE_SMALL_CLUSTER%");
+        }
+        else
+        {
+
+        }
+
 
         $form->handleRequest($request);
 

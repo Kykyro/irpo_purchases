@@ -16,7 +16,7 @@
                     <div id="portfolio-gallery" class="ed-carousel6 ed-slick dots-classic dots-light dots-outside">
                         <article class="carousel-item6 portfolio-item web" style="margin-right: 2vh; margin-left: 2vh">
                             <div class="project-container mb-0 scale_img_documents" style="border-radius: 6rem">
-                                <a href="{{ path('app_listclusters') }}" target="_blank" style="margin: 1vh">
+                                <a href="{{ path('app_list_clusters_with_type', {"type": "cluster"}) }}" target="_blank" style="margin: 1vh">
                                     <img src="{{ asset('/img/img_start_landing/Электромонтажные_работы.png') }}" alt style="height: 35vh; border-radius: 6rem">
                                     <div class="overlay">
                                     </div>
@@ -31,7 +31,7 @@
                         </article>
                         <article class="carousel-item6 portfolio-item web" style="margin-right: 2vh; margin-left: 2vh">
                             <div class="project-container mb-0 scale_img_documents" style="border-radius: 6rem">
-                                <a href="#" style="margin: 1vh">
+                                <a href="{{ path('app_list_clusters_with_type', {"type": "small-cluster"}) }}" style="margin: 1vh">
                                     <img src="{{ asset('/img/img_start_landing/closeup-shot-of-laboratory-microscope-lens-for-conducting-coronavirus-research_181624-44734.jpg') }}" alt style="height: 35vh; border-radius: 6rem">
                                     <div class="overlay">
                                     </div>
