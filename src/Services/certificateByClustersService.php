@@ -356,8 +356,8 @@ class certificateByClustersService extends AbstractController
         if($block == 'eqp_block')
         {
             $eqp = $user->getCountOfEquipment();
-            $fact = round(($eqp['fact']/$eqp['total'])*100, 2);
-            $putInOperation = round(($eqp['putInOperation']/$eqp['total'])*100, 2);
+            $fact = $eqp['total'] > 0 ? round(($eqp['fact']/$eqp['total'])*100, 2) : 0;
+            $putInOperation = $eqp['total'] > 0 ?  round(($eqp['putInOperation']/$eqp['total'])*100, 2) : 0;
             return [[
                 'today_eqp#'.$count => $today,
                 'eqp_fact#'.$count => $fact == 0 ? 'на текущий момент равна нулю' : $fact.' %',

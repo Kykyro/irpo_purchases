@@ -53,7 +53,7 @@ class CertificateController extends AbstractController
             'Справка не прислана' => '-danger',
             'Файл на проверке' => '-warning',
             'Новый файл на проверке' => '-warning',
-            'Отправлен на доработку' => '-danger',
+            'Отправлен на доработку' => '-revision',
             'Справка принята' => '-primary',
 
         ];
