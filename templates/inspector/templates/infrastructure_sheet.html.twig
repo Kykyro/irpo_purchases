@@ -2,7 +2,30 @@
 
 {% block styles %}
     <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
-
+    <style>
+        .flex-container {
+            display: flex;
+            align-items: flex-end;
+            height: 100%;
+            flex-flow: column;
+        }
+        .flex-container > a {
+            min-width: 100%;
+        }
+        .contact-box-content
+        {
+            min-height: 400px;
+        }
+        .contact-box
+        {
+            border: 2px solid white;
+            border-radius: 5px;
+            min-height: 100%;
+        }
+        .card-hover{
+            border: 2px solid #38a3dd;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -70,6 +93,17 @@
     <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function(){
+            let boxes = $('.contact-box');
+
+            boxes.hover(
+            (e)=>{
+                console.log($(e.target));
+                $(e.target).closest('.contact-box').addClass('card-hover');
+            },
+            (e) => {
+                $(e.target).closest('.contact-box').removeClass('card-hover');
+            });
+
             $('.select2').select2({
                 closeOnSelect : true,
                 placeholder : "...",
