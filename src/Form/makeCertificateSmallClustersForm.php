@@ -41,10 +41,12 @@ class makeCertificateSmallClustersForm extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->leftJoin('u.user_info', 'uf')
+                        ->leftJoin('uf.rf_subject', 'sub')
                         ->andWhere('u.roles LIKE :role')
                         ->andWhere('uf.year > :year')
                         ->setParameter('role', '%ROLE_SMALL_CLUSTERS%')
                         ->setParameter('year', 2021)
+                        ->orderBy('sub.name', 'ASC')
                         ;
                 },
                 'choice_label' => function ($clusters) {
