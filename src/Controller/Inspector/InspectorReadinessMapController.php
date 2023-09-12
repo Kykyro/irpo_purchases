@@ -17,6 +17,7 @@ use App\Form\editZoneRepairForm;
 use App\Form\infrastructureSheetZoneForm;
 use App\Services\certificateReadinessMap;
 use App\Services\FileService;
+use App\Services\monitoringReadinessMapService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -686,5 +687,17 @@ class InspectorReadinessMapController extends AbstractController
             'zone' => $zone,
             'form' => $form->createView()
         ]);
+    }
+
+
+    /**
+     * @Route("/readiness-map/monitoring/{id}", name="app_inspector_readiness_map_monitoring")
+     */
+    public function getMonitoring(int $id, EntityManagerInterface $em, monitoringReadinessMapService $service)
+    {
+
+        $user = $em->getRepository(User::class )->find($id);
+        return $service->getCertificate($user);
+        return $this->redirectToRoute('app_inspector_readiness_map', ['id'=> $id]);
     }
 }
