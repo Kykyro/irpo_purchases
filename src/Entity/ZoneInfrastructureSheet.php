@@ -92,6 +92,11 @@ class ZoneInfrastructureSheet
      */
     private $isHasModel;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $funds = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -273,6 +278,18 @@ class ZoneInfrastructureSheet
     public function setIsHasModel(?bool $isHasModel): self
     {
         $this->isHasModel = $isHasModel;
+
+        return $this;
+    }
+
+    public function getFunds(): ?array
+    {
+        return $this->funds;
+    }
+
+    public function setFunds(?array $funds): self
+    {
+        $this->funds = $funds;
 
         return $this;
     }

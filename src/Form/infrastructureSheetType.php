@@ -9,6 +9,7 @@
 namespace App\Form;
 use App\Entity\ZoneInfrastructureSheet;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
@@ -71,6 +72,22 @@ class infrastructureSheetType  extends AbstractType
                 'label' => false,
                 'required' => false,
 
+            ])
+            ->add('funds', ChoiceType::class, [
+                'choices'  => [
+                    'ФБ' => 'ФБ',
+                    'РД' => 'РД',
+                    'ОО' => 'ОО',
+                    'РБ' => 'РБ',
+
+                ],
+                'multiple' => true,
+//                'expanded' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control m-b select2'
+                ],
+                'label' => false,
             ])
         ;
     }

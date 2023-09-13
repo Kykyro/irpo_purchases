@@ -1,5 +1,9 @@
 {% extends 'default/base.html.twig' %}
 
+{% block styles %}
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
     {% import _self as formMacros %}
 
@@ -44,6 +48,9 @@
                             {{ form_row(sheet.isHasModel) }}
                         </td>
                         <td>
+                            {{ form_widget(sheet.funds) }}
+                        </td>
+                        <td>
                             <button class="btn btn-danger js-remove-sheets" type="button">
                                 <i class="fa fa-trash">
                                     Удалить
@@ -75,6 +82,7 @@
                             <td class="col-md-2">Ед.измерения</td>
                             <td class="col-md-2">Общее кол-во</td>
                             <td class="col-md-1">Не указывать модель?</td>
+                            <td class="col-md-1">Источник финансирования</td>
                             {#<td class="col-md-2">Тип</td>#}
                             <td class="col-md-1"> Действия </td>
                         </tr>
@@ -137,6 +145,7 @@
                             <td class="col-md-2">Ед.измерения</td>
                             <td class="col-md-2">Общее кол-во</td>
                             <td class="col-md-1">Не указывать модель?</td>
+                            <td class="col-md-1">Источник финансирования</td>
                             {#<td class="col-md-2">Тип</td>#}
                             <td class="col-md-1"> Действия </td>
                         </tr>
@@ -191,6 +200,7 @@
                             <td class="col-md-2">Ед.измерения</td>
                             <td class="col-md-2">Общее кол-во</td>
                             <td class="col-md-1">Не указывать модель?</td>
+                            <td class="col-md-1">Источник финансирования</td>
                             {#<td class="col-md-2">Тип</td>#}
                             <td class="col-md-1"> Действия </td>
                         </tr>
@@ -360,6 +370,7 @@
 {% block scripts %}
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function(){
             let $wrapper = $('.sheets');
@@ -496,6 +507,16 @@
             $('#add-many-row-2').click(addRowsByTable);
             $('#add-many-row-3').click(addRowsByTable);
             // let formInputs = $('#sheets :input');
+            $('.select2').select2({
+                closeOnSelect : false,
+                placeholder : "...",
+                allowHtml: true,
+                allowClear: true
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
 
         });
     </script>
