@@ -89,6 +89,7 @@ class infrastructureSheetType  extends AbstractType
                     'class' => 'form-control m-b select2'
                 ],
                 'label' => false,
+                'empty_data' => ['ФБ'=>'ФБ']
             ])
         ;
     }
