@@ -124,7 +124,7 @@ class monitoringReadinessMapService extends AbstractController
         // Единичные замены
         $replacements = [
             'cluster_name' => $user_info->getCluster(),
-            'cluster_base' => $user_info->getCluster(),
+            'cluster_base' => $user_info->getEducationalOrganization(),
             'industry' => $user_info->getDeclaredIndustry(),
             'rf_subject' => $user_info->getRfSubject()->getName(),
 
@@ -148,7 +148,7 @@ class monitoringReadinessMapService extends AbstractController
             'FinancingFundsOfSubject_d' => $declArr["subject"],
             'ExtraFundsOO_d' => $declArr["OO"],
             // Замена на тип кластера
-            'cluster_type_1' => $isSmolClustre ? 'кластер среднего профессионального образования' : 'образовательно-производственный центр (кластер)',
+            'cluster_type_1' => $isSmolClustre ? 'кластер среднего профессионального образования' : 'образовательно-производственного центра (кластера)',
             'cluster_type_2' => $isSmolClustre ? 'кластеров среднего профессионального образования' : 'образовательно-производственных центров (кластеров)',
 
         ];
@@ -158,20 +158,25 @@ class monitoringReadinessMapService extends AbstractController
 //        dd(count($addresses));
         $templateProcessor->cloneBlock('common_zone', count($addresses), true, true);
         $count_zones = 1;
+        $comment = '
+В наличии/отсутствует (причины);</w:t><w:br/><w:t xml:space="preserve">Введено/не введено в эксплуатацию(причины);</w:t><w:br/><w:t xml:space="preserve">В поставке (договор/контракт № __ от __ г., срок поставки до __ г.);</w:t><w:br/><w:t xml:space="preserve">В закупочных процедурах (номер закупки, дата завершения закупочных процедур, планируемая дата заключения договора/контракта, планируемая дата поставки и др.)</w:t><w:br/><w:t xml:space="preserve">Комментарии:
+        ';
         foreach ($addresses as $address)
         {
             $templateProcessor->setValue('address#'.$count_zones, $address->getAddresses());
 
             $values = [];
             $is_count = 1;
-            foreach ($address->getSortedClusterCommonZones() as $zone)
+            foreach ($address->getSortedClusterZones() as $zone)
             {
                 $repair = $zone->getZoneRepair();
                 $arr = [
                     'is_num#'.$count_zones => $is_count,
+
                     'name#'.$count_zones => $zone->getName(),
                     'repair#'.$count_zones => $repair->getTotalPercentage(),
                     'end_date#'.$count_zones => is_null($repair->getEndDate()) ? "" : $repair->getEndDate()->format('d.m.Y') ,
+                    'comment#'.$count_zones => $is_count == 1 ? $comment : '',
 
                 ];
                 array_push($values, $arr);
@@ -188,18 +193,20 @@ class monitoringReadinessMapService extends AbstractController
         $templateProcessor->cloneBlock('zone', count($zones), true, true);
 
         $count_zones = 1;
+        $comment = '
+В наличии/отсутствует (причины); </w:t><w:br/><w:t xml:space="preserve">Введено/не введено в эксплуатацию(причины); </w:t><w:br/><w:t xml:space="preserve">На складе в коробках (причины) ФОТО; </w:t><w:br/><w:t xml:space="preserve">В поставке (договор/контракт от даты, номер договора, сроки поставки по договору, СКАН договора/контракта и др.); </w:t><w:br/><w:t xml:space="preserve">В закупочных процедурах (номер закупки, дата завершения закупочных процедур, планируемая дата заключения договора/контракта, планируемая дата поставки и др.) </w:t><w:br/><w:t xml:space="preserve">Комментарии:
+            ';
         foreach ($zones as $zone)
         {
             $templateProcessor->setValue('zone_name#'.$count_zones, $zone->getName());
+            $templateProcessor->setValue('place_count#'.$count_zones, $zone->getPlaceCount());
 
             $types = [
                 'Общая зона' => 'is_num_o#',
 //                'Рабочее место учащегося' => 'is_num_s#',
 //                'Рабочее место преподавателя' => 'is_num_t#',
             ];
-            $comment = '
-В наличии/отсутствует (причины); </w:t><w:br/><w:t xml:space="preserve">Введено/не введено в эксплуатацию(причины); </w:t><w:br/><w:t xml:space="preserve">На складе в коробках (причины) ФОТО; </w:t><w:br/><w:t xml:space="preserve">В поставке (договор/контракт от даты, номер договора, сроки поставки по договору, СКАН договора/контракта и др.); </w:t><w:br/><w:t xml:space="preserve">В закупочных процедурах (номер закупки, дата завершения закупочных процедур, планируемая дата заключения договора/контракта, планируемая дата поставки и др.) </w:t><w:br/><w:t xml:space="preserve">Комментарии:
-            ';
+
             $is_count = 1;
             $is_count_s = 1;
             $is_count_t = 1;

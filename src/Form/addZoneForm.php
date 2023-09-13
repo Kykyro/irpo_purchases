@@ -36,6 +36,16 @@ class addZoneForm extends AbstractType
                 'required'   => true,
                 'label' => 'Название зоны'
             ])
+            ->add('placeCount', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '1',
+                    'min' => '0',
+                ],
+                'label' => "Количество рабочих мест",
+                'required' => false,
+                'empty_data' => 0,
+            ])
             ->add('type', EntityType::class, [
                 'attr' => [
                     'class' => 'form-control'

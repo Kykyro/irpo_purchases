@@ -14,7 +14,7 @@
 
                 <div class="ibox-title">
                     <h5>
-                        {{ name }}
+                        {{ name }} {% if zone.getPlaceCount() > 0 %} ({{ zone.getPlaceCount() }} рабочих мест) {% endif %}
                     </h5>
                 </div>
 

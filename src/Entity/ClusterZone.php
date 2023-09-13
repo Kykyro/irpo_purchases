@@ -55,6 +55,11 @@ class ClusterZone
      */
     private $designProjectFile;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $placeCount;
+
     function __construct() {
         $this->setZoneRepair(new ZoneRepair());
         $this->zoneInfrastructureSheets = new ArrayCollection();
@@ -316,6 +321,18 @@ class ClusterZone
     public function setDesignProjectFile(?string $designProjectFile): self
     {
         $this->designProjectFile = $designProjectFile;
+
+        return $this;
+    }
+
+    public function getPlaceCount(): ?int
+    {
+        return $this->placeCount;
+    }
+
+    public function setPlaceCount(?int $placeCount): self
+    {
+        $this->placeCount = $placeCount;
 
         return $this;
     }

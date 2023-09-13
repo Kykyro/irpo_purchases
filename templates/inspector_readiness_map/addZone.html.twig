@@ -26,6 +26,9 @@
                 <div class="ibox-content" style="display: block;">
                     {{ form_row(form.name) }}
                 </div>
+                <div class="ibox-content" style="display: block;" id="placeCount-row">
+                    {{ form_row(form.placeCount, {'type': 'number'}) }}
+                </div>
                 <div class="ibox-content" style="display: block;">
                     {{ form_row(form.designProject) }}
                 </div>
@@ -52,12 +55,14 @@
             let nameInput = $('#add_zone_form_name');
             let doNotTake = $('#add_zone_form_doNotTake');
             let checkboxRow = $('#checkbox-row');
+            let placeCountRow = $('#placeCount-row');
+            let placeCount = $('#add_zone_form_placeCount');
 
             function typeChange() {
                 let value = typeInput.val();
                 if(value == 5 )
                 {
-
+                    placeCountRow.show();
                     checkboxRow.show();
                     // nameInput.val('');
                 }
@@ -65,12 +70,16 @@
                 {
 
                     doNotTake.prop('checked', false);
+                    placeCount.val(0);
                     checkboxRow.hide();
+                    placeCountRow.hide();
                 }
                 else {
                     nameInput.val($( "#add_zone_form_type option:selected" ).text());
                     doNotTake.prop('checked', false);
                     checkboxRow.hide();
+                    placeCount.val(0);
+                    placeCountRow.hide();
                 }
             }
             typeInput.change(typeChange);
