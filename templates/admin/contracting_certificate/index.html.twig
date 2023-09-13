@@ -1,0 +1,76 @@
+{% extends "default/base.html.twig" %}
+
+{% block content %}
+    {% set statusLib = {
+        'Справка не прислана' : '-danger',
+        'Файл на проверке' : '-warning',
+        'Новый файл на проверке' : '-warning',
+        'Отправлен на доработку' : '-revision',
+        'Справка принята' : '-primary',
+
+    } %}
+<div class="row mt-3">
+    <div class="col-sm-8 offset-sm-2">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Присланные справки по контрактации
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8 offset-sm-2">
+        <div class="ibox">
+            <div class="ibox-content">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="col-md-1">id</td>
+                            <td class="col-md-3">Кластер</td>
+                            <td class="col-md-2">Справка</td>
+                            <td class="col-md-2">Таблица закупок</td>
+                            <td class="col-md-2">Статус</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in pagination %}
+                            {% set userInfo = user.getUserInfo() %}
+                            {% set i = userInfo.getContractCertifications().last() %}
+
+                            <tr>
+                                <td>{{ i.getId() }}</td>
+                                <td>
+                                    {{ userInfo.getEducationalOrganization() }}
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        {{ i.file() }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        {{ i.getPurchasesTable() }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="badge badge{{ statusLib[i.getStatus()] }}">
+                                        {{ i.getStatus() }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="ibox-footer">
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
