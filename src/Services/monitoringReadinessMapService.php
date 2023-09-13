@@ -198,8 +198,24 @@ class monitoringReadinessMapService extends AbstractController
             ';
         foreach ($zones as $zone)
         {
+            $placeCount = $zone->getPlaceCount()." рабочих мест";
+            if ($zone->getPlaceCount() % 10 == 1 and $zone->getPlaceCount() != 11)
+            {
+                $placeCount = $zone->getPlaceCount()." рабочее место";
+            }
+            else if (
+                $zone->getPlaceCount() % 10 > 1
+                and $zone->getPlaceCount() % 10 < 5
+                and (
+                    $zone->getPlaceCount() > 20
+                    or $zone->getPlaceCount() > 1 and $zone->getPlaceCount() < 5)
+            )
+            {
+                $placeCount = $zone->getPlaceCount()." рабочих места";
+            }
+
             $templateProcessor->setValue('zone_name#'.$count_zones, $zone->getName());
-            $templateProcessor->setValue('place_count#'.$count_zones, $zone->getPlaceCount());
+            $templateProcessor->setValue('place_count#'.$count_zones, $placeCount);
 
             $types = [
                 'Общая зона' => 'is_num_o#',
