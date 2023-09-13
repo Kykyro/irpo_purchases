@@ -79,6 +79,7 @@ class infrastructureSheetType  extends AbstractType
                     'РД' => 'РД',
                     'ОО' => 'ОО',
                     'РБ' => 'РБ',
+                    'В наличии' => 'В наличии'
 
                 ],
                 'multiple' => true,
