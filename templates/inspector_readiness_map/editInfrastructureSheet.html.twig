@@ -502,11 +502,18 @@
 
                 }
                 data.val('')
+                $('.select2').select2({
+                    closeOnSelect : false,
+                    placeholder : "...",
+                    allowHtml: true,
+                    allowClear: true
+                });
             }
             $('#add-many-row').click(addRowsByTable);
             $('#add-many-row-2').click(addRowsByTable);
             $('#add-many-row-3').click(addRowsByTable);
             // let formInputs = $('#sheets :input');
+
             $('.select2').select2({
                 closeOnSelect : false,
                 placeholder : "...",
