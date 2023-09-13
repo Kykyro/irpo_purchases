@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\InfrastructureSheetDownloadXlsxService;
+use App\Services\XlsxClusterIndustryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -51,5 +52,19 @@ class StatisticAndAnalyticController extends AbstractController
             'controller_name' => 'StatisticAndAnalyticController',
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/statistic-and-analytic/Count-Cluster-Industry", name="app_statistic_and_analytic_cluster_count_industry")
+     */
+    public function getCountClusterIndustry(Request $request, XlsxClusterIndustryService $service)
+    {
+        $submittedToken = $request->request->get('token');
+        $year = $request->request->get('year');
+        $role = $request->request->get('role');
+
+        if ($this->isCsrfTokenValid('cluster_count_industry', $submittedToken)) {
+            return $service->generate($year, $role);
+        }
     }
 }

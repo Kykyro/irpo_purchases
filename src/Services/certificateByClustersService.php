@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\TemplateProcessor;
+use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -30,7 +31,7 @@ class certificateByClustersService extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    public function getCertificate($users, $options = [])
+    public function _getCertificate($users, $options = [])
     {
         $today = new \DateTime('now');
         $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
@@ -39,7 +40,7 @@ class certificateByClustersService extends AbstractController
         $ugps = in_array('ugps', $options);
         $zone = in_array('zone', $options);
 
-        $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2 (копия).docx');
+
         $replacements = [];
 
         foreach ($users as $user)
@@ -48,9 +49,10 @@ class certificateByClustersService extends AbstractController
             array_push($replacements, $templateData);
         }
 
+
+        $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2 (копия).docx');
         $templateProcessor->cloneBlock('clusterInfo', count($replacements), true, true);
         $count = 1;
-
         foreach ($replacements as $replacement)
         {
             $user = $replacement['user'];
@@ -149,14 +151,175 @@ class certificateByClustersService extends AbstractController
             $count++;
         }
 
-
-
         $fileName = 'Справка_'.$today->format('d.m.Y').'.docx';
         $filepath = $templateProcessor->save();
+
+
 
         return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
 
     }
+    public function getCertificate($users, $options = [])
+    {
+        $today = new \DateTime('now');
+        $fmt = new NumberFormatter( 'ru_RU', NumberFormatter::CURRENCY );
+        $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
+        $fmt->setSymbol(NumberFormatter::CURRENCY_SYMBOL, 'руб.');
+        $ugps = in_array('ugps', $options);
+        $zone = in_array('zone', $options);
+
+        $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2 (копия).docx');
+        $replacements = [];
+
+        foreach ($users as $user)
+        {
+            $templateData = $this->getTemplateData($user, $fmt);
+            array_push($replacements, $templateData);
+        }
+
+//        $dublicateBlock = $this->accessProtected($templateProcessor, 'tempDocumentMainPart');
+
+        $templateProcessor->cloneBlock('clusterInfo', count($replacements), true, true);
+        $count = 1;
+        foreach ($replacements as $replacement)
+        {
+            $user = $replacement['user'];
+            $templateProcessor->setValues(
+                [
+                    'rf_subject#'.$count => $replacement['rf_subject'],
+                    'industry#'.$count => $replacement['industry'],
+                    'cluster_name#'.$count => $replacement['cluster_name'],
+                    'intiator_name#'.$count => $replacement['intiator_name'],
+                    'employers_count#'.$count => $replacement['employers_count'],
+                    'employers#'.$count => $replacement['employers'],
+                    'rf_subject_funds#'.$count => $replacement['rf_subject_funds'],
+                    'economic_sector_funds#'.$count => $replacement['economic_sector_funds'],
+                ]
+            );
+
+            if(strtolower($replacement['grant_name']) == strtolower($replacement['base_org']))
+            {
+                $templateProcessor->cloneBlock('with_grant#'.$count, 0, true, false);
+                $templateProcessor->cloneBlock('without_grant#'.$count, 1, true, false);
+                $templateProcessor->setValues([
+                    'base_org#'.$count => $replacement['base_org'],
+                ]);
+            }
+            else{
+                $templateProcessor->cloneBlock('with_grant#'.$count, 1, true, false);
+                $templateProcessor->cloneBlock('without_grant#'.$count, 0, true, false);
+
+                $templateProcessor->setValues([
+                    'grant_name#'.$count => $replacement['grant_name'],
+                    'base_org#'.$count => $replacement['base_org'],
+                ]);
+            }
+
+            if($replacement['web_oo_count'] > 0)
+            {
+                $templateProcessor->cloneBlock('with_oo#'.$count, 1, true, false);
+                $templateProcessor->setValues([
+                    'web_oo_count#'.$count => $replacement['web_oo_count'],
+                    'web_oo#'.$count => $replacement['web_oo'],
+                ]);
+            }
+            else{
+                $templateProcessor->cloneBlock('with_oo#'.$count, 0, true, false);
+            }
+
+            if ($replacement['year'] > 2022)
+            {
+                $templateProcessor->cloneBlock('with_oo_funds#'.$count, 1, true, false);
+                $templateProcessor->setValues([
+                    'oo_funds#'.$count => $replacement['oo_funds'],
+
+                ]);
+            }
+            else
+            {
+                $templateProcessor->cloneBlock('with_oo_funds#'.$count, 0, true, false);
+            }
+
+            $this->setBlockWithList(
+                    $templateProcessor,
+                    $replacement['ugps'],
+                    $ugps,
+                    $count,
+                    'ugps_block',
+                    'ugps'
+            );
+
+            $this->setBlockWithList(
+                    $templateProcessor,
+                    $replacement['zone'],
+                    $zone,
+                    $count,
+                    'zone_block',
+                    'zone'
+            );
+
+            $blocks = [
+                'fed_budget' => in_array('budget', $options),
+                'reg_budget' => in_array('budget', $options),
+                'empl_budget' => in_array('budget', $options),
+                'extra_budget' => in_array('budget', $options),
+                'repair_block' => in_array('repair', $options),
+                'eqp_block' => in_array('equipment', $options)
+            ];
+            foreach ($blocks as $block => $show)
+            {
+                if($show)
+                    $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false,
+                        $this->getDataForOptionalBlocks($block, $user, $count, $fmt));
+                else
+                    $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false);
+
+            }
+
+            $count++;
+        }
+
+        $fileName = 'Справка_'.$today->format('d.m.Y').'.docx';
+        $filepath = $templateProcessor->save();
+
+
+
+        return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+
+    }
+
+    function accessProtected($obj, $prop) {
+        $reflection = new ReflectionClass($obj);
+        $property = $reflection->getProperty($prop);
+        $property->setAccessible(true);
+        return $property->getValue($obj);
+    }
+
+
+    public function getBlocks($templateProcessor)
+    {
+        $variables = array_keys($templateProcessor->getVariableCount());
+        $first = true;
+        $previous = '';
+
+        foreach ($variables as $variable) {
+            if ($first) {
+                $previous = $variable;
+                $first = false;
+            } else {
+                if (strpos($variable, $previous)) {
+                    $separated = explode("/", $variable);
+                    if ($separated[1] == $previous) {
+                        $blocks[] = $previous;
+                    }
+                }
+                $previous = $variable;
+            }
+        }
+
+        return $blocks;
+    }
+
     public function getTemplateData($user, $fmt)
     {
         $user_info = $user->getUserInfo();

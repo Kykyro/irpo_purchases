@@ -20,4 +20,48 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Скачать выгрузку по отраслям и регионам
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <form action="{{ path('app_statistic_and_analytic_cluster_count_industry') }}" method="post">
+                    <select name="year" class="form-control">
+                        <!--Supplement an id here instead of using 'name'-->
+                        <option value="2022">2022 год</option>
+                        <option value="2023" selected>2023 год</option>
+                        <option value="2024">2024 год</option>
+                        <option value="2025">2025 год</option>
+                        <option value="2026">2026 год</option>
+                    </select>
+                    <hr>
+                    <div class="col-sm-10">
+                        <div>
+                            <label>
+                                <input type="radio" checked="" value="ROLE_REGION" id="optionsRadios1" name="role">
+                                Большие кластеры
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="radio" value="ROLE_SMALL_CLUSTERS" id="optionsRadios2" name="role">
+                                Малые кластеры
+                            </label>
+                        </div>
+                    </div>
+                    <hr>
+                    <input type="hidden" name="token" value="{{ csrf_token('cluster_count_industry') }}"/>
+                    <button class="btn btn-success" type="submit">
+                        <i class="fa fa-download"></i>
+                        Скачать
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

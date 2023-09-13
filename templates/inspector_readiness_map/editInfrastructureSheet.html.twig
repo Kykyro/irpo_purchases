@@ -411,6 +411,12 @@
 
                 newElem.appendTo(list);
                  $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_zoneType').val(zoneType);
+                $('.select2').select2({
+                    closeOnSelect : false,
+                    placeholder : "...",
+                    allowHtml: true,
+                    allowClear: true
+                });
             }
 
             $('.add-another-collection-widget').click(addRow);

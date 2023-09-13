@@ -190,7 +190,7 @@ class InspectorPurchasesController extends AbstractController
                 }
             }
 
-//            $dump_2 = $serializer->deserialize($date['date_2']->getDump()->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
+//          П  $dump_2 = $serializer->deserialize($date['date_2']->getDump()->getDump(), 'App\Entity\ProcurementProcedures[]' , 'json');
 //            $date_2 = $date['date_2']->getCreatedAt();
 //            $immutable = \DateTimeImmutable::createFromMutable( $date );
 //            dd($date_1);
