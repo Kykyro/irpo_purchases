@@ -76,8 +76,8 @@ class infrastructureSheetType  extends AbstractType
             ->add('funds', ChoiceType::class, [
                 'choices'  => [
                     'ФБ' => 'ФБ',
-                    'РД' => 'РД',
-                    'ОО' => 'ОО',
+                    'БР' => 'БР',
+                    'ВБ' => 'ВБ',
                     'РБ' => 'РБ',
                     'В наличии' => 'В наличии'
 
