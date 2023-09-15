@@ -239,7 +239,7 @@ class monitoringReadinessMapService extends AbstractController
                         'name#'.$count_zones => $sheet->getName(),
                         'type#'.$count_zones => $sheet->getType(),
                         'count#'.$count_zones => $sheet->getTotalNumber(),
-                        'funds#'.$count_zones => "",
+                        'funds#'.$count_zones => is_null($sheet->getFunds()) ? "" : implode(", ", $sheet->getFunds()),
                         'comment#'.$count_zones => $is_count == 1 ? $comment : '',
 
                     ];
@@ -253,7 +253,7 @@ class monitoringReadinessMapService extends AbstractController
                         'name#'.$count_zones => $sheet->getName(),
                         'type#'.$count_zones => $sheet->getType(),
                         'count#'.$count_zones => $sheet->getTotalNumber(),
-                        'funds#'.$count_zones => "",
+                        'funds#'.$count_zones => is_null($sheet->getFunds()) ? "" : implode(", ", $sheet->getFunds()),
                         'comment#'.$count_zones => $is_count_s == 1 ? $comment : '',
 
                     ];
@@ -267,7 +267,7 @@ class monitoringReadinessMapService extends AbstractController
                         'name#'.$count_zones => $sheet->getName(),
                         'type#'.$count_zones => $sheet->getType(),
                         'count#'.$count_zones => $sheet->getTotalNumber(),
-                        'funds#'.$count_zones => "",
+                        'funds#'.$count_zones => is_null($sheet->getFunds()) ? "" : implode(", ", $sheet->getFunds()),
                         'comment#'.$count_zones => $is_count_t == 1 ? $comment : '',
 
                     ];
