@@ -7,9 +7,11 @@
     {% if app.request.get('tab') is not null %}
         {% set index_tab = app.request.get('tab') %}
         {% set openFirst = false %}
+        {% set firstList = false %}
     {% else %}
         {% set index_tab = 1 %}
         {% set openFirst = true %}
+        {% set firstList = true %}
     {% endif %}
     {% set addresses = user.getClusterAddresses() %}
     {#{% if addresses|length > 0 %}#}
@@ -97,9 +99,9 @@
                        {% for i in addresses %}
                            {% if i.getId() == index_tab or openFirst == true %}
                                {% set openFirst = false %}
-                               <li><a class="nav-link active show" data-toggle="tab" href="#tab-{{ loop.index }}"> {{ i.getAddresses() }}</a></li>
+                               <li><a class="nav-link active show" data-toggle="tab" href="#tab-{{ i.getId() }}"> {{ i.getAddresses() }}</a></li>
                            {% else %}
-                               <li><a class="nav-link " data-toggle="tab" href="#tab-{{ loop.index }}"> {{ i.getAddresses() }}</a></li>
+                               <li><a class="nav-link " data-toggle="tab" href="#tab-{{ i.getId() }}"> {{ i.getAddresses() }}</a></li>
                            {% endif %}
 
                        {% endfor %}
@@ -115,7 +117,7 @@
                    </ul>
                    <div class="tab-content">
                        {% for i in addresses %}
-                           <div role="tabpanel" id="tab-{{ loop.index }}" class="tab-pane {% if loop.index == 1 %}active show{% endif %}">
+                           <div role="tabpanel" id="tab-{{ i.getId() }}" class="tab-pane {% if i.getId() == index_tab or firstList == true %} {% set firstList = false %} active show{% endif %}">
                                <div class="panel-body">
                                    <table class="table table-bordered">
                                        <thead>
