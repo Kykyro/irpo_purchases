@@ -75,20 +75,23 @@
                     <table class="table table-bordered">
                         <thed>
                         <tr>
-                            <td>
+                            <td class="col-md-1">
                                 id
                             </td>
-                            <td>
+                            <td class="col-md-3">
                                 Сообщение
                             </td>
-                            <td>
+                            <td class="col-md-3">
                                 Дата создания
                             </td>
-                            <td>
+                            <td class="col-md-3">
                                 Куратор
                             </td>
-                            <td>
+                            <td class="col-md-3">
                                 Прочитано?
+                            </td>
+                            <td class="col-md-1">
+
                             </td>
                         </tr>
 
@@ -124,6 +127,14 @@
                                                 </i>
                                             </span>
                                         {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('app_inspector_delete_purchase_note', {'id': i.getId()}) }}" class="delete-alert">
+                                            <button class="btn btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                                Удалить
+                                            </button>
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}

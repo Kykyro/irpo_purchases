@@ -378,4 +378,21 @@ class InspectorPurchasesController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("/delete-note/{id}", name="app_inspector_delete_purchase_note")
+     */
+    public function deleteNote(int $id, EntityManagerInterface $em)
+    {
+
+        $note = $em->getRepository(PurchaseNote::class)->find($id);
+        $purchases_id = $note->getPurchase()->getId();
+
+
+        $em->remove($note);
+        $em->flush();
+
+
+        return $this->redirectToRoute('app_inspector_view_purchase', ['id'=> $purchases_id]);
+    }
 }
