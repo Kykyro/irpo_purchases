@@ -262,60 +262,60 @@
         </div>
     </div>
     {% if not isPlanned %}
-        {% if isSoloSup %}
-            <div class="row">
-                <div class="col-lg-12 mb-2">
-                    <div class="ibox collapsed border-bottom">
-                        <a class="collapse-link">
-                            <div class="ibox-title">
-                                <h5>
-                                    Цена контракта / договора
-                                </h5>
-                                <div class="ibox-tools">
-                                    <i class="fa fa-chevron-down"></i>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="ibox-content" style="display: none;">
-                            <table class="table table-bordered">
-                                <tr>
-                                    <td class="col-md-3">
-                                        Средства федерального бюджета
-                                    </td>
-                                    <td>
-                                        {{ purchase.getInitialFederalFunds() }} ₽
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-3">
-                                        Средства субъекта РФ
-                                    </td>
-                                    <td>
-                                        {{ purchase.getInitialFundsOfSubject() }} ₽
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-3">
-                                        Средства работадателя
-                                    </td>
-                                    <td>
-                                        {{ purchase.getInitialEmployersFunds() }} ₽
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-3">
-                                        Средства образовательно организации
-                                    </td>
-                                    <td>
-                                        {{ purchase.getInitialEducationalOrgFunds() }} ₽
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% else %}
+        {#{% if isSoloSup %}#}
+            {#<div class="row">#}
+                {#<div class="col-lg-12 mb-2">#}
+                    {#<div class="ibox collapsed border-bottom">#}
+                        {#<a class="collapse-link">#}
+                            {#<div class="ibox-title">#}
+                                {#<h5>#}
+                                    {#Цена контракта / договора#}
+                                {#</h5>#}
+                                {#<div class="ibox-tools">#}
+                                    {#<i class="fa fa-chevron-down"></i>#}
+                                {#</div>#}
+                            {#</div>#}
+                        {#</a>#}
+                        {#<div class="ibox-content" style="display: none;">#}
+                            {#<table class="table table-bordered">#}
+                                {#<tr>#}
+                                    {#<td class="col-md-3">#}
+                                        {#Средства федерального бюджета#}
+                                    {#</td>#}
+                                    {#<td>#}
+                                        {#{{ purchase.getInitialFederalFunds() }} ₽#}
+                                    {#</td>#}
+                                {#</tr>#}
+                                {#<tr>#}
+                                    {#<td class="col-md-3">#}
+                                        {#Средства субъекта РФ#}
+                                    {#</td>#}
+                                    {#<td>#}
+                                        {#{{ purchase.getInitialFundsOfSubject() }} ₽#}
+                                    {#</td>#}
+                                {#</tr>#}
+                                {#<tr>#}
+                                    {#<td class="col-md-3">#}
+                                        {#Средства работадателя#}
+                                    {#</td>#}
+                                    {#<td>#}
+                                        {#{{ purchase.getInitialEmployersFunds() }} ₽#}
+                                    {#</td>#}
+                                {#</tr>#}
+                                {#<tr>#}
+                                    {#<td class="col-md-3">#}
+                                        {#Средства образовательно организации#}
+                                    {#</td>#}
+                                    {#<td>#}
+                                        {#{{ purchase.getInitialEducationalOrgFunds() }} ₽#}
+                                    {#</td>#}
+                                {#</tr>#}
+                            {#</table>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#{% else %}#}
             <div class="row">
                 <div class="col-lg-12 mb-2">
                     <div class="ibox collapsed border-bottom">
@@ -368,7 +368,7 @@
                     </div>
                 </div>
             </div>
-        {% endif %}
+        {#{% endif %}#}
         <div class="row">
             <div class="col-lg-12 mb-2">
                 <div class="ibox collapsed border-bottom">
