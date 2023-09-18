@@ -373,6 +373,9 @@
     <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function(){
+            $("textarea").each(function(textarea) {
+                $(this).height( $(this)[0].scrollHeight );
+            });
             let $wrapper = $('.sheets');
             $wrapper.on('click', '.js-remove-sheets', function(e) {
                 e.preventDefault();

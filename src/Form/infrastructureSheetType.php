@@ -25,8 +25,10 @@ class infrastructureSheetType  extends AbstractType
             ->add('name', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
+                    'oninput' => 'this.style.height = "";this.style.height = this.scrollHeight + "px"',
 
                 ],
+
                 'label' => false,
                 'required' => true,
                 'empty_data' => '',
