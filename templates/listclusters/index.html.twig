@@ -188,12 +188,13 @@
                                         {% if clusterDocument.getDesignProject() %}
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <embed src="{{ asset('uploads/zonesDesignProject/'~clusterDocument.getDesignProject()) }}"
+                                                    <embed src="{{ asset('uploads/clusterDocuments/'~clusterDocument.getDesignProject()) }}"
                                                            data-file="{{ clusterDocument.getDesignProject() }}"
                                                            width="20%"
                                                            height="100%"
                                                            frameBorder="0"
                                                            scrolling="auto"
+
                                                     />
                                                 </div>
                                             </div>
@@ -230,4 +231,37 @@
         </section>
     </main>
 </body>
+    <script>
+        $(document).ready(function(){
+            // let designFile = $('embed').data('file');
+            let designFile = $('embed');
+            designFile.each((e)=>{
+                let data = $(designFile[e]).data('file');
+
+                if($(designFile[e]) && data.includes('.pdf'))
+                {
+                    $(designFile[e]).height('800');
+                    $(designFile[e]).width('100%');
+                }
+                // console.log(e);
+                // console.log($(designFile[e]) );
+                // console.log($(designFile[e]).data('file').includes('.pdf') );
+                // if(designFile && designFile.includes('.pdf'))
+                // {
+                //     $('embed').height('800');
+                //     $('embed').width('100%');
+                // }
+            });
+
+
+
+
+
+
+            $(".button-toggle").hide();
+
+
+
+        });
+    </script>
 {% endblock %}
