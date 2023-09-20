@@ -69,23 +69,51 @@ class XlsxClusterIndustryService extends AbstractController
 
         if(count($users))
         {
-            dump($industrys);
             $region = $users[0]->getUserInfo()->getRfSubject()->getName();
-            foreach ($users as $user)
+            $row = [$region];
+            foreach ($industrys as $industry)
+            {
+                array_push($row, 0);
+            }
+            foreach ($users as $key => $user)
             {
                 if($region == $user->getUserInfo()->getRfSubject()->getName())
                 {
 
+                    $_index = 0;
+                    foreach ($industrys as $industry)
+                    {
+                        $_index++;
+                        if($user->getUserInfo()->getDeclaredIndustry() == $industry)
+                        {
+                            $row[$_index]++;
+                        }
+                    }
                 }
                 else
                 {
+                    $sheet->fromArray($row, '-', "A".($sheet->getHighestRow()+1) );
                     $region = $user->getUserInfo()->getRfSubject()->getName();
+                    $row = [$region];
+                    foreach ($industrys as $industry)
+                    {
+                        array_push($row, 0);
+                    }
+                    $_index = 0;
+                    foreach ($industrys as $industry)
+                    {
+                        $_index++;
+                        if($user->getUserInfo()->getDeclaredIndustry() == $industry)
+                        {
+                            $row[$_index]++;
+                        }
+                    }
+
                 }
-                dump($user->getUserInfo()->getRfSubject()->getName());
-                dump($user->getUserInfo()->getDeclaredIndustry());
-                dump('--------');
+                if ($key === array_key_last($users)) {
+                    $sheet->fromArray($row, '-', "A".($sheet->getHighestRow()+1) );
+                }
             }
-            dd();
         }
 
 
@@ -155,7 +183,13 @@ class XlsxClusterIndustryService extends AbstractController
             $user_info = $user->getUserInfo();
             array_push($arr, $user_info->getDeclaredIndustry());
         }
-
-        return array_unique($arr);
+        $arr = array_unique($arr);
+        $indystres = [];
+        foreach ($arr as $a)
+        {
+            array_push($indystres, $a);
+        }
+        sort($indystres);
+        return $indystres;
     }
 }
