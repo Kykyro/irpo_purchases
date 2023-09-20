@@ -220,6 +220,27 @@
                                                             </div>
                                                         </div>
                                                     {% endif %}
+                                                    {% if userInfo.getUGPS()|length > 0 %}
+
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading p-0 p-3 m-0">
+                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFitht-{{ userInfo.getId() }}" class="collapsed" aria-expanded="false">
+                                                                <h5 class="panel-title">
+                                                                    Профессии и специальности
+                                                                </h5>
+                                                                </a>
+                                                            </div>
+                                                            <div id="collapseFitht-{{ userInfo.getId() }}" class="panel-collapse collapse">
+                                                                <div class="panel-body">
+                                                                    <ul>
+                                                                        {% for i in  userInfo.getUGPS() %}
+                                                                            <li>{{ i }}</li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
 
 
 
