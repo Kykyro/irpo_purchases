@@ -80,7 +80,7 @@
 
                         </div>
                         <div class="modal fade" id="exampleModal-{{ userInfo.getId() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered m-2" role="document" style="max-width: none">
+                            <div class="modal-dialog modal-dialog-centered ml-5 mr-5" role="document" style="max-width: none">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">{{ userInfo.getEducationalOrganization() }}</h5>
@@ -154,48 +154,110 @@
                                                     </tr>
                                                     </tbody>
                                                 </table>
-                                                <h3>Образовательные организации</h3>
-                                                <div>
-                                                    <ul>
-                                                        {% for i in  userInfo.getListOfEdicationOrganization() %}
-                                                            <li>{{ i }}</li>
-                                                        {% endfor %}
-                                                    </ul>
+                                                <div class="panel-group" id="accordion">
+                                                    {% if userInfo.getListOfEdicationOrganization()|length > 0 %}
+
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading p-0">
+                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-{{ userInfo.getId() }}" class="collapsed " aria-expanded="false">
+
+                                                                        <h5 class="panel-title p-3 m-0">
+                                                                            Образовательные организации
+                                                                        </h5>
+
+
+                                                                </a>
+                                                            </div>
+                                                            <div id="collapseOne-{{ userInfo.getId() }}" class="panel-collapse in collapse" style="">
+                                                                <div class="panel-body">
+                                                                    <ul>
+                                                                        {% for i in  userInfo.getListOfEdicationOrganization() %}
+                                                                            <li>{{ i }}</li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if userInfo.getEmployers()|length > 0 %}
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading p-0">
+                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-{{ userInfo.getId() }}" class="collapsed" aria-expanded="false">
+                                                                <h5 class="panel-title p-3 m-0">
+                                                                    Работодатели
+                                                                </h5>
+                                                                </a>
+                                                            </div>
+                                                            <div id="collapseTwo-{{ userInfo.getId() }}" class="panel-collapse collapse" style="">
+                                                                <div class="panel-body">
+                                                                    <ul>
+                                                                        {% for i in  userInfo.getEmployers() %}
+                                                                            <li>{{ i.getName() }}</li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    {% endif %}
+                                                    {% if userInfo.getListOfAnotherOrganization()|length > 0 %}
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading p-0 p-3 m-0">
+                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree-{{ userInfo.getId() }}" class="collapsed" aria-expanded="false">
+                                                                <h5 class="panel-title">
+                                                                   Иные организации
+                                                                </h5>
+                                                                </a>
+                                                            </div>
+                                                            <div id="collapseThree-{{ userInfo.getId() }}" class="panel-collapse collapse">
+                                                                <div class="panel-body">
+                                                                    <ul>
+                                                                        {% for i in  userInfo.getListOfAnotherOrganization() %}
+                                                                            <li>{{ i }}</li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+
+
+
                                                 </div>
-                                                <h3>Работодатели </h3>
-                                                <div>
-                                                    <ul>
-                                                        {% for i in  userInfo.getEmployers() %}
-                                                            <li>{{ i.getName() }}</li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                </div>
-                                                <h3>Иные организации</h3>
-                                                <div>
-                                                    <ul>
-                                                        {% for i in  userInfo.getListOfAnotherOrganization() %}
-                                                            <li>{{ i }}</li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                </div>
+
                                             </div>
                                             <div class="col-sm-6">
-                                                <img src="{{ asset('uploads/clusterPhoto/'~userInfo.getPhoto()) }}" alt class="img-cluster">
+                                                <img src="{{ asset('uploads/clusterPhoto/'~userInfo.getPhoto()) }}" alt class="img-cluster p-1">
                                             </div>
                                         </div>
                                         {% set clusterDocument = userInfo.getClusterDocument() %}
                                         {% if clusterDocument %}
                                         {% if clusterDocument.getDesignProject() %}
+                                            <hr>
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <embed src="{{ asset('uploads/clusterDocuments/'~clusterDocument.getDesignProject()) }}"
-                                                           data-file="{{ clusterDocument.getDesignProject() }}"
-                                                           width="20%"
-                                                           height="100%"
-                                                           frameBorder="0"
-                                                           scrolling="auto"
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading p-0 p-3 m-0">
+                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseForth-{{ userInfo.getId() }}" class="collapsed" aria-expanded="false">
+                                                                <h5 class="panel-title text-center">
+                                                                   Дизайн-проект
+                                                                </h5>
+                                                            </a>
+                                                        </div>
+                                                        <div id="collapseForth-{{ userInfo.getId() }}" class="panel-collapse collapse">
+                                                            <div class="panel-body">
+                                                                <embed src="{{ asset('uploads/clusterDocuments/'~clusterDocument.getDesignProject()) }}"
+                                                                       data-file="{{ clusterDocument.getDesignProject() }}"
+                                                                       width="20%"
+                                                                       height="100%"
+                                                                       frameBorder="0"
+                                                                       scrolling="auto"
 
-                                                    />
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             {#<tr>#}
@@ -240,7 +302,7 @@
 
                 if($(designFile[e]) && data.includes('.pdf'))
                 {
-                    $(designFile[e]).height('800');
+                    $(designFile[e]).height('1000');
                     $(designFile[e]).width('100%');
                 }
                 // console.log(e);
