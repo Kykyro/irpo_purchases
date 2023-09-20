@@ -26,6 +26,21 @@
         <div class="error-desc">
             Извините, но у вас нет доступа к данной странице.
         </div>
+        {% if is_granted('IS_IMPERSONATOR') %}
+            <hr>
+
+
+
+            <a href="{{ impersonation_exit_path(path('app_login', {'_switch_user': '_exit'}) ) }}">
+                <button class="btn btn-danger">
+                    <i class="fa fa-ban">
+                        Выйти из пользователя
+                    </i>
+                </button>
+
+            </a>
+        {% endif %}
+
     </div>
 
     <!-- Mainly scripts -->
