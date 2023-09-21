@@ -202,9 +202,9 @@
                                                     {% endif %}
                                                     {% if userInfo.getListOfAnotherOrganization()|length > 0 %}
                                                         <div class="panel panel-default">
-                                                            <div class="panel-heading p-0 p-3 m-0">
+                                                            <div class="panel-heading p-0 ">
                                                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree-{{ userInfo.getId() }}" class="collapsed" aria-expanded="false">
-                                                                <h5 class="panel-title">
+                                                                <h5 class="panel-title p-3 m-0">
                                                                    Иные организации
                                                                 </h5>
                                                                 </a>
@@ -223,15 +223,15 @@
                                                     {% if userInfo.getUGPS()|length > 0 %}
 
                                                         <div class="panel panel-default">
-                                                            <div class="panel-heading p-0 p-3 m-0">
+                                                            <div class="panel-heading p-0 ">
                                                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseFitht-{{ userInfo.getId() }}" class="collapsed" aria-expanded="false">
-                                                                <h5 class="panel-title">
+                                                                <h5 class="panel-title p-3 m-0">
                                                                     Профессии и специальности
                                                                 </h5>
                                                                 </a>
                                                             </div>
                                                             <div id="collapseFitht-{{ userInfo.getId() }}" class="panel-collapse collapse">
-                                                                <div class="panel-body">
+                                                                <div class="panel-body ">
                                                                     <ul>
                                                                         {% for i in  userInfo.getUGPS() %}
                                                                             <li>{{ i }}</li>
@@ -241,8 +241,27 @@
                                                             </div>
                                                         </div>
                                                     {% endif %}
+                                                    {% if userInfo.getZone()|length > 0 %}
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading p-0 ">
+                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSixth-{{ userInfo.getId() }}" class="collapsed" aria-expanded="false">
+                                                                    <h5 class="panel-title p-3 m-0">
+                                                                        Зоны по видам работ
+                                                                    </h5>
+                                                                </a>
+                                                            </div>
+                                                            <div id="collapseSixth-{{ userInfo.getId() }}" class="panel-collapse collapse">
+                                                                <div class="panel-body">
+                                                                    <ul>
+                                                                        {% for i in  userInfo.getZone() %}
+                                                                            <li>{{ i }}</li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-
+                                                    {% endif %}
 
                                                 </div>
 
