@@ -91,6 +91,7 @@ class ContractingXlsxService extends AbstractController
 
     public function downloadTable(int $year, \DateTime $today = null, string $role = 'cluster', $save = null)
     {
+
         $sheet_template = $this->getParameter('contrating_template_file');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
         $sheet = $spreadsheet->getActiveSheet();
