@@ -1,7 +1,8 @@
 {% extends "default/base.html.twig" %}
 
 {% block styles %}
-    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet">
     <style>
         .flex-container {
             display: flex;
@@ -9,21 +10,32 @@
             height: 100%;
             flex-flow: column;
         }
+
         .flex-container > a {
             min-width: 100%;
         }
-        .contact-box-content
-        {
+
+        .contact-box-content {
             min-height: 400px;
         }
-        .contact-box
-        {
+
+        .contact-box {
             border: 2px solid white;
             border-radius: 5px;
             min-height: 100%;
         }
-        .card-hover{
+
+        .card-hover {
             border: 2px solid #38a3dd;
+        }
+        #tag-list{
+            min-width: 100%;
+        }
+        .bootstrap-tagsinput{
+            min-width: 100%;
+        }
+        .bootstrap-tagsinput > input{
+            min-width: 100%;
         }
     </style>
 {% endblock %}
@@ -42,41 +54,41 @@
                 </div>
                 <div class="ibox-content ">
                     {{ form_start(form) }}
-                        <label>Субъект РФ</label>
-                        {{ form_widget(form.rf_subject) }}
-                        <label>Год создания кластера</label>
-                        {{ form_widget(form.year) }}
-                        <hr>
+                    <label>Субъект РФ</label>
+                    {{ form_widget(form.rf_subject) }}
+                    <label>Год создания кластера</label>
+                    {{ form_widget(form.year) }}
+                    <hr>
 
-                        {{ form_widget(form.submit) }}
+                    {{ form_widget(form.submit) }}
                     {{ form_end(form) }}
                 </div>
             </div>
             <div class="row col-lg-12">
 
-                    {% for i in pagination %}
-                        {% set buttons %}
-                            {% if i.getId() in clusters %}
-                                <div style="margin-left: 10px">
-                                    <a href="#">
-                                        <button class="btn " disabled >
-                                            Избранное
-                                        </button>
-                                    </a>
-                                </div>
+                {% for i in pagination %}
+                    {% set buttons %}
+                        {% if i.getId() in clusters %}
+                            <div style="margin-left: 10px">
+                                <a href="#">
+                                    <button class="btn " disabled>
+                                        Избранное
+                                    </button>
+                                </a>
+                            </div>
 
-                            {% else %}
-                                <div style="margin-left: 10px">
-                                    <a href="{{ path('app_inspector_add_favourite', {'id': i.getId()}) }}">
-                                        <button class="btn " >
-                                            Добавить в "Мои кластеры"
-                                        </button>
-                                    </a>
-                                </div>
-                            {% endif %}
-                        {% endset %}
-                        {{ include('default/clusterCard.html.twig', {'i': i}) }}
-                    {% endfor %}
+                        {% else %}
+                            <div style="margin-left: 10px">
+                                <a href="{{ path('app_inspector_add_favourite', {'id': i.getId()}) }}">
+                                    <button class="btn ">
+                                        Добавить в "Мои кластеры"
+                                    </button>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endset %}
+                    {{ include('default/clusterCard.html.twig', {'i': i}) }}
+                {% endfor %}
 
 
             </div>
@@ -88,28 +100,121 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="tagModal" tabindex="-1"
+         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tagModalLabel"> ===== </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="tag-save-form" action="#" method="post">
+                    <div class="modal-body">
+
+
+                        <label>
+                            Теги:
+                        </label>
+                        <br>
+                        <textarea  id="tag-list" class="col-sm-12" type="text" placeholder="" name="tags"  >
+                        </textarea>
+
+
+                        <input type="hidden" name="token" value="{{ csrf_token('tags-save') }}"/>
+
+
+                    </div>
+                    <div class="modal-footer">
+
+
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block scripts %}
     <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+    <script src="{{ asset('js/plugins/typehead/bootstrap3-typeahead.min.js') }}"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             let boxes = $('.contact-box');
 
             boxes.hover(
-            (e)=>{
-                console.log($(e.target));
-                $(e.target).closest('.contact-box').addClass('card-hover');
-            },
-            (e) => {
-                $(e.target).closest('.contact-box').removeClass('card-hover');
-            });
+                (e) => {
+                    $(e.target).closest('.contact-box').addClass('card-hover');
+                },
+                (e) => {
+                    $(e.target).closest('.contact-box').removeClass('card-hover');
+                });
 
             $('.select2').select2({
-                closeOnSelect : true,
-                placeholder : "...",
+                closeOnSelect: true,
+                placeholder: "...",
                 allowHtml: true,
                 allowClear: true
             });
         });
     </script>
+    <script>
+        $(document).ready(function () {
+
+            let tagButton = $('.tag-button');
+            let tagList = $('#tag-list ');
+
+            fetch('/api/get-all-user-tag').then(function (response) {
+                response.json().then(function (data) {
+
+
+                    tagList.tagsinput({
+                        itemValue: 'id',
+                        itemText: 'tag',
+                        typeahead: {
+                            source: JSON.parse(data),
+                            afterSelect: function(val) { this.$element.val(""); },
+                        },
+                        freeInput: true
+
+                    });
+
+                })
+            });
+            tagButton.hover(
+                (e) => {
+                    $(e.target).closest('button').addClass('badge-primary');
+                },
+                (e) => {
+                    $(e.target).closest('button').removeClass('badge-primary');
+                });
+
+            tagButton.on('click', (e) => {
+                let form = $('#tag-save-form');
+                let target = $(e.target).closest('button');
+
+
+                form.attr('action', '/inspector/users-tags/save/'+target.data('tagId'));
+
+                fetch('/api/get-user-tag/' + target.data('tagId')).then(function (response) {
+                    response.json().then(function (data) {
+                        tagList.tagsinput('removeAll');
+                        let tags = JSON.parse(data);
+                        for (let i = 0; i < tags.length; i++) {
+                            console.log(tags[i]);
+                            tagList.tagsinput('add', tags[i]);
+                        }
+                    })
+                });
+                $('#tagModalLabel').html(target.data('org'));
+            });
+
+
+        });
+    </script>
+
 {% endblock %}

@@ -89,11 +89,7 @@
         </div>
 
         <div class="contact-box-footer">
-            {% for tag in i.getUserTags() %}
-                <span class="badge">
-                    {{ tag.getTag() }}
-                </span>
-            {% endfor %}
+
             <div class="flex-container" style="overflow: hidden">
                 <a href="{{ path('app_inspector_show_info_about_cluster', {'id': i.getId()}) }}">
                     <button class="btn btn-cyan col-lg-12 mb-2">
@@ -144,6 +140,27 @@
                             Переключиться
                         </button>
                     </a>
+                {% endif %}
+
+            </div>
+            <hr>
+            <div class="row">
+
+                {% if isInspector %}
+
+
+                    {% for tag in i.getUserTags() %}
+                        <span class="badge mr-1">
+                        {{ tag.getTag() }}
+                    </span>
+                    {% endfor %}
+                    <button class="btn badge tag-button" id="tag-{{ i.getId() }}"
+                            data-tag-id="{{ i.getId() }}"
+                            data-org=" {{ i.getUserInfo().getEducationalOrganization() }}"
+                            data-toggle="modal"
+                            data-target="#tagModal">
+                        <i class="fa fa-plus" data-tag-id="{{ i.getId() }}"></i>
+                    </button>
                 {% endif %}
             </div>
         </div>

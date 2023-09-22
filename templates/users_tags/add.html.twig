@@ -3,7 +3,7 @@
 {% block title %}Hello UsersTagsController!{% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row mt-3">
     <div class="col-lg-8 offset-lg-2">
         <div class="ibox">
             <div class="ibox-title">
@@ -13,6 +13,11 @@
             </div>
             <div class="ibox-content">
                 {{ form_start(form) }}
+                {{ form_row(form.tag) }}
+                {% if errors is not null %}
+                    <p class="text-danger">{{ errors['name'] }}</p>
+                {% endif %}
+                {{ form_row(form.submit) }}
                 {{ form_end(form) }}
             </div>
 

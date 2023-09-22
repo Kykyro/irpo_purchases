@@ -34,8 +34,21 @@
                             <tr>
                                 <td>{{ tag.getId() }}</td>
                                 <td>{{ tag.getTag() }}</td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ tag.getUsers()|length }}</td>
+                                <td>
+                                    <a href="{{ path('app_users_tags_edit', {'id': tag.getId()}) }}">
+                                        <button class="btn btn-success col-sm-12">
+                                            <i class="fa fa-edit"></i>
+                                            Редактировать
+                                        </button>
+                                    </a>
+                                    <a href="{{ path('app_users_tags_remove', {'id': tag.getId()}) }}">
+                                        <button class="btn btn-danger col-sm-12">
+                                            <i class="fa fa-trash"></i>
+                                            Удалить
+                                        </button>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

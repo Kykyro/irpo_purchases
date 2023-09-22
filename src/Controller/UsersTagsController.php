@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\UserTags;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -15,18 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class UsersTagsController
  * @package App\Controller
- * @Route("/admin")
+ *
  */
 class UsersTagsController extends AbstractController
 {
     /**
-     * @Route("/users-tags", name="app_users_tags")
+     * @Route("/inspector/users-tags", name="app_users_tags")
      */
     public function index(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
 
         $query = $entityManager->getRepository(UserTags::class)
             ->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
             ;
 
         $query = $query->getQuery();
@@ -45,8 +47,8 @@ class UsersTagsController extends AbstractController
         ]);
     }
     /**
-     * @Route("/users-tags/add", name="app_users_tags_add")
-     * @Route("/users-tags/edit/{id}", name="app_users_tags_edit")
+     * @Route("/inspector/users-tags/add", name="app_users_tags_add")
+     * @Route("/inspector/users-tags/edit/{id}", name="app_users_tags_edit")
      */
     public function add(Request $request, EntityManagerInterface $entityManager, int $id = null): Response
     {
@@ -59,7 +61,7 @@ class UsersTagsController extends AbstractController
         else{
             $tag = new UserTags();
         }
-
+        $errors = null;
 
         $form = $this->createFormBuilder($tag)
             ->add('tag', TextType::class, [
@@ -80,15 +82,88 @@ class UsersTagsController extends AbstractController
 
         if($form->isSubmitted() and $form->isValid())
         {
+            $findTag = $entityManager->getRepository(UserTags::class)
+                ->findBy([
+                    'tag' => $tag->getTag()
+                ]);
+            if(!$findTag)
+            {
+                $entityManager->persist($tag);
+                $entityManager->flush();
 
-            $entityManager->persist($tag);
-            $entityManager->flush();
+                return $this->redirectToRoute('app_users_tags');
+            }
+            else
+            {
+                $errors = [
+                  'name' => 'Такой тег уже существует!'
+                ];
+
+                return $this->render('users_tags/add.html.twig', [
+                    'controller_name' => 'UsersTagsController',
+                    'form' => $form->createView(),
+                    'errors' => $errors,
+                ]);
+            }
         }
-
 
         return $this->render('users_tags/add.html.twig', [
             'controller_name' => 'UsersTagsController',
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'errors' => $errors,
         ]);
+
+    }
+
+    /**
+     * @Route("/inspector/users-tags/remove/{id}", name="app_users_tags_remove")
+     */
+    public function remove(Request $request, $id, EntityManagerInterface $em)
+    {
+        $route = $request->headers->get('referer');
+        $tag = $em->getRepository(UserTags::class)->find($id);
+        $em->remove($tag);
+        $em->flush();
+
+        return $this->redirect($route);
+    }
+
+    /**
+     * @Route("/inspector/users-tags/save/{id}", name="app_users_tags_save")
+     */
+    public function save(Request $request, $id, EntityManagerInterface $em){
+
+        $route = $request->headers->get('referer');
+        $submittedToken = $request->request->get('token');
+
+        if ($this->isCsrfTokenValid('tags-save', $submittedToken)) {
+            $user = $em->getRepository(User::class)->find($id);
+            $tagsIds = $request->request->get('tags');
+            $tagsIds = explode(",", $tagsIds);
+            $validTags = [];
+            foreach ($user->getUserTags() as $tag)
+            {
+                if(in_array($tag->getId(), $tagsIds))
+                {
+                    array_push($validTags, $tag);
+                }
+                else
+                {
+                    $user->removeUserTag($tag);
+                }
+            }
+            foreach ($tagsIds as $tagId)
+            {
+                $tag = $em->getRepository(UserTags::class)->find($tagId);
+                if($tag)
+                    $user->addUserTag($tag);
+            }
+            $em->persist($user);
+            $em->flush();
+
+
+            return $this->redirect($route);
+        }
+        return $this->redirect($route);
     }
 }
