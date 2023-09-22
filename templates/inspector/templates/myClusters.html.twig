@@ -3,6 +3,42 @@
 
 {% block styles %}
     <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet">
+    <style>
+        .flex-container {
+            display: flex;
+            align-items: flex-end;
+            height: 100%;
+            flex-flow: column;
+        }
+
+        .flex-container > a {
+            min-width: 100%;
+        }
+
+        .contact-box-content {
+            min-height: 400px;
+        }
+
+        .contact-box {
+            border: 2px solid white;
+            border-radius: 5px;
+            min-height: 100%;
+        }
+
+        .card-hover {
+            border: 2px solid #38a3dd;
+        }
+        #tag-list{
+            min-width: 100%;
+        }
+        .bootstrap-tagsinput{
+            min-width: 100%;
+        }
+        .bootstrap-tagsinput > input{
+            min-width: 100%;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -83,12 +119,50 @@
     </div>
 </div>
 
+    <div class="modal fade" id="tagModal" tabindex="-1"
+         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tagModalLabel"> ===== </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="tag-save-form" action="#" method="post">
+                    <div class="modal-body">
 
+
+                        <label>
+                            Теги:
+                        </label>
+                        <br>
+                        <textarea  id="tag-list" class="col-sm-12" type="text" placeholder="" name="tags"  >
+                        </textarea>
+
+
+                        <input type="hidden" name="token" value="{{ csrf_token('tags-save') }}"/>
+
+
+                    </div>
+                    <div class="modal-footer">
+
+
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
 {% block scripts %}
     <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+    <script src="{{ asset('js/plugins/typehead/bootstrap3-typeahead.min.js') }}"></script>
+    <script src="{{ asset('js/scripts/tag_editor.js') }}"></script>
     <script>
         $(document).ready(function(){
             $.fn.filterAttribute = function(attr, values, reverse) {
