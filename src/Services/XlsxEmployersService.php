@@ -47,7 +47,7 @@ class XlsxEmployersService extends AbstractController
             ],
         ];
         $headerRow = [
-            'Работадатель',
+            'Работодатель',
             'Наименование',
             'Сокращенное наименование',
             'Описание',
