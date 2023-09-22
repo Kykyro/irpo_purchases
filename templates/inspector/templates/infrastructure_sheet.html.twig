@@ -58,9 +58,26 @@
                     {{ form_widget(form.rf_subject) }}
                     <label>Год создания кластера</label>
                     {{ form_widget(form.year) }}
+                    <div {% if not is_granted('ROLE_INSPECTOR') or not is_granted('ROLE_SMALL_CURATOR') %} style="display: none" {% endif %}>
+                        <label>Теги</label>
+                        {{ form_widget(form.tags) }}
+                    </div>
+
                     <hr>
 
-                    {{ form_widget(form.submit) }}
+                    <button class="btn btn-success mt-3 " typy="submit">
+                        <i class="fa fa-search"></i>
+                        Найти
+                    </button>
+
+                    <a href="{{ app.request.pathInfo }}">
+                        <button class="btn mt-3" type="button">
+                            Сбросить фильтр
+                        </button>
+                    </a>
+
+
+                    {#{{ form_widget(form.submit) }}#}
                     {{ form_end(form) }}
                 </div>
             </div>
@@ -119,7 +136,7 @@
                             Теги:
                         </label>
                         <br>
-                        <textarea  id="tag-list" class="col-sm-12" type="text" placeholder="" name="tags"  >
+                        <textarea  id="tag-list" class="col-sm-12 tag-list" type="text" placeholder="" name="tags"  >
                         </textarea>
 
 

@@ -77,12 +77,17 @@ class SmallCuratorClustersController extends AbstractController
                 ],
 
             ])
-            ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-success mt-3'
-                ],
-                'label' => 'Найти'
+            ->add('tags', TextType::class, [
+                'attr' => ['class' => 'form-control tag-list'],
+                'label' => 'Теги',
+                'required'   => false,
             ])
+//            ->add('submit', SubmitType::class, [
+//                'attr' => [
+//                    'class' => 'btn btn-success mt-3'
+//                ],
+//                'label' => 'Найти'
+//            ])
             ->setMethod('GET')
             ->getForm();
 
@@ -111,6 +116,13 @@ class SmallCuratorClustersController extends AbstractController
 
                     ->andWhere('uf.year = :year')
                     ->setParameter('year', $year);
+            }
+            if($form_data['tags'] !== null){
+                $tags = explode(',', $form_data['tags']);
+                $query = $query
+                    ->leftJoin('a.userTags', 'ut')
+                    ->andWhere('ut.id IN (:ids)')
+                    ->setParameter('ids', $tags, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
             }
         }
 

@@ -37,6 +37,7 @@ class InfrastructureSheetController extends AbstractController
      */
     public function regionUserList(Request $request,EntityManagerInterface $em, PaginatorInterface $paginator): Response
     {
+
         $entity_manager = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $_cluster = $entity_manager->getRepository(FavoritesClusters::class)->findBy(
@@ -77,12 +78,12 @@ class InfrastructureSheetController extends AbstractController
                 ],
 
             ])
-            ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-success mt-3'
-                ],
-                'label' => 'Найти'
+            ->add('tags', TextType::class, [
+                'attr' => ['class' => 'form-control tag-list '],
+                'label' => 'Теги',
+                'required'   => false,
             ])
+//
             ->setMethod('GET')
             ->getForm();
 
@@ -112,6 +113,13 @@ class InfrastructureSheetController extends AbstractController
                     ->andWhere('uf.year = :year')
                     ->setParameter('year', $year);
             }
+            if($form_data['tags'] !== null){
+                $tags = explode(',', $form_data['tags']);
+                $query = $query
+                    ->leftJoin('a.userTags', 'ut')
+                    ->andWhere('ut.id IN (:ids)')
+                    ->setParameter('ids', $tags, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+            }
         }
 
         $query = $query->getQuery();
@@ -128,7 +136,8 @@ class InfrastructureSheetController extends AbstractController
             'controller_name' => 'InspectorController',
             'pagination' => $pagination,
             'form' => $form->createView(),
-            'clusters' => $cluster
+            'clusters' => $cluster,
+
         ]);
     }
 

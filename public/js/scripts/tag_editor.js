@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     let tagButton = $('.tag-button');
-    let tagList = $('#tag-list ');
+    let tagList = $('.tag-list ');
 
     fetch('/api/get-all-user-tag').then(function (response) {
         response.json().then(function (data) {
@@ -20,6 +20,7 @@ $(document).ready(function () {
 
         })
     });
+
     tagButton.hover(
         (e) => {
             $(e.target).closest('button').addClass('badge-primary');
