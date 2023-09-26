@@ -3,7 +3,11 @@
 namespace App\Controller\Analyst;
 
 use App\Entity\ClustersRequestCertification;
+use App\Entity\RfSubject;
 use App\Form\clustersRequestsFileForm;
+use App\Form\makeCertificateAllForm;
+use App\Form\makeCertificateForm;
+use App\Services\certificateByClustersService;
 use App\Services\ClusterRequestCertificateService;
 use App\Services\FileService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,5 +71,58 @@ class ClusterRequestCertificationController extends AbstractController
             return $certificateService->download($filename, $rows);
         }
         return $this->redirectToRoute('app_cluster_request_certification');
+    }
+
+    /**
+     * @Route("analyst/certificate-by-clusters", name="app_certificate_by_cluster_analyst")
+     */
+    public function app_certificate_by_cluster_analyst(Request $request, certificateByClustersService $byClustersService): Response
+    {
+        $arr = [];
+        $entity_manager = $this->getDoctrine()->getManager();
+        $regions = $entity_manager->getRepository(RfSubject::class)->findAll();
+        $form = $this->createForm(makeCertificateAllForm::class, $arr);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() )
+        {
+            $data = $form->getData();
+            $ugps = [];
+            $employeers = [];
+            $zones = [];
+            if($form->get('as_choose')->getData())
+            {
+//                dd($form);
+                if(count($form->get('UGPS')->getErrors()) > 0)
+                    $ugps = $this->getFromError($form->get('UGPS')->getErrors()[0]->getMessageParameters()['{{ value }}']);
+                if(count($form->get('employers')->getErrors()) > 0)
+                    $employeers = $this->getFromError($form->get('employers')->getErrors()[0]->getMessageParameters()['{{ value }}']);
+                if(count($form->get('zones')->getErrors()) > 0)
+                    $zones = $this->getFromError($form->get('zones')->getErrors()[0]->getMessageParameters()['{{ value }}']);
+
+
+            }
+
+//            dd($ugps);
+            if(!$form->get('download_as_table')->getData())
+            {
+
+                $ugps = in_array('ugps', $data['option']);
+                $zone = in_array('zone', $data['option']);
+                return $byClustersService->getCertificate($data['clusters'], $data['option']);
+
+            }
+            else
+            {
+
+                return $byClustersService->getTableCertificate($data['clusters'], $ugps, $employeers, $zones);
+            }
+        }
+
+        return $this->render('inspector/certificate_insperctor/index.html.twig', [
+            'controller_name' => 'CertificateInsperctorController',
+            'form' => $form->createView(),
+            'regions' => $regions
+        ]);
     }
 }
