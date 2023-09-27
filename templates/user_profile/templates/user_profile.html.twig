@@ -365,6 +365,73 @@
                                         {% endif %}
                                         </tbody>
                                     </table>
+
+                                    {% if is_granted('ROLE_INSPECTOR') or is_granted("ROLE_SMALL_CLUSTERS") %}
+
+
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Загрузить Отчет о мониторинговом выезде</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form action="{{ path('app_inspector_monitoring_check_out_upload', {'id': user.getId()}) }}" method="post" enctype="multipart/form-data">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label>Файл</label>
+                                                                <div class="custom-file">
+                                                                    <input id="logo" type="file" class="custom-file-input" name="file" required>
+                                                                    <label for="logo" class="custom-file-label">Выбрать файл...</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Дата</label>
+                                                                <br>
+                                                                <input class="form-control" type="date" name="date" required/>
+                                                            </div>
+
+
+
+                                                            <input type="hidden" name="token" value="{{ csrf_token('check-out') }}"/>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Загрузить</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if user_info.getMonitoringCheckOuts()|length > 0 %}
+                                    <hr>
+
+                                    <h5>Отчеты о мониторинговом выезде</h5>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td class="col-md-6">Файл</td>
+                                                <td class="col-md-6">Дата</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for i in user_info.getMonitoringCheckOuts() %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ path('app_download_file_by_route', {'route': 'monitoring_check_out_directory', 'file': i.getFile()}) }}">
+                                                        <i class="fa fa-download"></i>
+                                                        Отчет о мониторинговом выезде
+                                                    </a>
+                                                </td>
+                                                <td>{{ i.getDate().format('d.m.Y') }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% endif %}
                                 {% else %}
                                     <div class="col-lg-10 offset-lg-1">
                                         <div class="panel panel-info">
@@ -392,6 +459,10 @@
                                             </i>
                                         </button>
                                     </a>
+                                    <button type="button" class="btn btn-primary col-lg-12 mt-2" data-toggle="modal" data-target="#exampleModal">
+                                        <i class="fa fa-upload"></i>
+                                        Загрузить Отчет о мониторинговом выезде
+                                    </button>
                                 {% endif %}
                             </div>
                         </div>
@@ -813,4 +884,14 @@
 
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/inspinia.js') }}"></script>
+<script src="{{ asset('js/bootstrap.js') }}"></script>
+<script src="{{ asset('js/plugins/fullcalendar/moment.min.js') }}"></script>
+<script src="{{ asset('js/plugins/daterangepicker/daterangepicker.js') }}"></script>
+<script>
+    $('.custom-file-input').on('change', function() {
+        let fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
+    });
+</script>
+{#<script src=""></script>#}
 

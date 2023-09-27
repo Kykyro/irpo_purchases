@@ -191,6 +191,11 @@ class UserInfo
      */
     private $certificateFunds;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MonitoringCheckOut::class, mappedBy="userInfo")
+     */
+    private $monitoringCheckOuts;
+
 
 
     function __construct()
@@ -200,6 +205,7 @@ class UserInfo
         $this->employers = new ArrayCollection();
         $this->clusterPerfomanceIndicators = new ArrayCollection();
         $this->contractCertifications = new ArrayCollection();
+        $this->monitoringCheckOuts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -747,6 +753,36 @@ class UserInfo
         }
 
         $this->certificateFunds = $certificateFunds;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MonitoringCheckOut>
+     */
+    public function getMonitoringCheckOuts(): Collection
+    {
+        return $this->monitoringCheckOuts;
+    }
+
+    public function addMonitoringCheckOut(MonitoringCheckOut $monitoringCheckOut): self
+    {
+        if (!$this->monitoringCheckOuts->contains($monitoringCheckOut)) {
+            $this->monitoringCheckOuts[] = $monitoringCheckOut;
+            $monitoringCheckOut->setUserInfo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMonitoringCheckOut(MonitoringCheckOut $monitoringCheckOut): self
+    {
+        if ($this->monitoringCheckOuts->removeElement($monitoringCheckOut)) {
+            // set the owning side to null (unless already changed)
+            if ($monitoringCheckOut->getUserInfo() === $this) {
+                $monitoringCheckOut->setUserInfo(null);
+            }
+        }
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Controller\Inspector;
 
 use App\Entity\ClusterDocument;
 use App\Entity\Log;
+use App\Entity\MonitoringCheckOut;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
@@ -184,6 +185,33 @@ class InspectorController extends AbstractController
             'user' => $user
 
         ]);
+    }
+
+    /**
+     * @Route("/monitoring-check-out-upload/{id}", name="app_inspector_monitoring_check_out_upload")
+     */
+    public function monitoringCheckOutUpload(int $id, Request $request, FileService $fileService, EntityManagerInterface $em)
+    {
+        $submittedToken = $request->request->get('token');
+        $user = $em->getRepository(User::class)->find($id);
+        $userInfo = $user->getUserInfo();
+//        dd( $request->files);
+        if ($this->isCsrfTokenValid('check-out', $submittedToken)) {
+
+            if($request->files->get('file')) {
+                $checkOut = new MonitoringCheckOut();
+                $checkOut->setDate(new \DateTimeImmutable($request->request->get('date')));
+                $checkOut->setFile($fileService->UploadFile($request->files->get('file'), 'monitoring_check_out_directory'));
+                $checkOut->setUserInfo($userInfo);
+
+                $em->persist($checkOut);
+                $em->flush();
+            }
+
+
+        }
+
+        return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id' => $id]);
     }
 
     /**
