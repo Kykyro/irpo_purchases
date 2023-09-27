@@ -254,34 +254,38 @@
                             <thead>
                             <tr>
                                 <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Общее кол-во оборудования по ИЛу</strong></td>
-                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Поставлено оборудования</strong></td>
-                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Введено в эксплуатацию</strong></td>
+                                {#<td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Поставлено оборудования</strong></td>#}
                                 <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % укомплектованности МТБ</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Введено в эксплуатацию</strong></td>
+
                             </tr>
                             </thead>
                             <tbody>
                             {% set equipment = user.getCountOfEquipment() %}
                             <tr>
-                                <td style="vertical-align: inherit; text-align: center">{{ equipment['total'] }}</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ proc['total'] }}</td>
                                 {#<td style="vertical-align: inherit; text-align: center">#}
                                 {#{{ proc['fact'] }} / {{ mtb_fact }}#}
                                 {#</td>#}
-                                {% if equipment['total'] > 0 %}
-                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['fact'] }} / {{ ((equipment['fact']/equipment['total'])*100)|round(2, 'floor') }} %</td>
-                                {% else %}
-                                    <td>{{ equipment['fact'] }} / 0%</td>
-                                {% endif %}
-
-                                {% if equipment['total'] > 0 %}
-                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / {{ ((equipment['putInOperation']/equipment['total'])*100)|round(2, 'floor') }} %</td>
-                                {% else %}
-                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / 0%</td>
-                                {% endif %}
-
+                                {#{% if equipment['total'] > 0 %}#}
+                                {#<td style="vertical-align: inherit; text-align: center">{{ equipment['fact'] }} / {{ ((equipment['fact']/equipment['total'])*100)|round(2, 'floor') }} %</td>#}
+                                {#{% else %}#}
+                                {#<td>{{ equipment['fact'] }} / 0%</td>#}
+                                {#{% endif %}#}
                                 <td style="vertical-align: inherit; text-align: center">
                                     {{ mtb_fact }} %
                                     {#{{ dump(proc) }}#}
                                 </td>
+                                {% if equipment['total'] > 0 %}
+                                    {#<td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / {{ ((equipment['putInOperation']/equipment['total'])*100)|round(2, 'floor') }} %</td>#}
+                                    <td style="vertical-align: inherit; text-align: center">
+                                        {{ equipment['putInOperation'] }} / {{ mtb_put }}%
+                                    </td>
+                                {% else %}
+                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / 0%</td>
+                                {% endif %}
+
+
                             </tr>
                             </tbody>
                         </table>

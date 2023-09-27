@@ -136,6 +136,68 @@ class RoivReadinessMapController extends AbstractController
             ])
             ->getForm();
 
+
+
+        $adresses = $user->getClusterAddresses();
+        $procentage = [
+            'F' => 0,
+            'G' => 0,
+            'H' => 0,
+            'I' => 0,
+            'furniture' => 0,
+            'furniture_fact' => 0,
+            'PO' => 0,
+            'PO_fact' => 0,
+            'equipment' => 0,
+            'equipment_fact' => 0,
+            'furniture_put' => 0,
+            'equipment_put' => 0,
+            'PO_put' => 0,
+        ];
+        foreach ($adresses as $adress) {
+
+            $zones = $adress->getClusterZones();
+
+            foreach ($zones as $zone) {
+                if($zone->getType()->getName() == "Зона по видам работ")
+                {
+                    $arr = $zone->getCountOfEquipmentByType();
+
+                    $procentage['furniture'] += $arr['furniture'];
+                    $procentage['furniture_fact'] += $arr['furniture_fact'];
+                    $procentage['PO'] += $arr['PO'];
+                    $procentage['PO_fact'] += $arr['PO_fact'];
+                    $procentage['equipment'] += $arr['equipment'];
+                    $procentage['equipment_fact'] += $arr['equipment_fact'];
+                    $procentage['furniture_put'] += $arr['furniture_put'];
+                    $procentage['equipment_put'] += $arr['equipment_put'];
+                    $procentage['PO_put'] += $arr['PO_put'];
+                }
+
+
+            }
+
+        }
+        $count = 0;
+        if($procentage['furniture'] > 0)
+            $count++;
+        if($procentage['PO'] > 0)
+            $count++;
+        if($procentage['equipment'] > 0)
+            $count++;
+        $proc = [
+            'total' =>   $procentage['furniture']+$procentage['PO']+$procentage['equipment'],
+            'furniture' => $this->midleProc($procentage['furniture'], $procentage['furniture_fact']),
+            'PO' => $this->midleProc($procentage['PO'], $procentage['PO_fact']),
+            'equipment' => $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
+            'furniture_put' => $this->midleProc($procentage['furniture'], $procentage['furniture_put']),
+            'PO_put' => $this->midleProc($procentage['PO'], $procentage['PO_put']),
+            'equipment_put' => $this->midleProc($procentage['equipment'], $procentage['equipment_put']),
+            'fact' => $procentage['furniture_fact']+$procentage['PO_fact']+$procentage['equipment_fact'],
+            'put' => $procentage['furniture_put']+$procentage['PO_put']+$procentage['equipment_put'],
+
+        ];
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
@@ -166,7 +228,9 @@ class RoivReadinessMapController extends AbstractController
             'user' => $user,
             '_photos' => $photos,
             'form' => $form->createView(),
+            'proc' => $proc,
             'mtb_fact' => ($count > 0) ? round((($proc['furniture']+$proc['PO']+$proc['equipment'])/$count)*100, 2): 0,
+            'mtb_put' => ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put'])/$count)*100, 2): 0,
         ]);
     }
     public function midleProc($total, $fact)
