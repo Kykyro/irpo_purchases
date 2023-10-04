@@ -61,9 +61,10 @@ class weeklyReportReadinessMapCommand extends Command
         $clusters = $this->entity_manager->getRepository(User::class)
             ->createQueryBuilder('a')
             ->leftJoin('a.user_info', 'uf')
-            ->andWhere('a.roles LIKE :role')
+            ->andWhere('a.roles LIKE :role or a.roles LIKE :role2')
             ->andWhere('uf.year > :year')
             ->setParameter('role', "%REGION%")
+            ->setParameter('role2', "%SMALL_CLUSTERS%")
             ->setParameter('year', "2022")
             ->getQuery()
             ->getResult();
