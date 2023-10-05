@@ -39,10 +39,12 @@
                     Редактировать
                 </button>
             </a>
+            {% if is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') %}
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
                 <div class="fa fa-trash"></div>
                 Удалить
             </button>
+            {% endif %}
             {% if not purchase.isIsCancelled() %}
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#cancelledModal">
                     <div class="fa fa-warning"></div>
