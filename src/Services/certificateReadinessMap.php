@@ -42,7 +42,22 @@ class certificateReadinessMap extends AbstractController
 
         $templateProcessor = new TemplateProcessor($file);
 
-
+        $title = '';
+            if(in_array('ROLE_REGION', $user->getRoles()))
+            {
+                $title = 'образовательно-производственного центра (кластера)';
+            }
+            elseif (in_array('ROLE_SMALL_CLUSTERS_LOT_1', $user->getRoles()))
+            {
+                $title = 'образовательного кластера среднего профессионального образования';
+            }
+            elseif (in_array('ROLE_SMALL_CLUSTERS_LOT_2', $user->getRoles()))
+            {
+                $title = 'образовательного кластера среднего профессионального образования';
+            }
+            else{
+                throw new Exception('Ошибка роли');
+            }
         // Заголовок
         $replacements = [
             'cluster' => $user_info->getCluster(),
@@ -50,6 +65,7 @@ class certificateReadinessMap extends AbstractController
             'day' => $today->format('d'),
             'month' => $today->format('m'),
             'year' => $today->format('Y'),
+            'title' => $title,
         ];
         $templateProcessor->setValues($replacements);
 
