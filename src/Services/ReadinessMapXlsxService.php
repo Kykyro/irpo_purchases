@@ -149,7 +149,7 @@ class ReadinessMapXlsxService extends AbstractController
                 $user_info->getEducationalOrganization()
 
             ];
-            $sheet->fromArray($user_info_arr, null, 'B'.$row);
+            $sheet->fromArray($user_info_arr, null, 'B'.$row, true);
             $count = 0;
             $dateMidFormula = "";
             if($_countZone['Фасад'] > 0)
@@ -205,7 +205,7 @@ class ReadinessMapXlsxService extends AbstractController
 
 
             ];
-            $sheet->fromArray($other_arr, null, 'E'.$row);
+            $sheet->fromArray($other_arr, null, 'E'.$row, true);
 
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
@@ -333,7 +333,7 @@ class ReadinessMapXlsxService extends AbstractController
                 $user_info->getCurator()
 
             ];
-            $sheet->fromArray($user_info_arr, "-", 'B'.$row);
+            $sheet->fromArray($user_info_arr, "-", 'B'.$row, true);
             $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'K'];
             foreach ($proc_cell as $cell)
             {

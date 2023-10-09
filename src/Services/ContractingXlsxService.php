@@ -159,7 +159,7 @@ class ContractingXlsxService extends AbstractController
                 $user_info->getDeclaredIndustry(),
                 $user_info->getEducationalOrganization()
             ];
-            $sheet->fromArray($user_info_arr, null, 'C'.$row);
+            $sheet->fromArray($user_info_arr, null, 'C'.$row, true);
             $other_arr = [
                 '',
                 $_data['G'],
@@ -178,7 +178,7 @@ class ContractingXlsxService extends AbstractController
                 '',
                 '',
             ];
-            $sheet->fromArray($other_arr, null, 'F'.$row);
+            $sheet->fromArray($other_arr, null, 'F'.$row, true);
 
             $sheet->getStyle("H$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
             $sheet->getStyle("J$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
