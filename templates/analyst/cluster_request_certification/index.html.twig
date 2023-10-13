@@ -252,7 +252,7 @@
                     this.each(function(index, el) {
                         for (var i = 0; i < values.length; i++) {
 
-                            if (el.getAttribute(attr) == values[i]) {
+                            if (el.getAttribute(attr).includes( values[i]) ) {
                                 remaining.push(el);
                                 break;
                             }
