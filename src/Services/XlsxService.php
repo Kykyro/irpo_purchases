@@ -741,6 +741,7 @@ class XlsxService extends AbstractController
 
         $sheet->getStyle('E'.$end_cell.':H'.$end_cell)->applyFromArray($styleFill);
         $sheet->getStyle('U'.$end_cell.':X'.$end_cell)->applyFromArray($styleFill2);
+        $sheet->getStyle('Z'.$end_cell.':AC'.$end_cell)->applyFromArray($styleFill3);
 
         $row_arr = ['E', 'F', 'G', 'H', 'U', 'V', 'W', 'X', 'D', 'T', 'Z', 'AA', 'AB', 'AC'];
         foreach ($row_arr as $j){
