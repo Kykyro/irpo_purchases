@@ -224,7 +224,7 @@ class ContractingXlsxService extends AbstractController
 //        $curency_cell = ['G', 'I', 'K', 'M', 'N', 'O', 'P', 'Q', 'R'];
         foreach ($curency_cell as $cell)
         {
-            $sheet->setCellValue($cell.$sumRow, "=SUM({$cell}2:G$end_cell)");
+            $sheet->setCellValue($cell.$sumRow, "=SUM({$cell}2:{$cell}$end_cell)");
             $sheet->getStyle("$cell$sumRow")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
             $sheet->getStyle("$cell".($sumRow+1))->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
         }
