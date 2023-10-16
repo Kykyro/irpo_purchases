@@ -57,11 +57,23 @@ class ReadinessMapXlsxService extends AbstractController
         $index = 1;
 
         if($role == 'lot_1')
+        {
+            $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
+        }
+
         else if($role == 'lot_2')
+        {
+            $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
+        }
+
         else
+        {
+            $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYear($year, '%REGION%');
+        }
+
 
         foreach ($users as $user)
         {
@@ -356,7 +368,7 @@ class ReadinessMapXlsxService extends AbstractController
 
         if($save)
         {
-            $fileName = 'Карта готовности_'.$today->format('d-m-Y').'_'.uniqid().'.xlsx';
+            $fileName = $fileName.'_'.uniqid().'.xlsx';
             if (!file_exists($this->getParameter('readiness_map_saves_directory'))) {
                 mkdir($this->getParameter('readiness_map_saves_directory'), 0777, true);
             }
@@ -366,7 +378,7 @@ class ReadinessMapXlsxService extends AbstractController
             return $fileName;
         }
         else{
-            $fileName = 'Карта готовности_'.$today->format('d-m-Y').'.xlsx';
+//            $fileName = 'Карта готовности_'.$today->format('d-m-Y').'.xlsx';
 
             $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 

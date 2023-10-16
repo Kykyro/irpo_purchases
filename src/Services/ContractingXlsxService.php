@@ -102,20 +102,20 @@ class ContractingXlsxService extends AbstractController
 
         if($role == 'lot_1')
         {
-            $fileName = 'Контрактация лот 1 '.$year."год ".$today->format('d-m-Y');
+            $fileName = 'Контрактация лот 1 '.$year." год ".$today->format('d-m-Y');
             $grant = 70000000;
             $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
         }
 
         else if($role == 'lot_2')
         {
-            $fileName = 'Контрактация лот 2 '.$year."год ".$today->format('d-m-Y');
+            $fileName = 'Контрактация лот 2 '.$year." год ".$today->format('d-m-Y');
             $grant = 60500000;
             $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
         }
         else
         {
-            $fileName = 'Контрактация ОПЦ '.$year."год ".$today->format('d-m-Y');
+            $fileName = 'Контрактация ОПЦ '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYear($year, '%REGION%');
         }
 
