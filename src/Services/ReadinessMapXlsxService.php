@@ -249,6 +249,7 @@ class ReadinessMapXlsxService extends AbstractController
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getStyle('A:Q')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:Q')->getAlignment()->setVertical('center');
+        $sheet->removeColumn('E');
 
         $sheet = $spreadsheet->getSheetByName('Оборудование');
         $index = 1;
