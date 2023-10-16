@@ -11,6 +11,7 @@ use App\Entity\RepairDumpGroup;
 use App\Entity\RepairPhotos;
 use App\Entity\User;
 use App\Entity\ZoneInfrastructureSheet;
+use App\Entity\ZoneRemark;
 use App\Form\addAddressesForm;
 use App\Form\addZoneForm;
 use App\Form\editZoneRepairForm;
@@ -278,10 +279,10 @@ class InspectorReadinessMapController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if($zone->getType()->getName() == "Иное")
-            {
-                $zone->getZoneRepair()->setBranding(100);
-            }
+//            if($zone->getType()->getName() == "Иное")
+//            {
+//                $zone->getZoneRepair()->setBranding(100);
+//            }
             $entity_manager->persist($zone);
             $entity_manager->flush();
 
@@ -344,6 +345,40 @@ class InspectorReadinessMapController extends AbstractController
             'controller_name' => 'InspectorReadinessMapController',
             'address' => $address
         ]);
+    }
+
+    /**
+     * @Route("/readiness-map/add-remark/{id}", name="app_inspector_add_zone_remark")
+     */
+    public function addZoneRemark(Request $request, int $id, EntityManagerInterface $em)
+    {
+        $zone = $em->getRepository(ClusterZone::class)->find($id);
+        $submittedToken = $request->request->get('token');
+        if ($this->isCsrfTokenValid('zoneRemark', $submittedToken)) {
+            $remark = new ZoneRemark();
+            $remark->setDescription($request->request->get('description'));
+            $remark->setZone($zone);
+
+            $em->persist($remark);
+            $em->flush();
+        }
+
+
+        return $this->redirectToRoute('app_inspector_view_zone', ['id' => $id]);
+    }
+
+    /**
+     * @Route("/readiness-map/delete-remark/{id}", name="app_inspector_delete_zone_remark")
+     */
+    public function deleteRemark(int $id, EntityManagerInterface $em)
+    {
+        $remark = $em->getRepository(ZoneRemark::class)->find($id);
+        $zone = $remark->getZone();
+
+        $em->remove($remark);
+        $em->flush();
+
+        return $this->redirectToRoute('app_inspector_view_zone', ['id' => $zone->getId()]);
     }
 
     /**

@@ -7,6 +7,34 @@
     {% set zoneType = zone.getType().getName() == 'Зона по видам работ' %}
     {% set name = zone.getName() %}
     <div class="row mt-3">
+        {% if zone.getZoneremarks()|length > 0 %}
+        <div class="col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Замечания</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="col-md-1">№ п/п</td>
+                                <td class="col-md-11">Замечание</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in zone.getZoneremarks() %}
+                            <tr>
+                                <td class="col-md-1">{{ loop.index }}</td>
+                                <td class="col-md-11">{{ i.getDescription() }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <div>
+        {% endif %}
         <div class="col-lg-12 col-md-12 col-sm-12 mb-2">
             <div class="ibox collapsed border-bottom">
                 <a class="collapse-link">

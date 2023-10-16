@@ -60,9 +60,15 @@ class ClusterZone
      */
     private $placeCount;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ZoneRemark::class, mappedBy="zone")
+     */
+    private $zoneRemarks;
+
     function __construct() {
         $this->setZoneRepair(new ZoneRepair());
         $this->zoneInfrastructureSheets = new ArrayCollection();
+        $this->zoneRemarks = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -333,6 +339,36 @@ class ClusterZone
     public function setPlaceCount(?int $placeCount): self
     {
         $this->placeCount = $placeCount;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ZoneRemark>
+     */
+    public function getZoneRemarks(): Collection
+    {
+        return $this->zoneRemarks;
+    }
+
+    public function addZoneRemark(ZoneRemark $zoneRemark): self
+    {
+        if (!$this->zoneRemarks->contains($zoneRemark)) {
+            $this->zoneRemarks[] = $zoneRemark;
+            $zoneRemark->setZone($this);
+        }
+
+        return $this;
+    }
+
+    public function removeZoneRemark(ZoneRemark $zoneRemark): self
+    {
+        if ($this->zoneRemarks->removeElement($zoneRemark)) {
+            // set the owning side to null (unless already changed)
+            if ($zoneRemark->getZone() === $this) {
+                $zoneRemark->setZone(null);
+            }
+        }
 
         return $this;
     }

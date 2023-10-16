@@ -109,6 +109,7 @@
 {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS') %}
     <script>
         $(document).ready(function(){
+            //zone-remarks
             fetch('/api/purchase-notes').then(function(response) {
                 response.json().then(function(data) {
                     let purchaseNote = $('#purchase-notes-count');
@@ -120,6 +121,21 @@
                         toastr.info('Есть новые замечания к закупкам');
                         console.log(data);
                         purchaseNote.html(data.toString());
+
+                    }
+                })
+            });
+            fetch('/api/zones-remarks').then(function(response) {
+                response.json().then(function(data) {
+                    let zoneRemarksBadge = $('#zone-remarks');
+
+                    if(data === '0'){
+                        zoneRemarksBadge.hide();
+                    }
+                    else{
+                        // toastr.info('Есть новые замечания к закупкам');
+                        // console.log(data);
+                        zoneRemarksBadge.html(data.toString());
 
                     }
                 })

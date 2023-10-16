@@ -17,79 +17,6 @@
     {#{% if addresses|length > 0 %}#}
     {{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}
     <div class="row mt-3">
-        {#<div class="col-lg-10 offset-lg-1">#}
-            {#<div class="ibox">#}
-                {#<a class="collapse-link">#}
-                    {#<div class="ibox-title">#}
-                        {#<h5>Инфо о кластере</h5>#}
-                        {#<div class="ibox-tools">#}
-
-                            {#<i class="fa fa-chevron-up"></i>#}
-
-
-                        {#</div>#}
-                    {#</div>#}
-                {#</a>#}
-                {#<div class="ibox-content">#}
-                    {#{% set user_info = user.getUserInfo() %}#}
-                    {#<table class="table table-bordered">#}
-                        {#<tbody>#}
-                        {#<tr>#}
-                            {#<td class="col-md-4">#}
-                                {#Субъект РФ#}
-                            {#</td>#}
-                            {#<td style="vertical-align: middle">#}
-                                {#{% if  user_info.getRfSubject() %}#}
-                                    {#{{ user_info.getRfSubject().getName() }}#}
-                                {#{% endif %}#}
-
-                            {#</td>#}
-                        {#</tr>#}
-                        {#<tr>#}
-                            {#<td class="col-md-4">#}
-                                {#Инициатор создания кластера#}
-                            {#</td>#}
-                            {#<td style="vertical-align: middle">#}
-                                {#{{ user_info.getInitiatorOfCreation() }}#}
-                            {#</td>#}
-                        {#</tr>#}
-                        {#<tr>#}
-                            {#<td class="col-md-4">#}
-                                {#Наименование организации грантополучателя#}
-                            {#</td>#}
-                            {#<td style="vertical-align: middle">#}
-                                {#{{ user_info.getOrganization() }}#}
-                            {#</td>#}
-                        {#</tr>#}
-                        {#<tr>#}
-                            {#<td class="col-md-4">#}
-                                {#Наименование базовой образовательной организации#}
-                            {#</td>#}
-                            {#<td style="vertical-align: middle">#}
-                                {#{{ user_info.getEducationalOrganization() }}#}
-                            {#</td>#}
-                        {#</tr>#}
-                        {#<tr>#}
-                            {#<td class="col-md-4">#}
-                                {#Наименование кластера#}
-                            {#</td>#}
-                            {#<td style="vertical-align: middle">#}
-                                {#{{ user_info.getCluster() }}#}
-                            {#</td>#}
-                        {#</tr>#}
-                        {#<tr>#}
-                            {#<td class="col-md-4">#}
-                                {#Заявленная отрасль#}
-                            {#</td>#}
-                            {#<td style="vertical-align: middle">#}
-                                {#{{ user_info.getDeclaredIndustry() }}#}
-                            {#</td>#}
-                        {#</tr>#}
-                        {#</tbody>#}
-                    {#</table>#}
-                {#</div>#}
-            {#</div>#}
-        {#</div>#}
 
     </div>
        <div class="row mt-3">
@@ -99,9 +26,14 @@
                        {% for i in addresses %}
                            {% if i.getId() == index_tab or openFirst == true %}
                                {% set openFirst = false %}
-                               <li><a class="nav-link active show" data-toggle="tab" href="#tab-{{ i.getId() }}"> {{ i.getAddresses() }}</a></li>
+                               <li><a class="nav-link active show" data-toggle="tab" href="#tab-{{ i.getId() }}">
+                                       {{ i.getAddresses() }}
+                                        <span class="badge badge-danger address-remarks" data-address="{{ i.getId() }}">a</span>
+                                   </a></li>
                            {% else %}
-                               <li><a class="nav-link " data-toggle="tab" href="#tab-{{ i.getId() }}"> {{ i.getAddresses() }}</a></li>
+                               <li><a class="nav-link " data-toggle="tab" href="#tab-{{ i.getId() }}"> {{ i.getAddresses() }}
+                                       <span class="badge badge-danger address-remarks" data-address="{{ i.getId() }}">a</span>
+                                   </a></li>
                            {% endif %}
 
                        {% endfor %}
@@ -163,6 +95,14 @@
                                                                    <li>
                                                                        <button class="btn btn-outline-dark mb-2 col-lg-12" style="margin-bottom:4px;white-space: normal;">
                                                                            {{ j.getName() }}
+
+                                                                           <span class="badge badge-danger remarks"
+                                                                                 data-remarks="{{ j.getZoneRemarks()|length }}"
+                                                                                 data-address="{{ j.getAddres().getId() }}"
+
+                                                                           >
+
+                                                                           </span>
                                                                        </button>
                                                                    </li>
                                                                </a>
@@ -455,4 +395,6 @@
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/inspinia.js') }}"></script>
     <script src="{{ asset('js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+    <script src="{{ asset('js/scripts/readinessMarksRemarks.js') }}"></script>
+
 {% endblock %}

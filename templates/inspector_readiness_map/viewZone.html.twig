@@ -9,6 +9,45 @@
     {% set zoneType = zone.getType().getName() == 'Зона по видам работ' %}
     {{ include('default/cluster_info.html.twig', {'user_info': zone.getAddres().getUser().getUserInfo()}) }}
     <div class="row mt-3">
+        {% if zone.getZoneRemarks()|length > 0 %}
+        <div class="col-sm-12 col-lg-12 col-md-12 mb-2">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Замечания
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="col-md-1">№</td>
+                                <td class="col-md-9">Замечание</td>
+                                <td class="col-md-2">Действие</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in zone.getZoneRemarks()   %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ i.getDescription() }}</td>
+                                <td>
+                                    <a href="{{ path('app_inspector_delete_zone_remark', {'id': i.getId()}) }}" class="delete-alert">
+                                        <button class="btn btn-danger col-sm-12">
+                                            <i class="fa fa-trash"></i>
+                                            Удалить замечание
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         <div class="col-lg-12 col-md-12  mb-2">
             <div class="ibox collapsed border-bottom">
 
@@ -16,6 +55,13 @@
                     <h5>
                         {{ name }} {% if zone.getPlaceCount() > 0 %} ({{ zone.getPlaceCount() }} рабочих мест) {% endif %}
                     </h5>
+                    <a>
+                        <span class="pull-right btn btn-warning" type="button"  data-toggle="modal" data-target="#exampleModal">
+                        <i class="fa fa-warning"></i>
+                         Добавить замечание
+                        </span>
+                    </a>
+
                 </div>
 
 
@@ -403,6 +449,33 @@
 
                 </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить замечание</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ path('app_inspector_add_zone_remark', {'id': zone.getId()}) }}" method="post" >
+                <div class="modal-body">
+                    <label>
+                        Замечание
+                    </label>
+                    <textarea class="form-control" name="description"></textarea>
+                    <input type="hidden" name="token" value="{{ csrf_token('zoneRemark') }}"/>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>
