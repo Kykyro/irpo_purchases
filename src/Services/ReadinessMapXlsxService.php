@@ -379,8 +379,8 @@ class ReadinessMapXlsxService extends AbstractController
         }
         else{
 //            $fileName = 'Карта готовности_'.$today->format('d-m-Y').'.xlsx';
-
-            $temp_file = tempnam(sys_get_temp_dir(), $fileName.'.xlsx');
+            $fileName = $fileName.'xlsx';
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 
             $writer->save($temp_file);
 
