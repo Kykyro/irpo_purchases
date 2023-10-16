@@ -68,18 +68,18 @@ class ContractingXlsxService extends AbstractController
             $totalBudget = $totalBudget[0];
             $row = $startCell-1;
             return [
+                "=E$row/".$totalBudget->getFederal(),
+                '',
                 "=G$row/".$totalBudget->getFederal(),
                 '',
-                "=I$row/".$totalBudget->getFederal(),
+                "=I$startCell+I$startCell",
                 '',
-                "=G$startCell+I$startCell",
-                '',
-                "=M$row/".$totalBudget->getEmployeers(),
-                "=N$row/".$totalBudget->getSubject(),
-                "=O$row/".$totalBudget->getEdicational(),
-                "=P$row/".$totalBudget->getEmployeers(),
-                "=Q$row/".$totalBudget->getSubject(),
-                "=R$row/".$totalBudget->getEdicational(),
+                "=K$row/".$totalBudget->getEmployeers(),
+                "=L$row/".$totalBudget->getSubject(),
+                "=M$row/".$totalBudget->getEdicational(),
+                "=N$row/".$totalBudget->getEmployeers(),
+                "=O$row/".$totalBudget->getSubject(),
+                "=P$row/".$totalBudget->getEdicational(),
             ];
         }
         else{
@@ -118,7 +118,7 @@ class ContractingXlsxService extends AbstractController
             $fileName = 'Контрактация ОПЦ '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYear($year, '%REGION%');
         }
-
+        $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P'];
         foreach ($users as $user)
         {
             $procedures = $this->getProcedures($user);
@@ -159,9 +159,9 @@ class ContractingXlsxService extends AbstractController
                 $user_info->getDeclaredIndustry(),
                 $user_info->getEducationalOrganization()
             ];
-            $sheet->fromArray($user_info_arr, null, 'C'.$row, true);
+            $sheet->fromArray($user_info_arr, null, 'B'.$row, true);
             $other_arr = [
-                '',
+
                 $_data['G'],
                 '=G'.$row.'/'.$grant,
                 $_data['I'],
@@ -178,12 +178,12 @@ class ContractingXlsxService extends AbstractController
                 '',
                 '',
             ];
-            $sheet->fromArray($other_arr, null, 'F'.$row, true);
+            $sheet->fromArray($other_arr, null, 'E'.$row, true);
 
             $sheet->getStyle("H$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
             $sheet->getStyle("J$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
             $sheet->getStyle("L$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
-            $curency_cell = ['G', 'I', 'K', 'M', 'N', 'O', 'P', 'Q', 'R'];
+//            $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P'];
             foreach ($curency_cell as $cell)
             {
                 $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
@@ -211,19 +211,20 @@ class ContractingXlsxService extends AbstractController
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
 
         $sumRow = $end_cell + 1;
-        $sheet->setCellValue('G'.$sumRow, "=SUM(G2:G$end_cell)");
-        $sheet->setCellValue('I'.$sumRow, "=SUM(I2:I$end_cell)");
-        $sheet->setCellValue('K'.$sumRow, "=SUM(K2:K$end_cell)");
-        $sheet->setCellValue('M'.$sumRow, "=SUM(M2:M$end_cell)");
-        $sheet->setCellValue('N'.$sumRow, "=SUM(N2:M$end_cell)");
-        $sheet->setCellValue('O'.$sumRow, "=SUM(O2:O$end_cell)");
-        $sheet->setCellValue('P'.$sumRow, "=SUM(P2:P$end_cell)");
-        $sheet->setCellValue('Q'.$sumRow, "=SUM(Q2:Q$end_cell)");
-        $sheet->setCellValue('R'.$sumRow, "=SUM(R2:R$end_cell)");
+//        $sheet->setCellValue('G'.$sumRow, "=SUM(G2:G$end_cell)");
+//        $sheet->setCellValue('I'.$sumRow, "=SUM(I2:I$end_cell)");
+//        $sheet->setCellValue('K'.$sumRow, "=SUM(K2:K$end_cell)");
+//        $sheet->setCellValue('M'.$sumRow, "=SUM(M2:M$end_cell)");
+//        $sheet->setCellValue('N'.$sumRow, "=SUM(N2:M$end_cell)");
+//        $sheet->setCellValue('O'.$sumRow, "=SUM(O2:O$end_cell)");
+//        $sheet->setCellValue('P'.$sumRow, "=SUM(P2:P$end_cell)");
+//        $sheet->setCellValue('Q'.$sumRow, "=SUM(Q2:Q$end_cell)");
+//        $sheet->setCellValue('R'.$sumRow, "=SUM(R2:R$end_cell)");
 
-        $curency_cell = ['G', 'I', 'K', 'M', 'N', 'O', 'P', 'Q', 'R'];
+//        $curency_cell = ['G', 'I', 'K', 'M', 'N', 'O', 'P', 'Q', 'R'];
         foreach ($curency_cell as $cell)
         {
+            $sheet->setCellValue($cell.$sumRow, "=SUM({$cell}2:G$end_cell)");
             $sheet->getStyle("$cell$sumRow")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
             $sheet->getStyle("$cell".($sumRow+1))->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
         }
@@ -240,7 +241,7 @@ class ContractingXlsxService extends AbstractController
             $totalProcentageRow = $this->getTotalProcentageRow($year, '%REGION%', $totalProcentageCell);
 
 
-        $sheet->fromArray($totalProcentageRow, null, 'G'.$totalProcentageCell);
+        $sheet->fromArray($totalProcentageRow, null, 'E'.$totalProcentageCell);
 
 
         // Запись файла
