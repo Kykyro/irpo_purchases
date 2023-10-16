@@ -72,7 +72,7 @@ class ContractingXlsxService extends AbstractController
                 '',
                 "=G$row/".$totalBudget->getFederal(),
                 '',
-                "=I$startCell+I$startCell",
+                "=E$startCell+G$startCell",
                 '',
                 "=K$row/".$totalBudget->getEmployeers(),
                 "=L$row/".$totalBudget->getSubject(),
