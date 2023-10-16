@@ -21,7 +21,7 @@ use Shapecode\Bundle\CronBundle\Annotation\CronJob;
 
 
 /**
- * @CronJob("5 3 * * 5,6")
+ * @CronJob("25 3 * * 5,6")
  */
 class weeklyReportReadinessMapCommand extends Command
 {

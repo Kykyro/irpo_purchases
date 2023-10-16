@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
 
 
 /**
- * @CronJob("20 3 * * 5,6")
+ * @CronJob("30 3 * * 5,6")
  */
 class saveReadinessMapCommand extends Command
 {
