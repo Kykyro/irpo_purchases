@@ -118,7 +118,7 @@ class ContractingXlsxService extends AbstractController
             $fileName = 'Контрактация ОПЦ '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYear($year, '%REGION%');
         }
-        $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P'];
+        $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P', 'L'];
         foreach ($users as $user)
         {
             $procedures = $this->getProcedures($user);
@@ -163,11 +163,11 @@ class ContractingXlsxService extends AbstractController
             $other_arr = [
 
                 $_data['G'],
-                '=G'.$row.'/'.$grant,
+                '=E'.$row.'/'.$grant,
                 $_data['I'],
-                '=I'.$row.'/'.$grant,
-                '=G'.$row.'+I'.$row,
-                '=H'.$row.'+J'.$row,
+                '=G'.$row.'/'.$grant,
+                '=E'.$row.'+G'.$row,
+                '=F'.$row.'+H'.$row,
                 $_data['M'],
                 $_data['N'],
                 $_data['O'],
@@ -180,9 +180,9 @@ class ContractingXlsxService extends AbstractController
             ];
             $sheet->fromArray($other_arr, null, 'E'.$row, true);
 
+            $sheet->getStyle("F$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
             $sheet->getStyle("H$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
             $sheet->getStyle("J$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
-            $sheet->getStyle("L$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
 //            $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P'];
             foreach ($curency_cell as $cell)
             {
