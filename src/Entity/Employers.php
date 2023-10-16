@@ -64,6 +64,21 @@ class Employers
      */
     private $shortName;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $OKVD;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $OKVDadd;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $region;
+
     public function __construct()
     {
         $this->userInfos = new ArrayCollection();
@@ -161,12 +176,15 @@ class Employers
             $this->getAltName(),
             $this->getShortName(),
             $this->getDescription(),
+            $this->getOKVD(),
+            $this->getOKVDadd(),
             $this->arrayEmployersToStringList($this->getEmployersCategories()),
             $this->arrayUserInfosToStringList($this->getUserInfos()),
 
             $this->arrayYears($this->getUserInfos()),
             $this->arrayIndustry($this->getUserInfos()),
             $this->getInn(),
+            $this->getRegion(),
             $this->getCity(),
             '',
             $this->arrayRegionToStringList($this->getUserInfos()),
@@ -328,6 +346,42 @@ class Employers
     public function setShortName(?string $shortName): self
     {
         $this->shortName = $shortName;
+
+        return $this;
+    }
+
+    public function getOKVD(): ?string
+    {
+        return $this->OKVD;
+    }
+
+    public function setOKVD(?string $OKVD): self
+    {
+        $this->OKVD = $OKVD;
+
+        return $this;
+    }
+
+    public function getOKVDadd(): ?string
+    {
+        return $this->OKVDadd;
+    }
+
+    public function setOKVDadd(?string $OKVDadd): self
+    {
+        $this->OKVDadd = $OKVDadd;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(?string $region): self
+    {
+        $this->region = $region;
 
         return $this;
     }

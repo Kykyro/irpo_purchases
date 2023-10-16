@@ -172,11 +172,32 @@ class AdminEmployersController extends AbstractController
                 'label' => 'Город',
                 'required' => false,
             ])
+            ->add('region', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Область',
+                'required' => false,
+            ])
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
                 'label' => 'Описание',
+                'required' => false
+            ])
+            ->add('OKVD', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'ОКВЭД',
+                'required' => false
+            ])
+            ->add('OKVDadd', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'ОКВЭД (дополнительный)',
                 'required' => false
             ])
             ->add('userInfos', EntityType::class, array(

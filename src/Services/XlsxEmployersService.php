@@ -51,11 +51,14 @@ class XlsxEmployersService extends AbstractController
             'Наименование',
             'Сокращенное наименование',
             'Описание',
+            'ОКВЭД',
+            'ОКВЭД (Дополнительный)',
             'Категории',
             'Кластер',
             'Год',
             'Отрасль',
             'ИНН',
+            'Область',
             'Город',
             'Тип кластера',
             'Регион',
@@ -76,18 +79,21 @@ class XlsxEmployersService extends AbstractController
             $sheet->setCellValue("K$row_index", $this->getRoles($employer));
         }
         $index = $sheet->getHighestRow()+1;
-        $rangeTotal = 'A1:L'.$index;
+        $rangeTotal = 'A1:O'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getColumnDimension('A')->setWidth(50);
         $sheet->getColumnDimension('B')->setWidth(30);
         $sheet->getColumnDimension('C')->setWidth(30);
         $sheet->getColumnDimension('D')->setWidth(50);
-        $sheet->getColumnDimension('E')->setWidth(30);
+        $sheet->getColumnDimension('E')->setWidth(50);
         $sheet->getColumnDimension('F')->setWidth(50);
-        $sheet->getColumnDimension('G')->setWidth(20);
+        $sheet->getColumnDimension('G')->setWidth(30);
         $sheet->getColumnDimension('H')->setWidth(50);
-        $sheet->getColumnDimension('L')->setWidth(50);
+        $sheet->getColumnDimension('J')->setWidth(50);
+        $sheet->getColumnDimension('L')->setWidth(30);
+        $sheet->getColumnDimension('N')->setWidth(30);
+        $sheet->getColumnDimension('O')->setWidth(35);
 
         // Create Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
