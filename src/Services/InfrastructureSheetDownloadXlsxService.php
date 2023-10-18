@@ -7,6 +7,7 @@ use App\Entity\PurchasesDump;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
+use App\Entity\ZoneInfrastructureSheet;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -31,6 +32,23 @@ class InfrastructureSheetDownloadXlsxService extends AbstractController
             ->getResult();
     }
 
+    public function getInfrastructureSheetRows($year)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        return $rows = $entity_manager->getRepository(ZoneInfrastructureSheet::class)
+            ->createQueryBuilder('if')
+            ->leftJoin('if.zone', 'cz')
+            ->leftJoin('cz.addres', 'ca')
+            ->leftJoin('ca.user', 'a')
+            ->leftJoin('a.user_info', 'uf')
+            ->andWhere('uf.year = :year')
+            ->andWhere('a.roles LIKE :role')
+            ->setParameter('role', "%ROLE_REGION%")
+            ->setParameter('year', $year)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function generate($year)
     {
         $sheet_template = "../public/excel/full_IS_table.xlsx";
@@ -40,7 +58,7 @@ class InfrastructureSheetDownloadXlsxService extends AbstractController
         //change it
         $sheet = $spreadsheet->getActiveSheet();
 
-        $clusters = $this->getClusters($year);
+//        $clusters = $this->getClusters($year);
         $styleArray = [
             'borders' => [
                 'allBorders' => [
@@ -54,41 +72,34 @@ class InfrastructureSheetDownloadXlsxService extends AbstractController
 
         ];
 
-        foreach ($clusters as $cluster)
-        {
-            $adresses = $cluster->getClusterAddresses();
-            foreach ($adresses as $addres)
-            {
-                $zones = $addres->getClusterZones();
-                foreach ($zones as $zone)
-                {
-                    $infrastructureSheets = $zone->getZoneInfrastructureSheets();
-                    foreach ($infrastructureSheets as $_sheet)
-                    {
-                        $row_array = [
-                          $cluster->getUserInfo()->getEducationalOrganization(),
-                            $_sheet->getName(),
-                            $_sheet->getModel(),
-                            '',
-                            $_sheet->getType(),
-                            $_sheet->getTotalNumber(),
-                            '',
-                            '',
-                            '',
-                            $_sheet->getCountryOfOrigin(),
-                            $_sheet->getOKPD2(),
-                            $_sheet->getKTRU(),
-                            $_sheet->getComment(),
-                            $cluster->getUserInfo()->getDeclaredIndustry(),
 
-                        ];
-                        $row = $sheet->getHighestRow()+1;
-                        $sheet->fromArray($row_array, '', "A$row");
-                        $sheet->getRowDimension($row)->setRowHeight(65);
-                    }
-                }
-            }
+        $infrastructureSheets = $this->getInfrastructureSheetRows($year);
+        foreach ($infrastructureSheets as $_sheet)
+        {
+            $userInfo = $_sheet->getZone()->getAddres()->getUser()->getUserInfo();
+            $row_array = [
+//                $cluster->getUserInfo()->getEducationalOrganization(),
+                $userInfo->getEducationalOrganization(),
+                $_sheet->getName(),
+                $_sheet->getModel(),
+                '',
+                $_sheet->getType(),
+                $_sheet->getTotalNumber(),
+                '',
+                '',
+                '',
+                $_sheet->getCountryOfOrigin(),
+                $_sheet->getOKPD2(),
+                $_sheet->getKTRU(),
+                $_sheet->getComment(),
+                $userInfo->getDeclaredIndustry(),
+
+            ];
+            $row = $sheet->getHighestRow()+1;
+            $sheet->fromArray($row_array, '', "A$row");
+            $sheet->getRowDimension($row)->setRowHeight(65);
         }
+
         $last_row = $sheet->getHighestRow()+1;
         $rangeTotal = 'A2:N'.$last_row;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
