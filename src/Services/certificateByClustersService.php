@@ -644,9 +644,10 @@ class certificateByClustersService extends AbstractController
             '',
             count(array_unique($employers_arr)),
             count(array_unique($edicationOrganization_arr)),
-            "=SUM(J2:J$index)",
+
             "=SUM(K2:K$index)",
             "=SUM(L2:L$index)",
+            "=SUM(M2:M$index)",
             count(array_unique($UGPS_arr)),
             count(array_unique($zone_arr)),
 
@@ -671,7 +672,7 @@ class certificateByClustersService extends AbstractController
         ];
         $index++;
         $sheet->fromArray($result_row_title, '', 'A'.($index));
-        $row_arr = ['J', 'K', 'L'];
+        $row_arr = ['M', 'K', 'L'];
 
         $index++;
         $sheet->fromArray($result_row, '', 'A'.($index));
