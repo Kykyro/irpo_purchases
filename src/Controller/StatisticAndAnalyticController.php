@@ -34,6 +34,17 @@ class StatisticAndAnalyticController extends AbstractController
                 ],
                 'label' => 'Год',
             ])
+            ->add('role', ChoiceType::class, [
+                'choices'  => [
+                    'Большие кластеры' => 'ROLE_REGION',
+                    'Малые кластеры (Лот 1)' => 'ROLE_SMALL_CLUSTERS_LOT_1',
+                    'Малые кластеры (Лот 2)' => 'ROLE_SMALL_CLUSTERS_LOT_2',
+
+                ],
+                'multiple' => false,
+                'expanded' => true,
+                'label' => false,
+            ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success'
@@ -46,7 +57,8 @@ class StatisticAndAnalyticController extends AbstractController
         {
             $data = $form->getData();
             $year = $data['year'];
-            return $xlsxService->generate($year);
+            $role = $data['role'];
+            return $xlsxService->generate($year, $role);
         }
         return $this->render('statistic_and_analytic/index.html.twig', [
             'controller_name' => 'StatisticAndAnalyticController',

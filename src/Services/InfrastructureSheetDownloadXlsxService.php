@@ -32,7 +32,7 @@ class InfrastructureSheetDownloadXlsxService extends AbstractController
             ->getResult();
     }
 
-    public function getInfrastructureSheetRows($year)
+    public function getInfrastructureSheetRows($year, $role)
     {
         $entity_manager = $this->getDoctrine()->getManager();
         return $rows = $entity_manager->getRepository(ZoneInfrastructureSheet::class)
@@ -43,13 +43,13 @@ class InfrastructureSheetDownloadXlsxService extends AbstractController
             ->leftJoin('a.user_info', 'uf')
             ->andWhere('uf.year = :year')
             ->andWhere('a.roles LIKE :role')
-            ->setParameter('role', "%ROLE_REGION%")
+            ->setParameter('role', "%$role%")
             ->setParameter('year', $year)
             ->getQuery()
             ->getResult();
     }
 
-    public function generate($year)
+    public function generate($year, $role)
     {
         $sheet_template = "../public/excel/full_IS_table.xlsx";
         //load spreadsheet
@@ -73,7 +73,7 @@ class InfrastructureSheetDownloadXlsxService extends AbstractController
         ];
 
 
-        $infrastructureSheets = $this->getInfrastructureSheetRows($year);
+        $infrastructureSheets = $this->getInfrastructureSheetRows($year, $role);
         foreach ($infrastructureSheets as $_sheet)
         {
             $userInfo = $_sheet->getZone()->getAddres()->getUser()->getUserInfo();
