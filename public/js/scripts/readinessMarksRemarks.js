@@ -2,7 +2,7 @@ $(document).ready(function(){
     let remarks = $('.remarks');
     let addressRemarks = $('.address-remarks');
     let arr = {};
-
+    let pathname = window.location.pathname;
 
 
     addressRemarks.each(function (index) {
@@ -21,6 +21,8 @@ $(document).ready(function(){
             let address = $( this ).data('address');
             $( this ).html($( this ).data('remarks'));
             arr[address] +=  parseInt($( this ).data('remarks'));
+            if(pathname.includes('region/'))
+                $(this).closest('tr').css('background-color', '#ffafa3')
         }
     });
 
