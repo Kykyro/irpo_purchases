@@ -203,7 +203,8 @@
 
                     </li>
                     <li >
-                        <a href="{{ path("app_admin") }}"><i class="fa fa-wheelchair-alt left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Админ панель</span></a>
+                        {#fa-wheelchair-alt#}
+                        <a href="{{ path("app_admin") }}"><i class="fa  left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Админ панель</span></a>
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_SPECTATOR') %}
