@@ -20,9 +20,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Shapecode\Bundle\CronBundle\Annotation\CronJob;
 
 
-/**
- * @CronJob("25 3 * * 5,6")
- */
+///**
+// * @CronJob("25 3 * * 5,6")
+// */
 class weeklyReportReadinessMapCommand extends Command
 {
 
