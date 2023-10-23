@@ -64,6 +64,11 @@ class AuthAuthenticator extends AbstractLoginFormAuthenticator
 
             return new RedirectResponse($this->urlGenerator->generate('app_inspector_infrastructure_sheet'));
         }
+        if(in_array('ROLE_DIRECTORATE', $user->getRoles(), true))
+        {
+
+            return new RedirectResponse($this->urlGenerator->generate('app_inspector_infrastructure_sheet'));
+        }
         if(in_array('ROLE_REGION', $user->getRoles(), true))
         {
             return new RedirectResponse($this->urlGenerator->generate('app_main'));

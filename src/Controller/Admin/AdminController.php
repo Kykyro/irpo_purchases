@@ -104,6 +104,10 @@ class AdminController extends AbstractController
                             'Дисциплина' => array
                             (
                                 'Дисциплина' => 'ROLE_DISCIPLINE'
+                            ),
+                            'Дирекция' => array
+                            (
+                                'Дирекция' => 'ROLE_DIRECTORATE'
                             )
                         )
                     ,
