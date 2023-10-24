@@ -148,8 +148,9 @@ class monitoringReadinessMapService extends AbstractController
             'FinancingFundsOfSubject_d' => $declArr["subject"],
             'ExtraFundsOO_d' => $declArr["OO"],
             // Замена на тип кластера
-            'cluster_type_1' => $isSmolClustre ? 'кластер среднего профессионального образования' : 'образовательно-производственного центра (кластера)',
-            'cluster_type_2' => $isSmolClustre ? 'кластеров среднего профессионального образования' : 'образовательно-производственных центров (кластеров)',
+            'cluster_type_1' => $isSmolClustre ? 'образовательного кластера среднего профессионального образования' : 'образовательно-производственного центра (кластера)',
+            'cluster_type_2' => $isSmolClustre ? 'образовательных кластеров среднего профессионального образования' : 'образовательно-производственных центров (кластеров)',
+
 
         ];
         $templateProcessor->setValues($replacements);
