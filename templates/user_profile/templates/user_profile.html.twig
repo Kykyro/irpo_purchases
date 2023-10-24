@@ -650,11 +650,11 @@
                                     <td class="col-md-6">
                                         Год
                                     </td>
-                                    <td style="vertical-align: middle">
+                                    <td style="vertical-align: middle; text-align: center">
                                         {{ user_info.getYear() }}
                                     </td>
                                     {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                        <td style="vertical-align: middle">
+                                        <td style="vertical-align: middle; text-align: center">
                                             {{ i.getYear() }}
                                         </td>
                                     {% endfor %}
@@ -667,13 +667,13 @@
                                 <td>
                                     {{ dict['studentsCount'] }}
                                 </td>
-                                <td style="vertical-align: middle">
+                                <td style="vertical-align: middle; text-align: center">
 
                                     {{ user_info.getStudentsCount() }}
 
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle">
+                                    <td style="vertical-align: middle; text-align: center">
                                         {{ i.getStudentCount() }}
                                     </td>
                                 {% endfor %}
@@ -682,11 +682,11 @@
                                 <td>
                                     {{ dict['programCount'] }}
                                 </td>
-                                <td style="vertical-align: middle">
+                                <td style="vertical-align: middle; text-align: center">
                                     {{ user_info.getProgramCount() }}
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle">
+                                    <td style="vertical-align: middle; text-align: center">
                                         {{ i.getProgramCount() }}
                                     </td>
                                 {% endfor %}
@@ -695,11 +695,11 @@
                                 <td>
                                     {{ dict['teacherCount'] }}
                                 </td>
-                                <td style="vertical-align: middle">
+                                <td style="vertical-align: middle; text-align: center">
                                     {{ user_info.getTeacherCount() }}
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle">
+                                    <td style="vertical-align: middle; text-align: center">
                                         {{ i.getTeacherCount() }}
                                     </td>
                                 {% endfor %}
@@ -708,11 +708,11 @@
                                 <td>
                                     {{ dict['workerCount'] }}
                                 </td>
-                                <td style="vertical-align: middle">
+                                <td style="vertical-align: middle; text-align: center">
                                     {{ user_info.getWorkerCount() }}
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle">
+                                    <td style="vertical-align: middle; text-align: center">
                                         {{ i.getWorkerCount() }}
                                     </td>
                                 {% endfor %}
@@ -721,11 +721,11 @@
                                 <td>
                                     {{ dict['studentsCountWithMentor'] }}
                                 </td>
-                                <td style="vertical-align: middle">
+                                <td style="vertical-align: middle; text-align: center">
                                     {{ user_info.getStudentsCountWithMentor() }}
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle">
+                                    <td style="vertical-align: middle; text-align: center">
                                         {{ i.getStudentCountWithMentor() }}
                                     </td>
                                 {% endfor %}
@@ -735,11 +735,11 @@
                                     {{ dict['jobSecurityCount'] }}
 
                                 </td>
-                                <td style="vertical-align: middle">
+                                <td style="vertical-align: middle; text-align: center">
                                     {{ user_info.getJobSecurityCount() }}
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle">
+                                    <td style="vertical-align: middle; text-align: center">
                                         {{ i.getJobSecurityCount() }}
                                     </td>
                                 {% endfor %}
@@ -751,7 +751,7 @@
                                         (тыс. руб.)
                                     </b>
                                 </td>
-                                <td style="vertical-align: middle" >
+                                <td style="vertical-align: middle; text-align: center" >
                                     <j class="cell-number-ind">{{ user_info.getAmountOfFunding() }} ₽</j>
                                     <b>
                                         (тыс. руб.)
@@ -759,7 +759,7 @@
 
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle" >
+                                    <td style="vertical-align: middle; text-align: center" >
                                         <j class="cell-number-ind">{{ i.getAmountOfFunding() }}</j>
                                         <b>
                                             (тыс. руб.)
@@ -775,14 +775,14 @@
                                         (тыс. руб.)
                                     </b>
                                 </td>
-                                <td style="vertical-align: middle" >
+                                <td style="vertical-align: middle; text-align: center" >
                                     <j class="cell-number-ind">{{ user_info.getAmountOfExtraFunds() }} ₽</j>
                                     <b>
                                         (тыс. руб.)
                                     </b>
                                 </td>
                                 {% for i in user_info.getClusterPerfomanceIndicators() %}
-                                    <td style="vertical-align: middle" >
+                                    <td style="vertical-align: middle; text-align: center" >
                                         <j class="cell-number-ind">{{ i.getAmountOfExtraFunds() }}</j>
                                         <b>
                                             (тыс. руб.)
