@@ -158,9 +158,11 @@ class monitoringReadinessMapService extends AbstractController
 //        dd(count($addresses));
         $templateProcessor->cloneBlock('common_zone', count($addresses), true, true);
         $count_zones = 1;
+//        $comment = '
+//В наличии/отсутствует (причины);</w:t><w:br/><w:t xml:space="preserve">Введено/не введено в эксплуатацию(причины);</w:t><w:br/><w:t xml:space="preserve">В поставке (договор/контракт № __ от __ г., срок поставки до __ г.);</w:t><w:br/><w:t xml:space="preserve">В закупочных процедурах (номер закупки, дата завершения закупочных процедур, планируемая дата заключения договора/контракта, планируемая дата поставки и др.)</w:t><w:br/><w:t xml:space="preserve">Комментарии:
+//        ';
         $comment = '
-В наличии/отсутствует (причины);</w:t><w:br/><w:t xml:space="preserve">Введено/не введено в эксплуатацию(причины);</w:t><w:br/><w:t xml:space="preserve">В поставке (договор/контракт № __ от __ г., срок поставки до __ г.);</w:t><w:br/><w:t xml:space="preserve">В закупочных процедурах (номер закупки, дата завершения закупочных процедур, планируемая дата заключения договора/контракта, планируемая дата поставки и др.)</w:t><w:br/><w:t xml:space="preserve">Комментарии:
-        ';
+Ремонт завершен/не завершен </w:t><w:br/><w:t xml:space="preserve">Брендирование присутствует/отсутствует </w:t><w:br/><w:t xml:space="preserve">Дизайн-проекту и брендбуку соответствует/не соответствует </w:t><w:br/><w:t xml:space="preserve">(Комментарии: ремонт на стадии отделочных работ, брендирование отсутствует/частично присутствует и др.)';
         foreach ($addresses as $address)
         {
             $templateProcessor->setValue('address#'.$count_zones, $address->getAddresses());
