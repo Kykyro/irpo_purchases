@@ -493,33 +493,33 @@
                             <tbody>
                                 <tr>
                                     {% if 'ROLE_REGION' in user.getRoles() %}
-                                    <td class="col-md-4">
+                                    <td class="col-md-8">
                                         Средства организаций реального сектора экономики, <strong>тыс.руб.</strong>
                                     </td>
                                     {% endif %}
                                     {% if 'ROLE_SMALL_CLUSTERS' in user.getRoles() %}
-                                        <td class="col-md-4">
+                                        <td class="col-md-8">
                                             Средства организаций, действующих в отраслях характерных для субъектов малого и среднего предпринимательства
                                             и социальной сферы, <strong>тыс.руб.</strong>
                                         </td>
                                     {% endif %}
-                                    <td style="vertical-align: middle" class="cell-number">
+                                    <td style="vertical-align: middle; text-align: center" class="cell-number">
                                         {{ user_info.getExtraFundsEconomicSector() }} ₽
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-4" >
+                                    <td class="col-md-8" >
                                         Средства субъекта РФ, <strong>тыс.руб.</strong>
                                     </td>
-                                    <td style="vertical-align: middle" class="cell-number">
+                                    <td style="vertical-align: middle; text-align: center" class="cell-number">
                                         {{ user_info.getFinancingFundsOfSubject() }} ₽
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-4" >
+                                    <td class="col-md-8" >
                                         Средства образовательной организации, <strong>тыс.руб.</strong>
                                     </td>
-                                    <td style="vertical-align: middle" class="cell-number">
+                                    <td style="vertical-align: middle; text-align: center" class="cell-number">
                                         {{ user_info.getExtraFundsOO() }} ₽
                                     </td>
                                 </tr>
