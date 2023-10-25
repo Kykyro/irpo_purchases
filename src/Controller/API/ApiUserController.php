@@ -44,6 +44,7 @@ class ApiUserController extends AbstractController
      */
     public function setOrgs(EntityManagerInterface $em, Request $request, int $id)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $submittedToken = $request->request->get('token');
         $userInfo = $em->getRepository(UserInfo::class)->find($id);
 
