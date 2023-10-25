@@ -54,18 +54,31 @@
                                                         <td>
                                                             Образовательные организации
                                                         </td>
+                                                        <td></td>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     {% set count = 1 %}
                                                     {% for user_info in i %}
+                                                        {% set edit = true %}
                                                         {% for edOrg in user_info.getListOfEdicationOrganization() %}
                                                             <tr>
                                                                 <td>{{ count }}</td>
                                                                 <td>{{ edOrg }}</td>
+                                                                {% if edit %}
+                                                                <td rowspan="{{ user_info.getListOfEdicationOrganization()|length }}">
+
+                                                                        {% set edit = false %}
+                                                                    <button class="btn edit-btn" data-user="{{ user_info.getId() }}" data-toggle="modal" data-target="#exampleModal">
+                                                                        Редактировать
+                                                                    </button>
+
+                                                                </td>
+                                                                {% endif %}
                                                             </tr>
                                                             {% set count = count + 1 %}
                                                         {% endfor %}
+                                                        {% set edit = true %}
                                                     {% endfor %}
                                                     </tbody>
 
@@ -107,5 +120,74 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document" style="max-width: 80%">
+            <div class="modal-content " >
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="orgs-form" action="" method="post">
+                        <div class="form-group" name="group">
+
+                        </div>
+                        <input type="hidden" name="token" value="{{ csrf_token('org-edit') }}"/>
+                        <button class="btn btn-success" type="submit">
+                            Сохранить
+                        </button>
+                    </form>
+                </div>
+                {#<div class="modal-footer">#}
+                    {#<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+                    {#<button type="button" class="btn btn-primary">Save changes</button>#}
+                {#</div>#}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        let editButtons = $('.edit-btn');
+        // let modalBody = $('.modal-body');
+        let orgsForm = $('#orgs-form');
+
+        editButtons.on('click', function (e) {
+            let btn = $(this);
+            let orgs = getOrgs(btn.data('user'));
+            orgsForm.children('.form-group').empty();
+
+            orgs.then(function (result) {
+                // console.log(result);
+                for (const [key, value] of Object.entries(result)) {
+                    orgsForm.children('.form-group').append(`<input value="${value}" name="orgs[${key}]" class="form-control mb-2">`);
+
+                    console.log(`${key}: ${value}`);
+                }
+
+                orgsForm.attr('action', '/api/user_orgs_edit/'+btn.data('user'))
+            })
+
+        });
+
+
+        async function getOrgs(id) {
+            const response = await fetch('/api/user_orgs/'+id);
+            const orgs = await response.json();
+            // console.log(JSON.parse(movies));
+            return JSON.parse(orgs);
+        }
+
+
+    })
+</script>
+
 
 {% endblock %}
