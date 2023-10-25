@@ -1,7 +1,8 @@
 {% extends "default/base.html.twig" %}
 
 {% block content %}
-    {% if is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') %}
+    {% set isCurator =  is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR') %}
+    {% if isCurator %}
     <div class="row mt-3">
         <div class="col-lg-10 offset-lg-1">
             <div class="ibox">
@@ -54,7 +55,9 @@
                                                         <td>
                                                             Образовательные организации
                                                         </td>
+                                                        {% if isCurator %}
                                                         <td></td>
+                                                        {% endif %}
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -65,7 +68,7 @@
                                                             <tr>
                                                                 <td>{{ count }}</td>
                                                                 <td>{{ edOrg }}</td>
-                                                                {% if edit %}
+                                                                {% if edit and isCurator %}
                                                                 <td rowspan="{{ user_info.getListOfEdicationOrganization()|length }}">
 
                                                                         {% set edit = false %}
