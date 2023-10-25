@@ -31,9 +31,8 @@ class ApiUserController extends AbstractController
 
         $serializer = new Serializer($normalizers, $encoders);
 
-//        dd($map = $this->getDoctrine()->getRepository(Regions::class)->find(1));
         $orgs = $em->getRepository(UserInfo::class)->find($id)->getListOfEdicationOrganization();
-//        dd($map);
+
         $jsonContent = $serializer->serialize($orgs, 'json');
 
 
@@ -53,7 +52,6 @@ class ApiUserController extends AbstractController
             $userInfo->setListOfEdicationOrganization($request->request->get('orgs'));
             $em->persist($userInfo);
             $em->flush();
-//            dd($request->request);
         }
 
         $route = $request->headers->get('referer');
