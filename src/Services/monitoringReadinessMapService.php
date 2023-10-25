@@ -144,7 +144,7 @@ class monitoringReadinessMapService extends AbstractController
             'FinancingFundsOfSubject' => $fmt->format($user_info->getFinancingFundsOfSubject() * 1000),
             'ExtraFundsOO' => $fmt->format($user_info->getExtraFundsOO() * 1000),
             // Заявлено
-            'ExtraFundsEconomicSector_d' => $declArr["subject"],
+            'ExtraFundsEconomicSector_d' => $declArr["industry"],
             'FinancingFundsOfSubject_d' => $declArr["subject"],
             'ExtraFundsOO_d' => $declArr["OO"],
             // Замена на тип кластера
