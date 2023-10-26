@@ -65,7 +65,7 @@
                                                     {% for user_info in i %}
                                                         {% set edit = true %}
                                                         {% for edOrg in user_info.getListOfEdicationOrganization() %}
-                                                            {% set isWrong = ('"' in edOrg or "'" in edOrg or '  ' in edOrg) and isCurator %}
+                                                            {% set isWrong = ('"' in edOrg or "'" in edOrg or '  ' in edOrg or edOrg|trim != edOrg) and isCurator %}
                                                             <tr>
                                                                 <td>{{ count }}</td>
                                                                 <td {% if isWrong %} class="red-bg" {% endif %}>{{ edOrg }}</td>
@@ -177,7 +177,7 @@
                         orgsForm.children('.form-group')
                             .append(`<div class="mb-2">
                                         <input value='${val}' name="orgs[${key}]" class="form-control red-bg">
-                                        <span class="form-text m-b-none text-danger">некорректные ковычки</span>
+                                        <span class="form-text m-b-none text-danger">некорректные кавычки</span>
                                     </div>
                                     <hr>
                                     `);
@@ -189,6 +189,17 @@
                             .append(`<div class="mb-2">
                                                 <input value='${val}' name="orgs[${key}]" class="form-control red-bg">
                                                 <span class="form-text m-b-none text-danger">Содержит двойные пробелы (исправляется автоматически при сохранении)</span>
+                                            </div>
+                                            <hr>
+                                            `);
+                    }
+                    else if (value !== value.trim())
+                    {
+                        orgsForm.children('.form-group')
+
+                            .append(`<div class="mb-2">
+                                                <input value='${val}' name="orgs[${key}]" class="form-control red-bg">
+                                                <span class="form-text m-b-none text-danger">Содержит пробелы в начале или конце (исправляется автоматически при сохранении)</span>
                                             </div>
                                             <hr>
                                             `);
@@ -214,7 +225,7 @@
         }
 
         function editWrong(val) {
-            return val.replace(/\s+/g, ' ').replace(/[']/g, '"');
+            return val.replace(/\s+/g, ' ').replace(/[']/g, '"').trim();
         }
 
     })
