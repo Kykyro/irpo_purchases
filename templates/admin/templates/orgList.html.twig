@@ -65,9 +65,10 @@
                                                     {% for user_info in i %}
                                                         {% set edit = true %}
                                                         {% for edOrg in user_info.getListOfEdicationOrganization() %}
+                                                            {% set isWrong = ('"' in edOrg or "'" in edOrg or '  ' in edOrg) and isCurator %}
                                                             <tr>
                                                                 <td>{{ count }}</td>
-                                                                <td>{{ edOrg }}</td>
+                                                                <td {% if isWrong %} class="red-bg" {% endif %}>{{ edOrg }}</td>
                                                                 {% if edit and isCurator %}
                                                                 <td rowspan="{{ user_info.getListOfEdicationOrganization()|length }}">
 
@@ -170,7 +171,32 @@
             orgs.then(function (result) {
                 // console.log(result);
                 for (const [key, value] of Object.entries(result)) {
-                    orgsForm.children('.form-group').append(`<input value="${value}" name="orgs[${key}]" class="form-control mb-2">`);
+                    let val = editWrong(value);
+                    if(val.includes('"'))
+                    {
+                        orgsForm.children('.form-group')
+                            .append(`<div class="mb-2">
+                                        <input value='${val}' name="orgs[${key}]" class="form-control red-bg">
+                                        <span class="form-text m-b-none text-danger">некорректные ковычки</span>
+                                    </div>
+                                    <hr>
+                                    `);
+                    }
+                    else if(value.includes('  '))
+                    {
+                        orgsForm.children('.form-group')
+
+                            .append(`<div class="mb-2">
+                                                <input value='${val}' name="orgs[${key}]" class="form-control red-bg">
+                                                <span class="form-text m-b-none text-danger">Содержит двойные пробелы (исправляется автоматически при сохранении)</span>
+                                            </div>
+                                            <hr>
+                                            `);
+                    }
+                    else {
+                        orgsForm.children('.form-group').append(`<div class="mb-2"><input value='${val}' name="orgs[${key}]" class="form-control mb-2"></div> <hr>`);
+                    }
+
 
                     console.log(`${key}: ${value}`);
                 }
@@ -184,10 +210,12 @@
         async function getOrgs(id) {
             const response = await fetch('/api/user_orgs/'+id);
             const orgs = await response.json();
-            // console.log(JSON.parse(movies));
             return JSON.parse(orgs);
         }
 
+        function editWrong(val) {
+            return val.replace(/\s+/g, ' ').replace(/[']/g, '"');
+        }
 
     })
 </script>
