@@ -176,7 +176,7 @@ class monitoringReadinessMapService extends AbstractController
                 $arr = [
                     'is_num#'.$count_zones => $is_count,
 
-                    'name#'.$count_zones => $zone->getName(),
+                    'name#'.$count_zones => $this->deleteCount($zone->getName()),
                     'repair#'.$count_zones => $repair->getTotalPercentage(),
                     'end_date#'.$count_zones => is_null($repair->getEndDate()) ? "" : $repair->getEndDate()->format('d.m.Y') ,
                     'comment#'.$count_zones => $is_count == 1 ? $comment : '',
@@ -310,5 +310,21 @@ class monitoringReadinessMapService extends AbstractController
             ;
     }
 
+    public function deleteCount($name)
+    {
+
+        $pos = strpos($name, ".");
+
+        if($pos === false)
+        {
+            return $name;
+        }
+        else
+        {
+            return trim(substr($name, $pos+1));
+        }
+
+
+    }
 
 }
