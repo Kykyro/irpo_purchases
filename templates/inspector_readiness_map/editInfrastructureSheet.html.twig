@@ -268,7 +268,7 @@
                         <label>
                             Данные
                         </label>
-                        <textarea class="form-control" id="rows-data" name="text"></textarea>
+                        <textarea class="form-control" id="rows-data" name="text" oninput = 'this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                     </div>
 
                 </div>
@@ -306,7 +306,7 @@
                         <label>
                             Данные
                         </label>
-                        <textarea class="form-control" id="rows-data-2" name="text"></textarea>
+                        <textarea class="form-control" id="rows-data-2" name="text" oninput = 'this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                     </div>
 
                 </div>
@@ -344,7 +344,7 @@
                         <label>
                             Данные
                         </label>
-                        <textarea class="form-control" id="rows-data-3" name="text"></textarea>
+                        <textarea class="form-control" id="rows-data-3" name="text" oninput = 'this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                     </div>
 
                 </div>
@@ -356,6 +356,7 @@
                         data-list="#sheets-3"
                         data-zone-type="Рабочее место преподавателя"
                         data-row-data="#rows-data-3"
+
                     >
                         Добавить
                     </button>
@@ -376,6 +377,13 @@
             $("textarea").each(function(textarea) {
                 $(this).height( $(this)[0].scrollHeight );
             });
+
+            $('#rows-data').height( '200px' );
+            $('#rows-data-2').height( '200px' );
+            $('#rows-data-3').height( '200px' );
+
+
+
             let $wrapper = $('.sheets');
             $wrapper.on('click', '.js-remove-sheets', function(e) {
                 e.preventDefault();
@@ -507,6 +515,10 @@
                         $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_type').val(paste[2]);
                         $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_units').val(paste[4]);
                         $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_totalNumber').val(paste[5]);
+                        if(checkFunds(paste[6]))
+                            $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_funds').val(paste[6]);
+                        else
+                            $('#infrastructure_sheet_zone_form_zoneInfrastructureSheets_'+counter+'_funds').closest('td').addClass('btn-danger')
 
                     }
 
@@ -518,11 +530,32 @@
                     allowHtml: true,
                     allowClear: true
                 });
+
+                $( ".funds" ).on( "change", function() {
+                    $(this).closest('td').removeClass('btn-danger');
+                } );
             }
             $('#add-many-row').click(addRowsByTable);
             $('#add-many-row-2').click(addRowsByTable);
             $('#add-many-row-3').click(addRowsByTable);
             // let formInputs = $('#sheets :input');
+
+            function checkFunds(val)
+            {
+                val = val.toLowerCase();
+                switch (val)
+                {
+                    case 'фб':
+                    case 'бр':
+                    case 'вб':
+                    case 'рб':
+                    case 'в наличии':
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
 
             $('.select2').select2({
                 closeOnSelect : false,
