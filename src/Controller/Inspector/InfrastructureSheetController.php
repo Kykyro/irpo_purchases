@@ -78,6 +78,10 @@ class InfrastructureSheetController extends AbstractController
                 ],
 
             ])
+            ->add('search', TextType::class, [
+                'attr' => ['class' => 'form-control search-bar'],
+                'required'   => false,
+            ])
             ->add('tags', TextType::class, [
                 'attr' => ['class' => 'form-control tag-list '],
                 'label' => 'Теги',
@@ -99,6 +103,12 @@ class InfrastructureSheetController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $form_data = $form->getData();
 
+            if($form_data['search'] !== null){
+                $search = $form_data['search'];
+                $query = $query
+                    ->andWhere('uf.educational_organization LIKE :search')
+                    ->setParameter('search', "%$search%");
+            }
             if($form_data['rf_subject'] !== null){
                 $region = $form_data['rf_subject'];
                 $query = $query

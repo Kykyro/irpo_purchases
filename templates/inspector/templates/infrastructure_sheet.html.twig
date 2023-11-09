@@ -37,6 +37,25 @@
         .bootstrap-tagsinput > input{
             min-width: 100%;
         }
+        #result {
+            border: 1px dotted #ccc;
+            padding: 3px;
+            z-index: 800;
+            position: absolute;
+            background-color: white;
+            width: 100%;
+        }
+        #result ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        #result ul li {
+            padding: 5px 0;
+        }
+        #result ul li:hover {
+            background: #eee;
+        }
     </style>
 {% endblock %}
 
@@ -54,8 +73,12 @@
                 </div>
                 <div class="ibox-content ">
                     {{ form_start(form) }}
+                    <label>Базовая ОО</label>
+                    {{ form_widget(form.search) }}
+                    <div id="result"></div>
                     <label>Субъект РФ</label>
                     {{ form_widget(form.rf_subject) }}
+
                     <label>Год создания кластера</label>
                     {{ form_widget(form.year) }}
                     <div {% if not is_granted('ROLE_INSPECTOR') or not is_granted('ROLE_SMALL_CURATOR') %} style="display: none" {% endif %}>
@@ -179,6 +202,49 @@
                 allowClear: true
             });
         });
+    </script>
+    <script>
+
+        $(document).ready(function(){
+            let searchBar = $('.search-bar');
+            $('#result').hide();
+
+
+
+            searchBar.on('keyup', function () {
+                let val = $(this).val();
+
+                res = document.getElementById("result");
+                res.innerHTML = '';
+                let list = '';
+                if (val.length > 2)
+                    getEdu(val).then(function (result) {
+                        console.log(result);
+                        $('#result').show();
+                        let terms = result;
+
+                        for (i=0; i<terms.length; i++) {
+                            list += '<li class="search-item">' + terms[i].educational_organization + '</li>';
+                        }
+                        res.innerHTML = '<ul class="search-list">' + list + '</ul>';
+
+                        $('.search-item').on('click', function () {
+                            searchBar.val($(this).text());
+                            $('#result').hide();
+                        });
+                    });
+            });
+
+            async function getEdu(search) {
+                const response = await fetch('/api/base-org-research/'+search);
+                const edus = await response.json();
+                return JSON.parse(edus);
+            }
+
+        });
+
+
+
     </script>
 
 
