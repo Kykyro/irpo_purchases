@@ -119,8 +119,8 @@ class XlsxEmployersService extends AbstractController
             $user =  $this->entity_manager->getRepository(User::class)
                 ->createQueryBuilder('u')
                 ->leftJoin('u.user_info', 'uf')
-                ->andWhere('uf.id LIKE :id')
-                ->setParameter('id', $userInfoId)
+                ->andWhere('uf.id IN (:id)')
+                ->setParameter('id', $userInfos)
                 ->getQuery()
                 ->getResult()
                 ;
@@ -137,7 +137,7 @@ class XlsxEmployersService extends AbstractController
                 }
                 sort($result);
                 $result = array_unique($result);
-                $result = implode(" | ", $result);
+                $result = implode(" / ", $result);
 
                 return $result;
 
