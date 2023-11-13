@@ -126,13 +126,20 @@ class XlsxEmployersService extends AbstractController
                 ;
             if(count($user))
             {
-                $roles =  implode(" | ", $user[0]->getRoles());
-                if(str_contains($roles, "ROLE_SMALL_CLUSTERS"))
-                    return "Кластер СПО";
-                else if(str_contains($roles, "ROLE_REGION"))
-                    return "ОПЦ(К)";
-                else
-                    return "";
+                $result = [];
+                foreach ($user as $u)
+                {
+                    $roles =  implode(" | ", $u->getRoles());
+                    if(str_contains($roles, "ROLE_SMALL_CLUSTERS"))
+                        array_push($result, "Кластер СПО");
+                    else if(str_contains($roles, "ROLE_REGION"))
+                        array_push($result, "ОПЦ(К)");
+                }
+                sort($result);
+                $result = array_unique($result);
+                $result = implode(" | ", $result);
+
+                return $result;
 
             }
             else{
