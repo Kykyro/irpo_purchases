@@ -97,6 +97,15 @@
                         Подробная информация о кластере
                     </button>
                 </a>
+
+                {% if is_granted('ROLE_SPECTATOR') %}
+                    <a href="{{ path('app_spectator_readiness_map', {'id': i.getId()}) }}">
+                        <button class="btn btn-primary col-lg-12 mb-2">
+                            <div class="fa fa-check-circle"></div>
+                            Карта готовности
+                        </button>
+                    </a>
+                {% endif %}
                 {% if is_granted('ROLE_DIRECTORATE') %}
                     <a href="{{ path('app_inspector_show_purchases', {'id': i.getId()}) }}">
                         <button class="btn btn-info col-lg-12 mb-2">
