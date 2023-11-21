@@ -36,11 +36,7 @@
                                                 {{ i.getCreatedAt().format('d.m.Y') }}
                                             </h5>
                                             <div class="button-toggle" >
-                                                <a href="{{ path('app_inspector_rm_delete_photo_region', {'zone_id': zone.getId(), 'photo_id': j.getId()}) }}">
-                                                            <span class="btn btn-danger pull-right delete-alert">
-                                                                <i class="fa fa-trash"></i>
-                                                            </span>
-                                                </a>
+
                                                 <a href="{{ path('app_download_file_by_route', {'route': 'repair_photos_directory', 'file': j.getPhoto()}) }}">
                                                             <span class="btn btn-primary pull-right ">
                                                                 <i class="fa fa-download"></i>
