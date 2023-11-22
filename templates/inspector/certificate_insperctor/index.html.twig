@@ -486,7 +486,7 @@
                             .append('<option>'+element+'</option>');
                     });
 
-                    let uniq_ugps = [...new Set(_ugps)];
+                    let uniq_ugps = [...new Set(_ugps.sort())];
                     uniq_ugps.forEach((element) => {
                         ugpsInput
                             .append('<option>'+element+'</option>');
@@ -767,7 +767,7 @@
                         .append('<option>'+element+'</option>');
                 });
 
-                let uniq_ugps = [...new Set(_ugps)];
+                let uniq_ugps = [...new Set(_ugps.sort())];
                 uniq_ugps.forEach((element) => {
                     ugpsInput
                         .append('<option>'+element+'</option>');
