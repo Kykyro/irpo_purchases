@@ -200,7 +200,7 @@ class InspectorReadinessMapController extends AbstractController
 
     public function downloadPhotos($photos, $fileName = "file")
     {
-        $dir = '../public/uploads/repairPhotos/';
+        $dir = $this->getParameter('repair_photos_directory');
 
         $files = [];
         $filesNames = [];
