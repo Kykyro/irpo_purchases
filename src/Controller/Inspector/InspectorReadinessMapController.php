@@ -22,8 +22,10 @@ use App\Services\monitoringReadinessMapService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use function PHPUnit\Framework\throwException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -201,7 +203,7 @@ class InspectorReadinessMapController extends AbstractController
     public function downloadPhotos($photos, $fileName = "file")
     {
         $dir = $this->getParameter('repair_photos_directory');
-
+        $fileName = "file.zip";
         $files = [];
         $filesNames = [];
         foreach ($photos as $version)
@@ -215,6 +217,7 @@ class InspectorReadinessMapController extends AbstractController
                 $path_parts = pathinfo($i->getPhoto());
                 array_push($filesNames,  $photoDir.'/'.$version->getRepair()->getClusterZone()->getName()
                     .'_'.uniqid().'.'.$path_parts['extension']);
+
             }
         }
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
@@ -226,11 +229,11 @@ class InspectorReadinessMapController extends AbstractController
         for ($i = 0; $i < count($files); $i++)
         {
             $zip->addFile($files[$i], $filesNames[$i]);
+
         }
+        $zip->close();
 
-
-        return $this->file($temp_file, $fileName.'.zip', ResponseHeaderBag::DISPOSITION_INLINE);
-
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 
     /**
