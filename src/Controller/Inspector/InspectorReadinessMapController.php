@@ -210,7 +210,7 @@ class InspectorReadinessMapController extends AbstractController
             foreach ($version->getRepairPhotos() as $i)
             {
 
-                array_push($files, $dir . $i->getPhoto());
+                array_push($files, $dir ."/". $i->getPhoto());
                 $photoDir = $addres;
                 $path_parts = pathinfo($i->getPhoto());
                 array_push($filesNames,  $photoDir.'/'.$version->getRepair()->getClusterZone()->getName()
