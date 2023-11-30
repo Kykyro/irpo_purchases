@@ -285,7 +285,7 @@ class ClusterZone
                     $arr['equipment_put'] += $infractSheet->getPutIntoOperation();
                 }
 
-                if(mb_strtolower($infractSheet->getType(),'UTF-8') == 'по')
+                if(mb_strtolower($infractSheet->getType(),'UTF-8') == 'по' or str_contains(mb_strtolower($infractSheet->getType(),'UTF-8'),'Программное обеспечение'))
                 {
                     $arr['PO'] += $infractSheet->getTotalNumber();
                     $arr['PO_fact'] += $infractSheet->getFactNumber();
