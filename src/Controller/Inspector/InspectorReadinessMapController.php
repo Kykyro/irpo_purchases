@@ -117,6 +117,9 @@ class InspectorReadinessMapController extends AbstractController
                     $procentage['furniture_put'] += $arr['furniture_put'];
                     $procentage['equipment_put'] += $arr['equipment_put'];
                     $procentage['PO_put'] += $arr['PO_put'];
+                    $procentage['allowance'] += $arr['allowance'];
+                    $procentage['allowance_fact'] += $arr['allowance_fact'];
+                    $procentage['allowance_put'] += $arr['allowance_put'];
                 }
 
 
@@ -130,16 +133,20 @@ class InspectorReadinessMapController extends AbstractController
             $count++;
         if($procentage['equipment'] > 0)
             $count++;
+        if($procentage['allowance'] > 0)
+            $count++;
         $proc = [
-            'total' =>   $procentage['furniture']+$procentage['PO']+$procentage['equipment'],
+            'total' =>   $procentage['furniture']+$procentage['PO']+$procentage['equipment']+$procentage['allowance'],
             'furniture' => $this->midleProc($procentage['furniture'], $procentage['furniture_fact']),
             'PO' => $this->midleProc($procentage['PO'], $procentage['PO_fact']),
+            'allowance' => $this->midleProc($procentage['allowance'], $procentage['allowance_fact']),
             'equipment' => $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
             'furniture_put' => $this->midleProc($procentage['furniture'], $procentage['furniture_put']),
             'PO_put' => $this->midleProc($procentage['PO'], $procentage['PO_put']),
             'equipment_put' => $this->midleProc($procentage['equipment'], $procentage['equipment_put']),
-            'fact' => $procentage['furniture_fact']+$procentage['PO_fact']+$procentage['equipment_fact'],
-            'put' => $procentage['furniture_put']+$procentage['PO_put']+$procentage['equipment_put'],
+            'allowance_put' => $this->midleProc($procentage['allowance'], $procentage['allowance_put']),
+            'fact' => $procentage['furniture_fact']+$procentage['PO_fact']+$procentage['equipment_fact']+$procentage['allowance_fact'],
+            'put' => $procentage['furniture_put']+$procentage['PO_put']+$procentage['equipment_put']+$procentage['allowance_put'],
 
         ];
 
@@ -178,8 +185,8 @@ class InspectorReadinessMapController extends AbstractController
             '_photos' => $photos,
             'form' => $form->createView(),
             'proc' => $proc,
-            'mtb_fact' => ($count > 0) ? round((($proc['furniture']+$proc['PO']+$proc['equipment'])/$count)*100, 2): 0,
-            'mtb_put' => ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put'])/$count)*100, 2): 0,
+            'mtb_fact' => ($count > 0) ? round((($proc['furniture']+$proc['PO']+$proc['equipment']+$proc['allowance'])/$count)*100, 2): 0,
+            'mtb_put' => ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put']+$proc['allowance_put'])/$count)*100, 2): 0,
 //            'mtb_put' => round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2),
         ]);
     }
