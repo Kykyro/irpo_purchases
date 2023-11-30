@@ -125,4 +125,14 @@ class ClusterRequestCertificationController extends AbstractController
             'regions' => $regions
         ]);
     }
+
+    public function getFromError($arr)
+    {
+        $arr = explode('", ', $arr);
+        for($i = 0; $i < count($arr); $i++)
+        {
+            $arr[$i] = trim(str_replace('"', '', $arr[$i]));
+        }
+        return $arr;
+    }
 }
