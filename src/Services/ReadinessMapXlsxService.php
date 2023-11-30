@@ -56,6 +56,7 @@ class ReadinessMapXlsxService extends AbstractController
         $today = new \DateTime('now');
         $index = 1;
 
+
         if($role == 'lot_1')
         {
             $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
@@ -253,6 +254,31 @@ class ReadinessMapXlsxService extends AbstractController
 
         $sheet = $spreadsheet->getSheetByName('Оборудование');
         $index = 1;
+        $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'K'];
+        if($role != 'cluster')
+        {
+            $sheet->insertNewColumnBefore('M');
+            $sheet->getStyle('M1')->applyFromArray([
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    ],
+                ],
+                'font' => [
+                    'size'  => 12,
+                    'name'  => 'Times New Roman',
+                    'bold' => true
+                ],
+                'fill' => [
+                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'startColor' => ['argb' => '70ad47']
+                ]
+            ])->getAlignment()->setWrapText(true);
+            $sheet->getColumnDimension('M')->setWidth(20);
+            $sheet->setCellValue('M1', 'Средний % укомплектованности учебными пособиями');
+            $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'K', 'O'];
+        }
+
         foreach ($users as $user)
         {
             $adresses = $user->getClusterAddresses();
@@ -271,6 +297,10 @@ class ReadinessMapXlsxService extends AbstractController
                 'furniture_put' => 0,
                 'equipment_put' => 0,
                 'PO_put' => 0,
+
+                'allowance' => 0,
+                'allowance_fact' => 0,
+                'allowance_put' => 0,
             ];
             foreach ($adresses as $adress) {
 
@@ -283,6 +313,7 @@ class ReadinessMapXlsxService extends AbstractController
                         $procentage['F'] += ($arr['furniture'] > 0) ? ($arr['furniture_fact'] / $arr['furniture']) * 100 : 0;
                         $procentage['G'] += ($arr['PO'] > 0) ? ($arr['PO_fact'] / $arr['PO']) * 100 : 0;
                         $procentage['H'] += ($arr['equipment'] > 0) ? ($arr['equipment_fact'] / $arr['equipment']) * 100 : 0;
+//                        $procentage['allowance_mid'] += ($arr['allowance'] > 0) ? ($arr['allowance_fact'] / $arr['allowance']) * 100 : 0;
 
                         $total = $arr['furniture'] + $arr['PO'] + $arr['equipment'];
                         $total_put = $arr['furniture_put'] + $arr['equipment_put'] + $arr['PO_put'];
@@ -297,6 +328,10 @@ class ReadinessMapXlsxService extends AbstractController
                         $procentage['furniture_put'] += $arr['furniture_put'];
                         $procentage['equipment_put'] += $arr['equipment_put'];
                         $procentage['PO_put'] += $arr['PO_put'];
+
+                        $procentage['allowance'] += $arr['allowance'];
+                        $procentage['allowance_fact'] += $arr['allowance_fact'];
+                        $procentage['allowance_put'] += $arr['allowance_put'];
                     }
 
 
@@ -315,39 +350,66 @@ class ReadinessMapXlsxService extends AbstractController
                 $count++;
             if($procentage['equipment'])
                 $count++;
+            if($procentage['allowance'])
+                $count++;
 
-            $user_info_arr = [
-                $user_info->getRfSubject()->getName(),
-                $user_info->getDeclaredIndustry(),
-                $user_info->getEducationalOrganization(),
-                $zoneCount,
-                round($procentage['F'], 2)/100,
-                round($procentage['G'], 2)/100,
-                round($procentage['H'], 2)/100,
-                round($procentage['I'], 2)/100,
-                $this->midleProc($procentage['furniture'], $procentage['furniture_fact']),
-                $this->midleProc($procentage['PO'], $procentage['PO_fact']),
-                $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
-//                ($procentage['furniture'] > 0) ? round(($procentage['furniture_fact'] / $procentage['furniture']), 2) : "-",
-//                ($procentage['PO'] > 0) ? round(($procentage['PO_fact'] / $procentage['PO']) , 2) : "-",
-//                ($procentage['equipment'] > 0) ? round(($procentage['equipment_fact'] / $procentage['equipment']) , 2) : "-",
-                "=Sum(J$row:L$row)/$count",
-                ($count > 0) ? ($this->midleProc($procentage['furniture'], $procentage['furniture_put'])+
-                $this->midleProc($procentage['PO'], $procentage['PO_put'])+
-                $this->midleProc($procentage['equipment'], $procentage['equipment_put']))/$count : 0,
-//                ($total > 0) ? round(($total_put / $total) , 2) : 0,
-                '-',
-                '-',
-                '-',
-                '-',
-                $user->getEquipmentDeliveryDeadline(),
-                '-',
-                '',
-                $user_info->getCurator()
+            if($role != 'cluster')
+                $user_info_arr = [
+                    $user_info->getRfSubject()->getName(),
+                    $user_info->getDeclaredIndustry(),
+                    $user_info->getEducationalOrganization(),
+                    $zoneCount,
+                    round($procentage['F'], 2)/100,
+                    round($procentage['G'], 2)/100,
+                    round($procentage['H'], 2)/100,
+                    round($procentage['I'], 2)/100,
+                    $this->midleProc($procentage['furniture'], $procentage['furniture_fact']),
+                    $this->midleProc($procentage['PO'], $procentage['PO_fact']),
+                    $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
+                    $this->midleProc($procentage['allowance'], $procentage['allowance_fact']),
+                    "=Sum(J$row:M$row)/$count",
+                    ($count > 0) ? ($this->midleProc($procentage['furniture'], $procentage['furniture_put'])+
+                            $this->midleProc($procentage['PO'], $procentage['PO_put'])+
+                            $this->midleProc($procentage['equipment'], $procentage['equipment_put']))/$count : 0,
+                    '-',
+                    '-',
+                    '-',
+                    '-',
+                    $user->getEquipmentDeliveryDeadline(),
+                    '-',
+                    '',
+                    $user_info->getCurator()
 
-            ];
+                ];
+            else
+                $user_info_arr = [
+                    $user_info->getRfSubject()->getName(),
+                    $user_info->getDeclaredIndustry(),
+                    $user_info->getEducationalOrganization(),
+                    $zoneCount,
+                    round($procentage['F'], 2)/100,
+                    round($procentage['G'], 2)/100,
+                    round($procentage['H'], 2)/100,
+                    round($procentage['I'], 2)/100,
+                    $this->midleProc($procentage['furniture'], $procentage['furniture_fact']),
+                    $this->midleProc($procentage['PO'], $procentage['PO_fact']),
+                    $this->midleProc($procentage['equipment'], $procentage['equipment_fact']),
+                    "=Sum(J$row:L$row)/$count",
+                    ($count > 0) ? ($this->midleProc($procentage['furniture'], $procentage['furniture_put'])+
+                    $this->midleProc($procentage['PO'], $procentage['PO_put'])+
+                    $this->midleProc($procentage['equipment'], $procentage['equipment_put']))/$count : 0,
+                    '-',
+                    '-',
+                    '-',
+                    '-',
+                    $user->getEquipmentDeliveryDeadline(),
+                    '-',
+                    '',
+                    $user_info->getCurator()
+
+                ];
             $sheet->fromArray($user_info_arr, "-", 'B'.$row, true);
-            $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'K'];
+
             foreach ($proc_cell as $cell)
             {
                 $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
@@ -402,7 +464,7 @@ class ReadinessMapXlsxService extends AbstractController
         }
         else
         {
-            return null;
+            return 0;
         }
     }
 
