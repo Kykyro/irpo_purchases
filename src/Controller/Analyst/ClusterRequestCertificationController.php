@@ -120,7 +120,7 @@ class ClusterRequestCertificationController extends AbstractController
         }
 
         return $this->render('inspector/certificate_insperctor/index.html.twig', [
-            'controller_name' => 'CertificateInsperctorController',
+            'controller_name' => 'CertificateInsperctorControllerForAll',
             'form' => $form->createView(),
             'regions' => $regions
         ]);
