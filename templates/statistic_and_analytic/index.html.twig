@@ -70,4 +70,67 @@
         </div>
     </div>
 </div>
+
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Скачать потребность в ремонте
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <form action="{{ path('app_inspector_download_xlsx_all') }}" method="post">
+                        <select name="year" class="form-control">
+                            <!--Supplement an id here instead of using 'name'-->
+                            <option value="2022">2022 год</option>
+                            <option value="2023" selected>2023 год</option>
+                            <option value="2024">2024 год</option>
+                            <option value="2025">2025 год</option>
+                            <option value="2026">2026 год</option>
+                        </select>
+                        <hr>
+                        <input type="hidden" name="token" value="{{ csrf_token('download_xlsx') }}"/>
+                        <button class="btn btn-success" type="submit">
+                            <i class="fa fa-download"></i>
+                            Скачать
+                        </button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Скачать потребность в ремонте
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <form action="{{ path('app_statistic_and_analytic_cluster_edu_orgs') }}" method="post">
+                        <select name="year" class="form-control">
+                            <!--Supplement an id here instead of using 'name'-->
+                            <option value="2022">2022 год</option>
+                            <option value="2023" selected>2023 год</option>
+                            <option value="2024">2024 год</option>
+                            <option value="2025">2025 год</option>
+                            <option value="2026">2026 год</option>
+                        </select>
+                        <hr>
+                        <input type="hidden" name="token" value="{{ csrf_token('cluster_edu_orgs') }}"/>
+                        <button class="btn btn-success" type="submit">
+                            <i class="fa fa-download"></i>
+                            Скачать
+                        </button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

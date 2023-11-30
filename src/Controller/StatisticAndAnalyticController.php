@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Services\InfrastructureSheetDownloadXlsxService;
 use App\Services\XlsxClusterIndustryService;
+use App\Services\XlsxEducationOrganizationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -77,6 +78,20 @@ class StatisticAndAnalyticController extends AbstractController
 
         if ($this->isCsrfTokenValid('cluster_count_industry', $submittedToken)) {
             return $service->generate($year, $role);
+        }
+    }
+
+    /**
+     * @Route("/statistic-and-analytic/Count-edu-orgs", name="app_statistic_and_analytic_cluster_edu_orgs")
+     */
+    public function getCountEduOrgs(Request $request, XlsxEducationOrganizationService $service)
+    {
+        $submittedToken = $request->request->get('token');
+        $year = $request->request->get('year');
+
+
+        if ($this->isCsrfTokenValid('cluster_edu_orgs', $submittedToken)) {
+            return $service->generate($year);
         }
     }
 }

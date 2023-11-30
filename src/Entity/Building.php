@@ -57,6 +57,21 @@ class Building
      */
     private $organization;
 
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $Address;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $addFunds;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +169,42 @@ class Building
     public function setOrganization(?ProfEduOrg $organization): self
     {
         $this->organization = $organization;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->Address;
+    }
+
+    public function setAddress(?string $Address): self
+    {
+        $this->Address = $Address;
+
+        return $this;
+    }
+
+    public function getAddFunds(): ?string
+    {
+        return $this->addFunds;
+    }
+
+    public function setAddFunds(?string $addFunds): self
+    {
+        $this->addFunds = $addFunds;
 
         return $this;
     }

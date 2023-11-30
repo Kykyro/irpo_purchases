@@ -6,11 +6,19 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>
-
+                        {{ title }}
                     </h5>
                 </div>
                 <div class="ibox-content">
                     {{ form_start(form) }}
+                        {{ form_row(form.fullName) }}
+                        {{ form_row(form.shortName) }}
+                    <hr>
+                        {{ form_row(form.address) }}
+                    <hr>
+                        {{ form_widget(form.year) }}
+                    <hr>
+                        {{ form_row(form.submit) }}
                     {{ form_end(form) }}
                 </div>
             </div>

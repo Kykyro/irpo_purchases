@@ -1,0 +1,136 @@
+{% extends 'default/base.html.twig' %}
+
+{% block styles %}
+<style>
+    label {
+        margin-top: 1em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <a href="{{ path('app_roiv_view_edu', {'id': edu_id}) }}">
+                <button class="btn btn-outline-dark mb-2">
+                    <i class="fa fa-arrow-left"></i>
+                    Назад
+                </button>
+            </a>
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        {{ title }}
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    {{ form_start(form, {'attr': {'id': 'form'}}) }}
+
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.address) }}
+                    <hr>
+                        {{ form_row(form.buildingCategory) }}
+                        {{ form_row(form.buildingPriority) }}
+                    <hr>
+                        {{ form_row(form.area, {"type":"number"}) }}
+                        {{ form_row(form.repairArea, {"type":"number"}) }}
+                    <hr>
+                        {{ form_row(form.neededFunds, {"type":"number"}) }}
+                        {{ form_row(form.possibleFunds, {"type":"number"}) }}
+                        {{ form_row(form.addFunds, {"type":"number"}) }}
+                    <hr>
+
+
+
+                        {{ form_row(form.submit) }}
+
+                    {{ form_end(form) }}
+
+                </div>
+                <div class="ibox-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        let form = $('#form');
+
+        function areaCheck()
+        {
+            let area = $('#edit_roiv_building_form_area');
+            let repairArea = $('#edit_roiv_building_form_repairArea');
+
+
+            return area.val() >= repairArea.val()
+        }
+
+        $.validator.addMethod("area", function(value, element) {
+            return areaCheck();
+        }, "* Площадь кап. ремонта не может быть больше общей площади");
+
+
+
+        form.validate({
+            rules: {
+                "edit_roiv_building_form[name]" : "required",
+                "edit_roiv_building_form[address]" : "required",
+                "edit_roiv_building_form[buildingCategory]" : "required",
+                "edit_roiv_building_form[buildingPriority]" : "required",
+                "edit_roiv_building_form[area]" : {
+                    required: true,
+                    number: "Неверное значение.",
+                },
+
+                "edit_roiv_building_form[repairArea]" : {
+                        required: true,
+                        number: "Неверное значение.",
+                        area: true
+                    },
+
+                "edit_roiv_building_form[neededFunds]" : "required",
+                "edit_roiv_building_form[possibleFunds]" : "required",
+                "edit_roiv_building_form[addFunds]" : "required",
+
+            },
+            messages: {
+                "edit_roiv_building_form[name]" : "Это обязательное поле",
+                "edit_roiv_building_form[address]" : "Это обязательное поле",
+                "edit_roiv_building_form[buildingCategory]" : "Это обязательное поле",
+                "edit_roiv_building_form[buildingPriority]" : "Это обязательное поле",
+
+                "edit_roiv_building_form[area]" : {
+                    required: "Это обязательное поле",
+                    number: "Неверное значение.",
+                },
+                "edit_roiv_building_form[repairArea]" : {
+                    required: "Это обязательное поле",
+                    number: "Неверное значение.",
+                },
+
+                "edit_roiv_building_form[neededFunds]" : {
+                    required: "Это обязательное поле",
+                    number: "Неверное значение.",
+                },
+                "edit_roiv_building_form[possibleFunds]" : {
+                    required: "Это обязательное поле",
+                    number: "Неверное значение.",
+                },
+                "edit_roiv_building_form[addFunds]" : {
+                    required: "Это обязательное поле",
+                    number: "Неверное значение.",
+                },
+            }
+        });
+    })
+</script>
+{% endblock %}

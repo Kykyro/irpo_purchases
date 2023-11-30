@@ -1,0 +1,71 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <a href="{{ path('app_roiv') }}">
+                <button class="btn btn-outline-dark mb-2">
+                    <i class="fa fa-arrow-left"></i>
+                    Назад
+                </button>
+            </a>
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                       {{ org.getFullName() }} ({{ org.getShortName() }})
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <a href="{{ path('app_roiv_add_buildings', {'id': org.getId()}) }}">
+                        <button class="btn btn-outline-success col-lg-12">
+                            Добавить здание
+                        </button>
+                    </a>
+                    <table class="table table-bordered mt-3">
+                        <thead>
+                        <tr>
+                            <td class="col-md-2">Наименование здания</td>
+                            <td class="col-md-2">Адрес</td>
+                            <td class="col-md-2">Общая площадь</td>
+                            <td class="col-md-1">Категория здания</td>
+                            <td class="col-md-1">Действия</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {%  for i in org.getBuildings() %}
+                            <tr>
+                                <td>{{ i.getName() }}</td>
+                                <td>{{ i.getAddress() }}</td>
+                                <td>{{ i.getArea() }}</td>
+                                <td>{{ i.getBuildingCategory().getName() }}</td>
+                                <td>
+                                    <a href="{{ path('app_roiv_edit_buildings', {'id': i.getId()}) }}">
+                                        <button class=" col-lg-12 btn mb-1">
+                                            <i class="fa fa-edit"></i>
+                                            Редактировать
+                                        </button>
+                                    </a>
+                                    <a href="#">
+                                        <button class=" col-lg-12 btn delete-alert">
+                                            <i class="fa fa-trash"></i>
+                                            Удалить
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="ibox-footer">
+                    <div class="navigation">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

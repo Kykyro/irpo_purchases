@@ -1,5 +1,27 @@
 {% extends 'default/base.html.twig' %}
-
+{% block styles %}
+<style>
+    #result {
+        border: 1px dotted #ccc;
+        padding: 3px;
+        z-index: 800;
+        position: absolute;
+        background-color: white;
+        width: 100%;
+    }
+    #result ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    #result ul li {
+        padding: 5px 0;
+    }
+    #result ul li:hover {
+        background: #eee;
+    }
+</style>
+{% endblock %}
 {% block content %}
     <div class="row mt-3">
         <div class="col-lg-10 offset-lg-1">
@@ -13,18 +35,47 @@
                     </h5>
                 </div>
                 <div class="ibox-content">
+
+
                     <a href="{{ path('app_roiv_add_org') }}">
                         <button class="btn btn-outline-success col-lg-12">
                             Добавить профессиональную образовательную организацию
                         </button>
                     </a>
+                    <hr>
+                    {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>
+                                    Поиск
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-11  pr-0">
+                                {{ form_widget(form.search) }}
+                                {#<input class="form-control col-sm-12" id="search-bar" name="search" >#}
+                                <div id="result"></div>
+                            </div>
+                            <div class="col-sm-1">
+                                <button class="btn col-sm-12" type="submit">
+                                    <i class="fa fa-search"></i>
+                                    Поиск
+                                </button>
+                            </div>
+                        </div>
+                    {{ form_end(form) }}
+                    <hr>
                     <table class="table table-bordered mt-3">
                         <thead>
                         <tr>
-                            <td class="col-md-5">Полное наименование профессиональной образовательной организации</td>
-                            <td class="col-md-5">Сокращенное наименование профессиональной образовательной организации</td>
+                            <td class="col-md-3">Полное наименование профессиональной образовательной организации</td>
+                            <td class="col-md-3">Сокращенное наименование профессиональной образовательной организации</td>
+                            <td class="col-md-2">Юридический адрес</td>
                             <td class="col-md-1">Кол-во строений</td>
-                            <td class="col-md-1">Действия</td>
+                            <td class="col-md-1">Год</td>
+                            <td class="col-md-2">Действия</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -32,16 +83,18 @@
                             <tr>
                                 <td>{{ i.getFullName() }}</td>
                                 <td>{{ i.getShortName() }}</td>
+                                <td>{{ i.getAddress() }}</td>
                                 <td>{{ i.getBuildings()|length }}</td>
+                                <td>{{ i.getYear() }} год</td>
                                 <td>
-                                    <a href="#">
-                                        <button class="btn btn-success col-lg-12">
+                                    <a href="{{ path('app_roiv_view_edu', {'id': i.getId()}) }}">
+                                        <button class="btn btn-success col-lg-12 mb-1">
                                             <i class="fa fa-search"></i>
                                             Просмотр
                                         </button>
                                     </a>
                                     <a href="{{ path('app_roiv_edit_org', {'id': i.getId()}) }}">
-                                        <button class="btn btn-primary col-lg-12">
+                                        <button class="btn btn-primary col-lg-12 mb-1">
                                             <i class="fa fa-edit"></i>
                                             Редактировать
                                         </button>
@@ -58,10 +111,110 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="ibox-footer">
+                    <div class="navigation">
+                        {{ knp_pagination_render(orgs, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Скачать таблицу
+                    </h5>
+                </div>
+
+                <div class="ibox-content">
+                    <form action="{{ path('app_roiv_download_xlsx') }}" method="post">
+                        <label>
+                            Год
+                        </label>
+                        <select class="form-control m-b" name="year">
+                            <option value="2022">2022 год</option>
+                            <option value="2023">2023 год</option>
+                            <option value="2024">2024 год</option>
+                            <option value="2025">2025 год</option>
+                            <option value="2026">2026 год</option>
+                        </select>
+
+                        <input type="hidden" name="token" value="{{ csrf_token('download_xlsx') }}"/>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-download"></i>
+                            Скачать
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+    $(document).ready(function(){
+        var search_terms = ['apple', 'apple watch', 'apple macbook', 'apple macbook pro', 'iphone', 'iphone 12'];
+        let searchBar = $('.search-bar');
 
 
+        function autocompleteMatch(input) {
+            if (input == '') {
+                return [];
+            }
+            var reg = new RegExp(input);
+
+            return reg;
+            // console.log();
+            return search_terms.filter(function(term) {
+                if (term.match(reg)) {
+                    return term;
+                }
+            });
+        }
+
+
+        searchBar.on('keyup', function () {
+            let val = $(this).val();
+
+            res = document.getElementById("result");
+            res.innerHTML = '';
+            let list = '';
+
+            getEdu({{ app.user.getUserInfo().getRfSubject().getId() }}, val).then(function (result) {
+
+                let terms = result;
+
+                for (i=0; i<terms.length; i++) {
+                    list += '<li class="search-item">' + terms[i].fullName + '</li>';
+                }
+                res.innerHTML = '<ul class="search-list">' + list + '</ul>';
+
+                $('.search-item').on('click', function () {
+                    searchBar.val($(this).text());
+                    $('#result').empty();
+                });
+            });
+
+
+
+        });
+
+
+        async function getEdu(region, search) {
+            const response = await fetch('/api/edu-org-research/'+region +'/'+search);
+            const edus = await response.json();
+            return JSON.parse(edus);
+        }
+
+    });
+
+
+
+</script>
 {% endblock %}

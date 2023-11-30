@@ -11,8 +11,10 @@ use App\Services\budgetSumService;
 use App\Services\XlsxService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -27,23 +29,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class RoivController extends AbstractController
 {
-    /**
-     * @Route("/list", name="app_roiv")
-     */
-    public function index(EntityManagerInterface $em): Response
-    {
-        $user = $this->getUser();
-        $orgs = $em->getRepository(ProfEduOrg::class)
-            ->findAllByRegion($user->getUserInfo()->getRfSubject()->getId());
 
-
-
-
-        return $this->render('roiv/index.html.twig', [
-            'controller_name' => 'ROIVListController',
-            'orgs' => $orgs,
-        ]);
-    }
     /**
      * @Route("/add_org", name="app_roiv_add_org")
      * @Route("/edit_org/{id}", name="app_roiv_edit_org")
@@ -73,6 +59,26 @@ class RoivController extends AbstractController
                 ],
                 'label' => 'Сокращенное наименование профессиональной образовательной организации'
             ])
+            ->add('address', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Юридический адрес'
+            ])
+            ->add('year', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'choices' => [
+                    '2022 год' => 2022,
+                    '2023 год' => 2023,
+                    '2024 год' => 2024,
+                    '2025 год' => 2025,
+                    '2026 год' => 2026,
+                    '2027 год' => 2027,
+                ],
+                'label' => 'Год',
+            ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary'
@@ -85,7 +91,7 @@ class RoivController extends AbstractController
 
         if($form->isSubmitted() and  $form->isValid())
         {
-
+//            dd($org);
             $em->persist($org);
             $em->flush();
             return $this->redirectToRoute('app_roiv');
@@ -97,6 +103,7 @@ class RoivController extends AbstractController
         return $this->render('roiv/addOrg.html.twig', [
             'controller_name' => 'ROIVListController',
             'form' => $form->createView(),
+            'title' => $id ? 'Редактирование '.$org->getFullName() : 'Создание новой организации',
         ]);
     }
     /**

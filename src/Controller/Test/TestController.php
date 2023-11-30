@@ -14,6 +14,7 @@ use App\Form\purchasesFormType;
 use App\Form\testformFormType;
 use App\Services\certificateByClustersService;
 use App\Services\FileService;
+use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,42 +56,8 @@ class TestController extends AbstractController
      * @Route("/test", name="app_test")
      * @Route("/test/{id}", name="app_test_id")
      */
-    public function index(Request $request, int $id = null, certificateByClustersService $byClustersService): Response
+    public function index(Request $request, int $id = null): Response
     {
-
-//        $entity_manager = $this->getDoctrine()->getManager();
-//        $user = $entity_manager->getRepository(User::class)->find($id);
-//        $adreses = $user->getClusterAddresses();
-//        foreach ($adreses as $adrese)
-//        {
-//            $zones = $adrese->getSortedClusterZones();
-//            foreach ($zones as $zone)
-//            {
-//                $repair = $zone->getZoneRepair();
-//                $jsonContent =  $this->serializer->serialize($repair, 'json',['groups' => ['dump_data']]);
-//                $jsonContent = utf8_encode($jsonContent);
-////                dump($zone->getId());
-////                dump($jsonContent);
-//                $dump = new RepairDump();
-//                $dump->setRepair($repair);
-//                $dump->setDump($jsonContent);
-//                dump($dump);
-//
-//            }
-//
-//        }
-//        $email = (new Email())
-//            ->from('support@mtb-spo.ru')
-//            ->to('vova.199@mail.ru')
-//            ->subject('Hello!')
-//            ->text('test message')
-//            ;
-//
-//        $dns = 'smtp://mailhog:1025';
-//        $transport = Transport::fromDsn($dns);
-//        $mailer = new Mailer($transport);
-//        $mailer->send($email);
-//        dd();
 
 
         return $this->render('test/index.html.twig', [
@@ -117,6 +84,22 @@ class TestController extends AbstractController
         return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 
+
+    /**
+     * @Route("/test-action", name="app_test_action")
+     *
+     */
+    public function formSend(Request $request, EntityManagerInterface $em)
+    {
+        $submittedToken = $request->request->get('token');
+
+
+        if ($this->isCsrfTokenValid('test', $submittedToken)) {
+
+            dd($request->files);
+            return $this->redirectToRoute('app_test');
+        }
+    }
 
 
 

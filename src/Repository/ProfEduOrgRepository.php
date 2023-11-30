@@ -53,6 +53,30 @@ class ProfEduOrgRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findAllByRegionAndYear($regionId, $year): array
+    {
+        return $this->createQueryBuilder('p')
+
+            ->andWhere('p.region = :id')
+            ->andWhere('p.year = :year')
+            ->setParameter('id', $regionId)
+            ->setParameter('year', $year)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    public function findAllByYear($year): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.year = :year')
+            ->setParameter('year', $year)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    public function findOneBySomeField($value): ?ProfEduOrg
 //    {
 //        return $this->createQueryBuilder('p')

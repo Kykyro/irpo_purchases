@@ -1,0 +1,98 @@
+{% extends "default/base.html.twig" %}
+
+{% block content %}
+
+    <div class="row mt-3">
+        <div class="col-lg-5 offset-lg-1">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Категории зданий
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <a href="{{ path('app_admin_building_category_add') }}">
+                        <button class="btn">
+                            Добавить категорию
+                        </button>
+                    </a>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td class="col-md-6">Название</td>
+                                <td class="col-md-6"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in category %}
+
+                            <tr>
+                                <td>{{ i.getName() }}</td>
+                                <td>
+                                    <a href="{{ path('app_admin_building_category_edit', {'id': i.getId()}) }}">
+                                        <button class="btn ">
+                                            Редактировать
+                                        </button>
+                                    </a>
+                                    <a href="{{ path('app_admin_building_category_remove', {'id': i.getId()}) }}">
+                                        <button class="btn delete-alert">
+                                            Удалить
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 ">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Приоритетность
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <a href="{{ path('app_admin_building_priority_add') }}">
+                        <button class="btn">
+                            Добавить приоритетность
+                        </button>
+                    </a>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td class="col-md-6">Название</td>
+                                <td class="col-md-6"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in priority %}
+
+                            <tr>
+                                <td>{{ i.getName() }}</td>
+                                <td>
+                                    <a href="{{ path('app_admin_building_priority_edit', {'id': i.getId()}) }}">
+                                        <button class="btn ">
+                                            Редактировать
+                                        </button>
+                                    </a>
+                                    <a href="{{ path('app_admin_building_category_remove', {'id': i.getId()}) }}">
+                                        <button class="btn delete-alert">
+                                            Удалить
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

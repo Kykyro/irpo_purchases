@@ -6,6 +6,7 @@ use App\Repository\ProfEduOrgRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProfEduOrgRepository::class)
@@ -25,12 +26,17 @@ class ProfEduOrg
     private $region;
 
     /**
+     *
+     * @Groups("search")
      * @ORM\Column(type="string", length=500, nullable=true)
+     *
      */
     private $fullName;
 
     /**
+     *
      * @ORM\Column(type="string", length=500, nullable=true)
+     *
      */
     private $shortName;
 
@@ -38,6 +44,16 @@ class ProfEduOrg
      * @ORM\OneToMany(targetEntity=Building::class, mappedBy="organization")
      */
     private $buildings;
+
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $year;
 
     public function __construct()
     {
@@ -111,6 +127,30 @@ class ProfEduOrg
                 $building->setOrganization(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(?int $year): self
+    {
+        $this->year = $year;
 
         return $this;
     }

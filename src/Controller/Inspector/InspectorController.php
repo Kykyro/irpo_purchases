@@ -12,6 +12,7 @@ use App\Form\clusterDocumentForm;
 use App\Form\InspectorPurchasesFindFormType;
 use App\Form\inspectorUserEditFormType;
 use App\Services\FileService;
+use App\Services\XlsxRepairNeededService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\ProcurementProcedures;
@@ -412,6 +413,41 @@ class InspectorController extends AbstractController
             'field_dict' => $dictionary,
         ]);
     }
+
+
+    /**
+     * @Route("/repair-download/{id}", name="app_inspector_download_xlsx")
+     */
+    public function downloadXlsx(Request $request, XlsxRepairNeededService $service, int $id, EntityManagerInterface $em)
+    {
+        $submittedToken = $request->request->get('token');
+        $year = $request->request->get('year');
+        $user = $em->getRepository(User::class)->find($id);
+
+        if ($this->isCsrfTokenValid('download_xlsx', $submittedToken)) {
+            return $service->generate($year, $user);
+        }
+
+        throw new Exception('Ошибка');
+    }
+
+    /**
+     * @Route("/repair-download-all", name="app_inspector_download_xlsx_all")
+     */
+    public function downloadXlsxAll(Request $request, XlsxRepairNeededService $service, EntityManagerInterface $em)
+    {
+        $submittedToken = $request->request->get('token');
+        $year = $request->request->get('year');
+
+
+        if ($this->isCsrfTokenValid('download_xlsx', $submittedToken)) {
+            return $service->generateAllByYear($year);
+        }
+
+        throw new Exception('Ошибка');
+    }
+
+
 //    /**
 //     * @Route("/a", name="a")
 //     */

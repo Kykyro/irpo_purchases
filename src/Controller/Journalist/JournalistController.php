@@ -81,17 +81,17 @@ class JournalistController extends AbstractController
         }
 
     }
-//    /**
-//     * @Route("/cropper", name="app_cropper")
-//     */
-//    public function imgCropper(): Response
-//    {
-//
-//        return $this->render('journalist/templates/cropper.html.twig', [
-//            'controller_name' => 'JournalistController',
-//
-//        ]);
-//    }
+    /**
+     * @Route("/cropper", name="app_cropper")
+     */
+    public function imgCropper(): Response
+    {
+
+        return $this->render('journalist/templates/cropper.html.twig', [
+            'controller_name' => 'JournalistController',
+
+        ]);
+    }
 
 
 }
