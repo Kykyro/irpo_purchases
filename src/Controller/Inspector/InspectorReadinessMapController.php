@@ -98,6 +98,9 @@ class InspectorReadinessMapController extends AbstractController
             'furniture_put' => 0,
             'equipment_put' => 0,
             'PO_put' => 0,
+            'allowance' => 0,
+            'allowance_fact' => 0,
+            'allowance_put' => 0,
         ];
         foreach ($adresses as $adress) {
 
