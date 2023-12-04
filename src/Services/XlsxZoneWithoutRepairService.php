@@ -138,11 +138,11 @@ class XlsxZoneWithoutRepairService extends AbstractController
                     $row = [
                         $address->getAddresses(),
                         $zone->getName(),
-                        $repair->getTotalPercentage()*0.01,
+                        $zone->isDoNotTake() ? '-' : $repair->getTotalPercentage()*0.01,
                         $photoDate ? $photoDate->getCreatedAt()->format('d.m.Y') : '',
 
                     ];
-                    $sheet->fromArray($row, null, 'E'.$row_index);
+                    $sheet->fromArray($row, null, 'E'.$row_index, true);
                     $row_index++;
 
                 }
