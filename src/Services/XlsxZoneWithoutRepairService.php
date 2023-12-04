@@ -49,11 +49,34 @@ class XlsxZoneWithoutRepairService extends AbstractController
             ->getQuery()
             ->getResult();
 
-        return $this->generate($users);
+        return $this->generate($users, 'Зоны без ремонта.xlsx');
+    }
+
+    public function downloadActualRepair($year, $role)
+    {
+        $users = $this->entity_manager
+            ->getRepository(User::class)
+            ->createQueryBuilder('u')
+            ->leftJoin('u.user_info', 'uf')
+            ->leftJoin('u.clusterAddresses', 'a')
+            ->leftJoin('a.clusterZones', 'z')
+            ->leftJoin('z.zoneRepair', 'zr')
+
+            ->andWhere('u.roles LIKE :role')
+            ->andWhere('uf.year = :year')
+
+
+            ->setParameter('year', $year)
+            ->setParameter('role', "%$role%")
+
+            ->getQuery()
+            ->getResult();
+
+        return $this->generate($users, 'Актуальный ремонт.xlsx');
     }
 
 
-    public function generate($users)
+    public function generate($users, $fileName)
     {
 
         $styleArray = [
@@ -78,6 +101,8 @@ class XlsxZoneWithoutRepairService extends AbstractController
             'Базовая ОО',
             'Адрес',
             'Зона под вид работ',
+            '% выполнения ремонтных работ',
+            'Дата загрузки последних фотографий'
         ];
         /** @var Spreadsheet $spreadsheet */
         $spreadsheet = new Spreadsheet();
@@ -107,17 +132,19 @@ class XlsxZoneWithoutRepairService extends AbstractController
                 foreach ($zones as $zone)
                 {
                     $repair = $zone->getZoneRepair();
-                    if($repair->isNotPlanned())
-                    {
-                        $addressCount++;
-                        $row = [
-                            $address->getAddresses(),
-                            $zone->getName(),
 
-                        ];
-                        $sheet->fromArray($row, null, 'E'.$row_index);
-                        $row_index++;
-                    }
+                    $addressCount++;
+                    $photoDate = $repair->getPhotosVersions()->last();
+                    $row = [
+                        $address->getAddresses(),
+                        $zone->getName(),
+                        $repair->getTotalPercentage()*0.01,
+                        $photoDate ? $photoDate->getCreatedAt()->format('d.m.Y') : '',
+
+                    ];
+                    $sheet->fromArray($row, null, 'E'.$row_index);
+                    $row_index++;
+
                 }
                 if($addressCount>1)
                 {
@@ -138,7 +165,7 @@ class XlsxZoneWithoutRepairService extends AbstractController
 
         }
         $index = $sheet->getHighestRow()+1;
-        $rangeTotal = 'A1:F'.$index;
+        $rangeTotal = 'A1:H'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getColumnDimension('A')->setWidth(10);
@@ -147,12 +174,15 @@ class XlsxZoneWithoutRepairService extends AbstractController
         $sheet->getColumnDimension('D')->setWidth(50);
         $sheet->getColumnDimension('E')->setWidth(50);
         $sheet->getColumnDimension('F')->setWidth(150);
+        $sheet->getColumnDimension('G')->setWidth(30);
+        $sheet->getColumnDimension('H')->setWidth(30);
+        $sheet->getStyle("G2:G$index")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
 
         // Create Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
 
         // Create a Temporary file in the system
-        $fileName = 'Зоны без ремонта.xlsx';
+
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 
         // Create the excel file in the tmp directory of the system

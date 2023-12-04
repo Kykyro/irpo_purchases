@@ -42,4 +42,45 @@
             </div>
         </div>
     </div>
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h2>
+                        Актуальный ремонт
+                    </h2>
+                </div>
+                <div class="ibox-content">
+                    <form action="{{ path('app_zones_actual_repair') }}" method="post">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">
+                                Год
+                            </label>
+                            <select class="form-control m-b col-sm-10" name="year">
+                                <option>2023</option>
+                                <option>2024</option>
+                                <option>2025</option>
+                                <option>2026</option>
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">
+                                Тип кластера
+                            </label>
+                            <select class="form-control m-b col-sm-10" name="role">
+                                <option value="ROLE_REGION">ОПЦ(К)</option>
+                                <option value="ROLE_SMALL_CLUSTERS">СПО кластеры</option>
+                            </select>
+                        </div>
+
+                        <input type="hidden" name="token" value="{{ csrf_token('download-actual-photo') }}"/>
+                        <button class="btn btn-success">
+                            <i class="fa fa-download"></i>
+                            Скачать
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

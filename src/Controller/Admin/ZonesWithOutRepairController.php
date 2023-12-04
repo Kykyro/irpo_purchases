@@ -38,5 +38,21 @@ class ZonesWithOutRepairController extends AbstractController
         return $this->redirectToRoute('app_zones_with_out_repair');
 
     }
+    /**
+     * @Route("/zones-actual-repair-download", name="app_zones_actual_repair")
+     */
+    public function downloadActualRepair(Request $request, XlsxZoneWithoutRepairService $repairService): Response
+    {
+        $year = $request->request->get('year');
+        $role = $request->request->get('role');
+
+        $submittedToken = $request->request->get('token');
+
+        if ($this->isCsrfTokenValid('download-actual-photo', $submittedToken)) {
+            return $repairService->downloadActualRepair($year, $role);
+        }
+        return $this->redirectToRoute('app_zones_with_out_repair');
+
+    }
 
 }
