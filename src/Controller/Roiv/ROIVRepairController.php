@@ -164,4 +164,47 @@ class ROIVRepairController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/delete-buildings/{id_org}/{id}", name="app_roiv_delete_buildings")
+     */
+    public function deleteBuilding(Request $request, int $id, int $id_org, EntityManagerInterface $em)
+    {
+        $org = $em->getRepository(ProfEduOrg::class)->find($id_org);
+        $user = $this->getUser();
+        if($org->getRegion() != $user->getUserInfo()->getRfSubject())
+        {
+            return $this->denyAccessUnlessGranted('', '', '');
+        }
+
+        $building = $em->getRepository(Building::class)->find($id);
+
+        $em->remove($building);
+        $em->flush();
+
+        return $this->redirectToRoute("app_roiv_view_edu", ['id' => $org->getId()]);
+
+    }
+
+    /**
+     * @Route("/delete-organization//{id}", name="app_roiv_delete_organization")
+     */
+    public function deleteOrganization(Request $request, int $id, EntityManagerInterface $em)
+    {
+        $org = $em->getRepository(ProfEduOrg::class)->find($id);
+        $user = $this->getUser();
+        if($org->getRegion() != $user->getUserInfo()->getRfSubject())
+        {
+            return $this->denyAccessUnlessGranted('', '', '');
+        }
+
+        foreach ($org->getBuildings() as $building)
+            $em->remove($building);
+
+        $em->remove($org);
+        $em->flush();
+
+        return $this->redirectToRoute("app_roiv_view_edu", ['id' => $org->getId()]);
+
+    }
+
 }

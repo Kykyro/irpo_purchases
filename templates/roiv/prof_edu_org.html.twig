@@ -45,7 +45,7 @@
                                             Редактировать
                                         </button>
                                     </a>
-                                    <a href="#">
+                                    <a href="{{ path('app_roiv_delete_buildings', {'id': i.getId(), 'id_org': org.getId() }) }}">
                                         <button class=" col-lg-12 btn delete-alert">
                                             <i class="fa fa-trash"></i>
                                             Удалить

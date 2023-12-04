@@ -69,9 +69,10 @@ class ProfEduOrgRepository extends ServiceEntityRepository
     public function findAllByYear($year): array
     {
         return $this->createQueryBuilder('p')
+            ->leftJoin('p.region', 'region')
             ->andWhere('p.year = :year')
             ->setParameter('year', $year)
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('region.name', 'ASC')
             ->getQuery()
             ->getResult()
         ;

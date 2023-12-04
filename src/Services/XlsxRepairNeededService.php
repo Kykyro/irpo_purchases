@@ -140,9 +140,9 @@ class XlsxRepairNeededService extends AbstractController
                 $sheet->fromArray($row, '-', "A".$index, true );
                 $index++;
             }
-            $sheet->fromArray([''], '-', "A".($index+1), true );
-            $sheet->getStyle("A".($index).":M".($index))->applyFromArray($separateFill);
-            $index++;
+//            $sheet->fromArray([''], '-', "A".($index+1), true );
+//            $sheet->getStyle("A".($index).":M".($index))->applyFromArray($separateFill);
+//            $index++;
         }
         $sheet->getStyle("A4:M".($index-1))->applyFromArray($styleArray);
         // Create Office 2007 Excel (XLSX Format)
