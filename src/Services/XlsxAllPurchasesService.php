@@ -90,9 +90,9 @@ class XlsxAllPurchasesService extends AbstractController
         $sheet->fromArray($headerRow);
         $count = 1;
         $statusLib = [
-          'cancelled'  => 'Отменена',
-          'planning'  => 'планируется',
-          'contract'  => 'закантрактовано',
+          'cancelled'  => 'Отменено',
+          'planning'  => 'Планируется',
+          'contract'  => 'Закантрактовано',
           'announced'  => 'Объявлено',
         ];
         $today = new \DateTime('now');
