@@ -119,7 +119,7 @@ class XlsxAllPurchasesService extends AbstractController
 
 
 
-                $sheet->fromArray($row, '', 'A'.($count+1), true);
+                $sheet->fromArray($row, 0, 'A'.($count+1), true);
 
                 $count++;
 
@@ -139,8 +139,8 @@ class XlsxAllPurchasesService extends AbstractController
         $sheet->getColumnDimension('G')->setWidth(20);
         $sheet->getColumnDimension('H')->setWidth(20);
         $sheet->getColumnDimension('I')->setWidth(20);
-        $sheet->getColumnDimension('J')->setWidth(20);
-        $sheet->getStyle("E2:H$index")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+        $sheet->getColumnDimension('J')->setWidth(15);
+        $sheet->getStyle("E2:I$index")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
         $sheet->getStyle("A1:J1")->applyFromArray([
             'fill' => array(
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
