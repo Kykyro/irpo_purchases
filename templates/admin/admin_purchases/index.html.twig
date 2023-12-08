@@ -1,0 +1,40 @@
+{% extends "default/base.html.twig" %}
+
+
+{% block content %}
+<div class="row mt-3">
+    <div class="col-sm-10 offset-sm-1">
+        <a href="{{ path('app_admin') }}">
+            <button class="btn btn-outline-dark">
+                <i class="fa fa-arrow-left"></i>
+                Назад
+            </button>
+        </a>
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Скачать все закупки
+                </h5>
+            </div>
+
+            <div class="ibox-content">
+                <form action="{{ path('app_admin_purchases_download') }}" method="post">
+                    <select class="form-control m-b" name="year">
+                        <option value="2021">2021 год</option>
+                        <option value="2022">2022 год</option>
+                        <option value="2023">2023 год</option>
+                        <option value="2024">2024 год</option>
+                        <option value="2025">2025 год</option>
+                    </select>
+                    <input type="hidden" name="token" value="{{ csrf_token('admin_purchases_download') }}"/>
+                    <button class="btn btn-success">
+                        <i class="fa fa-download"></i>
+                        Скачать
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
