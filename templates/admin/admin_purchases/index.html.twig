@@ -19,12 +19,23 @@
 
             <div class="ibox-content">
                 <form action="{{ path('app_admin_purchases_download') }}" method="post">
+                    <label>
+                        Год
+                    </label>
                     <select class="form-control m-b" name="year">
                         <option value="2021">2021 год</option>
                         <option value="2022">2022 год</option>
                         <option value="2023">2023 год</option>
                         <option value="2024">2024 год</option>
                         <option value="2025">2025 год</option>
+                    </select>
+                    <label>
+                        Тип кластера
+                    </label>
+                    <select class="form-control m-b" name="role">
+                        <option value="ROLE_REGION">ОПЦ(К)</option>
+                        <option value="ROLE_SMALL_CLUSTERS">Кластер СПО</option>
+                        <option value="All">Все</option>
                     </select>
                     <input type="hidden" name="token" value="{{ csrf_token('admin_purchases_download') }}"/>
                     <button class="btn btn-success">

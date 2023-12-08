@@ -27,9 +27,10 @@ class AdminPurchasesController extends AbstractController
     {
         $submittedToken = $request->request->get('token');
         $year = $request->request->get('year');
+        $role = $request->request->get('role');
 
         if ($this->isCsrfTokenValid('admin_purchases_download', $submittedToken)) {
-            return $service->download($year);
+            return $service->download($year,$role);
         }
 
 

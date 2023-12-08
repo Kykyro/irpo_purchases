@@ -29,20 +29,31 @@ class XlsxAllPurchasesService extends AbstractController
         $this->entity_manager = $em;
     }
 
-    public function download($year)
+    public function download($year, $role)
     {
-        $users = $this->entity_manager
-            ->getRepository(User::class)
-            ->createQueryBuilder('u')
-            ->leftJoin('u.user_info', 'uf')
-            ->andWhere('u.roles LIKE :role or u.roles LIKE :role2')
-            ->andWhere('uf.year = :year')
-            ->setParameter('year', $year)
-            ->setParameter('role', "%ROLE_SMALL_CLUSTERS%")
-            ->setParameter('role2', "%ROLE_REGION%")
-            ->getQuery()
-            ->getResult();
-
+        if($role == 'All')
+            $users = $this->entity_manager
+                ->getRepository(User::class)
+                ->createQueryBuilder('u')
+                ->leftJoin('u.user_info', 'uf')
+                ->andWhere('u.roles LIKE :role or u.roles LIKE :role2')
+                ->andWhere('uf.year = :year')
+                ->setParameter('year', $year)
+                ->setParameter('role', "%ROLE_SMALL_CLUSTERS%")
+                ->setParameter('role2', "%ROLE_REGION%")
+                ->getQuery()
+                ->getResult();
+        else
+            $users = $this->entity_manager
+                ->getRepository(User::class)
+                ->createQueryBuilder('u')
+                ->leftJoin('u.user_info', 'uf')
+                ->andWhere('u.roles LIKE :role')
+                ->andWhere('uf.year = :year')
+                ->setParameter('year', $year)
+                ->setParameter('role', "%$role%")
+                ->getQuery()
+                ->getResult();
         return $this->generate($users, "Все закупки $year год.xlsx");
     }
 
@@ -62,8 +73,8 @@ class XlsxAllPurchasesService extends AbstractController
                 'name'  => 'Times New Roman'
             ],
             'alignment' => [
-                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
             ],
         ];
         $headerRow = [
@@ -92,7 +103,7 @@ class XlsxAllPurchasesService extends AbstractController
         $statusLib = [
           'cancelled'  => 'Отменено',
           'planning'  => 'Планируется',
-          'contract'  => 'Закантрактовано',
+          'contract'  => 'Законтрактовано',
           'announced'  => 'Объявлено',
         ];
         $today = new \DateTime('now');
@@ -132,14 +143,14 @@ class XlsxAllPurchasesService extends AbstractController
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getColumnDimension('A')->setWidth(10);
         $sheet->getColumnDimension('B')->setWidth(30);
-        $sheet->getColumnDimension('C')->setWidth(30);
+        $sheet->getColumnDimension('C')->setWidth(50);
         $sheet->getColumnDimension('D')->setWidth(30);
         $sheet->getColumnDimension('E')->setWidth(30);
         $sheet->getColumnDimension('F')->setWidth(20);
         $sheet->getColumnDimension('G')->setWidth(20);
         $sheet->getColumnDimension('H')->setWidth(20);
         $sheet->getColumnDimension('I')->setWidth(20);
-        $sheet->getColumnDimension('J')->setWidth(15);
+        $sheet->getColumnDimension('J')->setWidth(20);
         $sheet->getStyle("E2:I$index")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
         $sheet->getStyle("A1:J1")->applyFromArray([
             'fill' => array(
