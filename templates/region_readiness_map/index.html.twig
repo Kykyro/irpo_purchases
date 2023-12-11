@@ -166,10 +166,10 @@
                                 {% if equipment['total'] > 0 %}
                                     {#<td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / {{ ((equipment['putInOperation']/equipment['total'])*100)|round(2, 'floor') }} %</td>#}
                                     <td style="vertical-align: inherit; text-align: center">
-                                        {{ equipment['putInOperation'] }} / {{ mtb_put }}%
+                                        {{ proc['put'] }} / {{ mtb_put }}%
                                     </td>
                                 {% else %}
-                                    <td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / 0%</td>
+                                    <td style="vertical-align: inherit; text-align: center">{{ proc['put'] }} / 0%</td>
                                 {% endif %}
 
 
