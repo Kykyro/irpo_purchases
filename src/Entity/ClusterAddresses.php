@@ -221,6 +221,34 @@ class ClusterAddresses
         else
             return 0;
     }
+
+    public  function getMidRepair()
+    {
+        $zones = $this->getClusterZones();
+        $countCommon = 0;
+        $countZone = 0;
+        $result = 0;
+        foreach ($zones as $zone)
+        {
+            $zoneType = $zone->getType()->getName();
+            if($zoneType != "Зона по видам работ" and $zoneType != "Иное")
+            {
+                $result += $zone->getZoneRepair()->getTotalPercentage();
+                $countCommon++;
+            }
+            if($zone->getType()->getName() == "Зона по видам работ" and !$zone->isDoNotTake())
+            {
+                $result += $zone->getZoneRepair()->getTotalPercentage();
+                $countZone++;
+            }
+
+        }
+
+        if($countZone > 0 or $countCommon > 0)
+            return $result/($countZone + $countCommon);
+        else
+            return 0;
+    }
     public  function getCountOfWorkZone()
     {
         $zones = $this->getClusterZones();
