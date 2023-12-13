@@ -21,6 +21,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
+use ZipArchive;
 
 class certificateByClustersService extends AbstractController
 {
@@ -159,6 +160,7 @@ class certificateByClustersService extends AbstractController
         return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
 
     }
+
     public function getCertificate($users, $options = [])
     {
         $today = new \DateTime('now');
@@ -168,7 +170,7 @@ class certificateByClustersService extends AbstractController
         $ugps = in_array('ugps', $options);
         $zone = in_array('zone', $options);
 
-        $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2 (копия).docx');
+
         $replacements = [];
 
         foreach ($users as $user)
@@ -177,117 +179,210 @@ class certificateByClustersService extends AbstractController
             array_push($replacements, $templateData);
         }
 
-//        $dublicateBlock = $this->accessProtected($templateProcessor, 'tempDocumentMainPart');
 
-        $templateProcessor->cloneBlock('clusterInfo', count($replacements), true, true);
-        $count = 1;
-        foreach ($replacements as $replacement)
+
+        if(count($replacements) <= 5)
         {
-            $user = $replacement['user'];
-            $templateProcessor->setValues(
-                [
-                    'rf_subject#'.$count => $replacement['rf_subject'],
-                    'industry#'.$count => $replacement['industry'],
-                    'cluster_name#'.$count => $replacement['cluster_name'],
-                    'intiator_name#'.$count => $replacement['intiator_name'],
-                    'employers_count#'.$count => $replacement['employers_count'],
-                    'employers#'.$count => $replacement['employers'],
-                    'rf_subject_funds#'.$count => $replacement['rf_subject_funds'],
-                    'economic_sector_funds#'.$count => $replacement['economic_sector_funds'],
-                ]
-            );
+            $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2 (копия).docx');
+            $templateProcessor->cloneBlock('clusterInfo', count($replacements), true, true);
+            $count = 1;
 
-            if(strtolower($replacement['grant_name']) == strtolower($replacement['base_org']))
+
+            foreach ($replacements as $replacement)
             {
-                $templateProcessor->cloneBlock('with_grant#'.$count, 0, true, false);
-                $templateProcessor->cloneBlock('without_grant#'.$count, 1, true, false);
-                $templateProcessor->setValues([
-                    'base_org#'.$count => $replacement['base_org'],
-                ]);
-            }
-            else{
-                $templateProcessor->cloneBlock('with_grant#'.$count, 1, true, false);
-                $templateProcessor->cloneBlock('without_grant#'.$count, 0, true, false);
+                $this->setValueToTemplate($replacement, $templateProcessor, $fmt, $count, $ugps, $zone, $options);
 
-                $templateProcessor->setValues([
-                    'grant_name#'.$count => $replacement['grant_name'],
-                    'base_org#'.$count => $replacement['base_org'],
-                ]);
+                $count++;
             }
 
-            if($replacement['web_oo_count'] > 0)
+            $fileName = 'Справка_'.$today->format('d.m.Y').'.docx';
+            $filepath = $templateProcessor->save();
+
+
+
+            return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
+        else
+        {
+            $arrays = array_chunk($replacements, 5);
+            $files = [];
+
+            foreach ($arrays as $array)
             {
-                $templateProcessor->cloneBlock('with_oo#'.$count, 1, true, false);
-                $templateProcessor->setValues([
-                    'web_oo_count#'.$count => $replacement['web_oo_count'],
-                    'web_oo#'.$count => $replacement['web_oo'],
-                ]);
-            }
-            else{
-                $templateProcessor->cloneBlock('with_oo#'.$count, 0, true, false);
-            }
+                $templateProcessor = new TemplateProcessor('../public/word/Шаблон для заполнения справки_2 (копия).docx');
+                $templateProcessor->cloneBlock('clusterInfo', count($array), true, true);
+                $count = 1;
 
-            if ($replacement['year'] > 2022)
+
+                foreach ($array as $replacement)
+                {
+                    $this->setValueToTemplate($replacement, $templateProcessor, $fmt, $count, $ugps, $zone, $options);
+
+                    $count++;
+                }
+
+                $fileName = 'Справка_'.$today->format('d.m.Y').'_'.uniqid().'.docx';
+                $filepath = $templateProcessor->save();
+                $files[$fileName] = $filepath;
+            }
+            $fileNameZIP = 'Справки_'.$today->format('d.m.Y').".zip";
+            $temp_file = tempnam(sys_get_temp_dir(), $fileNameZIP);
+
+            $zip = new ZipArchive();
+
+            $zip->open($temp_file, \ZipArchive::CREATE);
+
+            foreach ($files as $filename => $path)
             {
-                $templateProcessor->cloneBlock('with_oo_funds#'.$count, 1, true, false);
-                $templateProcessor->setValues([
-                    'oo_funds#'.$count => $replacement['oo_funds'],
-
-                ]);
-            }
-            else
-            {
-                $templateProcessor->cloneBlock('with_oo_funds#'.$count, 0, true, false);
+                $zip->addFile($path, $filename);
             }
 
-            $this->setBlockWithList(
-                    $templateProcessor,
-                    $replacement['ugps'],
-                    $ugps,
-                    $count,
-                    'ugps_block',
-                    'ugps'
-            );
+            $zip->close();
 
-            $this->setBlockWithList(
-                    $templateProcessor,
-                    $replacement['zone'],
-                    $zone,
-                    $count,
-                    'zone_block',
-                    'zone'
-            );
+            return $this->file($temp_file, $fileNameZIP, ResponseHeaderBag::DISPOSITION_INLINE);
 
-            $blocks = [
-                'fed_budget' => in_array('budget', $options),
-                'reg_budget' => in_array('budget', $options),
-                'empl_budget' => in_array('budget', $options),
-                'extra_budget' => in_array('budget', $options),
-                'repair_block' => in_array('repair', $options),
-                'eqp_block' => in_array('equipment', $options)
-            ];
-            foreach ($blocks as $block => $show)
-            {
-                if($show)
-                    $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false,
-                        $this->getDataForOptionalBlocks($block, $user, $count, $fmt));
-                else
-                    $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false);
 
-            }
 
-            $count++;
+            return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
         }
 
-        $fileName = 'Справка_'.$today->format('d.m.Y').'.docx';
-        $filepath = $templateProcessor->save();
-
-
-
-        return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
 
     }
 
+    private function setValueToTemplate($replacement, $templateProcessor, $fmt, $count, $ugps, $zone, $options)
+    {
+
+
+
+        $user = $replacement['user'];
+        $templateProcessor->setValues(
+            [
+                'rf_subject#'.$count => $replacement['rf_subject'],
+                'industry#'.$count => $replacement['industry'],
+                'cluster_name#'.$count => $replacement['cluster_name'],
+                'intiator_name#'.$count => $replacement['intiator_name'],
+                'employers_count#'.$count => $replacement['employers_count'],
+                'employers#'.$count => $replacement['employers'],
+                'rf_subject_funds#'.$count => $replacement['rf_subject_funds'],
+                'economic_sector_funds#'.$count => $replacement['economic_sector_funds'],
+            ]
+        );
+
+        if(strtolower($replacement['grant_name']) == strtolower($replacement['base_org']))
+        {
+            $templateProcessor->cloneBlock('with_grant#'.$count, 0, true, false);
+            $templateProcessor->cloneBlock('without_grant#'.$count, 1, true, false);
+            $templateProcessor->setValues([
+                'base_org#'.$count => $replacement['base_org'],
+            ]);
+        }
+        else{
+            $templateProcessor->cloneBlock('with_grant#'.$count, 1, true, false);
+            $templateProcessor->cloneBlock('without_grant#'.$count, 0, true, false);
+
+            $templateProcessor->setValues([
+                'grant_name#'.$count => $replacement['grant_name'],
+                'base_org#'.$count => $replacement['base_org'],
+            ]);
+        }
+
+        if($replacement['web_oo_count'] > 0)
+        {
+            $templateProcessor->cloneBlock('with_oo#'.$count, 1, true, false);
+            $templateProcessor->setValues([
+                'web_oo_count#'.$count => $replacement['web_oo_count'],
+                'web_oo#'.$count => $replacement['web_oo'],
+            ]);
+        }
+        else{
+            $templateProcessor->cloneBlock('with_oo#'.$count, 0, true, false);
+        }
+
+        if ($replacement['year'] > 2022)
+        {
+            $templateProcessor->cloneBlock('with_oo_funds#'.$count, 1, true, false);
+            $templateProcessor->setValues([
+                'oo_funds#'.$count => $replacement['oo_funds'],
+
+            ]);
+        }
+        else
+        {
+            $templateProcessor->cloneBlock('with_oo_funds#'.$count, 0, true, false);
+        }
+
+        $this->setBlockWithList(
+            $templateProcessor,
+            $replacement['ugps'],
+            $ugps,
+            $count,
+            'ugps_block',
+            'ugps'
+        );
+
+        $this->setBlockWithList(
+            $templateProcessor,
+            $replacement['zone'],
+            $zone,
+            $count,
+            'zone_block',
+            'zone'
+        );
+
+        $blocks = [
+            'fed_budget' => in_array('budget', $options),
+            'reg_budget' => in_array('budget', $options),
+            'empl_budget' => in_array('budget', $options),
+            'extra_budget' => in_array('budget', $options),
+            'repair_block' => in_array('repair', $options),
+            'eqp_block' => in_array('equipment', $options)
+        ];
+        foreach ($blocks as $block => $show)
+        {
+            if($show)
+                $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false,
+                    $this->getDataForOptionalBlocks($block, $user, $count, $fmt));
+            else
+                $templateProcessor->cloneBlock($block.'#'.$count, 0, true, false);
+
+        }
+    }
+
+    public function downloadPhotos($photos, $fileName = "file")
+    {
+        $dir = $this->getParameter('repair_photos_directory');
+        $fileName = "file.zip";
+        $files = [];
+        $filesNames = [];
+        foreach ($photos as $version)
+        {
+            $addres = $version->getRepair()->getClusterZone()->getAddres()->getAddresses();
+            foreach ($version->getRepairPhotos() as $i)
+            {
+
+                array_push($files, $dir ."/". $i->getPhoto());
+                $photoDir = $addres;
+                $path_parts = pathinfo($i->getPhoto());
+                array_push($filesNames,  $photoDir.'/'.$version->getRepair()->getClusterZone()->getName()
+                    .'_'.uniqid().'.'.$path_parts['extension']);
+
+            }
+        }
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+        $zip = new ZipArchive();
+
+        $zip->open($temp_file, \ZipArchive::CREATE);
+
+        for ($i = 0; $i < count($files); $i++)
+        {
+            $zip->addFile($files[$i], $filesNames[$i]);
+
+        }
+        $zip->close();
+
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+    }
     function accessProtected($obj, $prop) {
         $reflection = new ReflectionClass($obj);
         $property = $reflection->getProperty($prop);
