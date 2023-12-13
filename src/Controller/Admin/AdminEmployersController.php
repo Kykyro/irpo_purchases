@@ -68,6 +68,13 @@ class AdminEmployersController extends AbstractController
                 'required' => false,
                 'label' => 'Поиск'
             ])
+            ->add('INN', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'required' => false,
+                'label' => 'ИНН'
+            ])
             ->add('employersCategories', EntityType::class, array(
                 'class'     => EmployersCategory::class,
                 'expanded'  => false,
@@ -97,9 +104,12 @@ class AdminEmployersController extends AbstractController
             $data = $form->getData();
 //            dd($data);
             $search = $data['search'];
+            $inn = $data['INN'];
             $query = $query
                 ->andWhere('e.name LIKE :search')
-                ->setParameter('search', "%$search%");
+                ->setParameter('search', "%$search%")
+                ->andWhere('e.inn LIKE :inn')
+                ->setParameter('inn', "%$inn%");
             if($data['employersCategories'])
             {
                 $cat = $data['employersCategories'];
