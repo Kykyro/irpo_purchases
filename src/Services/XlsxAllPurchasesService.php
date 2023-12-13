@@ -89,7 +89,8 @@ class XlsxAllPurchasesService extends AbstractController
             'средства работодателей',
             'средства образовательной организации',
 
-            'Статус закупки'
+            'Статус закупки',
+            'Закупка просмотрена?'
 //            'Тип кластера'
         ];
         /** @var Spreadsheet $spreadsheet */
@@ -126,6 +127,7 @@ class XlsxAllPurchasesService extends AbstractController
                     $purcase->getInitialEmployersFunds(),
                     $purcase->getInitialEducationalOrgFunds(),
                     $statusLib[$purcase->getPurchasesStatus($today)],
+                    $purcase->isIsRead() ? 'Да' : 'Нет',
                 ];
 
 
@@ -138,7 +140,7 @@ class XlsxAllPurchasesService extends AbstractController
             }
         }
         $index = $sheet->getHighestRow()+1;
-        $rangeTotal = 'A1:J'.$index;
+        $rangeTotal = 'A1:K'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getColumnDimension('A')->setWidth(10);
@@ -151,8 +153,9 @@ class XlsxAllPurchasesService extends AbstractController
         $sheet->getColumnDimension('H')->setWidth(20);
         $sheet->getColumnDimension('I')->setWidth(20);
         $sheet->getColumnDimension('J')->setWidth(20);
+        $sheet->getColumnDimension('J')->setWidth(20);
         $sheet->getStyle("E2:I$index")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
-        $sheet->getStyle("A1:J1")->applyFromArray([
+        $sheet->getStyle("A1:K1")->applyFromArray([
             'fill' => array(
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
                 'startColor' => array('argb' => '77bc65')
