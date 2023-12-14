@@ -30,6 +30,9 @@ class LandingDocumentationController extends AbstractController
         elseif($type === 'little_cluster_files'){
             $title = 'Нормативная документация образовательных кластеров среднего профессионального образования';
         }
+        elseif($type === 'specialized_classes_files'){
+            $title = 'Cпециализированные классы  (кружки)  и центры практической подготовки в сфере беспилотных авиационных систем';
+        }
         else{
             return $this->redirectToRoute('app_start_landing');
         }
