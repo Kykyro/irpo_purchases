@@ -22,15 +22,23 @@
                         <thead>
                             <tr>
                                 <td class="col-md-1">№</td>
-                                <td class="col-md-9">Замечание</td>
+                                <td class="col-md-5">Замечание</td>
+                                <td class="col-md-3">Дата создания</td>
                                 <td class="col-md-2">Действие</td>
                             </tr>
                         </thead>
                         <tbody>
-                        {% for i in zone.getZoneRemarks()   %}
+                        {% for i in zone.getZoneRemarks()|reverse   %}
                             <tr>
                                 <td>{{ loop.index }}</td>
                                 <td>{{ i.getDescription() }}</td>
+                                <td>
+                                    {% if i.getCreatedAt() %}
+                                        {{ i.getCreatedAt().format('d.m.Y') }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <a href="{{ path('app_inspector_delete_zone_remark', {'id': i.getId()}) }}" class="delete-alert">
                                         <button class="btn btn-danger col-sm-12">

@@ -27,6 +27,16 @@ class ZoneRemark
      */
     private $zone;
 
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable('now');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +62,18 @@ class ZoneRemark
     public function setZone(?ClusterZone $zone): self
     {
         $this->zone = $zone;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -18,14 +18,22 @@
                         <thead>
                             <tr>
                                 <td class="col-md-1">№ п/п</td>
-                                <td class="col-md-11">Замечание</td>
+                                <td class="col-md-8">Замечание</td>
+                                <td class="col-md-3">Дата создания</td>
                             </tr>
                         </thead>
                         <tbody>
-                        {% for i in zone.getZoneremarks() %}
+                        {% for i in zone.getZoneremarks()|reverse %}
                             <tr>
-                                <td class="col-md-1">{{ loop.index }}</td>
-                                <td class="col-md-11">{{ i.getDescription() }}</td>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ i.getDescription() }}</td>
+                                <td>
+                                    {% if i.getCreatedAt() %}
+                                        {{ i.getCreatedAt().format('d.m.Y') }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
 
