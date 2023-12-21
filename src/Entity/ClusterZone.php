@@ -283,8 +283,8 @@ class ClusterZone
                 if(mb_strtolower($infractSheet->getType(),'UTF-8') == 'учебное пособие')
                 {
                     $arr['allowance'] += $infractSheet->getTotalNumber();
-                    $arr['allowance_put'] += $infractSheet->getFactNumber();
-                    $arr['allowance_fact'] += $infractSheet->getPutIntoOperation();
+                    $arr['allowance_put'] +=  $infractSheet->getPutIntoOperation();
+                    $arr['allowance_fact'] += $infractSheet->getFactNumber();
 
                 }
 
