@@ -370,7 +370,10 @@ class ReadinessMapXlsxService extends AbstractController
                     "=Sum(J$row:M$row)/$count",
                     ($count > 0) ? ($this->midleProc($procentage['furniture'], $procentage['furniture_put'])+
                             $this->midleProc($procentage['PO'], $procentage['PO_put'])+
-                            $this->midleProc($procentage['equipment'], $procentage['equipment_put']))/$count : 0,
+                            $this->midleProc($procentage['equipment'], $procentage['equipment_put'])+
+                            $this->midleProc($procentage['allowance'], $procentage['allowance_put'])
+
+                        )/$count : 0,
                     '-',
                     '-',
                     '-',
