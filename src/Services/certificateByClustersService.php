@@ -733,7 +733,7 @@ class certificateByClustersService extends AbstractController
             count(array_unique($district_arr)),
             count(array_unique($region_arr)),
             count(array_unique($industry_arr)),
-            count(array_unique($clusters_arr)),
+            count($clusters_arr),
             '',
             '',
             '',
