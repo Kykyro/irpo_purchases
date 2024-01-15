@@ -100,6 +100,11 @@
                     <li>
                         <a href="{{ path("app_region_certificate") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справки <span id="certificate-notification" class="badge pull-right"><i class="fa m-0 p-0"></i></span></span></a>
                     </li>
+                    {% if app.environment == 'dev' %}
+                        <li>
+                            <a href="{{ path("app_cluster_infrastructure_sheet") }}"><i class="fa fa-cube left-bar-color-text"></i> <span class="nav-label left-bar-color-text">ИЛ <i class="fa m-0 p-0"></i></span></span></a>
+                        </li>
+                    {% endif %}
                 {% endif %}
                 {% if is_granted('ROLE_INSPECTOR') %}
                     <li>

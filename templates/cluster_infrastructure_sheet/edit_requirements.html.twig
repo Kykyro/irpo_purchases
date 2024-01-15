@@ -1,0 +1,112 @@
+{% extends 'default/base.html.twig' %}
+{% block styles %}
+    <style>
+        .ta{
+            width: 100%;
+        }
+        .form-inline  input {
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+        .form-inline {
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: #6b6b6b solid 1px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 mt-3">
+            <a href="{{ path('app_cluster_infrastructure_sheet') }}">
+                <button class="btn btn-outline-dark mb-3">
+                    <i class="fa fa-arrow-left"></i>
+                    Назад
+                </button>
+            </a>
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Требования к обеспечению зоны (коммуникации, площадь, сети и др.)
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>Площадь зоны: не менее </label>
+                            <input type="text" class="form-control">
+                            <label>кв.м.</label>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label for="exampleInputEmail2" class="">Освещение: Допустимо верхнее   </label>
+                            <input   id="exampleInputEmail2" class="form-control">
+                            <label>(вид освещения и источника)</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail3" class=""> освещение ( не менее </label>
+                            <input  id="exampleInputEmail3" class="form-control">
+                            <label>люкс)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>Интернет : Подключение к </label>
+                            <input type="text" class="form-control">
+                            <label> интернету (проводному и/или беспроводному)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>Электричество: Подключения к сети </label>
+                            <input type="text" class="form-control">
+                            <label>В (220 и/или 380)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>Контур заземления для электропитания и сети слаботочных подключений : </label>
+                            <input type="text" class="form-control">
+                            <label> (требуется или не требуется)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>Покрытие пола: </label>
+                            <input type="text" class="form-control">
+                            <label> - </label>
+                            <input type="text" class="form-control">
+                            <label> м2 на всю зону</label>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>Подведение/ отведение ГХВС: ___ (требуется или не требуется)</label>
+                            <input type="text" class="form-control">
+                            <label>(требуется или не требуется)</label>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>Подведение сжатого воздуха: </label>
+                            <input type="text" class="form-control">
+                            <label>(требуется или не требуется)</label>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'default/base.html.twig' %}
+{% block styles %}
+    <style>
+        .table button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    {% include 'default/inDevelopment.html.twig' %}
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 mt-3">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Инфраструктурный лист
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="col-md-1">№ п/п</td>
+                                <td class="col-md-3">Наименование</td>
+                                <td class="col-md-4">Подзоны</td>
+                                <td class="col-md-1">Действия</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Зона под вид работ</td>
+                                <td>
+                                    <a href="{{ path('app_cluster_infrastructure_sheet_edit_requirements', {'id' : 1}) }}">
+                                        <button class="btn btn-outline-dark">
+                                            Требования к обеспечению зоны (коммуникации, площадь, сети и др.)
+                                        </button>
+                                    </a>
+                                    <a href="{{ path('app_cluster_infrastructure_sheet_edit', {'id' : 1}) }}">
+                                        <button class="btn btn-outline-dark">
+                                            Общая зона
+                                        </button>
+                                    </a>
+                                    <button class="btn btn-outline-dark">
+                                        Рабочее место учащегося
+                                    </button>
+                                    <button class="btn btn-outline-dark">
+                                        Рабочее место преподавателя/мастера производственного обучения
+                                    </button>
+                                    <button class="btn btn-outline-dark">
+                                        Охрана труда и техника безопасности
+                                    </button>
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_cluster_infrastructure_sheet_edit_zone', {'id': 1}) }}">
+                                        <button class="btn btn-success">
+                                            Редактировать зону
+                                        </button>
+                                    </a>
+
+
+
+                                    <button class="btn btn-danger delete-alert">
+                                        Удалить
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div class="ibox-footer">
+                    <a href="{{ path('app_cluster_infrastructure_sheet_add_zone') }}">
+                        <button class="btn btn-primary ">
+                            Добавить зону
+                        </button>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

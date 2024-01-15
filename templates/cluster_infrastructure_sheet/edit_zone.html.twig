@@ -1,0 +1,52 @@
+{% extends 'default/base.html.twig' %}
+{% block styles %}
+    <style>
+        .ta{
+            width: 100%;
+        }
+        .form-inline  input {
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+        .form-inline {
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: #6b6b6b solid 1px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 mt-3 mb-5">
+            <a href="{{ path('app_cluster_infrastructure_sheet') }}">
+                <button class="btn btn-outline-dark mb-3">
+                    <i class="fa fa-arrow-left"></i>
+                    Назад
+                </button>
+            </a>
+
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Зона под вид работ
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-group">
+                        <label>Наименование зоны:</label>
+                        <input class="form-control">
+                    </div>
+                    <button class="btn btn-primary">
+                        <i class="fa fa-save"></i>
+                        Сохранить
+                    </button>
+
+                </div>
+                <div class="ibox-footer">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
