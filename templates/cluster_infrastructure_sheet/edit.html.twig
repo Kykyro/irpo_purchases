@@ -16,6 +16,7 @@
     </style>
 {% endblock %}
 {% block content %}
+
     <div class="row">
         <div class="col-sm-10 offset-sm-1 mt-3 mb-5">
             <a href="{{ path('app_cluster_infrastructure_sheet') }}">
@@ -32,67 +33,69 @@
                     </h5>
                 </div>
                 <div class="ibox-content">
+                    {{ form_start(form) }}
                     <table class="table table-bordered">
                         <thead>
                         <tr>
 
                             <td class="">№</td>
-                            <td class="col-md-4">Наименование	</td>
-                            <td class="col-md-3">Краткие (рамочные) технические характеристики</td>
+                            <td class="col-md-3">Наименование	</td>
+                            <td class="col-md-4">Краткие (рамочные) технические характеристики</td>
                             <td class="col-md-2">Вид</td>
                             <td class="col-md-1">Количество</td>
                             <td class="col-md-1">Единица измерения</td>
                             <td class="col-md-1">Итоговое количество</td>
                             <td class="col-md-1">Источник финансирования</td>
+                            <td></td>
 
                         </tr>
                         </thead>
                         <tbody>
-                        {% for i in 1..10 %}
+                        {% for i in form.infrastructureSheets %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>
-                                <textarea class="ta"></textarea>
+                                {{ form_widget(i.name) }}
                             </td>
                             <td>
-                                <textarea class="ta"></textarea>
+                                {{ form_widget(i.technicalSpecifications) }}
                             </td>
                             <td>
-                                <select class="form-control m-b" name="account">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                </select>
+                                {{ form_widget(i.type) }}
                             </td>
                             <td>
-                                <input>
+                                {{ form_widget(i.count, {'type':'number'}) }}
+                            <td>
+                                {{ form_widget(i.unit) }}
                             </td>
                             <td>
-                                <input>
+                                {{ form_widget(i.resultCount, {'type':'number'}) }}
                             </td>
                             <td>
-                                <input>
+                                {{ form_widget(i.sourceOfFinancing) }}
                             </td>
                             <td>
-                                <select class="form-control m-b" name="account">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                </select>
+                                <button class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </button>
                             </td>
                         </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                </div>
-                <div class="ibox-footer">
                     <button class="btn btn-primary">
                         <i class="fa fa-plus"></i>
-                        Добавить
+                        Добавить строку
                     </button>
+                    <hr>
+
+                    <button class="btn btn-success">
+                        <i class="fa fa-save"></i>
+                        Сохранить
+                    </button>
+                    {{ form_end(form) }}
                 </div>
+
             </div>
         </div>
 
