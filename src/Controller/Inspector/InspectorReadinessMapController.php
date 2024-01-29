@@ -21,6 +21,7 @@ use App\Services\FileService;
 use App\Services\monitoringReadinessMapService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use function PHPUnit\Framework\throwException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -743,7 +744,7 @@ class InspectorReadinessMapController extends AbstractController
      */
     public function getMonitoring(int $id, EntityManagerInterface $em, monitoringReadinessMapService $service)
     {
-
+        throw new Exception(403);
         $user = $em->getRepository(User::class )->find($id);
         return $service->getCertificate($user);
         return $this->redirectToRoute('app_inspector_readiness_map', ['id'=> $id]);
