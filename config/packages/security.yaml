@@ -12,10 +12,11 @@ security:
         ROLE_INSPECTOR: [ ROLE_INSPECTOR, ROLE_ALLOWED_TO_SWITCH  ]
         ROLE_REGION: [ ROLE_REGION ]
         ROLE_JOURNALIST: [ ROLE_JOURNALIST ]
-        ROLE_ADMIN: [ ROLE_USER, ROLE_INSPECTOR, ROLE_REGION, ROLE_JOURNALIST ]
+        ROLE_ADMIN: [ ROLE_USER, ROLE_INSPECTOR, ROLE_REGION, ROLE_JOURNALIST, ROLE_FINANCIAL ]
         ROLE_SUPERADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
         ROLE_DISCIPLINE: [ ROLE_DISCIPLINE ]
         ROLE_DIRECTORATE: [ ROLE_DIRECTORATE ]
+        ROLE_FINANCIAL: [ ROLE_FINANCIAL ]
 
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
@@ -64,6 +65,7 @@ security:
          - { path: ^/smi, roles: [ROLE_SMI] }
          - { path: ^/download, roles: ROLE_INSPECTOR }
          - { path: ^/download, roles: ROLE_REGION }
+         - { path: ^/financial, roles: ROLE_FINANCIAL }
 
 when@test:
     security:

@@ -1,0 +1,194 @@
+{% extends 'default/base.html.twig' %}
+{% block styles %}
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet">
+    <style>
+        .flex-container {
+            display: flex;
+            align-items: flex-end;
+            height: 100%;
+            flex-flow: column;
+        }
+
+        .flex-container > a {
+            min-width: 100%;
+        }
+
+        .contact-box-content {
+            min-height: 400px;
+        }
+
+        .contact-box {
+            border: 2px solid white;
+            border-radius: 5px;
+            min-height: 100%;
+        }
+
+        .card-hover {
+            border: 2px solid #38a3dd;
+        }
+        #tag-list{
+            min-width: 100%;
+        }
+        .bootstrap-tagsinput{
+            min-width: 100%;
+        }
+        .bootstrap-tagsinput > input{
+            min-width: 100%;
+        }
+        #result {
+            border: 1px dotted #ccc;
+            padding: 3px;
+            z-index: 800;
+            position: absolute;
+            background-color: white;
+            width: 100%;
+        }
+        #result ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        #result ul li {
+            padding: 5px 0;
+        }
+        #result ul li:hover {
+            background: #eee;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="wrapper wrapper-content animated fadeInRight col-sm-10 offset-sm-1 ">
+        <div class="row">
+            <div class="ibox-content block-shadow col-lg-12  mb-4">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2 style="font-weight: bold; margin-bottom: -1rem">Поиск</h2>
+                        <div class="ibox-tools">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content ">
+                    {{ form_start(form) }}
+                    <label>Базовая ОО</label>
+                    {{ form_widget(form.search) }}
+                    <div id="result"></div>
+                    <label>Субъект РФ</label>
+                    {{ form_widget(form.rf_subject) }}
+
+                    <label>Год создания кластера</label>
+                    {{ form_widget(form.year) }}
+
+
+                    <hr>
+
+                    <button class="btn btn-success mt-3 " typy="submit">
+                        <i class="fa fa-search"></i>
+                        Найти
+                    </button>
+
+                    <a href="{{ app.request.pathInfo }}">
+                        <button class="btn mt-3" type="button">
+                            Сбросить фильтр
+                        </button>
+                    </a>
+
+
+                    {#{{ form_widget(form.submit) }}#}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            <div class="row col-lg-12">
+
+                {% for i in pagination %}
+                    {% set buttons %}
+
+                    {% endset %}
+                    {{ include('financial_role/card.html.twig', {'i': i}) }}
+                {% endfor %}
+
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="navigation">
+                {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+    <script src="{{ asset('js/plugins/typehead/bootstrap3-typeahead.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            let boxes = $('.contact-box');
+
+            boxes.hover(
+                (e) => {
+                    $(e.target).closest('.contact-box').addClass('card-hover');
+                },
+                (e) => {
+                    $(e.target).closest('.contact-box').removeClass('card-hover');
+                });
+
+            $('.select2').select2({
+                closeOnSelect: true,
+                placeholder: "...",
+                allowHtml: true,
+                allowClear: true
+            });
+        });
+    </script>
+    <script>
+
+        $(document).ready(function(){
+            let searchBar = $('.search-bar');
+            $('#result').hide();
+
+
+
+            searchBar.on('keyup', function () {
+                let val = $(this).val();
+
+                res = document.getElementById("result");
+                res.innerHTML = '';
+                let list = '';
+                if (val.length > 2)
+                    getEdu(val).then(function (result) {
+                        console.log(result);
+                        $('#result').show();
+                        let terms = result;
+
+                        for (i=0; i<terms.length; i++) {
+                            list += '<li class="search-item">' + terms[i].educational_organization + '</li>';
+                        }
+                        res.innerHTML = '<ul class="search-list">' + list + '</ul>';
+
+                        $('.search-item').on('click', function () {
+                            searchBar.val($(this).text());
+                            $('#result').hide();
+                        });
+                    });
+            });
+
+            async function getEdu(search) {
+                const response = await fetch('/api/base-org-research/'+search);
+                const edus = await response.json();
+                return JSON.parse(edus);
+            }
+
+        });
+
+
+
+    </script>
+
+
+{% endblock %}

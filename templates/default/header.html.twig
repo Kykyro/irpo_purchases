@@ -25,7 +25,7 @@
 
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css?v=1.1') }}" rel="stylesheet">
-    <link href="{{ asset('css/my_style.css?v=1.1') }}" rel="stylesheet">
+    <link href="{{ asset('css/my_style.css?v=1.2') }}" rel="stylesheet">
 
 
 
@@ -313,6 +313,11 @@
                         <a href="{{ path("app_users_tags") }}"><i class="fa fa-bandcamp left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Теги </span></a>
                     </li>
 
+                {% endif %}
+                {% if is_granted('ROLE_FINANCIAL') %}
+                    <li > {# class="active" #}
+                        <a href="{{ path("app_financial_role") }}"><i class="fa fa-edit left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Кластеры</span></a>
+                    </li>
                 {% endif %}
                 {% if is_granted('ROLE_USER') %}
                     <li>

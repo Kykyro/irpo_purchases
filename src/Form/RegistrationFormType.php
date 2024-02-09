@@ -86,6 +86,10 @@ class RegistrationFormType extends AbstractType
                             'Дирекция' => array
                             (
                                 'Дирекция' => 'ROLE_DIRECTORATE'
+                            ),
+                            'Финансовая роль' => array
+                            (
+                                'Финансовая роль' => 'ROLE_FINANCIAL'
                             )
                         )
                     ,
