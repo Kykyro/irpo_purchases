@@ -86,6 +86,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $userTags;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SheetWorkzone::class, mappedBy="user")
+     */
+    private $sheetWorkzones;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -114,6 +119,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->readinessMapArchives = new ArrayCollection();
         $this->repairDumps = new ArrayCollection();
         $this->userTags = new ArrayCollection();
+        $this->sheetWorkzones = new ArrayCollection();
     }
 
 
@@ -697,6 +703,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->userTags->removeElement($userTag)) {
             $userTag->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SheetWorkzone>
+     */
+    public function getSheetWorkzones(): Collection
+    {
+        return $this->sheetWorkzones;
+    }
+
+    public function addSheetWorkzone(SheetWorkzone $sheetWorkzone): self
+    {
+        if (!$this->sheetWorkzones->contains($sheetWorkzone)) {
+            $this->sheetWorkzones[] = $sheetWorkzone;
+            $sheetWorkzone->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSheetWorkzone(SheetWorkzone $sheetWorkzone): self
+    {
+        if ($this->sheetWorkzones->removeElement($sheetWorkzone)) {
+            // set the owning side to null (unless already changed)
+            if ($sheetWorkzone->getUser() === $this) {
+                $sheetWorkzone->setUser(null);
+            }
         }
 
         return $this;

@@ -6,15 +6,11 @@
                 <div class="ibox-title">
                     <h5>Инфо о кластере</h5>
                     <div class="ibox-tools">
-
                         <i class="fa fa-chevron-up"></i>
-
-
                     </div>
                 </div>
             </a>
             <div class="ibox-content">
-                {#{% set user_info = user.getUserInfo() %}#}
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
@@ -98,12 +94,12 @@
                                 Карта готовности
                             </button>
                         </a>
-                        {#<a href="{{ path('app_login', {'_switch_user': user_info.getId()}) }}">#}
-                            {#<button class="btn btn-warning mb-2 child">#}
-                                {#<div class="fa fa-leaf"></div>#}
-                                {#Переключиться#}
-                            {#</button>#}
-                        {#</a>#}
+                        <a href="{{ path('app_curator_infrastructure_sheet', {'id': user_info.getId()}) }}">
+                            <button class="btn btn-light-green mb-2">
+                                <div class="fa fa-table"></div>
+                                Инфраструктурный лист
+                            </button>
+                        </a>
                     </div>
 
                 {% endif %}

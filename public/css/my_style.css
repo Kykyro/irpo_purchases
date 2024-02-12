@@ -197,8 +197,14 @@ input[type="text"], textarea {
 table {
     color: black;
 }
-
-
+.btn-light-green{
+    background-color: #91c264;
+    color: #fff;
+}
+.card-btns{
+    font-size: 12pt;
+    font-weight: 900;
+}
 
 
 

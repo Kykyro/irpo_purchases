@@ -16,6 +16,7 @@
     </style>
 {% endblock %}
 {% block content %}
+    {% import _self as formMacros %}
 
     <div class="row">
         <div class="col-sm-10 offset-sm-1 mt-3 mb-5">
@@ -29,16 +30,46 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>
-                        Общая зона
+                        {{ type }}
                     </h5>
                 </div>
+                {% macro printInfrastructureSheets(sheet, dis) %}
+                    
+                    <td>
+                        {{ form_widget(sheet.name) }}
+                    </td>
+                    <td>
+                        {{ form_widget(sheet.specification) }}
+                    </td>
+                    <td>
+                        {{ form_widget(sheet.type) }}
+                    </td>
+                    <td>
+                        {{ form_widget(sheet.count, {'type':'number'}) }}
+                    <td>
+
+                    </td>
+                    <td>
+                        {{ form_widget(sheet.resultCount, {'type':'number'}) }}
+                    </td>
+                    <td>
+                        {{ form_widget(sheet.funds) }}
+                    </td>
+                    <td>
+                        {% if not sheet.vars.data %}
+                            <button class="btn btn-danger delete-alert delete-row" type="button">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        {% endif %}
+                    </td>
+
+                    {{ form_widget(sheet.ZoneGroup) }}
+                {% endmacro %}
                 <div class="ibox-content">
                     {{ form_start(form) }}
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-
-                            <td class="">№</td>
                             <td class="col-md-3">Наименование	</td>
                             <td class="col-md-4">Краткие (рамочные) технические характеристики</td>
                             <td class="col-md-2">Вид</td>
@@ -47,49 +78,44 @@
                             <td class="col-md-1">Итоговое количество</td>
                             <td class="col-md-1">Источник финансирования</td>
                             <td></td>
-
                         </tr>
                         </thead>
-                        <tbody>
-                        {% for i in form.infrastructureSheets %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>
-                                {{ form_widget(i.name) }}
-                            </td>
-                            <td>
-                                {{ form_widget(i.technicalSpecifications) }}
-                            </td>
-                            <td>
-                                {{ form_widget(i.type) }}
-                            </td>
-                            <td>
-                                {{ form_widget(i.count, {'type':'number'}) }}
-                            <td>
-                                {{ form_widget(i.unit) }}
-                            </td>
-                            <td>
-                                {{ form_widget(i.resultCount, {'type':'number'}) }}
-                            </td>
-                            <td>
-                                {{ form_widget(i.sourceOfFinancing) }}
-                            </td>
-                            <td>
-                                <button class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        <tbody
+                                class="sheets " id="sheets"
+                                data-index="{{ form.workzoneEquipment|length > 0 ? form.workzoneEquipment|last.vars.name + 1 : 0 }}"
+                                data-prototype='{{ formMacros.printInfrastructureSheets(form.workzoneEquipment.vars.prototype|e) }}'
+                                data-widget-tags="{{
+                                '<tr></tr>'|e
+                                }}"
+                                data-widget-counter="{{ form.workzoneEquipment|length }}"
+                        >
+                        {% for i in form.workzoneEquipment %}
+                            {% if i.vars.value.getZoneGroup != type %}
+                                {% set dis = false %}
+                            {% else %}
+                                {% set dis = false %}
+                            {% endif %}
+                                <tr >
+                                    <tr {% if dis %} style="display: none" {% endif %}>
+                                        {{ formMacros.printInfrastructureSheets(i, dis) }}
+                                    </tr>
+                                </tr>
+
                         {% endfor %}
                         </tbody>
                     </table>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary add-another-collection-widget"
+                            type="button"
+                            data-list-selector="#sheets"
+                            data-list="#sheets"
+                            data-zone-type="{{ type }}"
+                    >
                         <i class="fa fa-plus"></i>
                         Добавить строку
                     </button>
                     <hr>
 
-                    <button class="btn btn-success">
+                    <button class="btn btn-success" type="submit">
                         <i class="fa fa-save"></i>
                         Сохранить
                     </button>
@@ -100,4 +126,57 @@
         </div>
 
     </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            $("textarea").each(function(textarea) {
+                $(this).height( $(this)[0].scrollHeight );
+            });
+
+            $('#rows-data').height( '200px' );
+            $('#rows-data-2').height( '200px' );
+            $('#rows-data-3').height( '200px' );
+
+
+
+
+            let $wrapper = $('.sheets');
+            $wrapper.on('click', '.js-remove-sheets', function(e) {
+                e.preventDefault();
+                $(this).closest('tr')
+                    .fadeOut()
+                    .remove();
+            });
+
+            function addRow()
+            {
+                let listSelector = $($(this).attr('data-list-selector'));
+                let list = $($(this).attr('data-list'));
+                let zoneType = $(this).attr('data-zone-type');
+                console.log(zoneType);
+
+                let counter = listSelector.data('widget-counter');
+
+                let newWidget = listSelector.attr('data-prototype');
+
+                counter++;
+                newWidget = newWidget.replace(/__name__/g, counter);
+
+                listSelector.data('widget-counter', counter);
+
+                let newElem = $(listSelector.attr('data-widget-tags')).html(
+                    listSelector.attr('data-delete-btn') +
+                    newWidget +
+                    '</div>'
+                );
+
+                newElem.appendTo(list);
+console.log(counter);
+                $('#infrastructure_sheet_form__workzoneEquipment_'+counter+'_ZoneGroup').val(zoneType);
+            }
+
+            $('.add-another-collection-widget').click(addRow);
+        });
+    </script>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Form\InfrastructureSheets;
 use App\Entity\ClusterZone;
 use App\Entity\User;
 
+use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -30,29 +31,12 @@ class infrastructureSheetForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('infrastructureSheets', CollectionType::class, [
+            ->add('workzoneEquipment', CollectionType::class, [
                 'entry_type' => equipmentType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
-
-            ]
-            )
-
-//            ->add('submit', SubmitType::class,[
-//
-//                'attr' => [
-//                    'class' => 'btn btn-primary'
-//                ],
-//                'label' => 'Сохранить'
-//
-//            ])
+                'label' => false,
+            ])
         ;
     }
-//    public function configureOptions(OptionsResolver $resolver): void
-//    {
-//        $resolver->setDefaults([
-//            'data_class' => ClusterZone::class,
-//        ]);
-//    }
-
 }

@@ -672,12 +672,19 @@ class certificateByClustersService extends AbstractController
             $edicationOrganization_arr = array_merge($edicationOrganization_arr,
                 (is_null($user_info->getListOfEdicationOrganization())) ? [] : $user_info->getListOfEdicationOrganization());
             $UGPS_arr = array_merge($UGPS_arr,  (is_null($user_info->getUGPS()) ? [] : $user_info->getUGPS()));
-            $zone_arr = array_merge($zone_arr,  (is_null($user_info->getZone()) ? [] : $user_info->getZone()));
+
+            if ($user_info->getYear() < 2023)
+                $zone_arr = array_merge($zone_arr,  (is_null($user_info->getZone()) ? [] : $user_info->getZone()));
+            else
+                $zone_arr = array_merge($zone_arr,  (is_null($user->getSortedWorkZones()) ? [] : $user->getSortedWorkZones()));
 //            $anotherOrganization_arr = array_merge($anotherOrganization_arr,  $user_info->getListOfAnotherOrganization());
 
             $_ugps = $user_info->getUGPS();
             $_employeers = $user_info->getListOfEmployers();
-            $_zones = $user_info->getZone();
+            if ($user_info->getYear() < 2023)
+                $_zones = $user_info->getZone();
+            else
+                $_zones = $user->getSortedWorkZones();
 
             if(count($ugps) > 0)
             {
@@ -712,7 +719,7 @@ class certificateByClustersService extends AbstractController
                     $user_info->getFinancingFundsOfSubject() * 1000, // Объём финансирования из средств субъекта РФ (руб.)
                     $user_info->getExtraFundsOO() * 1000, // Объём финансирования из средств субъекта РФ (руб.)
                     $this->arrayToStringList( $_ugps), // Наименование профессий и специальностей, реализуемых в кластере
-                    $this->arrayToStringList( $_zones), // Зоны по виду работ, созданные в рамках проекта
+                    $user_info->getYear() < 2023 ? $this->arrayToStringList( $_zones) : $this->workzoneToString($_zones), // Зоны по виду работ, созданные в рамках проекта
                     $this->arrayToStringList( $user_info->getListOfAnotherOrganization()), // Иные организации
                     $user_info->getYear(),
                     $user_info->getCity()
@@ -744,7 +751,7 @@ class certificateByClustersService extends AbstractController
             "=SUM(L2:L$index)",
             "=SUM(M2:M$index)",
             count(array_unique($UGPS_arr)),
-            count(array_unique($zone_arr)),
+            count($zone_arr),
 
         ];
         $result_row_title = [
@@ -823,6 +830,25 @@ class certificateByClustersService extends AbstractController
             $index++;
         }
 //        }
+
+
+
+        return $str;
+    }
+
+    public function workzoneToString($arr)
+    {
+        if(is_null($arr))
+            return '';
+        $str = "";
+        $index = 1;
+
+        foreach ($arr as $a)
+        {
+            $str = $str.$a->getName()."\n";
+            $index++;
+        }
+
 
 
 

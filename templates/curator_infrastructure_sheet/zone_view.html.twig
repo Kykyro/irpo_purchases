@@ -1,0 +1,58 @@
+{% extends 'default/base.html.twig' %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    {#{{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}#}
+
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 mt-3">
+            <a href="{{ path('app_curator_infrastructure_sheet', {'id': zone.getUser().getId()}) }}">
+                <button class="btn btn-outline-dark">
+                    <i class="fa fa-arrow-left"></i>
+                    Назад
+                </button>
+            </a>
+            <div class="ibox mt-1">
+                <div class="ibox-title">
+                    <h5>
+                        {{ zone.getName() }}
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    {% for group in zone.getWorkzoneEquipmentByGroup() %}
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td colspan="10" class="text-center">
+                                    <h3>
+                                        {{ group[0].getZoneGroup()}}
+                                    </h3>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1">№ п\п</td>
+                                <td class="col-md-5">Наименование</td>
+                                <td class="col-md-5"></td>
+                                <td class="col-md-1"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in group %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ i.getName() }}</td>
+                                <td>{{ i.getZoneGroup() }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

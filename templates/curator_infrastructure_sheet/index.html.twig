@@ -1,0 +1,77 @@
+{% extends 'default/base.html.twig' %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    {{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}
+    {% if workzones|length == 0 %}
+    <div class="row">
+        <div class="col-sm-4 offset-sm-4">
+            <div class="panel panel-warning text-center">
+                <div class="panel-heading">
+                    <i class="fa fa-warning"></i> Внимание
+                </div>
+                <div class="panel-body">
+                    Инфраструктурных листов не обнаружено
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 mt-3">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Инфраструктурный лист
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="col-md-1">№ п\п</td>
+                                <td class="col-md-5">Наименование</td>
+                                <td class="col-md-5">УГПС</td>
+                                <td class="col-md-1"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in workzones %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ i.getName() }}</td>
+                                <td>{{ i.getFGOS() }}</td>
+                                <td>
+                                    <a href="{{ path('app_curator_infrastructure_sheet_view', {'id': i.getId()}) }}">
+                                        <button class="btn btn-outline-dark col-sm-12">
+                                            <i class="fa fa-search"> Просмотр</i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <a href="#">
+                        <button class="btn btn-primary col-sm-12">
+                            <i class="fa fa-download"></i>
+                            Скачать таблицу
+                        </button>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

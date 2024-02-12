@@ -88,7 +88,7 @@
             </div>
         </div>
 
-        <div class="contact-box-footer">
+        <div class="contact-box-footer card-btns">
 
             <div class="flex-container" style="overflow: hidden">
                 <a href="{{ path('app_inspector_show_info_about_cluster', {'id': i.getId()}) }}">
@@ -121,18 +121,6 @@
                     </a>
                 {% endif %}
                 {% if isInspector %}
-                    {#<a href="{{ path('app_inspector_infrastructure_sheet_upload', {'id': i.getId()}) }}">#}
-                    {#<button class="btn btn-primary col-lg-12 mb-2">#}
-                    {#<div class="fa fa-upload"></div>#}
-                    {#Загрузить ИЛ#}
-                    {#</button>#}
-                    {#</a>#}
-                    {#<a href="{{ path('app_inspector_infrastructure_sheet_region_view', {'id': i.getId()}) }}">#}
-                    {#<button class="btn btn-info col-lg-12 mb-2">#}
-                    {#<div class="fa fa-search"></div>#}
-                    {#Просмотр истории ИЛов#}
-                    {#</button>#}
-                    {#</a>#}
                     <a href="{{ path('app_inspector_show_purchases', {'id': i.getId()}) }}">
                         <button class="btn btn-info col-lg-12 mb-2">
                             <div class="fa fa-archive"></div>
@@ -155,6 +143,12 @@
                         <button class="btn btn-primary col-lg-12 mb-2">
                             <div class="fa fa-check-circle"></div>
                             Карта готовности
+                        </button>
+                    </a>
+                    <a href="{{ path('app_curator_infrastructure_sheet', {'id': i.getId()}) }}">
+                        <button class="btn btn-light-green col-lg-12 mb-2">
+                            <div class="fa fa-table"></div>
+                            Инфраструктурный лист
                         </button>
                     </a>
                     <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">

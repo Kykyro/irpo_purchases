@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Region;
 
+use App\Entity\SheetWorkzone;
+use App\Entity\WorkzoneEquipment;
 use App\Form\InfrastructureSheets\infrastructureSheetForm;
+use App\Form\InfrastructureSheets\SheetWorkzoneForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -13,43 +16,59 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClusterInfrastructureSheetController extends AbstractController
 {
     /**
-     * @Route("/region/infrastructure-sheet/edit/{id}", name="app_cluster_infrastructure_sheet_edit")
+     * @Route("/region/infrastructure-sheet/edit/{type}/{id}", name="app_cluster_infrastructure_sheet_edit")
      */
-    public function edit(Request $request, EntityManagerInterface $em, int $id): Response
+    public function edit(Request $request, EntityManagerInterface $em, int $id, string $type): Response
     {
-        $data = [
-            'infrastructureSheets' => [
-                0 => [
-                    'name' => 'aaaa'
-                ]
-            ]
-        ];
-        $form = $this->createForm(infrastructureSheetForm::class, $data);
+        $sheet = $em->getRepository(SheetWorkzone::class)->find($id);
+        $form = $this->createForm(infrastructureSheetForm::class, $sheet->getWorkzoneEquipmentByType($type));
 
+        $form->handleRequest($request);
 
+        if($form->isSubmitted() and $form->isValid())
+        {
+            foreach ($form->getData()['workzoneEquipment'] as $i)
+            {
+                if(!$i->getSheet())
+                {
+                    $i->setSheet($sheet);
+                    $i->setZoneGroup($type);
+                }
 
+                $em->persist($i);
+            }
+            $em->persist($sheet);
+            $em->flush();
+        }
 
         return $this->render('cluster_infrastructure_sheet/edit.html.twig', [
             'controller_name' => 'ClusterInfrastructureSheetController',
             'form' => $form->createView(),
+            'type' => $type
         ]);
     }
-    /**
-     * @Route("/region/infrastructure-sheet/edit-requirements/{id}", name="app_cluster_infrastructure_sheet_edit_requirements")
-     */
+
+
     public function editRequirements(Request $request, EntityManagerInterface $em, int $id): Response
     {
         return $this->render('cluster_infrastructure_sheet/edit_requirements.html.twig', [
             'controller_name' => 'ClusterInfrastructureSheetController',
         ]);
     }
+
     /**
      * @Route("/region/infrastructure-sheet", name="app_cluster_infrastructure_sheet")
      */
-    public function index(): Response
+    public function index(EntityManagerInterface $em): Response
     {
+        $user = $this->getUser();
+        $zones = $em->getRepository(SheetWorkzone::class)->findBy([
+           'user' =>  $user->getId()
+        ]);
+
         return $this->render('cluster_infrastructure_sheet/index.html.twig', [
             'controller_name' => 'ClusterInfrastructureSheetController',
+            'zones' => $zones
         ]);
     }
 
@@ -60,27 +79,23 @@ class ClusterInfrastructureSheetController extends AbstractController
     public function editZone(Request $request, EntityManagerInterface $em, int $id = null): Response
     {
 
-        $form = $this->createFormBuilder()
-            ->add('name', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Наименование зоны:',
+        if($id)
+        {
+            $zone = $em->getRepository(SheetWorkzone::class)->find($id);
+        }
+        else
+        {
+            $zone = new SheetWorkzone($this->getUser());
+        }
 
-            ])
-            ->add('numberOfWorkplaces', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Кол-во рабочих мест:',
-            ])
-            ->getForm();
+        $form = $this->createForm(SheetWorkzoneForm::class, $zone);
 
         $form->handleRequest($request);
         if($form->isSubmitted() and $form->isValid())
         {
 
-
+            $em->persist($zone);
+            $em->flush();
 
 
             return $this->redirectToRoute('app_cluster_infrastructure_sheet');

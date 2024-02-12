@@ -11,6 +11,7 @@ use App\Entity\ClusterPerfomanceIndicators;
 use App\Entity\CluterDirector;
 use App\Entity\EmployersContact;
 use App\Entity\ResponsibleContact;
+use App\Entity\WorkzoneEquipment;
 use App\Entity\ZoneInfrastructureSheet;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -26,30 +27,27 @@ class equipmentType  extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
-
-
             ->add('name', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
+                    'oninput' => 'this.style.height = "";this.style.height = this.scrollHeight + "px"',
                 ],
-
                 'required'   => false,
-                'label' => false
+                'label' => false,
             ])
-            ->add('technicalSpecifications', TextareaType::class, [
+            ->add('specification', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
-
+                    'oninput' => 'this.style.height = "";this.style.height = this.scrollHeight + "px"',
                 ],
-
                 'required'   => false,
                 'label' => false
             ])
             ->add('type', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control',
-
                 ],
                 'choices'  => [
                     'Мебель' => 'furniture',
@@ -62,7 +60,8 @@ class equipmentType  extends AbstractType
                 'expanded' => false,
 
                 'required'   => false,
-                'label' => false
+                'label' => false,
+                'mapped' => false
             ])
             ->add('count', TextType::class, [
                 'attr' => [
@@ -73,15 +72,16 @@ class equipmentType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
-            ->add('unit', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'type' => 'number'
-                ],
-
-                'required'   => false,
-                'label' => false
-            ])
+//            ->add('unit', TextType::class, [
+//                'attr' => [
+//                    'class' => 'form-control',
+//                    'type' => 'number'
+//                ],
+//
+//                'required'   => false,
+//                'label' => false,
+//                'mapped' => false
+//            ])
             ->add('resultCount', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -89,9 +89,10 @@ class equipmentType  extends AbstractType
                 ],
 
                 'required'   => false,
-                'label' => false
+                'label' => false,
+                'mapped' => false
             ])
-            ->add('sourceOfFinancing', ChoiceType::class, [
+            ->add('funds', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control',
 
@@ -110,15 +111,21 @@ class equipmentType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
+            ->add('ZoneGroup', HiddenType::class,[
+                'attr' => [
+                    'class' => 'form-control',
+                ],
 
-
+                'required'   => false,
+                'label' => false,
+            ])
         ;
     }
 
-//    public function configureOptions(OptionsResolver $resolver): void
-//    {
-//        $resolver->setDefaults([
-//            'data_class' => EmployersContact::class,
-//        ]);
-//    }
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => WorkzoneEquipment::class,
+        ]);
+    }
 }
