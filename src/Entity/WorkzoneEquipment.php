@@ -52,6 +52,11 @@ class WorkzoneEquipment
      */
     private $zoneGroup;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=WorkzoneEqupmentUnit::class, inversedBy="workzoneEquipment")
+     */
+    private $unit;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,18 @@ class WorkzoneEquipment
     public function setZoneGroup(?string $zoneGroup): self
     {
         $this->zoneGroup = $zoneGroup;
+
+        return $this;
+    }
+
+    public function getUnit(): ?WorkzoneEqupmentUnit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?WorkzoneEqupmentUnit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

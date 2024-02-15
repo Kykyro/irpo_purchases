@@ -21,7 +21,13 @@ class ClusterInfrastructureSheetController extends AbstractController
     public function edit(Request $request, EntityManagerInterface $em, int $id, string $type): Response
     {
         $sheet = $em->getRepository(SheetWorkzone::class)->find($id);
-        $form = $this->createForm(infrastructureSheetForm::class, $sheet->getWorkzoneEquipmentByType($type));
+        $form = $this->createForm(infrastructureSheetForm::class, $sheet->getWorkzoneEquipmentByType($type),
+            [
+                'vars' => [
+                    'type' => $type
+                ]
+            ]
+        );
 
         $form->handleRequest($request);
 

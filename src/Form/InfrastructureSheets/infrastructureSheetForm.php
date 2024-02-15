@@ -30,13 +30,27 @@ class infrastructureSheetForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('workzoneEquipment', CollectionType::class, [
                 'entry_type' => equipmentType::class,
-                'entry_options' => ['label' => false],
+                'entry_options' => [
+                    'label' => false,
+                    'vars' => [
+                        'type' => $options['vars']['type']
+                    ]
+                ],
                 'allow_add' => true,
                 'label' => false,
+
             ])
         ;
+    }
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        // ...
+        $resolver->setRequired('vars');
+        // type validation - User instance or int, you can also pick just one.
+//        $resolver->setAllowedTypes('user', array(User::class, 'int'));
     }
 }

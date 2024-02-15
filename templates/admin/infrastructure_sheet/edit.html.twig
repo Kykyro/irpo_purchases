@@ -1,0 +1,27 @@
+{% extends 'default/base.html.twig' %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-sm-8 offset-sm-2">
+
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        редактирование
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                  {{ form_start(form) }}
+                    <button class="btn">
+                        <i class="fa fa-check"></i>
+                    </button>
+                  {{ form_end(form) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

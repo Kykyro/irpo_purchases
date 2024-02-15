@@ -8,7 +8,7 @@
 <div class="row mt-3">
 
     <div class="col-sm-8 offset-sm-2">
-        <a href="{{ path('app_admin') }}">
+        <a href="{{ path('app_cluster_infrastructure_sheet_settings_menu') }}">
             <button class="btn btn-outline-dark">
                 <i class="fa fa-arrow-left"></i>
                 Назад
@@ -17,22 +17,22 @@
         <div class="ibox">
             <div class="ibox-title">
                 <h5>
-                   Тип оборудования
+                   Единицы измерения
                 </h5>
             </div>
             <div class="ibox-content">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <td>ID</td>
-                            <td>Наименование</td>
-                            <td>Состояние</td>
-                            <td></td>
-                            <td>Действия</td>
+                            <td class="col-md-1">ID</td>
+                            <td class="col-md-2">Наименование</td>
+                            <td class="col-md-2">Состояние</td>
+                            <td class="col-md-2"></td>
+                            <td class="col-md-3">Действия</td>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for i in types %}
+                        {% for i in unites %}
                             <tr>
                                 <td>{{ i.getId() }}</td>
                                 <td>{{ i.getName() }}</td>
@@ -45,9 +45,21 @@
                                 </td>
                                 <td>{{ i.getType() }}</td>
                                 <td>
-                                    <a href="{{ path('app_cluster_infrastructure_sheet_settings_change_hide', {'id': i.getId()}) }}">
+                                    <a href="{{ path('app_cluster_infrastructure_sheet_settings_change_hide_units', {'id': i.getId()}) }}">
                                         <button class="btn">
                                             Скрыть
+                                        </button>
+                                    </a>
+                                    <a href="{{ path('app_cluster_infrastructure_sheet_settings_edit_units', {'id': i.getId()}) }}">
+                                        <button class="btn">
+                                            <i class="fa fa-edit"></i>
+                                            Редактировать
+                                        </button>
+                                    </a>
+                                    <a href="#">
+                                        <button class="btn btn-danger delete-alert">
+                                            <i class="fa fa-trash"></i>
+                                            Удалить
                                         </button>
                                     </a>
                                 </td>

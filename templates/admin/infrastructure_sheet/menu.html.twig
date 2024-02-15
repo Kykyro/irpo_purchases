@@ -1,0 +1,39 @@
+{% extends 'default/base.html.twig' %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-sm-8 offset-sm-2">
+            <a href="{{ path('app_admin') }}">
+                <button class="btn btn-outline-dark">
+                    <i class="fa fa-arrow-left"></i>
+                    Назад
+                </button>
+            </a>
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Инфраструктурный лист настройки
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <a href="{{ path('app_cluster_infrastructure_sheet_settings_equipment_types') }}">
+                        <button class="btn btn-outline-dark">
+                            <i></i>
+                            Тип оборудования
+                        </button>
+                    </a>
+                    <a href="{{ path('app_cluster_infrastructure_sheet_settings_equipment_units') }}">
+                        <button class="btn btn-outline-dark">
+                            <i></i>
+                            Единицы измерения
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
