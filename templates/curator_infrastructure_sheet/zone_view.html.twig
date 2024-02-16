@@ -1,13 +1,18 @@
 {% extends 'default/base.html.twig' %}
 
 {% block styles %}
+    <style>
+        .is-done{
+            background-color: #74d079;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-    {#{{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}#}
+    {{ include('default/cluster_info.html.twig', {'user_info': zone.getUser().getUserInfo()}) }}
 
     <div class="row">
-        <div class="col-sm-10 offset-sm-1 mt-3">
+        <div class="col-sm-12 mt-3">
             <a href="{{ path('app_curator_infrastructure_sheet', {'id': zone.getUser().getId()}) }}">
                 <button class="btn btn-outline-dark">
                     <i class="fa fa-arrow-left"></i>
@@ -22,33 +27,60 @@
                 </div>
                 <div class="ibox-content">
                     {% for group in zone.getWorkzoneEquipmentByGroup() %}
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <td colspan="10" class="text-center">
-                                    <h3>
-                                        {{ group[0].getZoneGroup()}}
-                                    </h3>
+                        {% if group|length > 0 %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td colspan="20" class="text-center">
+                                        <h3>
+                                            {{ group[0].getZoneGroup()}}
+                                        </h3>
 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-1">№ п\п</td>
-                                <td class="col-md-5">Наименование</td>
-                                <td class="col-md-5"></td>
-                                <td class="col-md-1"></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in group %}
-                            <tr>
-                                <td>{{ loop.index }}</td>
-                                <td>{{ i.getName() }}</td>
-                                <td>{{ i.getZoneGroup() }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-0">№ п\п</td>
+                                    <td class="col-md-2">Наименование</td>
+                                    <td class="col-md-3">Краткие (рамочные) технические характеристики</td>
+                                    <td class="col-md-2">Вид</td>
+                                    <td class="col-md-0">Количество</td>
+                                    <td class="col-md-0">Единица измерения</td>
+                                    <td class="col-md-0">Итоговое количество</td>
+                                    <td class="col-md-0">Источник финансирования</td>
+                                    <td class="col-md-2">Комментарий от кластера</td>
+                                    <td class="col-md-1">Дата изменения</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in group %}
+                                <tr {% if i.isDone() %}class="is-done"{% endif %}>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ i.getName() }}</td>
+                                    <td>{{ i.getSpecification() }}</td>
+                                    <td>
+                                        {% if i.getType() %}
+                                            {{ i.getType().getName() }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ i.getCount() }}</td>
+                                    <td>
+                                        {% if i.getUnit() %}
+                                            {{ i.getUnit().getName() }}
+                                        {% endif %}
+                                    </td>
+                                    <td></td>
+                                    <td>{{ i.getFunds() }}</td>
+                                    <td>{{ i.getClusterComment() }}</td>
+                                    <td></td>
+                                    <td>
+                                        <button class="btn btn-outline-dark" data-id="{{ i.getId() }}"><i class="fa fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

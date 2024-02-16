@@ -120,6 +120,14 @@ class equipmentType  extends AbstractType
                 'required'   => false,
                 'label' => false,
             ])
+            ->add('clusterComment', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'oninput' => 'this.style.height = "";this.style.height = this.scrollHeight + "px"',
+                ],
+                'required'   => false,
+                'label' => false,
+            ])
         ;
     }
 

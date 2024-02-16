@@ -165,7 +165,11 @@ class SheetWorkzone
             ->orderBy(['zoneGroup' => 'DESC']);
 
         $equipment = $this->workzoneEquipment->matching($criteria);
-        $arr = [];
+        $arr = ['Общая зона' => [],
+            'Рабочее место преподавателя' => [],
+            'Рабочее место учащегося' => [],
+            'Охрана труда и техника безопасности' => []
+        ];
 
         foreach ($equipment as $i)
         {
@@ -177,6 +181,9 @@ class SheetWorkzone
                 array_push($arr[$group], $i);
             }
         }
+
+
+
         return  $arr;
     }
 

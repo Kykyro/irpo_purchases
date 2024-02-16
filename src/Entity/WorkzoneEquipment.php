@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\WorkzoneEquipmentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +58,31 @@ class WorkzoneEquipment
      * @ORM\ManyToOne(targetEntity=WorkzoneEqupmentUnit::class, inversedBy="workzoneEquipment")
      */
     private $unit;
+
+    /**
+     * @ORM\OneToMany(targetEntity=EquipmentLog::class, mappedBy="equipment")
+     */
+    private $equipmentLogs;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $done;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $clusterComment;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $curatorComment;
+
+    public function __construct()
+    {
+        $this->equipmentLogs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -154,6 +181,72 @@ class WorkzoneEquipment
     public function setUnit(?WorkzoneEqupmentUnit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EquipmentLog>
+     */
+    public function getEquipmentLogs(): Collection
+    {
+        return $this->equipmentLogs;
+    }
+
+    public function addEquipmentLog(EquipmentLog $equipmentLog): self
+    {
+        if (!$this->equipmentLogs->contains($equipmentLog)) {
+            $this->equipmentLogs[] = $equipmentLog;
+            $equipmentLog->setEquipment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipmentLog(EquipmentLog $equipmentLog): self
+    {
+        if ($this->equipmentLogs->removeElement($equipmentLog)) {
+            // set the owning side to null (unless already changed)
+            if ($equipmentLog->getEquipment() === $this) {
+                $equipmentLog->setEquipment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isDone(): ?bool
+    {
+        return $this->done;
+    }
+
+    public function setDone(?bool $done): self
+    {
+        $this->done = $done;
+
+        return $this;
+    }
+
+    public function getClusterComment(): ?string
+    {
+        return $this->clusterComment;
+    }
+
+    public function setClusterComment(?string $clusterComment): self
+    {
+        $this->clusterComment = $clusterComment;
+
+        return $this;
+    }
+
+    public function getCuratorComment(): ?string
+    {
+        return $this->curatorComment;
+    }
+
+    public function setCuratorComment(?string $curatorComment): self
+    {
+        $this->curatorComment = $curatorComment;
 
         return $this;
     }
