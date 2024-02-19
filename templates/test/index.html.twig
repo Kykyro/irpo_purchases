@@ -124,7 +124,18 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript" src="{{ asset('js/map/raphael-min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/map/russian-map.js') }}"></script>
-    <script src="{{ asset('/landing/js/map_bas.js') }}"></script>
+    {#<script type="text/javascript" src="{{ asset('js/map/raphael-min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('js/map/russian-map.js') }}"></script>#}
+    {#<script src="{{ asset('/landing/js/map_bas.js') }}"></script>#}
+    <script>
+        $(document).ready(function(){
+            fetch('/x-api/employers').then(function(response) {
+                response.json().then(function(data) {
+
+                    console.log(JSON.parse(data));
+
+                })
+            });
+        });
+    </script>
 {% endblock %}

@@ -6,31 +6,40 @@ use App\Repository\EmployersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=EmployersRepository::class)
+ * @ApiResource
  */
+
 class Employers
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("api")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
+     * @Groups("api")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("api")
      */
     private $description;
 
     /**
      * @ORM\ManyToMany(targetEntity=UserInfo::class, mappedBy="employers")
+     *
      */
     private $userInfos;
 
@@ -46,36 +55,43 @@ class Employers
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("api")
      */
     private $inn;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("api")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("api")
      */
     private $altName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("api")
      */
     private $shortName;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("api")
      */
     private $OKVD;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("api")
      */
     private $OKVDadd;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("api")
      */
     private $region;
 

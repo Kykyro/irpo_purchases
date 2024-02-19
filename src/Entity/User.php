@@ -91,6 +91,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sheetWorkzones;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="user")
+     */
+    private $apiTokens;
+    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +126,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->repairDumps = new ArrayCollection();
         $this->userTags = new ArrayCollection();
         $this->sheetWorkzones = new ArrayCollection();
+        $this->apiTokens = new ArrayCollection();
     }
 
 
@@ -737,5 +744,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ApiToken>
+     */
+    public function getApiTokens(): Collection
+    {
+        return $this->apiTokens;
+    }
+
+    public function addApiToken(ApiToken $apiToken): self
+    {
+        if (!$this->apiTokens->contains($apiToken)) {
+            $this->apiTokens[] = $apiToken;
+            $apiToken->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApiToken(ApiToken $apiToken): self
+    {
+        if ($this->apiTokens->removeElement($apiToken)) {
+            // set the owning side to null (unless already changed)
+            if ($apiToken->getUser() === $this) {
+                $apiToken->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 }
