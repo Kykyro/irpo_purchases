@@ -1,0 +1,76 @@
+{% extends "admin/base.html.twig" %}
+
+{% block content %}
+
+
+
+    <div class="row d-flex justify-content-center">
+        <div class="ibox-content block-shadow">
+            <div class="row d-flex justify-content-center">
+                <h1>Регистрация нового БАСа</h1>
+            </div>
+            <div class="form-group row m-3">
+                <div class="col-sm-5 col-form-label text-left">
+                    <strong>
+                        {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.uuid) }}
+                    </strong>
+                </div>
+            </div>
+            <div class="form-group row m-3 ">
+                <div class="col-sm-5 col-form-label text-left">
+                    <strong>
+                        {{ form_row(registrationForm.plainPassword, {
+                            label: 'Пароль'
+                        }) }}
+                    </strong>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group row m-3 ">
+                <div class="col-sm-5 col-form-label text-left">
+                    {% for role in registrationForm.roles %}
+                        <strong>
+
+                            {{ form_widget(role) }}
+                            {{ form_label(role) }}
+                        </strong>
+                        <br>
+                    {% endfor %}
+
+                </div>
+            </div>
+            <hr>
+            <div class="form-group row m-3 ">
+                <div class="col-sm-12 col-form-label text-left">
+
+                    {{ form_row(registrationForm.userInfo.rf_subject) }}
+                    {{ form_row(registrationForm.userInfo.initiatorOfCreation) }}
+                    {{ form_row(registrationForm.userInfo.year) }}
+                    <hr>
+                    {{ form_row(registrationForm.userInfo.financingFundsOfSubject, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.fedFunds, {"type":"number"}) }}
+                    <hr>
+                    {{ form_row(registrationForm.userInfo.EduOrgsCount, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.studentsCount, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.programCount, {"type":"number"}) }}
+                    {{ form_row(registrationForm.userInfo.teacherCount, {"type":"number"}) }}
+
+                </div>
+            </div>
+            <hr>
+
+            <div class="form-group row m-3 ">
+                <div class="col-sm-12 col-form-label text-left d-flex justify-content-center">
+                    {{ form_row(registrationForm.submit) }}
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+
+
+{% endblock %}

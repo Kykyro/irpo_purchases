@@ -198,6 +198,16 @@ class UserInfo
      */
     private $monitoringCheckOuts;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $FedFunds;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $EduOrgsCount;
+
 
 
     function __construct()
@@ -785,6 +795,30 @@ class UserInfo
                 $monitoringCheckOut->setUserInfo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFedFunds(): ?float
+    {
+        return $this->FedFunds;
+    }
+
+    public function setFedFunds(?float $FedFunds): self
+    {
+        $this->FedFunds = $FedFunds;
+
+        return $this;
+    }
+
+    public function getEduOrgsCount(): ?int
+    {
+        return $this->EduOrgsCount;
+    }
+
+    public function setEduOrgsCount(?int $EduOrgsCount): self
+    {
+        $this->EduOrgsCount = $EduOrgsCount;
 
         return $this;
     }

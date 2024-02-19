@@ -149,6 +149,11 @@ class RegionController extends AbstractController
     public function userCabinet(): Response
     {
         $user = $this->getUser();
+        if(in_array('ROLE_BAS', $user->getRoles() ))
+        {
+            return $this->redirectToRoute('app_bas_profile');
+        }
+
         $user_info = $user->getUserInfo();
 //        dd($user_info);
         return $this->render('user_profile/base.html.twig', [

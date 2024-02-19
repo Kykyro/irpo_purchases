@@ -1,31 +1,8 @@
-{% if not app.user.getUserInfo().isAllFull() %}
-<div class="row d-flex justify-content-center m-2 animated fadeInRight">
-    <div class="col-lg-10 ">
-        <div>
-            <div class="">
-                <div class="widget yellow-bg p-lg text-center left-bar-color-text">
-                    <div class="m-b-md">
-                        <i class="fa fa-warning fa-4x"></i>
-                        <h1 class="m-xs">Предупреждение</h1>
-                        <h3 class="font-bold no-margins">
-                            Заполните общие данные!
-                        </h3>
-                        <a href="{{ path("app_profile_edit") }}">
-                            <button class="btn btn-danger m-2">
-                                Заполнить
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
+
 
 <div class="row d-flex justify-content-center animated fadeInRight">
     <div class="col-lg-10">
-        {% if not app.user.getUserInfo().isNOTAllFull() and  app.user.getUserInfo().isAccessToPurchases() %}
+        {% if app.user.getUserInfo().isAccessToPurchases() %}
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
                 <a href="{{ path("app_add_purchases_v2") }}">

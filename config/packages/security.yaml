@@ -17,6 +17,7 @@ security:
         ROLE_DISCIPLINE: [ ROLE_DISCIPLINE ]
         ROLE_DIRECTORATE: [ ROLE_DIRECTORATE ]
         ROLE_FINANCIAL: [ ROLE_FINANCIAL ]
+        ROLE_BAS: [ ROLE_BAS ]
 
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
@@ -60,7 +61,7 @@ security:
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/roiv, roles: [ROLE_SMI, ROLE_ROIV, ROLE_DIRECTORATE] }
-         - { path: ^/region, roles: [ROLE_REGION, ROLE_SMALL_CLUSTERS] }
+         - { path: ^/region, roles: [ROLE_REGION, ROLE_SMALL_CLUSTERS, ROLE_BAS] }
          - { path: ^/journalist, roles: ROLE_JOURNALIST }
          - { path: ^/inspector, roles: [ROLE_INSPECTOR, ROLE_SPECTATOR, ROLE_SMALL_CURATOR, ROLE_DISCIPLINE, ROLE_DIRECTORATE] }
          - { path: ^/analyst, roles: [ROLE_INSPECTOR, ROLE_ANALYTIC, ROLE_SMALL_CURATOR] }
