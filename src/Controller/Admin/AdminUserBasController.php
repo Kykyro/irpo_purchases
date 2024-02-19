@@ -5,11 +5,12 @@ namespace App\Controller\Admin;
 use App\Entity\ProcurementProcedures;
 use App\Entity\RfSubject;
 use App\Entity\User;
-use App\Form\RegistrationBasForm;
+
 use App\Form\RegistrationRoivFormType;
 use App\Form\UserEditFormType;
 use App\Form\RegistrationClusterFormType;
 use App\Form\UserPasswordEditFormType;
+use App\Form\Users\RegistrationBasForm;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
