@@ -22,8 +22,11 @@ class BasCuratorController extends AbstractController
 
         $query = $em->getRepository(User::class)
             ->createQueryBuilder('u')
+            ->andWhere('uf.year > :year')
+            ->leftJoin('u.user_info', 'uf')
             ->andWhere('u.roles LIKE :val')
             ->setParameter('val', "%ROLE_BAS%")
+            ->setParameter('year', 2022)
             ->orderBy('u.id', 'ASC')
 
         ;
