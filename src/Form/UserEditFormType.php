@@ -79,6 +79,14 @@ class UserEditFormType extends AbstractType
                             'Дирекция' => array
                             (
                                 'Дирекция' => 'ROLE_DIRECTORATE'
+                            ),
+                            'БАС' => array
+                            (
+                                'БАС' => 'ROLE_BAS'
+                            ),
+                            'БАС куратор' => array
+                            (
+                                'БАС куратор' => 'ROLE_CURATOR_BAS'
                             )
                         )
                     ,
