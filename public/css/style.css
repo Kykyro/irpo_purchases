@@ -9435,7 +9435,7 @@ body.md-skin {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 100vh;
+    display: inherit;
   }
   .navbar-static-side {
     z-index: 2001;
