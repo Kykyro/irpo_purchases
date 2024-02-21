@@ -21,7 +21,7 @@
                     </h5>
                 </div>
                 <div class="ibox-content">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-responsive horizontal-drag">
                         <thead>
                             <tr>
                                 <td class="col-md-5">Название</td>
@@ -64,7 +64,7 @@
                                     <form action="{{ path('app_region_certificate_upload') }}" method="post" enctype="multipart/form-data">
                                         <div class="custom-file">
                                             <input id="logo" type="file" class="custom-file-input" name="file">
-                                            <label for="logo" class="custom-file-label">Выбрать файл...</label>
+                                            <label for="logo" class="custom-file-label" style="overflow: hidden">Выбрать файл...</label>
                                         </div>
                                         <button  type="submit" class="btn btn-success col-sm-12 mt-2">
                                             <i class="fa fa-upload"></i>

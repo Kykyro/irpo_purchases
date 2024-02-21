@@ -103,7 +103,7 @@
             {% for i in myClusters %}
                 {% set cluster = i.getCluster() %}
                 {% set buttons %}
-                    <div style="margin-left: 10px">
+                    <div style="float: right; margin-bottom: 1rem">
                         <a href="{{ path('app_inspector_remove_favourite', {'id': i.getId()}) }}">
                             <button class="btn btn-danger" >
                                 Убрать из избранного

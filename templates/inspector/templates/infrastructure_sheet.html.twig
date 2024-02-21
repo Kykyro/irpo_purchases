@@ -111,17 +111,16 @@
                         {% if i.getId() in clusters %}
                             <div style="margin-left: 10px">
                                 <a href="#">
-                                    <button class="btn " disabled>
-                                        Избранное
+                                    <button class="btn glyphicon glyphicon-check    " style="float: right; margin-bottom: 1rem; color: #4cae4c; font-size: 1.5rem" disabled>
                                     </button>
                                 </a>
                             </div>
 
                         {% else %}
-                            <div style="margin-left: 10px">
+                            <div style="margin-bottom: 1rem">
                                 <a href="{{ path('app_inspector_add_favourite', {'id': i.getId()}) }}">
-                                    <button class="btn ">
-                                        Добавить в "Мои кластеры"
+                                    <button class="btn glyphicon glyphicon-paperclip" style="float: right; margin-bottom: 1rem; font-size: 1.5rem">
+
                                     </button>
                                 </a>
                             </div>

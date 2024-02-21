@@ -248,19 +248,19 @@ class RegionController extends AbstractController
         $form = $this->createFormBuilder([])
             ->add('search', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control mr-3 col-md-9'
+                    'class' => 'form-control mr-3 col-md-7'
                 ],
                 'required' => false
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-success mr-3 col-md-1'
+                    'class' => 'btn btn-success mr-3 col-md-2'
                 ],
                 'label' => 'Поиск'
             ])
             ->add('cancel', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-danger col-md-1'
+                    'class' => 'btn btn-danger col-md-2',
                 ],
                 'label' => 'Сбросить'
             ])
