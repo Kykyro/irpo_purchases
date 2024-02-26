@@ -103,13 +103,22 @@ class AdminEmployersController extends AbstractController
         {
             $data = $form->getData();
 //            dd($data);
+
             $search = $data['search'];
             $inn = $data['INN'];
-            $query = $query
-                ->andWhere('e.name LIKE :search')
-                ->setParameter('search', "%$search%")
-                ->andWhere('e.inn LIKE :inn')
-                ->setParameter('inn', "%$inn%");
+            if($search)
+            {
+                $query = $query
+                    ->andWhere('e.name LIKE :search')
+                    ->setParameter('search', "%$search%")
+                    ;
+            }
+            if($inn){
+                $query = $query
+                    ->andWhere('e.inn LIKE :inn')
+                    ->setParameter('inn', "%$inn%");
+            }
+
             if($data['employersCategories'])
             {
                 $cat = $data['employersCategories'];
