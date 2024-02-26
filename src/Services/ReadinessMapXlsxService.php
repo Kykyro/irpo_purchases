@@ -15,7 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class ReadinessMapXlsxService extends AbstractController
 {
@@ -35,10 +34,10 @@ class ReadinessMapXlsxService extends AbstractController
             ->getQuery()
             ->getResult();
     }
-    public function getUsersByYearPaginator($year, $role){
+    public function getUsersByYearPaginator($year, $role, $start=0, $end=100){
         $entity_manger = $this->getDoctrine()->getManager();
 
-        $query = $entity_manger->getRepository(User::class)->createQueryBuilder('u')
+        return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
             ->leftJoin('u.user_info', 'uf')
             ->leftJoin('uf.rf_subject', 'rf')
             ->andWhere('u.roles LIKE :role')
@@ -46,12 +45,11 @@ class ReadinessMapXlsxService extends AbstractController
             ->setParameter('role', $role)
             ->setParameter('year', $year)
             ->orderBy('rf.name', 'ASC')
-            ->setFirstResult(0)
-            ->setMaxResults(10)
+            ->setFirstResult($start)
+            ->setMaxResults($end)
             ->getQuery()
-            ;
-        $paginator = new Paginator($query);
-        return $paginator;
+            ->getResult();
+
     }
 
     public function getUsersByYearOffset($year, $role){
@@ -501,27 +499,6 @@ class ReadinessMapXlsxService extends AbstractController
                 'name'  => 'Times New Roman'
             ]
         ];
-        $today = new \DateTime('now');
-        $index = 1;
-        if($role == 'lot_1')
-        {
-            $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
-        }
-
-        else if($role == 'lot_2')
-        {
-            $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
-        }
-
-        else
-        {
-            $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
-
-            $users = $this->getUsersByYearPaginator($year, '%REGION%');
-        }
-
 
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('readiness_map_table_template_file');
@@ -554,6 +531,32 @@ class ReadinessMapXlsxService extends AbstractController
             $sheet->setCellValue('M1', 'Средний % укомплектованности учебными пособиями');
             $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'K', 'O'];
         }
+        $today = new \DateTime('now');
+        $index = 1;
+        $step = 10;
+        for($ii = 0; $ii <= 200; $ii += $step)
+        {
+
+
+        if($role == 'lot_1')
+        {
+            $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $ii, $step);
+        }
+
+        else if($role == 'lot_2')
+        {
+            $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $ii, $step);
+        }
+
+        else
+        {
+            $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
+            $users = $this->getUsersByYearPaginator($year, '%REGION%', $ii, $step);
+        }
+        if(count($users) == 0)
+            continue;
 
         foreach ($users as $user)
         {
@@ -694,6 +697,7 @@ class ReadinessMapXlsxService extends AbstractController
 
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
+        }
         }
         $end_cell = $index;
         $rangeTotal = 'A2:V'.$end_cell;
