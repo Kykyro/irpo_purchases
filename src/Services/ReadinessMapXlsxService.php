@@ -46,7 +46,7 @@ class ReadinessMapXlsxService extends AbstractController
             ->setParameter('year', $year)
             ->orderBy('rf.name', 'ASC')
             ->setFirstResult($start)
-            ->setMaxResults(30)
+            ->setMaxResults(50)
             ->getQuery()
             ->getResult();
 
