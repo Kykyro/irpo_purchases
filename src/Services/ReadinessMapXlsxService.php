@@ -34,7 +34,7 @@ class ReadinessMapXlsxService extends AbstractController
             ->getQuery()
             ->getResult();
     }
-    public function getUsersByYearPaginator($year, $role, $start=0, $end=100){
+    public function getUsersByYearPaginator($year, $role, $start=0){
         $entity_manger = $this->getDoctrine()->getManager();
 
         return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
@@ -46,7 +46,7 @@ class ReadinessMapXlsxService extends AbstractController
             ->setParameter('year', $year)
             ->orderBy('rf.name', 'ASC')
             ->setFirstResult($start)
-            ->setMaxResults($end)
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
 
@@ -486,7 +486,7 @@ class ReadinessMapXlsxService extends AbstractController
         }
 
     }
-    public function downloadTableEquipment(int $year, string $role = 'cluster', $save = false)
+    public function downloadTableEquipment(int $year, string $role = 'cluster', $save = false, $step = 10)
     {
         $styleArray = [
             'borders' => [
@@ -533,30 +533,28 @@ class ReadinessMapXlsxService extends AbstractController
         }
         $today = new \DateTime('now');
         $index = 1;
-        $step = 10;
-        for($ii = 0; $ii <= 200; $ii += $step)
-        {
+
+
 
 
         if($role == 'lot_1')
         {
             $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $ii, $step);
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $step);
         }
 
         else if($role == 'lot_2')
         {
             $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $ii, $step);
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $step);
         }
 
         else
         {
             $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYearPaginator($year, '%REGION%', $ii, $step);
+            $users = $this->getUsersByYearPaginator($year, '%REGION%', $step);
         }
-        if(count($users) == 0)
-            continue;
+
 
         foreach ($users as $user)
         {
@@ -698,7 +696,7 @@ class ReadinessMapXlsxService extends AbstractController
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
         }
-        }
+
         $end_cell = $index;
         $rangeTotal = 'A2:V'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);

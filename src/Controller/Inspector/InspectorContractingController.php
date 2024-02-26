@@ -9,12 +9,14 @@ use App\Entity\User;
 use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
 use App\Services\XlsxPerformanceIndicatorService;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,6 +73,15 @@ class InspectorContractingController extends AbstractController
                 'required'   => false,
                 'label' => 'Дата проверки'
             ])
+            ->add('step', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Шаг',
+                'empty_data' => 0,
+                'required'   => false,
+
+            ])
             ->getForm();
 
         $form->handleRequest($request);
@@ -96,7 +107,7 @@ class InspectorContractingController extends AbstractController
             }
             if($data['type'] == 4)
             {
-                return $readinessMapXlsxService->downloadTableEquipment($data['year']);
+                return $readinessMapXlsxService->downloadTableEquipment($data['year'], 'cluster', false, $data['step']);
             }
             if($data['type'] == 5){
                 return $indicatorService->generateTable($data['year'], "ROLE_REGION");
