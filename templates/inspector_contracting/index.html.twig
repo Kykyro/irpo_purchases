@@ -69,7 +69,8 @@
 {% block scripts %}
 <script>
     $(document).ready(function(){
-        $('#form_step').closest('div').hide();
+        if($('#form_type').val() != 4)
+            $('#form_step').closest('div').hide();
 
         $('#form_type').on( "change", function() {
             if($(this).val() == 4)

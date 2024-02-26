@@ -15,6 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,9 +74,12 @@ class InspectorContractingController extends AbstractController
                 'required'   => false,
                 'label' => 'Дата проверки'
             ])
-            ->add('step', TextType::class, [
+            ->add('step', NumberType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    "min"  => 0,
+                    'max' => 200,
+                    'step' => 10
                 ],
                 'label' => 'Шаг',
                 'empty_data' => 0,
