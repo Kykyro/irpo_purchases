@@ -34,7 +34,7 @@ class ReadinessMapXlsxService extends AbstractController
             ->getQuery()
             ->getResult();
     }
-    public function getUsersByYearPaginator($year, $role, $start=0){
+    public function getUsersByYearPaginator($year, $role, $start=0, $step){
         $entity_manger = $this->getDoctrine()->getManager();
 
         return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
@@ -46,7 +46,7 @@ class ReadinessMapXlsxService extends AbstractController
             ->setParameter('year', $year)
             ->orderBy('rf.name', 'ASC')
             ->setFirstResult($start)
-            ->setMaxResults(50)
+            ->setMaxResults($step)
             ->getQuery()
             ->getResult();
 
@@ -486,7 +486,7 @@ class ReadinessMapXlsxService extends AbstractController
         }
 
     }
-    public function downloadTableEquipment(int $year, string $role = 'cluster', $save = false, $step = 10)
+    public function downloadTableEquipment(int $year, string $role = 'cluster', $save = false, $start=0, $step = 10)
     {
         $styleArray = [
             'borders' => [
@@ -540,19 +540,19 @@ class ReadinessMapXlsxService extends AbstractController
         if($role == 'lot_1')
         {
             $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $step);
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $start, $step);
         }
 
         else if($role == 'lot_2')
         {
             $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $step);
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $start, $step);
         }
 
         else
         {
             $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYearPaginator($year, '%REGION%', $step);
+            $users = $this->getUsersByYearPaginator($year, '%REGION%', $start, $step);
         }
 
 

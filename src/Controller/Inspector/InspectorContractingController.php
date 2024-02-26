@@ -74,6 +74,18 @@ class InspectorContractingController extends AbstractController
                 'required'   => false,
                 'label' => 'Дата проверки'
             ])
+            ->add('start', NumberType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    "min"  => 0,
+                    'max' => 200,
+                    'step' => 10
+                ],
+                'label' => 'Старт',
+                'empty_data' => 0,
+                'required'   => false,
+
+            ])
             ->add('step', NumberType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -111,7 +123,7 @@ class InspectorContractingController extends AbstractController
             }
             if($data['type'] == 4)
             {
-                return $readinessMapXlsxService->downloadTableEquipment($data['year'], 'cluster', false, $data['step']);
+                return $readinessMapXlsxService->downloadTableEquipment($data['year'], 'cluster', false, $data['start'], $data['step']);
             }
             if($data['type'] == 5){
                 return $indicatorService->generateTable($data['year'], "ROLE_REGION");

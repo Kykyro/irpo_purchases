@@ -70,16 +70,22 @@
 <script>
     $(document).ready(function(){
         if($('#form_type').val() != 4)
+        {
+            $('#form_start').closest('div').hide();
             $('#form_step').closest('div').hide();
+        }
+
 
         $('#form_type').on( "change", function() {
             if($(this).val() == 4)
             {
                 $('#form_step').closest('div').show();
+                $('#form_start').closest('div').show();
             }
             else
             {
                 $('#form_step').closest('div').hide();
+                $('#form_start').closest('div').hide();
             }
 
         } );
