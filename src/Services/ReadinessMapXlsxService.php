@@ -467,6 +467,27 @@ class ReadinessMapXlsxService extends AbstractController
                 'name'  => 'Times New Roman'
             ]
         ];
+        $today = new \DateTime('now');
+        $index = 1;
+        if($role == 'lot_1')
+        {
+            $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
+        }
+
+        else if($role == 'lot_2')
+        {
+            $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
+        }
+
+        else
+        {
+            $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
+            $users = $this->getUsersByYear($year, '%REGION%');
+        }
+
+
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('readiness_map_table_template_file');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
