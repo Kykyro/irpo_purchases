@@ -67,5 +67,21 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
+    $(document).ready(function(){
+        $('#form_step').closest('div').hide();
 
+        $('#form_type').on( "change", function() {
+            if($(this).val() == 4)
+            {
+                $('#form_step').closest('div').show();
+            }
+            else
+            {
+                $('#form_step').closest('div').hide();
+            }
+
+        } );
+    });
+</script>
 {% endblock %}
