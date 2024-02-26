@@ -15,12 +15,46 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class ReadinessMapXlsxService extends AbstractController
 {
 
 
     public function getUsersByYear($year, $role){
+        $entity_manger = $this->getDoctrine()->getManager();
+
+        return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
+            ->leftJoin('u.user_info', 'uf')
+            ->leftJoin('uf.rf_subject', 'rf')
+            ->andWhere('u.roles LIKE :role')
+            ->andWhere('uf.year = :year')
+            ->setParameter('role', $role)
+            ->setParameter('year', $year)
+            ->orderBy('rf.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function getUsersByYearPaginator($year, $role){
+        $entity_manger = $this->getDoctrine()->getManager();
+
+        $query = $entity_manger->getRepository(User::class)->createQueryBuilder('u')
+            ->leftJoin('u.user_info', 'uf')
+            ->leftJoin('uf.rf_subject', 'rf')
+            ->andWhere('u.roles LIKE :role')
+            ->andWhere('uf.year = :year')
+            ->setParameter('role', $role)
+            ->setParameter('year', $year)
+            ->orderBy('rf.name', 'ASC')
+            ->setFirstResult(0)
+            ->setMaxResults(10)
+            ->getQuery()
+            ;
+        $paginator = new Paginator($query);
+        return $paginator;
+    }
+
+    public function getUsersByYearOffset($year, $role){
         $entity_manger = $this->getDoctrine()->getManager();
 
         return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
@@ -484,7 +518,8 @@ class ReadinessMapXlsxService extends AbstractController
         else
         {
             $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%REGION%');
+
+            $users = $this->getUsersByYearPaginator($year, '%REGION%');
         }
 
 
@@ -582,8 +617,7 @@ class ReadinessMapXlsxService extends AbstractController
             $user_info = $user->getUserInfo();
             $row = $sheet->getHighestRow()+1;
             $sheet->setCellValue('A'.$row, $index);
-            $total = $procentage['furniture'] + $procentage['PO'] + $procentage['equipment'];
-            $total_put = $procentage['furniture_put'] + $procentage['equipment_put'] + $procentage['PO_put'];
+
             $count = 0;
             if($procentage['furniture'] > 0)
                 $count++;
