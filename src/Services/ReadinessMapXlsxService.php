@@ -46,7 +46,7 @@ class ReadinessMapXlsxService extends AbstractController
             ->setParameter('year', $year)
             ->orderBy('rf.name', 'ASC')
             ->setFirstResult($start)
-            ->setMaxResults(10)
+            ->setMaxResults(30)
             ->getQuery()
             ->getResult();
 
@@ -610,10 +610,7 @@ class ReadinessMapXlsxService extends AbstractController
                         $procentage['allowance_fact'] += $arr['allowance_fact'];
                         $procentage['allowance_put'] += $arr['allowance_put'];
                     }
-
-
                 }
-
             }
             $user_info = $user->getUserInfo();
             $row = $sheet->getHighestRow()+1;
