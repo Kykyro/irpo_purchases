@@ -456,6 +456,17 @@ class ReadinessMapXlsxService extends AbstractController
     }
     public function downloadTableEquipment(int $year, string $role = 'cluster', $save = false)
     {
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'font' => [
+                'size'  => 14,
+                'name'  => 'Times New Roman'
+            ]
+        ];
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('readiness_map_table_template_file');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
