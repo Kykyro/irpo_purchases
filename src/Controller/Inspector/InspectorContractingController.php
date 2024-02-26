@@ -92,11 +92,11 @@ class InspectorContractingController extends AbstractController
             }
             if($data['type'] == 3)
             {
-                return $readinessMapXlsxService->downloadTable($data['year']);
+                return $readinessMapXlsxService->downloadTableRepair($data['year']);
             }
             if($data['type'] == 4)
             {
-                return $readinessMapXlsxService->downloadTable($data['year']);
+                return $readinessMapXlsxService->downloadTableEquipment($data['year']);
             }
             if($data['type'] == 5){
                 return $indicatorService->generateTable($data['year'], "ROLE_REGION");
