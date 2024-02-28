@@ -50,6 +50,7 @@ class AdminAccessController extends AbstractController
             ->setParameter('role_1', "%REGION%")
             ->setParameter('role_2', "%SMALL_CLUSTERS%")
             ->setParameter('role_3', "%ROLE_BAS%")
+            ->orderBy('a.id', 'DESC')
             ->getQuery()
             ->getResult();
 
