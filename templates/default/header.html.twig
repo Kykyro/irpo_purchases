@@ -71,7 +71,7 @@
                         <a href="{{ path("app_smi") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Кластеры </span></a>
                     </li>
                 {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_SUPERADMIN') %}
                     <li>
                         <span class="nav-label badge badge-primary">Кластеры</span>
                     </li>

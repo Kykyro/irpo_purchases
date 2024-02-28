@@ -3,7 +3,7 @@
 {% else %}
     {% set isRegion = false %}
 {% endif %}
-{% set isInspector = is_granted('ROLE_BAS_CURATOR')  %}
+{% set isInspector = is_granted('ROLE_CURATOR_BAS')  %}
 <div class="col-sm-4 animated fadeIn cluster-card mb-3"
      data-year="{{ i.getUserInfo().getYear() }}"
      data-industry="{{ i.getUserInfo().getDeclaredIndustry() }}"
@@ -50,6 +50,24 @@
                     </button>
                 </a>
                 {% if isInspector %}
+                    <a href="{{ path('app_inspector_show_purchases', {'id': i.getId()}) }}">
+                        <button class="btn btn-info col-lg-12 mb-2">
+                            <div class="fa fa-archive"></div>
+                            Просмотр Закупок
+                        </button>
+                    </a>
+                    <a href="{{ path('app_weekly_budget_amount', {'id': i.getId()}) }}">
+                        <button class="btn btn-success col-lg-12 mb-2">
+                            <div class="fa fa-money"></div>
+                            Недельная сумма по бюджету
+                        </button>
+                    </a>
+                    <a href="{{ path('app_inspector_readiness_map', {'id': i.getId()}) }}">
+                        <button class="btn btn-primary col-lg-12 mb-2">
+                            <div class="fa fa-check-circle"></div>
+                            Карта готовности
+                        </button>
+                    </a>
                     <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">
                         <button class="btn btn-warning col-lg-12">
                             <div class="fa fa-leaf"></div>
