@@ -204,6 +204,7 @@ class Employers
             $this->getCity(),
             '',
             $this->arrayRegionToStringList($this->getUserInfos()),
+            $this->arrayDistrictToStringList($this->getUserInfos()),
 
         ];
         return $row;
@@ -244,6 +245,27 @@ class Employers
         foreach ($arr as $a)
         {
             $str = $str."$index) ".$a->getRfSubject()->getName()."\n";
+            $index++;
+        }
+        return $str;
+    }
+    private function arrayDistrictToStringList($arr)
+    {
+        if(is_null($arr))
+            return '';
+        $str = "";
+        $index = 1;
+        $district = [];
+        foreach ($arr as $a)
+        {
+//
+            array_push($district, $a->getRfSubject()->getDistrict());
+        }
+
+        $district = array_unique($district);
+        foreach ($district as $a)
+        {
+            $str = $str."$index) ".$a."\n";
             $index++;
         }
         return $str;
