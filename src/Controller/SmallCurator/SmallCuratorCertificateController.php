@@ -31,7 +31,7 @@ class SmallCuratorCertificateController extends AbstractController
         {
             $data = $form->getData();
             $ugps = [];
-            if($form->get('as_choose')->getData())
+            if($form->get('as_choose')->getData() and count($form->get('UGPS')->getErrors()) > 0)
             {
                 $ugps = $form->get('UGPS')->getErrors()[0]->getMessageParameters()['{{ value }}'];
                 $ugps = explode(',',$ugps);
@@ -41,19 +41,12 @@ class SmallCuratorCertificateController extends AbstractController
                 }
 
             }
-
-//            dd($ugps);
             if(!$form->get('download_as_table')->getData())
             {
-
-                $ugps = in_array('ugps', $data['option']);
-                $zone = in_array('zone', $data['option']);
                 return $byClustersService->getCertificate($data['clusters'], $data['option']);
-
             }
             else
             {
-
                 return $byClustersService->getTableCertificate($data['clusters'], $ugps);
             }
         }
