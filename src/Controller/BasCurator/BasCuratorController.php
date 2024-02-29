@@ -36,7 +36,7 @@ class BasCuratorController extends AbstractController
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            9 /*limit per page*/
+            12 /*limit per page*/
         );
 
 
