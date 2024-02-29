@@ -4,7 +4,7 @@
     {% set isRegion = false %}
 {% endif %}
 {% set isInspector = is_granted('ROLE_CURATOR_BAS')  %}
-<div class="col-sm-4 animated fadeIn cluster-card mb-3"
+<div class="col-sm-3 animated fadeIn cluster-card mb-3"
      data-year="{{ i.getUserInfo().getYear() }}"
      data-industry="{{ i.getUserInfo().getDeclaredIndustry() }}"
         {% if isRegion %}
@@ -16,25 +16,22 @@
     <div class="contact-box">
         <div class="row contact-box-content">
             <div class="col-lg-12">
-                <h3>
+                <h2>
                     {% if isRegion %}
                         <p><i class="fa fa-map-marker"></i> {{ i.getUserInfo().getRfSubject().getName() }}</p>
                     {% else %}
                         <p class="red-bg"><i class="fa fa-map-marker"></i> Не указан регион!</p>
                     {% endif %}
-                </h3>
+                </h2>
 
                 <span class="badge badge-success">
                     {{ i.getUserInfo().getYear() }} год
                 </span>
                 <br>
-                <span class="badge badge-dark">
+                <span class="badge badge-danger">
                     БАС
                 </span>
                 <address>
-                    <b>Кластер: </b>{{ i.getUserInfo().getCluster() }}<br>
-                    <b>Отрасль: </b>{{ i.getUserInfo().getDeclaredIndustry() }} <br>
-                    <b>Организация: </b>{{ i.getUserInfo().getOrganization() }}<br>
                     <b>Пользователь: </b>{{ i.getUuid() }} <br>
                 </address>
             </div>
