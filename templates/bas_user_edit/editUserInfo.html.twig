@@ -1,0 +1,285 @@
+{% extends 'default/base.html.twig' %}
+
+{% block styles %}
+    {#<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />#}
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+    <div class="ibox-content">
+        <div class="col-sm-12 col-form-label text-left">
+            <strong>
+                {{ form_start(userInfoForm) }}
+
+                {{ form_row(userInfoForm.curator) }}
+                {{ form_row(userInfoForm._photo) }}
+                {{ form_row(userInfoForm.rf_subject) }}
+                {#{{ form_row(userInfoForm.city) }}#}
+                {{ form_row(userInfoForm.initiatorOfCreation) }}
+                {#{{ form_row(userInfoForm.organization) }}#}
+                {#{{ form_row(userInfoForm.educational_organization) }}#}
+                {#{{ form_row(userInfoForm.cluster) }}#}
+                {#{{ form_row(userInfoForm.declared_industry) }}#}
+                {{ form_row(userInfoForm.year) }}
+                <hr>
+                {{ form_row(userInfoForm.studentsCount, {"type":"number"}) }}
+                {{ form_row(userInfoForm.programCount, {"type":"number"}) }}
+                {{ form_row(userInfoForm.teacherCount, {"type":"number"}) }}
+                {#{{ form_row(userInfoForm.workerCount, {"type":"number"}) }}#}
+                {#{{ form_row(userInfoForm.studentsCountWithMentor, {"type":"number"}) }}#}
+                {#{{ form_row(userInfoForm.jobSecurityCount, {"type":"number"}) }}#}
+                {#{{ form_row(userInfoForm.amountOfFunding, {"type":"number"}) }}#}
+                {#{{ form_row(userInfoForm.amountOfExtraFunds, {"type":"number"}) }}#}
+                <hr>
+                <label>
+                    Список образовательных организаций
+                </label>
+                <div class="row js-edication-organization-wrapper">
+                    <ul id="edication-organization-fields-list"
+                        class="col-lg-8"
+                        data-prototype="{{ form_widget(userInfoForm.listOfEdicationOrganization.vars.prototype, {'attr':{'class': 'form-control'}})|e }}"
+                        data-widget-tags="{{
+                        '<li class="form-control"></li>'|e
+                        }}"
+                        data-widget-counter="{{ userInfoForm.listOfEdicationOrganization|length }}"
+                        data-delete-btn='
+                                    <div class="col-xs-12 js-edication-organization-item">
+                                        <a href="#" class="js-remove-organization pull-right btn btn-danger">
+                                            <span class="fa fa-close "></span>
+                                        </a>
+                                        <span class="badge badge-primary">Новый</span>
+
+                                '
+                    >
+                        {% for EO in userInfoForm.listOfEdicationOrganization %}
+                            <li class="form-control">
+                                <div class="col-xs-12 js-edication-organization-item">
+                                    <a href="#" class="js-remove-organization pull-right btn btn-danger">
+                                        <span class="fa fa-close "></span>
+                                    </a>
+                                    {{ form_row(EO, {'attr':{'class': 'form-control'}}) }}
+                                </div>
+
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <button type="button"
+                        class="add-another-collection-widget btn btn-primary"
+                        data-list-selector="#edication-organization-fields-list">
+                    <i class="fa fa-plus">
+                        Добавить Образовательную организацию
+                    </i>
+                </button>
+                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#modal-oo">
+                    <i class="fa fa-plus-circle">
+                        Добавить из таблицы
+                    </i>
+                </button>
+                <hr>
+
+
+
+
+
+                <hr>
+                <div class="col-sm-5 col-form-label text-left row">
+                    <button type="submit" class="col-lg-4 btn btn-gray-all btn-outline-success">Обновить</button>
+                </div>
+                {{ form_end(userInfoForm) }}
+            </strong>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="modal-another" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> Добавление иных организаций </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>
+                                Данные
+                            </label>
+                            <textarea class="form-control" id="rows-data-another" name="text"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-many-row-another" class="btn btn-primary"
+                                {#data-dismiss="modal"#}
+                                type="button"
+                                data-list-selector="#another-organization-fields-list"
+                                data-list="#another-organization-fields-list"
+                                data-row-data="#rows-data-another"
+                        >
+                            Добавить
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" type="button">Отмена</button>
+                    </div>
+                    {#{{ form_end(form) }}#}
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="modal-oo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Добавление образовательных организаций</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>
+                                Данные
+                            </label>
+                            <textarea class="form-control" id="rows-data-oo" name="text"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="add-many-row-oo" class="btn btn-primary"
+                                {#data-dismiss="modal"#}
+                                type="button"
+                                data-list-selector="#edication-organization-fields-list"
+                                data-list="#edication-organization-fields-list"
+                                data-row-data="#rows-data-oo"
+                        >
+                            Добавить
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" type="button">Отмена</button>
+                    </div>
+                    {#{{ form_end(form) }}#}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            let $wrapper = $('.js-edication-organization-wrapper');
+            $wrapper.on('click', '.js-remove-organization', function(e) {
+                e.preventDefault();
+                $(this).closest('.form-control')
+                    .fadeOut()
+                    .remove();
+            });
+            let employesrWraper = $('.js-employers-wrapper');
+            employesrWraper.on('click', '.js-remove-employer', function(e) {
+                e.preventDefault();
+                $(this).closest('.form-control')
+                    .fadeOut()
+                    .remove();
+            });
+            let listOfAnotherOrganizationWraper = $('.js-another-organization-wrapper');
+            listOfAnotherOrganizationWraper.on('click', '.js-remove-another-organization', function(e) {
+                e.preventDefault();
+                $(this).closest('.form-control')
+                    .fadeOut()
+                    .remove();
+            });
+            $('.add-another-collection-widget').click(function (e) {
+                var list = $($(this).attr('data-list-selector'));
+                // Try to find the counter of the list or use the length of the list
+                var counter = list.data('widget-counter');
+
+                // grab the prototype template
+                var newWidget = list.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                counter++;
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+                console.log(newWidget);
+
+                // And store it, the length cannot be used if deleting widgets is allowed
+                list.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                var newElem = $(list.attr('data-widget-tags')).html(
+                    list.attr('data-delete-btn') +
+                    newWidget +
+                    '</div>'
+                );
+
+                newElem.appendTo(list);
+            });
+
+            function splitLines(t) { return t.split(/\t\n|\t|\n/); }
+
+            function addRowsByTableOO(){
+
+                let data = $($(this).attr('data-row-data'));
+
+                let _data = data.val().split('\n');
+                value = _data.length;
+
+
+
+                let listSelector = $($(this).attr('data-list-selector'));
+                let list = $($(this).attr('data-list'));
+
+
+
+                for (let i = 0; i < value; i++)
+                {
+
+                    var counter = listSelector.data('widget-counter');
+
+                    // grab the prototype template
+                    var newWidget = listSelector.attr('data-prototype');
+                    // replace the "__name__" used in the id and name of the prototype
+                    // with a number that's unique to your emails
+                    // end name attribute looks like name="contact[emails][2]"
+                    counter++;
+                    newWidget = newWidget.replace(/__name__/g, counter);
+                    // Increase the counter
+                    console.log(newWidget);
+
+                    // And store it, the length cannot be used if deleting widgets is allowed
+                    listSelector.data('widget-counter', counter);
+
+                    // create a new list element and add it to the list
+                    var newElem = $(list.attr('data-widget-tags')).html(
+                        list.attr('data-delete-btn') +
+                        newWidget +
+                        '</div>'
+                    );
+                    console.log("oo");
+                    newElem.appendTo(listSelector);
+                    if(_data[i] )
+                    {
+                        // let paste = _data[i].split('\t');
+                        // console.log(paste);
+                        $('#bas_edit_form_listOfEdicationOrganization_'+counter).val(_data[i]);
+
+                    }
+
+                }
+                data.val('')
+            }
+
+            $('#add-many-row-oo').click(addRowsByTableOO);
+
+            $('.select2').select2({
+                closeOnSelect : false,
+                placeholder : "...",
+                allowHtml: true,
+                allowClear: true
+            });
+        });
+    </script>
+{% endblock %}

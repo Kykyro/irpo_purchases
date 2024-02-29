@@ -45,10 +45,12 @@ class InspectorReadinessMapController extends AbstractController
     /**
      * @Route("/readiness-map/{id}", name="app_inspector_readiness_map")
      */
-    public function index(Request $request,int $id): Response
+    public function index(EntityManagerInterface $em, Request $request,int $id): Response
     {
 
-        $user = $this->getDoctrine()->getManager()->getRepository(User::class)->find($id);
+        $user = $em->getRepository(User::class)->find($id);
+        if(in_array("ROLE_BAS", $user->getRoles()))
+            return $this->redirectToRoute("app_readness_map_bas_inspector", ['id' => $user->getId()]);
         $photos = null;
         $arr = [];
         $form = $this->createFormBuilder($arr)

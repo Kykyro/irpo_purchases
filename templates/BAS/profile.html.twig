@@ -1,7 +1,19 @@
 {% extends "default/base.html.twig" %}
 
 {% block content %}
-<div class="row animated fadeInRight">
+    {% if is_granted('ROLE_CURATOR_BAS')  %}
+    <div class="row animated fadeInRight  mt-3">
+        <div class="col-sm-10 offset-sm-1">
+            <a href="{{ path('app_bas_user_edit',{'id': user.getId()}) }}">
+                <button class="btn btn-success col-sm-12">
+                    <i class="fa fa-edit"></i>
+                    Редактировать
+                </button>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+<div class="row animated fadeInRight mt-3">
     <div class="col-sm-10 offset-sm-1 ">
         <div class="wrapper wrapper-content ">
             <div class="ibox-content block-shadow ">
@@ -23,14 +35,7 @@
 
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    Город
-                                </td>
-                                <td>
-                                    {{ user_info.getCity() }}
-                                </td>
-                            </tr>
+
                             <tr>
                                 <td class="col-md-4">
                                     Инициатор создания кластера
@@ -274,65 +279,65 @@
     </div>
 </div>
 
-<div class="row animated fadeInRight">
-    <div class="col-sm-10 offset-sm-1 ">
-        <div class="wrapper wrapper-content ">
-            <div class="ibox-content block-shadow ">
-                <div class="ibox ">
-                    <div class="ibox-title">
-                        <h2 style="font-weight: bold; margin-top: -5px">Финансовые показатели</h2>
-                    </div>
-                    <div class="ibox-content">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <td colspan="2">
-                                    Объем финансирования
-                                </td>
+{#<div class="row animated fadeInRight">#}
+    {#<div class="col-sm-10 offset-sm-1 ">#}
+        {#<div class="wrapper wrapper-content ">#}
+            {#<div class="ibox-content block-shadow ">#}
+                {#<div class="ibox ">#}
+                    {#<div class="ibox-title">#}
+                        {#<h2 style="font-weight: bold; margin-top: -5px">Финансовые показатели</h2>#}
+                    {#</div>#}
+                    {#<div class="ibox-content">#}
+                        {#<table class="table table-bordered">#}
+                            {#<thead>#}
+                            {#<tr>#}
+                                {#<td colspan="2">#}
+                                    {#Объем финансирования#}
+                                {#</td>#}
 
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                {% if 'ROLE_REGION' in user.getRoles() %}
-                                    <td class="col-md-8">
-                                        Средства организаций реального сектора экономики, <strong>тыс.руб.</strong>
-                                    </td>
-                                {% endif %}
-                                {% if 'ROLE_SMALL_CLUSTERS' in user.getRoles() %}
-                                    <td class="col-md-8">
-                                        Средства организаций, действующих в отраслях характерных для субъектов малого и среднего предпринимательства
-                                        и социальной сферы, <strong>тыс.руб.</strong>
-                                    </td>
-                                {% endif %}
-                                <td style="vertical-align: middle; text-align: center" class="cell-number">
-                                    {{ user_info.getExtraFundsEconomicSector() }} ₽
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-8" >
-                                    Средства субъекта РФ, <strong>тыс.руб.</strong>
-                                </td>
-                                <td style="vertical-align: middle; text-align: center" class="cell-number">
-                                    {{ user_info.getFinancingFundsOfSubject() }} ₽
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-8" >
-                                    Средства образовательной организации, <strong>тыс.руб.</strong>
-                                </td>
-                                <td style="vertical-align: middle; text-align: center" class="cell-number">
-                                    {{ user_info.getExtraFundsOO() }} ₽
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                            {#</tr>#}
+                            {#</thead>#}
+                            {#<tbody>#}
+                            {#<tr>#}
+                                {#{% if 'ROLE_REGION' in user.getRoles() %}#}
+                                    {#<td class="col-md-8">#}
+                                        {#Средства организаций реального сектора экономики, <strong>тыс.руб.</strong>#}
+                                    {#</td>#}
+                                {#{% endif %}#}
+                                {#{% if 'ROLE_SMALL_CLUSTERS' in user.getRoles() %}#}
+                                    {#<td class="col-md-8">#}
+                                        {#Средства организаций, действующих в отраслях характерных для субъектов малого и среднего предпринимательства#}
+                                        {#и социальной сферы, <strong>тыс.руб.</strong>#}
+                                    {#</td>#}
+                                {#{% endif %}#}
+                                {#<td style="vertical-align: middle; text-align: center" class="cell-number">#}
+                                    {#{{ user_info.getExtraFundsEconomicSector() }} ₽#}
+                                {#</td>#}
+                            {#</tr>#}
+                            {#<tr>#}
+                                {#<td class="col-md-8" >#}
+                                    {#Средства субъекта РФ, <strong>тыс.руб.</strong>#}
+                                {#</td>#}
+                                {#<td style="vertical-align: middle; text-align: center" class="cell-number">#}
+                                    {#{{ user_info.getFinancingFundsOfSubject() }} ₽#}
+                                {#</td>#}
+                            {#</tr>#}
+                            {#<tr>#}
+                                {#<td class="col-md-8" >#}
+                                    {#Средства образовательной организации, <strong>тыс.руб.</strong>#}
+                                {#</td>#}
+                                {#<td style="vertical-align: middle; text-align: center" class="cell-number">#}
+                                    {#{{ user_info.getExtraFundsOO() }} ₽#}
+                                {#</td>#}
+                            {#</tr>#}
+                            {#</tbody>#}
+                        {#</table>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
 
 
 

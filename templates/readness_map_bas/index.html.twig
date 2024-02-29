@@ -1,0 +1,415 @@
+{% extends 'default/base.html.twig' %}
+{% block styles %}
+    <link href="{{ asset('css/plugins/blueimp/css/blueimp-gallery.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+    {% if app.request.get('tab') is not null %}
+        {% set index_tab = app.request.get('tab') %}
+        {% set openFirst = false %}
+        {% set firstList = false %}
+    {% else %}
+        {% set index_tab = 1 %}
+        {% set openFirst = true %}
+        {% set firstList = true %}
+    {% endif %}
+    {% set addresses = user.getClusterAddresses() %}
+    {#{% if addresses|length > 0 %}#}
+    {{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}
+    <div class="row mt-3">
+
+    </div>
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs" role="tablist">
+                    {% for i in addresses %}
+                        {% if i.getId() == index_tab or openFirst == true %}
+                            {% set openFirst = false %}
+                            <li><a class="nav-link active show" data-toggle="tab" href="#tab-{{ i.getId() }}">
+                                    {{ i.getAddresses() }}
+                                    <span class="badge badge-danger address-remarks" data-address="{{ i.getId() }}">a</span>
+                                </a></li>
+                        {% else %}
+                            <li><a class="nav-link " data-toggle="tab" href="#tab-{{ i.getId() }}"> {{ i.getAddresses() }}
+                                    <span class="badge badge-danger address-remarks" data-address="{{ i.getId() }}">a</span>
+                                </a></li>
+                        {% endif %}
+
+                    {% endfor %}
+                    <li>
+                        <a class="nav-link show active   btn-primary" href="{{ path('app_inspector_add_addresses', {'id': user.getId()}) }}">
+                            {#<button class="btn btn-primary">#}
+                            <i class="fa fa-plus">
+                                Добавить Адрес
+                            </i>
+                            {#</button>#}
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    {% for i in addresses %}
+                        <div role="tabpanel" id="tab-{{ i.getId() }}" class="tab-pane {% if i.getId() == index_tab or firstList == true %} {% set firstList = false %} active show{% endif %}">
+                            <div class="panel-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <td class="col-md-2" style="vertical-align: inherit; text-align: center">
+                                            <strong>Адрес</strong>
+                                        </td>
+                                        <td class="col-md-2" style="vertical-align: inherit; text-align: center">
+                                            <strong>Зоны</strong>
+                                        </td>
+                                        <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
+                                        <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ общих помещений</strong></td>
+                                        <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ в общем</strong></td>
+                                        <td style="vertical-align: inherit; text-align: center"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
+                                        <td style="vertical-align: inherit; text-align: center"><strong>Крайняя дата завершения ремонта</strong></td>
+                                        <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                            <strong>Действия</strong>
+                                        </td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr>
+
+                                        <td style="vertical-align: inherit; text-align: center">
+                                            {{ i.getAddresses() }}
+                                        </td>
+
+                                        <td class="col-md-2" style="vertical-align: inherit; text-align: center">
+                                            {% set zones = i.getSortedClusterZones() %}
+                                            {% if zones|length > 0 %}
+                                                <ul style=" list-style-type: none;" class="m-0 p-0">
+                                                    {% for j in zones %}
+                                                        {% if j.isDoNotTake() %}
+                                                            <li>
+                                                                <button class="btn btn-outline-danger mb-2 col-lg-12" style="margin-bottom:4px;white-space: normal;">
+                                                                    {{ j.getName() }}
+                                                                </button>
+                                                            </li>
+                                                        {% else %}
+                                                            <a href="{{ path('app_inspector_view_zone', {'id' : j.getId()}) }}">
+                                                                <li>
+                                                                    <button class="btn btn-outline-dark mb-2 col-lg-12" style="margin-bottom:4px;white-space: normal;">
+                                                                        {{ j.getName() }}
+
+                                                                        <span class="badge badge-danger remarks"
+                                                                              data-remarks="{{ j.getZoneRemarks()|length }}"
+                                                                              data-address="{{ j.getAddres().getId() }}"
+
+                                                                        >
+
+                                                                           </span>
+                                                                    </button>
+                                                                </li>
+                                                            </a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            {% else %}
+                                                <span class="badge badge-warning">
+                                                        Нет зон
+                                                    </span>
+                                            {% endif %}
+                                        </td>
+                                        {% set repairMidByZone = i.getMidRepairByZone() %}
+                                        {% set repairMidByCommon = i.getMidRepairByCommon() %}
+                                        <td style="vertical-align: inherit; text-align: center">{{ repairMidByZone|round(2, 'floor') }} %</td>
+                                        <td style="vertical-align: inherit; text-align: center">{{ repairMidByCommon|round(2, 'floor') }} %</td>
+                                        <td style="vertical-align: inherit; text-align: center">{{ (i.getMidRepair())|round(2, 'floor') }} %</td>
+                                        <td style="vertical-align: inherit; text-align: center">
+                                            {% if i.getEquipmentDeliveryDeadline() %}
+                                                {{ i.getEquipmentDeliveryDeadline().format('d.m.Y') }}
+                                            {% endif %}
+                                        </td>
+                                        <td style="vertical-align: inherit; text-align: center">
+                                            {% if i.getDeadlineForCompletionOfRepairs() %}
+                                                {{ i.getDeadlineForCompletionOfRepairs().format('d.m.Y') }}
+                                            {% endif %}
+                                        </td>
+                                        <td style="vertical-align: inherit; text-align: center">
+                                            <a href="{{ path('app_inspector_view_address', {'id': i.getId()}) }}">
+                                                <button class="btn btn-success col-lg-12 mb-2">
+                                                    <i class="fa fa-search">
+                                                        Просмотр
+                                                    </i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ path('app_inspector_add_zone', {'id': i.getId()}) }}">
+                                                <button class="btn btn-primary col-lg-12 mb-2">
+                                                    <i class="fa fa-plus">
+                                                        Добавить зону
+                                                    </i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ path('app_inspector_edit_addresses', {'id': i.getId()}) }}">
+                                                <button class="btn btn-warning col-lg-12 mb-2" style="white-space: normal;">
+                                                    <i class="fa fa-edit">
+                                                        Редактировать адресс
+                                                    </i>
+                                                </button>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 offset-lg-10">
+                        <a href="{{ path('app_inspector_rm_repair_history', {'id': user.getId()}) }}">
+                            <button class="btn btn-success col-lg-12">
+                                <i class="fa fa-archive">
+                                    История ремонта
+                                </i>
+                            </button>
+                        </a>
+                        {#<a href="{{ path('app_inspector_readiness_map_monitoring', {'id': user.getId()}) }}">#}
+                        {#<button class="btn btn-primary col-lg-12">#}
+                        {#<i class="fa fa-archive">#}
+                        {#Шаблон мониторингового отчета#}
+                        {#</i>#}
+                        {#</button>#}
+                        {#</a>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#{% endif %}#}
+    <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+
+        </div>
+    </div>
+    {% if addresses|length > 0 %}
+        <div class="row mt-3">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>
+                            Общая статистика по кластеру
+                        </h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ общих помещений</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ в общем</strong></td>
+
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайняя дата завершения ремонта</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByCommon()|round(2, 'floor') }} %</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByZone()|round(2, 'floor') }} %</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ ((user.getMidRepairByZone()+user.getMidRepairByCommon())/2)|round(2, 'floor') }} %</td>
+
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getEquipmentDeliveryDeadline() }}</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getDeadlineForCompletionOfRepairs() }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Общее кол-во оборудования по ИЛу</strong></td>
+                                {#<td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Поставлено оборудования</strong></td>#}
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % укомплектованности МТБ</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Введено в эксплуатацию</strong></td>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set equipment = user.getCountOfEquipment() %}
+                            <tr>
+                                <td style="vertical-align: inherit; text-align: center">{{ proc['total'] }}</td>
+                                <td style="vertical-align: inherit; text-align: center">
+                                    {{ mtb_fact }} %
+                                </td>
+                                {% if equipment['total'] > 0 %}
+                                    <td style="vertical-align: inherit; text-align: center">
+                                        {{ proc['put'] }} / {{ mtb_put }}%
+                                    </td>
+                                {% else %}
+                                    <td style="vertical-align: inherit; text-align: center">{{ proc['put'] }} / 0%</td>
+                                {% endif %}
+
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <button class="btn btn-outline-dark" id="btn-proc">
+                                подробно
+                            </button>
+                            <div class="row" id="proc-info">
+                                <div class="col-lg-12">
+                                    {{ proc | json_encode(constant('JSON_PRETTY_PRINT')) }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a href="{{ path('app_inspector_readiness_map_download', {'id': user.getId()}) }}">
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-download">
+                                            Скачать справку
+                                        </i>
+                                    </button>
+                                </a>
+                                <a href="{{ path('app_inspector_readiness_map_archive', {'id': user.getId()}) }}">
+                                    <button class="btn btn-warning">
+                                        <i class="fa fa-archive">
+                                            Архив справок
+                                        </i>
+                                    </button>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>
+                            Галерея
+                        </h5>
+                    </div>
+                    <div class="ibox-content">
+
+
+                        {{ form_start(form) }}
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>От: </label>
+                                {{ form_row(form.startDate) }}
+
+                                <label>До: </label> <br>
+                                {{ form_widget(form.endDate) }}
+                            </div>
+                            {{ form_row(form.addres) }}
+                        </div>
+
+                        <div class="form-inline">
+                            <div class="form-group mt-3">
+                                {{ form_row(form.submit) }}
+                                <div class="ml-3"></div>
+                                {{ form_row(form.download) }}
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                        <hr>
+                        <a href="{{ path('app_inspector_rm_actual_gallery_region', {'id': user.getId()}) }}">
+                            <button class="btn btn-warning" type="button">
+                                <i class="fa fa-photo">
+                                    Актуальная галерея
+                                </i>
+                            </button>
+                        </a>
+                        <hr>
+
+                        {% if _photos %}
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="lightBoxGallery">
+                                        {% set title = _photos[0].getRepair().getClusterZone().getName() %}
+                                        {% set addres = _photos[0].getRepair().getClusterZone().getAddres().getAddresses() %}
+                                        <div class="row col-lg-12">
+                                            {#<h3 class="col-lg-12 mt-3">{{ title }} <br> <i class="fa fa-map-marker">{{ addres }}</i></h3>#}
+
+                                            {% for ver in _photos|reverse %}
+                                                {% if
+                                                    title != ver.getRepair().getClusterZone().getName()
+                                                    or
+                                                    addres != ver.getRepair().getClusterZone().getAddres().getAddresses()
+                                                %}
+                                                    {% set title = ver.getRepair().getClusterZone().getName() %}
+                                                    {% set addres = ver.getRepair().getClusterZone().getAddres().getAddresses() %}
+                                                    <h3 class="col-lg-12 mt-3" >{{ title }} <br> <i class="fa fa-map-marker">{{ addres }}</i></h3>
+                                                {% endif %}
+                                                {% for i in ver.getRepairPhotos() %}
+                                                    <div class="col-lg-2 p-1 ml-2 form-control" >
+                                                        <a href="{{ path('app_download_file_by_route', {'route': 'repair_photos_directory', 'file': i.getPhoto()}) }}">
+                                                    <span class="btn btn-primary pull-right">
+                                                        <i class="fa fa-download">Скачать</i>
+                                                    </span>
+                                                        </a>
+
+                                                        <a href="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" title="{{ title }}" data-gallery="">
+                                                            <img src="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" class="col-lg-12" >
+                                                        </a>
+
+                                                        <div class="col-lg-12">
+                                                            {{ ver.getCreatedAt().format('d.m.Y') }}
+                                                        </div>
+                                                    </div>
+
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </div>
+
+                                        <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                                        <div id="blueimp-gallery" class="blueimp-gallery">
+                                            <div class="slides"></div>
+                                            <h3 class="title"></h3>
+                                            <a class="prev">‹</a>
+                                            <a class="next">›</a>
+                                            <a class="close">×</a>
+                                            <a class="play-pause"></a>
+                                            <ol class="indicator"></ol>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            let procInfo = $('#proc-info');
+            let procBtn = $('#btn-proc');
+
+            procInfo.hide();
+
+            procBtn.on('click', function () {
+                procInfo.show();
+            })
+
+
+        })
+    </script>
+    <script src="{{ asset('js/scripts/readinessMarksRemarks.js') }}"></script>
+
+
+{% endblock %}
