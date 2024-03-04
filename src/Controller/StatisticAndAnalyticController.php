@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Services\excel\ContactXlsxService;
 use App\Services\InfrastructureSheetDownloadXlsxService;
 use App\Services\XlsxClusterIndustryService;
 use App\Services\XlsxEducationOrganizationService;
@@ -94,4 +95,20 @@ class StatisticAndAnalyticController extends AbstractController
             return $service->generate($year);
         }
     }
+    /**
+     * @Route("/statistic-and-analytic/contacts", name="app_statistic_and_analytic_cluster_contacts")
+     */
+    public function getContacts(Request $request, ContactXlsxService $service)
+    {
+        $submittedToken = $request->request->get('token');
+        $year = $request->request->get('year');
+        $role = $request->request->get('type');
+
+
+        if ($this->isCsrfTokenValid('cluster_contact', $submittedToken)) {
+            return $service->generateContactTable($year, $role);
+        }
+    }
+
+
 }

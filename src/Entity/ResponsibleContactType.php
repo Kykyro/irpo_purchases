@@ -29,6 +29,11 @@ class ResponsibleContactType
      */
     private $responsibleContact;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $sort;
+
     public function __construct()
     {
         $this->responsibleContact = new ArrayCollection();
@@ -71,6 +76,18 @@ class ResponsibleContactType
     public function removeResponsibleContact(ResponsibleContact $responsibleContact): self
     {
         $this->responsibleContact->removeElement($responsibleContact);
+
+        return $this;
+    }
+
+    public function getSort(): ?int
+    {
+        return $this->sort;
+    }
+
+    public function setSort(?int $sort): self
+    {
+        $this->sort = $sort;
 
         return $this;
     }
