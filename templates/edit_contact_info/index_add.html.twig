@@ -1,0 +1,218 @@
+{% extends "default/base.html.twig" %}
+
+{% block content %}
+    {% import _self as formMacros %}
+    {% macro responsibleContacts(rc) %}
+        <div class="panel panel-success pt-3 pb-5 pl-2 pr-2">
+            <button class="btn btn-danger js-remove-sheets" type="button">
+                <i class="fa fa-trash">
+                    Удалить
+                </i>
+            </button>
+            {{ form_row(rc.FIO) }}
+            {{ form_row(rc.phoneNumber) }}
+            {{ form_row(rc.email) }}
+            <hr>
+            {{ form_label(rc.responsibleContactTypes) }}
+            <div>
+                {% for i in rc.responsibleContactTypes %}
+                    <div>
+                        {{ form_widget(i) }}
+                        {{ form_label(i) }}
+                    </div>
+
+                {% endfor %}
+            </div>
+
+
+
+        </div>
+    {% endmacro %}
+    {% macro emplContacts(ec) %}
+        <div class="panel panel-success pt-3 pb-5 pl-2 pr-2">
+            <b>
+                {{ ec.vars.value.employer.name }}
+            </b>
+            <hr>
+            {{ form_row(ec.FIO) }}
+            {{ form_row(ec.post) }}
+            {{ form_row(ec.phoneNumber) }}
+            {{ form_row(ec.email) }}
+
+
+        </div>
+    {% endmacro %}
+    {% macro addContacts(ac) %}
+        <div class="panel panel-success pt-3 pb-5 pl-2 pr-2">
+            <hr>
+            {{ form_row(ac.FIO) }}
+            {{ form_row(ac.post) }}
+            {{ form_row(ac.phoneNumber) }}
+            {{ form_row(ac.email) }}
+            {{ form_row(ac.type) }}
+
+
+        </div>
+    {% endmacro %}
+<div class="row mt-3">
+    <div class="col-lg-10 offset-lg-1">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Редактирование контактной информации
+                </h5>
+            </div>
+
+            <div class="ibox-content">
+                {{ form_start(form) }}
+                <h5>
+                    Директор
+                </h5>
+                <div class="panel panel-success pt-3 pb-5 pl-2 pr-2">
+                    {{ form_row(form.director) }}
+                </div>
+
+                <hr>
+
+                <h5>
+                    Отвественные за
+                </h5>
+                <div class="contactResponsible " id="contactResponsible"
+                     data-index="{{ form.responsibleContacts|length > 0 ? form.responsibleContacts|last.vars.name + 1 : 0 }}"
+                     data-prototype='{{ formMacros.responsibleContacts(form.responsibleContacts.vars.prototype|e) }}'
+                     data-widget-tags="{{
+                     '<div></div>'|e
+                     }}"
+                     data-widget-counter="{{ form.responsibleContacts|length }}"
+                >
+
+                    {% for rc in form.responsibleContacts %}
+
+                        <div class="">
+                            {{ formMacros.responsibleContacts(rc) }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <button
+                        class="btn btn-success add-another-collection-widget"
+                        type="button"
+                        data-list-selector="#contactResponsible"
+                        data-list="#contactResponsible"
+                >
+                    <i class="fa fa-plus">
+                        Добавить контакт отвественного
+                    </i>
+                </button>
+                <hr>
+
+                <h5>
+                    Дополнительные контакты
+                </h5>
+                <div class="addContacts " id="addContacts"
+                     data-index="{{ form.addContacts|length > 0 ? form.addContacts|last.vars.name + 1 : 0 }}"
+                     data-prototype='{{ formMacros.addContacts(form.addContacts.vars.prototype|e) }}'
+                     data-widget-tags="{{
+                     '<div></div>'|e
+                     }}"
+                     data-widget-counter="{{ form.addContacts|length }}"
+                >
+
+                    {% for ac in form.addContacts %}
+
+                        <div class="">
+                            {{ formMacros.addContacts(ac) }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <button
+                        class="btn btn-success add-another-collection-widget"
+                        type="button"
+                        data-list-selector="#addContacts"
+                        data-list="#addContacts"
+                >
+                    <i class="fa fa-plus">
+                        Добавить дополнительный контакт
+                    </i>
+                </button>
+
+
+                <hr>
+                {% for ec in form.employersContacts %}
+
+                    <div class="">
+                        {{ formMacros.emplContacts(ec) }}
+                    </div>
+
+                {% endfor %}
+                <hr>
+
+                {{ form_end(form) }}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            let $wrapper = $('.contactResponsible');
+            $wrapper.on('click', '.js-remove-sheets', function(e) {
+                e.preventDefault();
+                $(this).closest('.panel')
+                    .fadeOut()
+                    .remove();
+            });
+            function addRow()
+            {
+
+                let listSelector = $($(this).attr('data-list-selector'));
+                let list = $($(this).attr('data-list'));
+
+                // Try to find the counter of the list or use the length of the list
+                let counter = listSelector.data('widget-counter');
+
+                // grab the prototype template
+                let newWidget = listSelector.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                counter++;
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+
+                // And store it, the length cannot be used if deleting widgets is allowed
+                listSelector.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                let newElem = $(listSelector.attr('data-widget-tags')).html(
+
+                    newWidget +
+                    '</div>'
+                );
+
+                newElem.appendTo(list);
+                // $('#perfomance_indicator_edit_form_'+counter+'_zoneType').val(zoneType);
+            }
+
+            $('.add-another-collection-widget').click(addRow);
+
+
+        });
+    </script>
+
+{% endblock %}
+
+
+

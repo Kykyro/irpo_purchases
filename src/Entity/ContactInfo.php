@@ -39,6 +39,11 @@ class ContactInfo
      */
     private $employersContacts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AddContacts::class, mappedBy="contactInfo")
+     */
+    private $addContacts;
+
     function __construct($userInfo)
     {
       $this->userInfo =   $userInfo;
@@ -51,6 +56,7 @@ class ContactInfo
           $empCont->setEmployer($employer);
           $this->addEmployersContact($empCont);
       }
+      $this->addContacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +142,36 @@ class ContactInfo
             // set the owning side to null (unless already changed)
             if ($employersContact->getContactInfo() === $this) {
                 $employersContact->setContactInfo(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AddContacts>
+     */
+    public function getAddContacts(): Collection
+    {
+        return $this->addContacts;
+    }
+
+    public function addAddContact(AddContacts $addContact): self
+    {
+        if (!$this->addContacts->contains($addContact)) {
+            $this->addContacts[] = $addContact;
+            $addContact->setContactInfo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddContact(AddContacts $addContact): self
+    {
+        if ($this->addContacts->removeElement($addContact)) {
+            // set the owning side to null (unless already changed)
+            if ($addContact->getContactInfo() === $this) {
+                $addContact->setContactInfo(null);
             }
         }
 

@@ -76,6 +76,7 @@
         </div>
     </div>
 </div>
+
 {#{% if is_granted('ROLE_ADMIN') %}#}
     {% set contactInfo = user_info.getContactInfo() %}
     {% if contactInfo is null %}
@@ -94,6 +95,14 @@
                             </button>
                         </a>
                         {% endif %}
+                        {% if  is_granted('ROLE_SMALL_CURATOR') or is_granted('ROLE_INSPECTOR') %}
+                            <a href="{{ path('app_edit_contact_info_add' , {'id': user_info.getId()}) }}">
+                                <button class="btn btn-primary ">
+                                    <i class="fa fa-plus"></i>
+                                    Добавить <b>ДОПОЛНИТЕЛЬНУЮ</b> контактную информацию
+                                </button>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -111,6 +120,14 @@
                                     Редактировать контактную информацию
                                 </button>
                             </a>
+                            {% endif %}
+                            {% if  is_granted('ROLE_SMALL_CURATOR') or is_granted('ROLE_INSPECTOR') %}
+                                <a href="{{ path('app_edit_contact_info_add' , {'id': user_info.getId()}) }}">
+                                    <button class="btn btn-primary pull-right mr-2">
+                                        <i class="fa fa-plus"></i>
+                                        Редактировать <b>ДОПОЛНИТЕЛЬНУЮ</b> контактную информацию
+                                    </button>
+                                </a>
                             {% endif %}
                             <a class="collapse-link">
                                 <div class="ibox-title">
