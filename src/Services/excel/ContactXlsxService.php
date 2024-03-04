@@ -183,10 +183,10 @@ class ContactXlsxService extends AbstractController
         $index = 1;
         foreach ($employers as $employer)
         {
-            $employersArr[0] = $index.") ".$employersArr[0].$employer->getEmployer()->getName()."\n\n";
-            $employersArr[1] = $index.") ".$employersArr[1].$employer->getFIO()."\n\n";
-            $employersArr[2] = $index.") ".$employersArr[2].$employer->getPhoneNumber()."\n\n";
-            $employersArr[3] = $index.") ".$employersArr[3].$employer->getEmail()."\n\n";
+            $employersArr[0] = $employersArr[0].$index.") ".$employer->getEmployer()->getName()."\n\n";
+            $employersArr[1] = $employersArr[1].$index.") ".$employer->getFIO()."\n\n";
+            $employersArr[2] = $employersArr[2].$index.") ".$employer->getPhoneNumber()."\n\n";
+            $employersArr[3] = $employersArr[3].$index.") ".$employer->getEmail()."\n\n";
             $index++;
         }
 
