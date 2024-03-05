@@ -86,8 +86,8 @@ class ContactXlsxService extends AbstractController
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getCluster(),
                 $userInfo->getInitiatorOfCreation(),
-                $userInfo->getEducationalOrganization(),
-                '', // Базовая образовательная организация кластера
+                $userInfo->getOrganization(),
+                $userInfo->getEducationalOrganization(),// Базовая образовательная организация кластера
                 $userInfo->getCurator(), // Куратор
 
                 '', // Официальная почта кластера
