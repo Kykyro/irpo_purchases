@@ -15,6 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use function Sodium\add;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -201,6 +202,11 @@ class JournalistInfrastrucureSheetsController extends AbstractController
                 'attr' => ['class' => 'form-control'],
                 'required'   => false,
                 'mapped' => false
+            ])
+            ->add('hide', CheckboxType::class, [
+                'attr' => ['class' => ''],
+                'required'   => false,
+                'label' => 'Скрыть?'
             ])
             ->add("submit", SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],

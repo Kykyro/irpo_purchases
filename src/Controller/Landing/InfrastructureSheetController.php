@@ -95,7 +95,9 @@ class InfrastructureSheetController extends AbstractController
             ->createQueryBuilder('a')
             ->orderBy('a.id', 'ASC')
             ->where('a.type LIKE :type')
+            ->andWhere('a.hide LIKE :hide')
             ->setParameter('type', "%$type%")
+            ->setParameter('hide', false)
             ->getQuery();
 
 

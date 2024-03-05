@@ -42,6 +42,11 @@ class InfrastructureSheetFiles
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $hide;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class InfrastructureSheetFiles
     public function setType(?string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function isHide(): ?bool
+    {
+        return $this->hide;
+    }
+
+    public function setHide(?bool $hide): self
+    {
+        $this->hide = $hide;
 
         return $this;
     }
