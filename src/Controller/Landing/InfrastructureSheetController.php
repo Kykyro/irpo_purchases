@@ -111,8 +111,10 @@ class InfrastructureSheetController extends AbstractController
                     ->createQueryBuilder('a')
                     ->andWhere('a.name LIKE :search')
                     ->andWhere('a.type LIKE :type')
+                    ->andWhere('a.hide LIKE :hide')
                     ->setParameter('search', "%$searchText%")
-                    ->setParameter('type', "%$type%");
+                    ->setParameter('type', "%$type%")
+                    ->setParameter('hide', false);
                     
                 if($industry !== null){
                     $query = $query
