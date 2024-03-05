@@ -34,6 +34,16 @@ class contactDirectorType  extends AbstractType
                 'required'   => false,
                 'label' => 'ФИО'
             ])
+            ->add('post', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+
+                'required'   => false,
+                'label' => '
+                           Должность
+                            '
+            ])
             ->add('phoneNumber', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -55,6 +65,7 @@ class contactDirectorType  extends AbstractType
                            Почта
                             '
             ])
+
 //            ->add('photo', FileType::class, [
 //                'attr' => [
 //                    'class' => 'form-control',

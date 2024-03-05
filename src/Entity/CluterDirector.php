@@ -42,6 +42,11 @@ class CluterDirector
      */
     private $contactInfo;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $post;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -113,6 +118,18 @@ class CluterDirector
         }
 
         $this->contactInfo = $contactInfo;
+
+        return $this;
+    }
+
+    public function getPost(): ?string
+    {
+        return $this->post;
+    }
+
+    public function setPost(?string $post): self
+    {
+        $this->post = $post;
 
         return $this;
     }

@@ -70,7 +70,7 @@ class ContactXlsxService extends AbstractController
                 array_push($headerRow, $tmpl);
         }
 
-        $sheet->fromArray($headerRow, '', 'R1');
+        $sheet->fromArray($headerRow, '', 'Q1');
 
         $index = 1;
         foreach ($users as $user)
@@ -88,13 +88,13 @@ class ContactXlsxService extends AbstractController
                 $userInfo->getInitiatorOfCreation(),
                 $userInfo->getEducationalOrganization(),
                 '', // Базовая образовательная организация кластера
-                '', // Куратор
-                '', // Замещающий куратор
+                $userInfo->getCurator(), // Куратор
+
                 '', // Официальная почта кластера
             ];
 
             $sheet->fromArray($row, '', 'A'.($index+1));
-            $sheet->fromArray($this->createContacts($contacts), '', 'N'.($index+1));
+            $sheet->fromArray($this->createContacts($contacts), '', 'M'.($index+1));
             $index++;
         }
         $styleArray = [
@@ -116,6 +116,13 @@ class ContactXlsxService extends AbstractController
         $rangeTotal = 'A2:BA'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+
+//        $deleteCol = ['AH', 'AI', 'AJ', 'AK', 'AT', 'AU', 'AV', 'AW'];
+//        $deleteCol = array_reverse($deleteCol);
+//        foreach ($deleteCol as $col)
+//        {
+//            $sheet->removeColumn($col);
+//        }
 
         $writer = new Xlsx($spreadsheet);
 
@@ -148,9 +155,10 @@ class ContactXlsxService extends AbstractController
         $director = $contact->getDirector();
         $responsibleContacts = $contact->getResponsibleContacts();
         $employers = $contact->getEmployersContacts();
+        $addContacts = $contact->getAddContacts();
 
         $row = [
-            $director ? '' : '',
+            $director ? $director->getPost() : '',
             $director ? $director->getFIO() : '',
             $director ? $director->getPhoneNumber() : '',
             $director ? $director->getEmail() : '',
@@ -162,7 +170,7 @@ class ContactXlsxService extends AbstractController
             foreach ($responsibleContacts as $contact)
             {
                 if ($contact->getResponsibleContactTypes()->contains($type)) {
-                    $a[0] = $a[0];
+                    $a[0] = $a[0].$contact->getPost()."\n\n";
                     $a[1] = $a[1].$contact->getFIO()."\n\n";
                     $a[2] = $a[2].$contact->getPhoneNumber()."\n\n";
                     $a[3] = $a[3].$contact->getEmail()."\n\n";
@@ -174,10 +182,27 @@ class ContactXlsxService extends AbstractController
                 array_push($row, $b);
             }
         }
-        for($i = 0; $i < 8; $i++)
+        $index = 1;
+        $arr = ['','','',''];
+        foreach ($addContacts as $contact)
         {
-            array_push($row, '');
+            if($contact->getType() == 'РОИВ')
+            {
+                $arr[0] = $arr[0].$index.') '.$contact->getPost()."\n\n" ;
+                $arr[1] = $arr[1].$index.') '.$contact->getFIO()."\n\n" ;
+                $arr[2] = $arr[2].$index.') '.$contact->getPhoneNumber()."\n\n" ;
+                $arr[3] = $arr[3].$index.') '.$contact->getEmail()."\n\n" ;
+                $index++;
+            }
         }
+        foreach ($arr as $item)
+        {
+            array_push($row, $item);
+        }
+//        for($i = 0; $i < 4; $i++)
+//        {
+//            array_push($row, '');
+//        }
         $employersArr = ['', '', '', ''];
         // Работадатели
         $index = 1;
@@ -193,6 +218,45 @@ class ContactXlsxService extends AbstractController
         foreach ($employersArr as $arr)
         {
             array_push($row, $arr);
+        }
+
+        $index = 1;
+        $arr = ['','','',''];
+        foreach ($addContacts as $contact)
+        {
+            if($contact->getType() == 'Дополнительный контакт')
+            {
+                $arr[0] = $arr[0].$index.') '.$contact->getPost()."\n\n" ;
+                $arr[1] = $arr[1].$index.') '.$contact->getFIO()."\n\n" ;
+                $arr[2] = $arr[2].$index.') '.$contact->getPhoneNumber()."\n\n" ;
+                $arr[3] = $arr[3].$index.') '.$contact->getEmail()."\n\n" ;
+                $index++;
+            }
+        }
+        foreach ($arr as $item)
+        {
+            array_push($row, $item);
+        }
+//        for($i = 0; $i < 4; $i++)
+//        {
+//            array_push($row, '');
+//        }
+        $index = 1;
+        $arr = ['','','',''];
+        foreach ($addContacts as $contact)
+        {
+            if($contact->getType() == 'Контакт из заявки')
+            {
+                $arr[0] = $arr[0].$index.') '.$contact->getPost()."\n\n" ;
+                $arr[1] = $arr[1].$index.') '.$contact->getFIO()."\n\n" ;
+                $arr[2] = $arr[2].$index.') '.$contact->getPhoneNumber()."\n\n" ;
+                $arr[3] = $arr[3].$index.') '.$contact->getEmail()."\n\n" ;
+                $index++;
+            }
+        }
+        foreach ($arr as $item)
+        {
+            array_push($row, $item);
         }
 
 

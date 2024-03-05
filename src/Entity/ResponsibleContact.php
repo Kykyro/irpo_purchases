@@ -44,6 +44,11 @@ class ResponsibleContact
      */
     private $responsibleContactTypes;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $post;
+
     public function __construct()
     {
         $this->responsibleContactTypes = new ArrayCollection();
@@ -125,6 +130,18 @@ class ResponsibleContact
         if ($this->responsibleContactTypes->removeElement($responsibleContactType)) {
             $responsibleContactType->removeResponsibleContact($this);
         }
+
+        return $this;
+    }
+
+    public function getPost(): ?string
+    {
+        return $this->post;
+    }
+
+    public function setPost(?string $post): self
+    {
+        $this->post = $post;
 
         return $this;
     }

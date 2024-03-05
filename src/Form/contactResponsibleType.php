@@ -60,6 +60,16 @@ class contactResponsibleType  extends AbstractType
                            Почта
                             '
             ])
+            ->add('post', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+
+                'required'   => false,
+                'label' => '
+                           Должность
+                            '
+            ])
             ->add('responsibleContactTypes', EntityType::class, [
                 'attr' => [
                     'class' => 'form-control',
