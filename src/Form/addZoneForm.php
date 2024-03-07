@@ -102,6 +102,7 @@ class addZoneForm extends AbstractType
     {
         return array(
             'user'         => null
+
         );
     }
 

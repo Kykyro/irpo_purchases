@@ -1,6 +1,12 @@
 {% extends 'default/base.html.twig' %}
 {% block styles %}
     <link href="{{ asset('css/plugins/blueimp/css/blueimp-gallery.min.css') }}" rel="stylesheet">
+    <style>
+        .nav-tabs > li {
+            width: 100%;
+        }
+
+    </style>
 {% endblock %}
 {% block content %}
 
@@ -15,153 +21,161 @@
     {% endif %}
     {% set addresses = user.getClusterAddresses() %}
     {#{% if addresses|length > 0 %}#}
-    {{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}
+    {{ include('default/bas_info.html.twig', {'user_info': user.getUserInfo()}) }}
     <div class="row mt-3">
 
     </div>
+
     <div class="row mt-3">
-        <div class="col-lg-10 offset-lg-1">
+        <div class="col-sm-12 ">
             <div class="tabs-container">
-                <ul class="nav nav-tabs" role="tablist">
-                    {% for i in addresses %}
-                        {% if i.getId() == index_tab or openFirst == true %}
-                            {% set openFirst = false %}
-                            <li><a class="nav-link active show" data-toggle="tab" href="#tab-{{ i.getId() }}">
-                                    {{ i.getAddresses() }}
-                                    <span class="badge badge-danger address-remarks" data-address="{{ i.getId() }}">a</span>
-                                </a></li>
-                        {% else %}
-                            <li><a class="nav-link " data-toggle="tab" href="#tab-{{ i.getId() }}"> {{ i.getAddresses() }}
-                                    <span class="badge badge-danger address-remarks" data-address="{{ i.getId() }}">a</span>
-                                </a></li>
-                        {% endif %}
 
-                    {% endfor %}
-                    <li>
-                        <a class="nav-link show active   btn-primary" href="{{ path('app_inspector_add_addresses', {'id': user.getId()}) }}">
-                            {#<button class="btn btn-primary">#}
-                            <i class="fa fa-plus">
-                                Добавить Адрес
-                            </i>
-                            {#</button>#}
-                        </a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    {% for i in addresses %}
-                        <div role="tabpanel" id="tab-{{ i.getId() }}" class="tab-pane {% if i.getId() == index_tab or firstList == true %} {% set firstList = false %} active show{% endif %}">
-                            <div class="panel-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
+                <div class="tabs-left">
+                    <ul class="nav nav-tabs">
+                        {% for i in addresses %}
+                            {% if i.getId() == index_tab or openFirst == true %}
+                                {% set openFirst = false %}
+                                <li><a class="nav-link active show" data-toggle="tab" href="#tab-{{ i.getId() }}">
+                                        {{ i.getAddresses() }}
+                                        <span class="badge badge-danger address-remarks" data-address="{{ i.getId() }}">a</span>
+                                    </a></li>
+                                <hr>
+                            {% else %}
+                                <li><a class="nav-link " data-toggle="tab" href="#tab-{{ i.getId() }}"> {{ i.getAddresses() }}
+                                        <span class="badge badge-danger address-remarks" data-address="{{ i.getId() }}">a</span>
+                                    </a></li>
+                                <hr>
+                            {% endif %}
 
-                                        <td class="col-md-2" style="vertical-align: inherit; text-align: center">
-                                            <strong>Адрес</strong>
-                                        </td>
-                                        <td class="col-md-2" style="vertical-align: inherit; text-align: center">
-                                            <strong>Зоны</strong>
-                                        </td>
-                                        <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
-                                        <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ общих помещений</strong></td>
-                                        <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ в общем</strong></td>
-                                        <td style="vertical-align: inherit; text-align: center"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
-                                        <td style="vertical-align: inherit; text-align: center"><strong>Крайняя дата завершения ремонта</strong></td>
-                                        <td class="col-md-1" style="vertical-align: inherit; text-align: center">
-                                            <strong>Действия</strong>
-                                        </td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                        {% endfor %}
+                        <hr>
+                        <li>
+                            <a class="nav-link show active   btn-primary" href="{{ path('app_inspector_add_addresses', {'id': user.getId()}) }}">
+                                {#<button class="btn btn-primary">#}
+                                <i class="fa fa-plus">
+                                    Добавить Адрес
+                                </i>
+                                {#</button>#}
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content ">
+                        {% for i in addresses %}
+                            <div role="tabpanel" id="tab-{{ i.getId() }}" class="tab-pane {% if i.getId() == index_tab or firstList == true %} {% set firstList = false %} active show{% endif %}">
+                                <div class="panel-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
 
-                                    <tr>
+                                            <td class="col-md-2" style="vertical-align: inherit; text-align: center">
+                                                <strong>Адрес</strong>
+                                            </td>
+                                            <td class="col-md-2" style="vertical-align: inherit; text-align: center">
+                                                <strong>Зоны</strong>
+                                            </td>
+                                            <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
+                                            <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ общих помещений</strong></td>
+                                            <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ в общем</strong></td>
+                                            <td style="vertical-align: inherit; text-align: center"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
+                                            <td style="vertical-align: inherit; text-align: center"><strong>Крайняя дата завершения ремонта</strong></td>
+                                            <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                                <strong>Действия</strong>
+                                            </td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
 
-                                        <td style="vertical-align: inherit; text-align: center">
-                                            {{ i.getAddresses() }}
-                                        </td>
+                                        <tr>
 
-                                        <td class="col-md-2" style="vertical-align: inherit; text-align: center">
-                                            {% set zones = i.getSortedClusterZones() %}
-                                            {% if zones|length > 0 %}
-                                                <ul style=" list-style-type: none;" class="m-0 p-0">
-                                                    {% for j in zones %}
-                                                        {% if j.isDoNotTake() %}
-                                                            <li>
-                                                                <button class="btn btn-outline-danger mb-2 col-lg-12" style="margin-bottom:4px;white-space: normal;">
-                                                                    {{ j.getName() }}
-                                                                </button>
-                                                            </li>
-                                                        {% else %}
-                                                            <a href="{{ path('app_inspector_view_zone', {'id' : j.getId()}) }}">
+                                            <td style="vertical-align: inherit; text-align: center">
+                                                {{ i.getAddresses() }}
+                                            </td>
+
+                                            <td class="col-md-2" style="vertical-align: inherit; text-align: center">
+                                                {% set zones = i.getSortedClusterZones() %}
+                                                {% if zones|length > 0 %}
+                                                    <ul style=" list-style-type: none;" class="m-0 p-0">
+                                                        {% for j in zones %}
+                                                            {% if j.isDoNotTake() %}
                                                                 <li>
-                                                                    <button class="btn btn-outline-dark mb-2 col-lg-12" style="margin-bottom:4px;white-space: normal;">
+                                                                    <button class="btn btn-outline-danger mb-2 col-lg-12" style="margin-bottom:4px;white-space: normal;">
                                                                         {{ j.getName() }}
-
-                                                                        <span class="badge badge-danger remarks"
-                                                                              data-remarks="{{ j.getZoneRemarks()|length }}"
-                                                                              data-address="{{ j.getAddres().getId() }}"
-
-                                                                        >
-
-                                                                           </span>
                                                                     </button>
                                                                 </li>
-                                                            </a>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </ul>
-                                            {% else %}
-                                                <span class="badge badge-warning">
+                                                            {% else %}
+                                                                <a href="{{ path('app_inspector_view_zone', {'id' : j.getId()}) }}">
+                                                                    <li>
+                                                                        <button class="btn btn-outline-dark mb-2 col-lg-12" style="margin-bottom:4px;white-space: normal;">
+                                                                            {{ j.getName() }}
+
+                                                                            <span class="badge badge-danger remarks"
+                                                                                  data-remarks="{{ j.getZoneRemarks()|length }}"
+                                                                                  data-address="{{ j.getAddres().getId() }}"
+
+                                                                            >
+
+                                                                           </span>
+                                                                        </button>
+                                                                    </li>
+                                                                </a>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% else %}
+                                                    <span class="badge badge-warning">
                                                         Нет зон
                                                     </span>
-                                            {% endif %}
-                                        </td>
-                                        {% set repairMidByZone = i.getMidRepairByZone() %}
-                                        {% set repairMidByCommon = i.getMidRepairByCommon() %}
-                                        <td style="vertical-align: inherit; text-align: center">{{ repairMidByZone|round(2, 'floor') }} %</td>
-                                        <td style="vertical-align: inherit; text-align: center">{{ repairMidByCommon|round(2, 'floor') }} %</td>
-                                        <td style="vertical-align: inherit; text-align: center">{{ (i.getMidRepair())|round(2, 'floor') }} %</td>
-                                        <td style="vertical-align: inherit; text-align: center">
-                                            {% if i.getEquipmentDeliveryDeadline() %}
-                                                {{ i.getEquipmentDeliveryDeadline().format('d.m.Y') }}
-                                            {% endif %}
-                                        </td>
-                                        <td style="vertical-align: inherit; text-align: center">
-                                            {% if i.getDeadlineForCompletionOfRepairs() %}
-                                                {{ i.getDeadlineForCompletionOfRepairs().format('d.m.Y') }}
-                                            {% endif %}
-                                        </td>
-                                        <td style="vertical-align: inherit; text-align: center">
-                                            <a href="{{ path('app_inspector_view_address', {'id': i.getId()}) }}">
-                                                <button class="btn btn-success col-lg-12 mb-2">
-                                                    <i class="fa fa-search">
-                                                        Просмотр
-                                                    </i>
-                                                </button>
-                                            </a>
-                                            <a href="{{ path('app_inspector_add_zone', {'id': i.getId()}) }}">
-                                                <button class="btn btn-primary col-lg-12 mb-2">
-                                                    <i class="fa fa-plus">
-                                                        Добавить зону
-                                                    </i>
-                                                </button>
-                                            </a>
-                                            <a href="{{ path('app_inspector_edit_addresses', {'id': i.getId()}) }}">
-                                                <button class="btn btn-warning col-lg-12 mb-2" style="white-space: normal;">
-                                                    <i class="fa fa-edit">
-                                                        Редактировать адресс
-                                                    </i>
-                                                </button>
-                                            </a>
+                                                {% endif %}
+                                            </td>
+                                            {% set repairMidByZone = i.getMidRepairByZone() %}
+                                            {% set repairMidByCommon = i.getMidRepairByCommon() %}
+                                            <td style="vertical-align: inherit; text-align: center">{{ repairMidByZone|round(2, 'floor') }} %</td>
+                                            <td style="vertical-align: inherit; text-align: center">{{ repairMidByCommon|round(2, 'floor') }} %</td>
+                                            <td style="vertical-align: inherit; text-align: center">{{ (i.getMidRepair())|round(2, 'floor') }} %</td>
+                                            <td style="vertical-align: inherit; text-align: center">
+                                                {% if i.getEquipmentDeliveryDeadline() %}
+                                                    {{ i.getEquipmentDeliveryDeadline().format('d.m.Y') }}
+                                                {% endif %}
+                                            </td>
+                                            <td style="vertical-align: inherit; text-align: center">
+                                                {% if i.getDeadlineForCompletionOfRepairs() %}
+                                                    {{ i.getDeadlineForCompletionOfRepairs().format('d.m.Y') }}
+                                                {% endif %}
+                                            </td>
+                                            <td style="vertical-align: inherit; text-align: center">
+                                                <a href="{{ path('app_inspector_view_address', {'id': i.getId()}) }}">
+                                                    <button class="btn btn-success col-lg-12 mb-2">
+                                                        <i class="fa fa-search">
+                                                            Просмотр
+                                                        </i>
+                                                    </button>
+                                                </a>
+                                                <a href="{{ path('app_inspector_add_zone', {'id': i.getId()}) }}">
+                                                    <button class="btn btn-primary col-lg-12 mb-2">
+                                                        <i class="fa fa-plus">
+                                                            Добавить зону
+                                                        </i>
+                                                    </button>
+                                                </a>
+                                                <a href="{{ path('app_inspector_edit_addresses', {'id': i.getId()}) }}">
+                                                    <button class="btn btn-warning col-lg-12 mb-2" style="white-space: normal;">
+                                                        <i class="fa fa-edit">
+                                                            Редактировать адресс
+                                                        </i>
+                                                    </button>
+                                                </a>
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
+                        {% endfor %}
+                    </div>
 
-                        </div>
-                    {% endfor %}
                 </div>
                 <div class="row">
                     <div class="col-lg-2 offset-lg-10">
@@ -184,6 +198,8 @@
             </div>
         </div>
     </div>
+
+
     {#{% endif %}#}
     <div class="row mt-3">
         <div class="col-lg-10 offset-lg-1">
@@ -192,11 +208,11 @@
     </div>
     {% if addresses|length > 0 %}
         <div class="row mt-3">
-            <div class="col-lg-10 offset-lg-1">
+            <div class="col-sm-12 ">
                 <div class="ibox">
                     <div class="ibox-title">
                         <h5>
-                            Общая статистика по кластеру
+                            Общая статистика по региону
                         </h5>
                     </div>
                     <div class="ibox-content">
@@ -286,7 +302,7 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-lg-10 offset-lg-1">
+            <div class="col-sm-12">
                 <div class="ibox">
                     <div class="ibox-title">
                         <h5>

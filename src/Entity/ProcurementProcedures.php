@@ -881,6 +881,40 @@ class ProcurementProcedures
         return $row;
     }
 
+    public function getAsRowForBas(){
+        $row = [];
+
+        array_push($row,
+            $this->getPurchaseObject(),
+            $this->getMethodOfDetermining(),
+            $this->getNMCK(),
+            ($this->getInitialFederalFunds() <= 0) ? '0' : $this->getInitialFederalFunds(),
+            ($this->getInitialFundsOfSubject() <= 0) ? '0' : $this->getInitialFundsOfSubject(),
+            (is_null($this->getPublicationDate())) ? (is_null($this->getPlannedPublicationDate())) ? '' : $this->getPlannedPublicationDate()->format('d.m.Y') : $this->getPublicationDate()->format('d.m.Y'),
+            (is_null($this->getDeadlineDate())) ? '' : $this->getDeadlineDate()->format('d.m.Y'),
+            (is_null($this->getDateOfSummingUp())) ? '' : $this->getDateOfSummingUp()->format('d.m.Y'),
+            $this->getPurchaseLink(),
+            $this->getPurchaseNumber(),
+            (is_null($this->getpostponementDate())) ? '' : $this->getpostponementDate()->format('d.m.Y'),
+            $this->getPostonementComment(),
+            (is_null($this->getDateOfConclusion())) ? '' : $this->getDateOfConclusion()->format('d.m.Y'),
+            $this->getSupplierName(),
+            $this->getSupplierINN(),
+            $this->getSupplierKPP(),
+            $this->getContractCost(),
+            ($this->getfinFederalFunds() <= 0) ? '0' : $this->getfinFederalFunds(),
+            ($this->getfinFundsOfSubject() <= 0) ? '0' : $this->getfinFundsOfSubject(),
+
+            (is_null($this->getDeliveryTime())) ? '' : $this->getDeliveryTime()->format('d.m.Y'),
+            ($this->getFactFederalFunds() <= 0) ? '0' : $this->getFactFederalFunds(),
+            ($this->getFactFundsOfSubject() <= 0) ? '0' : $this->getFactFundsOfSubject(),
+
+            ($this->isIsCancelled()) ? $this->getCancelledComment() : $this->getComments()
+        );
+
+        return $row;
+    }
+
     public function getIsDeleted(): ?bool
     {
         return $this->isDeleted;

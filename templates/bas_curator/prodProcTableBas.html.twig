@@ -1,0 +1,240 @@
+<style>
+    #prod-proc-tr td{
+        vertical-align: middle;
+        text-align: center;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox collapsed">
+            <a class="collapse-link">
+                <div class="ibox-title">
+                    <h5>Таблица закупок</h5>
+                    <div class="ibox-tools">
+
+                        <i class="fa fa-chevron-up"></i>
+
+
+                    </div>
+                </div>
+            </a>
+            <div class="ibox-content" style="display: none;">
+
+                <div class="container-fluid table-responsive horizontal-drag">
+                    <div class="row col-lg-12">
+                        <div class="flex-row flex-nowrap">
+
+
+                            <div>
+                                <table class="table table-bordered text-center ">
+                                    <thead>
+                                    <tr>
+                                        <td rowspan="3">
+                                            №
+                                        </td>
+                                        <td rowspan="3">
+                                            Наименование / Объект закупки
+                                            (В соответсвии с извещением о проведении закупки)Наименование / Объект закупки
+                                            (В соответсвии с извещением о проведении закупки)
+                                        </td>
+                                        <td rowspan="3">
+                                            Способ определения поставщика (подрядчика, исполнителя)
+                                        </td>
+                                        <td colspan="3">
+                                            Начальная (максимальная) цена контракта (РУБЛИ)
+                                        </td>
+
+                                        <td colspan="3" rowspan="2">
+                                            Срок размещения закупки в ЕИС / ЭМ
+                                        </td>
+                                        <td rowspan="3">
+                                            Ссылка на закупку на портале zakupki.gov.ru, прочие площадки
+                                        </td>
+                                        <td rowspan="3">
+                                            Номер закупки
+                                        </td>
+                                        <td colspan="2" rowspan="2">
+                                            Перенос срока размещения закупки в ЕИС / ЭМ
+                                        </td>
+
+                                        <td rowspan="3">
+                                            Дата заключения контракта / договора
+                                        </td>
+                                        <td colspan="3" rowspan="2">
+                                            Поставщик (подрядчик, исполнитель)
+                                        </td>
+                                        <td colspan="3">
+                                            Цена контракта / договора (РУБЛИ)
+                                        </td>
+
+                                        <td rowspan="3">
+                                            Срок поставки (подписание акта), дата
+                                        </td>
+                                        <td colspan="2">Фактическое расходование средств</td>
+
+                                        <td rowspan="3">
+                                            Комментарии / Примечания
+                                        </td>
+                                        <td rowspan="3">
+                                            Приложенный файл
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">
+                                            Всего
+                                        </td>
+                                        <td rowspan="2">
+                                            средства федерального бюджета
+                                        </td>
+                                        <td rowspan="2">
+                                            средства субъекта РФ
+                                        </td>
+
+                                        <td rowspan="2">
+                                            ВСЕГО
+                                        </td>
+                                        <td rowspan="2">
+                                            средства федерального бюджета
+                                        </td>
+                                        <td rowspan="2">
+                                            средства субъекта РФ
+                                        </td>
+
+                                        <td rowspan="2">
+                                            средства федерального бюджета
+                                        </td>
+                                        <td rowspan="2">
+                                            средства субъекта РФ
+                                        </td>
+
+
+                                    </tr>
+                                    <tr>
+
+                                        <td>
+                                            Дата публикации извещения
+                                        </td>
+                                        <td>
+                                            Дата окончания подачи заявок
+                                        </td>
+                                        <td>
+                                            Дата подведения итогов
+                                        </td>
+                                        <td>
+                                            дата
+                                        </td>
+                                        <td>
+                                            причина (обоснование)
+                                        </td>
+                                        <td>
+                                            Наименование организации-поставщика (подрядчика, исполнителя)
+                                        </td>
+                                        <td>
+                                            ИНН
+                                        </td>
+                                        <td>
+                                            КПП
+                                        </td>
+
+
+                                    </tr>
+                                    <tr class="">
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td>10</td>
+                                        <td>11</td>
+                                        <td>12</td>
+                                        <td>13</td>
+                                        <td>14</td>
+                                        <td>15</td>
+                                        <td>16</td>
+                                        <td>17</td>
+                                        <td>18</td>
+                                        <td>19</td>
+                                        <td>20</td>
+                                        <td>21</td>
+                                        <td>22</td>
+                                        <td>23</td>
+                                        <td>24</td>
+                                        <td>25</td>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for i in prodProc %}
+                                        {% if i.isIsCancelled() %}
+                                            <tr id="prod-proc-tr" style="background-color: rgba(177,92,94,0.49)">
+                                        {% else %}
+                                            <tr id="prod-proc-tr">
+                                        {% endif %}
+                                            <td class="bg-success">{{ loop.index }}</td>
+                                            {% for j in i.getAsRowForBas() %}
+                                                {% if loop.index == 11 %}
+                                                <td>
+                                                    <a href="{{ j }}">
+                                                        {{ j }}
+                                                    </a>
+                                                </td>
+                                                {% elseif loop.index in [3,4,5,6,7,19,20,20,21,22,25,26,27,28] %}
+                                                    <td class="cell-number">
+                                                        {{ j }}
+                                                    </td>
+                                                {% else %}
+                                                    <td>
+                                                        {{ j }}
+                                                    </td>
+
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        <td>
+
+                                            {% if i.isHasFiles() %}
+                                                {#{% if is_granted('ROLE_REGION') or is_granted("ROLE_SMALL_CLUSTERS") %}#}
+                                                    {#<a href="{{ path('app_inspector_view_purchase', { 'id' : i.getId()}) }}"#}
+                                                       {#target="_blank">#}
+                                                       {#<span class="badge badge-primary">#}
+                                                            {#Есть прикрепленные файлы#}
+                                                        {#</span>#}
+                                                    {#</a>#}
+                                                {#{% else %}#}
+                                                    <span class="badge badge-primary">
+                                                            Есть прикрепленные файлы
+                                                        </span>
+                                                {#{% endif %}#}
+
+                                            {% endif %}
+
+                                        </td>
+                                        </tr>
+
+                                    {% endfor %}
+                                    </tbody>
+
+
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="ibox-footer">
+
+                {% if prodProc|length > 0 %}
+                    {{ buttons }}
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

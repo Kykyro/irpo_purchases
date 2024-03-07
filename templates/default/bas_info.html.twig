@@ -1,0 +1,51 @@
+{% set isInspector = is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR')  %}
+<div class="row">
+    <div class="col-lg-12 mt-3">
+        <div class="ibox">
+
+                <div class="ibox-title">
+                    <h2 class="text-center">
+                        {% if  user_info.getRfSubject() %}
+                            {{ user_info.getRfSubject().getName() }}
+                        {% endif %}
+                        {{ user_info.getYear() }} год
+                    </h2>
+
+                </div>
+
+
+            <div class="ibox-footer">
+                {% if isInspector %}
+                    <div class="container">
+                        <a href="{{ path('app_bas_curator_info', {'id': user_info.getId()}) }}">
+                            <button class="btn btn-cyan mb-2 child">
+                                <div class="fa fa-archive"></div>
+                                Подробная информация о кластере
+                            </button>
+                        </a>
+                        <a href="{{ path('app_bas_curator_show_purchases', {'id': user_info.getId()}) }}">
+                            <button class="btn btn-info mb-2 child">
+                                <div class="fa fa-archive"></div>
+                                Просмотр Закупок
+                            </button>
+                        </a>
+                        <a href="{{ path('app_weekly_budget_amount', {'id': user_info.getId()}) }}">
+                            <button class="btn btn-success mb-2 child">
+                                <div class="fa fa-money"></div>
+                                Недельная сумма по бюджету
+                            </button>
+                        </a>
+                        <a href="{{ path('app_inspector_readiness_map', {'id': user_info.getId()}) }}">
+                            <button class="btn btn-primary mb-2 child">
+                                <div class="fa fa-check-circle"></div>
+                                Карта готовности
+                            </button>
+                        </a>
+
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

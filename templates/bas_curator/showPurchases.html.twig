@@ -1,0 +1,738 @@
+{% extends "default/base.html.twig" %}
+
+
+{% block style %}
+
+{% endblock %}
+
+{% block content %}
+{% set buttons %}
+    <div class="row">
+        <div class="col-lg-5 m-1">
+            <a href="{{ path('download_purchases_xlsx', {'user_id': id}) }}">
+                <button class="btn-gray-all btn btn-outline-success">
+                    <div class="fa fa-table"></div>
+                    Скачать таблицу
+                </button>
+            </a>
+        </div>
+    </div>
+<hr>
+    <div class="row">
+
+        <div class="col-lg-5 m-1">
+            <h5>
+                Скачать с указанием даты
+            </h5>
+            {{ form_start(form) }}
+                <label>
+                    Дата
+                </label>
+                <br>
+                {{ form_widget(form.date) }}
+                {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endset %}
+
+{{ include('default/bas_info.html.twig', {'user_info': user.getUserInfo()}) }}
+
+{{ include('bas_curator/prodProcTableBas.html.twig', {'buttons': buttons}) }}
+
+
+{% if prodProc|length > 0 %}
+    <div class="row ">
+        <div class="col-lg-12 ">
+            <div class="ibox collapsed">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Список закупок</h5>
+                        <div class="ibox-tools">
+
+                            <i class="fa fa-chevron-up"></i>
+
+
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content  table-responsive horizontal-drag">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Просмотрено</th>
+
+                            <th>Предмет закупки</th>
+                            <th>Способ определения поставщика</th>
+                            <th>НМЦК</th>
+                            <th>Дата публикации извещения</th>
+                            <th>Дата окончания подачи заявок</th>
+                            <th>Дата подведения итогов</th>
+                            <th>Дата заключения договоров</th>
+                            <th>Стоимость договора</th>
+                            <th>Источник финансирования</th>
+                            <th>Замечания</th>
+
+
+                            <th>Действия</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for i in prodProc %}
+                            {% if i.isIsCancelled() %}
+                                <tr id="prod-proc-tr" style="background-color: rgba(177,92,94,0.49)">
+                            {% else %}
+                                <tr id="prod-proc-tr">
+                            {% endif %}
+                                <td>
+                                    {{ i.getId() }}
+                                </td>
+                                <td>
+                                    {% if i.isIsRead() %}
+                                        <span class="badge badge-primary">
+                                            <i class="fa fa-check"></i>
+                                        </span>
+                                    {% else %}
+                                        <span class="badge badge-warning">
+                                            <i class="fa fa-times"></i>
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                {# Предмет закупки #}
+                                <td>{{ i.getPurchaseObject() }} </td>
+                                {# Способ определения поставщика #}
+                                <td>{{ i.getMethodOfDetermining() }}</td>
+                                {# НМЦК #}
+                                <td class="cell-number"> {{ i.getNMCK() }}</td>
+
+                                {# даты #}
+                                {# Дата публикации извещения #}
+                                {% if i.getPublicationDate is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getPublicationDate().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата окончания подачи заявок #}
+                                {% if i.getDeadlineDate is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getDeadlineDate().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата подведения итогов #}
+                                {% if i.getDateOfSummingUp is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getDateOfSummingUp().format("d.m.y") }}</td>
+                                {% endif %}
+
+                                {# Дата заключения договоров #}
+                                {% if i.getDateOfConclusion is null %}
+                                    <td></td>
+                                {% else %}
+                                    <td>{{ i.getDateOfConclusion().format("d.m.y") }}</td>
+                                {% endif %}
+
+
+
+                                {# Стоимость договора #}
+                                <td class="cell-number">{{ i.getContractCost() }}</td>
+                                {# Источник финансирования #}
+                                <td>{{ i.getSourceOfFunding() }}</td>
+                                {# Замечания #}
+                                <td>
+                                    {% set notes = i.getPurchaseNotes()|length %}
+                                    {% if notes > 0 %}
+                                        <a href="#">
+                                         <span class="badge badge-warning notes-count">
+                                            {{ notes }} замечаний
+                                        </span>
+                                        </a>
+
+                                    {% else %}
+                                        <span class="badge badge-success">
+                                        Нет замечаний
+                                    </span>
+                                    {% endif %}
+
+                                </td>
+                                {# Действия #}
+                                <td>
+                                    <a href="{{ path('app_inspector_view_purchase', { 'id' : i.getId()}) }}" target="_blank">
+                                        <button class="btn btn-info col-lg-12" >
+                                            <div class="fa fa-info"></div>
+                                            Просмотр
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 ">
+            <div class="ibox collapsed">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Суммы бюджетов</h5>
+                        <div class="ibox-tools">
+
+                            <i class="fa fa-chevron-up"></i>
+
+
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content" >
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4>
+                                <span class="badge badge-primary">
+                                    Актуальная
+                                </span>
+                                {{ today.format('d.m.Y') }}
+                            </h4>
+                            <hr>
+                            <h5>Объявлено</h5>
+                            <div class="col-lg-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <td class="col-md-1">Источники</td>
+                                        <td class="col-md-4">Суммы</td>
+                                        {% if initial_sum_1 is defined %}
+                                            <td class="col-md-3">Разница</td>
+                                        {% endif %}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr>
+                                        <td>Средства ФБ</td>
+                                        <td class="cell-number">{{ initial_sum['FederalFunds'] }} </td>
+                                        {% if initial_sum_1 is defined %}
+                                            {% set sum = initial_sum['FederalFunds'] - initial_sum_1['FederalFunds'] %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td>Средства субъекта РФ</td>
+                                        <td class="cell-number">{{ initial_sum['FundsOfSubject'] }} </td>
+                                        {% if initial_sum_1 is defined %}
+                                            {% set sum = initial_sum['FundsOfSubject'] - initial_sum_1['FundsOfSubject'] %}
+
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td>Средства РД</td>
+                                        <td class="cell-number">{{ initial_sum['EmployersFunds'] }} </td>
+                                        {% if initial_sum_1 is defined %}
+                                            {% set sum = initial_sum['EmployersFunds'] - initial_sum_1['EmployersFunds']  %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td>Средства ОО</td>
+                                        <td class="cell-number">{{ initial_sum['EducationalOrgFunds'] }} </td>
+                                        {% if initial_sum_1 is defined %}
+                                            {% set sum =  initial_sum['EducationalOrgFunds'] - initial_sum_1['EducationalOrgFunds'] %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td><b>Сумма</b></td>
+                                        <td>
+                                            <b class="cell-number">
+                                                {% set initial_sum_result = initial_sum['FederalFunds'] + initial_sum['FundsOfSubject'] +
+                                                    initial_sum['EmployersFunds'] + initial_sum['EducationalOrgFunds'] %}
+                                                {{
+
+                                                initial_sum_result
+
+                                                }}
+                                            </b>
+                                        </td>
+                                        {% if initial_sum_1 is defined %}
+                                            <td class="col-md-3">
+                                                {% set initial_sum_1_result = initial_sum_1['FederalFunds'] + initial_sum_1['FundsOfSubject'] +
+                                                    initial_sum_1['EmployersFunds'] + initial_sum_1['EducationalOrgFunds']
+                                                %}
+                                                {% set sum = initial_sum_result - initial_sum_1_result  %}
+                                                {% if sum > 0 %}
+                                                    <b class="cell-number text-navy">{{ sum  }}</b>
+                                                {% else %}
+                                                    <b class="cell-number text-danger">{{ sum  }}</b>
+                                                {% endif %}
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <hr>
+                            <h5>Законтрактовано</h5>
+                            <div class="col-lg-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <td class="col-md-1">Источники</td>
+                                        <td class="col-md-4">Суммы</td>
+                                        {% if initial_sum_1 is defined %}
+                                            <td class="col-md-3">Разница</td>
+                                        {% endif %}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Средства ФБ</td>
+                                        <td class="cell-number">{{ fin_sum['FederalFunds'] }} </td>
+                                        {% if initial_sum_1 is defined %}
+                                            {% set sum =  fin_sum['FederalFunds'] - fin_sum_1['FederalFunds'] %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td>Средства субъекта РФ</td>
+                                        <td class="cell-number">{{ fin_sum['FundsOfSubject'] }} </td>
+                                        {% if initial_sum_1 is defined %}
+                                            {% set sum =  fin_sum['FundsOfSubject'] -fin_sum_1['FundsOfSubject'] %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td>Средства РД</td>
+                                        <td class="cell-number">{{ fin_sum['EmployersFunds'] }} </td>
+                                        {% if initial_sum_1 is defined %}
+                                            {% set sum =  fin_sum['EmployersFunds'] -fin_sum_1['EmployersFunds'] %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td>Средства ОО</td>
+                                        <td class="cell-number"> {{ fin_sum['EducationalOrgFunds'] }} </td>
+                                        {% if initial_sum_1 is defined %}
+                                            {% set sum =  fin_sum['EducationalOrgFunds'] -fin_sum_1['EducationalOrgFunds']  %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td><b>Сумма</b></td>
+                                        <td>
+                                            <b class="cell-number">
+                                                {% set fin_sum_result = fin_sum['FederalFunds'] + fin_sum['FundsOfSubject'] +
+                                                    fin_sum['EmployersFunds'] + fin_sum['EducationalOrgFunds'] %}
+
+                                                {{
+
+                                                fin_sum_result
+
+                                                }}
+                                            </b>
+                                        </td>
+                                        {% if initial_sum_1 is defined %}
+                                            <td>
+                                                {% set fin_sum_1_result =  fin_sum_1['FederalFunds'] + fin_sum_1['FundsOfSubject'] +
+                                                    fin_sum_1['EmployersFunds'] + fin_sum_1['EducationalOrgFunds'] %}
+                                                {% set sum = fin_sum_result - fin_sum_1_result  %}
+                                                {% if sum > 0 %}
+                                                    <b class="cell-number text-navy">{{ sum  }}</b>
+                                                {% else %}
+                                                    <b class="cell-number text-danger">{{ sum  }}</b>
+                                                {% endif %}
+                                            </td>
+
+                                        {% endif %}
+
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% if initial_sum_1 is defined %}
+                            <div class="col-lg-3">
+                                <h4>
+                                    {{ date_1.format('d.m.Y') }}
+                                </h4>
+                                <hr>
+                                <h5>Объявлено</h5>
+                                <div class="col-lg-12">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <td class="col-md-1">Источники</td>
+                                            <td class="col-md-4">Суммы</td>
+                                            {#<td class="col-md-3">Разница</td>#}
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tr>
+                                            <td>Средства ФБ</td>
+                                            <td class="cell-number">
+                                                {{ initial_sum_1['FederalFunds'] }}
+
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td>Средства субъекта РФ</td>
+                                            <td class="cell-number">{{ initial_sum_1['FundsOfSubject'] }} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Средства РД</td>
+                                            <td class="cell-number">{{ initial_sum_1['EmployersFunds'] }} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Средства ОО</td>
+                                            <td class="cell-number">{{ initial_sum_1['EducationalOrgFunds'] }} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><b>Сумма</b></td>
+                                            <td>
+                                                <b class="cell-number">
+
+                                                    {{
+                                                    initial_sum_1_result
+
+                                                    }}
+                                                </b>
+                                            </td>
+
+                                        </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                                <hr>
+                                <h5>Законтрактовано</h5>
+                                <div class="col-lg-12">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <td class="col-md-1">Источники</td>
+                                            <td class="col-md-4">Суммы</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Средства ФБ</td>
+                                            <td class="cell-number">{{  fin_sum_1['FederalFunds'] }} </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td>Средства субъекта РФ</td>
+                                            <td class="cell-number">{{ fin_sum_1['FundsOfSubject'] }} </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td>Средства РД</td>
+                                            <td class="cell-number">{{ fin_sum_1['EmployersFunds'] }} </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td>Средства ОО</td>
+                                            <td class="cell-number"> {{ fin_sum_1['EducationalOrgFunds'] }} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><b>Сумма</b></td>
+                                            <td>
+                                                <b class="cell-number">
+
+                                                    {{
+
+                                                    fin_sum_1_result
+
+                                                    }}
+                                                </b>
+                                            </td>
+
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {#<div class="col-lg-3">#}
+                                {#<h4>#}
+                                    {#{{ date_2.format('d.m.Y') }}#}
+                                {#</h4>#}
+                                {#<hr>#}
+                                {#<h5>Объявлено</h5>#}
+                                {#<div class="col-lg-12">#}
+                                    {#<table class="table table-bordered">#}
+                                        {#<thead>#}
+                                        {#<tr>#}
+                                            {#<td class="col-md-1">Источники</td>#}
+                                            {#<td class="col-md-4">Суммы</td>#}
+                                        {#</tr>#}
+                                        {#</thead>#}
+                                        {#<tbody>#}
+
+                                        {#<tr>#}
+                                            {#<td>Средства ФБ</td>#}
+                                            {#<td class="cell-number">{{ initial_sum_2['FederalFunds'] }} </td>#}
+                                        {#</tr>#}
+                                        {#<tr>#}
+                                            {#<td>Средства субъекта РФ</td>#}
+                                            {#<td class="cell-number">{{ initial_sum_2['FundsOfSubject'] }} </td>#}
+                                        {#</tr>#}
+                                        {#<tr>#}
+                                            {#<td>Средства РД</td>#}
+                                            {#<td class="cell-number">{{ initial_sum_2['EmployersFunds'] }} </td>#}
+                                        {#</tr>#}
+                                        {#<tr>#}
+                                            {#<td>Средства ОО</td>#}
+                                            {#<td class="cell-number">{{ initial_sum_2['EducationalOrgFunds'] }} </td>#}
+                                        {#</tr>#}
+                                        {#<tr>#}
+                                            {#<td><b>Сумма</b></td>#}
+                                            {#<td>#}
+                                                {#<b class="cell-number">#}
+                                                    {#{{#}
+
+                                                    {#initial_sum_2['FederalFunds'] + initial_sum_2['FundsOfSubject'] +#}
+                                                    {#initial_sum_2['EmployersFunds'] + initial_sum_2['EducationalOrgFunds']#}
+
+                                                    {#}}#}
+                                                {#</b>#}
+                                            {#</td>#}
+                                        {#</tr>#}
+                                        {#</tbody>#}
+
+                                    {#</table>#}
+                                {#</div>#}
+                                {#<hr>#}
+                                {#<h5>Законтрактовано</h5>#}
+                                {#<div class="col-lg-12">#}
+                                    {#<table class="table table-bordered">#}
+                                        {#<thead>#}
+                                        {#<tr>#}
+                                            {#<td class="col-md-1">Источники</td>#}
+                                            {#<td class="col-md-4">Суммы</td>#}
+                                        {#</tr>#}
+                                        {#</thead>#}
+                                        {#<tbody>#}
+                                        {#<tr>#}
+                                            {#<td>Средства ФБ</td>#}
+                                            {#<td class="cell-number">{{ fin_sum_2['FederalFunds'] }} </td>#}
+                                        {#</tr>#}
+                                        {#<tr>#}
+                                            {#<td>Средства субъекта РФ</td>#}
+                                            {#<td class="cell-number">{{ fin_sum_2['FundsOfSubject'] }} </td>#}
+                                        {#</tr>#}
+                                        {#<tr>#}
+                                            {#<td>Средства РД</td>#}
+                                            {#<td class="cell-number">{{ fin_sum_2['EmployersFunds'] }} </td>#}
+                                        {#</tr>#}
+                                        {#<tr>#}
+                                            {#<td>Средства ОО</td>#}
+                                            {#<td class="cell-number"> {{ fin_sum_2['EducationalOrgFunds'] }} </td>#}
+                                        {#</tr>#}
+                                        {#<tr>#}
+                                            {#<td><b>Сумма</b></td>#}
+                                            {#<td>#}
+                                                {#<b class="cell-number">#}
+                                                    {#{{#}
+
+                                                    {#fin_sum_2['FederalFunds'] + fin_sum_2['FundsOfSubject'] +#}
+                                                    {#fin_sum_2['EmployersFunds'] + fin_sum_2['EducationalOrgFunds']#}
+
+                                                    {#}}#}
+                                                {#</b>#}
+                                            {#</td>#}
+                                        {#</tr>#}
+
+                                        {#</tbody>#}
+                                    {#</table>#}
+                                {#</div>#}
+                            {#</div>#}
+
+
+                        {% endif %}
+                    </div>
+
+
+
+                </div>
+                <div class="ibox-footer">
+                    {{ form_start(form2) }}
+                        <div class="row">
+                            <div class="col-lg-1">
+                                <label>Дата 1</label>
+                                <br>
+                                {{ form_widget(form2.date_1) }}
+                            </div>
+                            {#<div class="col-lg-1">#}
+                                {#<label>Дата 2</label>#}
+                                {#<br>#}
+                                {#{{ form_widget(form2.date_2) }}#}
+                            {#</div>#}
+
+                        </div>
+                    {{ form_end(form2) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+
+    <div class="row ">
+        <div class="col-lg-12 ">
+            <div class="ibox collapsed">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>Справки о контрактации</h5>
+                        <div class="ibox-tools">
+
+                            <i class="fa fa-chevron-up"></i>
+
+
+                        </div>
+                    </div>
+                </a>
+                <div class="ibox-content">
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <td class="col-md-2">Дата</td>
+                               <td class="col-md-2">Статус</td>
+                               <td class="col-md-2">Скачать</td>
+                           </tr>
+                       </thead>
+                       <tbody>
+                            {% for i in contractingCertificates|reverse %}
+                                <tr>
+                                    <td>{{ i.getCreatedAt().format('d.m.Y') }}</td>
+                                    <td>{{ i.getStatus() }}</td>
+                                    <td>
+                                        {% if i.getFile() %}
+                                            <a href="{{ path('app_download_file_by_route', {'file': i.getFile(), 'route': 'certificate_files_directory'}) }}">
+                                                <i class="fa fa-download"></i> {{ i.getFile() }}
+                                            </a>
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                       </tbody>
+                   </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    {#{{ asset_version('') }}#}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+
+    <script>
+        const slider = document.querySelector('.horizontal-drag');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+
+            isDown = true;
+            slider.classList.add('active_scroll')
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mouseup', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+
+            if (!isDown) return;
+            e.preventDefault()
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 3;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+{% endblock %}
