@@ -38,7 +38,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    Инициатор создания кластера
+                                    Региональный координатор
                                 </td>
                                 <td style="vertical-align: middle">
                                     {{ user_info.getInitiatorOfCreation() }}
@@ -53,9 +53,167 @@
         </div>
     </div>
 </div>
-{#{% if is_granted('ROLE_ADMIN') %}#}
+    {#TODO: вынести блок контактов отдельно#}
 
-{#{% endif %}#}
+    {% set contactInfo = user_info.getContactInfo() %}
+    {% if contactInfo is null %}
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        Контактная информация не найдена
+                    </div>
+                    <div class="panel-body">
+                        {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS') or is_granted('ROLE_BAS')  %}
+                            <a href="{{ path('app_edit_contact_info' , {'id': user_info.getId()}) }}">
+                                <button class="btn btn-success ">
+                                    <i class="fa fa-plus"></i>
+                                    Добавить контактную информацию
+                                </button>
+                            </a>
+                        {% endif %}
+                        {% if  is_granted('ROLE_SMALL_CURATOR') or is_granted('ROLE_INSPECTOR') or is_granted('ROLE_CURATOR_BAS')  %}
+                            <a href="{{ path('app_edit_contact_info_add' , {'id': user_info.getId()}) }}">
+                                <button class="btn btn-primary ">
+                                    <i class="fa fa-plus"></i>
+                                    Добавить <b>ДОПОЛНИТЕЛЬНУЮ</b> контактную информацию
+                                </button>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row animated fadeInRight">
+            <div class="col-sm-10 offset-sm-1 ">
+                <div class="wrapper wrapper-content ">
+                    <div class="ibox-content block-shadow ">
+                        <div class="ibox ">
+                            {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS') or is_granted('ROLE_BAS')  %}
+                                <a href="{{ path('app_edit_contact_info' , {'id': user_info.getId()}) }}">
+                                    <button class="btn btn-success pull-right">
+                                        <i class="fa fa-edit"></i>
+                                        Редактировать контактную информацию
+                                    </button>
+                                </a>
+                            {% endif %}
+                            {% if  is_granted('ROLE_SMALL_CURATOR') or is_granted('ROLE_INSPECTOR') or is_granted('ROLE_CURATOR_BAS') %}
+                                <a href="{{ path('app_edit_contact_info_add' , {'id': user_info.getId()}) }}">
+                                    <button class="btn btn-primary pull-right mr-2">
+                                        <i class="fa fa-plus"></i>
+                                        Редактировать <b>ДОПОЛНИТЕЛЬНУЮ</b> контактную информацию
+                                    </button>
+                                </a>
+                            {% endif %}
+                            <a class="collapse-link">
+                                <div class="ibox-title">
+                                    <h2 style="font-weight: bold; margin-top: -5px">Контактные данные</h2>
+                                    <div class="ibox-tools">
+
+                                        <i class="fa fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="ibox-content" style="display: none">
+                                {% if contactInfo.getDirector() is not null %}
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="contact-box">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="text-center">
+                                                            {% if contactInfo.getDirector().getPhoto() %}
+                                                                <img alt="image" class="rounded-circle m-t-xs img-fluid"
+                                                                     src="{{ asset('img/placeholder/employees.png') }}">
+                                                            {% else %}
+                                                                <img alt="image" class="rounded-circle m-t-xs img-fluid"
+                                                                     src="{{ asset('img/placeholder/employees.png') }}">
+                                                            {% endif %}
+                                                            <div class="m-t-xs font-bold">Директор (ИО)</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <h3><strong>{{ contactInfo.getDirector().getFIO() }}</strong></h3>
+
+                                                        <address>
+                                                            <p>Моб.Телефон: {{ contactInfo.getDirector().getPhoneNumber() }} </p>
+                                                            <p>Почта: {{ contactInfo.getDirector().getEmail() }} </p>
+                                                        </address>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                {% endif %}
+                                {% if contactInfo.getResponsibleContacts() is not null %}
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <td class="col-md-2">Отвественный за</td>
+                                                <td class="col-md-2  text-center">ФИО</td>
+                                                <td class="col-md-2 text-center">Моб.Телефон</td>
+                                                <td class="col-md-2 text-center">Почта</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for i in contactInfo.getResponsibleContacts() %}
+                                                <tr>
+                                                    <td class="text-left align-middle">
+                                                        {% for type in i.getResponsibleContactTypes() %}
+                                                            <p class="mb-0">
+                                                                - {{ type.getName() }}
+                                                            </p>
+
+
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td class="text-center align-middle">{{ i.getFIO() }}</td>
+                                                    <td class="text-center align-middle">{{ i.getPhoneNumber() }}</td>
+                                                    <td class="text-center align-middle">{{ i.getEmail() }}</td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr>
+                                {% endif %}
+                                <h5>
+                                    Список работодателей
+                                </h5>
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <td class="col-md-2">Работодатель</td>
+                                        <td class="col-md-2 text-center">ФИО</td>
+                                        <td class="col-md-2 text-center">Должность</td>
+                                        <td class="col-md-2 text-center">Моб.Телефон</td>
+                                        <td class="col-md-2 text-center">Почта</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for rd in contactInfo.getEmployersContacts()  %}
+                                        <tr>
+                                            <td class="text-left align-middle">{{ rd.getEmployer().getName() }}</td>
+                                            <td class="text-center align-middle">{{ rd.getFIO() }}</td>
+                                            <td class="text-center align-middle">{{ rd.getPost() }}</td>
+                                            <td class="text-center align-middle">{{ rd.getPhoneNumber() }}</td>
+                                            <td class="text-center align-middle">{{ rd.getEmail() }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
 <div class="row animated fadeInRight">
     <div class="col-sm-10 offset-sm-1 ">
         <div class="wrapper wrapper-content ">
@@ -361,7 +519,7 @@
 
 {% endblock %}
 
-{% block script %}
+{% block scripts %}
 
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/inspinia.js') }}"></script>

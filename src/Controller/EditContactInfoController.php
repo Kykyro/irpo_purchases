@@ -93,13 +93,22 @@ class EditContactInfoController extends AbstractController
             $em->persist($contactInfo);
 //            dd($contactInfo);
             $em->flush();
-            if((in_array('ROLE_SMALL_CURATOR', $roles) or in_array('ROLE_INSPECTOR', $roles)))
+            if((in_array('ROLE_SMALL_CURATOR', $roles) or
+                in_array('ROLE_INSPECTOR', $roles) or
+                in_array('ROLE_CURATOR_BAS', $roles)
+            ))
             {
-                return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id' => $id]);
+                if(in_array('ROLE_CURATOR_BAS', $roles))
+                    return $this->redirectToRoute('app_bas_curator_info', ['id' => $id]);
+                else
+                    return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id' => $id]);
             }
             else
             {
-                return $this->redirectToRoute('app_profile', ['id' => $id]);
+                if((in_array('ROLE_BAS', $roles)))
+                    return $this->redirectToRoute('app_bas_profile', ['id' => $id]);
+                else
+                    return $this->redirectToRoute('app_profile', ['id' => $id]);
             }
 
 
