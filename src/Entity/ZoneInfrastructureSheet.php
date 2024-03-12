@@ -97,6 +97,16 @@ class ZoneInfrastructureSheet
      */
     private $funds = [];
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $inventoryNumber;
+
+    /**
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     */
+    private $sum;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -290,6 +300,30 @@ class ZoneInfrastructureSheet
     public function setFunds(?array $funds): self
     {
         $this->funds = $funds;
+
+        return $this;
+    }
+
+    public function getInventoryNumber(): ?string
+    {
+        return $this->inventoryNumber;
+    }
+
+    public function setInventoryNumber(?string $inventoryNumber): self
+    {
+        $this->inventoryNumber = $inventoryNumber;
+
+        return $this;
+    }
+
+    public function getSum(): ?string
+    {
+        return $this->sum;
+    }
+
+    public function setSum(?string $sum): self
+    {
+        $this->sum = $sum;
 
         return $this;
     }

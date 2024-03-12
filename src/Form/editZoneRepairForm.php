@@ -38,6 +38,7 @@ class editZoneRepairForm extends AbstractType
                 'required'   => true,
                 'label' => 'Демонтажные работы',
                 'empty_data' => 100,
+                'disabled' => $options['config']
 
             ])
             ->add('plasteringAndCommunication', TextType::class, [
@@ -114,6 +115,13 @@ class editZoneRepairForm extends AbstractType
                 ],
                 'label' => 'Ремонт не запланирован',
             ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'config' => false
+        ]);
     }
 
 

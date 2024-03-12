@@ -27,6 +27,14 @@ class RegionReadinessMapController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
+        if(in_array('ROLE_BAS', $user->getRoles()))
+        {
+            $template = 'readness_map_bas/region/index.html.twig';
+        }
+        else
+        {
+            $template = 'region_readiness_map/index.html.twig';
+        }
         $addresses = $user->getClusterAddresses();
 
         $adresses = $user->getClusterAddresses();
@@ -104,7 +112,7 @@ class RegionReadinessMapController extends AbstractController
 
 
 
-        return $this->render('region_readiness_map/index.html.twig', [
+        return $this->render($template, [
             'controller_name' => 'RegionReadinessMapController',
             'addresess' => $addresses,
             'user' => $user,
@@ -138,6 +146,14 @@ class RegionReadinessMapController extends AbstractController
     {
         $today = new \DateTimeImmutable('now');
         $user = $this->getUser();
+        if(in_array('ROLE_BAS', $user->getRoles()))
+        {
+            $template = 'readness_map_bas/region/viewZone.html.twig';
+        }
+        else
+        {
+            $template = 'region_readiness_map/viewZone.html.twig';
+        }
         $zone = $this->getDoctrine()->getManager()->getRepository(ClusterZone::class)->find($id);
         $repair = $zone->getZoneRepair();
         if($zone->getAddres()->getUser() !== $user)
@@ -158,7 +174,7 @@ class RegionReadinessMapController extends AbstractController
             10 /*limit per page*/
         );
 
-        return $this->render('region_readiness_map/viewZone.html.twig', [
+        return $this->render($template, [
             'controller_name' => 'RegionReadinessMapController',
             'zone' => $zone,
             'pagination' => $pagination,
@@ -231,12 +247,27 @@ class RegionReadinessMapController extends AbstractController
      */
     public function editInfrastructureSheet(Request $request, int $id)
     {
+        $user = $this->getUser();
+        if(in_array('ROLE_BAS', $user->getRoles()))
+        {
+            $template = 'readness_map_bas/region/editInfrastructureSheet.html.twig';
+            $formOption = [
+                'is_bas' => true
+            ];
+        }
+        else
+        {
+            $template = 'region_readiness_map/editInfrastructureSheet.html.twig';
+            $formOption = [
+                'is_bas' => false
+            ];
+        }
         $entity_manager = $this->getDoctrine()->getManager();
 
         $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
 
 
-        $form = $this->createForm(infrastructureSheetZoneRegionEditForm::class, $zone);
+        $form = $this->createForm(infrastructureSheetZoneRegionEditForm::class, $zone, $formOption);
 //        dd($request);
         $form->handleRequest($request);
 
@@ -253,7 +284,7 @@ class RegionReadinessMapController extends AbstractController
             return $this->redirectToRoute('app_region_view_zone', ['id' => $id]);
         }
 
-        return $this->render('region_readiness_map/editInfrastructureSheet.html.twig', [
+        return $this->render($template, [
             'controller_name' => 'InspectorReadinessMapController',
             'form' =>$form->createView(),
             'zone' => $zone,

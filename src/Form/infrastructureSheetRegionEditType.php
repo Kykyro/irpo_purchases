@@ -38,25 +38,8 @@ class infrastructureSheetRegionEditType  extends AbstractType
                 'required' => false,
                 'widget' => 'single_text',
             ])
-            ->add('comment', TextareaType::class, [
-                'attr' => [
-                    'class' => 'form-control',
 
-                ],
-                'label' => false,
-                'required' => false,
-                'empty_data' => '',
-            ])
-            ->add('putIntoOperation', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'step' => '1',
-                    'min' => '0',
-                ],
-                'label' => false,
-                'required' => false,
-                'empty_data' => 0,
-            ])
+
             ->add('OKPD2', TextType::class, [
                 'attr' => [
                     'class' => 'form-control okpd2',
@@ -96,13 +79,62 @@ class infrastructureSheetRegionEditType  extends AbstractType
                 'empty_data' => "",
             ])
 
+
         ;
+        if($options['is_bas'])
+        {
+            $builder
+            ->add('inventoryNumber', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => false,
+                'required' => false,
+                'empty_data' => "",
+//                'mapped' => false,
+            ])
+            ->add('sum', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => false,
+                'required' => false,
+                'empty_data' => 0,
+//                'mapped' => false,
+            ])
+
+            ;
+        }
+        else
+        {
+            $builder
+                ->add('putIntoOperation', TextType::class, [
+                    'attr' => [
+                        'class' => 'form-control',
+                        'step' => '1',
+                        'min' => '0',
+                    ],
+                    'label' => false,
+                    'required' => false,
+                    'empty_data' => 0,
+                ])
+                ->add('comment', TextareaType::class, [
+                    'attr' => [
+                        'class' => 'form-control',
+
+                    ],
+                    'label' => false,
+                    'required' => false,
+                    'empty_data' => '',
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => ZoneInfrastructureSheet::class,
+            'is_bas' => false
         ]);
     }
 }

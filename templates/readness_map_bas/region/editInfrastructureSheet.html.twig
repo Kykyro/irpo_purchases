@@ -1,0 +1,355 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+    {% import _self as formMacros %}
+
+
+    <div class="row mt-3">
+        <div class="col-lg-12 mb-2">
+            <a href="{{ path('app_region_view_zone', {'id': zone.getId()}) }}">
+                <button class="btn btn-success mb-3" type="button">
+                    <i class="fa fa-arrow-left">
+                        Назад
+                    </i>
+                </button>
+            </a>
+            <div class="ibox border-bottom">
+
+                <div class="ibox-title">
+                    <h5>
+                        Редактирование инфраструктурного листа
+                    </h5>
+
+                </div>
+                {% macro printZoneInfrastructureSheets(sheet) %}
+
+                        {#{{ dump(sheet.vars.value) }}#}
+                        {% if sheet.vars.value %}
+                            {% set totalNumber = sheet.vars.value.totalNumber %}
+
+                            <td>
+                                {{ form_row(sheet.factNumber, {'type': 'number', 'attr': {'max':totalNumber}}) }}
+                            </td>
+                             {#<td>#}
+                                {#{{ form_row(sheet.putIntoOperation, {'type': 'number', 'attr': {'max':totalNumber}}) }}#}
+                            {#</td>#}
+                        {% else %}
+                             <td>
+                                {{ form_row(sheet.factNumber, {'type': 'number'}) }}
+                             </td>
+                             {#<td>#}
+                                {#{{ form_row(sheet.putIntoOperation, {'type': 'number'}) }}#}
+                            {#</td>#}
+                        {% endif %}
+
+                        <td>
+                            {{ form_row(sheet.deliveryDate) }}
+                        </td>
+                        <td>{{ form_row(sheet.OKPD2) }}</td>
+                        <td>{{ form_row(sheet.KTRU) }}</td>
+                         {% if sheet.vars.value %}
+                            {% set showModel = sheet.vars.value.isHasModel %}
+                            {% if showModel %}
+                               <td>{{ form_row(sheet.model, {'disabled' : true}) }}</td>
+                            {% else %}
+                                <td>{{ form_row(sheet.model) }}</td>
+                            {% endif %}
+                        {% else %}
+                            <td>{{ form_row(sheet.model) }}</td>
+                        {% endif %}
+                        <td>{{ form_row(sheet.countryOfOrigin) }}</td>
+
+                        <td>
+                            {{ form_row(sheet.sum, { 'type': 'number' }) }}
+
+                        </td>
+                        <td>
+                             {{ form_row(sheet.inventoryNumber) }}
+                        </td>
+
+
+                {% endmacro %}
+                {% set thead %}
+                    <tr>
+                        <td class="col-md-2 text-center">Наименование</td>
+                        <td class="col-md-1 text-center">Общее кол-во</td>
+                        <td class="col-md-1 text-center">Фактическое кол-во</td>
+                        {#<td class="col-md-1">Введено в эксплуатацию</td>#}
+                        <td class="col-md-1 text-center">Дата поставки (Планируемая)</td>
+                        <td class="col-md-1 text-center">ОКПД2</td>
+                        <td class="col-md-1 text-center">КТРУ</td>
+                        <td class="col-md-1 text-center">Марка / модель</td>
+                        <td class="col-md-1 text-center">Страна-производитель</td>
+                        <td class="col-md-1 text-center">Сумма</td>
+                        <td class="col-md-1 text-center">Инвентарный номер</td>
+
+                    </tr>
+                {% endset %}
+            <div class="ibox-content">
+                {{ form_start(form) }}
+                <table class="table table-bordered">
+
+                    <thead>
+                        <tr>
+                            <td colspan="10">
+                                <h3>Общая зона</h3>
+                            </td>
+                        </tr>
+                        {{ thead }}
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+                           data-index="{{ form.zoneInfrastructureSheets|length > 0 ? form.zoneInfrastructureSheets|last.vars.name + 1 : 0 }}"
+                           data-prototype='{{ formMacros.printZoneInfrastructureSheets(form.zoneInfrastructureSheets.vars.prototype|e) }}'
+                           data-widget-tags="{{
+                           '<tr></tr>'|e
+                           }}"
+                           data-widget-counter="{{ form.zoneInfrastructureSheets|length }}"
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                        {% set zone_type = sheet.vars.value.zoneType %}
+                            {% if zone_type == 'Общая зона' %}
+                                <tr>
+                                    <td>{{ sheet.vars.value.name }}</td>
+                                    <td>{{ sheet.vars.value.totalNumber }}</td>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td colspan="10">
+                                <h3>Рабочее место учащегося</h3>
+                            </td>
+                        </tr>
+                        {{ thead }}
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                        {% set zone_type = sheet.vars.value.zoneType %}
+                            {% if zone_type == 'Рабочее место учащегося' %}
+                                <tr>
+                                    <td>{{ sheet.vars.value.name }}</td>
+                                    <td>{{ sheet.vars.value.totalNumber }}</td>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td colspan="10">
+                                <h3>Рабочее место преподавател</h3>
+                            </td>
+                        </tr>
+                       {{ thead }}
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                        {% set zone_type = sheet.vars.value.zoneType %}
+                            {% if zone_type == 'Рабочее место преподавателя' %}
+                                <tr>
+                                    <td>{{ sheet.vars.value.name }}</td>
+                                    <td>{{ sheet.vars.value.totalNumber }}</td>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td colspan="10">
+                                <h3>
+                                    Малая полетная зона
+                                </h3>
+                            </td>
+                        </tr>
+                       {{ thead }}
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                        {% set zone_type = sheet.vars.value.zoneType %}
+                            {% if zone_type == 'Малая полетная зона' %}
+                                <tr>
+                                    <td>{{ sheet.vars.value.name }}</td>
+                                    <td>{{ sheet.vars.value.totalNumber }}</td>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td colspan="10">
+                                <h3>
+                                    Основная полетная зона
+                                </h3>
+                            </td>
+                        </tr>
+                       {{ thead }}
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                        {% set zone_type = sheet.vars.value.zoneType %}
+                            {% if zone_type == 'Основная полетная зона' %}
+                                <tr>
+                                    <td>{{ sheet.vars.value.name }}</td>
+                                    <td>{{ sheet.vars.value.totalNumber }}</td>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td colspan="10">
+                                <h3>
+                                    Ремонтная станция и зона 3Д-печати
+                                </h3>
+                            </td>
+                        </tr>
+                       {{ thead }}
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                        {% set zone_type = sheet.vars.value.zoneType %}
+                            {% if zone_type == 'Ремонтная станция и зона 3Д-печати' %}
+                                <tr>
+                                    <td>{{ sheet.vars.value.name }}</td>
+                                    <td>{{ sheet.vars.value.totalNumber }}</td>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td colspan="10">
+                                <h3>
+                                    Вариативная часть / Дополнительное оборудование, возможное к закупке
+                                </h3>
+                            </td>
+                        </tr>
+                       {{ thead }}
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                        {% set zone_type = sheet.vars.value.zoneType %}
+                            {% if zone_type == 'Вариативная часть' %}
+                                <tr>
+                                    <td>{{ sheet.vars.value.name }}</td>
+                                    <td>{{ sheet.vars.value.totalNumber }}</td>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td colspan="10">
+                                <h3>
+                                    Охрана труда и техника безопасности
+                                </h3>
+                            </td>
+                        </tr>
+                       {{ thead }}
+                    </thead>
+
+                    <tbody class="sheets " id="sheets"
+
+                    >
+                        {% for sheet in form.zoneInfrastructureSheets %}
+                        {% set zone_type = sheet.vars.value.zoneType %}
+                            {% if zone_type == 'Охрана труда' %}
+                                <tr>
+                                    <td>{{ sheet.vars.value.name }}</td>
+                                    <td>{{ sheet.vars.value.totalNumber }}</td>
+                                    {{ formMacros.printZoneInfrastructureSheets(sheet) }}
+                                </tr>
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+                    <div class="ibox-footer">
+                        {{ form_row(form.submit) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/mask-plugin/jquery.mask.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $("form").validate();
+            $.validator.messages.minlength = $.validator.format("Указан неполный код.");
+            $.validator.addClassRules({
+                okpd2 : {
+                    minlength: 12
+                },
+                ktru : {
+                    minlength: 19
+                }
+            });
+
+
+
+        });
+    </script>
+{% endblock %}

@@ -2,8 +2,14 @@
 
 namespace App\Controller\BasCurator;
 
+use App\Entity\ClusterZone;
+use App\Entity\PhotosVersion;
 use App\Entity\User;
+use App\Entity\ZoneInfrastructureSheet;
+use App\Form\editZoneRepairForm;
+use App\Form\infrastructureSheetZoneForm;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -156,7 +162,7 @@ class ReadnessMapBasController extends AbstractController
 //                return $this->downloadPhotos($photos, $user->getUserInfo()->getCluster());
         }
 
-        return $this->render('readness_map_bas/index.html.twig', [
+        return $this->render('readness_map_bas/inspector/index.html.twig', [
             'controller_name' => 'ReadnessMapBasController',
             'user' => $user,
             '_photos' => $photos,
@@ -181,5 +187,116 @@ class ReadnessMapBasController extends AbstractController
         {
             return 0;
         }
+    }
+
+    /**
+     * @Route("/bas-curator/readiness-map/zone/{id}", name="app_inspector_view_zone_bas")
+     */
+    public function viewZone(Request $request, int $id, EntityManagerInterface $em, PaginatorInterface $paginator)
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
+        $repair = $zone->getZoneRepair();
+        $query = $em->getRepository(PhotosVersion::class)
+            ->createQueryBuilder('p')
+            ->andWhere('p.repair = :repair')
+            ->orderBy('p.id', 'DESC')
+            ->setParameter('repair', $repair)
+            ->getQuery();
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+
+        $infrastructure = $entity_manager->getRepository(ZoneInfrastructureSheet::class)
+            ->createQueryBuilder('i')
+            ->andWhere('i.zone = :zone')
+            ->setParameter('zone', $zone)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('/readness_map_bas/inspector/viewZone.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+            'zone' => $zone,
+            'pagination' => $pagination,
+            'infrastructure' => $infrastructure,
+        ]);
+    }
+
+    /**
+     * @Route("/bas-curator/readiness-map/edit-repair-zone/{id}", name="app_inspector_edit_repair_zone_bas")
+     */
+    public function editRepairZone(Request $request, int $id, FileService $fileService): Response
+    {
+        $entity_manager = $this->getDoctrine()->getManager();
+        $zone = $entity_manager->getRepository(ClusterZone::class)->find($id);
+
+
+        $repair = $zone->getZoneRepair();
+        $form = $this->createForm(editZoneRepairForm::class, $repair);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entity_manager->persist($repair);
+            $entity_manager->flush();
+
+            return $this->redirectToRoute('app_inspector_view_zone', ['id'=>$zone->getId()]);
+        }
+
+        return $this->render('inspector_readiness_map/editRepairZone.html.twig', [
+            'zone' => $zone,
+            'form' => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/bas-curator/readiness-map/infrastructure-sheet/{id}", name="app_inspector_rm_infrastructure_sheet_bas")
+     */
+    public function editInfrastructureSheet(Request $request, int $id, EntityManagerInterface $em)
+    {
+
+        $zone = $em->getRepository(ClusterZone::class)->find($id);
+
+        $form = $this->createForm(infrastructureSheetZoneForm::class, $zone);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+
+            foreach ($zone->getZoneInfrastructureSheets() as $sheet)
+            {
+
+                if($sheet->getName() == "")
+                {
+                    if(!is_null($sheet->getId()))
+                    {
+                        $em->remove($sheet);
+                    }
+                }
+                else
+                {
+                    $sheet->setZone($zone);
+                    $em->persist($sheet);
+                }
+            }
+
+            $em->persist($zone);
+
+            $em->flush();
+
+            return $this->redirectToRoute('app_inspector_view_zone_bas', ['id' => $id]);
+        }
+
+        return $this->render('bas_curator/editInfrastructureSheet.html.twig', [
+            'controller_name' => 'InspectorReadinessMapController',
+            'form' =>$form->createView(),
+            'id' => $id,
+
+        ]);
     }
 }

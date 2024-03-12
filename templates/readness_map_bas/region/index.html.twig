@@ -1,0 +1,171 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+
+    {% if addresess|length > 0 %}
+        {% include 'default/instruction_button.html.twig' with {'file': 'Описание_инструкция_к_системе_Карта_готовности.pdf', 'button_text': 'Скачать инструкцию по картам готовности'} %}
+
+        <div class="row mt-3">
+        <div class="col-lg-10 offset-lg-1">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs" role="tablist">
+                    {% for i in addresess %}
+                        <li><a class="nav-link {% if loop.index == 1 %} active show {% endif %}" data-toggle="tab" href="#tab-{{ loop.index }}"> {{ i.getAddresses() }}
+                                <span class="badge badge-danger address-remarks" data-address="{{ i.getId() }}">a</span>
+                            </a></li>
+
+                    {% endfor %}
+
+                </ul>
+
+                <div class="tab-content">
+                    {% for i in addresess %}
+                        <div role="tabpanel" id="tab-{{ loop.index }}" class="tab-pane {% if loop.index == 1 %}active show{% endif %}">
+                            <div class="panel-body">
+
+                                {% set zones = i.getSortedClusterZones() %}
+                                {% if zones|length > 0 %}
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <td class="col-md-1">
+                                                №
+                                            </td>
+                                            <td class="col-md-9">
+                                                Название зоны
+                                            </td>
+                                            <td class="col-md-2">
+                                                Действия
+                                            </td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for j in zones %}
+                                            {% if j.isDoNotTake() %}
+                                                <tr>
+                                                    <td>
+                                                        {{ loop.index }}
+                                                    </td>
+                                                    <td colspan="2" class="text-danger">
+                                                        {{ j.getName() }}
+
+                                                    </td>
+
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td>
+                                                        {{ loop.index }}
+                                                    </td>
+                                                    <td>
+                                                        {{ j.getName() }}
+                                                        {#{% if j.getZoneRemarks()|length> 0 %}#}
+                                                            <span class="badge badge-danger remarks"
+                                                                  data-remarks="{{ j.getZoneRemarks()|length }}"
+                                                                    data-address="{{ j.getAddres().getId() }}">
+                                                            </span>
+                                                        {#{% endif %}#}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ path('app_region_view_zone', {'id': j.getId()}) }}">
+                                                            <button class="btn btn-success">
+                                                                <i class="fa fa-search">
+                                                                    Просмотр
+                                                                </i>
+
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <div class="col-lg-4">
+                                        <div class="panel panel-warning">
+                                            <div class="panel-heading">
+                                                <i class="fa fa-warning"></i> У адреса нет зон
+                                            </div>
+                                            <div class="panel-body">
+                                                <p>
+                                                    Свяжитесь с куратором для добавления зон!
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+        <div class="row mt-3">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>
+                            Общая статистика по региону
+                        </h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td class="col-md-2 text-center"><strong>Средний % брендирования</strong></td>
+                                    <td class="col-md-2 text-center"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
+                                    <td class="col-md-2 text-center"><strong>Крайняя дата завершения брендирования</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td class="text-center">0 %</td>
+                                    <td class="text-center">0 %</td>
+                                    <td class="text-center">0 %</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td class="col-md-2 text-center"><strong>Общее кол-во оборудования по ИЛу</strong></td>
+                                    <td class="col-md-2 text-center"><strong>Средний % укомплектованности МТБ</strong></td>
+                                    <td class="col-md-2 text-center"><strong>Введено в эксплуатацию</strong></td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set equipment = user.getCountOfEquipment() %}
+                                <tr>
+                                    <td style="vertical-align: inherit; text-align: center">{{ proc['total'] }}</td>
+                                    <td style="vertical-align: inherit; text-align: center">
+                                        {{ mtb_fact }} %
+                                    </td>
+                                    {% if equipment['total'] > 0 %}
+                                        <td style="vertical-align: inherit; text-align: center">
+                                            {{ proc['put'] }} / {{ mtb_put }}%
+                                        </td>
+                                    {% else %}
+                                        <td style="vertical-align: inherit; text-align: center">{{ proc['put'] }} / 0%</td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/scripts/readinessMarksRemarks.js?ver=1.1') }}"></script>
+{% endblock %}

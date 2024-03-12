@@ -1,0 +1,577 @@
+{% extends 'default/base.html.twig' %}
+{% block styles %}
+    <link href="{{ asset('css/plugins/blueimp/css/blueimp-gallery.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+    {% set zoneType = zone.getType().getName() == 'Зона по видам работ' %}
+    {% set name = zone.getName() %}
+    <div class="row mt-3">
+        {% if zone.getZoneremarks()|length > 0 %}
+        <div class="col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Замечания</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="col-md-1">№ п/п</td>
+                                <td class="col-md-8">Замечание</td>
+                                <td class="col-md-3">Дата создания</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in zone.getZoneremarks()|reverse %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ i.getDescription() }}</td>
+                                <td>
+                                    {% if i.getCreatedAt() %}
+                                        {{ i.getCreatedAt().format('d.m.Y') }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <div>
+        {% endif %}
+        <div class="col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div class="ibox collapsed border-bottom">
+                <a class="collapse-link">
+                    <div class="ibox-title">
+                        <h5>
+                            {{ name }}
+                        </h5>
+                        <div class="ibox-tools">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="ibox-content" style="display: block;">
+                    <a href="{{ path('app_region_readiness_map') }}">
+                        <button class="btn mb-3">
+                            <i class="fa fa-arrow-left">
+                                Назад
+                            </i>
+                        </button>
+                    </a>
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li><a class="nav-link active show" data-toggle="tab" href="#tab-1"> Ремонт</a></li>
+                            {% if zoneType %}
+                                <li><a class="nav-link" data-toggle="tab" href="#tab-2"> Инфраструктурный лист</a></li>
+                            {% endif %}
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" id="tab-1" class="tab-pane active show">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                                            <a href="{{ path('app_region_edit_repair_zone', {'id': zone.getId()}) }}">
+                                                <button class="btn btn-outline-success col-lg-12">
+                                                    <i class="fa fa-edit">
+                                                        Внести изменения (Ремонт)
+                                                    </i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <table class="table table-bordered">
+                                        {% set repair = zone.getZoneRepair() %}
+
+
+                                        <thead>
+                                        <tr>
+                                            <td class="col-md-1">
+                                                Процент готовности
+                                            </td>
+                                            <td class="col-md-3">
+                                                Дата окончания
+                                            </td>
+                                            <td>
+                                                Комментарий
+                                            </td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                {{ repair.getTotalPercentage() }} %
+                                            </td>
+                                            <td>
+                                                {% if repair.getEndDate() %}
+                                                    {{ repair.getEndDate().format('d.m.Y') }}
+                                                {% else %}
+                                                    <span class="badge badge-warning">
+                                                        Дата не указана
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ repair.getComment()|raw }}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <h4>Процесс ремонта</h4>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h5>Общий процент <b>{{ repair.getTotalPercentage() }} %</b></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-primary" role="progressbar" style="width: {{ repair.getDismaltingPercentage() }}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ repair.getPlasteringAndCommunicationPercentage()  }}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" style="width: {{ repair.getFinishingPercentage() }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" style="width: {{ repair.getBrandingPercentage() }}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            {% if not repair.isNotPlanned() %}
+                                            <h5>Демонтажные работы <b>{{ repair.getDismantling() }} %</b></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-primary" style="width: {{ repair.getDismantling() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <h5>Штукатурные и коммуникационные работы <b>{{ repair.getPlasteringAndCommunication() }} %</b></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar  progress-bar-success" style="width: {{ repair.getPlasteringAndCommunication() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <h5>Отделочные работы <b>{{ repair.getFinishing() }} %</b></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-warning" style="width: {{ repair.getFinishing() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            {% endif %}
+                                            {% if zone.getType().getName() != "Иное" %}
+                                            <h5>Брендирование <b>{{ repair.getBranding() }} %</b></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar  progress-bar-danger" style="width: {{ repair.getBranding() }}%" role="progressbar" aria-valuenow="{{ repair.getTotalPercentage() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                    <h4>Фотографии</h4>
+                                    <hr>
+                                    <div class="row ">
+                                        <div class="col-lg-10">
+                                            <div class="lightBoxGallery">
+
+
+                                                <div class="row">
+                                                    {% for i in pagination %}
+                                                        {#{% for j in i.getRepairPhotos() %}#}
+                                                            <div class="col-lg-2 form-control m-1">
+                                                                {#{% if i.allowToDelete(today) %}#}
+                                                                    {#<a href="{{ path('app_region_rm_delete_photo_region', {'zone_id': zone.getId(), 'photo_id': i.getId()}) }}" class="pull-right btn btn-danger delete-alert">#}
+                                                                        {#<span class="fa fa-trash "></span>#}
+                                                                    {#</a>#}
+                                                                {#{% endif %}#}
+
+                                                                {#{{ i.getVersion().getCreatedAt().format('d.m.Y') }}#}
+                                                                {#{{ i.allowToDelete(today) }}#}
+                                                                <a href="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" title="{{ name }}" data-gallery="">
+                                                                    <img src="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" class="col-lg-12">
+                                                                </a>
+                                                            </div>
+                                                        {#{% endfor %}#}
+                                                    {% endfor %}
+
+                                                </div>
+
+
+                                                <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                                                <div id="blueimp-gallery" class="blueimp-gallery">
+                                                    <div class="slides"></div>
+                                                    <h3 class="title"></h3>
+                                                    <a class="prev">‹</a>
+                                                    <a class="next">›</a>
+                                                    <a class="close">×</a>
+                                                    <a class="play-pause"></a>
+                                                    <ol class="indicator"></ol>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="navigation">
+                                            {{ knp_pagination_render(pagination, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                                        </div>
+                                    </div>
+                                    {% if zone.getDesignProjectFile() %}
+                                        <div class="row mt-3">
+                                            <div class="col-lg-12" >
+                                                <div class="ibox collapsed">
+                                                    <a class="collapse-link">
+                                                        <div class="ibox-title">
+                                                            <h5>
+                                                                Дизайн-проект
+                                                            </h5>
+                                                            <div class="ibox-tools">
+
+                                                                <i class="fa fa-chevron-up"></i>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="ibox-content" style="height: 800px; display:block;">
+                                                        <div class="row mt-3">
+                                                            <div class="col-lg-12" >
+                                                                <embed src="{{ asset('uploads/zonesDesignProject/'~zone.getDesignProjectFile()) }}"
+                                                                       data-file="{{ zone.getDesignProjectFile() }}"
+                                                                       width="20%"
+                                                                       height="100%"
+                                                                       frameBorder="0"
+                                                                       scrolling="auto"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% set thead %}
+                                <tr>
+                                    <td  class="text-center">
+                                        <strong>№ п/п</strong>
+                                    </td>
+                                    <td class="col-md-2 text-center" >
+                                        <strong>Наименование</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>Вид</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>Общее кол-во</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>Ед. измерения</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>Фактическое <br> кол-во</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>Дата поставки (Планируемая)</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>ОКПД2</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>КТРУ</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>Марка / модель</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center">
+                                        <strong>Страна-производитель</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>Сумма</strong>
+                                    </td>
+                                    <td class="col-md-1 text-center" >
+                                        <strong>Инвентарный номер</strong>
+                                    </td>
+
+                                </tr>
+                            {% endset %}
+                            {% macro row(count, i) %}
+                                <tr>
+                                    <td class="text-center">{{ count }}</td>
+                                    <td class="text-center">{{ i.getName() }}</td>
+                                    <td class="text-center">{{ i.getType() }}</td>
+                                    <td class="text-center">{{ i.getTotalNumber() }}</td>
+                                    <td class="text-center">{{ i.getUnits() }}</td>
+                                    <td class="text-center">{{ i.getFactNumber() }}</td>
+
+                                    {% if i.getDeliveryDate() %}
+                                        <td class="text-center">{{ i.getDeliveryDate().format('d.m.Y') }}</td>
+                                    {% else %}
+                                        <td class="text-center">Дата не указана</td>
+                                    {% endif %}
+                                    <td class="text-center">{{ i.getOKPD2() }}</td>
+                                    <td class="text-center">{{ i.getKTRU() }}</td>
+                                    <td class="text-center">{{ i.getModel() }}</td>
+                                    <td class="text-center">{{ i.getCountryOfOrigin() }}</td>
+                                    <td class="text-center">{{ i.getSum() }} </td>
+                                    <td class="text-center">{{ i.getInventoryNumber() }} </td>
+                                </tr>
+                            {% endmacro %}
+                            <div role="tabpanel" id="tab-2" class="tab-pane">
+                                <div class="panel-body ">
+                                    {% set infrastructure = zone.getZoneInfrastructureSheets() %}
+                                    {% if infrastructure|length > 0 %}
+                                        <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                                            <a href="{{ path('app_region_rm_infrastructure_sheet', {'id': zone.getId()}) }}">
+                                                <button class="btn btn-outline-success col-lg-12">
+                                                    <i class="fa fa-edit">
+                                                        Внести изменения (Инфраструктурный лист)
+                                                    </i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td colspan="20">
+                                                        <h3>Общая зона</h3>
+                                                    </td>
+                                                </tr>
+                                                {{ thead }}
+                                            </thead>
+                                            <tbody>
+                                            {% set count = 1 %}
+                                            {% for i in infrastructure %}
+                                                {% set zoneTypeValue = i.getZoneType() %}
+                                                {% if zoneTypeValue == 'Общая зона' %}
+                                                    {{ _self.row(count, i) }}
+                                                    {% set count = count + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td colspan="20">
+                                                        <h3>Рабочее место учащегося</h3>
+                                                    </td>
+                                                </tr>
+                                                {{ thead }}
+                                            </thead>
+                                            <tbody>
+                                            {% set count = 1 %}
+                                            {% for i in infrastructure %}
+                                                {% set zoneTypeValue = i.getZoneType() %}
+                                                {% if zoneTypeValue == 'Рабочее место учащегося' %}
+                                                    {{ _self.row(count, i) }}
+                                                    {% set count = count + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td colspan="20">
+                                                        <h3>Рабочее место преподавателя</h3>
+                                                    </td>
+                                                </tr>
+                                                {{ thead }}
+                                            </thead>
+                                            <tbody>
+                                            {% set count = 1 %}
+                                            {% for i in infrastructure %}
+                                                {% set zoneTypeValue = i.getZoneType() %}
+                                                {% if zoneTypeValue == 'Рабочее место преподавателя' %}
+                                                    {{ _self.row(count, i) }}
+                                                    {% set count = count + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                          <table class="table table-bordered">
+                                            <thead class="table-head">
+                                                <tr>
+                                                    <td colspan="22">
+                                                        <h3>
+                                                            Малая полетная зона
+                                                        </h3>
+                                                    </td>
+                                                </tr>
+                                                {{ thead }}
+                                            </thead>
+                                            <tbody  class="tbody">
+                                                {#{% for item in form.tags %}#}
+                                                    {#<li>{{ form_row(tag.name) }}</li>#}
+                                                {#{% endfor %}#}
+                                                {% set count = 1 %}
+                                                {% for i in infrastructure|reverse %}
+                                                    {% if i.getZoneType() == 'Малая полетная зона' %}
+                                                        {{ _self.row(count, i) }}
+                                                        {% set count = count + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead class="table-head">
+                                                <tr>
+                                                    <td colspan="22">
+                                                        <h3>
+                                                            Основная полетная зона
+                                                        </h3>
+                                                    </td>
+                                                </tr>
+                                                {{ thead }}
+                                            </thead>
+                                            <tbody  class="tbody">
+                                                {#{% for item in form.tags %}#}
+                                                    {#<li>{{ form_row(tag.name) }}</li>#}
+                                                {#{% endfor %}#}
+                                                {% set count = 1 %}
+                                                {% for i in infrastructure|reverse %}
+                                                    {% if i.getZoneType() == 'Основная полетная зона' %}
+                                                        {{ _self.row(count, i) }}
+                                                        {% set count = count + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead class="table-head">
+                                                <tr>
+                                                    <td colspan="22">
+                                                        <h3>
+                                                            Ремонтная станция и зона 3Д-печати
+                                                        </h3>
+                                                    </td>
+                                                </tr>
+                                                {{ thead }}
+                                            </thead>
+                                            <tbody  class="tbody">
+                                                {#{% for item in form.tags %}#}
+                                                    {#<li>{{ form_row(tag.name) }}</li>#}
+                                                {#{% endfor %}#}
+                                                {% set count = 1 %}
+                                                {% for i in infrastructure|reverse %}
+                                                    {% if i.getZoneType() == 'Ремонтная станция и зона 3Д-печати' %}
+                                                        {{ _self.row(count, i) }}
+                                                        {% set count = count + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead class="table-head">
+                                                <tr>
+                                                    <td colspan="22">
+                                                        <h3>
+                                                            Вариативная часть / Дополнительное оборудование, возможное к закупке
+                                                        </h3>
+                                                    </td>
+                                                </tr>
+                                                {{ thead }}
+                                            </thead>
+                                            <tbody  class="tbody">
+                                                {#{% for item in form.tags %}#}
+                                                    {#<li>{{ form_row(tag.name) }}</li>#}
+                                                {#{% endfor %}#}
+                                                {% set count = 1 %}
+                                                {% for i in infrastructure|reverse %}
+                                                    {% if i.getZoneType() == 'Вариативная часть' %}
+                                                        {{ _self.row(count, i) }}
+                                                        {% set count = count + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered">
+                                            <thead class="table-head">
+                                                <tr>
+                                                    <td colspan="22">
+                                                        <h3>
+                                                            Охрана труда и техника безопасности
+                                                        </h3>
+                                                    </td>
+                                                </tr>
+                                                {{ thead }}
+                                            </thead>
+                                            <tbody  class="tbody">
+                                                {#{% for item in form.tags %}#}
+                                                    {#<li>{{ form_row(tag.name) }}</li>#}
+                                                {#{% endfor %}#}
+                                                {% set count = 1 %}
+                                                {% for i in infrastructure|reverse %}
+                                                    {% if i.getZoneType() == 'Охрана труда' %}
+                                                        {{ _self.row(count, i) }}
+                                                        {% set count = count + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                        <div class="col-lg-6 offset-lg-3">
+                                            <div class="panel panel-warning">
+                                                <div class="panel-heading">
+                                                    <i class="fa fa-warning"></i> Предупреждение
+                                                </div>
+                                                <div class="panel-body">
+                                                    <p>
+                                                        Инфраструктурный лист не предусмотрен или отсутствует
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="ibox-footer">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            let designFile = $('embed').data('file');
+            if(designFile && designFile.includes('.pdf'))
+            {
+                $('embed').height('800');
+                $('embed').width('100%');
+            }
+
+            // $('thead').click(function(event) {
+            //     console.log($(event.target).parent().parent().parent());
+            //     $(event.target).parent().parent().parent().parent().find('.tbody').toggle('fast');
+            // });
+
+            $('.photo').on({
+                mouseenter: function() {
+                    $( this ).find( ".button-toggle" ).show('fast');
+                }, mouseleave: function() {
+                    $( this ).find( ".button-toggle" ).hide('fast');
+                }
+            });
+
+
+            $(".button-toggle").hide();
+
+
+
+        });
+    </script>
+{% endblock %}
