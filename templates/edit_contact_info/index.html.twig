@@ -55,7 +55,12 @@
             <div class="ibox-content">
                 {{ form_start(form) }}
                 <h5>
-                    Директор
+                    {% if isBas %}
+                        Ответственный за реализацию
+                    {% else %}
+                        Директор
+                    {% endif %}
+
                 </h5>
                 <div class="panel panel-success pt-3 pb-5 pl-2 pr-2">
                     {{ form_row(form.director) }}

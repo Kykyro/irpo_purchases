@@ -23,7 +23,9 @@ class EditContactInfoController extends AbstractController
     {
 
         $user = $this->getUser();
+
         $roles = $user->getRoles();
+        $isBas = in_array('ROLE_CURATOR_BAS', $roles);
 
         if($user->getId() != $id and !(in_array('ROLE_SMALL_CURATOR', $roles) or in_array('ROLE_INSPECTOR', $roles)))
             $id = $user->getId();
@@ -117,6 +119,7 @@ class EditContactInfoController extends AbstractController
         return $this->render('edit_contact_info/index.html.twig', [
             'controller_name' => 'EditContactInfoController',
             'form' => $form->createView(),
+            'isBas' => $isBas,
         ]);
     }
     /**
