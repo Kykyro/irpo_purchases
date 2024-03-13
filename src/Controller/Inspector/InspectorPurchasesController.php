@@ -309,9 +309,13 @@ class InspectorPurchasesController extends AbstractController
     /**
      * @Route("/get/purchasses-xlsx/{user_id}", name="download_purchases_xlsx")
      */
-    public function download(XlsxService $xlsxService, int $user_id): Response
+    public function download(XlsxService $xlsxService, int $user_id, EntityManagerInterface $em): Response
     {
-        return $xlsxService->generatePurchasesProcedureTable($user_id);
+        $user = $em->getRepository(User::class)->find($user_id);
+        if(in_array('ROLE_BAS', $user->getRoles()))
+            return $xlsxService->generatePurchasesProcedureTableBas($user_id);
+        else
+            return $xlsxService->generatePurchasesProcedureTable($user_id);
     }
 
     /**

@@ -405,7 +405,7 @@ class RegionController extends AbstractController
         $user = $this->getUser();
         if(in_array('ROLE_BAS', $user->getRoles()))
         {
-            return $xlsxService->generatePurchasesProcedureTable($user->getId());
+            return $xlsxService->generatePurchasesProcedureTableBas($user->getId());
         }
         else
         {

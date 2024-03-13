@@ -40,6 +40,7 @@ parameters:
     purchases_table_directory: '%kernel.project_dir%/public/uploads/purchasesTable/'
     monitoring_check_out_directory: '%kernel.project_dir%/public/uploads/monitoringCheckOut/'
     procurement_procedures_table_directory: '%kernel.project_dir%/public/excel/ProcurementProceduresTable_v2.xlsx'
+    procurement_procedures_table_bas_directory: '%kernel.project_dir%/public/excel/Закупочные процедуры ШАБЛОН бас.xlsx'
 
 
 services:
