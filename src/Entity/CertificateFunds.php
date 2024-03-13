@@ -37,6 +37,11 @@ class CertificateFunds
      */
     private $extraFunds;
 
+    /**
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     */
+    private $grandFunds;
+
 
     function __construct($user_info)
     {
@@ -95,6 +100,18 @@ class CertificateFunds
     public function setExtraFunds(?string $extraFunds): self
     {
         $this->extraFunds = $extraFunds;
+
+        return $this;
+    }
+
+    public function getGrandFunds(): ?string
+    {
+        return $this->grandFunds;
+    }
+
+    public function setGrandFunds(?string $grandFunds): self
+    {
+        $this->grandFunds = $grandFunds;
 
         return $this;
     }

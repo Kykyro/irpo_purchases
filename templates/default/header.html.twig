@@ -121,10 +121,13 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ path("app_region_certificate") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справки <span id="certificate-notification" class="badge pull-right"><i class="fa m-0 p-0"></i></span></span></a>
+                    </li>
+                    <li>
                         <a href="{{ path("app_region_readiness_map") }}"><i class="fa fa-check-circle left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Карта готовности <span class="badge badge-danger pull-right" id="zone-remarks"></span></span></a>
                     </li>
                     <li>
-                        <a href="{{ path("app_region_readiness_map") }}"><i class="fa fa-bus left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Комплекс мер (дорожная карта) <span class="badge badge-danger pull-right" id="zone-remarks"></span></span></a>
+                        <a href="{{ path("app_bas_road_map") }}"><i class="fa fa-bus left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Комплекс мер (дорожная карта) <span class="badge badge-danger pull-right" id="zone-remarks"></span></span></a>
                     </li>
                     {% if app.environment == 'dev' %}
                         <li>
@@ -133,11 +136,11 @@
                     {% endif %}
                 {% endif %}
                 {% if is_granted('ROLE_CURATOR_BAS') %}
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {#{% if is_granted('ROLE_ADMIN') %}#}
                         <li>
                             <span class="nav-label badge badge-primary">БАС куратор</span>
                         </li>
-                    {% endif %}
+                    {#{% endif %}#}
                     <li>
                         <a href="{{ path("app_bas_curator_all") }}"><i class="fa fa-paper-plane left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Все БАСы <span class="badge badge-danger pull-right" id="zone-remarks"></span></span></a>
                     </li>

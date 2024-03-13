@@ -208,6 +208,11 @@ class UserInfo
      */
     private $EduOrgsCount;
 
+    /**
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     */
+    private $grandFunds;
+
 
 
     function __construct()
@@ -819,6 +824,18 @@ class UserInfo
     public function setEduOrgsCount(?int $EduOrgsCount): self
     {
         $this->EduOrgsCount = $EduOrgsCount;
+
+        return $this;
+    }
+
+    public function getGrandFunds(): ?string
+    {
+        return $this->grandFunds;
+    }
+
+    public function setGrandFunds(?string $grandFunds): self
+    {
+        $this->grandFunds = $grandFunds;
 
         return $this;
     }

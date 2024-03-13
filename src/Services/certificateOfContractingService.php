@@ -50,7 +50,7 @@ class certificateOfContractingService extends AbstractController
         if(is_null($today))
             $today = new \DateTime('now');
 
-
+        $template = '../public/word/Справка_о_контрактации_и_расходовании_средств.docx';
         if(in_array('ROLE_REGION', $user->getRoles()))
         {
             $title = 'Справка о контрактации и расходовании средств в рамках оснащения образовательно-производственного центра (кластера)';
@@ -65,6 +65,12 @@ class certificateOfContractingService extends AbstractController
         {
             $title = 'Справка о контрактации и расходовании средств в рамках оснащения образовательного кластера среднего профессионального образования';
             $grant = 60500000;
+        }
+        elseif(in_array('ROLE_BAS', $user->getRoles()))
+        {
+            $template = '../public/word/Справка_о_контрактации_и_расходовании_средств бас.docx';
+            $grant = $option['grandFunds'];
+            $title = '';
         }
         else{
             throw new Exception('Ошибка роли');
@@ -123,7 +129,7 @@ class certificateOfContractingService extends AbstractController
         $procent['factOOFunds'] = ($userInfo->getExtraFundsOO() > 0) ? ($sum['factOOFunds'] * 100)/($userInfo->getExtraFundsOO() * 1000) : 0;
         $procent['factRegionFunds'] = ($userInfo->getFinancingFundsOfSubject() > 0) ? ($sum['factRegionFunds'] * 100)/($userInfo->getFinancingFundsOfSubject() * 1000) : 0;
 
-        $templateProcessor = new TemplateProcessor('../public/word/Справка_о_контрактации_и_расходовании_средств.docx');
+        $templateProcessor = new TemplateProcessor($template);
 
         if($userInfo->getExtraFundsEconomicSector() > 0) {
             $templateProcessor->cloneBlock('ExtraFundsEconomicSector_BLOCK_1', 1);
@@ -156,9 +162,9 @@ class certificateOfContractingService extends AbstractController
             'industry' => $userInfo->getDeclaredIndustry(),
             'date' => $today->format('d.m.Y'),
             'year' => $userInfo->getYear(),
-            'ExtraFundsEconomicSector' => $fmt->format($option['ExtraFundsEconomicSector']),
-            'FinancingFundsOfSubject' => $fmt->format($option['FinancingFundsOfSubject']),
-            'ExtraFundsOO' => $fmt->format($option['ExtraFundsOO']),
+            'ExtraFundsEconomicSector' => array_key_exists('ExtraFundsEconomicSector', $option) ? $fmt->format($option['ExtraFundsEconomicSector']): '',
+            'FinancingFundsOfSubject' => array_key_exists('FinancingFundsOfSubject', $option) ? $fmt->format($option['FinancingFundsOfSubject']): '',
+            'ExtraFundsOO' => array_key_exists('ExtraFundsOO', $option) ? $fmt->format($option['ExtraFundsOO']): '',
             'GrantFunds' => $fmt->format($grant),
 
             'cFedFunds' => $fmt->format($sum['contractFedFunds']),

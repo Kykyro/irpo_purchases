@@ -403,7 +403,15 @@ class RegionController extends AbstractController
     public function download(XlsxService $xlsxService): Response
     {
         $user = $this->getUser();
-        return $xlsxService->generatePurchasesProcedureTable($user->getId());
+        if(in_array('ROLE_BAS', $user->getRoles()))
+        {
+            return $xlsxService->generatePurchasesProcedureTable($user->getId());
+        }
+        else
+        {
+            return $xlsxService->generatePurchasesProcedureTable($user->getId());
+        }
+
     }
 
 }

@@ -48,6 +48,18 @@ class CertificateController extends AbstractController
     public function certificate(Request $request, certificateOfContractingService $certificateOfContractingService, EntityManagerInterface $em) : Response
     {
         $user = $this->getUser();
+        $formSetting = [
+            'ExtraFundsEconomicSector' => false,
+            'FinancingFundsOfSubject' => false,
+            'ExtraFundsOO' => false,
+            'grandFunds' => true,
+        ];
+        if(in_array('ROLE_BAS', $user->getRoles()))
+        {
+            $formSetting['grandFunds'] = false;
+            $formSetting['ExtraFundsOO'] = true;
+            $formSetting['ExtraFundsEconomicSector'] = true;
+        }
         $userInfo = $user->getUserInfo();
         $statusLib = [
             'Справка не прислана' => '-danger',
@@ -85,7 +97,8 @@ class CertificateController extends AbstractController
                         'max' => '99999999999'
                 ],
                 'label' => 'Средства организаций реального сектора экономики',
-                'data' => $certificateFunds->getEconomicFunds()
+                'data' => $certificateFunds->getEconomicFunds(),
+                'disabled' => $formSetting['ExtraFundsEconomicSector'],
             ])
             ->add('FinancingFundsOfSubject', TextType::class, [
                 'attr' => [
@@ -95,7 +108,8 @@ class CertificateController extends AbstractController
                     'max' => '99999999999'
                 ],
                 'label' => 'Средства субъекта РФ',
-                'data' => $certificateFunds->getSubjectFunds()
+                'data' => $certificateFunds->getSubjectFunds(),
+                'disabled' => $formSetting['FinancingFundsOfSubject'],
             ])
             ->add('ExtraFundsOO', TextType::class, [
                 'attr' => [
@@ -106,6 +120,18 @@ class CertificateController extends AbstractController
                 ],
                 'label' => 'Средства образовательной организации',
                 'data' => $certificateFunds->getExtraFunds() ,
+                'disabled' => $formSetting['ExtraFundsOO'],
+            ])
+            ->add('grandFunds', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '.01',
+                    'min' => $userInfo->getGrandFunds() * 1000,
+                    'max' => '99999999999'
+                ],
+                'label' => 'Средства Федерального бюджета',
+                'data' => $certificateFunds->getGrandFunds() ,
+                'disabled' => $formSetting['grandFunds'],
             ])
             ->getForm();
 
@@ -115,15 +141,23 @@ class CertificateController extends AbstractController
         {
             $data = $form->getData();
 
-            $certificateFunds->setEconomicFunds($data['ExtraFundsEconomicSector']);
-            $certificateFunds->setSubjectFunds($data['FinancingFundsOfSubject']);
-            $certificateFunds->setExtraFunds($data['ExtraFundsOO']);
+            if (array_key_exists('ExtraFundsEconomicSector', $data))
+                $certificateFunds->setEconomicFunds($data['ExtraFundsEconomicSector']);
+            if (array_key_exists('FinancingFundsOfSubject', $data))
+                $certificateFunds->setSubjectFunds($data['FinancingFundsOfSubject']);
+            if (array_key_exists('ExtraFundsOO', $data))
+                $certificateFunds->setExtraFunds($data['ExtraFundsOO']);
+            if (array_key_exists('grandFunds', $data))
+                $certificateFunds->setGrandFunds($data['grandFunds']);
 
             $em->persist($userInfo);
             $em->persist($certificateFunds);
             $em->flush();
 
-            return $certificateOfContractingService->generateSertificate($user->getId(), null, $data);
+            if(in_array('ROLE_BAS', $user->getRoles()))
+                return $certificateOfContractingService->generateSertificate($user->getId(), null, $data);
+            else
+                return $certificateOfContractingService->generateSertificate($user->getId(), null, $data);
         }
 
         return $this->render('region/templates/certificates.html.twig', [

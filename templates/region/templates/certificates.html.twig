@@ -39,10 +39,14 @@
                                 <td>
                                     Справка о контрактации и расходовании средств в рамках оснащения образовательно-производственного центра (кластера)
                                 </td>
-                                {% endif %}
-                                {% if is_granted('ROLE_SMALL_CLUSTERS') %}
+                                {#{% endif %}#}
+                                {% elseif is_granted('ROLE_SMALL_CLUSTERS') %}
                                     <td>
                                         Справка о контрактации и расходовании средств в рамках оснащения образовательного кластера среднего профессионального образования
+                                    </td>
+                                {% elseif is_granted('ROLE_BAS') %}
+                                    <td>
+                                        Справка о контрактации и расходовании средств в рамках оснащения специализированных классов (кружков) и центров практической подготовки
                                     </td>
                                 {% endif %}
                                 <td>
@@ -96,6 +100,7 @@
                 </div>
                 {{ form_start(form) }}
                 <div class="modal-body">
+                    {{ form_row(form.grandFunds, {"type":"number"}) }}
                     {{ form_row(form.ExtraFundsEconomicSector, {"type":"number"}) }}
                     {{ form_row(form.FinancingFundsOfSubject, {"type":"number"}) }}
                     {{ form_row(form.ExtraFundsOO, {"type":"number"}) }}
