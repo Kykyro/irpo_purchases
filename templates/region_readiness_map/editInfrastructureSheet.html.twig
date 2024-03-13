@@ -42,9 +42,19 @@
                             </td>
                         {% endif %}
 
+                        {% if sheet.vars.value %}
                         <td>
-                            {{ form_row(sheet.deliveryDate) }}
+                         {% set funds = sheet.vars.value.funds %}
+                            {% if 'В наличии' in funds %}
+                                {{ form_row(sheet.deliveryDate, {'disabled' : true}) }}
+                            {% else %}
+                                {{ form_row(sheet.deliveryDate) }}
+                            {% endif %}
+
                         </td>
+                        {% else %}
+                            <td> {{ form_row(sheet.deliveryDate) }}</td>
+                        {% endif %}
                         <td>{{ form_row(sheet.OKPD2) }}</td>
                         <td>{{ form_row(sheet.KTRU) }}</td>
                          {% if sheet.vars.value %}
