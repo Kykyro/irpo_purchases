@@ -229,6 +229,36 @@
                                     {% endfor %}
                                     </tbody>
                                 </table>
+                                {% if  is_granted('ROLE_SMALL_CURATOR') or is_granted('ROLE_INSPECTOR') %}
+                                    <hr>
+                                    <h5>
+                                        Дополнительне контакты
+                                    </h5>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <td class="col-md-2">-</td>
+                                            <td class="col-md-2 text-center">ФИО</td>
+                                            <td class="col-md-2 text-center">Должность</td>
+                                            <td class="col-md-2 text-center">Моб.Телефон</td>
+                                            <td class="col-md-2 text-center">Почта</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {% for rd in contactInfo.getAddContacts()  %}
+
+                                            <tr>
+                                                <td class="text-left align-middle">{{ rd.getType() }}</td>
+                                                <td class="text-center align-middle">{{ rd.getFIO() }}</td>
+                                                <td class="text-center align-middle">{{ rd.getPost() }}</td>
+                                                <td class="text-center align-middle">{{ rd.getPhoneNumber() }}</td>
+                                                <td class="text-center align-middle">{{ rd.getEmail() }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
