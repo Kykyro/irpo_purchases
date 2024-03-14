@@ -113,7 +113,7 @@
                 <div class="wrapper wrapper-content ">
                     <div class="ibox-content block-shadow ">
                         <div class="ibox ">
-                            {% if is_granted('ROLE_INSPECTOR') or is_granted('ROLE_SMALL_CURATOR')  %}
+                            {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS')  %}
                             <a href="{{ path('app_edit_contact_info' , {'id': user_info.getId()}) }}">
                                 <button class="btn btn-success pull-right">
                                     <i class="fa fa-edit"></i>
