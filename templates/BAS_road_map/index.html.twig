@@ -15,10 +15,39 @@
                             <tr>
                                 <td class="col-md-1 text-center">№ п/п</td>
                                 <td class="col-md-6 text-center">Наименование</td>
-                                <td class="col-md-4 text-center">Срок</td>
+                                <td class="col-md-2 text-center">Срок</td>
+                                <td class="col-md-2 text-center">Статус</td>
                                 <td class="col-md-1 text-center"></td>
                             </tr>
                         </thead>
+                        <tbody>
+                        {% for i in user.getUsersEventsByType('road_map') %}
+                            <tr>
+                                <td class="text-center">{{ loop.index }}</td>
+                                <td class="text-center">{{ i.getName() }}</td>
+                                <td class="text-center">
+                                    {% if i.getFinishDate() %}
+                                        {{ i.getFinishDate().format('d.m.Y') }}
+                                    {% else %}
+                                        Дата не указана
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge ">
+                                        {{ i.getStatus() }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ path('app_bas_road_map_event_view', {'id': i.getId()}) }}">
+                                        <button class="btn btn-primary btn-lg">
+                                            <i class="fa fa-edit"></i>
+                                            Редактировать
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
                     </table>
                 </div>
             </div>

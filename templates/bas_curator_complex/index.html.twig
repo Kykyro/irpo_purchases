@@ -1,13 +1,100 @@
 {% extends 'default/base.html.twig' %}
 
 {% block content %}
-    <h2>
-        Комплекс мер (дорожная карта)
-    </h2>
+    {{ include('default/bas_info.html.twig', {'user_info': user.getUserInfo()}) }}
     <div class="row mt-3">
-        <div class="col-sm-12">
-            <div class="ibox">
+        <div class="col-sm-8 offset-sm-2">
 
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Комплекс мер (дорожная карта)
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="col-md-1"></td>
+                                <td class="col-md-5"></td>
+                                <td class="col-md-3"></td>
+                                <td class="col-md-1"></td>
+                                <td class="col-md-2"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in user.getUsersEventsByType('road_map') %}
+                            <tr>
+                                <td class="text-center">{{ loop.index }}</td>
+                                <td class="text-center">{{ i.getName() }}</td>
+                                <td class="text-center">
+                                    {% if i.getFinishDate() %}
+                                        {{ i.getFinishDate().format('d.m.Y') }}
+                                    {% else %}
+                                        Дата не указана
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge">
+                                         {{ i.getStatus() }}
+                                    </span>
+
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ path('app_bas_curator_complex_view_event', {'id': i.getId()}) }}">
+                                        <button class="btn btn-primary btn-lg">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </a>
+                                    <a href="{{ path('app_bas_curator_complex_edit_event', {'id': i.getId()}) }}">
+                                        <button class="btn btn-success btn-lg">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </a>
+
+                                    <a href="{{ path('app_bas_curator_complex_delete_event', {'id': i.getId()}) }}">
+                                        <button class="btn btn-danger btn-lg delete-alert">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="ibox-footer">
+                    <a href="#">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            <i class="fa fa-plus"></i>
+                            Добавить событие
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {{ form_start(form) }}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.finishDate) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

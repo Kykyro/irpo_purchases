@@ -1,0 +1,33 @@
+{% extends "default/base.html.twig" %}
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-sm-6 offset-sm-3">
+            <a href="{{ path('app_bas_curator_complex', {'id': user.getId()}) }}">
+                <button class="btn btn-outline-dark">
+                    <i class="fa fa-arrow-left"></i>
+                    Назад
+                </button>
+            </a>
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h2>
+                        Редактирование
+
+                    </h2>
+                </div>
+                <div class="ibox-content">
+                    {{ form_start(form) }}
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.finishDate) }}
+                        <hr>
+                        <button class="btn btn-primary">
+                            Отправить
+                        </button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

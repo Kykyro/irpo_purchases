@@ -1,0 +1,100 @@
+{% extends "default/base.html.twig" %}
+
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-sm-12">
+            <a href="{{ path('app_bas_road_map') }}">
+                <button class="btn btn-outline-dark">
+                    <i class="fa fa-arrow-left"></i>
+                    Назад
+                </button>
+            </a>
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h2>
+                        {{ results.getName() }}
+                        <b>
+                            ( до
+                            {% if results.getFinishDate() %}
+                                {{ results.getFinishDate().format('d.m.Y') }}
+                            {% else %}
+                                Дата не указана
+                            {% endif %}
+                            )
+                        </b>
+                    </h2>
+                </div>
+                <div class="ibox-content">
+                    <button type="button"  data-toggle="modal" data-target="#exampleModal" class="btn btn-primary btn-lg col-sm-12 mb-3">
+                        <i class="fa fa-plus"></i>
+                        Добавить результат
+                    </button>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="col-md-1 text-center">№ п/п</td>
+                                <td class="col-md-6 text-center">Результат</td>
+                                <td class="col-md-2 text-center">Комментарий</td>
+                                <td class="col-md-2 text-center">Комментарий от ИРПО</td>
+                                <td class="col-md-2 text-center">Статус</td>
+                                <td class="col-md-1 text-center">Файлы</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in results.getEventResult()|reverse %}
+                            <tr>
+                                <td class="text-center">{{ loop.index }}</td>
+                                <td class="text-center">{{ i.getResult() }}</td>
+                                <td class="text-center">{{ i.getCommentUser() }}</td>
+                                <td class="text-center">{{ i.getCommentCurator() }}</td>
+                                <td class="text-center">
+                                    <span class="badge ">
+                                        {{ i.getStatus() }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    {% set files = i.getFiles() %}
+                                    {% if files|length %}
+                                        {% for file in files %}
+                                            <a href="{{path('app_download_file_by_route',{'route': 'event_files_directory', 'file': file} ) }}">
+                                                <i class="fa fa-download">{{ file }}</i>
+                                            </a>
+                                             <hr>
+                                        {% endfor %}
+                                    {% else %}
+                                        Файлы не прикреплены
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {{ form_start(form) }}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_row(form.result) }}
+                    {{ form_row(form.commentUser) }}
+                    {{ form_row(form.files) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

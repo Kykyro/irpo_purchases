@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -95,6 +96,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="user")
      */
     private $apiTokens;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UsersEvents::class, mappedBy="user")
+     */
+    private $usersEvents;
     
 
     public function getId(): ?int
@@ -127,6 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userTags = new ArrayCollection();
         $this->sheetWorkzones = new ArrayCollection();
         $this->apiTokens = new ArrayCollection();
+        $this->usersEvents = new ArrayCollection();
     }
 
 
@@ -769,6 +776,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($apiToken->getUser() === $this) {
                 $apiToken->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UsersEvents>
+     */
+    public function getUsersEvents(): Collection
+    {
+        return $this->usersEvents;
+    }
+    public function getUsersEventsNotDeleted(): Collection
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('deleted', false))
+            ->orderBy(['finishDate' => 'ASC'])
+        ;
+        return $this->usersEvents->matching($criteria);
+    }
+    public function getUsersEventsByType(string $type): Collection
+    {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('deleted', false))
+            ->andWhere(Criteria::expr()->eq('type', $type))
+            ->orderBy(['finishDate' => 'ASC'])
+        ;
+        return $this->usersEvents->matching($criteria);
+    }
+
+    public function addUsersEvent(UsersEvents $usersEvent): self
+    {
+        if (!$this->usersEvents->contains($usersEvent)) {
+            $this->usersEvents[] = $usersEvent;
+            $usersEvent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersEvent(UsersEvents $usersEvent): self
+    {
+        if ($this->usersEvents->removeElement($usersEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($usersEvent->getUser() === $this) {
+                $usersEvent->setUser(null);
             }
         }
 

@@ -41,7 +41,12 @@
                                 Карта готовности
                             </button>
                         </a>
-
+                        <a href="{{ path('app_bas_curator_complex', {'id': user_info.getId()}) }}">
+                            <button class="btn btn-light-green  mb-2">
+                                <div class="fa fa-bus"></div>
+                                Комплекс мер (дорожная карта)
+                            </button>
+                        </a>
                     </div>
 
                 {% endif %}
