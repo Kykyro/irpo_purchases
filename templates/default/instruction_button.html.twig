@@ -1,11 +1,7 @@
-<div class="row">
-    <div class="col-lg-10 offset-lg-1">
-        <a href="{{ path('app_download_file_by_route', {'file': file, 'route': 'pdf_files_directory'}) }}">
-            <button class="btn btn-success">
-                <i class="fa fa-download"></i>
-                {{ button_text }}
-            </button>
-        </a>
 
-    </div>
-</div>
+<a href="{{ path('app_download_file_by_route', {'file': file, 'route': 'pdf_files_directory'}) }}">
+    <button class="btn btn-success text-break col-sm-12">
+        <i class="fa fa-download"></i>
+        {{ button_text }}
+    </button>
+</a>

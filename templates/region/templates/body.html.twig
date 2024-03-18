@@ -39,17 +39,19 @@
         </div>
     </div>
 </div>
-{% include 'default/instruction_button.html.twig' with {'file': 'Описание_инструкция_к_системе_закупки (2).pdf', 'button_text': 'Скачать инструкцию по закупкам'} %}
+
 
 {% if purchases_with_note|length > 0 %}
     <div class="row animated fadeInRight">
         <div class="col-lg-10 offset-lg-1 " >
-            <div class="wrapper wrapper-content " >
-
-                <div class="table-responsive">
-                    <h2 style="font-weight: bold; margin-bottom: 2rem">
+            <div class="wrapper wrapper-content ibox" >
+                <div class="ibox-title">
+                    <h2 >
                         Закупки с новыми замечаниями
                     </h2>
+                </div>
+                <div class="table-responsive ibox-content">
+
                     <style>
                         table{
 
@@ -186,21 +188,25 @@
 
 <div class="row animated fadeInRight">
     <div class="col-lg-10 offset-lg-1 " >
-        <div class="wrapper wrapper-content " >
+        <div class="ibox wrapper wrapper-content " >
+            <div class="ibox-title">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <h2>
+                            Список закупок
+                        </h2>
+                    </div>
+                    <div class="col-lg-2">
+                        {% include 'default/instruction_button.html.twig' with {'file': 'Описание_инструкция_к_системе_закупки (2).pdf', 'button_text': 'Скачать инструкцию по закупкам'} %}
+                    </div>
+                </div>
 
-            <div class="table-responsive horizontal-drag">
-                <h2 style="font-weight: bold; margin-bottom: 2rem">
-                    Список закупок
-                </h2>
-                <style>
-                    table{
 
-                    }
-                    table tr td{
-                        border: 1px #808486 solid;
-                    }
-                </style>
-                <table class="table  ">
+            </div>
+            <div class="ibox-content table-responsive horizontal-drag">
+
+
+                <table class="table table-bordered ">
                     <thead>
                     <tr>
                         <th>№</th>
@@ -322,10 +328,12 @@
                 </table>
 
             </div>
-
+            <div class="ibox-footer">
                 <div class="navigation">
                     {{ knp_pagination_render(procurement_procedures, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
                 </div>
+            </div>
+
 
         </div>
 
