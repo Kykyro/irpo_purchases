@@ -12,52 +12,71 @@
                             <h1>Доступ к закупкам</h1>
                         </div>
                         <div class="ibox-content">
-                            <h2>
-                                Действия
-                            </h2>
-                            <div>
-                                <a href="{{ path('app_admin_cluster_access_change_all', {'access' : 1}) }}">
-                                    <button class="btn btn-success">
-                                        Открыть доступ всем
-                                    </button>
-                                </a>
-                                <a href="{{ path('app_admin_cluster_access_change_all', {'access' : 0}) }}">
-                                    <button class="btn btn-danger">
-                                        Закрыть доступ всем
-                                    </button>
-                                </a>
+                            {#<h2>#}
+                                {#Действия#}
+                            {#</h2>#}
+                            {#<div>#}
+                                {#<a href="{{ path('app_admin_cluster_access_change_all', {'access' : 1}) }}">#}
+                                    {#<button class="btn btn-success">#}
+                                        {#Открыть доступ всем#}
+                                    {#</button>#}
+                                {#</a>#}
+                                {#<a href="{{ path('app_admin_cluster_access_change_all', {'access' : 0}) }}">#}
+                                    {#<button class="btn btn-danger">#}
+                                        {#Закрыть доступ всем#}
+                                    {#</button>#}
+                                {#</a>#}
 
-                            </div>
+                            {#</div>#}
 
-                            <hr>
+                            {#<hr>#}
                             <h2>
                                 Список кластеров
                             </h2>
-                            <table class="table table-striped col-lg-12">
+                            <table class="table table-striped table-bordered col-lg-12">
                                 <thead>
                                     <tr>
-                                        <td>
+                                        <td class="col-md-1">
                                             id
                                         </td>
-                                        <td>
+                                        <td class="col-md-1">
                                             UUID
                                         </td>
-                                        <td>
+                                        <td class="col-md-1">
+                                            База
+                                        </td>
+                                        <td class="col-md-1">
+                                            Год
+                                        </td>
+                                        <td class="col-md-1">
+                                            Регион
+                                        </td>
+                                        <td class="col-md-1">
                                             Состояние доступа
                                         </td>
-                                        <td>
+                                        <td class="col-md-1">
                                             Действия
                                         </td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {% for i in clusters %}
+                                    {% set user_info = i.getUserInfo() %}
                                     <tr>
                                         <td>
                                             {{ i.getId() }}
                                         </td>
                                         <td>
                                             {{ i.getUuid() }}
+                                        </td>
+                                        <td>
+                                            {{ user_info.getEducationalOrganization() }}
+                                        </td>
+                                        <td>
+                                            {{ user_info.getYear() }}
+                                        </td>
+                                        <td>
+                                            {{ user_info.getRfSubject().getName() }}
                                         </td>
                                         {% if not i.getUserInfo().isAccessToPurchases() %}
                                         <td>
@@ -93,6 +112,13 @@
                                 {% endfor %}
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="ibox-footer">
+                            {#<div class="row">#}
+                                <div class="navigation">
+                                    {{ knp_pagination_render(clusters, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                                </div>
+                            {#</div>#}
                         </div>
                     </div>
                 </div>

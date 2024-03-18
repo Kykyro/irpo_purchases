@@ -38,7 +38,7 @@ class AdminAccessController extends AbstractController
     /**
      * @Route("/cluster-access-to-purchases", name="app_admin_cluster_access")
      */
-    public function adminPanel(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function adminPanel(Request $request,PaginatorInterface $paginator,  EntityManagerInterface $entityManager): Response
     {
 
 
@@ -51,21 +51,26 @@ class AdminAccessController extends AbstractController
             ->setParameter('role_2', "%SMALL_CLUSTERS%")
             ->setParameter('role_3', "%ROLE_BAS%")
             ->orderBy('a.id', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ;
 
+        $query = $clusters->getQuery();
 
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            12 /*limit per page*/
+        );
 
         return $this->render('admin/templates/accessToPurchases.html.twig', [
             'controller_name' => 'AdminController',
-            'clusters' => $clusters,
+            'clusters' => $pagination,
         ]);
     }
 
     /**
      * @Route("/cluster-access-to-purchases-change/{id}", name="app_admin_cluster_access_change")
      */
-    public function changeAccess(int $id){
+    public function changeAccess(int $id, Request $request){
 
         $entity_manager = $this->getDoctrine()->getManager();
         $userInfo = $entity_manager->getRepository(UserInfo::class)->find($id);
@@ -81,7 +86,10 @@ class AdminAccessController extends AbstractController
         $entity_manager->persist($userInfo);
         $entity_manager->flush();
 
-        return $this->redirectToRoute('app_admin_cluster_access');
+
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
     }
 
     /**
