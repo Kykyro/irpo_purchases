@@ -197,7 +197,11 @@
                         </h2>
                     </div>
                     <div class="col-lg-2">
-                        {% include 'default/instruction_button.html.twig' with {'file': 'Описание_инструкция_к_системе_закупки (2).pdf', 'button_text': 'Скачать инструкцию по закупкам'} %}
+                        {% if 'ROLE_BAS' in app.user.getRoles() %}
+                            {% include 'default/instruction_button.html.twig' with {'file': 'Описание_инструкция_к_системе_закупки.docx', 'button_text': 'Скачать инструкцию по закупкам'} %}
+                        {% else %}
+                            {% include 'default/instruction_button.html.twig' with {'file': 'Описание_инструкция_к_системе_закупки (2).pdf', 'button_text': 'Скачать инструкцию по закупкам'} %}
+                        {% endif %}
                     </div>
                 </div>
 
