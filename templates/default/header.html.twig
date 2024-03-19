@@ -144,6 +144,9 @@
                     <li>
                         <a href="{{ path("app_bas_curator_all") }}"><i class="fa fa-paper-plane left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Все БАСы <span class="badge badge-danger pull-right" id="zone-remarks"></span></span></a>
                     </li>
+                    <li >
+                        <a href="{{ path("app_bas_curator_contracting") }}"><i class="fa fa-money left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Актуальная выгрузка (БАС)</span></a>
+                    </li>
                 {% endif %}
                 {% if is_granted('ROLE_INSPECTOR') %}
                     <li>

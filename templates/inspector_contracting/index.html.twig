@@ -3,6 +3,8 @@
 {% block content %}
     {% if role == 'small' %}
         {% set prefix = 'Малые кластеры' %}
+    {% elseif role == 'bas' %}
+        {% set prefix = 'БАС' %}
     {% else %}
         {% set prefix = 'Производственные кластеры' %}
     {% endif %}
