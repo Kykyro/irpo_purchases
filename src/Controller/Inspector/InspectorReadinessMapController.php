@@ -50,7 +50,13 @@ class InspectorReadinessMapController extends AbstractController
 
         $user = $em->getRepository(User::class)->find($id);
         if(in_array("ROLE_BAS", $user->getRoles()))
-            return $this->redirectToRoute("app_readness_map_bas_inspector", ['id' => $user->getId()]);
+        {
+            $url = $this->generateUrl('app_readness_map_bas_inspector', $request->query->all() + ['id' => $user->getId()]);
+//            dd($url);
+            return $this->redirect($url);
+//            return $this->redirectToRoute("app_readness_map_bas_inspector", ['id' => $user->getId()]);
+        }
+
         $photos = null;
         $arr = [];
         $form = $this->createFormBuilder($arr)
@@ -302,7 +308,9 @@ class InspectorReadinessMapController extends AbstractController
             $entity_manager->persist($zone);
             $entity_manager->flush();
 
-            return $this->redirectToRoute('app_inspector_readiness_map', ['id'=>$addres->getUser()->getId()]);
+            $url = $this->generateUrl('app_inspector_readiness_map', $request->query->all() + ['id' => $addres->getUser()->getId(), 'tab'=>$addres->getId()]);
+//            dd($url);
+            return $this->redirect($url);
         }
 
         return $this->render('inspector_readiness_map/addZone.html.twig', [
