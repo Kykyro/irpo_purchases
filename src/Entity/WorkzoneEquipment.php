@@ -79,9 +79,20 @@ class WorkzoneEquipment
      */
     private $curatorComment;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $deleted;
+
+    /**
+     * @ORM\OneToMany(targetEntity=WorkzoneEquipmentDump::class, mappedBy="equipment")
+     */
+    private $workzoneEquipmentDumps;
+
     public function __construct()
     {
         $this->equipmentLogs = new ArrayCollection();
+        $this->workzoneEquipmentDumps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -247,6 +258,48 @@ class WorkzoneEquipment
     public function setCuratorComment(?string $curatorComment): self
     {
         $this->curatorComment = $curatorComment;
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(?bool $deleted): self
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkzoneEquipmentDump>
+     */
+    public function getWorkzoneEquipmentDumps(): Collection
+    {
+        return $this->workzoneEquipmentDumps;
+    }
+
+    public function addWorkzoneEquipmentDump(WorkzoneEquipmentDump $workzoneEquipmentDump): self
+    {
+        if (!$this->workzoneEquipmentDumps->contains($workzoneEquipmentDump)) {
+            $this->workzoneEquipmentDumps[] = $workzoneEquipmentDump;
+            $workzoneEquipmentDump->setEquipment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkzoneEquipmentDump(WorkzoneEquipmentDump $workzoneEquipmentDump): self
+    {
+        if ($this->workzoneEquipmentDumps->removeElement($workzoneEquipmentDump)) {
+            // set the owning side to null (unless already changed)
+            if ($workzoneEquipmentDump->getEquipment() === $this) {
+                $workzoneEquipmentDump->setEquipment(null);
+            }
+        }
 
         return $this;
     }

@@ -5,6 +5,7 @@ use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
 use App\Entity\User;
 use App\Entity\WorkzoneEquipment;
+use App\Entity\WorkzoneEquipmentDump;
 use App\Entity\ZoneRepair;
 use DateTime;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -20,6 +21,7 @@ class DatabaseOnFlushListener
     {
         $em = $eventArgs->getEntityManager();
         $uow = $em->getUnitOfWork();
+        $now = new \DateTimeImmutable('now');
         // We will add methods there
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
@@ -82,14 +84,15 @@ class DatabaseOnFlushListener
                 // We check if our entity contains some changes
                 $changeSet = $uow->getEntityChangeSet($entity);
                 if ($changeSet) {
-                    dump($changeSet);
-                    $v = json_encode($changeSet);
-                    dump($v);
-                    dump(json_decode($v));
+                    $arrDump['id'] = $entity->getId();
+                    $arrDump = array_merge($arrDump, $changeSet);
 
-//                    $log = new Log();
-//                    $em->persist($log);
-//                    $uow->computeChangeSet($em->getClassMetadata(get_class($log)), $log);
+                    $dump = new WorkzoneEquipmentDump();
+                    $dump->setEquipment($entity);
+                    $dump->setChanges($arrDump);
+                    $dump->setCreatedAt($now);
+                    $em->persist($dump);
+                    $uow->computeChangeSet($em->getClassMetadata(get_class($dump)), $dump);
                 }
             }
         }

@@ -17,10 +17,18 @@ class ClusterInfrastructureSheetController extends AbstractController
 {
     /**
      * @Route("/region/infrastructure-sheet/edit/{type}/{id}", name="app_cluster_infrastructure_sheet_edit")
+     * @throws \Exception
      */
-    public function edit(Request $request, EntityManagerInterface $em, int $id, string $type): Response
+    public function edit(Request $request, EntityManagerInterface $em, int $id, string $type)
     {
+        $user = $this->getUser();
         $sheet = $em->getRepository(SheetWorkzone::class)->find($id);
+
+        if($user->getId() != $sheet->getUser()->getId())
+        {
+            throw new \Exception("В доступе отказано", 403);
+        }
+
         $form = $this->createForm(infrastructureSheetForm::class, $sheet->getWorkzoneEquipmentByType($type),
             [
                 'vars' => [
