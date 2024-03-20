@@ -290,7 +290,7 @@ class InspectorController extends AbstractController
 
         $entity_manger = $this->getDoctrine()->getManager();
         $user_info = $entity_manger->getRepository(UserInfo::class)->find($id);
-
+        $user = $entity_manger->getRepository(User::class)->getUserByUserInfo($user_info);
         $clusterDocument = $user_info->getClusterDocument();
         if(!$clusterDocument)
         {
@@ -298,9 +298,11 @@ class InspectorController extends AbstractController
             $user_info->setClusterDocument($clusterDocument);
         }
 
+        $formLabels = [
+          'InfrastructureSheet' => in_array('ROLE_BAS', $user->getRoles()) ? 'Инфраструктурный лист специализированного класса (кружка)' : 'Инфраструктурный лист',
+        ];
 
-
-        $form = $this->createForm(clusterDocumentForm::class, $clusterDocument);
+        $form = $this->createForm(clusterDocumentForm::class, $clusterDocument, ['labels' => $formLabels]);
 
         $form->handleRequest($request);
 
@@ -311,6 +313,8 @@ class InspectorController extends AbstractController
             $InfrastructureSheet = $form->get('InfrastructureSheet')->getData();
             $DesignProject = $form->get('DesignProject')->getData();
             $ActivityProgram = $form->get('ActivityProgram')->getData();
+            $notFinancialAgreement = $form->get('notFinancialAgreement')->getData();
+            $infrastructureSheetPractice = $form->get('infrastructureSheetPractice')->getData();
 
             if($PartnershipAgreement)
                 $clusterDocument->setPartnershipAgreement($fileService->UploadFile($PartnershipAgreement, 'cluster_documents_directory'));
@@ -322,6 +326,10 @@ class InspectorController extends AbstractController
                 $clusterDocument->setDesignProject($fileService->UploadFile($DesignProject, 'cluster_documents_directory'));
             if($ActivityProgram)
                 $clusterDocument->setActivityProgram($fileService->UploadFile($ActivityProgram, 'cluster_documents_directory'));
+            if($notFinancialAgreement)
+                $clusterDocument->setNotFinancialAgreement($fileService->UploadFile($notFinancialAgreement, 'cluster_documents_directory'));
+            if($infrastructureSheetPractice)
+                $clusterDocument->setInfrastructureSheetPractice($fileService->UploadFile($infrastructureSheetPractice, 'cluster_documents_directory'));
 
 
 
@@ -329,11 +337,13 @@ class InspectorController extends AbstractController
             $entity_manger->persist($clusterDocument);
             $entity_manger->persist($user_info);
             $entity_manger->flush();
-            $user = $entity_manger->getRepository(User::class)
-                ->findBy([
-                    'user_info' => $user_info,
-                ]);
-            return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id' => $user[0]->getId()]);
+
+            if(in_array('ROLE_BAS', $user->getRoles()))
+            {
+                return $this->redirectToRoute('app_bas_curator_info', ['id' => $user->getId()]);
+            }
+            return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id' => $user->getId()]);
+
         }
 
 

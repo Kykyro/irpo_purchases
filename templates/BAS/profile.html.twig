@@ -297,7 +297,7 @@
 
                                                 <a href="{{ path('app_download_file_by_route', {'route': 'cluster_documents_directory', 'file': clusterDocument.getInfrastructureSheet()}) }}">
                                                     <i class="fa fa-download">
-                                                        Инфраструктурный лист
+                                                        Инфраструктурный лист специализированного класса (кружка)
                                                     </i>
 
                                                 </a>
@@ -322,6 +322,30 @@
                                                 <a href="{{ path('app_download_file_by_route', {'route': 'cluster_documents_directory', 'file': clusterDocument.getActivityProgram()}) }}">
                                                     <i class="fa fa-download">
                                                         Программа деятельности
+                                                    </i>
+
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if clusterDocument.getNotFinancialAgreement() %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('app_download_file_by_route', {'route': 'cluster_documents_directory', 'file': clusterDocument.getNotFinancialAgreement()}) }}">
+                                                    <i class="fa fa-download">
+                                                        Нефинансовое соглашение
+                                                    </i>
+
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if clusterDocument.getInfrastructureSheetPractice() %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('app_download_file_by_route', {'route': 'cluster_documents_directory', 'file': clusterDocument.getInfrastructureSheetPractice()}) }}">
+                                                    <i class="fa fa-download">
+                                                        Инфраструктурный лист центра практической подготовки
                                                     </i>
 
                                                 </a>

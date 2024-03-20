@@ -47,6 +47,16 @@ class ClusterDocument
      */
     private $activityProgram;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $notFinancialAgreement;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $infrastructureSheetPractice;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +130,30 @@ class ClusterDocument
     public function setActivityProgram(?string $activityProgram): self
     {
         $this->activityProgram = $activityProgram;
+
+        return $this;
+    }
+
+    public function getNotFinancialAgreement(): ?string
+    {
+        return $this->notFinancialAgreement;
+    }
+
+    public function setNotFinancialAgreement(?string $notFinancialAgreement): self
+    {
+        $this->notFinancialAgreement = $notFinancialAgreement;
+
+        return $this;
+    }
+
+    public function getInfrastructureSheetPractice(): ?string
+    {
+        return $this->infrastructureSheetPractice;
+    }
+
+    public function setInfrastructureSheetPractice(?string $infrastructureSheetPractice): self
+    {
+        $this->infrastructureSheetPractice = $infrastructureSheetPractice;
 
         return $this;
     }

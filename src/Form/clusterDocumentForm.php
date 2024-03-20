@@ -69,7 +69,7 @@ class clusterDocumentForm extends AbstractType
                         'mimeTypesMessage' => '',
                     ])
                 ],
-                'label' => 'Инфраструктурный лист',
+                'label' => $options['labels']['InfrastructureSheet'],
             ])
             ->add('DesignProject', FileType::class, [
                 'attr' => [
@@ -99,6 +99,34 @@ class clusterDocumentForm extends AbstractType
                 ],
                 'label' => 'Программа деятельности',
             ])
+            ->add('notFinancialAgreement', FileType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '200M',
+                        'mimeTypesMessage' => '',
+                    ])
+                ],
+                'label' => 'Нефинансовое соглашение',
+            ])
+            ->add('infrastructureSheetPractice', FileType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '200M',
+                        'mimeTypesMessage' => '',
+                    ])
+                ],
+                'label' => 'Инфраструктурный лист центра практической подготовки',
+            ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary'
@@ -108,6 +136,11 @@ class clusterDocumentForm extends AbstractType
 
            ;
     }
-
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'labels' => [],
+        ]);
+    }
 
 }
