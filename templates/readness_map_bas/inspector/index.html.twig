@@ -74,6 +74,7 @@
                                                 <strong>Зоны</strong>
                                             </td>
                                             <td class="text-center"><strong> Средний % выполнения брендирования </strong></td>
+                                            <td style="vertical-align: inherit; text-align: center"><strong>Средний % ремонтных работ в общем</strong></td>
                                             <td class="text-center"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
                                             <td class="text-center"><strong>Крайняя дата завершения ремонта</strong></td>
                                             <td class="col-md-1 text-center" >
@@ -128,6 +129,7 @@
                                             {% set repairMidByZone = i.getMidRepairByZone() %}
                                             {% set repairMidByCommon = i.getMidRepairByCommon() %}
                                             <td class="text-center">{{ repairMidByZone|round(2, 'floor') }} %</td>
+                                            <td class="text-center">{{ (i.getMidRepair())|round(2, 'floor') }} %</td>
                                             <td class="text-center">
                                                 {% if i.getEquipmentDeliveryDeadline() %}
                                                     {{ i.getEquipmentDeliveryDeadline().format('d.m.Y') }}
@@ -208,28 +210,33 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <td class="col-md-2 text-center"><strong>Средний % выполнения брендирования</strong></td>
-                                <td class="col-md-2 text-center"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
-                                <td class="col-md-2 text-center"><strong>Крайняя дата завершения ремонта</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ общих помещений</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ зон под вид работ</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % ремонтных работ в общем</strong></td>
+
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Крайняя дата завершения ремонта</strong></td>
                             </tr>
                             </thead>
                             <tbody>
 
                             <tr>
-                                <td class="text-center">{{ user.getMidRepairByCommon()|round(2, 'floor') }} %</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByCommon()|round(2, 'floor') }} %</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByZone()|round(2, 'floor') }} %</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ ((user.getMidRepairByZone()+user.getMidRepairByCommon())/2)|round(2, 'floor') }} %</td>
 
-
-                                <td class="text-center">{{ user.getEquipmentDeliveryDeadline() }}</td>
-                                <td class="text-center">{{ user.getDeadlineForCompletionOfRepairs() }}</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getEquipmentDeliveryDeadline() }}</td>
+                                <td style="vertical-align: inherit; text-align: center">{{ user.getDeadlineForCompletionOfRepairs() }}</td>
                             </tr>
                             </tbody>
                         </table>
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <td class="col-md-2 text-center"><strong>Общее кол-во оборудования по ИЛу</strong></td>
-                                <td class="col-md-2 text-center"><strong>Средний % укомплектованности МТБ</strong></td>
-                                <td class="col-md-2 text-center"><strong>Введено в эксплуатацию</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Общее кол-во оборудования по ИЛу</strong></td>
+                                {#<td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Поставлено оборудования</strong></td>#}
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Средний % укомплектованности МТБ</strong></td>
+                                <td style="vertical-align: inherit; text-align: center" class="col-md-2"><strong>Введено в эксплуатацию</strong></td>
 
                             </tr>
                             </thead>
