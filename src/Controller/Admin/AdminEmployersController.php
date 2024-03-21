@@ -167,7 +167,7 @@ class AdminEmployersController extends AbstractController
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Название (альтернативно)',
+                'label' => 'Полное название организации (без сокращений)',
                 'required' => false,
             ])
             ->add('shortName', TextType::class, [
