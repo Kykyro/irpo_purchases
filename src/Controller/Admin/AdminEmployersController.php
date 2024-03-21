@@ -272,7 +272,9 @@ class AdminEmployersController extends AbstractController
             $em->persist($empl);
 //            dd($empl);
             $em->flush();
-            return $this->redirectToRoute('app_analyst_employers');
+
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
         }
 
         return $this->render('analyst/templates/employerEdit.html.twig', [

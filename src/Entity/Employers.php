@@ -210,6 +210,7 @@ class Employers
             '',
             $this->arrayRegionToStringList($this->getUserInfos()),
             $this->arrayDistrictToStringList($this->getUserInfos()),
+            $this->getOGRN(),
 
         ];
         return $row;
