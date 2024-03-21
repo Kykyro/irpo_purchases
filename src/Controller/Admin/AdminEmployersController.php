@@ -184,6 +184,13 @@ class AdminEmployersController extends AbstractController
                 'label' => 'ИНН',
                 'required' => false,
             ])
+            ->add('OGRN', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'ОГРН',
+                'required' => false,
+            ])
             ->add('city', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'

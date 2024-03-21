@@ -95,6 +95,11 @@ class Employers
      */
     private $region;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $OGRN;
+
     public function __construct()
     {
         $this->userInfos = new ArrayCollection();
@@ -420,6 +425,18 @@ class Employers
     public function setRegion(?string $region): self
     {
         $this->region = $region;
+
+        return $this;
+    }
+
+    public function getOGRN(): ?string
+    {
+        return $this->OGRN;
+    }
+
+    public function setOGRN(?string $OGRN): self
+    {
+        $this->OGRN = $OGRN;
 
         return $this;
     }

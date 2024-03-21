@@ -6,6 +6,7 @@ use App\Entity\ClusterAddresses;
 use App\Entity\ClusterZone;
 use App\Entity\Log;
 use App\Entity\PhotosVersion;
+use App\Entity\ReadinessMapCheckStatus;
 use App\Entity\RepairDump;
 use App\Entity\RepairDumpGroup;
 use App\Entity\RepairPhotos;
@@ -27,9 +28,11 @@ use function PHPUnit\Framework\throwException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,10 +55,10 @@ class InspectorReadinessMapController extends AbstractController
         if(in_array("ROLE_BAS", $user->getRoles()))
         {
             $url = $this->generateUrl('app_readness_map_bas_inspector', $request->query->all() + ['id' => $user->getId()]);
-//            dd($url);
             return $this->redirect($url);
-//            return $this->redirectToRoute("app_readness_map_bas_inspector", ['id' => $user->getId()]);
         }
+
+
 
         $photos = null;
         $arr = [];
@@ -91,6 +94,25 @@ class InspectorReadinessMapController extends AbstractController
             ])
             ->getForm();
 
+        $rmcs = new ReadinessMapCheckStatus();
+        $formReadinessMapChecks = $this->createFormBuilder($rmcs)
+            ->add('comment', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Комментарий'
+            ])
+            ->add('status', ChoiceType::class, [
+                'choices'  => [
+//                    'На рассмотрении' => 'На рассмотрении',
+                    'На доработку' => 'На доработке',
+                    'Принято' => 'Принято',
+//                    'Исправлено' => 'Исправлено',
+                ],
+                'multiple' => false,
+                'expanded' => true,
+            ])
+            ->getForm();
 
         $adresses = $user->getClusterAddresses();
         $procentage = [
@@ -166,6 +188,22 @@ class InspectorReadinessMapController extends AbstractController
 
 
         $form->handleRequest($request);
+        $formReadinessMapChecks->handleRequest($request);
+
+        if ($formReadinessMapChecks->isSubmitted() && $formReadinessMapChecks->isValid())
+        {
+            $readinessMapCheck = $user->getReadinessMapChecks()->last();
+            if($readinessMapCheck){
+                $readinessMapCheck->addStatus($rmcs);
+
+                $em->persist($rmcs);
+                $em->flush();
+            }
+
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
+        }
+
         if ($form->isSubmitted() && $form->isValid())
         {
             $data = $form->getData();
@@ -190,16 +228,16 @@ class InspectorReadinessMapController extends AbstractController
             if($form->get('download')->isClicked() and count($photos) > 0)
                 return $this->downloadPhotos($photos, $user->getUserInfo()->getCluster());
         }
-//        dd($proc);
+
         return $this->render('inspector_readiness_map/index.html.twig', [
             'controller_name' => 'InspectorReadinessMapController',
             'user' => $user,
             '_photos' => $photos,
             'form' => $form->createView(),
+            'form_checks' => $formReadinessMapChecks->createView(),
             'proc' => $proc,
             'mtb_fact' => ($count > 0) ? round((($proc['furniture']+$proc['PO']+$proc['equipment']+$proc['allowance'])/$count)*100, 2): 0,
             'mtb_put' => ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put']+$proc['allowance_put'])/$count)*100, 2): 0,
-//            'mtb_put' => round(($proc['furniture']+$proc['PO']+$proc['equipment'])/$count, 2),
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Controller\Region;
 
 use App\Entity\ClusterZone;
 use App\Entity\PhotosVersion;
+use App\Entity\ReadinessMapCheckStatus;
 use App\Entity\RepairPhotos;
 use App\Form\editZoneRepairForm;
 use App\Form\infrastructureSheetZoneRegionEditForm;
@@ -306,6 +307,22 @@ class RegionReadinessMapController extends AbstractController
         $user = $this->getUser()->getId();
         $logger->info("Удаление фотографии userID: $user");
         return $this->redirectToRoute('app_region_view_zone', ['id' => $zone_id]);
+    }
+
+    /**
+     * @Route("/readiness-map/rediness-map-check-change-status/{id}", name="app_region_rm_check_change_status")
+     */
+    public function redinessMapCheckChangeStatus(EntityManagerInterface $em, int $id, Request $request)
+    {
+        $checkStatus = $em->getRepository(ReadinessMapCheckStatus::class)->find($id);
+
+        $checkStatus->setStatus('Исправлено');
+
+        $em->persist($checkStatus);
+        $em->flush();
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
     }
 
 }

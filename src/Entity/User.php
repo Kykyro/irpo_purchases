@@ -101,6 +101,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=UsersEvents::class, mappedBy="user")
      */
     private $usersEvents;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ReadinessMapCheck::class, mappedBy="user")
+     */
+    private $readinessMapChecks;
     
 
     public function getId(): ?int
@@ -134,6 +139,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sheetWorkzones = new ArrayCollection();
         $this->apiTokens = new ArrayCollection();
         $this->usersEvents = new ArrayCollection();
+        $this->readinessMapChecks = new ArrayCollection();
     }
 
 
@@ -823,6 +829,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($usersEvent->getUser() === $this) {
                 $usersEvent->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ReadinessMapCheck>
+     */
+    public function getReadinessMapChecks(): Collection
+    {
+        return $this->readinessMapChecks;
+    }
+
+    public function addReadinessMapCheck(ReadinessMapCheck $readinessMapCheck): self
+    {
+        if (!$this->readinessMapChecks->contains($readinessMapCheck)) {
+            $this->readinessMapChecks[] = $readinessMapCheck;
+            $readinessMapCheck->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReadinessMapCheck(ReadinessMapCheck $readinessMapCheck): self
+    {
+        if ($this->readinessMapChecks->removeElement($readinessMapCheck)) {
+            // set the owning side to null (unless already changed)
+            if ($readinessMapCheck->getUser() === $this) {
+                $readinessMapCheck->setUser(null);
             }
         }
 

@@ -1,0 +1,50 @@
+{% extends "admin/base.html.twig" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Проверка карт готовности
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered">
+                    <thead>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </thead>
+                    <tbody>
+                        {% for i in users %}
+                            <tr>
+                                <td>{{ i.getId() }}</td>
+                                <td>{{ i.getUsername() }}</td>
+                                <td>
+                                    {% if i.getReadinessMapChecks()|length == 0 %}
+                                        <a href="{{ path('app_admin_readiness_map_check_create', {'id': i.getId()}) }}">
+                                            <button class="btn btn-danger">
+                                                <i class="fa fa-close"></i>
+                                            </button>
+                                        </a>
+                                    {% else %}
+                                        <button class="btn btn-primary">
+                                            <i class="fa fa-check"></i>
+                                        </button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="ibox-footer">
+                <div class="navigation">
+                    {{ knp_pagination_render(users, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
