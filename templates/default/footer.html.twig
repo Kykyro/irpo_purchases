@@ -106,7 +106,7 @@
         })
     </script>
 {% endif %}
-{% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS') %}
+{% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS') or is_granted('ROLE_BAS') %}
     <script>
         $(document).ready(function(){
             //zone-remarks

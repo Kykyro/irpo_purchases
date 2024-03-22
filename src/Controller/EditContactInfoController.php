@@ -25,7 +25,7 @@ class EditContactInfoController extends AbstractController
         $user = $this->getUser();
 
         $roles = $user->getRoles();
-        $isBas = in_array('ROLE_CURATOR_BAS', $roles);
+        $isBas = (in_array('ROLE_CURATOR_BAS', $roles) or in_array('ROLE_BAS', $roles));
 
         if($user->getId() != $id and !(in_array('ROLE_SMALL_CURATOR', $roles) or in_array('ROLE_INSPECTOR', $roles)))
             $id = $user->getId();
