@@ -1,6 +1,14 @@
 {% extends "default/base.html.twig" %}
 
 {% block content %}
+    {% set statusLib2 = {
+        'Не принято' : 'badge-danger',
+        'Нет информации' : 'badge',
+        '' : 'badge-warning',
+        'На проверке' : 'badge-revision',
+        'Принято' : 'badge-primary',
+
+    } %}
     <div class="row mt-3">
         <div class="col-sm-12">
             <a href="{{ path('app_bas_road_map') }}">
@@ -48,7 +56,7 @@
                                 <td class="text-center">{{ i.getCommentUser() }}</td>
                                 <td class="text-center">{{ i.getCommentCurator() }}</td>
                                 <td class="text-center">
-                                    <span class="badge ">
+                                    <span class="badge {{ statusLib2[i.getStatus()] }}">
                                         {{ i.getStatus() }}
                                     </span>
                                 </td>

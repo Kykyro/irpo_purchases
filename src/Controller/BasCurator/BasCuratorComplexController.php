@@ -29,7 +29,7 @@ class BasCuratorComplexController extends AbstractController
     {
 
         $user = $em->getRepository(User::class)->find($id);
-
+        $today = new \DateTimeImmutable('now');
         $newEvent = new UsersEvents();
 
         $form = $this->createFormBuilder($newEvent)
@@ -66,6 +66,7 @@ class BasCuratorComplexController extends AbstractController
             'user' => $user,
             'form' => $form->createView(),
             'form_errors' => $form->getErrors(),
+            'today' => $today,
         ]);
     }
     /**

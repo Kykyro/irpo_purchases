@@ -45,14 +45,15 @@ class BASRoadMapController extends AbstractController
     public function userCabinet(): Response
     {
         $user = $this->getUser();
-
+        $today = new \DateTimeImmutable('now');
 
         $user_info = $user->getUserInfo();
 
         return $this->render('BAS_road_map/index.html.twig', [
             'controller_name' => 'DefaultController',
             'user_info' => $user_info,
-            'user' => $user
+            'user' => $user,
+            'today' => $today,
         ]);
     }
     /**

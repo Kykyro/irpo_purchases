@@ -1,6 +1,14 @@
 {% extends "default/base.html.twig" %}
 
 {% block content %}
+    {% set statusLib2 = {
+        'Не принято' : 'badge-danger',
+        'Нет информации' : 'badge',
+        '' : 'badge-warning',
+        'На проверке' : 'badge-revision',
+        'Принято' : 'badge-primary',
+
+    } %}
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox">
@@ -26,14 +34,24 @@
                                 <td class="text-center">{{ loop.index }}</td>
                                 <td class="text-center">{{ i.getName() }}</td>
                                 <td class="text-center">
-                                    {% if i.getFinishDate() %}
-                                        {{ i.getFinishDate().format('d.m.Y') }}
+                                    {% set date = i.getFinishDate() %}
+                                    {% if date %}
+                                        {% if today < date %}
+                                            <b>
+                                                {{ date.format('d.m.Y') }}
+                                            </b>
+
+                                        {% else %}
+                                            <b class="text-danger">
+                                                {{ date.format('d.m.Y') }}
+                                            </b>
+                                        {% endif %}
                                     {% else %}
                                         Дата не указана
                                     {% endif %}
                                 </td>
                                 <td class="text-center">
-                                    <span class="badge ">
+                                    <span class="badge {{ statusLib2[i.getStatus()] }}">
                                         {{ i.getStatus() }}
                                     </span>
                                 </td>
