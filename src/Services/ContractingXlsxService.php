@@ -180,7 +180,7 @@ class ContractingXlsxService extends AbstractController
                 $_data['P'],
                 $_data['Q'],
                 $_data['R'],
-                '',
+                $user_info->getCurator(),
                 '',
                 '',
             ];
