@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\ZoneInfrastructureSheet;
 use App\Form\editZoneRepairForm;
 use App\Form\infrastructureSheetZoneForm;
+use App\Services\BAS\AddTypicalBasService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -298,5 +299,15 @@ class ReadnessMapBasController extends AbstractController
             'id' => $id,
 
         ]);
+    }
+
+    /**
+     * @Route("/bas-curator/readiness-map/infrastructure-sheet-add-typical/{id}", name="app_inspector_rm_infrastructure_sheet_bas_add_typical")
+     */
+    public function addTypicalIL(Request $request, int $id, EntityManagerInterface $em, AddTypicalBasService $service)
+    {
+        $service->add($id, $em);
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
     }
 }

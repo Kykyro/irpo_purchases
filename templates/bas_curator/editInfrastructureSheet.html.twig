@@ -24,7 +24,12 @@
                     <h5>
                         Редактирование инфраструктурного листа
                     </h5>
-
+                    <a href="{{ path('app_inspector_rm_infrastructure_sheet_bas_add_typical', {'id': id}) }}">
+                        <button class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            Добавить типовой ИЛ
+                        </button>
+                    </a>
                 </div>
 
                 {% macro printZoneInfrastructureSheets(sheet) %}
