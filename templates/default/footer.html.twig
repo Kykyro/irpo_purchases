@@ -140,6 +140,48 @@
                     }
                 })
             });
+            fetch('/api/rm-status').then(function(response) {
+                response.json().then(function(data) {
+                    let zoneRemarksBadge = $('#rm-notification');
+
+                    if(typeof data === 'object')
+                    {
+                        zoneRemarksBadge.hide();
+                        return;
+                    }
+
+                    if(data.includes("Принято"))
+                    {
+
+                        zoneRemarksBadge.addClass('badge-primary');
+                        zoneRemarksBadge.find('i').addClass('fa-check');
+                        return;
+                    }
+                    if(data.includes("На рассмотрении"))
+                    {
+
+                        zoneRemarksBadge.addClass('badge-warning');
+                        zoneRemarksBadge.find('i').addClass('fa-repeat');
+                        return;
+                    }
+                    if(data.includes("Исправлено"))
+                    {
+
+                        zoneRemarksBadge.addClass('badge-warning');
+                        zoneRemarksBadge.find('i').addClass('fa-repeat');
+                        return;
+                    }
+                    if(data.includes("На доработке"))
+                    {
+
+                        zoneRemarksBadge.addClass('badge-revision');
+                        zoneRemarksBadge.find('i').addClass('fa-times');
+                        return;
+                    }
+
+                    zoneRemarksBadge.hide();
+                })
+            });
             fetch('/api/certificate-notification').then(function(response) {
                 response.json().then(function(data) {
 

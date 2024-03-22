@@ -35,17 +35,44 @@
                                         {{ status }}
                                     </span>
                                 </a>
-                                <hr>
+
 
                             {% endif %}
-                            {% if  buttons is defined %}
-                                {{ buttons }}
-                            {% endif %}
+
 
 
                         </div>
 
                     </div>
+
+                    {% set ReadinessMapChecks = i.getReadinessMapChecks().last() %}
+                    {% if ReadinessMapChecks %}
+                    {% set statusLib2 = {
+                        'На рассмотрении' : '-danger',
+                        'Исправлено' : '-warning',
+                        'На доработке' : '-revision',
+                        'Принято' : '-primary',
+
+                    } %}
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% set status_rm = ReadinessMapChecks.getStatus().last() %}
+                            <b>Состояние проверки карт готовности: </b>
+                            {% if status_rm %}
+                            <a href="{{ path('app_inspector_readiness_map', {'id': i.getId()}) }}" >
+                                    <span class="badge badge{{ statusLib2[status_rm.getStatus()] }}">
+                                        {{ status_rm.getStatus() }}
+                                    </span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <hr>
+                    {% if  buttons is defined %}
+                        {{ buttons }}
+                    {% endif %}
                 {% endif %}
 
 
