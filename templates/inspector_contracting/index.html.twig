@@ -71,7 +71,7 @@
 {% block scripts %}
 <script>
     $(document).ready(function(){
-        if($('#form_type').val() != 4)
+        if($('#form_type').val() != 4 || $('#form_type').val() != 6)
         {
             $('#form_start').closest('div').hide();
             $('#form_step').closest('div').hide();
@@ -79,7 +79,7 @@
 
 
         $('#form_type').on( "change", function() {
-            if($(this).val() == 4)
+            if($(this).val() == 4 || $(this).val() == 6)
             {
                 $('#form_step').closest('div').show();
                 $('#form_start').closest('div').show();

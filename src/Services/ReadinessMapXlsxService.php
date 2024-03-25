@@ -486,7 +486,7 @@ class ReadinessMapXlsxService extends AbstractController
         }
 
     }
-    public function downloadTableNew(int $year, string $role = 'cluster', $save = false)
+    public function downloadTableNew(int $year, string $role = 'cluster', $save = false, $start=0, $step = 200)
     {
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('readiness_map_table_template_file_new');
@@ -499,19 +499,19 @@ class ReadinessMapXlsxService extends AbstractController
         if($role == 'lot_1')
         {
             $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $start, $step);
         }
 
         else if($role == 'lot_2')
         {
             $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $start, $step);
         }
 
         else
         {
             $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%REGION%');
+            $users = $this->getUsersByYearPaginator($year, '%REGION%', $start, $step);
         }
 
 
