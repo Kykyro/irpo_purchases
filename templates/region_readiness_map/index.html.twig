@@ -36,9 +36,9 @@
                                                 <td>
                                                     {% if status.getStatus() == 'На доработке' %}
                                                         <a href="{{ path('app_region_rm_check_change_status', {'id': status.getId()}) }}">
-                                                            <button class="btn btn-primary col-lg-12">
-                                                                <i class="fa fa-check"></i>
-                                                                Отработано
+                                                            <button class="btn btn-primary col-lg-12 check-alert">
+                                                                <i class="fa fa-check "></i>
+                                                                Замечания устранены
                                                             </button>
                                                         </a>
                                                     {% endif %}
@@ -239,4 +239,19 @@
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/inspinia.js') }}"></script>
     <script src="{{ asset('js/scripts/readinessMarksRemarks.js?ver=1.1') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.check-alert').click((event)=>{
+                var answer = window.confirm("Замечания устранены");
+                if (answer) {
+                    console.log('yes');
+
+                }
+                else {
+                    console.log('no');
+                    event.preventDefault();
+                }
+            })
+        });
+    </script>
 {% endblock %}
