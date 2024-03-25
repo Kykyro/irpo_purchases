@@ -60,6 +60,7 @@ class InspectorContractingController extends AbstractController
                     'Карта готовности(ремонт)' => 3,
                     'Карта готовности(оборудование)' => 4,
                     'Показатели результативности' => 5,
+                    'Ремработы и оборудование (новый)' => 6,
 
                 ],
             ])
@@ -127,6 +128,9 @@ class InspectorContractingController extends AbstractController
             }
             if($data['type'] == 5){
                 return $indicatorService->generateTable($data['year'], "ROLE_REGION");
+            }
+            if($data['type'] == 6){
+                return $readinessMapXlsxService->downloadTableNew($data['year']);
             }
 
 

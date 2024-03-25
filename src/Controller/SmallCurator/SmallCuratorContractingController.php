@@ -65,6 +65,7 @@ class SmallCuratorContractingController extends AbstractController
                     'Контрактация' => 1,
                     'Карта готовности(ремонт)' => 2,
                     'Показатели результативности' => 3,
+                    'Ремработы и оборудование (новый)' => 6,
 
                 ],
             ])
@@ -106,6 +107,9 @@ class SmallCuratorContractingController extends AbstractController
             }
             if($data['type'] == 3){
                 return $indicatorService->generateTable($data['year'], $_role);
+            }
+            if($data['type'] == 6){
+                return $readinessMapXlsxService->downloadTableNew($data['year'], $_role);
             }
 
 
