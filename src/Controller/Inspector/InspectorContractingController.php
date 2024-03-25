@@ -134,8 +134,6 @@ class InspectorContractingController extends AbstractController
             if($data['type'] == 6){
                 return $readinessMapXlsxService->downloadTableNew($data['year'], 'cluster', false, $data['start'], $data['step']);
             }
-
-
         }
 
         return $this->render('inspector_contracting/index.html.twig', [
