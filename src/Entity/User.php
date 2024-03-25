@@ -106,6 +106,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=ReadinessMapCheck::class, mappedBy="user")
      */
     private $readinessMapChecks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CompitenceProfile::class, mappedBy="user")
+     */
+    private $compitenceProfiles;
     
 
     public function getId(): ?int
@@ -140,6 +145,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->apiTokens = new ArrayCollection();
         $this->usersEvents = new ArrayCollection();
         $this->readinessMapChecks = new ArrayCollection();
+        $this->compitenceProfiles = new ArrayCollection();
     }
 
 
@@ -859,6 +865,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($readinessMapCheck->getUser() === $this) {
                 $readinessMapCheck->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CompitenceProfile>
+     */
+    public function getCompitenceProfiles(): Collection
+    {
+        return $this->compitenceProfiles;
+    }
+
+    public function addCompitenceProfile(CompitenceProfile $compitenceProfile): self
+    {
+        if (!$this->compitenceProfiles->contains($compitenceProfile)) {
+            $this->compitenceProfiles[] = $compitenceProfile;
+            $compitenceProfile->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompitenceProfile(CompitenceProfile $compitenceProfile): self
+    {
+        if ($this->compitenceProfiles->removeElement($compitenceProfile)) {
+            // set the owning side to null (unless already changed)
+            if ($compitenceProfile->getUser() === $this) {
+                $compitenceProfile->setUser(null);
             }
         }
 

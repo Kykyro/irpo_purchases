@@ -887,7 +887,164 @@
         </div>
     </div>
 </div>
+<div class="row animated fadeInRight">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2 style="font-weight: bold; margin-top: -5px">Профиль компетенций</h2>
+                    </div>
+                    <div class="ibox-content">
 
+                        <a href="{{ path('app_download_file_by_only_route', {'route': 'compitence_profile_template_directory'}) }}">
+                            <button class="btn btn-primary col-sm-12">
+                                <i class="fa fa-download"></i>
+                                Скачать шаблон
+                            </button>
+                        </a>
+                        {% set compitence_profile = user.getCompitenceProfiles().last() %}
+                        <table class="table table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <td class="col-md-1 text-center">Статус</td>
+                                    <td class="col-md-3 text-center">Комментарий</td>
+                                    <td class="col-md-1 text-center">Дата отправки</td>
+                                    <td class="col-md-1 text-center">Файл</td>
+                                    {% if is_granted('ROLE_DISCIPLINE') or is_granted('ROLE_ADMIN') %}
+                                        <td class="col-md-1 text-center">
+                                            Действия
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% if compitence_profile %}
+                                {% set status_lib = {
+                                    'Не принято' : 'badge-danger',
+                                    'На проверке' : 'badge-warning',
+                                    '' : 'badge-warning',
+                                    'На доработке' : 'badge-revision',
+                                    'Принято' : 'badge-primary',
+                                }
+                                %}
+                                <tr class="text-center">
+                                    <td>
+                                        <span class="badge {{ status_lib[compitence_profile.getStatus()] }}">
+                                            {{ compitence_profile.getStatus() }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ compitence_profile.getComment() }}
+                                    </td>
+                                    <td>
+                                        {{ compitence_profile.getCreatedAt().format('d.m.Y') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('app_download_file_by_route', {'file': compitence_profile.getFile(), 'route': 'compitence_profile_directory'}) }}">
+                                            <button class="btn btn-primary">
+                                                <i class="fa fa-download"></i>
+                                                Скачать файл
+                                            </button>
+                                        </a>
+                                    </td>
+                                    {% if is_granted('ROLE_DISCIPLINE') or is_granted('ROLE_ADMIN') %}
+                                        <td>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ModalCompitenceProfile">
+                                                <i class="fa fa-search"></i>
+                                                Проверка
+                                            </button>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% else %}
+                                <tr class="text-center">
+                                    <td>
+                                        <span class="badge badge-danger">
+                                            Не прислано
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                    {% if (not compitence_profile or compitence_profile.getStatus() == 'На доработке') and (is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS')) %}
+                        <div class="ibox-footer">
+                            <h5>
+                                Отправить "Профиль компетенций"
+                            </h5>
+                            <form action="{{ path('app_compitence_profile_upload', {'id': user.getId()}) }}" method="post" enctype="multipart/form-data">
+                                <div class="custom-file">
+                                    <input id="logo" type="file" class="custom-file-input" name="file" required>
+                                    <label for="logo" class="custom-file-label" style="overflow: hidden">Выбрать файл...</label>
+                                </div>
+                                <button  type="submit" class="btn btn-success col-sm-12 mt-2">
+                                    <i class="fa fa-upload"></i>
+                                    Отправить
+                                </button>
+                                <input type="hidden" name="token" value="{{ csrf_token('upload-compitence-profile') }}"/>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if is_granted('ROLE_DISCIPLINE') or is_granted('ROLE_ADMIN') %}
+<!-- Modal -->
+<div class="modal fade" id="ModalCompitenceProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Проверка</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ path('app_compitence_profile_check', {'id': user.getId()}) }}" method="post">
+                <div class="modal-body">
+                    <label>
+                        Статус
+                    </label>
+                    <div class="col-sm-10">
+                        <div>
+                            <label>
+                                <input type="radio" checked="" value="Принято" id="optionsRadios1" name="status">
+                                Принято
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="radio" value="На доработке" id="optionsRadios2" name="status">
+                                На доработку
+                            </label>
+                        </div>
+                    </div>
+                    <label>
+                        Комментарий
+                    </label>
+                    <textarea class="form-control" name="comment"></textarea>
+
+
+
+                    <input type="hidden" name="token" value="{{ csrf_token('upload-compitence-profile-check') }}"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endif %}
 <div class="row animated fadeInRight">
     <div class="col-sm-10 offset-sm-1 ">
         <div class="wrapper wrapper-content ">
