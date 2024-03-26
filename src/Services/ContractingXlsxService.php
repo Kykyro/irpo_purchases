@@ -68,18 +68,18 @@ class ContractingXlsxService extends AbstractController
             $totalBudget = $totalBudget[0];
             $row = $startCell-1;
             return [
-                "=E$row/".$totalBudget->getFederal(),
+                "=E$row"."/".$totalBudget->getFederal(),
                 '',
-                "=G$row/".$totalBudget->getFederal(),
+                "=G$row"."/".$totalBudget->getFederal(),
                 '',
                 "=E$startCell+G$startCell",
                 '',
-                "=K$row/".$totalBudget->getEmployeers(),
-                "=L$row/".$totalBudget->getSubject(),
-                "=M$row/".$totalBudget->getEdicational(),
-                "=N$row/".$totalBudget->getEmployeers(),
-                "=O$row/".$totalBudget->getSubject(),
-                "=P$row/".$totalBudget->getEdicational(),
+                "=K$row"."/".$totalBudget->getEmployeers(),
+                "=L$row"."/".$totalBudget->getSubject(),
+                "=M$row"."/".$totalBudget->getEdicational(),
+                "=N$row"."/".$totalBudget->getEmployeers(),
+                "=O$row"."/".$totalBudget->getSubject(),
+                "=P$row"."/".$totalBudget->getEdicational(),
             ];
         }
         else{
