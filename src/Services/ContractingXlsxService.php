@@ -246,8 +246,13 @@ class ContractingXlsxService extends AbstractController
         else
             $totalProcentageRow = $this->getTotalProcentageRow($year, '%REGION%', $totalProcentageCell);
 
-
-        $sheet->fromArray($totalProcentageRow, null, 'E'.$totalProcentageCell);
+        try {
+            $sheet->fromArray($totalProcentageRow, null, 'E'.$totalProcentageCell);
+        }
+        catch (\Exception $e)
+        {
+            echo 'PHP перехватил исключение: ',  $e->getMessage(), "\n";
+        }
 
 
         // Запись файла
