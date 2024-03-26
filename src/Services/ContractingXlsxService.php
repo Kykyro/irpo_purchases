@@ -68,18 +68,18 @@ class ContractingXlsxService extends AbstractController
             $totalBudget = $totalBudget[0];
             $row = $startCell-1;
             return [
-                "=E$row"."/".$totalBudget->getFederal(),
+                $totalBudget->getFederal() ? "=E$row"."/".$totalBudget->getFederal() : '',
                 '',
-                "=G$row"."/".$totalBudget->getFederal(),
+                $totalBudget->getFederal() ? "=G$row"."/".$totalBudget->getFederal(): '',
                 '',
                 "=E$startCell+G$startCell",
                 '',
-                "=K$row"."/".$totalBudget->getEmployeers(),
-                "=L$row"."/".$totalBudget->getSubject(),
-                "=M$row"."/".$totalBudget->getEdicational(),
-                "=N$row"."/".$totalBudget->getEmployeers(),
-                "=O$row"."/".$totalBudget->getSubject(),
-                "=P$row"."/".$totalBudget->getEdicational(),
+                $totalBudget->getEmployeers() ? "=K$row"."/".$totalBudget->getEmployeers() : '',
+                $totalBudget->getSubject() ? "=L$row"."/".$totalBudget->getSubject() : '',
+                $totalBudget->getEdicational()? "=M$row"."/".$totalBudget->getEdicational() : '',
+                $totalBudget->getEmployeers() ? "=N$row"."/".$totalBudget->getEmployeers() : '',
+                $totalBudget->getSubject() ? "=O$row"."/".$totalBudget->getSubject() : '',
+                $totalBudget->getEdicational() ? "=P$row"."/".$totalBudget->getEdicational() : '',
             ];
         }
         else{
@@ -237,22 +237,18 @@ class ContractingXlsxService extends AbstractController
         
         $sheet->getStyle('A:Z')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:Z')->getAlignment()->setVertical('center');
-//        try {
-//            $totalProcentageCell = (isset($row)) ? ($row+2) : 3;
-//            if($role == 'lot_1')
-//                $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_1%', $totalProcentageCell);
-//            else if($role == 'lot_2')
-//                $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_2%', $totalProcentageCell);
-//            else
-//                $totalProcentageRow = $this->getTotalProcentageRow($year, '%REGION%', $totalProcentageCell);
-//
-//
-//            $sheet->fromArray($totalProcentageRow, null, 'E'.$totalProcentageCell);
-//        }
-//        catch (\Exception $e)
-//        {
-//            echo 'PHP перехватил исключение: ',  $e->getMessage(), "\n";
-//        }
+
+        $totalProcentageCell = (isset($row)) ? ($row+2) : 3;
+        if($role == 'lot_1')
+            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_1%', $totalProcentageCell);
+        else if($role == 'lot_2')
+            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_2%', $totalProcentageCell);
+        else
+            $totalProcentageRow = $this->getTotalProcentageRow($year, '%REGION%', $totalProcentageCell);
+
+
+        $sheet->fromArray($totalProcentageRow, null, 'E'.$totalProcentageCell);
+
 
 
         // Запись файла
