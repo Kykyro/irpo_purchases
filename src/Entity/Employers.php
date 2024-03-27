@@ -204,7 +204,7 @@ class Employers
 
             $this->arrayYears($this->getUserInfos()),
             $this->arrayIndustry($this->getUserInfos()),
-            $this->getInn(),
+            "'".$this->getInn(),
             $this->getRegion(),
             $this->getCity(),
             '',
