@@ -265,6 +265,8 @@ class certificateByClustersService extends AbstractController
                 'employers#'.$count => $replacement['employers'],
                 'rf_subject_funds#'.$count => $replacement['rf_subject_funds'],
                 'economic_sector_funds#'.$count => $replacement['economic_sector_funds'],
+                'economic_sector_title#'.$count => in_array('ROLE_SMALL_CLUSTERS', $user->getRoles()) ? 'Объем внебюджетных средств, направляемых участниками центра из числа организаций, действующих в отраслях, характерных для субъектов малого и среднего предпринимательства и социальной сферы' :
+                    'Объем внебюджетных средств, направляемых участниками центра из числа организаций, действующих в реальном секторе экономики',
             ]
         );
 
