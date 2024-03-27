@@ -65,6 +65,7 @@ class makeCertificateForm extends AbstractType
                         'data-ugps' => json_encode($user->getUserInfo()->getUGPS(), JSON_UNESCAPED_UNICODE),
                         'data-city' => json_encode($user->getUserInfo()->getCity(), JSON_UNESCAPED_UNICODE),
                         'data-employers' => json_encode($user->getUserInfo()->getListOfEmployers(), JSON_UNESCAPED_UNICODE),
+                        'data-tags' => json_encode($user->getUserTagsArray(), JSON_UNESCAPED_UNICODE),
                     ]
                     : [];
                 }),

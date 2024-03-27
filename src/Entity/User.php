@@ -714,6 +714,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->userTags;
     }
+    public function getUserTagsArray(): array
+    {
+        $arr = [];
+
+        foreach ($this->userTags as $tag)
+        {
+            array_push($arr, $tag->getTag());
+        }
+
+        return $arr;
+    }
 
     public function addUserTag(UserTags $userTag): self
     {

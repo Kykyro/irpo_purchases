@@ -156,7 +156,14 @@
                                 {#<option></option>#}
                             </select>
                         </div>
+                        <div class="col-lg-3">
+                            <label>Теги</label>
+                            <select id="tags-input" class="form-control m-b select2" multiple="multiple">
+                                {#<option></option>#}
+                            </select>
+                        </div>
                     </div>
+
                     <div class="row">
                         <div class="col-lg-9">
                             <label>УГПС</label>
@@ -325,6 +332,7 @@
                 };
 
                 let cityInput = $('#city-input');
+                let tagsInput = $('#tags-input');
                 let yearInput = $('#year-input');
                 let employersInput = $('#make_certificate_all_form_employers');
                 let industryInput = $('#industry-input');
@@ -403,6 +411,13 @@
                         let filtered_region = $('#clusters input[data-employers]').filterAttributeByJson("data-employers", value, true);
                         filtered_region.closest('.form-control').hide();
                     }
+                    if(tagsInput.val().length > 0){
+                        console.log('Теги: ', tagsInput.val());
+
+                        let value = tagsInput.val();
+                        let filtered_region = $('#clusters input[data-tags]').filterAttributeByJson("data-tags", value, true);
+                        filtered_region.closest('.form-control').hide();
+                    }
 
 
                     event.preventDefault();
@@ -434,6 +449,7 @@
                     let _zone = [];
                     let _employers = [];
                     let _city = [];
+                    let _tags = [];
                     data.each(function( index ) {
                         _industry.push( $( this ).data("industry"));
                         _region.push( $( this ).data("region"));
@@ -441,14 +457,18 @@
                         _year.push( $( this ).data("year"));
                         _district.push( $( this ).data("district"));
                         _city.push( $( this ).data("city"));
+
+                        for(let i in $( this ).data("tags"))
+                            _tags.push( $( this ).data("tags") [i]);
+
                         for(let i in $( this ).data("ugps"))
                             _ugps.push( $( this ).data("ugps") [i]);
-                        // _ugps.push( $( this ).data("ugps"));
+
                         for(let i in $( this ).data("zone"))
                             _zone.push( $( this ).data("zone")[i]);
+
                         for(let i in $( this ).data("employers"))
                             _employers.push( $( this ).data("employers")[i]);
-
 
                     });
 
@@ -461,6 +481,11 @@
                     let uniq_city = [...new Set(_city)];
                     uniq_city.forEach((element) => {
                         cityInput
+                            .append('<option>'+element+'</option>');
+                    });
+                    let uniq_tags = [...new Set(_tags)];
+                    uniq_tags.forEach((element) => {
+                        tagsInput
                             .append('<option>'+element+'</option>');
                     });
 
@@ -619,6 +644,7 @@
                     let cancelFilterBtn = $('#cancel-filter-btn');
                     let chooseAllBtn = $('#choose-all-btn');
                     let chooseNullBtn = $('#choose-null-btn');
+                    let tagsInput = $('#tags-input');
 
                     function filter(event) {
                         cancelFilter();
@@ -685,6 +711,13 @@
                             let filtered_region = $('#clusters input[data-employers]').filterAttributeByJson("data-employers", value, true);
                             filtered_region.closest('.form-control').hide();
                         }
+                        if(tagsInput.val().length > 0){
+                            console.log('Теги: ', tagsInput.val());
+
+                            let value = tagsInput.val();
+                            let filtered_region = $('#clusters input[data-tags]').filterAttributeByJson("data-tags", value, true);
+                            filtered_region.closest('.form-control').hide();
+                        }
 
 
                         event.preventDefault();
@@ -716,6 +749,7 @@
                         let _zone = [];
                         let _employers = [];
                         let _city = [];
+                        let _tags = [];
                         data.each(function( index ) {
                             _industry.push( $( this ).data("industry"));
                             _region.push( $( this ).data("region"));
@@ -730,8 +764,17 @@
                                 _zone.push( $( this ).data("zone")[i]);
                             for(let i in $( this ).data("employers"))
                                 _employers.push( $( this ).data("employers")[i]);
+                            for(let i in $( this ).data("tags"))
+                                _tags.push( $( this ).data("tags") [i]);
 
 
+
+                        });
+
+                        let uniq_tags = [...new Set(_tags)];
+                        uniq_tags.forEach((element) => {
+                            tagsInput
+                                .append('<option>'+element+'</option>');
                         });
 
                         let uniq_industry = [...new Set(_industry)];
@@ -900,6 +943,7 @@
                     let cancelFilterBtn = $('#cancel-filter-btn');
                     let chooseAllBtn = $('#choose-all-btn');
                     let chooseNullBtn = $('#choose-null-btn');
+                    let tagsInput = $('#tags-input');
 
                     function filter(event) {
                         cancelFilter();
@@ -966,7 +1010,13 @@
                             let filtered_region = $('#clusters input[data-employers]').filterAttributeByJson("data-employers", value, true);
                             filtered_region.closest('.form-control').hide();
                         }
+                        if(tagsInput.val().length > 0){
+                            console.log('Теги: ', tagsInput.val());
 
+                            let value = tagsInput.val();
+                            let filtered_region = $('#clusters input[data-tags]').filterAttributeByJson("data-tags", value, true);
+                            filtered_region.closest('.form-control').hide();
+                        }
 
                         event.preventDefault();
                     }
@@ -997,6 +1047,7 @@
                         let _zone = [];
                         let _employers = [];
                         let _city = [];
+                        let _tags = [];
                         data.each(function( index ) {
                             _industry.push( $( this ).data("industry"));
                             _region.push( $( this ).data("region"));
@@ -1011,8 +1062,17 @@
                                 _zone.push( $( this ).data("zone")[i]);
                             for(let i in $( this ).data("employers"))
                                 _employers.push( $( this ).data("employers")[i]);
+                            for(let i in $( this ).data("tags"))
+                                _tags.push( $( this ).data("tags") [i]);
 
 
+
+                        });
+
+                        let uniq_tags = [...new Set(_tags)];
+                        uniq_tags.forEach((element) => {
+                            tagsInput
+                                .append('<option>'+element+'</option>');
                         });
 
                         let uniq_industry = [...new Set(_industry)];

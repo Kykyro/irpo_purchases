@@ -56,6 +56,7 @@ class makeCertificateAllForm extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'choice_attr' => ChoiceList::attr($this, function (?User $user) {
+
                     return $user ? [
                         'data-year' => $user->getUserInfo()->getYear(),
                         'data-region' => is_null($user->getUserInfo()->getRfSubject()) ? '' : $user->getUserInfo()->getRfSubject()->getName(),
@@ -66,6 +67,7 @@ class makeCertificateAllForm extends AbstractType
                         'data-ugps' => json_encode($user->getUserInfo()->getUGPS(), JSON_UNESCAPED_UNICODE),
                         'data-city' => json_encode($user->getUserInfo()->getCity(), JSON_UNESCAPED_UNICODE),
                         'data-employers' => json_encode($user->getUserInfo()->getListOfEmployers(), JSON_UNESCAPED_UNICODE),
+                        'data-tags' => json_encode($user->getUserTagsArray(), JSON_UNESCAPED_UNICODE),
                     ]
                     : [];
                 }),
