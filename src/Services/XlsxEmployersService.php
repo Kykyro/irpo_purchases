@@ -78,7 +78,10 @@ class XlsxEmployersService extends AbstractController
             $row = $employer->getAsRow();
 
             $sheet->fromArray($row, null, 'A'.$row_index);
+
             $sheet->setCellValue("N$row_index", $this->getRoles($employer));
+            $spreadsheet->getActiveSheet()->getStyle('K'.$row_index)->getNumberFormat()
+                ->setFormatCode('@');
         }
         $index = $sheet->getHighestRow()+1;
         $rangeTotal = 'A1:Q'.$index;
