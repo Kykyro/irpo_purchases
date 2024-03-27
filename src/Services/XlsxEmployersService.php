@@ -93,6 +93,7 @@ class XlsxEmployersService extends AbstractController
         $sheet->getColumnDimension('G')->setWidth(30);
         $sheet->getColumnDimension('H')->setWidth(50);
         $sheet->getColumnDimension('J')->setWidth(50);
+        $sheet->getColumnDimension('K')->setWidth(35);
         $sheet->getColumnDimension('L')->setWidth(30);
         $sheet->getColumnDimension('N')->setWidth(30);
         $sheet->getColumnDimension('O')->setWidth(35);
