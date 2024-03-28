@@ -752,6 +752,7 @@ class ReadinessMapXlsxService extends AbstractController
     }
     public function downloadTableBas(int $year, $save = false, $start=0, $step = 200)
     {
+
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('readiness_map_table_bas_template_file');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
@@ -765,11 +766,9 @@ class ReadinessMapXlsxService extends AbstractController
 
         foreach ($users as $user)
         {
+            $sheet = $spreadsheet->getSheetByName('Ремонтные работы');
             $adresses = $user->getClusterAddresses();
 
-            $nearestDate = '';
-            $lateDate = '';
-            $zoneCount = 0;
             $user_info = $user->getUserInfo();
 
             $row = $sheet->getHighestRow()+1;
@@ -798,7 +797,7 @@ class ReadinessMapXlsxService extends AbstractController
 
 
             $sheet->getRowDimension($index+1)->setRowHeight(65);
-            $index++;
+//            $index++;
             $curency_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N'];
             foreach ($curency_cell as $cell)
             {
@@ -808,34 +807,12 @@ class ReadinessMapXlsxService extends AbstractController
             $spreadsheet->getActiveSheet()->getStyle("O$row:P$row")
                 ->getNumberFormat()
                 ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
-//
-        }
-        $styleArray = [
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-            'font' => [
-                'size'  => 14,
-                'name'  => 'Times New Roman'
-            ]
-        ];
-        $end_cell = $sheet->getHighestRow();
 
-        $rangeTotal = 'A2:H'.$end_cell;
-        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
-        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:Q')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:Q')->getAlignment()->setVertical('center');
-
-        $sheet = $spreadsheet->getSheetByName('Оборудование');
-        $index = 1;
-        $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'K'];
-
-
-        foreach ($users as $user)
-        {
+            //-------------------------------------------------------------
+            //---------------------ОБОРУДОВАНИЕ----------------------------
+            //-------------------------------------------------------------
+            $sheet = $spreadsheet->getSheetByName('Оборудование');
+            $row = $sheet->getHighestRow()+1;
             $check = $user->getReadinessMapChecks()->last();
             if($check)
             {
@@ -846,8 +823,6 @@ class ReadinessMapXlsxService extends AbstractController
             {
                 $status = false;
             }
-            $adresses = $user->getClusterAddresses();
-
             $user_info = $user->getUserInfo();
             $user_info_arr = [
                 $index,
@@ -873,14 +848,29 @@ class ReadinessMapXlsxService extends AbstractController
             }
 
             $index++;
+//
         }
-        $end_cell = $sheet->getHighestRow();
-        $rangeTotal = 'A2:H'.$end_cell;
-        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
-        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:V')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:V')->getAlignment()->setVertical('center');
-
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'font' => [
+                'size'  => 14,
+                'name'  => 'Times New Roman'
+            ]
+        ];
+        foreach (['Оборудование', 'Ремонтные работы'] as $sheetName)
+        {
+            $sheet = $spreadsheet->getSheetByName($sheetName);
+            $end_cell = $sheet->getHighestRow();
+            $rangeTotal = 'A2:H'.$end_cell;
+            $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+            $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+            $sheet->getStyle('A:Q')->getAlignment()->setHorizontal('center');
+            $sheet->getStyle('A:Q')->getAlignment()->setVertical('center');
+        }
 
         // Запись файла
         $writer = new Xlsx($spreadsheet);
