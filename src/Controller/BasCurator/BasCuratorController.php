@@ -3,6 +3,7 @@
 namespace App\Controller\BasCurator;
 
 use App\Entity\User;
+use App\Entity\UserInfo;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,4 +63,31 @@ class BasCuratorController extends AbstractController
             'user' => $bas,
         ]);
     }
+
+    /**
+     * @Route("/info/edit-funds/{id}", name="app_bas_curator_edit_funds")
+     */
+    public function editFunds(EntityManagerInterface $em, Request $request, $id): Response
+    {
+        $user = $em->getRepository(User::class)->find($id);
+        $submittedToken = $request->request->get('token');
+
+        if ($this->isCsrfTokenValid('edit-funds', $submittedToken))
+        {
+            $userInfo = $user->getUserInfo();
+            $FedFundsGrant = $request->request->get('FedFundsGrant');
+            $RegionFundsGrant = $request->request->get('RegionFundsGrant');
+            $userInfo->setFedFundsGrant($FedFundsGrant);
+            $userInfo->setRegionFundsGrant($RegionFundsGrant);
+
+            $em->persist($userInfo);
+            $em->flush();
+        }
+
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
+    }
+
+
 }

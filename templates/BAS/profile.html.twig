@@ -461,6 +461,7 @@
     </div>
 </div>
 
+
 <div class="row animated fadeInRight">
     <div class="col-sm-10 offset-sm-1 ">
         <div class="wrapper wrapper-content ">
@@ -536,9 +537,73 @@
         </div>
     </div>
 </div>
+{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CURATOR_BAS') %}
+<div class="row animated fadeInRight">
+    <div class="col-sm-10 offset-sm-1 ">
+        <div class="wrapper wrapper-content ">
+            <div class="ibox-content block-shadow ">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2 style="font-weight: bold; margin-top: -5px">Финансирование</h2>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editFundsModal">
+                            Редактировать
+                        </button>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td class="col-md-8"></td>
+                                    <td class="col-md-4"></td>
+                                </tr>
 
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Федеральный бюджет</td>
+                                    <td>{{ user_info.getFedFundsGrant() }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Бюджет региона</td>
+                                    <td>{{ user_info.getRegionFundsGrant() }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="editFundsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ path('app_bas_curator_edit_funds', {'id': user.getId()}) }}" method="post">
+            <div class="modal-body">
 
+                <label>Федеральный бюджет</label>
+                <input class="form-control" value="{{ user_info.getFedFundsGrant() }}" name="FedFundsGrant">
+                <label>Бюджет региона</label>
+                <input class="form-control" value="{{ user_info.getRegionFundsGrant() }}" name="RegionFundsGrant">
+                <input type="hidden" name="token" value="{{ csrf_token('edit-funds') }}"/>
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 
 {% endblock %}

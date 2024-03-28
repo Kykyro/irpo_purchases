@@ -213,6 +213,21 @@ class UserInfo
      */
     private $grandFunds;
 
+    /**
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     */
+    private $fedFundsGrant;
+
+    /**
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     */
+    private $EmplFundsGrant;
+
+    /**
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     */
+    private $regionFundsGrant;
+
 
 
     function __construct()
@@ -836,6 +851,42 @@ class UserInfo
     public function setGrandFunds(?string $grandFunds): self
     {
         $this->grandFunds = $grandFunds;
+
+        return $this;
+    }
+
+    public function getFedFundsGrant(): ?string
+    {
+        return $this->fedFundsGrant;
+    }
+
+    public function setFedFundsGrant(?string $fedFundsGrant): self
+    {
+        $this->fedFundsGrant = $fedFundsGrant;
+
+        return $this;
+    }
+
+    public function getEmplFundsGrant(): ?string
+    {
+        return $this->EmplFundsGrant;
+    }
+
+    public function setEmplFundsGrant(?string $EmplFundsGrant): self
+    {
+        $this->EmplFundsGrant = $EmplFundsGrant;
+
+        return $this;
+    }
+
+    public function getRegionFundsGrant(): ?string
+    {
+        return $this->regionFundsGrant;
+    }
+
+    public function setRegionFundsGrant(?string $regionFundsGrant): self
+    {
+        $this->regionFundsGrant = $regionFundsGrant;
 
         return $this;
     }
