@@ -344,9 +344,9 @@ class ContractingXlsxService extends AbstractController
             $other_arr = [
 
                 $_data['G'],
-                '=E'.$row.'/'.$grant,
+                $user_info->getFedFundsGrant() ? '=E'.$row.'/'.$user_info->getFedFundsGrant() : '',
                 $_data['I'],
-                '=G'.$row.'/'.$grant,
+                $user_info->getFedFundsGrant() ? '=G'.$row.'/'.$user_info->getFedFundsGrant() : '',
                 '=E'.$row.'+G'.$row,
                 '=F'.$row.'+H'.$row,
                 $_data['M'],
