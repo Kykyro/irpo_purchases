@@ -56,7 +56,7 @@ class BasCuratorContractingController extends AbstractController
                 'choices'  => [
                     'Контрактация' => 1,
                     'Карта готовности(все)' => 2,
-//                    'Карта готовности(ремонт)' => 3,
+                    'Карта готовности(частично)' => 4,
 //                    'Карта готовности(оборудование)' => 4,
 //                    'Показатели результативности' => 5,
 
@@ -120,10 +120,10 @@ class BasCuratorContractingController extends AbstractController
 //            {
 //                return $readinessMapXlsxService->downloadTableRepair($data['year']);
 //            }
-//            if($data['type'] == 4)
-//            {
-//                return $readinessMapXlsxService->downloadTableEquipment($data['year'], 'cluster', false, $data['start'], $data['step']);
-//            }
+            if($data['type'] == 4)
+            {
+                return $readinessMapXlsxService->downloadTableBas($data['year'], false, $data['start'], $data['step']);
+            }
 //            if($data['type'] == 5){
 //                return $indicatorService->generateTable($data['year'], "ROLE_REGION");
 //            }
