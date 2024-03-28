@@ -41,7 +41,10 @@
                                 {#{{ form_row(sheet.putIntoOperation, {'type': 'number'}) }}#}
                             {#</td>#}
                         {% endif %}
+                        <td>
+                            {{ form_row(sheet.sum, { 'type': 'number' }) }}
 
+                        </td>
                         <td>
                             {{ form_row(sheet.deliveryDate) }}
                         </td>
@@ -59,10 +62,7 @@
                         {% endif %}
                         <td>{{ form_row(sheet.countryOfOrigin) }}</td>
 
-                        <td>
-                            {{ form_row(sheet.sum, { 'type': 'number' }) }}
 
-                        </td>
                         <td>
                              {{ form_row(sheet.inventoryNumber) }}
                         </td>
@@ -74,13 +74,14 @@
                         <td class="col-md-2 text-center">Наименование</td>
                         <td class="col-md-1 text-center">Общее кол-во</td>
                         <td class="col-md-1 text-center">Фактическое кол-во</td>
+                        <td class="col-md-1 text-center">Сумма</td>
                         {#<td class="col-md-1">Введено в эксплуатацию</td>#}
                         <td class="col-md-1 text-center">Дата поставки (Планируемая)</td>
                         <td class="col-md-1 text-center">ОКПД2</td>
                         <td class="col-md-1 text-center">КТРУ</td>
                         <td class="col-md-1 text-center">Марка / модель</td>
                         <td class="col-md-1 text-center">Страна-производитель</td>
-                        <td class="col-md-1 text-center">Сумма</td>
+
                         <td class="col-md-1 text-center">Инвентарный номер</td>
 
                     </tr>

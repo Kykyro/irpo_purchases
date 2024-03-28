@@ -294,7 +294,9 @@
                                     <td class="col-md-1 text-center" >
                                         <strong>Фактическое <br> кол-во</strong>
                                     </td>
-
+                                    <td class="col-md-1 text-center" >
+                                        <strong>Сумма</strong>
+                                    </td>
                                     <td class="col-md-1 text-center" >
                                         <strong>Дата поставки (Планируемая)</strong>
                                     </td>
@@ -310,9 +312,7 @@
                                     <td class="col-md-1 text-center" >
                                         <strong>Страна-производитель</strong>
                                     </td>
-                                    <td class="col-md-1 text-center" >
-                                        <strong>Сумма</strong>
-                                    </td>
+
                                     <td class="col-md-1 text-center" >
                                         <strong>Инвентарный номер</strong>
                                     </td>
@@ -327,7 +327,7 @@
                                     <td class="text-center">{{ i.getTotalNumber() }}</td>
                                     <td class="text-center">{{ i.getUnits() }}</td>
                                     <td class="text-center">{{ i.getFactNumber() }}</td>
-
+                                    <td style="vertical-align: inherit; text-align: center">{{ i.getSum() }}</td>
                                     {% if i.getDeliveryDate() %}
                                         <td class="text-center">{{ i.getDeliveryDate().format('d.m.Y') }}</td>
                                     {% else %}
@@ -337,7 +337,7 @@
                                     <td>{{ i.getKTRU() }}</td>
                                     <td>{{ i.getModel() }}</td>
                                     <td>{{ i.getCountryOfOrigin() }}</td>
-                                    <td style="vertical-align: inherit; text-align: center">{{ i.getSum() }}</td>
+
                                     <td style="vertical-align: inherit; text-align: center">{{ i.getInventoryNumber() }}</td>
                                 </tr>
                             {% endmacro %}
