@@ -29,6 +29,7 @@ parameters:
     contrating_template_file: '%kernel.project_dir%/public/excel/contracting.xlsx'
     excel_files_directory: '%kernel.project_dir%/public/excel/'
     readiness_map_table_template_file: '%kernel.project_dir%/public/excel/readinessMap.xlsx'
+    readiness_map_table_bas_template_file: '%kernel.project_dir%/public/excel/Шаблон_Карта_готовности бас.xlsx'
     readiness_map_table_template_file_new: '%kernel.project_dir%/public/excel/Шаблон ремработ и оборудования.xlsx'
     cluster_photo_directory: '%kernel.project_dir%/public/uploads/clusterPhoto'
     readiness_map_saves_directory: '%kernel.project_dir%/public/uploads/readinessMapSaves'

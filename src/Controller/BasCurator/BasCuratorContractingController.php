@@ -55,7 +55,7 @@ class BasCuratorContractingController extends AbstractController
                 ],
                 'choices'  => [
                     'Контрактация' => 1,
-//                    'Карта готовности(все)' => 2,
+                    'Карта готовности(все)' => 2,
 //                    'Карта готовности(ремонт)' => 3,
 //                    'Карта готовности(оборудование)' => 4,
 //                    'Показатели результативности' => 5,
@@ -112,10 +112,10 @@ class BasCuratorContractingController extends AbstractController
                 return $contractingXlsxService->downloadTableBAS($data['year'], $today, 'bas');
             }
 
-//            if($data['type'] == 2)
-//            {
-//                return $readinessMapXlsxService->downloadTable($data['year']);
-//            }
+            if($data['type'] == 2)
+            {
+                return $readinessMapXlsxService->downloadTableBas($data['year']);
+            }
 //            if($data['type'] == 3)
 //            {
 //                return $readinessMapXlsxService->downloadTableRepair($data['year']);

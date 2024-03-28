@@ -486,6 +486,7 @@ class ReadinessMapXlsxService extends AbstractController
         }
 
     }
+
     public function downloadTableNew(int $year, string $role = 'cluster', $save = false, $start=0, $step = 200)
     {
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
@@ -726,6 +727,164 @@ class ReadinessMapXlsxService extends AbstractController
         // Запись файла
         $writer = new Xlsx($spreadsheet);
 
+        if($save)
+        {
+            $fileName = $fileName.'_'.uniqid().'.xlsx';
+            if (!file_exists($this->getParameter('readiness_map_saves_directory'))) {
+                mkdir($this->getParameter('readiness_map_saves_directory'), 0777, true);
+            }
+
+            $writer->save($this->getParameter('readiness_map_saves_directory').'/'.$fileName);
+
+            return $fileName;
+        }
+        else{
+//            $fileName = 'Карта готовности_'.$today->format('d-m-Y').'.xlsx';
+            $fileName = $fileName.'.xlsx';
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+            $writer->save($temp_file);
+
+
+            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
+
+    }
+    public function downloadTableBas(int $year, $save = false, $start=0, $step = 200)
+    {
+//        $sheet_template = "../public/excel/readinessMap.xlsx";
+        $sheet_template = $this->getParameter('readiness_map_table_bas_template_file');
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
+        $sheet = $spreadsheet->getSheetByName('Ремонтные работы');
+        $today = new \DateTime('now');
+        $index = 1;
+        $users = $this->getUsersByYearPaginator($year, '%ROLE_BAS%', $start, $step);
+
+
+
+
+        foreach ($users as $user)
+        {
+            $adresses = $user->getClusterAddresses();
+
+            $nearestDate = '';
+            $lateDate = '';
+            $zoneCount = 0;
+            $user_info = $user->getUserInfo();
+
+            $row = $sheet->getHighestRow()+1;
+            $sheet->setCellValue('A'.$row, $index);
+            $user_info_arr = [
+                $user_info->getRfSubject()->getName(),
+
+            ];
+            $sheet->fromArray($user_info_arr, null, 'B'.$row, true);
+
+            foreach ($adresses as $adress)
+            {
+
+
+                $arr = [
+                    $adress->getAddresses(),
+                    $adress->getMidRepairByZone(),
+                    $adress->getMidRepairByCommon(),
+                    "=(D$row+E$row)/2",
+                    $adress->getDeadlineForCompletionOfRepairs(),
+                ];
+
+                $sheet->fromArray($arr, null, 'C'.$row, true);
+                $row++;
+            }
+
+
+            $sheet->getRowDimension($index+1)->setRowHeight(65);
+            $index++;
+            $curency_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N'];
+            foreach ($curency_cell as $cell)
+            {
+                $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+            }
+
+            $spreadsheet->getActiveSheet()->getStyle("O$row:P$row")
+                ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
+//
+        }
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'font' => [
+                'size'  => 14,
+                'name'  => 'Times New Roman'
+            ]
+        ];
+        $end_cell = $sheet->getHighestRow();
+
+        $rangeTotal = 'A2:H'.$end_cell;
+        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:Q')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:Q')->getAlignment()->setVertical('center');
+
+        $sheet = $spreadsheet->getSheetByName('Оборудование');
+        $index = 1;
+        $proc_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N', 'K'];
+
+
+        foreach ($users as $user)
+        {
+            $check = $user->getReadinessMapChecks()->last();
+            if($check)
+            {
+                $status = $check->getStatus()->last();
+
+            }
+            else
+            {
+                $status = false;
+            }
+            $adresses = $user->getClusterAddresses();
+
+            $user_info = $user->getUserInfo();
+            $user_info_arr = [
+                $index,
+                $user_info->getRfSubject()->getName(),
+
+            ];
+            $sheet->fromArray($user_info_arr, null, 'A'.$row, true);
+            foreach ($adresses as $adress) {
+                $eq = $adress->getCountOfEquipment();
+                $arr = [
+                    $adress->getAddresses(),
+                    $eq['total'] ? $eq['fact']/$eq['total'] : 0,
+                    $adress->getEquipmentDeliveryDeadline(),
+                    $status ? $status->getStatus() : '', // Статус проверки
+                    $status ? $status->getComment() : '', // Комментарии куратора
+                    $user_info->getCurator() // Куратор
+                ];
+
+                $sheet->fromArray($arr, null, 'C'.$row, true);
+                $row++;
+
+
+            }
+
+            $index++;
+        }
+        $end_cell = $sheet->getHighestRow();
+        $rangeTotal = 'A2:H'.$end_cell;
+        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:V')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:V')->getAlignment()->setVertical('center');
+
+
+        // Запись файла
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'БАС';
         if($save)
         {
             $fileName = $fileName.'_'.uniqid().'.xlsx';
