@@ -5,11 +5,13 @@ namespace App\Controller\Region;
 use App\Entity\AnotherDocument;
 use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
+use App\Entity\PurchaseNote;
 use App\Entity\RfSubject;
 use App\Form\cancelPurchasesForm;
 use App\Form\ChoiceInputType;
 use App\Form\purchasesFormType;
 use App\Services\FileService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -172,7 +174,26 @@ class RegionPurchasesController extends AbstractController
     private function checkTimeToAccess(){
 
     }
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     * @Route("/purchases-notes/check/{id}", name="app_purchases_notes_check")
+     */
+    public function purchasesNotesCheck(Request $request, int $id, EntityManagerInterface $em) : Response
+    {
+        $note = $em
+            ->getRepository(PurchaseNote::class)
+            ->find($id);
+        $note->setIsRead(true);
 
+        $em->persist($note);
+        $em->flush();
+
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
+    }
     /**
      * @param Request $request
      * @param int $id
@@ -191,14 +212,14 @@ class RegionPurchasesController extends AbstractController
 
         $notes = $purchase->getPurchaseNotes();
 
-        foreach ($notes as $note)
-        {
-            if(!$note->isIsRead())
-            {
-                $note->setIsRead(true);
-                $entity_manager->persist($note);
-            }
-        }
+//        foreach ($notes as $note)
+//        {
+//            if(!$note->isIsRead())
+//            {
+//                $note->setIsRead(true);
+//                $entity_manager->persist($note);
+//            }
+//        }
         $entity_manager->flush();
         // получаем файлы
         $file_dir = $entity_manager->getRepository(Log::class)
