@@ -229,7 +229,23 @@ class InspectorPurchasesController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/view-purchases/read/{id}", name="app_inspector_view_purchase_read", methods="GET|POST")
+     */
+    public function viewFullPurchasesRead(int $id, EntityManagerInterface $entity_manager, Request $request)
+    {
+        $purchase = $entity_manager
+            ->getRepository(ProcurementProcedures::class)
+            ->find($id);
 
+        $purchase->setIsRead(!$purchase->isIsRead());
+
+        $entity_manager->persist($purchase);
+        $entity_manager->flush();
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
+    }
     /**
      * @Route("/view-purchases/{id}", name="app_inspector_view_purchase", methods="GET|POST")
      */
@@ -240,7 +256,7 @@ class InspectorPurchasesController extends AbstractController
         $purchase = $entity_manager
             ->getRepository(ProcurementProcedures::class)
             ->find($id);
-        $purchase->setIsRead(true);
+
         // получаем файлы
         $file_dir = $entity_manager->getRepository(Log::class)
             ->createQueryBuilder('l')
@@ -274,10 +290,6 @@ class InspectorPurchasesController extends AbstractController
             ->setParameter('add', "%additionalAgreement%")
             ->getQuery()
             ->getResult();
-//dd($file_dir);
-
-        $entity_manager->persist($purchase);
-        $entity_manager->flush();
 
         return $this->render('inspector/templates/viewPu.html.twig', [
             'controller_name' => 'InspectorPurchasesController',

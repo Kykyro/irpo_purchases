@@ -53,6 +53,23 @@
                         </i>
                     </button>
                 </a>
+                {% if purchase.isIsRead() %}
+                    <a href="{{ path("app_inspector_view_purchase_read", {id: app.request.get("id")}) }}">
+                        <button class="btn btn-danger ">
+                            <i class="fa fa-close">
+                                Отметить как <b>не прочитано</b>
+                            </i>
+                        </button>
+                    </a>
+                {% else %}
+                    <a href="{{ path("app_inspector_view_purchase_read", {id: app.request.get("id")}) }}">
+                        <button class="btn btn-primary">
+                            <i class="fa fa-check">
+                                Отметить как прочитано
+                            </i>
+                        </button>
+                    </a>
+                {% endif %}
             {% endif %}
         </div>
     </div>
