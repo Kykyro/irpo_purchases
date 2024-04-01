@@ -66,6 +66,7 @@ class SmallCuratorContractingController extends AbstractController
                     'Карта готовности(ремонт)' => 2,
                     'Показатели результативности' => 3,
                     'Ремработы и оборудование (новый)' => 6,
+                    'Ремработы и оборудование (новый, частично)' => 7,
 
                 ],
             ])
@@ -90,6 +91,18 @@ class SmallCuratorContractingController extends AbstractController
                 'required' => false,
                 'label' => 'Дата проверки'
             ])
+            ->add('start', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Старт'
+            ])
+            ->add('step', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Шаг'
+            ])
             ->getForm();
 
         $form->handleRequest($request);
@@ -110,6 +123,9 @@ class SmallCuratorContractingController extends AbstractController
             }
             if($data['type'] == 6){
                 return $readinessMapXlsxService->downloadTableNew($data['year'], $_role);
+            }
+            if($data['type'] == 7){
+                return $readinessMapXlsxService->downloadTableNew($data['year'], $_role, false, $data['start'], $data['step']);
             }
 
 
