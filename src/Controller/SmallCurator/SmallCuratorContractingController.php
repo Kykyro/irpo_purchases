@@ -97,13 +97,19 @@ class SmallCuratorContractingController extends AbstractController
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Старт'
+                'label' => 'Старт',
+                'empty_data' => 0,
+                'required'   => false,
+                'data' => 0,
             ])
             ->add('step', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Шаг'
+                'label' => 'Шаг',
+                'empty_data' => 0,
+                'required'   => false,
+                'data' => 0,
             ])
             ->getForm();
 
