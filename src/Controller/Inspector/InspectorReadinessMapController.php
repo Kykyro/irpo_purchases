@@ -236,8 +236,9 @@ class InspectorReadinessMapController extends AbstractController
             'form' => $form->createView(),
             'form_checks' => $formReadinessMapChecks->createView(),
             'proc' => $proc,
-            'mtb_fact' => ($count > 0) ? round((($proc['furniture']+$proc['PO']+$proc['equipment']+$proc['allowance'])/$count)*100, 2): 0,
-            'mtb_put' => ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put']+$proc['allowance_put'])/$count)*100, 2): 0,
+            'mtb_fact' => ($count > 0) ? round((($proc['fact'])/$proc['total'])*100, 2): 0,
+            'mtb_put' => ($count > 0) ? round((($proc['put'])/$proc['total'])*100, 2): 0,
+//            'mtb_put' => ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put']+$proc['allowance_put'])/$count)*100, 2): 0,
         ]);
     }
 
