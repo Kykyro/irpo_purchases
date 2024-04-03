@@ -100,7 +100,8 @@ class InspectorReadinessMapController extends AbstractController
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Комментарий'
+                'label' => 'Комментарий',
+                'required' => false,
             ])
             ->add('status', ChoiceType::class, [
                 'choices'  => [
