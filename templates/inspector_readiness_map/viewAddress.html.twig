@@ -75,31 +75,32 @@
                                                     <td style="vertical-align: inherit; text-align: center">{{ i.getName() }}</td>
                                                     <td style="vertical-align: inherit; text-align: center">{{ i.getZoneRepair().getTotalPercentage() }} %</td>
                                                     <td style="vertical-align: inherit; text-align: center">
-                                                        {% if i.getMaxEquipmentDeliveryDeadline() %}
-                                                            {{ i.getMaxEquipmentDeliveryDeadline().format('d.m.Y') }}
+                                                        {% if i.getZoneRepair().getEndDate() %}
+                                                            {{ i.getZoneRepair().getEndDate().format('d.m.Y') }}
                                                         {% endif %}
+                                                    </td>
                                                     {% set equp = i.getCountOfEquipment() %}
                                                     <td  style="vertical-align: inherit; text-align: center">
                                                         {% if equp['total'] > 0 %}
                                                             {{ ((equp['fact']/equp['total'])*100) | round(2) }} %
                                                         {% else %}
-                                                            -
+
                                                         {% endif %}
                                                     </td>
                                                     <td  style="vertical-align: inherit; text-align: center">
                                                         {% if equp['total'] > 0 %}
                                                             {{ ((equp['putInOperation']/equp['total'])*100) | round(2) }} %
                                                         {% else %}
-                                                            -
+
                                                         {% endif %}
                                                     </td>
+
+
                                                     <td style="vertical-align: inherit; text-align: center">
-                                                        {% if i.getZoneRepair().getEndDate() %}
-                                                            {{ i.getZoneRepair().getEndDate().format('d.m.Y') }}
+                                                        {% if i.getMaxEquipmentDeliveryDeadline() %}
+                                                            {{ i.getMaxEquipmentDeliveryDeadline().format('d.m.Y') }}
                                                         {% endif %}
                                                     </td>
-
-
                                                     <td style="vertical-align: inherit; text-align: center">
                                                         <a href="{{ path('app_inspector_view_zone', {'id': i.getId()}) }}">
                                                             <button class="btn btn-success col-lg-12 mb-2">
