@@ -38,6 +38,29 @@ class budgetSumService extends AbstractController
 
         return $sum;
     }
+    public function getFactBudget(array $dump, \DateTimeImmutable $day)
+    {
+        $sum = [
+            'FederalFunds'  => 0,
+            'FundsOfSubject' => 0,
+            'EmployersFunds' => 0,
+            'EducationalOrgFunds' => 0
+        ];
+
+        foreach ($dump as $item){
+            $dateTime = new \DateTime("@{$day->setTime(0,0,0,0)->getTimeStamp()}");
+            $status = $item->getPurchasesStatus($dateTime);
+            if($status == 'contract')
+            {
+                $sum['FederalFunds'] += $item->getFactFederalFunds();
+                $sum['FundsOfSubject'] += $item->getFactFundsOfSubject();
+                $sum['EmployersFunds'] += $item->getFactEmployersFunds();
+                $sum['EducationalOrgFunds'] += $item->getFactFundsOfEducationalOrg();
+            }
+        }
+
+        return $sum;
+    }
 
     public function getFinBudget(array $dump, \DateTimeImmutable $day)
     {

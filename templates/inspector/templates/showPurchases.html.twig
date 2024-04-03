@@ -405,6 +405,106 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <hr>
+                            <h5>Израсходовано</h5>
+                            <div class="col-lg-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <td class="col-md-1">Источники</td>
+                                        <td class="col-md-4">Суммы</td>
+                                        {% if fact_sum_1 is defined %}
+                                            <td class="col-md-3">Разница</td>
+                                        {% endif %}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Средства ФБ</td>
+                                        <td class="cell-number">{{ fact_sum['FederalFunds'] }} </td>
+                                        {% if fact_sum_1 is defined %}
+                                            {% set sum =  fact_sum['FederalFunds'] - fact_sum_1['FederalFunds'] %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td>Средства субъекта РФ</td>
+                                        <td class="cell-number">{{ fact_sum['FundsOfSubject'] }} </td>
+                                        {% if fact_sum_1 is defined %}
+                                            {% set sum =  fact_sum['FundsOfSubject'] -fact_sum_1['FundsOfSubject'] %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td>Средства РД</td>
+                                        <td class="cell-number">{{ fact_sum['EmployersFunds'] }} </td>
+                                        {% if fact_sum_1 is defined %}
+                                            {% set sum =  fact_sum['EmployersFunds'] -fact_sum_1['EmployersFunds'] %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td>Средства ОО</td>
+                                        <td class="cell-number"> {{ fact_sum['EducationalOrgFunds'] }} </td>
+                                        {% if fact_sum_1 is defined %}
+                                            {% set sum =  fact_sum['EducationalOrgFunds'] -fact_sum_1['EducationalOrgFunds']  %}
+                                            {% if sum > 0 %}
+                                                <td class="cell-number text-navy">{{ sum  }}</td>
+                                            {% else %}
+                                                <td class="cell-number text-danger">{{ sum  }}</td>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </tr>
+                                    <tr>
+                                        <td><b>Сумма</b></td>
+                                        <td>
+                                            <b class="cell-number">
+                                                {% set fact_sum_result = fact_sum['FederalFunds'] + fact_sum['FundsOfSubject'] +
+                                                    fact_sum['EmployersFunds'] + fact_sum['EducationalOrgFunds'] %}
+
+                                                {{
+
+                                                fact_sum_result
+
+                                                }}
+                                            </b>
+                                        </td>
+                                        {% if fact_sum_1 is defined %}
+                                            <td>
+                                                {% set fact_sum_1_result =  fact_sum_1['FederalFunds'] + fact_sum_1['FundsOfSubject'] +
+                                                    fact_sum_1['EmployersFunds'] + fact_sum_1['EducationalOrgFunds'] %}
+                                                {% set sum = fact_sum_result - fact_sum_1_result  %}
+                                                {% if sum > 0 %}
+                                                    <b class="cell-number text-navy">{{ sum  }}</b>
+                                                {% else %}
+                                                    <b class="cell-number text-danger">{{ sum  }}</b>
+                                                {% endif %}
+                                            </td>
+
+                                        {% endif %}
+
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         {% if initial_sum_1 is defined %}
                             <div class="col-lg-3">
@@ -517,101 +617,60 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <hr>
+                                <h5>Законтрактовано</h5>
+                                <div class="col-lg-12">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <td class="col-md-1">Источники</td>
+                                            <td class="col-md-4">Суммы</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Средства ФБ</td>
+                                            <td class="cell-number">{{  fact_sum_1['FederalFunds'] }} </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td>Средства субъекта РФ</td>
+                                            <td class="cell-number">{{ fact_sum_1['FundsOfSubject'] }} </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td>Средства РД</td>
+                                            <td class="cell-number">{{ fact_sum_1['EmployersFunds'] }} </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td>Средства ОО</td>
+                                            <td class="cell-number"> {{ fact_sum_1['EducationalOrgFunds'] }} </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><b>Сумма</b></td>
+                                            <td>
+                                                <b class="cell-number">
+
+                                                    {{
+
+                                                    fact_sum_1_result
+
+                                                    }}
+                                                </b>
+                                            </td>
+
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            {#<div class="col-lg-3">#}
-                                {#<h4>#}
-                                    {#{{ date_2.format('d.m.Y') }}#}
-                                {#</h4>#}
-                                {#<hr>#}
-                                {#<h5>Объявлено</h5>#}
-                                {#<div class="col-lg-12">#}
-                                    {#<table class="table table-bordered">#}
-                                        {#<thead>#}
-                                        {#<tr>#}
-                                            {#<td class="col-md-1">Источники</td>#}
-                                            {#<td class="col-md-4">Суммы</td>#}
-                                        {#</tr>#}
-                                        {#</thead>#}
-                                        {#<tbody>#}
 
-                                        {#<tr>#}
-                                            {#<td>Средства ФБ</td>#}
-                                            {#<td class="cell-number">{{ initial_sum_2['FederalFunds'] }} </td>#}
-                                        {#</tr>#}
-                                        {#<tr>#}
-                                            {#<td>Средства субъекта РФ</td>#}
-                                            {#<td class="cell-number">{{ initial_sum_2['FundsOfSubject'] }} </td>#}
-                                        {#</tr>#}
-                                        {#<tr>#}
-                                            {#<td>Средства РД</td>#}
-                                            {#<td class="cell-number">{{ initial_sum_2['EmployersFunds'] }} </td>#}
-                                        {#</tr>#}
-                                        {#<tr>#}
-                                            {#<td>Средства ОО</td>#}
-                                            {#<td class="cell-number">{{ initial_sum_2['EducationalOrgFunds'] }} </td>#}
-                                        {#</tr>#}
-                                        {#<tr>#}
-                                            {#<td><b>Сумма</b></td>#}
-                                            {#<td>#}
-                                                {#<b class="cell-number">#}
-                                                    {#{{#}
-
-                                                    {#initial_sum_2['FederalFunds'] + initial_sum_2['FundsOfSubject'] +#}
-                                                    {#initial_sum_2['EmployersFunds'] + initial_sum_2['EducationalOrgFunds']#}
-
-                                                    {#}}#}
-                                                {#</b>#}
-                                            {#</td>#}
-                                        {#</tr>#}
-                                        {#</tbody>#}
-
-                                    {#</table>#}
-                                {#</div>#}
-                                {#<hr>#}
-                                {#<h5>Законтрактовано</h5>#}
-                                {#<div class="col-lg-12">#}
-                                    {#<table class="table table-bordered">#}
-                                        {#<thead>#}
-                                        {#<tr>#}
-                                            {#<td class="col-md-1">Источники</td>#}
-                                            {#<td class="col-md-4">Суммы</td>#}
-                                        {#</tr>#}
-                                        {#</thead>#}
-                                        {#<tbody>#}
-                                        {#<tr>#}
-                                            {#<td>Средства ФБ</td>#}
-                                            {#<td class="cell-number">{{ fin_sum_2['FederalFunds'] }} </td>#}
-                                        {#</tr>#}
-                                        {#<tr>#}
-                                            {#<td>Средства субъекта РФ</td>#}
-                                            {#<td class="cell-number">{{ fin_sum_2['FundsOfSubject'] }} </td>#}
-                                        {#</tr>#}
-                                        {#<tr>#}
-                                            {#<td>Средства РД</td>#}
-                                            {#<td class="cell-number">{{ fin_sum_2['EmployersFunds'] }} </td>#}
-                                        {#</tr>#}
-                                        {#<tr>#}
-                                            {#<td>Средства ОО</td>#}
-                                            {#<td class="cell-number"> {{ fin_sum_2['EducationalOrgFunds'] }} </td>#}
-                                        {#</tr>#}
-                                        {#<tr>#}
-                                            {#<td><b>Сумма</b></td>#}
-                                            {#<td>#}
-                                                {#<b class="cell-number">#}
-                                                    {#{{#}
-
-                                                    {#fin_sum_2['FederalFunds'] + fin_sum_2['FundsOfSubject'] +#}
-                                                    {#fin_sum_2['EmployersFunds'] + fin_sum_2['EducationalOrgFunds']#}
-
-                                                    {#}}#}
-                                                {#</b>#}
-                                            {#</td>#}
-                                        {#</tr>#}
-
-                                        {#</tbody>#}
-                                    {#</table>#}
-                                {#</div>#}
-                            {#</div>#}
 
 
                         {% endif %}
