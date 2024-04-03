@@ -18,6 +18,7 @@ use App\Form\addZoneForm;
 use App\Form\editZoneRepairForm;
 use App\Form\infrastructureSheetZoneForm;
 use App\Services\certificateReadinessMap;
+use App\Services\excel\InfrastructureSheetFromReadinessMapXlsxService;
 use App\Services\FileService;
 use App\Services\monitoringReadinessMapService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -293,6 +294,14 @@ class InspectorReadinessMapController extends AbstractController
         $zip->close();
 
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    /**
+     * @Route("/readiness-map/download-infratructure-sheet/{id}", name="app_inspector_download_infrastructure_sheet")
+     */
+    public function downloadInfrastructureSheet(int $id, InfrastructureSheetFromReadinessMapXlsxService $service)
+    {
+        return $service->generate($id);
     }
 
     /**
