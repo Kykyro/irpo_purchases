@@ -778,19 +778,23 @@ class ReadinessMapXlsxService extends AbstractController
 
             ];
             $sheet->fromArray($user_info_arr, null, 'B'.$row, true);
-
+            $procent_cell = ['D', 'E', 'F'];
             foreach ($adresses as $adress)
             {
 
 
                 $arr = [
                     $adress->getAddresses(),
-                    $adress->getMidRepairByZone(),
-                    $adress->getMidRepairByCommon(),
+                    $adress->getMidRepairByZone()/100,
+                    $adress->getMidRepairByCommon()/100,
                     "=(D$row+E$row)/2",
-                    $adress->getDeadlineForCompletionOfRepairs(),
+                    $adress->getDeadlineForCompletionOfRepairs() ? $adress->getDeadlineForCompletionOfRepairs()->format('d.m.Y') : "",
                 ];
 
+                foreach ($procent_cell as $cell)
+                {
+                    $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+                }
                 $sheet->fromArray($arr, null, 'C'.$row, true);
                 $row++;
             }
@@ -798,11 +802,7 @@ class ReadinessMapXlsxService extends AbstractController
 
             $sheet->getRowDimension($index+1)->setRowHeight(65);
 //            $index++;
-            $curency_cell = ['F', 'G', 'H', 'I', 'J', 'L', 'M', 'N'];
-            foreach ($curency_cell as $cell)
-            {
-                $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
-            }
+
 
             $spreadsheet->getActiveSheet()->getStyle("O$row:P$row")
                 ->getNumberFormat()
