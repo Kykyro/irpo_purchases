@@ -80,6 +80,11 @@ class ContractingXlsxService extends AbstractController
                 $totalBudget->getEmployeers() ? "=N$row"."/".$totalBudget->getEmployeers() : '',
                 $totalBudget->getSubject() ? "=O$row"."/".$totalBudget->getSubject() : '',
                 $totalBudget->getEdicational() ? "=P$row"."/".$totalBudget->getEdicational() : '',
+
+                $totalBudget->getFederal() ? "=Q$row"."/".$totalBudget->getFederal() : '',
+                $totalBudget->getEmployeers() ? "=R$row"."/".$totalBudget->getEmployeers() : '',
+                $totalBudget->getSubject() ? "=S$row"."/".$totalBudget->getSubject() : '',
+                $totalBudget->getEdicational() ? "=T$row"."/".$totalBudget->getEdicational() : '',
             ];
         }
         else{
@@ -124,7 +129,7 @@ class ContractingXlsxService extends AbstractController
             $fileName = 'Контрактация ОПЦ '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYear($year, '%REGION%');
         }
-        $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P', 'L'];
+        $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P', 'L', 'Q', 'R', 'S', 'T'];
         foreach ($users as $user)
         {
             $procedures = $this->getProcedures($user);
@@ -136,7 +141,11 @@ class ContractingXlsxService extends AbstractController
                 'N' => 0,
                 'O' => 0,
                 'I' => 0,
-                'G' => 0
+                'G' => 0,
+                'fact_FB' => 0,
+                'fact_RD' => 0,
+                'fact_RF' => 0,
+                'fact_OO' => 0,
             ];
             foreach ($procedures as $procedure)
             {
@@ -147,6 +156,11 @@ class ContractingXlsxService extends AbstractController
                     $_data['N'] += $procedure->getfinFundsOfSubject();
                     $_data['M'] += $procedure->getfinEmployersFunds();
                     $_data['O'] += $procedure->getfinFundsOfEducationalOrg();
+
+                    $_data['fact_FB'] += $procedure->getFactFederalFunds();
+                    $_data['fact_RF'] += $procedure->getFactFundsOfSubject();
+                    $_data['fact_RD'] += $procedure->getFactEmployersFunds();
+                    $_data['fact_OO'] += $procedure->getFactFundsOfEducationalOrg();
 
                 }
                 elseif ($procedure->getPurchasesStatus($today) == 'announced')
@@ -180,6 +194,10 @@ class ContractingXlsxService extends AbstractController
                 $_data['P'],
                 $_data['Q'],
                 $_data['R'],
+                $_data['fact_FB'],
+                $_data['fact_RF'],
+                $_data['fact_RD'],
+                $_data['fact_OO'],
                 $user_info->getCurator(),
                 '',
                 '',
@@ -212,7 +230,7 @@ class ContractingXlsxService extends AbstractController
         ];
 
         $end_cell = $index;
-        $rangeTotal = 'A2:S'.($end_cell+2);
+        $rangeTotal = 'A2:U'.($end_cell+2);
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
 
