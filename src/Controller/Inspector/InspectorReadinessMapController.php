@@ -58,7 +58,7 @@ class InspectorReadinessMapController extends AbstractController
             $url = $this->generateUrl('app_readness_map_bas_inspector', $request->query->all() + ['id' => $user->getId()]);
             return $this->redirect($url);
         }
-
+        $today = new \DateTimeImmutable('now');
 
 
         $photos = null;
@@ -252,6 +252,7 @@ class InspectorReadinessMapController extends AbstractController
             'proc' => $proc,
             'mtb_fact' => $mtb_fact,
             'mtb_put' => $mtb_put,
+            'today' => $today
 //            'mtb_put' => ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put']+$proc['allowance_put'])/$count)*100, 2): 0,
         ]);
     }

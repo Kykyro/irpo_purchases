@@ -258,9 +258,11 @@
                                     <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByCommon()|round(2, 'floor') }} %</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByZone()|round(2, 'floor') }} %</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ ((user.getMidRepairByZone()+user.getMidRepairByCommon())/2)|round(2, 'floor') }} %</td>
+                                    {% set EquipmentDeliveryDeadline = user.getEquipmentDeliveryDeadline() %}
+                                    <td style="vertical-align: inherit; text-align: center" id="EquipmentDeliveryDeadline">{{ EquipmentDeliveryDeadline }}</td>
 
-                                    <td style="vertical-align: inherit; text-align: center">{{ user.getEquipmentDeliveryDeadline() }}</td>
-                                    <td style="vertical-align: inherit; text-align: center">{{ user.getDeadlineForCompletionOfRepairs() }}</td>
+                                    {% set DeadlineForCompletionOfRepairs = user.getDeadlineForCompletionOfRepairs() %}
+                                    <td style="vertical-align: inherit; text-align: center" id="DeadlineForCompletionOfRepairs">{{ DeadlineForCompletionOfRepairs }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -465,6 +467,31 @@
     <script src="{{ asset('js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
     <script>
         $(document).ready(function(){
+            let EquipmentDeliveryDeadline = $('#EquipmentDeliveryDeadline');
+            let DeadlineForCompletionOfRepairs = $('#DeadlineForCompletionOfRepairs');
+
+            var today = new Date();
+            if(EquipmentDeliveryDeadline.html().length > 0)
+            {
+                let _EquipmentDeliveryDeadline = EquipmentDeliveryDeadline.html().split('.');
+                _EquipmentDeliveryDeadline = _EquipmentDeliveryDeadline[2]+"-"+_EquipmentDeliveryDeadline[1]+"-"+_EquipmentDeliveryDeadline[0];
+                if(new Date(_EquipmentDeliveryDeadline) < today)
+                {
+                    EquipmentDeliveryDeadline.addClass('text-danger font-weight-bold')
+                }
+            }
+
+
+            if(DeadlineForCompletionOfRepairs.html().length > 0)
+            {
+                let _DeadlineForCompletionOfRepairs = DeadlineForCompletionOfRepairs.html().split('.');
+                _DeadlineForCompletionOfRepairs = _DeadlineForCompletionOfRepairs[2]+"-"+_DeadlineForCompletionOfRepairs[1]+"-"+_DeadlineForCompletionOfRepairs[0];
+                if(new Date(_DeadlineForCompletionOfRepairs) < today)
+                {
+                    DeadlineForCompletionOfRepairs.addClass('text-danger font-weight-bold')
+                }
+            }
+
             let procInfo = $('#proc-info');
             let procBtn = $('#btn-proc');
 
