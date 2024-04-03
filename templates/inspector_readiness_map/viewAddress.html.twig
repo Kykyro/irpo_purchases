@@ -41,9 +41,12 @@
                                                     <strong>Название</strong>
                                                 </td>
                                                 <td style="vertical-align: inherit; text-align: center"><strong>% выполнения ремонтных работ</strong></td>
-
-                                                <td style="vertical-align: inherit; text-align: center"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
                                                 <td style="vertical-align: inherit; text-align: center"><strong>Дата завершения ремонтных работ</strong></td>
+
+                                                <td class="text-center"><strong>% укомплектования МТБ</strong></td>
+                                                <td class="text-center"><strong>% введения в эксплуатацию</strong></td>
+                                                <td style="vertical-align: inherit; text-align: center"><strong>Крайний срок поставки оборудования (Планируемый)</strong></td>
+
                                                 <td class="col-md-1" style="vertical-align: inherit; text-align: center">
                                                     <strong>Действия</strong>
                                                 </td>
@@ -75,12 +78,28 @@
                                                         {% if i.getMaxEquipmentDeliveryDeadline() %}
                                                             {{ i.getMaxEquipmentDeliveryDeadline().format('d.m.Y') }}
                                                         {% endif %}
+                                                    {% set equp = i.getCountOfEquipment() %}
+                                                    <td  style="vertical-align: inherit; text-align: center">
+                                                        {% if equp['total'] > 0 %}
+                                                            {{ ((equp['fact']/equp['total'])*100) | round(2) }} %
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
+                                                    </td>
+                                                    <td  style="vertical-align: inherit; text-align: center">
+                                                        {% if equp['total'] > 0 %}
+                                                            {{ ((equp['putInOperation']/equp['total'])*100) | round(2) }} %
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
                                                     </td>
                                                     <td style="vertical-align: inherit; text-align: center">
                                                         {% if i.getZoneRepair().getEndDate() %}
                                                             {{ i.getZoneRepair().getEndDate().format('d.m.Y') }}
                                                         {% endif %}
                                                     </td>
+
+
                                                     <td style="vertical-align: inherit; text-align: center">
                                                         <a href="{{ path('app_inspector_view_zone', {'id': i.getId()}) }}">
                                                             <button class="btn btn-success col-lg-12 mb-2">
