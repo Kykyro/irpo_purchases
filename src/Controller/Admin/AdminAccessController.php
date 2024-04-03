@@ -50,10 +50,34 @@ class AdminAccessController extends AbstractController
             ->setParameter('role_1', "%REGION%")
             ->setParameter('role_2', "%SMALL_CLUSTERS%")
             ->setParameter('role_3', "%ROLE_BAS%")
-            ->orderBy('a.id', 'DESC')
+
             ;
 
-        $query = $clusters->getQuery();
+        $form = $this->createFormBuilder([])
+            ->add('search', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'required'   => false,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and  $form->isValid())
+        {
+            $data = $form->getData();
+
+            $clusters = $clusters
+                ->leftJoin('a.user_info', 'uf')
+                ->andWhere('uf.educational_organization LIKE :search or a.uuid LIKE :search')
+                ->setParameter('search', "%".$data['search']."%")
+            ;
+        }
+
+        $query = $clusters
+            ->orderBy('a.id', 'DESC')
+            ->getQuery();
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
@@ -64,6 +88,7 @@ class AdminAccessController extends AbstractController
         return $this->render('admin/templates/accessToPurchases.html.twig', [
             'controller_name' => 'AdminController',
             'clusters' => $pagination,
+            'form' => $form->createView(),
         ]);
     }
 
