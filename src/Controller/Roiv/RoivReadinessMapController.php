@@ -223,14 +223,23 @@ class RoivReadinessMapController extends AbstractController
             if($form->get('download')->isClicked() and count($photos) > 0)
                 return $this->downloadPhotos($photos, $user->getUserInfo()->getCluster());
         }
-
+        if($user->getYear() == 2023)
+        {
+            $mtb_fact = ($count > 0) ? round((($proc['furniture']+$proc['PO']+$proc['equipment']+$proc['allowance'])/$count)*100, 2): 0;
+            $mtb_put = ($count > 0) ? round((($proc['furniture_put']+$proc['PO_put']+$proc['equipment_put']+$proc['allowance_put'])/$count)*100, 2): 0;
+        }
+        else
+        {
+            $mtb_fact = ($count > 0) ? round((($proc['fact'])/$proc['total'])*100, 2): 0;
+            $mtb_put = ($count > 0) ? round((($proc['put'])/$proc['total'])*100, 2): 0;
+        }
         return $this->render('roiv_readiness_map/index.html.twig', [
             'user' => $user,
             '_photos' => $photos,
             'form' => $form->createView(),
             'proc' => $proc,
-            'mtb_fact' => ($count > 0) ? round((($proc['fact'])/$proc['total'])*100, 2): 0,
-            'mtb_put' => ($count > 0) ? round((($proc['put'])/$proc['total'])*100, 2): 0,
+            'mtb_fact' => $mtb_fact,
+            'mtb_put' => $mtb_put,
         ]);
     }
     public function midleProc($total, $fact)
