@@ -304,7 +304,7 @@ class ContractingXlsxService extends AbstractController
     public function downloadTableBAS(int $year, \DateTime $today = null, string $role = 'cluster', $save = null)
     {
 
-        $sheet_template = $this->getParameter('contrating_template_file');
+        $sheet_template = $this->getParameter('contrating_bas_template_file');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
         $sheet = $spreadsheet->getActiveSheet();
         if(is_null($today))
@@ -316,10 +316,12 @@ class ContractingXlsxService extends AbstractController
         $fileName = 'Контрактация БАС '.$year." год ".$today->format('d-m-Y');
         $grant = 60500000;
         $users = $this->getUsersByYear($year, '%ROLE_BAS%');
-
-        $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P', 'L'];
+//        dd($sheet->getHighestRow());
+        $curency_cell = ['C', 'D', 'F', 'H', 'J', 'K', 'M', 'O'];
+        $procent_cell = ['E', 'G', 'I', 'L', 'N', 'P'];
         foreach ($users as $user)
         {
+
             $procedures = $this->getProcedures($user);
             $_data = [
                 'P' => 0,
@@ -355,34 +357,33 @@ class ContractingXlsxService extends AbstractController
             $sheet->setCellValue('A'.$row, $index);
             $user_info_arr = [
                 $user_info->getRfSubject()->getName(),
-                $user_info->getDeclaredIndustry(),
-                $user_info->getEducationalOrganization()
             ];
             $sheet->fromArray($user_info_arr, null, 'B'.$row, true);
             $other_arr = [
 
+                $user_info->getFedFundsGrant(),
                 $_data['G'],
-                $user_info->getFedFundsGrant() ? '=E'.$row.'/'.$user_info->getFedFundsGrant() : '',
+                "=D$row/C$row",
                 $_data['I'],
-                $user_info->getFedFundsGrant() ? '=G'.$row.'/'.$user_info->getFedFundsGrant() : '',
-                '=E'.$row.'+G'.$row,
-                '=F'.$row.'+H'.$row,
-                $_data['M'],
+                "=F$row/C$row",
+                "=D$row+F$row",
+                "=H$row/C$row",
+                $user_info->getRegionFundsGrant(),
                 $_data['N'],
-                $_data['O'],
+                "=K$row/J$row",
                 $_data['P'],
-                $_data['Q'],
-                $_data['R'],
-                '',
-                '',
-                '',
-            ];
-            $sheet->fromArray($other_arr, null, 'E'.$row, true);
+                "=M$row/J$row",
+                "=K$row+M$row",
+                "=O$row/J$row",
+                $user_info->getCurator(),
 
-            $sheet->getStyle("F$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
-            $sheet->getStyle("H$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
-            $sheet->getStyle("J$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
-//            $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P'];
+            ];
+            $sheet->fromArray($other_arr, null, 'C'.$row, true);
+
+            foreach ($procent_cell as $cell)
+            {
+                $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
+            }
             foreach ($curency_cell as $cell)
             {
                 $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
@@ -404,26 +405,16 @@ class ContractingXlsxService extends AbstractController
             ]
         ];
 
-        $end_cell = $index;
-        $rangeTotal = 'A2:S'.($end_cell+2);
+        $end_cell = $sheet->getHighestRow();
+        $rangeTotal = 'A2:S'.($end_cell);
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
 
-        $sumRow = $end_cell + 1;
-//        $sheet->setCellValue('G'.$sumRow, "=SUM(G2:G$end_cell)");
-//        $sheet->setCellValue('I'.$sumRow, "=SUM(I2:I$end_cell)");
-//        $sheet->setCellValue('K'.$sumRow, "=SUM(K2:K$end_cell)");
-//        $sheet->setCellValue('M'.$sumRow, "=SUM(M2:M$end_cell)");
-//        $sheet->setCellValue('N'.$sumRow, "=SUM(N2:M$end_cell)");
-//        $sheet->setCellValue('O'.$sumRow, "=SUM(O2:O$end_cell)");
-//        $sheet->setCellValue('P'.$sumRow, "=SUM(P2:P$end_cell)");
-//        $sheet->setCellValue('Q'.$sumRow, "=SUM(Q2:Q$end_cell)");
-//        $sheet->setCellValue('R'.$sumRow, "=SUM(R2:R$end_cell)");
+        $sumRow = $sheet->getHighestRow()+1;
 
-//        $curency_cell = ['G', 'I', 'K', 'M', 'N', 'O', 'P', 'Q', 'R'];
         foreach ($curency_cell as $cell)
         {
-            $sheet->setCellValue($cell.$sumRow, "=SUM({$cell}2:{$cell}$end_cell)");
+            $sheet->setCellValue($cell.$sumRow, "=SUM({$cell}3:{$cell}$end_cell)");
             $sheet->getStyle("$cell$sumRow")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
             $sheet->getStyle("$cell".($sumRow+1))->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
         }
@@ -431,22 +422,18 @@ class ContractingXlsxService extends AbstractController
         $sheet->getStyle('A:Z')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:Z')->getAlignment()->setVertical('center');
 
-        $totalProcentageCell = (isset($row)) ? ($row+2) : 3;
-        if($role == 'lot_1')
-            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_1%', $totalProcentageCell);
-        else if($role == 'lot_2')
-            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_2%', $totalProcentageCell);
-        else
-            $totalProcentageRow = $this->getTotalProcentageRow($year, '%REGION%', $totalProcentageCell);
+//        $totalProcentageCell = (isset($row)) ? ($row+2) : 3;
+//        if($role == 'lot_1')
+//            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_1%', $totalProcentageCell);
+//        else if($role == 'lot_2')
+//            $totalProcentageRow = $this->getTotalProcentageRow($year, '%ROLE_SMALL_CLUSTER_LOT_2%', $totalProcentageCell);
+//        else
+//            $totalProcentageRow = $this->getTotalProcentageRow($year, '%REGION%', $totalProcentageCell);
+//
+//
+//        $sheet->fromArray($totalProcentageRow, null, 'E'.$totalProcentageCell);
 
 
-        $sheet->fromArray($totalProcentageRow, null, 'E'.$totalProcentageCell);
-
-        $deleteCol = ['P', 'N', 'M', 'K', 'D', 'C'];
-        foreach ($deleteCol as $i)
-        {
-            $sheet->removeColumn($i);
-        }
 
 
         // Запись файла

@@ -27,6 +27,7 @@ parameters:
     readiness_map_archive_directory: '%kernel.project_dir%/public/uploads/readinessMapArchive'
     readiness_map_template_file: '%kernel.project_dir%/public/word/Карта готовности Кластеры.docx'
     contrating_template_file: '%kernel.project_dir%/public/excel/contracting.xlsx'
+    contrating_bas_template_file: '%kernel.project_dir%/public/excel/Контрактация БАС 2024 год 01-04-2024.xlsx'
     excel_files_directory: '%kernel.project_dir%/public/excel/'
     readiness_map_table_template_file: '%kernel.project_dir%/public/excel/readinessMap.xlsx'
     readiness_map_table_bas_template_file: '%kernel.project_dir%/public/excel/Шаблон_Карта_готовности бас.xlsx'
