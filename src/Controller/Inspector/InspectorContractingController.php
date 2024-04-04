@@ -7,6 +7,7 @@ use App\Entity\ProcurementProcedures;
 use App\Entity\ReadinessMapSaves;
 use App\Entity\User;
 use App\Services\ContractingXlsxService;
+use App\Services\FileService;
 use App\Services\ReadinessMapXlsxService;
 use App\Services\XlsxPerformanceIndicatorService;
 
@@ -186,6 +187,7 @@ class InspectorContractingController extends AbstractController
         ];
         $query = $entityManager->getRepository(ReadinessMapSaves::class)
             ->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
             ;
 
         $query = $query->getQuery();
@@ -203,5 +205,22 @@ class InspectorContractingController extends AbstractController
             'dict' => $dict,
             'download_path' => 'readiness_map_saves_directory',
         ]);
+    }
+    /**
+     * @Route("/rm-history/delete/{id}", name="app_inspector_rm_history_delete")
+     */
+    public function delete_history_rm(FileService $service, Request $request, EntityManagerInterface $em, int $id)
+    {
+        $history = $em->getRepository(ReadinessMapSaves::class)->find($id);
+        $donwloadPath = 'readiness_map_saves_directory';
+
+        $service->DeleteFile($history->getName(), $donwloadPath);
+        $em->remove($history);
+        $em->flush();
+
+
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
     }
 }
