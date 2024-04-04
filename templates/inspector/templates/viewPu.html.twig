@@ -700,13 +700,15 @@
                             <td>
                                 {% if attach_file %}
                                     <a href="{{ path('app_download_file_by_route', {'file': attach_file, 'route':path}) }}">
-                                        <i class="fa fa-download">
+                                        <i class="fa fa-download " >
                                             {{ title }}
                                         </i>
                                         <span class="badge badge-info">
                                             Актуальный
                                         </span>
+
                                     </a>
+                                    <input type="checkbox" class="file-name" data-file="{{ attach_file }}" name="{{ attach_file }}" />
                                 {% endif %}
                             </td>
                             {#<td>#}
@@ -726,6 +728,7 @@
                                                         </i>
                                                     </a>
                                                     {{ _self.deleteButton(i.getId(), path) }}
+                                                    <input type="checkbox" class="file-name" data-file="{{ i.getOldVal() }}" name="{{ i.getOldVal() }}" />
                                                 </li>
                                             {% endif %}
                                         {% endfor %}
@@ -750,12 +753,13 @@
                             <td>
                                 <ul>
                                     {% for i in purchase.getAnotherDocuments()|reverse %}
-                                        <li>
+                                        <li >
                                             <a href="{{ path('app_download_file_by_route', {'file': i.getFile(), 'route':'another_documents_directory'}) }}">
                                                 <i class="fa fa-download">
                                                     Иной документ {{ i.getDateFormat() }}
                                                 </i>
                                             </a>
+                                            <input type="checkbox" class="file-name" data-file="{{ i.getFile() }}" name="{{ i.getFile() }}" />
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -772,9 +776,56 @@
 {% endblock %}
 
 {% block scripts %}
-    <script>
 
-    </script>
+
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/inspinia.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            let filechecks = [
+                {% for i in filechecks %}
+                {
+                    file: "{{ i.getFilename() }}",
+                    status: "{{ i.isChecked() }}"
+                },
+                {% endfor %}
+            ];
+            // console.log(filechecks);
+            let checkboxes = $('.file-name');
+
+            checkboxes.each(function (i) {
+                for(let j = 0; j < filechecks.length; j++)
+                {
+                    if($(this).data('file') == filechecks[j].file)
+                    {
+                        let status = filechecks[j].status === "1";
+                        $(this).prop('checked', status);
+                    }
+                }
+                // console.log($(this).data('file'));
+            });
+
+            checkboxes.change(function (e) {
+                // console.log($(this).data('file'));
+
+                fetch("/inspector/purchases-checks/{{ purchase.getId() }}", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        file: $(this).data('file'),
+                        status: $(this).is(':checked'),
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                })
+                    .then((response) => response.json())
+                    .then((json) => console.log(json));
+            });
+
+
+
+
+        });
+    </script>
 {% endblock %}

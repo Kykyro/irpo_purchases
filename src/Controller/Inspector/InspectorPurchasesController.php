@@ -2,6 +2,7 @@
 
 namespace App\Controller\Inspector;
 
+use App\Entity\FileCheck;
 use App\Entity\Log;
 use App\Entity\PurchaseNote;
 use App\Entity\PurchasesDump;
@@ -298,6 +299,7 @@ class InspectorPurchasesController extends AbstractController
             'controller_name' => 'InspectorPurchasesController',
             'title' => $title,
             'purchase' => $purchase,
+            'filechecks' => $purchase->getFileChecks(),
             'file' => $file_dir,
             'paymentOrder' => $paymentOrder,
             'closingDocument' => $closingDocument,
@@ -307,6 +309,34 @@ class InspectorPurchasesController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/purchases-checks/{id}", name="purchases_change_file_check")
+     */
+    public function changeFileCheck(int $id, Request $request, EntityManagerInterface $em)
+    {
+        $purchase = $em->getRepository(ProcurementProcedures::class)->find($id);
+        $content = json_decode($request->getContent());
+        $filesChecks = $purchase->getFileChecksByName($content->file);
+
+        if(count($filesChecks) > 0)
+        {
+            $fileCheck = $filesChecks->last();
+            $fileCheck->setChecked($content->status);
+        }
+        else
+        {
+            $fileCheck = new FileCheck();
+            $fileCheck->setChecked($content->status);
+            $fileCheck->setFilename($content->file);
+            $fileCheck->setPurchases($purchase);
+        }
+
+        $em->persist($fileCheck);
+        $em->persist($purchase);
+        $em->flush();
+
+        return new Response(json_encode($request->getContent()));
+    }
     /**
      * @Route("/purchases-history/delete/{purchases_id}/{path}", name="purchases_history_delete")
      */

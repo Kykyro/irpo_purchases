@@ -22,24 +22,37 @@ class DebugTwigController extends AbstractController
         $application = new Application($kernel);
         $application->setAutoExit(true);
 
-        $input = new ArrayInput([
-            'command' => 'app:save:rmnew',
-            'year' => $year,
-            'type' => $type,
-        ]);
-//        $process = Process::fromShellCommandLine("app:save:rm $year $type");
+//        $input = new ArrayInput([
+//            'command' => 'app:save:rmnew',
+//            'year' => $year,
+//            'type' => $type,
+//        ]);
+        $command = "php bin/console app:save:rmnew $year $type";
+//        $command = "ls";
+        $process = Process::fromShellCommandLine("cd ../bin", $command);
         // You can use NullOutput() if you don't need the output
-        $output = new BufferedOutput();
-        $application->run($input, $output);
+//        $output = new BufferedOutput();
+//        $application->run($input, $output);
 //
 //        // return the output, don't use if you used NullOutput()
-        $content = $output->fetch();
+//        $content = $output->fetch();
 //        try {
 //            $process->run();
+//            $process->wait();
 //        } catch (ProcessFailedException $e) {
 //
 //        }
 
+//        $process = new Process(["app:save:rmnew $year $type"]);
+        $process->run();
+
+// executes after the command finishes
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+
+        return $this->redirectToRoute('app_inspector_rm_history');
         $route = $request->headers->get('referer');
         return $this->redirect($route);
         // return new Response(""), if you used NullOutput()

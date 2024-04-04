@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProcurementProceduresRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotations\Log;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -353,12 +354,18 @@ class ProcurementProcedures
      */
     private $isRead;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FileCheck::class, mappedBy="purchases")
+     */
+    private $fileChecks;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
         $this->setVersion(1);
         $this->purchaseNotes = new ArrayCollection();
         $this->anotherDocuments = new ArrayCollection();
+        $this->fileChecks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1381,5 +1388,44 @@ class ProcurementProcedures
         $this->isRead = $isRead;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, FileCheck>
+     */
+    public function getFileChecks(): Collection
+    {
+        return $this->fileChecks;
+    }
+
+    public function addFileCheck(FileCheck $fileCheck): self
+    {
+        if (!$this->fileChecks->contains($fileCheck)) {
+            $this->fileChecks[] = $fileCheck;
+            $fileCheck->setPurchases($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFileCheck(FileCheck $fileCheck): self
+    {
+        if ($this->fileChecks->removeElement($fileCheck)) {
+            // set the owning side to null (unless already changed)
+            if ($fileCheck->getPurchases() === $this) {
+                $fileCheck->setPurchases(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public  function  getFileChecksByName($filename)
+    {
+        return $this->getFileChecks()->filter(
+            function ($fileChecks) use($filename)  {
+                return  ($filename === $fileChecks->getFilename());
+            }
+        );
     }
 }
