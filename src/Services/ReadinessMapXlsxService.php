@@ -487,7 +487,7 @@ class ReadinessMapXlsxService extends AbstractController
 
     }
 
-    public function downloadTableNew2(int $year, string $role = 'cluster', $save = false, $start=0, $step = 200)
+    public function downloadTableNew(int $year, string $role = 'cluster', $save = false, $start=0, $step = 200)
     {
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('readiness_map_table_template_file_new');
@@ -752,7 +752,7 @@ class ReadinessMapXlsxService extends AbstractController
         }
 
     }
-    public function downloadTableNew(int $year, string $role = 'cluster', $save = false, $start=0, $step = 200)
+    public function downloadTableNew2(int $year, string $role = 'cluster', $save = false, $start=0, $step = 200)
     {
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('readiness_map_table_template_file_new');
