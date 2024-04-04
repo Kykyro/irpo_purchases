@@ -1093,18 +1093,24 @@ class ReadinessMapXlsxService extends AbstractController
 
             ];
             $sheet->fromArray($user_info_arr, null, 'A'.$row, true);
+            $procent_cell = ['D', 'E', 'F'];
             foreach ($adresses as $adress) {
                 $eq = $adress->getCountOfEquipment();
+
                 $arr = [
                     $adress->getAddresses(),
                     $eq['total'] ? $eq['fact']/$eq['total'] : 0,
-                    $adress->getEquipmentDeliveryDeadline(),
+                    $adress->getEquipmentDeliveryDeadline() ? $adress->getEquipmentDeliveryDeadline()->format('d.m.Y') : '',
                     $status ? $status->getStatus() : '', // Статус проверки
                     $status ? $status->getComment() : '', // Комментарии куратора
                     $user_info->getCurator() // Куратор
                 ];
 
                 $sheet->fromArray($arr, null, 'C'.$row, true);
+                foreach ($procent_cell as $cell)
+                {
+                    $sheet->getStyle("$cell$row")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+                }
                 $row++;
 
 
