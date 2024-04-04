@@ -131,12 +131,14 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"> {{ i.getUserInfo().getRfSubject().getName() }} </h5>
+                            <h5 class="modal-title"
+                                id="exampleModalLabel"> {{ i.getUserInfo().getRfSubject().getName() }} </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="{{ path('app_certificate_approve', {'id': i.getUserInfo().getContractCertifications().last().getId()}) }}" method="post">
+                        <form action="{{ path('app_certificate_approve', {'id': i.getUserInfo().getContractCertifications().last().getId()}) }}"
+                              method="post">
                             <div class="modal-body">
                                 {% set file = i.getUserInfo().getContractCertifications().last().getFile() %}
                                 {% set table = i.getUserInfo().getContractCertifications().last().getPurchasesTable() %}
@@ -156,18 +158,21 @@
                                     <div class="col-sm-10">
                                         <div>
                                             <label>
-                                                <input type="radio" checked="" value="Справка принята" id="optionsRadios1" name="optionsRadios">
+                                                <input type="radio" checked="" value="Справка принята"
+                                                       id="optionsRadios1" name="optionsRadios">
                                                 Принято
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="radio" value="Отправлен на доработку" id="optionsRadios2" name="optionsRadios">
+                                                <input type="radio" value="Отправлен на доработку" id="optionsRadios2"
+                                                       name="optionsRadios">
                                                 На доработку
                                             </label>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="token" value="{{ csrf_token('approve-certification') }}"/>
+                                    <input type="hidden" name="token"
+                                           value="{{ csrf_token('approve-certification') }}"/>
 
                                 {% else %}
                                     <p>
