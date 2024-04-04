@@ -35,7 +35,7 @@
                                         {{ status.getStatus() }}
                                     </b>
                                     <hr>
-                                    {{ status.getComment() }}
+                                    {{ status.getComment()|nl2br }}
                                 {% else %}
                                     Нет замечаний
                                 {% endif %}

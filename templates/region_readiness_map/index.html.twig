@@ -31,7 +31,7 @@
                                             <tbody>
                                             <tr>
                                                 <td> {{ status.getStatus() }}</td>
-                                                <td>{{ status.getComment() }}</td>
+                                                <td>{{ status.getComment()|nl2br }}</td>
                                                 <td>{{ status.getCreatedAt().format('d.m.Y') }}</td>
                                                 <td>
                                                     {% if status.getStatus() == 'На доработке' %}
