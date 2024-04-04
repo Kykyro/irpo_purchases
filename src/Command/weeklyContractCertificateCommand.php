@@ -57,10 +57,11 @@ class weeklyContractCertificateCommand extends Command
         $clusters = $this->entity_manager->getRepository(User::class)
             ->createQueryBuilder('a')
             ->leftJoin('a.user_info', 'uf')
-            ->andWhere('a.roles LIKE :role_1 OR a.roles LIKE :role_2')
+            ->andWhere('a.roles LIKE :role_1 OR a.roles LIKE :role_2 OR a.roles LIKE :role_3')
             ->andWhere('uf.accessToPurchases = :access')
             ->setParameter('role_1', "%REGION%")
             ->setParameter('role_2', "%SMALL_CLUSTERS%")
+            ->setParameter('role_3', "%ROLE_BAS%")
             ->setParameter('access', true)
             ->getQuery()
             ->getResult();
