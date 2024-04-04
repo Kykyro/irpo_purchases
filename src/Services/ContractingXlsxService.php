@@ -371,7 +371,7 @@ class ContractingXlsxService extends AbstractController
                 $user_info->getRegionFundsGrant(),
                 $_data['N'],
                 "=K$row/J$row",
-                $_data['P'],
+                $_data['Q'],
                 "=M$row/J$row",
                 "=K$row+M$row",
                 "=O$row/J$row",
