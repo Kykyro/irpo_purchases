@@ -20,30 +20,50 @@ class ReadinessMapXlsxService extends AbstractController
 {
 
 
-    public function getUsersByYear($year, $role){
+    public function getUsersByYear($year, $role, $tags){
         $entity_manger = $this->getDoctrine()->getManager();
-
-        return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
+        $query = $entity_manger->getRepository(User::class)->createQueryBuilder('u')
             ->leftJoin('u.user_info', 'uf')
             ->leftJoin('uf.rf_subject', 'rf')
             ->andWhere('u.roles LIKE :role')
             ->andWhere('uf.year = :year')
             ->setParameter('role', $role)
             ->setParameter('year', $year)
+        ;
+
+        if($tags)
+        {
+            $query
+                ->leftJoin('u.userTags', 't')
+                ->andWhere('t.id = :tags')
+                ->setParameter('tags', $tags->getId());
+        }
+        return $query
             ->orderBy('rf.name', 'ASC')
             ->getQuery()
             ->getResult();
     }
-    public function getUsersByYearPaginator($year, $role, $start=0, $step){
+    public function getUsersByYearPaginator($year, $role, $start=0, $step,$tags){
         $entity_manger = $this->getDoctrine()->getManager();
 
-        return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
+
+        $query = $entity_manger->getRepository(User::class)->createQueryBuilder('u')
             ->leftJoin('u.user_info', 'uf')
             ->leftJoin('uf.rf_subject', 'rf')
             ->andWhere('u.roles LIKE :role')
             ->andWhere('uf.year = :year')
             ->setParameter('role', $role)
             ->setParameter('year', $year)
+        ;
+
+        if($tags)
+        {
+            $query
+                ->leftJoin('u.userTags', 't')
+                ->andWhere('t.id = :tags')
+                ->setParameter('tags', $tags->getId());
+        }
+        return $query
             ->orderBy('rf.name', 'ASC')
             ->setFirstResult($start)
             ->setMaxResults($step)
@@ -79,7 +99,7 @@ class ReadinessMapXlsxService extends AbstractController
             ->getResult();
     }
 
-    public function downloadTable(int $year, string $role = 'cluster', $save = false)
+    public function downloadTable(int $year, string $role = 'cluster', $save = false, $tags = null)
     {
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('readiness_map_table_template_file');
@@ -92,19 +112,19 @@ class ReadinessMapXlsxService extends AbstractController
         if($role == 'lot_1')
         {
             $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $tags);
         }
 
         else if($role == 'lot_2')
         {
             $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $tags);
         }
 
         else
         {
             $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%REGION%');
+            $users = $this->getUsersByYear($year, '%REGION%', $tags);
         }
 
 
@@ -487,7 +507,7 @@ class ReadinessMapXlsxService extends AbstractController
 
     }
 
-    public function downloadTableNew(int $year, string $role = 'cluster', $save = false, $start=0, $step = 200)
+    public function downloadTableNew(int $year, string $role = 'cluster', $save = false, $start=0, $step = 200, $tags = null)
     {
 //        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('readiness_map_table_template_file_new');
@@ -500,19 +520,19 @@ class ReadinessMapXlsxService extends AbstractController
         if($role == 'lot_1')
         {
             $fileName = 'Карта готовности лот 1 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $start, $step);
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $start, $step, $tags);
         }
 
         else if($role == 'lot_2')
         {
             $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $start, $step);
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $start, $step, $tags);
         }
 
         else
         {
             $fileName = 'Карта готовности ОПЦ '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYearPaginator($year, '%REGION%', $start, $step);
+            $users = $this->getUsersByYearPaginator($year, '%REGION%', $start, $step, $tags);
         }
 
 

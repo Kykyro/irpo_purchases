@@ -61,8 +61,8 @@ class InspectorContractingController extends AbstractController
                 'choices'  => [
                     'Контрактация' => 1,
                     'Карта готовности(все)' => 2,
-                    'Карта готовности(ремонт)' => 3,
-                    'Карта готовности(оборудование)' => 4,
+//                    'Карта готовности(ремонт)' => 3,
+//                    'Карта готовности(оборудование)' => 4,
                     'Показатели результативности' => 5,
                     'Ремработы и оборудование (новый)' => 6,
 
@@ -134,7 +134,7 @@ class InspectorContractingController extends AbstractController
 
             if($data['type'] == 2)
             {
-                return $readinessMapXlsxService->downloadTable($data['year']);
+                return $readinessMapXlsxService->downloadTable($data['year'], 'cluster', false, $tags);
             }
             if($data['type'] == 3)
             {
@@ -148,7 +148,7 @@ class InspectorContractingController extends AbstractController
                 return $indicatorService->generateTable($data['year'], "ROLE_REGION");
             }
             if($data['type'] == 6){
-                return $readinessMapXlsxService->downloadTableNew($data['year'], 'cluster', false, $data['start'], $data['step']);
+                return $readinessMapXlsxService->downloadTableNew($data['year'], 'cluster', false, $data['start'], $data['step'], $tags);
             }
         }
 

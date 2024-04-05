@@ -65,9 +65,9 @@ class SmallCuratorContractingController extends AbstractController
                 'choices' => [
                     'Контрактация' => 1,
                     'Карта готовности(все)' => 2,
-                    'Карта готовности(ремонт)' => 3,
+//                    'Карта готовности(ремонт)' => 3,
                     'Показатели результативности' => 5,
-                    'Карта готовности(оборудование)' => 4,
+//                    'Карта готовности(оборудование)' => 4,
                     'Ремработы и оборудование (новый)' => 6,
                     'Ремработы и оборудование (новый, частично)' => 7,
 
@@ -136,7 +136,7 @@ class SmallCuratorContractingController extends AbstractController
                 return $contractingXlsxService->downloadTable($data['year'], $data['date'], $_role, null, $tags);
             }
             if ($data['type'] == 2) {
-                return $readinessMapXlsxService->downloadTable($data['year'], $_role);
+                return $readinessMapXlsxService->downloadTable($data['year'], $_role, false, $tags);
             }
             if($data['type'] == 3)
             {
@@ -150,10 +150,10 @@ class SmallCuratorContractingController extends AbstractController
                 return $indicatorService->generateTable($data['year'], $_role);
             }
             if($data['type'] == 6){
-                return $readinessMapXlsxService->downloadTableNew($data['year'], $_role);
+                return $readinessMapXlsxService->downloadTableNew($data['year'], $_role, false, 0, 200, $tags);
             }
             if($data['type'] == 7){
-                return $readinessMapXlsxService->downloadTableNew($data['year'], $_role, false, $data['start'], $data['step']);
+                return $readinessMapXlsxService->downloadTableNew($data['year'], $_role, false, $data['start'], $data['step'], $tags);
             }
 
 
