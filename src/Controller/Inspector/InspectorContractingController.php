@@ -6,13 +6,16 @@ use App\Entity\ContractingTables;
 use App\Entity\ProcurementProcedures;
 use App\Entity\ReadinessMapSaves;
 use App\Entity\User;
+use App\Entity\UserTags;
 use App\Services\ContractingXlsxService;
 use App\Services\FileService;
 use App\Services\ReadinessMapXlsxService;
 use App\Services\XlsxPerformanceIndicatorService;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -102,19 +105,31 @@ class InspectorContractingController extends AbstractController
                 'data' => 0,
 
             ])
+            ->add("tags", EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'class' => UserTags::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.id', 'ASC');
+                },
+                'choice_label' => 'tag',
+                'label' => 'Теги'
+            ])
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $tags = key_exists('tags', $data) ? $data['tags'] : null;
             if($data['type'] == 1)
             {
                 if($data['date'])
                 {
-                    return $contractingXlsxService->downloadTable($data['year'], $data['date']);
+                    return $contractingXlsxService->downloadTable($data['year'], $data['date'], 'cluster', null, $tags);
                 }
                 $today = new \DateTime('now');
-                return $contractingXlsxService->downloadTable($data['year'], $today);
+                return $contractingXlsxService->downloadTable($data['year'], $today, 'cluster', null, $tags);
             }
 
             if($data['type'] == 2)

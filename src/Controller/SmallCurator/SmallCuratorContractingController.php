@@ -7,6 +7,7 @@ use App\Entity\InfrastructureSheetRegionFile;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
+use App\Entity\UserTags;
 use App\Form\InspectorPurchasesFindFormType;
 use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
@@ -111,17 +112,28 @@ class SmallCuratorContractingController extends AbstractController
                 'required'   => false,
                 'data' => 0,
             ])
+            ->add("tags", EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'required'   => false,
+                'class' => UserTags::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.id', 'ASC');
+                },
+                'choice_label' => 'tag',
+                'label' => 'Теги'
+            ])
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
+            $tags = key_exists('tags', $data) ? $data['tags'] : null;
             $_role = $data['lot'];
 
             if ($data['type'] == 1) {
                 $data['date'] = ($data['date']) ? $data['date'] :  new \DateTime('now');
-                return $contractingXlsxService->downloadTable($data['year'], $data['date'], $_role);
+                return $contractingXlsxService->downloadTable($data['year'], $data['date'], $_role, null, $tags);
             }
             if ($data['type'] == 2) {
                 return $readinessMapXlsxService->downloadTable($data['year'], $_role);

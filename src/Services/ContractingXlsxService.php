@@ -20,16 +20,25 @@ class ContractingXlsxService extends AbstractController
 {
 
 
-    public function getUsersByYear($year, $role){
+    public function getUsersByYear($year, $role, $tags){
         $entity_manger = $this->getDoctrine()->getManager();
-
-        return $entity_manger->getRepository(User::class)->createQueryBuilder('u')
+        $query = $entity_manger->getRepository(User::class)->createQueryBuilder('u')
             ->leftJoin('u.user_info', 'uf')
             ->leftJoin('uf.rf_subject', 'rf')
             ->andWhere('u.roles LIKE :role')
             ->andWhere('uf.year = :year')
             ->setParameter('role', $role)
             ->setParameter('year', $year)
+            ;
+
+        if($tags)
+        {
+            $query
+                ->leftJoin('u.userTags', 't')
+                ->andWhere('t.id = :tags')
+                ->setParameter('tags', $tags->getId());
+        }
+        return $query
             ->orderBy('rf.name', 'ASC')
             ->getQuery()
             ->getResult();
@@ -94,7 +103,7 @@ class ContractingXlsxService extends AbstractController
     }
 
 
-    public function downloadTable(int $year, \DateTime $today = null, string $role = 'cluster', $save = null)
+    public function downloadTable(int $year, \DateTime $today = null, string $role = 'cluster', $save = null, $tags = null)
     {
 
         $sheet_template = $this->getParameter('contrating_template_file');
@@ -109,25 +118,25 @@ class ContractingXlsxService extends AbstractController
         {
             $fileName = 'Контрактация лот 1 '.$year." год ".$today->format('d-m-Y');
             $grant = 70000000;
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%');
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $tags);
         }
 
         else if($role == 'lot_2')
         {
             $fileName = 'Контрактация лот 2 '.$year." год ".$today->format('d-m-Y');
             $grant = 60500000;
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%');
+            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $tags);
         }
         else if($role == 'bas')
         {
             $fileName = 'Контрактация БАС '.$year." год ".$today->format('d-m-Y');
             $grant = 60500000;
-            $users = $this->getUsersByYear($year, '%ROLE_BAS%');
+            $users = $this->getUsersByYear($year, '%ROLE_BAS%', $tags);
         }
         else
         {
             $fileName = 'Контрактация ОПЦ '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%REGION%');
+            $users = $this->getUsersByYear($year, '%REGION%', $tags);
         }
         $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P', 'L', 'Q', 'R', 'S', 'T'];
         foreach ($users as $user)
