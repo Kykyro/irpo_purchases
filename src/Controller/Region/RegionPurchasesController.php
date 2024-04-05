@@ -121,19 +121,40 @@ class RegionPurchasesController extends AbstractController
             if($procurement_procedure->getMethodOfDetermining() === 'Другое')
             {
                 $procurement_procedure->setMethodOfDetermining($form['anotherMethodOfDetermining']->getData());
+                $procurement_procedure->setIsRead(false);
             }
             if($file)
+            {
                 $procurement_procedure->setFileDir($fileService->UploadFile($file, 'purchases_files_directory'));
+                $procurement_procedure->setIsRead(false);
+            }
+
             if($closingDocument_file)
+            {
                 $procurement_procedure->setClosingDocument($fileService->UploadFile($closingDocument_file, 'closing_files_directory'));
+                $procurement_procedure->setIsRead(false);
+            }
+
             if($paymentOrder_file)
+            {
                 $procurement_procedure->setPaymentOrder($fileService->UploadFile($paymentOrder_file, 'payment_orders_directory'));
+                $procurement_procedure->setIsRead(false);
+            }
+
             if($additionalAgreement_file)
+            {
                 $procurement_procedure->setAdditionalAgreement($fileService->UploadFile($additionalAgreement_file, 'additional_agreement_directory'));
+                $procurement_procedure->setIsRead(false);
+            }
+
             $procurement_procedure->setChangeTime(new \DateTime('now'));
             $procurement_procedure->UpdateVersion();
 
             $anotherDocument = $form->get('anotherDocument')->getData();
+            if(count($anotherDocument) > 0)
+            {
+                $procurement_procedure->setIsRead(false);
+            }
             foreach ($anotherDocument as $doc)
             {
                 $filename = $fileService->UploadFile($doc, 'another_documents_directory');
@@ -143,7 +164,7 @@ class RegionPurchasesController extends AbstractController
                 $entity_manager->persist($_photo);
                 $procurement_procedure->addAnotherDocument($_photo);
             }
-            $procurement_procedure->setIsRead(false);
+
             $entity_manager->persist($procurement_procedure);
             $entity_manager->flush();
 
