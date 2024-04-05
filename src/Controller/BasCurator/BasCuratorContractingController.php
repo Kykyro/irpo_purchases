@@ -15,6 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -97,6 +98,18 @@ class BasCuratorContractingController extends AbstractController
                 'required'   => false,
 
             ])
+//            ->add("tags", EntityType::class, [
+//                'attr' => ['class' => 'form-control'],
+//                'required'   => false,
+//                'class' => UserTags::class,
+//                'query_builder' => function (EntityRepository $er) {
+//                    return $er->createQueryBuilder('t')
+//                        ->orderBy('t.id', 'ASC');
+//                },
+//                'choice_label' => 'tag',
+//                'label' => 'Теги'
+//            ])
+            ->add("tags", HiddenType::class)
             ->getForm();
 
         $form->handleRequest($request);
