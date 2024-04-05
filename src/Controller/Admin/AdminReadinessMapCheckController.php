@@ -8,6 +8,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,6 +31,25 @@ class AdminReadinessMapCheckController extends AbstractController
             ->orderBy('a.id', 'DESC')
                 ;
 
+        $form = $this->createFormBuilder()
+            ->add('search', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'required'   => false,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $data = $form->getData();
+            $search = $data['search'];
+            $query = $query
+                ->andWhere('uf.educational_organization LIKE :search')
+                ->setParameter('search', "%$search%");
+        }
 
 
         $query = $query->getQuery();
@@ -42,7 +62,8 @@ class AdminReadinessMapCheckController extends AbstractController
 
         return $this->render('admin/admin_rediness_map_check/index.html.twig', [
             'controller_name' => 'AdminContractCertificateController',
-            'users' => $pagination
+            'users' => $pagination,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -62,6 +83,25 @@ class AdminReadinessMapCheckController extends AbstractController
         }
         $route = $request->headers->get('referer');
 
+        return $this->redirect($route);
+
+    }
+    /**
+     * @Route("/admin/readiness-map-check/refresh/{id}", name="app_admin_readiness_map_check_refresh")
+     */
+    public function refresh(EntityManagerInterface $em, Request $request, int $id): Response
+    {
+        $user = $em->getRepository(User::class)->find($id);
+
+        $userInfo = $user->getUserInfo();
+
+
+        $userInfo->setReadinessMapChecksRefresh(!$userInfo->isReadinessMapChecksRefresh());
+
+        $em->persist($userInfo);
+        $em->flush();
+
+        $route = $request->headers->get('referer');
         return $this->redirect($route);
 
     }

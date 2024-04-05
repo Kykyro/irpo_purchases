@@ -228,6 +228,11 @@ class UserInfo
      */
     private $regionFundsGrant;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $readinessMapChecksRefresh;
+
 
 
     function __construct()
@@ -887,6 +892,18 @@ class UserInfo
     public function setRegionFundsGrant(?string $regionFundsGrant): self
     {
         $this->regionFundsGrant = $regionFundsGrant;
+
+        return $this;
+    }
+
+    public function isReadinessMapChecksRefresh(): ?bool
+    {
+        return $this->readinessMapChecksRefresh;
+    }
+
+    public function setReadinessMapChecksRefresh(?bool $readinessMapChecksRefresh): self
+    {
+        $this->readinessMapChecksRefresh = $readinessMapChecksRefresh;
 
         return $this;
     }

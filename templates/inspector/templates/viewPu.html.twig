@@ -70,6 +70,14 @@
                         </button>
                     </a>
                 {% endif %}
+
+                <a href="{{ path("app_inspector_purchases_delete", {id: app.request.get("id"), 'user_id': purchase.getUser.getId()}) }}">
+                    <button class="btn btn-outline-danger delete-alert ml-5">
+                        <i class="fa fa-trash">
+                            Удалить закупку
+                        </i>
+                    </button>
+                </a>
             {% endif %}
         </div>
     </div>

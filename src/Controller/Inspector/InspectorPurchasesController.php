@@ -444,4 +444,22 @@ class InspectorPurchasesController extends AbstractController
 
         return $this->redirectToRoute('app_inspector_view_purchase', ['id'=> $purchases_id]);
     }
+
+
+    /**
+     * @Route("/user-purchases-delete/{user_id}/{id}", name="app_inspector_purchases_delete")
+     */
+    public function deletePurchases(Request $request, int $id, $user_id)
+    {
+
+        $entity_manager = $this->getDoctrine()->getManager();
+
+        $pp = $entity_manager->find(ProcurementProcedures::class, $id);
+        $pp->setIsDeleted(true);
+        $entity_manager->persist($pp);
+        $entity_manager->flush();
+        return $this->redirectToRoute('app_inspector_show_purchases', ['id'=> $user_id]);
+
+
+    }
 }
