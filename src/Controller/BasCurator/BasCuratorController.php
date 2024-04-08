@@ -2,10 +2,13 @@
 
 namespace App\Controller\BasCurator;
 
+use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,6 +35,43 @@ class BasCuratorController extends AbstractController
 
         ;
 
+        $form = $this->createFormBuilder()
+            ->add("rf_subject", EntityType::class, [
+                'attr' => ['class' => 'form-control select2'],
+                'required'   => false,
+                'class' => RfSubject::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('sub')
+                        ->orderBy('sub.name', 'ASC');
+                },
+                'choice_label' => 'name',
+            ])
+//            ->add("year", ChoiceType::class,[
+//                'attr' => ['class' => 'form-control'],
+//                'required'   => false,
+//                'choices'  => [
+//                    '2022' => 2022,
+//                    '2023' => 2023,
+//                    '2024' => 2024,
+//
+//                ],
+//
+//            ])
+            ->setMethod('GET')
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $form_data = $form->getData();
+            if($form_data['rf_subject'] !== null){
+                $region = $form_data['rf_subject'];
+                $query = $query
+
+                    ->andWhere('uf.rf_subject = :rf_subject')
+                    ->setParameter('rf_subject', $region);
+            }
+        }
+
         $query = $query->getQuery();
 
         $pagination = $paginator->paginate(
@@ -44,7 +84,8 @@ class BasCuratorController extends AbstractController
 
         return $this->render('bas_curator/index.html.twig', [
             'controller_name' => 'BasCuratorController',
-            'bas' => $pagination
+            'bas' => $pagination,
+            'form' => $form->createView(),
         ]);
     }
 
