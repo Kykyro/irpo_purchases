@@ -20,7 +20,7 @@ class ContractingXlsxService extends AbstractController
 {
 
 
-    public function getUsersByYear($year, $role, $tags){
+    public function getUsersByYear($year, $role, $tags = null){
         $entity_manger = $this->getDoctrine()->getManager();
         $query = $entity_manger->getRepository(User::class)->createQueryBuilder('u')
             ->leftJoin('u.user_info', 'uf')
