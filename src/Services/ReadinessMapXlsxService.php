@@ -43,7 +43,7 @@ class ReadinessMapXlsxService extends AbstractController
             ->getQuery()
             ->getResult();
     }
-    public function getUsersByYearPaginator($year, $role, $start=0, $step,$tags){
+    public function getUsersByYearPaginator($year, $role, $start=0, $step,$tags = null){
         $entity_manger = $this->getDoctrine()->getManager();
 
 
