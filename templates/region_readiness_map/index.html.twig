@@ -265,7 +265,18 @@
                     DeadlineForCompletionOfRepairs.addClass('text-danger font-weight-bold')
                 }
             }
-
+            let repairAll = $('#repair-all');
+            let mtbAll = $('#mtb-all');
+            if(repairAll.data('repair') == 100)
+            {
+                DeadlineForCompletionOfRepairs.removeClass('text-danger');
+                DeadlineForCompletionOfRepairs.removeClass('font-weight-bold');
+            }
+            if(mtbAll.data('mtb') == 100)
+            {
+                EquipmentDeliveryDeadline.removeClass('text-danger');
+                EquipmentDeliveryDeadline.removeClass('font-weight-bold');
+            }
 
             $('.check-alert').click((event)=>{
                 var answer = window.confirm("Замечания устранены?");

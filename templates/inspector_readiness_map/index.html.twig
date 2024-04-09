@@ -288,7 +288,7 @@
                             {% set equipment = user.getCountOfEquipment() %}
                                 <tr>
                                     <td style="vertical-align: inherit; text-align: center">{{ proc['total'] }}</td>
-                                    <td style="vertical-align: inherit; text-align: center">
+                                    <td style="vertical-align: inherit; text-align: center" id="mtb-all" data-mtb="{{ mtb_fact }}">
                                         {{ mtb_fact }} %
                                     </td>
                                     {% if equipment['total'] > 0 %}
@@ -477,7 +477,7 @@
         $(document).ready(function(){
             let EquipmentDeliveryDeadline = $('#EquipmentDeliveryDeadline');
             let DeadlineForCompletionOfRepairs = $('#DeadlineForCompletionOfRepairs');
-            let repairAll = $('#repair-all');
+
 
             var today = new Date();
             if(EquipmentDeliveryDeadline.html().length > 0)
@@ -500,10 +500,17 @@
                     DeadlineForCompletionOfRepairs.addClass('text-danger font-weight-bold')
                 }
             }
+            let repairAll = $('#repair-all');
+            let mtbAll = $('#mtb-all');
             if(repairAll.data('repair') == 100)
             {
                 DeadlineForCompletionOfRepairs.removeClass('text-danger');
                 DeadlineForCompletionOfRepairs.removeClass('font-weight-bold');
+            }
+            if(mtbAll.data('mtb') == 100)
+            {
+                EquipmentDeliveryDeadline.removeClass('text-danger');
+                EquipmentDeliveryDeadline.removeClass('font-weight-bold');
             }
 
             let procInfo = $('#proc-info');
