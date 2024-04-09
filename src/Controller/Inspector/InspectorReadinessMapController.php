@@ -468,6 +468,11 @@ class InspectorReadinessMapController extends AbstractController
         $em->remove($remark);
         $em->flush();
 
+        $user = $zone->getAddres()->getUser();
+        if(in_array('ROLE_BAS', $user->getRoles()))
+        {
+            return $this->redirectToRoute('app_inspector_view_zone_bas', ['id' => $id]);
+        }
         return $this->redirectToRoute('app_inspector_view_zone', ['id' => $zone->getId()]);
     }
 
