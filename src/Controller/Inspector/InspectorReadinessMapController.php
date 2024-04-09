@@ -6,6 +6,7 @@ use App\Entity\ClusterAddresses;
 use App\Entity\ClusterZone;
 use App\Entity\Log;
 use App\Entity\PhotosVersion;
+use App\Entity\ReadinessMapCheck;
 use App\Entity\ReadinessMapCheckStatus;
 use App\Entity\RepairDump;
 use App\Entity\RepairDumpGroup;
@@ -830,4 +831,32 @@ class InspectorReadinessMapController extends AbstractController
         return $service->getCertificate($user);
         return $this->redirectToRoute('app_inspector_readiness_map', ['id'=> $id]);
     }
+
+    /**
+     * @Route("/readiness-map/checks-history/{id}", name="app_inspector_checks_history")
+     */
+    public function readiessMapChecksHistory(EntityManagerInterface $em, Request $request, int $id, PaginatorInterface $paginator): Response
+    {
+        $user = $em->getRepository(User::class)->find($id);
+
+        $query = $em->getRepository(ReadinessMapCheck::class)
+            ->createQueryBuilder('c')
+            ->andWhere('c.user = :user')
+            ->orderBy('c.id', 'DESC')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+
+
+        return $this->render('inspector_readiness_map/checksHistory.html.twig', [
+            'user' => $user,
+            'pagination' => $pagination
+        ]);
+    }
+
 }

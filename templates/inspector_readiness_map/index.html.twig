@@ -45,6 +45,12 @@
                             <button type="button" class="btn btn-primary col-sm-12" data-toggle="modal" data-target="#exampleModal">
                                 Комментарий по карте готовности
                             </button>
+                            <a href="{{ path('app_inspector_checks_history', { 'id': user.getId() }) }}">
+                                <button type="button" class="btn btn-success col-sm-12 mt-3">
+                                    История
+                                </button>
+                            </a>
+
                         </div>
                     </div>
                 </div>
