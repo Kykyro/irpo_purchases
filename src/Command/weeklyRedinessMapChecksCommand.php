@@ -60,6 +60,16 @@ class weeklyRedinessMapChecksCommand extends Command
             ->getResult();
 
         foreach ($clusters as $cluster){
+            $ReadinessMapChecks = $cluster->getReadinessMapChecks()->last();
+            if($ReadinessMapChecks)
+            {
+               $status_rm = $ReadinessMapChecks->getStatus()->last();
+               if($status_rm->getStatus() == 'На доработке')
+               {
+                   continue;
+               }
+            }
+
             $readinessMapCheck = new ReadinessMapCheck($cluster);
             $this->entity_manager->persist($readinessMapCheck);
             $this->entity_manager->persist($cluster);
