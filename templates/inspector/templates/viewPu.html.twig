@@ -1,5 +1,13 @@
 {% extends "default/base.html.twig" %}
-
+{% block styles %}
+    <style>
+        input.largeCheckbox {
+            width : 20px;
+            height : 20px;
+            margin-left: 20px;
+        }
+    </style>
+{% endblock %}
 {% block content %}
     {% set isSoloSup = purchase.getMethodOfDetermining() == "Единственный поставщик" %}
     {% set isHavePrepayment = purchase.isIsHasPrepayment() %}
@@ -716,7 +724,7 @@
                                         </span>
 
                                     </a>
-                                    <input type="checkbox" class="file-name" data-file="{{ attach_file }}" name="{{ attach_file }}" />
+                                    <input type="checkbox" class="file-name largeCheckbox" data-file="{{ attach_file }}" name="{{ attach_file }}" />
                                 {% endif %}
                             </td>
                             {#<td>#}
@@ -736,8 +744,9 @@
                                                         </i>
                                                     </a>
                                                     {{ _self.deleteButton(i.getId(), path) }}
-                                                    <input type="checkbox" class="file-name" data-file="{{ i.getOldVal() }}" name="{{ i.getOldVal() }}" />
+                                                    <input type="checkbox" class="file-name largeCheckbox" data-file="{{ i.getOldVal() }}" name="{{ i.getOldVal() }}" />
                                                 </li>
+                                                 <hr>
                                             {% endif %}
                                         {% endfor %}
                                     {% endif %}
@@ -767,7 +776,7 @@
                                                     Иной документ {{ i.getDateFormat() }}
                                                 </i>
                                             </a>
-                                            <input type="checkbox" class="file-name" data-file="{{ i.getFile() }}" name="{{ i.getFile() }}" />
+                                            <input type="checkbox" class="file-name largeCheckbox" data-file="{{ i.getFile() }}" name="{{ i.getFile() }}" />
                                         </li>
                                     {% endfor %}
                                 </ul>
