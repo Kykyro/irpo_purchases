@@ -182,7 +182,8 @@
                             <tr>
                                 <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByCommon()|round(2, 'floor') }} %</td>
                                 <td style="vertical-align: inherit; text-align: center">{{ user.getMidRepairByZone()|round(2, 'floor') }} %</td>
-                                <td style="vertical-align: inherit; text-align: center">{{ ((user.getMidRepairByZone()+user.getMidRepairByCommon())/2)|round(2, 'floor') }} %</td>
+                                {% set repair_all = ((user.getMidRepairByZone()+user.getMidRepairByCommon())/2)|round(2, 'floor') %}
+                                <td style="vertical-align: inherit; text-align: center" id="repair-all" data-repair="{{ repair_all }}">{{ repair_all }} %</td>
 
                                 <td style="vertical-align: inherit; text-align: center" id="EquipmentDeliveryDeadline">{{ user.getEquipmentDeliveryDeadline() }}</td>
                                 <td style="vertical-align: inherit; text-align: center" id="DeadlineForCompletionOfRepairs">{{ user.getDeadlineForCompletionOfRepairs() }}</td>
@@ -211,9 +212,8 @@
                                 {#{% else %}#}
                                 {#<td>{{ equipment['fact'] }} / 0%</td>#}
                                 {#{% endif %}#}
-                                <td style="vertical-align: inherit; text-align: center">
+                                <td style="vertical-align: inherit; text-align: center" id="mtb-all" data-mtb="{{ mtb_fact }}">
                                     {{ mtb_fact }} %
-                                    {#{{ dump(proc) }}#}
                                 </td>
                                 {% if equipment['total'] > 0 %}
                                     {#<td style="vertical-align: inherit; text-align: center">{{ equipment['putInOperation'] }} / {{ ((equipment['putInOperation']/equipment['total'])*100)|round(2, 'floor') }} %</td>#}
