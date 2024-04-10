@@ -10,6 +10,7 @@ use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
 use App\Services\XlsxPerformanceIndicatorService;
 
+use App\Services\zip\ContractingDownloadZipService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -33,7 +34,8 @@ class BasCuratorContractingController extends AbstractController
      * @Route("/contracting-actual", name="app_bas_curator_contracting")
      */
     public function index(Request $request, ContractingXlsxService $contractingXlsxService,
-                          ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService): Response
+                          ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService,
+                          ContractingDownloadZipService $contractingDownloadZipService): Response
     {
 
         $arr = [];
@@ -58,6 +60,7 @@ class BasCuratorContractingController extends AbstractController
                     'Контрактация' => 1,
                     'Карта готовности(все)' => 2,
                     'Карта готовности(частично)' => 4,
+                    'Контрактация (архив)' => 8,
 //                    'Карта готовности(оборудование)' => 4,
 //                    'Показатели результативности' => 5,
 
@@ -136,6 +139,10 @@ class BasCuratorContractingController extends AbstractController
             if($data['type'] == 4)
             {
                 return $readinessMapXlsxService->downloadTableBas($data['year'], false, $data['start'], $data['step']);
+            }
+            if($data['type'] == 8)
+            {
+                return $contractingDownloadZipService->download($data['year'], 'ROLE_BAS' );
             }
 //            if($data['type'] == 5){
 //                return $indicatorService->generateTable($data['year'], "ROLE_REGION");
