@@ -740,7 +740,7 @@
                                                 <li>
                                                     <a href="{{ path('app_download_file_by_route', {'file': i.getOldVal(), 'route':path}) }}">
                                                         <i class="fa fa-download">
-                                                            Договор/проект договора от {{ i.getCreatedAt().format('d.m.Y') }}
+                                                            {{ title }} {{ i.getCreatedAt().format('d.m.Y') }}
                                                         </i>
                                                     </a>
                                                     {{ _self.deleteButton(i.getId(), path) }}
