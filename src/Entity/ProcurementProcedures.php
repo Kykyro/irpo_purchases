@@ -1025,19 +1025,37 @@ class ProcurementProcedures
 
     public function getSourceOfFunding(){
         $source = "";
+        if($this->getPurchasesStatus() == 'contract')
+        {
+            if($this->finFederalFunds > 0){
+                $source = $source."ФБ / ";
+            }
+            if($this->finFundsOfSubject > 0){
+                $source = $source."РБ / ";
+            }
+            if($this->finEmployersFunds > 0){
+                $source = $source."РД / ";
+            }
+            if($this->getFinFundsOfEducationalOrg() > 0){
+                $source = $source."ОО / ";
+            }
+        }
+        else
+        {
+            if($this->initialFederalFunds > 0){
+                $source = $source."ФБ / ";
+            }
+            if($this->initialFundsOfSubject > 0){
+                $source = $source."РБ / ";
+            }
+            if($this->initialEmployersFunds > 0){
+                $source = $source."РД / ";
+            }
+            if($this->initialEducationalOrgFunds > 0){
+                $source = $source."ОО / ";
+            }
+        }
 
-        if($this->initialFederalFunds > 0){
-            $source = $source."ФБ / ";
-        }
-        if($this->initialFundsOfSubject > 0){
-            $source = $source."РБ / ";
-        }
-        if($this->initialEmployersFunds > 0){
-            $source = $source."РД / ";
-        }
-        if($this->initialEducationalOrgFunds > 0){
-            $source = $source."ОО / ";
-        }
         $source = trim($source);
         $source = substr($source,0,-1);
         return $source;
