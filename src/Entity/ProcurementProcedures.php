@@ -1026,7 +1026,10 @@ class ProcurementProcedures
 
     public function getSourceOfFunding(){
         $source = "";
-        if($this->getPurchasesStatus(new \DateTime('now')) == 'contract')
+        if(
+            $this->getPurchasesStatus(new \DateTime('now')) == 'contract' and
+            $this->getMethodOfDetermining() != 'Единственный поставщик'
+        )
         {
             if($this->finFederalFunds > 0){
                 $source = $source."ФБ / ";
