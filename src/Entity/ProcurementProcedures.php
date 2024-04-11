@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotations\Log;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=ProcurementProceduresRepository::class)
@@ -1025,7 +1026,7 @@ class ProcurementProcedures
 
     public function getSourceOfFunding(){
         $source = "";
-        if($this->getPurchasesStatus() == 'contract')
+        if($this->getPurchasesStatus(new \DateTime('now')) == 'contract')
         {
             if($this->finFederalFunds > 0){
                 $source = $source."ФБ / ";
