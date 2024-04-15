@@ -262,14 +262,16 @@ class RegionReadinessMapController extends AbstractController
         {
             $template = 'readness_map_bas/region/editInfrastructureSheet.html.twig';
             $formOption = [
-                'is_bas' => true
+                'is_bas' => true,
+                'user' => $user,
             ];
         }
         else
         {
             $template = 'region_readiness_map/editInfrastructureSheet.html.twig';
             $formOption = [
-                'is_bas' => false
+                'is_bas' => false,
+                'user' => $user,
             ];
         }
         $entity_manager = $this->getDoctrine()->getManager();
@@ -285,10 +287,24 @@ class RegionReadinessMapController extends AbstractController
         {
             foreach ($zone->getZoneInfrastructureSheets() as $sheet)
             {
+                $procedures = $sheet->getProcurementProcedures();
+
+                foreach ($procedures as $procedure)
+                {
+                    if($sheet->ContainProcurementProcedure($procedure))
+                    {
+                        $procedure->addZoneInfrastructureSheet($sheet);
+                    }
+                    else
+                    {
+                        $procedure->removeZoneInfrastructureSheet($sheet);
+                    }
+
+                    $entity_manager->persist($procedure);
+                }
                 $entity_manager->persist($sheet);
             }
             $entity_manager->persist($zone);
-
             $entity_manager->flush();
 
             return $this->redirectToRoute('app_region_view_zone', ['id' => $id]);

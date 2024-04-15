@@ -7,7 +7,10 @@
  */
 
 namespace App\Form;
+use App\Entity\ProcurementProcedures;
 use App\Entity\ZoneInfrastructureSheet;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,6 +22,7 @@ class infrastructureSheetRegionEditType  extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('factNumber', TextType::class, [
                 'attr' => [
@@ -78,6 +82,18 @@ class infrastructureSheetRegionEditType  extends AbstractType
                 'required' => false,
                 'empty_data' => "",
             ])
+            ->add("ProcurementProcedures", EntityType::class, [
+                'attr' => ['class' => 'form-control select2'],
+                'required'   => false,
+                'class' => ProcurementProcedures::class,
+                'query_builder' => function (EntityRepository $er) use ($options){
+                    return $er->findByUserForm($options['user']);
+                },
+                'choice_label' => 'id',
+                'multiple' => true,
+                'label' => false,
+                'by_reference' => false
+            ]);
 
 
         ;
@@ -134,7 +150,8 @@ class infrastructureSheetRegionEditType  extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ZoneInfrastructureSheet::class,
-            'is_bas' => false
+            'is_bas' => false,
+            'user' => null,
         ]);
     }
 }

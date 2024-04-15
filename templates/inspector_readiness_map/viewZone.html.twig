@@ -276,11 +276,14 @@
 
                             {% set thead %}
                                 <tr>
-                                    <td class="col-sm-1" style="vertical-align: inherit; text-align: center">
+                                    <td class="" style="vertical-align: inherit; text-align: center">
                                         <strong>№ п/п</strong>
                                     </td>
                                     <td class="col-md-2" style="vertical-align: inherit; text-align: center">
                                         <strong>Наименование</strong>
+                                    </td>
+                                    <td class="col-md-1" style="vertical-align: inherit; text-align: center">
+                                        <strong>3акупки</strong>
                                     </td>
                                     <td class="col-md-1" style="vertical-align: inherit; text-align: center">
                                         <strong>Вид</strong>
@@ -322,6 +325,15 @@
                                 <tr>
                                     <td style="vertical-align: inherit; text-align: center">{{ count }}</td>
                                     <td style="vertical-align: inherit">{{ i.getName() }}</td>
+                                    <td style="vertical-align: inherit">
+                                        {% for p in i.getProcurementProcedures() %}
+                                            <a href="{{ path('app_inspector_view_purchase', {'id': p.getId()}) }}" target="_blank">
+                                                {{ p.getId() }}
+                                            </a>
+                                            <br>
+                                        {% endfor %}
+                                        {#{{ i.getProcurementProcedures() }}#}
+                                    </td>
                                     <td style="vertical-align: inherit; text-align: center">{{ i.getType() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ i.getTotalNumber() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ i.getUnits() }}</td>

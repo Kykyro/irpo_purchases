@@ -31,7 +31,11 @@ class infrastructureSheetZoneRegionEditForm extends AbstractType
         $builder
             ->add('zoneInfrastructureSheets', CollectionType::class, [
                 'entry_type' => infrastructureSheetRegionEditType::class,
-                'entry_options' => ['label' => false, 'is_bas' => $options['is_bas']],
+                'entry_options' => [
+                    'label' => false,
+                    'is_bas' => $options['is_bas'],
+                    'user' => $options['user'],
+                ],
                 'allow_add' => true,
 
 
@@ -50,7 +54,8 @@ class infrastructureSheetZoneRegionEditForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'is_bas' => false
+            'is_bas' => false,
+            'user' => null,
         ]);
     }
 

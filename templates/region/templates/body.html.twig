@@ -63,7 +63,7 @@
                     <table class="table  ">
                         <thead>
                         <tr>
-                            <th>№</th>
+                            <th>id</th>
 
                             <th>Предмет закупки</th>
                             <th>Способ определения поставщика</th>
@@ -88,7 +88,7 @@
                             {% set purchase = i.getPurchase() %}
                             <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
                                 <td>
-                                    {{ loop.index }}
+                                    {{ purchase.getId() }}
                                 </td>
                                 {# Предмет закупки #}
                                 <td style="vertical-align: inherit">{{ purchase.getPurchaseObject() }} </td>
@@ -213,7 +213,7 @@
                 <table class="table table-bordered ">
                     <thead>
                     <tr>
-                        <th>№</th>
+                        <th>id</th>
 
                         <th>Предмет закупки</th>
                         <th>Способ определения поставщика</th>
@@ -241,7 +241,7 @@
                         <tr class="table-item" href="{{ path("app_purchases_detail", {id: i.getId()}) }}">
                         {% endif %}
                             <td style="vertical-align: middle; text-align: center;">
-                                {{ procurement_procedures.getPaginationData.firstItemNumber + loop.index - 1 }}
+                                {{ i.getId() }}
                             </td>
                             {# Предмет закупки #}
                             <td style="vertical-align: inherit">{{ i.getPurchaseObject() }} </td>

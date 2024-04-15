@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ZoneInfrastructureSheetRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -106,6 +108,16 @@ class ZoneInfrastructureSheet
      * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
      */
     private $sum;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=ProcurementProcedures::class, mappedBy="zoneInfrastructureSheet")
+     */
+    private $procurementProcedures;
+
+    public function __construct()
+    {
+        $this->procurementProcedures = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -324,6 +336,47 @@ class ZoneInfrastructureSheet
     public function setSum(?string $sum): self
     {
         $this->sum = $sum;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProcurementProcedures>
+     */
+    public function getProcurementProcedures(): Collection
+    {
+        return $this->procurementProcedures;
+    }
+
+    public function addProcurementProcedure(ProcurementProcedures $procurementProcedure): self
+    {
+        if (!$this->procurementProcedures->contains($procurementProcedure)) {
+            $this->procurementProcedures[] = $procurementProcedure;
+            $procurementProcedure->addZoneInfrastructureSheet($this);
+        }
+
+        return $this;
+    }
+    public function ContainProcurementProcedure(ProcurementProcedures $procurementProcedure)
+    {
+        if (!$this->procurementProcedures->contains($procurementProcedure)) {
+            return false;
+        }
+
+        return true;
+    }
+    public function newProcurementProcedure(): self
+    {
+
+        $this->procurementProcedures = new ArrayCollection();
+        return $this;
+    }
+
+    public function removeProcurementProcedure(ProcurementProcedures $procurementProcedure): self
+    {
+        if ($this->procurementProcedures->removeElement($procurementProcedure)) {
+            $procurementProcedure->removeZoneInfrastructureSheet($this);
+        }
 
         return $this;
     }

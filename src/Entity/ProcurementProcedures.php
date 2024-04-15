@@ -360,6 +360,11 @@ class ProcurementProcedures
      */
     private $fileChecks;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=ZoneInfrastructureSheet::class, inversedBy="procurementProcedures")
+     */
+    private $zoneInfrastructureSheet;
+
     function __construct() {
         $this->setIsDeleted(false);
         $this->setCreateDate(new \DateTime('@'.strtotime('now')));
@@ -367,6 +372,7 @@ class ProcurementProcedures
         $this->purchaseNotes = new ArrayCollection();
         $this->anotherDocuments = new ArrayCollection();
         $this->fileChecks = new ArrayCollection();
+        $this->zoneInfrastructureSheet = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1412,6 +1418,7 @@ class ProcurementProcedures
         return $this;
     }
 
+
     /**
      * @return Collection<int, FileCheck>
      */
@@ -1449,5 +1456,42 @@ class ProcurementProcedures
                 return  ($filename === $fileChecks->getFilename());
             }
         );
+    }
+
+    /**
+     * @return Collection<int, ZoneInfrastructureSheet>
+     */
+    public function getZoneInfrastructureSheet(): Collection
+    {
+        return $this->zoneInfrastructureSheet;
+    }
+    public function newZoneInfrastructureSheet(): self
+    {
+        $this->zoneInfrastructureSheet = new ArrayCollection();
+
+        return $this;
+    }
+    public function addZoneInfrastructureSheet(ZoneInfrastructureSheet $zoneInfrastructureSheet): self
+    {
+        if (!$this->zoneInfrastructureSheet->contains($zoneInfrastructureSheet)) {
+            $this->zoneInfrastructureSheet[] = $zoneInfrastructureSheet;
+        }
+
+        return $this;
+    }
+    public function ZoneInfrastructureSheetContain(ZoneInfrastructureSheet $zoneInfrastructureSheet)
+    {
+        if ($this->zoneInfrastructureSheet->contains($zoneInfrastructureSheet)) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public function removeZoneInfrastructureSheet(ZoneInfrastructureSheet $zoneInfrastructureSheet): self
+    {
+        $this->zoneInfrastructureSheet->removeElement($zoneInfrastructureSheet);
+
+        return $this;
     }
 }

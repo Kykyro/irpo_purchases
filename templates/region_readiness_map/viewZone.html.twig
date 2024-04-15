@@ -258,6 +258,9 @@
                                     <td class="col-md-3" style="vertical-align: inherit; text-align: center">
                                         <strong>Наименование</strong>
                                     </td>
+                                    <td style="vertical-align: inherit; text-align: center">
+                                        <strong>Закупки</strong>
+                                    </td>
                                     <td class="col-md-1" style="vertical-align: inherit; text-align: center">
                                         <strong>Вид</strong>
                                     </td>
@@ -297,7 +300,17 @@
                             {% macro row(count, i) %}
                                 <tr>
                                     <td style="vertical-align: inherit; text-align: center">{{ count }}</td>
-                                    <td style="vertical-align: inherit">{{ i.getName() }}</td>
+                                    <td style="vertical-align: inherit">
+                                    {{ i.getName() }}
+                                    </td>
+                                    <td>
+                                    {% for p in i.getProcurementProcedures() %}
+                                            <a href="{{ path('app_purchases_detail', {'id': p.getId()}) }}" target="_blank">
+                                                {{ p.getId() }}
+                                            </a>
+                                            <br>
+                                        {% endfor %}
+                                    </td>
                                     <td style="vertical-align: inherit; text-align: center">{{ i.getType() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ i.getTotalNumber() }}</td>
                                     <td style="vertical-align: inherit; text-align: center">{{ i.getUnits() }}</td>
