@@ -95,9 +95,15 @@
                             </button>
                         </a>
                         <a href="{{ path('app_curator_infrastructure_sheet', {'id': user_info.getId()}) }}">
-                            <button class="btn btn-light-green mb-2">
+                            <button class="btn btn-light-green mb-2 child">
                                 <div class="fa fa-table"></div>
                                 Инфраструктурный лист
+                            </button>
+                        </a>
+                        <a href="{{ path('app_inspector_co_financing_funds', {'id': user_info.getId()}) }}">
+                            <button class="btn btn-light-yellow mb-2 ">
+                                <div class="fa fa-bookmark"></div>
+                                Средства софинансирования
                             </button>
                         </a>
                     </div>

@@ -201,6 +201,10 @@ table {
     background-color: #91c264;
     color: #fff;
 }
+.btn-light-yellow{
+    background-color: #c2b41d;
+    color: #fff;
+}
 .card-btns{
     font-size: 12pt;
     font-weight: 900;
