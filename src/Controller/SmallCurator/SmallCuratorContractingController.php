@@ -69,7 +69,7 @@ class SmallCuratorContractingController extends AbstractController
                     'Показатели результативности' => 5,
 //                    'Карта готовности(оборудование)' => 4,
                     'Ремработы и оборудование (новый)' => 6,
-                    'Ремработы и оборудование (новый, частично)' => 7,
+//                    'Ремработы и оборудование (новый, частично)' => 7,
 
                 ],
             ])
@@ -94,24 +94,7 @@ class SmallCuratorContractingController extends AbstractController
                 'required' => false,
                 'label' => 'Дата проверки'
             ])
-            ->add('start', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Старт',
-                'empty_data' => 0,
-                'required'   => false,
-                'data' => 0,
-            ])
-            ->add('step', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Шаг',
-                'empty_data' => 0,
-                'required'   => false,
-                'data' => 0,
-            ])
+
             ->add("tags", EntityType::class, [
                 'attr' => ['class' => 'form-control'],
                 'required'   => false,

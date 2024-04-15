@@ -79,32 +79,32 @@ class InspectorContractingController extends AbstractController
                 'required'   => false,
                 'label' => 'Дата проверки'
             ])
-            ->add('start', NumberType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    "min"  => 0,
-                    'max' => 200,
-                    'step' => 10
-                ],
-                'label' => 'Старт',
-                'empty_data' => 0,
-                'required'   => false,
-                'data' => 0,
-
-            ])
-            ->add('step', NumberType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    "min"  => 0,
-                    'max' => 200,
-                    'step' => 10
-                ],
-                'label' => 'Шаг',
-                'empty_data' => 0,
-                'required'   => false,
-                'data' => 0,
-
-            ])
+//            ->add('start', NumberType::class, [
+//                'attr' => [
+//                    'class' => 'form-control',
+//                    "min"  => 0,
+//                    'max' => 200,
+//                    'step' => 10
+//                ],
+//                'label' => 'Старт',
+//                'empty_data' => 0,
+//                'required'   => false,
+//                'data' => 0,
+//
+//            ])
+//            ->add('step', NumberType::class, [
+//                'attr' => [
+//                    'class' => 'form-control',
+//                    "min"  => 0,
+//                    'max' => 200,
+//                    'step' => 10
+//                ],
+//                'label' => 'Шаг',
+//                'empty_data' => 0,
+//                'required'   => false,
+//                'data' => 0,
+//
+//            ])
             ->add("tags", EntityType::class, [
                 'attr' => ['class' => 'form-control'],
                 'required'   => false,
