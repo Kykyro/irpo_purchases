@@ -792,6 +792,10 @@ class ReadinessMapXlsxService extends AbstractController
         {
             $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $start, $step);
+        }else if($role == 'bas')
+        {
+            $fileName = 'Карта готовности БАС '.$year." год ".$today->format('d-m-Y');
+            $users = $this->getUsersByYearPaginator($year, '%ROLE_BAS%', $start, $step);
         }
 
         else
