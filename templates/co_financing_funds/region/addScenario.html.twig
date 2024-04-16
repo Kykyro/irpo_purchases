@@ -1,0 +1,39 @@
+{% extends 'default/base.html.twig' %}
+
+
+
+{% block content %}
+<row class="row mt-3">
+    <div class="col-lg-12">
+        <a href="{{ path('app_region_cofinancing') }}">
+            <button type="button" class="btn btn-outline-dark">
+                <i class="fa fa-arrow-left"></i>
+               Назад
+            </button>
+        </a>
+    </div>
+</row>
+<div class="row mt-3">
+    <div class="col-lg-8 offset-lg-2">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Добавить сценарий
+                </h5>
+            </div>
+            <div class="ibox-content">
+                {{ form_start(form) }}
+                    {{ form_row(form.scenario) }}
+                    {{ form_row(form.comment) }}
+                    {{ form_row(form.files) }}
+                    <button type="submit" class="btn btn-success mt-3">
+                        <i class="fa fa-save"></i>
+                        Сохранить
+                    </button>
+                {{ form_end(form) }}
+            </div>
+            <div class="ibox-footer"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

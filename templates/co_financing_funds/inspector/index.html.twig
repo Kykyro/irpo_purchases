@@ -1,0 +1,161 @@
+{% extends 'default/base.html.twig' %}
+
+
+
+{% block content %}
+
+{{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}
+
+<div class="row mt-3">
+    <div class="col-lg-3">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Средства
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="text-center">
+                            <td class="col-md-1">Источник</td>
+                            <td class="col-md-3">Фин. соглашение</td>
+                            <td class="col-md-3">Принято</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td>РД</td>
+                            <td class="cell-number">{{ funds.getEmployerFunds() }}</td>
+                            <td class="cell-number">0</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>Субъект</td>
+                            <td class="cell-number">{{ funds.getRegionFunds() }}</td>
+                            <td class="cell-number">0</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>ОО</td>
+                            <td class="cell-number">{{ funds.getEducationFunds() }}</td>
+                            <td class="cell-number">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ibox-footer">
+                <button class="btn btn-success col-sm-12" type="button" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fa fa-edit"></i>
+                    Редактировать
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Сценарии
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="text-center">
+                        <td class="col-md-1">id</td>
+                        <td class="col-md-2">Вид софинансирования</td>
+                        <td class="col-md-4">Файлы</td>
+                        <td class="col-md-2">Комментарий</td>
+                        <td class="col-md-1">Статус</td>
+                        <td class="col-md-1"></td>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    {% for i in cofinancing_scenarion %}
+                        <tr class="text-center">
+                            <td>{{ i.getId() }}</td>
+                            <td>
+                                {{ i.getScenario() }}
+                            </td>
+                            <td>
+                                {% for file in i.getFiles() %}
+                                    <div class="row mb-3">
+                                        <div class="col-sm-6">
+                                            <a href="{{ path('app_download_file_by_route', {'route': 'cofinancing_file_directory', 'file': file.getFile()}) }}">
+                                                <i class="fa fa-download"></i>
+                                                {{ file.getFile() }}
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6">
+                                        <span class="badge ">
+                                            {{ file.getStatus() }}
+                                        </span>
+                                        </div>
+
+                                    </div>
+                                    <hr>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {{ i.getComment() }}
+                            </td>
+                            <td>
+                                <span class="badge ">
+                                    {{ i.getStatus() }}
+                                </span>
+                            </td>
+                            <td>
+                                {#<a href="{{ path('app_region_cofinancing_edit', {'id': i.getId()}) }}">#}
+                                    {#<button class="btn btn-success btn-lg">#}
+                                        {#<i class="fa fa-search"></i>#}
+                                    {#</button>#}
+                                {#</a>#}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="ibox-footer">
+                <div class="navigation">
+                    {{ knp_pagination_render(cofinancing_scenarion, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{ form_start(form) }}
+                <div class="modal-body">
+                    {{ form_row(form.employerFunds, {"type":"number"}) }}
+                    {{ form_row(form.regionFunds, {"type":"number"}) }}
+                    {{ form_row(form.educationFunds, {"type":"number"}) }}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+{% endblock %}
+
+

@@ -36,6 +36,7 @@ parameters:
     readiness_map_saves_directory: '%kernel.project_dir%/public/uploads/readinessMapSaves'
     zones_design_project_directory: '%kernel.project_dir%/public/uploads/zonesDesignProject'
     test_upload_directory: '%kernel.project_dir%/public/uploads/testUploadDirectory'
+    cofinancing_file_directory: '%kernel.project_dir%/public/uploads/cofinancingFiles'
     cluster_request_table_directory: '%kernel.project_dir%/public/uploads/clusterRequestTable'
     cluster_request_certificate: '%kernel.project_dir%/public/word/справка по заявкам.docx'
     pdf_files_directory: '%kernel.project_dir%/public/pdf/'

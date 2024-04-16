@@ -3,9 +3,16 @@
 
 
 {% block content %}
-
-{{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}
-
+<row class="row mt-3">
+    <div class="col-lg-12">
+        <a href="{{ path('app_region_cofinancing_add') }}">
+            <button class="btn btn-primary col-lg-12">
+                <i class="fa fa-plus"></i>
+                Добавть источник софинансирования
+            </button>
+        </a>
+    </div>
+</row>
 <div class="row mt-3">
     <div class="col-lg-3">
         <div class="ibox">
@@ -19,37 +26,31 @@
                     <thead>
                         <tr class="text-center">
                             <td class="col-md-1">Источник</td>
-                            <td class="col-md-3">Необходимо</td>
+                            <td class="col-md-3">Фин. соглашение</td>
                             <td class="col-md-3">Принято</td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="text-center">
                             <td>РД</td>
-                            <td class="cell-number">0</td>
+                            <td class="cell-number">{{ funds.getEmployerFunds() }}</td>
                             <td class="cell-number">0</td>
                         </tr>
                         <tr class="text-center">
-                            <td>РФ</td>
-                            <td class="cell-number">0</td>
+                            <td>Субъект</td>
+                            <td class="cell-number">{{ funds.getRegionFunds() }}</td>
                             <td class="cell-number">0</td>
                         </tr>
                         <tr class="text-center">
                             <td>ОО</td>
-                            <td class="cell-number">0</td>
+                            <td class="cell-number">{{ funds.getEducationFunds() }}</td>
                             <td class="cell-number">0</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="ibox-footer">
-                <a href="#">
-                    <button class="btn btn-success col-sm-12">
-                        <i class="fa fa-edit"></i>
-                        Редактировать
-                    </button>
 
-                </a>
             </div>
         </div>
     </div>
@@ -65,7 +66,7 @@
                     <thead>
                     <tr class="text-center">
                         <td class="col-md-1">id</td>
-                        <td class="col-md-2">Сценарий</td>
+                        <td class="col-md-2">Вид софинансирования</td>
                         <td class="col-md-4">Файлы</td>
                         <td class="col-md-2">Комментарий</td>
                         <td class="col-md-1">Статус</td>
@@ -74,24 +75,24 @@
 
                     </thead>
                     <tbody>
-                    {% for i in 1..10 %}
+                    {% for i in cofinancing_scenarion %}
                         <tr class="text-center">
-                            <td>{{ i }}</td>
+                            <td>{{ i.getId() }}</td>
                             <td>
-                                Передача оборудования
+                                {{ i.getScenario() }}
                             </td>
                             <td>
-                                {% for j in 1..5 %}
+                                {% for file in i.getFiles() %}
                                 <div class="row mb-3">
                                     <div class="col-sm-6">
-                                        <a href="#">
+                                        <a href="{{ path('app_download_file_by_route', {'route': 'cofinancing_file_directory', 'file': file.getFile()}) }}">
                                             <i class="fa fa-download"></i>
-                                            файл
+                                            {{ file.getFile() }}
                                         </a>
                                     </div>
                                     <div class="col-sm-6">
-                                        <span class="badge badge-primary">
-                                            принято
+                                        <span class="badge ">
+                                            {{ file.getStatus() }}
                                         </span>
                                     </div>
 
@@ -100,17 +101,18 @@
                                 {% endfor %}
                             </td>
                             <td>
-                                Все принято!
+                                {{ i.getComment() }}
                             </td>
                             <td>
-                                <span class="badge badge-primary">
-                                    принято
+                                <span class="badge ">
+                                    {{ i.getStatus() }}
                                 </span>
                             </td>
                             <td>
-                                <a href="#">
+                                <a href="{{ path('app_region_cofinancing_edit', {'id': i.getId()}) }}">
                                     <button class="btn btn-success btn-lg">
-                                        <i class="fa fa-search"></i>
+                                        <i class="fa fa-edit"></i>
+                                        Редактировать
                                     </button>
                                 </a>
                             </td>
@@ -119,7 +121,11 @@
                     </tbody>
                 </table>
             </div>
-            <div class="ibox-footer"></div>
+            <div class="ibox-footer">
+                <div class="navigation">
+                    {{ knp_pagination_render(cofinancing_scenarion, 'default/twitter_bootstrap_v3_pagination.html.twig') }}
+                </div>
+            </div>
         </div>
     </div>
 </div>

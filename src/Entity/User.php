@@ -111,6 +111,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=CompitenceProfile::class, mappedBy="user")
      */
     private $compitenceProfiles;
+
+    /**
+     * @ORM\OneToOne(targetEntity=CofinancingFunds::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $cofinancingFunds;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CofinancingScenario::class, mappedBy="user")
+     */
+    private $cofinancingScenarios;
     
 
     public function getId(): ?int
@@ -146,6 +156,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->usersEvents = new ArrayCollection();
         $this->readinessMapChecks = new ArrayCollection();
         $this->compitenceProfiles = new ArrayCollection();
+        $this->cofinancingScenarios = new ArrayCollection();
     }
 
 
@@ -906,6 +917,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($compitenceProfile->getUser() === $this) {
                 $compitenceProfile->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCofinancingFunds(): ?CofinancingFunds
+    {
+        return $this->cofinancingFunds;
+    }
+
+    public function setCofinancingFunds(?CofinancingFunds $cofinancingFunds): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($cofinancingFunds === null && $this->cofinancingFunds !== null) {
+            $this->cofinancingFunds->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($cofinancingFunds !== null && $cofinancingFunds->getUser() !== $this) {
+            $cofinancingFunds->setUser($this);
+        }
+
+        $this->cofinancingFunds = $cofinancingFunds;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CofinancingScenario>
+     */
+    public function getCofinancingScenarios(): Collection
+    {
+        return $this->cofinancingScenarios;
+    }
+
+    public function addCofinancingScenario(CofinancingScenario $cofinancingScenario): self
+    {
+        if (!$this->cofinancingScenarios->contains($cofinancingScenario)) {
+            $this->cofinancingScenarios[] = $cofinancingScenario;
+            $cofinancingScenario->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCofinancingScenario(CofinancingScenario $cofinancingScenario): self
+    {
+        if ($this->cofinancingScenarios->removeElement($cofinancingScenario)) {
+            // set the owning side to null (unless already changed)
+            if ($cofinancingScenario->getUser() === $this) {
+                $cofinancingScenario->setUser(null);
             }
         }
 
