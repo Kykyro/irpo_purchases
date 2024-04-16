@@ -55,9 +55,16 @@ class certificateReadinessMap extends AbstractController
             {
                 $title = 'образовательного кластера среднего профессионального образования';
             }
+            elseif (in_array('ROLE_BAS', $user->getRoles()))
+            {
+                $title = $user_info->getRfSubject()->getName();
+                $file = '../public/word/Шаблон_карта_готовности_БАС.docx';
+            }
             else{
                 throw new Exception('Ошибка роли');
             }
+
+        $templateProcessor = new TemplateProcessor($file);
         // Заголовок
         $replacements = [
             'cluster' => $user_info->getCluster(),
@@ -160,10 +167,21 @@ class certificateReadinessMap extends AbstractController
         }
         else
         {
-            $fileName = 'Карта готовности_'.
-                $user->getUserInfo()->getEducationalOrganization().
-                '_'.$today->format('d.m.Y').
-                '.docx';
+            if (in_array('ROLE_BAS', $user->getRoles()))
+            {
+                $fileName = 'Карта готовности_'.
+                    $user_info->getRfSubject()->getName().
+                    '_'.$today->format('d.m.Y').
+                    '.docx';
+            }
+            else
+            {
+                $fileName = 'Карта готовности_'.
+                    $user->getUserInfo()->getEducationalOrganization().
+                    '_'.$today->format('d.m.Y').
+                    '.docx';
+            }
+
             $filepath = $templateProcessor->save();
 
             return $this->file($filepath, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
