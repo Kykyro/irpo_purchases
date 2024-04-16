@@ -121,6 +121,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=CofinancingScenario::class, mappedBy="user")
      */
     private $cofinancingScenarios;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UAVsTypeEquipment::class, mappedBy="user")
+     */
+    private $uAVsTypeEquipment;
     
 
     public function getId(): ?int
@@ -157,6 +162,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->readinessMapChecks = new ArrayCollection();
         $this->compitenceProfiles = new ArrayCollection();
         $this->cofinancingScenarios = new ArrayCollection();
+        $this->uAVsTypeEquipment = new ArrayCollection();
     }
 
 
@@ -993,6 +999,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
         return $arr;
+    }
+
+    /**
+     * @return Collection<int, UAVsTypeEquipment>
+     */
+    public function getUAVsTypeEquipment(): Collection
+    {
+        return $this->uAVsTypeEquipment;
+    }
+
+    public function addUAVsTypeEquipment(UAVsTypeEquipment $uAVsTypeEquipment): self
+    {
+        if (!$this->uAVsTypeEquipment->contains($uAVsTypeEquipment)) {
+            $this->uAVsTypeEquipment[] = $uAVsTypeEquipment;
+            $uAVsTypeEquipment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUAVsTypeEquipment(UAVsTypeEquipment $uAVsTypeEquipment): self
+    {
+        if ($this->uAVsTypeEquipment->removeElement($uAVsTypeEquipment)) {
+            // set the owning side to null (unless already changed)
+            if ($uAVsTypeEquipment->getUser() === $this) {
+                $uAVsTypeEquipment->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

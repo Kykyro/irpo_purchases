@@ -82,6 +82,48 @@
 
                                 {#</td>#}
                             </tr>
+
+                        {% if is_granted('ROLE_BAS') %}
+                            <tr>
+                                <td>
+                                    Справка об оснащении специализированных классов (кружков) и центров практической подготовки БПЛА
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_bas_equipment_download') }}">
+                                        <button class="btn btn-primary col-lg-12">
+                                            <i class="fa fa-download"></i>
+                                            Скачать
+                                        </button>
+                                    </a>
+                                    <a href="{{ path('app_bas_equipment_edit') }}">
+                                        <button class="btn btn-success col-lg-12 mt-3">
+                                            <i class="fa fa-edit"></i>
+                                            Редактировать
+                                        </button>
+                                    </a>
+                                </td>
+                                <td></td>
+
+                                {% if(contract_certificate) %}
+                                <td>
+                                    {#<form action="#" method="post" enctype="multipart/form-data">#}
+                                        {#<div class="custom-file">#}
+                                            {#<input id="logo" type="file" class="custom-file-input" name="file">#}
+                                            {#<label for="logo" class="custom-file-label" style="overflow: hidden">Выбрать файл...</label>#}
+                                        {#</div>#}
+                                        {#<button  type="submit" class="btn btn-success col-sm-12 mt-2">#}
+                                            {#<i class="fa fa-upload"></i>#}
+                                            {#Отправить#}
+                                        {#</button>#}
+                                        {#<input type="hidden" name="token" value="{{ csrf_token('upload-certification') }}"/>#}
+                                    {#</form>#}
+                                </td>
+                                {% endif %}
+
+
+
+                            </tr>
+                        {% endif %}
                         </tbody>
                     </table>
                 </div>
