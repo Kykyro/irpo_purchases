@@ -72,6 +72,12 @@
 
                     </thead>
                     <tbody>
+                    {% set statusLib = {
+                        'Не принято' : '-danger',
+                        'На проверке' : '-warning',
+                        'Принято' : '-primary',
+
+                    } %}
                     {% for i in cofinancing_scenarion %}
                         <tr class="text-center">
                             <td>{{ i.getId() }}</td>
@@ -88,7 +94,7 @@
                                             </a>
                                         </div>
                                         <div class="col-sm-6">
-                                        <span class="badge ">
+                                        <span class="badge badge{{ statusLib[file.getStatus()] }}">
                                             {{ file.getStatus() }}
                                         </span>
                                         </div>
@@ -101,7 +107,7 @@
                                 {{ i.getComment() }}
                             </td>
                             <td>
-                                <span class="badge ">
+                                <span class="badge badge{{ statusLib[i.getStatus()] }}">
                                     {{ i.getStatus() }}
                                 </span>
                             </td>
