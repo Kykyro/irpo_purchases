@@ -24,20 +24,21 @@
                         </tr>
                     </thead>
                     <tbody>
+                    {% set _funds = user.getCofinancingSum() %}
                         <tr class="text-center">
                             <td>РД</td>
                             <td class="cell-number">{{ funds.getEmployerFunds() }}</td>
-                            <td class="cell-number">0</td>
+                            <td class="cell-number">{{ _funds['employersFunds'] }}</td>
                         </tr>
                         <tr class="text-center">
                             <td>Субъект</td>
                             <td class="cell-number">{{ funds.getRegionFunds() }}</td>
-                            <td class="cell-number">0</td>
+                            <td class="cell-number">{{ _funds['subjectFunds'] }}</td>
                         </tr>
                         <tr class="text-center">
                             <td>ОО</td>
                             <td class="cell-number">{{ funds.getEducationFunds() }}</td>
-                            <td class="cell-number">0</td>
+                            <td class="cell-number">{{ _funds['OOFunds'] }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -105,11 +106,11 @@
                                 </span>
                             </td>
                             <td>
-                                {#<a href="{{ path('app_region_cofinancing_edit', {'id': i.getId()}) }}">#}
-                                    {#<button class="btn btn-success btn-lg">#}
-                                        {#<i class="fa fa-search"></i>#}
-                                    {#</button>#}
-                                {#</a>#}
+                                <a href="{{ path('app_inspector_co_financing_funds_edit', {'id': i.getId()}) }}">
+                                    <button class="btn btn-success btn-lg">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -129,7 +130,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Финансовые показатели</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

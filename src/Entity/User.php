@@ -977,6 +977,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getCofinancingSum()
+    {
+        $arr = [
+            'employersFunds' => 0,
+            'OOFunds' => 0,
+            'subjectFunds' => 0,
+        ];
+        foreach ($this->getCofinancingScenarios() as $scenario)
+        {
+            $arr['employersFunds'] += $scenario->getEmployersFunds();
+            $arr['OOFunds'] += $scenario->getEducationFunds();
+            $arr['subjectFunds'] += $scenario->getRegionFunds();
+        }
 
+
+        return $arr;
+    }
 
 }

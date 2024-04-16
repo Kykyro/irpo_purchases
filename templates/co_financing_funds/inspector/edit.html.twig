@@ -1,0 +1,84 @@
+{% extends 'default/base.html.twig' %}
+
+
+
+{% block content %}
+<row class="row mt-3">
+    <div class="col-lg-12">
+        <a href="{{ path('app_inspector_co_financing_funds', {'id': user.getId()}) }}">
+            <button type="button" class="btn btn-outline-dark">
+                <i class="fa fa-arrow-left"></i>
+               Назад
+            </button>
+        </a>
+    </div>
+</row>
+<div class="row mt-3">
+    <div class="col-lg-8 offset-lg-2">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Проверка сценария
+                </h5>
+            </div>
+            <div class="ibox-content">
+                {{ form_start(form) }}
+                    {{ form_row(form.status) }}
+                <hr>
+                    {{ form_row(form.employersFunds, {"type":"number"}) }}
+                    {{ form_row(form.regionFunds, {"type":"number"}) }}
+                    {{ form_row(form.educationFunds, {"type":"number"}) }}
+
+                <hr>
+
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <td class="col-md-1">id файла</td>
+                                    <td class="col-md-2">
+                                        Дата создания <br>
+                                        <i>
+                                            (часовой пояс +0)
+                                        </i>
+                                    </td>
+                                    <td class="col-md-2">Файл</td>
+                                    <td class="col-md-2">Статус</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for file in form.files %}
+                                <tr class="text-center">
+                                    <td>{{ file.vars['data'].id }}</td>
+                                    <td>{{ file.vars['data'].createdAt.format('d.m.Y G:i:s') }}
+
+                                    </td>
+                                    <td>
+
+                                        <a href="{{ path('app_download_file_by_route', {'route': 'cofinancing_file_directory', 'file': file.vars['data'].file}) }}">
+                                            <i class="fa fa-download"></i>
+                                            {{ file.vars['data'].file }}
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        {{ form_row(file) }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <hr>
+
+                    <button type="submit" class="btn btn-success mt-3">
+                        <i class="fa fa-save"></i>
+                        Сохранить
+                    </button>
+                {{ form_end(form) }}
+            </div>
+            <div class="ibox-footer"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

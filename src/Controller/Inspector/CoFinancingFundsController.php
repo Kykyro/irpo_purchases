@@ -6,6 +6,7 @@ use App\Entity\CofinancingFunds;
 use App\Entity\CofinancingScenario;
 use App\Entity\User;
 
+use App\Form\cofinancing\cofinancingScenarioEditForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -97,6 +98,37 @@ class CoFinancingFundsController extends AbstractController
             'cofinancing_scenarion' => $pagination,
             'form' => $form->createView(),
             'funds' => $funds,
+        ]);
+    }
+
+    /**
+     * @Route("/co-financing-funds/edit/{id}", name="app_inspector_co_financing_funds_edit")
+     */
+    public function edit(EntityManagerInterface $em, Request $request, int $id)
+    {
+        $scenario = $em->getRepository(CofinancingScenario::class)->find($id);
+        $user = $scenario->getUser();
+        $formVars = [];
+
+        $form = $this->createForm(cofinancingScenarioEditForm::class, $scenario);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $em->persist($scenario);
+
+            $em->flush();
+
+            return $this->redirectToRoute('app_inspector_co_financing_funds', ['id' => $user->getId()]);
+        }
+
+
+        return $this->render('co_financing_funds/inspector/edit.html.twig', [
+            'controller_name' => 'CoFinancingFundsController',
+            'user' => $user,
+            'form' => $form->createView(),
+
         ]);
     }
 }

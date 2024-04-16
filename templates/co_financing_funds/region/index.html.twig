@@ -31,20 +31,21 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% set _funds = user.getCofinancingSum() %}
                         <tr class="text-center">
                             <td>РД</td>
                             <td class="cell-number">{{ funds.getEmployerFunds() }}</td>
-                            <td class="cell-number">0</td>
+                            <td class="cell-number">{{ _funds['employersFunds'] }}</td>
                         </tr>
                         <tr class="text-center">
                             <td>Субъект</td>
                             <td class="cell-number">{{ funds.getRegionFunds() }}</td>
-                            <td class="cell-number">0</td>
+                            <td class="cell-number">{{ _funds['subjectFunds'] }}</td>
                         </tr>
                         <tr class="text-center">
                             <td>ОО</td>
                             <td class="cell-number">{{ funds.getEducationFunds() }}</td>
-                            <td class="cell-number">0</td>
+                            <td class="cell-number">{{ _funds['OOFunds'] }}</td>
                         </tr>
                     </tbody>
                 </table>
