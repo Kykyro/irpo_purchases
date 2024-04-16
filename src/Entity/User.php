@@ -474,6 +474,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $result += $arr_type['Коридоры']/$arr_type['Коридоры_count'];
             $count++;
         }
+        if($count == 0 and in_array('ROLE_BAS', $this->getRoles()))
+            return 100;
         if($count > 0)
             return $result/$count;
         else
