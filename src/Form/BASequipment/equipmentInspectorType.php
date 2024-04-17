@@ -41,7 +41,7 @@ class equipmentInspectorType  extends AbstractType
                     'min' => '0',
                     'max' => '99999999999'
                 ],
-                'required'   => true,
+                'required'   => false,
                 'label' => false
             ])
             ->add('deliveredSum', TextType::class, [
@@ -51,7 +51,7 @@ class equipmentInspectorType  extends AbstractType
                     'min' => '0',
                     'max' => '99999999999'
                 ],
-                'required'   => true,
+                'required'   => false,
                 'label' => false
             ])
             ->add('contractedCount', TextType::class, [
@@ -61,7 +61,7 @@ class equipmentInspectorType  extends AbstractType
                     'min' => '0',
                     'max' => '99999999999'
                 ],
-                'required'   => true,
+                'required'   => false,
                 'label' => false
             ])
             ->add('contractedSum', TextType::class, [
@@ -71,7 +71,7 @@ class equipmentInspectorType  extends AbstractType
                     'min' => '0',
                     'max' => '99999999999'
                 ],
-                'required'   => true,
+                'required'   => false,
                 'label' => false
             ])
             ->add('purchaseCount', TextType::class, [
@@ -81,7 +81,7 @@ class equipmentInspectorType  extends AbstractType
                     'min' => '0',
                     'max' => '99999999999'
                 ],
-                'required'   => true,
+                'required'   => false,
                 'label' => false
             ])
             ->add('purchaseSum', TextType::class, [
@@ -91,14 +91,14 @@ class equipmentInspectorType  extends AbstractType
                     'min' => '0',
                     'max' => '99999999999'
                 ],
-                'required'   => true,
+                'required'   => false,
                 'label' => false
             ])
             ->add('planCount', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'required'   => true,
+                'required'   => false,
                 'label' => false
             ])
             ->add('planSum', TextType::class, [
@@ -108,7 +108,7 @@ class equipmentInspectorType  extends AbstractType
                     'min' => '0',
                     'max' => '99999999999'
                 ],
-                'required'   => true,
+                'required'   => false,
                 'label' => false
             ])
             ->add('mark', TextType::class, [
