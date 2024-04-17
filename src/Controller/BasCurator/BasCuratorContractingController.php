@@ -66,7 +66,7 @@ class BasCuratorContractingController extends AbstractController
 //                    'Карта готовности(частично)' => 4,
                     'Контрактация (архив)' => 8,
                     'Общая таблица закупок' => 9,
-                    'Общая (Наименование БПЛА)' => 10,
+                    'Справка об оснащении' => 10,
 //                    'Карта готовности(оборудование)' => 4,
 //                    'Показатели результативности' => 5,
 
@@ -156,7 +156,7 @@ class BasCuratorContractingController extends AbstractController
             }
             if($data['type'] == 10)
             {
-                return $equipmentTableService->downloadTableAll($data['year'], 'ROLE_BAS');
+                return $equipmentTableService->downloadTableAllByRegion($data['year'], 'ROLE_BAS');
             }
 //            if($data['type'] == 5){
 //                return $indicatorService->generateTable($data['year'], "ROLE_REGION");
