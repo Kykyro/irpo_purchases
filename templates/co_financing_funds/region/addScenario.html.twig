@@ -18,12 +18,13 @@
         <div class="ibox">
             <div class="ibox-title">
                 <h5>
-                    Добавить сценарий
+                    {#Добавить сценарий#}
                 </h5>
             </div>
             <div class="ibox-content">
                 {{ form_start(form) }}
                     {{ form_row(form.scenario) }}
+                    {{ form_row(form.anotherScenario) }}
                     {{ form_row(form.comment) }}
                     {{ form_row(form.files) }}
                     <button type="submit" class="btn btn-success mt-3">
@@ -36,4 +37,33 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+    <script>
+
+        $(document).ready(function(){
+            let scenarioInput = $("#form_scenario");
+            let anotherScenarioInput = $("#form_anotherScenario");
+
+            scenarioInput.change(function (e) {
+                anotherScenarioInput.parent('div').hide();
+                anotherScenarioInput.prop( "disabled", true );
+                anotherScenarioInput.prop( "required", false );
+                if($(this).val() == 'Иное')
+                {
+                    anotherScenarioInput.parent('div').show();
+                    anotherScenarioInput.prop( "disabled", false );
+                    anotherScenarioInput.prop( "required", true );
+
+                }
+
+            });
+            scenarioInput.trigger('change');
+
+        });
+    </script>
 {% endblock %}

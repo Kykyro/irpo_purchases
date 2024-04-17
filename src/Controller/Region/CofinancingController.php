@@ -110,11 +110,15 @@ class CofinancingController extends AbstractController
 
                 ],
                 'choices'  => [
-                    'Передача оборудования' => 'Передача оборудования',
+                    'Передача имущества (оборудование, мебель, ПО, расходные материалы и т.д.)' => 'Передача имущества (оборудование, мебель, ПО, расходные материалы и т.д.)',
+                    'Передача помещений/зданий' => 'Передача помещений/зданий',
+                    'Передача денежных средств' => 'Передача денежных средств',
+                    'Проведение ремонтных работ' => 'Проведение ремонтных работ',
+                    'Иное' => 'Иное',
                 ],
                 'multiple' => false,
                 'expanded' => false,
-                'label' => 'Сценарий',
+                'label' => 'Категория',
             ])
             ->add('comment', TextareaType::class, [
                 'attr'     => [
@@ -122,6 +126,13 @@ class CofinancingController extends AbstractController
                 ],
                 'required' => false,
                 'label' => 'Комментарий',
+            ])
+            ->add('anotherScenario', TextType::class, [
+                'attr'     => [
+                    'class' => 'form-control',
+                ],
+                'required' => false,
+                'label' => 'Иное',
             ])
         ->getForm();
 

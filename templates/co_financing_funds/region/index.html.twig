@@ -8,7 +8,7 @@
         <a href="{{ path('app_region_cofinancing_add') }}">
             <button class="btn btn-primary col-lg-12">
                 <i class="fa fa-plus"></i>
-                Добавть источник софинансирования
+                Добавить категорию софинансирования
             </button>
         </a>
     </div>
@@ -88,7 +88,8 @@
                         <tr class="text-center">
                             <td>{{ i.getId() }}</td>
                             <td>
-                                {{ i.getScenario() }}
+                                {{ i.getScenario() }} <br>
+                                {{ i.getAnotherScenario() }}
                             </td>
                             <td>
                                 {% for file in i.getFiles() %}

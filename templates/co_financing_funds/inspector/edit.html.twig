@@ -95,23 +95,6 @@
         let statusInput = $("#cofinancing_scenario_edit_form_status");
         let commentInput = $("#cofinancing_scenario_edit_form_curatorComment");
 
-        // function statusChange() {
-        //     if($(this).val() == 'Не принято')
-        //     {
-        //         console.log('aaaa');
-        //         commentInput.parent('div').show();
-        //         commentInput.prop( "disabled", false );
-        //         // commentInput.closest('<label>').show();
-        //     }
-        //     if($(this).val() == 'Принято')
-        //     {
-        //         console.log(commentInput.parent('div'));
-        //         commentInput.parent('div').hide();
-        //         commentInput.prop( "disabled", true );
-        //         // commentInput.closest('<label>').hide();
-        //     }
-        // }
-        //
         statusInput.change(function (e) {
             if($(this).val() == 'Не принято')
             {
@@ -131,13 +114,6 @@
             }
         });
         statusInput.trigger('change');
-        //
-        // function onLoad() {
-        //     statusChange();
-        // }
-
-        // onLoad();
-
 
     });
 </script>
