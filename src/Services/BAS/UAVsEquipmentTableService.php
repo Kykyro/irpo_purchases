@@ -8,6 +8,7 @@ use App\Entity\PurchasesDump;
 use App\Entity\RfSubject;
 use App\Entity\User;
 use App\Entity\UserInfo;
+use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -19,7 +20,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 class UAVsEquipmentTableService extends AbstractController
 {
 
+    private $em;
 
+    function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
 
     public function downloadTable($user)
     {
@@ -56,6 +62,100 @@ class UAVsEquipmentTableService extends AbstractController
             $rowCount++;
             $index++;
         }
+
+
+
+
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'font' => [
+                'size'  => 14,
+                'name'  => 'Times New Roman'
+            ]
+        ];
+        $end_cell = $sheet->getHighestRow();
+        $rangeTotal = 'A5:L'.$end_cell;
+        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:L')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:L')->getAlignment()->setVertical('center');
+
+
+
+
+        // Запись файла
+        $writer = new Xlsx($spreadsheet);
+
+//        if($save)
+//        {
+//            $fileName = $fileName.'_'.uniqid().'.xlsx';
+//            if (!file_exists($this->getParameter('readiness_map_saves_directory'))) {
+//                mkdir($this->getParameter('readiness_map_saves_directory'), 0777, true);
+//            }
+//
+//            $writer->save($this->getParameter('readiness_map_saves_directory').'/'.$fileName);
+//
+//            return $fileName;
+//        }
+//        else{
+            $fileName = 'Свод_'.$today->format('d-m-Y').'.xlsx';
+            $fileName = $fileName.'.xlsx';
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+            $writer->save($temp_file);
+
+
+            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+//        }
+
+    }
+    public function downloadTableAll($year, $role)
+    {
+//        $sheet_template = "../public/excel/readinessMap.xlsx";
+        $sheet_template = $this->getParameter('uvas_sertificate_table_directory');
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
+        $sheet = $spreadsheet->getActiveSheet();
+        $today = new \DateTime('now');
+        $index = 1;
+
+
+
+        $sheet->setCellValue('A2',
+            "Справка об оснащении специализированных классов (кружков) и центров практической подготовки БПЛА");
+        $rowCount = 5;
+        $rows = [];
+        $users = $this->em->getRepository(User::class)->findByYearAndRole($year, $role);
+        foreach ($users as $user)
+        {
+            $equipments = $user->getUAVsTypeEquipment();
+            foreach ($equipments as $equipment)
+            {
+                $row = [
+                    $index,
+                    $equipment->getName(),
+                    $equipment->getDeliveredCount(),
+                    $equipment->getDeliveredSum(),
+                    $equipment->getContractedCount(),
+                    $equipment->getContractedSum(),
+                    $equipment->getPurchaseCount(),
+                    $equipment->getPurchaseSum(),
+                    "",
+                    $equipment->getPlanSum(),
+                    $equipment->getMark(),
+                    $equipment->getModel(),
+                ];
+
+//                array_push($rows, $row);
+                $sheet->fromArray($row, null, 'A'.$rowCount, true);
+                $rowCount++;
+                $index++;
+            }
+        }
+
 
 
 

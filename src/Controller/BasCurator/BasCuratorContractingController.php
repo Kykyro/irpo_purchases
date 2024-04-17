@@ -6,6 +6,7 @@ use App\Entity\ContractingTables;
 use App\Entity\ProcurementProcedures;
 use App\Entity\ReadinessMapSaves;
 use App\Entity\User;
+use App\Services\BAS\UAVsEquipmentTableService;
 use App\Services\ContractingXlsxService;
 use App\Services\excel\ContactAllPurchasesXlsxService;
 use App\Services\ReadinessMapXlsxService;
@@ -36,7 +37,8 @@ class BasCuratorContractingController extends AbstractController
      */
     public function index(Request $request, ContractingXlsxService $contractingXlsxService,
                           ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService,
-                          ContractingDownloadZipService $contractingDownloadZipService, ContactAllPurchasesXlsxService $allPurchasesXlsxService): Response
+                          ContractingDownloadZipService $contractingDownloadZipService, ContactAllPurchasesXlsxService $allPurchasesXlsxService,
+                          UAVsEquipmentTableService $equipmentTableService  ): Response
     {
 
         $arr = [];
@@ -64,6 +66,7 @@ class BasCuratorContractingController extends AbstractController
 //                    'Карта готовности(частично)' => 4,
                     'Контрактация (архив)' => 8,
                     'Общая таблица закупок' => 9,
+                    'Общая (Наименование БПЛА)' => 10,
 //                    'Карта готовности(оборудование)' => 4,
 //                    'Показатели результативности' => 5,
 
@@ -150,6 +153,10 @@ class BasCuratorContractingController extends AbstractController
             if($data['type'] == 9)
             {
                 return $allPurchasesXlsxService->tableGeneratorWithFactFundsBas($data['year'], 'ROLE_BAS');
+            }
+            if($data['type'] == 10)
+            {
+                return $equipmentTableService->downloadTableAll($data['year'], 'ROLE_BAS');
             }
 //            if($data['type'] == 5){
 //                return $indicatorService->generateTable($data['year'], "ROLE_REGION");
