@@ -23,11 +23,8 @@
             </div>
             <div class="ibox-content">
                 {{ form_start(form) }}
-                    {{ form_row(form.status) }}
-                <hr>
-                    {{ form_row(form.employersFunds, {"type":"number"}) }}
-                    {{ form_row(form.regionFunds, {"type":"number"}) }}
-                    {{ form_row(form.educationFunds, {"type":"number"}) }}
+
+
 
                 <hr>
 
@@ -68,9 +65,13 @@
                             {% endfor %}
                             </tbody>
                         </table>
-
                         <hr>
-
+                        {{ form_row(form.employersFunds, {"type":"number"}) }}
+                        {{ form_row(form.regionFunds, {"type":"number"}) }}
+                        {{ form_row(form.educationFunds, {"type":"number"}) }}
+                        <hr>
+                        {{ form_row(form.status) }}
+                        {{ form_row(form.curatorComment) }}
                     <button type="submit" class="btn btn-success mt-3">
                         <i class="fa fa-save"></i>
                         Сохранить
@@ -81,4 +82,63 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+<script>
+
+    $(document).ready(function(){
+        let statusInput = $("#cofinancing_scenario_edit_form_status");
+        let commentInput = $("#cofinancing_scenario_edit_form_curatorComment");
+
+        // function statusChange() {
+        //     if($(this).val() == 'Не принято')
+        //     {
+        //         console.log('aaaa');
+        //         commentInput.parent('div').show();
+        //         commentInput.prop( "disabled", false );
+        //         // commentInput.closest('<label>').show();
+        //     }
+        //     if($(this).val() == 'Принято')
+        //     {
+        //         console.log(commentInput.parent('div'));
+        //         commentInput.parent('div').hide();
+        //         commentInput.prop( "disabled", true );
+        //         // commentInput.closest('<label>').hide();
+        //     }
+        // }
+        //
+        statusInput.change(function (e) {
+            if($(this).val() == 'Не принято')
+            {
+                console.log('aaaa');
+                commentInput.parent('div').show();
+                commentInput.prop( "disabled", false );
+                commentInput.prop( "required", true );
+                // commentInput.closest('<label>').show();
+            }
+            if($(this).val() == 'Принято')
+            {
+                console.log(commentInput.parent('div'));
+                commentInput.parent('div').hide();
+                commentInput.prop( "disabled", true );
+                commentInput.prop( "required", false );
+                // commentInput.closest('<label>').hide();
+            }
+        });
+        statusInput.trigger('change');
+        //
+        // function onLoad() {
+        //     statusChange();
+        // }
+
+        // onLoad();
+
+
+    });
+</script>
 {% endblock %}

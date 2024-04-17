@@ -64,8 +64,10 @@
                     <tr class="text-center">
                         <td class="col-md-1">id</td>
                         <td class="col-md-2">Вид софинансирования</td>
-                        <td class="col-md-4">Файлы</td>
+                        <td class="col-md-3">Файлы</td>
                         <td class="col-md-2">Комментарий</td>
+                        <td class="col-md-2">Комментарий куратора</td>
+                        <td class="col-md-1">Принятые средства</td>
                         <td class="col-md-1">Статус</td>
                         <td class="col-md-1"></td>
                     </tr>
@@ -104,7 +106,21 @@
                                 {% endfor %}
                             </td>
                             <td>
-                                {{ i.getComment() }}
+                                {{ i.getComment()|nl2br }}
+                            </td>
+                            <td>
+                                {{ i.getCuratorComment()|nl2br }}
+                            </td>
+                            <td>
+                                {% if i.getEmployersFunds() > 0 %}
+                                    РД: {{ i.getEmployersFunds() }} ₽<br>
+                                {% endif %}
+                                {% if i.getRegionFunds() > 0 %}
+                                    Субъект: {{ i.getRegionFunds() }} ₽<br>
+                                {% endif %}
+                                {% if i.getEducationFunds() > 0 %}
+                                    ОО: {{ i.getEducationFunds() }} ₽<br>
+                                {% endif %}
                             </td>
                             <td>
                                 <span class="badge badge{{ statusLib[i.getStatus()] }}">

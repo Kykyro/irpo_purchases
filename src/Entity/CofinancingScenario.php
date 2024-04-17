@@ -64,6 +64,11 @@ class CofinancingScenario
      */
     private $educationFunds;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $curatorComment;
+
     function __construct($user)
     {
         $this->user = $user;
@@ -199,6 +204,18 @@ class CofinancingScenario
     public function setEducationFunds(?string $educationFunds): self
     {
         $this->educationFunds = $educationFunds;
+
+        return $this;
+    }
+
+    public function getCuratorComment(): ?string
+    {
+        return $this->curatorComment;
+    }
+
+    public function setCuratorComment(?string $curatorComment): self
+    {
+        $this->curatorComment = $curatorComment;
 
         return $this;
     }

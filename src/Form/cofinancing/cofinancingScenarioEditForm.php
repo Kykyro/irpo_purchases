@@ -46,9 +46,10 @@ class cofinancingScenarioEditForm extends AbstractType
                     'class' => 'form-control',
                 ],
                 'choices'  => [
-                    'На проверке' => 'На проверке',
-                    'Принято' => 'Принято',
+//                    'На проверке' => 'На проверке',
                     'Не принято' => 'Не принято',
+                    'Принято' => 'Принято',
+
 
 
                 ],
@@ -86,6 +87,13 @@ class cofinancingScenarioEditForm extends AbstractType
                 ] ,
                 'required' => false,
                 'label' => 'Средства РД'
+            ])
+            ->add('curatorComment', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ] ,
+                'required' => false,
+                'label' => 'Комментарий'
             ])
         ;
     }
