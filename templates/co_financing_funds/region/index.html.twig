@@ -18,7 +18,7 @@
         <div class="ibox">
             <div class="ibox-title">
                 <h5>
-                    Средства
+                    Средства софинансирования
                 </h5>
             </div>
             <div class="ibox-content">
@@ -47,7 +47,7 @@
                             </td>
                         </tr>
                         <tr class="text-center">
-                            <td>Субъект</td>
+                            <td>Доп. средства субъекта РФ</td>
                             {% set sub = userInfo.getFinancingFundsOfSubject()*1000 %}
                             <td class="cell-number">{{ sub }}</td>
                             <td class="cell-number">{{ _funds['subjectFunds'] }}</td>
@@ -84,17 +84,17 @@
         <div class="ibox">
             <div class="ibox-title">
                 <h5>
-                    Сценарии
+                    Подтверждающие документы
                 </h5>
             </div>
             <div class="ibox-content">
                 <table class="table table-bordered">
                     <thead>
                     <tr class="text-center">
-                        <td class="col-md-1">id</td>
+                        <td class="col-md-1">№</td>
                         <td class="col-md-2">Вид софинансирования</td>
                         <td class="col-md-3">Файлы</td>
-                        <td class="col-md-2">Комментарий</td>
+                        <td class="col-md-2">Комментарий кластера</td>
                         <td class="col-md-2">Комментарий куратора</td>
                         <td class="col-md-1">Принятые средства</td>
                         <td class="col-md-1">Статус</td>
