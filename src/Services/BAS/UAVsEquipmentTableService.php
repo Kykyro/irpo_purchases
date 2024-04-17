@@ -128,34 +128,48 @@ class UAVsEquipmentTableService extends AbstractController
             "Справка об оснащении специализированных классов (кружков) и центров практической подготовки БПЛА");
         $rowCount = 5;
         $rows = [];
+        $rowNames = [];
         $users = $this->em->getRepository(User::class)->findByYearAndRole($year, $role);
         foreach ($users as $user)
         {
             $equipments = $user->getUAVsTypeEquipment();
             foreach ($equipments as $equipment)
             {
-                $row = [
-                    $index,
-                    $equipment->getName(),
-                    $equipment->getDeliveredCount(),
-                    $equipment->getDeliveredSum(),
-                    $equipment->getContractedCount(),
-                    $equipment->getContractedSum(),
-                    $equipment->getPurchaseCount(),
-                    $equipment->getPurchaseSum(),
-                    "",
-                    $equipment->getPlanSum(),
-                    $equipment->getMark(),
-                    $equipment->getModel(),
-                ];
-
-//                array_push($rows, $row);
-                $sheet->fromArray($row, null, 'A'.$rowCount, true);
-                $rowCount++;
-                $index++;
+                if(array_key_exists($equipment->getName(), $rowNames))
+                {
+                    $rowNames[$equipment->getName()] = [
+                        $equipment->getDeliveredCount(),
+                        $equipment->getDeliveredSum(),
+                        $equipment->getContractedCount(),
+                        $equipment->getContractedSum(),
+                        $equipment->getPurchaseCount(),
+                        $equipment->getPurchaseSum(),
+                        "",
+                        $equipment->getPlanSum(),
+                    ];
+                }
+                else
+                {
+                    $rowNames[$equipment->getName()] = [
+                        $rowNames[$equipment->getName()][0]+$equipment->getDeliveredCount(),
+                        $rowNames[$equipment->getName()][1]+$equipment->getDeliveredSum(),
+                        $rowNames[$equipment->getName()][2]+$equipment->getContractedCount(),
+                        $rowNames[$equipment->getName()][3]+$equipment->getContractedSum(),
+                        $rowNames[$equipment->getName()][4]+$equipment->getPurchaseCount(),
+                        $rowNames[$equipment->getName()][5]+$equipment->getPurchaseSum(),
+                        "",
+                        $rowNames[$equipment->getName()][7]+$equipment->getPlanSum(),
+                    ];
+                }
             }
         }
-
+        foreach ($rowNames as $row)
+        {
+            $sheet->fromArray([$index], null, 'A'.$rowCount, true);
+            $sheet->fromArray($row, null, 'B'.$rowCount, true);
+            $rowCount++;
+            $index++;
+        }
 
 
 
