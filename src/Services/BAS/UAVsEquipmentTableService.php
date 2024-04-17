@@ -138,14 +138,14 @@ class UAVsEquipmentTableService extends AbstractController
                 if(array_key_exists($equipment->getName(), $rowNames))
                 {
                     $rowNames[$equipment->getName()] = [
-                        $equipment->getDeliveredCount(),
-                        $equipment->getDeliveredSum(),
-                        $equipment->getContractedCount(),
-                        $equipment->getContractedSum(),
-                        $equipment->getPurchaseCount(),
-                        $equipment->getPurchaseSum(),
+                        $equipment->getDeliveredCount() ?  $equipment->getDeliveredCount() : 0,
+                        $equipment->getDeliveredSum() ? $equipment->getDeliveredSum() : 0,
+                        $equipment->getContractedCount() ? $equipment->getContractedCount() : 0,
+                        $equipment->getContractedSum() ? $equipment->getContractedSum() : 0,
+                        $equipment->getPurchaseCount() ? $equipment->getPurchaseCount() : 0,
+                        $equipment->getPurchaseSum() ? $equipment->getPurchaseSum() : 0,
                         "",
-                        $equipment->getPlanSum(),
+                        $equipment->getPlanSum() ? $equipment->getPlanSum() : 0,
                     ];
                 }
                 else
@@ -163,10 +163,10 @@ class UAVsEquipmentTableService extends AbstractController
                 }
             }
         }
-        foreach ($rowNames as $row)
+        foreach ($rowNames as $key => $row )
         {
-            $sheet->fromArray([$index], null, 'A'.$rowCount, true);
-            $sheet->fromArray($row, null, 'B'.$rowCount, true);
+            $sheet->fromArray([$index, $key], null, 'A'.$rowCount, true);
+            $sheet->fromArray($row, null, 'C'.$rowCount, true);
             $rowCount++;
             $index++;
         }
