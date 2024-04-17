@@ -1,0 +1,90 @@
+{% extends "default/base.html.twig" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <a href="{{ path('app_readness_map_bas_inspector', {'id': user.getId()}) }}">
+            <button class="btn btn-outline-dark">
+                <i class="fa fa-arrow-left"></i>
+                Назад
+            </button>
+        </a>
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+
+                </h5>
+            </div>
+            <div class="ibox-content">
+                {{ form_start(form) }}
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <td rowspan="2">Наименование БПЛА</td>
+                            <td colspan="2">Поставлено
+                                (находится в поставке в ОО)</td>
+                            <td colspan="2">Законтрактовано
+                                (подписан контракт)</td>
+                            <td colspan="2">В закупочных процедурах
+                                (объявлена закупка)</td>
+                            <td colspan="2">План</td>
+                            <td  rowspan="2">Марка</td>
+                            <td  rowspan="2">Модель</td>
+                        </tr>
+                    <tr>
+                        <td>Количество, шт.</td>
+                        <td>Сумма, руб. </td>
+                        <td>Количество, шт.</td>
+                        <td>Сумма, руб. </td>
+                        <td>Количество, шт.</td>
+                        <td>Сумма, руб. </td>
+                        <td>Количество, шт.</td>
+                        <td>Сумма, руб. </td>
+                        {#<td>Количество, шт </td>#}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in form.UAVsTypeEquipment %}
+                        <tr>
+                            <td class="col-md-2">{{ i.vars['data'].name }}</td>
+                            <td class="col-md-1">{{ form_widget(i.deliveredCount, {"type": "number"}) }}</td>
+                            <td class="col-md-1">{{ form_widget(i.deliveredSum, {"type": "number"}) }}</td>
+                            <td class="col-md-1">{{ form_widget(i.contractedCount, {"type": "number"}) }}</td>
+                            <td class="col-md-1">{{ form_widget(i.contractedSum, {"type": "number"}) }}</td>
+                            <td class="col-md-1">{{ form_widget(i.purchaseCount, {"type": "number"}) }}</td>
+                            <td class="col-md-1">{{ form_widget(i.purchaseSum, {"type": "number"}) }}</td>
+
+                            <td class="col-md-1">{{ form_widget(i.planCount, {"type": "number"}) }}</td>
+                            <td class="col-md-1">{{ form_widget(i.planSum, {"type": "number"}) }}</td>
+
+                            <td class="col-md-1">{{ form_widget(i.mark) }}</td>
+                            <td class="col-md-1">{{ form_widget(i.model) }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <button class="btn btn-success" type="submit">
+                    <i class="fa fa-save"></i>
+                    Сохранить
+                </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/inspinia.js') }}"></script>
+<script src="{{ asset('js/bootstrap.js') }}"></script>
+
+
+{% endblock %}
+{#<script src=""></script>#}
+

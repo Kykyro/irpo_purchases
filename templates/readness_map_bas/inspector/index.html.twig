@@ -401,6 +401,74 @@
             </div>
         </div>
     {% endif %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        Справка об оснащении специализированных классов (кружков) и центров практической подготовки БПЛА
+                    </h5>
+                </div>
+                <div class="ibox-content">
+
+                    <table class="table table-bordered">
+                        <thead class="text-center">
+                        <tr>
+                            <td rowspan="2">Наименование БПЛА</td>
+                            <td colspan="2">Поставлено
+                                (находится в поставке в ОО)</td>
+                            <td colspan="2">Законтрактовано
+                                (подписан контракт)</td>
+                            <td colspan="2">В закупочных процедурах
+                                (объявлена закупка)</td>
+                            <td colspan="2">План</td>
+                            <td  rowspan="2">Марка</td>
+                            <td  rowspan="2">Модель</td>
+                        </tr>
+                        <tr>
+                            <td>Количество, шт.</td>
+                            <td>Сумма, руб. </td>
+                            <td>Количество, шт.</td>
+                            <td>Сумма, руб. </td>
+                            <td>Количество, шт.</td>
+                            <td>Сумма, руб. </td>
+                            <td>Количество, шт.</td>
+                            <td>Сумма, руб. </td>
+                            {#<td>Количество, шт </td>#}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in user.getUAVsTypeEquipment() %}
+                            <tr>
+                                <td class="col-md-2">{{ i.getName() }}</td>
+                                <td class="col-md-1">{{ i.getDeliveredCount }}</td>
+                                <td class="col-md-1">{{ i.getDeliveredSum }}</td>
+                                <td class="col-md-1">{{ i.getContractedCount }}</td>
+                                <td class="col-md-1">{{ i.getContractedSum }}</td>
+                                <td class="col-md-1">{{ i.getPurchaseCount }}</td>
+                                <td class="col-md-1">{{ i.getPurchaseSum }}</td>
+                                <td class="col-md-1">{{ i.getPlanCount() }}</td>
+                                <td class="col-md-1">{{ i.getPlanSum() }}</td>
+                                <td class="col-md-1">{{ i.getMark }}</td>
+                                <td class="col-md-1">{{ i.getModel }}</td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="ibox-footer">
+                    <a href="{{ path("app_inspector_bas_equipment_edit", {'id': user.getId() }) }}">
+                        <button class="btn btn-success">
+                            <i class="fa fa-edit"></i>
+                            Редактировать
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}

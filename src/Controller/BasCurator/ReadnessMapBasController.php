@@ -6,6 +6,7 @@ use App\Entity\ClusterZone;
 use App\Entity\PhotosVersion;
 use App\Entity\User;
 use App\Entity\ZoneInfrastructureSheet;
+use App\Form\BASequipment\equipmentBasInspectorForm;
 use App\Form\editZoneRepairForm;
 use App\Form\infrastructureSheetZoneForm;
 use App\Services\BAS\AddTypicalBasService;
@@ -318,5 +319,28 @@ class ReadnessMapBasController extends AbstractController
         $service->add($id, $em);
         $route = $request->headers->get('referer');
         return $this->redirect($route);
+    }
+
+    /**
+     * @Route("/bas-curator/equipment/{id}", name="app_inspector_bas_equipment_edit")
+     */
+    public function equipmentEdit(EntityManagerInterface $em, Request $request, int $id): Response
+    {
+        $user = $em->getRepository(User::class)->find($id);
+
+        $form = $this->createForm(equipmentBasInspectorForm::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->render('bas_curator/equipment.html.twig', [
+            'controller_name' => 'DefaultController',
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
     }
 }
