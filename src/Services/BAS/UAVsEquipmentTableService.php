@@ -244,6 +244,7 @@ class UAVsEquipmentTableService extends AbstractController
             $sheet->fromArray([$userInfo->getRfSubject()->getName()], null, 'A'.$rowCount, true);
             $sheet->mergeCells("A$rowCount:L$rowCount");
             $rowCount++;
+            $index=1;
             foreach ($equipments as $equipment)
             {
                 $row = [
