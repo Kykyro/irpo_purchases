@@ -28,8 +28,8 @@
                             <td colspan="2">В закупочных процедурах
                                 (объявлена закупка)</td>
                             <td>План</td>
-                            <td>Марка</td>
-                            <td>Модель</td>
+                            <td  rowspan="2">Марка</td>
+                            <td  rowspan="2">Модель</td>
                         </tr>
                     <tr>
                         <td>Количество, шт.</td>
@@ -38,7 +38,7 @@
                         <td>Сумма, руб. </td>
                         <td>Количество, шт.</td>
                         <td>Сумма, руб. </td>
-                        <td>Сумма, руб. </td>
+                        <td>Количество, шт </td>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,8 +51,8 @@
                             <td class="col-md-1">{{ form_widget(i.contractedSum, {"type": "number"}) }}</td>
                             <td class="col-md-1">{{ form_widget(i.purchaseCount, {"type": "number"}) }}</td>
                             <td class="col-md-1">{{ form_widget(i.purchaseSum, {"type": "number"}) }}</td>
-                            {#<td>{{ i.planCount }}</td>#}
-                            <td class="col-md-1">{{ form_widget(i.planSum, {"type": "number"}) }}</td>
+                            <td class="col-md-1">{{ form_widget(i.planCount, {"type": "number"}) }}</td>
+                            {#<td class="col-md-1">{{ form_widget(i.planSum, {"type": "number"}) }}</td>#}
                             <td class="col-md-1">{{ form_widget(i.mark) }}</td>
                             <td class="col-md-1">{{ form_widget(i.model) }}</td>
 
