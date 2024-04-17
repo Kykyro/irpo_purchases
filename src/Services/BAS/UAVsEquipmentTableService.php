@@ -49,6 +49,8 @@ class UAVsEquipmentTableService extends AbstractController
                 $equipment->getPurchaseSum(),
                 "",
                 $equipment->getPlanSum(),
+                $equipment->getMark(),
+                $equipment->getModel(),
             ];
             $sheet->fromArray($row, null, 'A'.$rowCount, true);
             $rowCount++;
@@ -70,11 +72,11 @@ class UAVsEquipmentTableService extends AbstractController
             ]
         ];
         $end_cell = $sheet->getHighestRow();
-        $rangeTotal = 'A5:J'.$end_cell;
+        $rangeTotal = 'A5:L'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:Q')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:Q')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:L')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:L')->getAlignment()->setVertical('center');
 
 
 

@@ -111,6 +111,22 @@ class equipmentType  extends AbstractType
                 'required'   => true,
                 'label' => false
             ])
+            ->add('mark', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+
+                ],
+                'required'   => true,
+                'label' => false
+            ])
+            ->add('model', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+
+                ],
+                'required'   => true,
+                'label' => false
+            ])
 
         ;
     }

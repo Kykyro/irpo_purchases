@@ -67,6 +67,16 @@ class UAVsTypeEquipment
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $model;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $mark;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -188,6 +198,30 @@ class UAVsTypeEquipment
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getModel(): ?string
+    {
+        return $this->model;
+    }
+
+    public function setModel(?string $model): self
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    public function getMark(): ?string
+    {
+        return $this->mark;
+    }
+
+    public function setMark(?string $mark): self
+    {
+        $this->mark = $mark;
 
         return $this;
     }
