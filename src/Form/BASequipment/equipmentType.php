@@ -94,13 +94,13 @@ class equipmentType  extends AbstractType
                 'required'   => true,
                 'label' => false
             ])
-            ->add('planCount', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'required'   => true,
-                'label' => false
-            ])
+//            ->add('planCount', TextType::class, [
+//                'attr' => [
+//                    'class' => 'form-control',
+//                ],
+//                'required'   => true,
+//                'label' => false
+//            ])
 //            ->add('planSum', TextType::class, [
 //                'attr' => [
 //                    'class' => 'form-control',
