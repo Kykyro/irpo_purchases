@@ -27,7 +27,7 @@ class CoFinancingFundsController extends AbstractController
     {
         $user = $em->getRepository(User::class)->find($id);
         $funds = $user->getCofinancingFunds();
-
+        $userInfo = $user->getUserInfo();
         if(is_null($funds))
             $funds = new CofinancingFunds($user);
 
@@ -98,6 +98,7 @@ class CoFinancingFundsController extends AbstractController
             'cofinancing_scenarion' => $pagination,
             'form' => $form->createView(),
             'funds' => $funds,
+            'userInfo' => $userInfo
         ]);
     }
 

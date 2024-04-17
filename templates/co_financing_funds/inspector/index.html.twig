@@ -21,24 +21,49 @@
                             <td class="col-md-1">Источник</td>
                             <td class="col-md-3">Фин. соглашение</td>
                             <td class="col-md-3">Принято</td>
+                            <td class="col-md-3">%</td>
                         </tr>
                     </thead>
                     <tbody>
                     {% set _funds = user.getCofinancingSum() %}
                         <tr class="text-center">
                             <td>РД</td>
-                            <td class="cell-number">{{ funds.getEmployerFunds() }}</td>
+                            {% set rd = userInfo.getExtraFundsEconomicSector()*1000 %}
+                            <td class="cell-number">{{ rd }}</td>
                             <td class="cell-number">{{ _funds['employersFunds'] }}</td>
+                            <td class="">
+                                {% if rd > 0 %}
+                                    {{ (_funds['employersFunds']/rd)*100 |round(2) }} %
+                                {% else %}
+                                    100 %
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr class="text-center">
                             <td>Субъект</td>
-                            <td class="cell-number">{{ funds.getRegionFunds() }}</td>
+                            {% set sub = userInfo.getFinancingFundsOfSubject()*1000 %}
+                            <td class="cell-number">{{ sub }}</td>
                             <td class="cell-number">{{ _funds['subjectFunds'] }}</td>
+                            <td class="">
+                                {% if sub > 0 %}
+                                    {{ (_funds['subjectFunds']/sub)*100 |round(2) }} %
+                                {% else %}
+                                    100 %
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr class="text-center">
                             <td>ОО</td>
-                            <td class="cell-number">{{ funds.getEducationFunds() }}</td>
+                            {% set oo = userInfo.getExtraFundsOO()*1000 %}
+                            <td class="cell-number">{{ oo }}</td>
                             <td class="cell-number">{{ _funds['OOFunds'] }}</td>
+                            <td class="">
+                                {% if oo > 0 %}
+                                    {{ (_funds['OOFunds']/oo)*100 |round(2) }} %
+                                {% else %}
+                                    100 %
+                                {% endif %}
+                            </td>
                         </tr>
                     </tbody>
                 </table>

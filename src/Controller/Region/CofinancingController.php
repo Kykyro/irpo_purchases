@@ -52,6 +52,7 @@ class CofinancingController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator) : Response
     {
         $user = $this->getUser();
+        $userInfo = $user->getUserInfo();
         $funds = $user->getCofinancingFunds();
         if(is_null($funds))
             $funds = new CofinancingFunds($user);
@@ -73,6 +74,7 @@ class CofinancingController extends AbstractController
             'user' => $user,
             'cofinancing_scenarion' => $pagination,
             'funds' => $funds,
+            'userInfo' => $userInfo,
 
         ]);
     }
