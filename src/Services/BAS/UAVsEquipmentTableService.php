@@ -262,7 +262,7 @@ class UAVsEquipmentTableService extends AbstractController
                 ];
 
                 $sheet->fromArray($row, null, 'A'.$rowCount, true);
-
+                $rowCount++;
                 $index++;
             }
 
