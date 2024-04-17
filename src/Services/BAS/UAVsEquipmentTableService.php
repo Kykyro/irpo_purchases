@@ -135,7 +135,7 @@ class UAVsEquipmentTableService extends AbstractController
             $equipments = $user->getUAVsTypeEquipment();
             foreach ($equipments as $equipment)
             {
-                if(array_key_exists($equipment->getName(), $rowNames))
+                if(!array_key_exists($equipment->getName(), $rowNames))
                 {
                     $rowNames[$equipment->getName()] = [
                         $equipment->getDeliveredCount() ?  $equipment->getDeliveredCount() : 0,
