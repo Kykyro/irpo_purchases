@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Entity\UserTags;
 use App\Form\InspectorPurchasesFindFormType;
+use App\Services\cofinancing\CofinancingTableService;
 use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
 use App\Services\XlsxPerformanceIndicatorService;
@@ -40,7 +41,8 @@ class SmallCuratorContractingController extends AbstractController
     /**
      * @Route("/small-cluster/contracting-actual", name="app_inspector_sc_contracting")
      */
-    public function index(Request $request, ContractingXlsxService $contractingXlsxService, ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService): Response
+    public function index(Request $request, ContractingXlsxService $contractingXlsxService, ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService,
+                          CofinancingTableService $cofinancingTableService): Response
     {
         $role = 'small';
         $arr = [];
@@ -70,6 +72,7 @@ class SmallCuratorContractingController extends AbstractController
 //                    'Карта готовности(оборудование)' => 4,
                     'Ремработы и оборудование (новый)' => 6,
 //                    'Ремработы и оборудование (новый, частично)' => 7,
+                    'Софинансирование' => 11,
 
                 ],
             ])
@@ -137,6 +140,9 @@ class SmallCuratorContractingController extends AbstractController
             }
             if($data['type'] == 7){
                 return $readinessMapXlsxService->downloadTableNew($data['year'], $_role, false, $data['start'], $data['step'], $tags);
+            }
+            if($data['type'] == 11){
+                return $cofinancingTableService->downloadTable($data['year'], 'ROLE_REGION', $tags);
             }
 
 
