@@ -112,7 +112,14 @@
                                 {{ i.getScenario() }}
                             </td>
                             <td>
+                                {% set isFirst = true %}
                                 {% for file in i.getFiles() %}
+
+                                    {% if not isFirst %}
+                                    <hr>
+
+                                    {% endif %}
+                                    {% set isFirst = false %}
                                     <div class="row mb-3">
                                         <div class="col-sm-6" style="vertical-align: inherit; text-align: start; overflow: hidden; text-overflow: ellipsis">
                                             <a href="{{ path('app_download_file_by_route', {'route': 'cofinancing_file_directory', 'file': file.getFile()}) }}">
@@ -127,7 +134,7 @@
                                         </div>
 
                                     </div>
-                                    <hr>
+
                                 {% endfor %}
                             </td>
                             <td style="vertical-align: inherit; text-align: center">
