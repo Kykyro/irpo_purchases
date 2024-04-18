@@ -110,16 +110,16 @@
                             <td style="vertical-align: inherit; text-align: center">
                                 {{ i.getScenario() }}
                             </td>
-                            <td style="vertical-align: inherit; text-align: start">
+                            <td>
                                 {% for file in i.getFiles() %}
                                     <div class="row mb-3">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="vertical-align: inherit; text-align: start; overflow: hidden; text-overflow: ellipsis">
                                             <a href="{{ path('app_download_file_by_route', {'route': 'cofinancing_file_directory', 'file': file.getFile()}) }}">
                                                 <i class="fa fa-download"></i>
                                                 {{ file.getFile() }}
                                             </a>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="vertical-align: inherit; text-align: center">
                                         <span class="badge badge{{ statusLib[file.getStatus()] }}">
                                             {{ file.getStatus() }}
                                         </span>
