@@ -178,6 +178,7 @@
                             Инфраструктурный лист
                         </button>
                     </a>
+                    {% if i.getUserInfo().getYear() > 2023 %}
                     <a href="{{ path('app_inspector_co_financing_funds', {'id': i.getId()}) }}">
                         <button class="btn btn-light-yellow col-lg-12 mb-2">
                             <div class="fa fa-bookmark"></div>
@@ -187,6 +188,7 @@
                             </span>
                         </button>
                     </a>
+                    {% endif %}
                     <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">
                         <button class="btn btn-warning col-lg-12">
                             <div class="fa fa-leaf"></div>

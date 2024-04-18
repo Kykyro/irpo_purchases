@@ -100,12 +100,14 @@
                                 Инфраструктурный лист
                             </button>
                         </a>
+                        {%   if user_info.getYear() > 2023 %}
                         <a href="{{ path('app_inspector_co_financing_funds', {'id': user_info.getId()}) }}">
                             <button class="btn btn-light-yellow mb-2 ">
                                 <div class="fa fa-bookmark"></div>
                                 Средства софинансирования
                             </button>
                         </a>
+                        {% endif %}
                     </div>
 
                 {% endif %}
