@@ -2,6 +2,7 @@
 
 namespace App\Controller\Inspector;
 
+use App\Entity\CofinancingComment;
 use App\Entity\CofinancingFunds;
 use App\Entity\CofinancingScenario;
 use App\Entity\User;
@@ -10,6 +11,7 @@ use App\Form\cofinancing\cofinancingScenarioEditForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,38 +28,32 @@ class CoFinancingFundsController extends AbstractController
     public function index(EntityManagerInterface $em, Request $request, int $id, PaginatorInterface $paginator): Response
     {
         $user = $em->getRepository(User::class)->find($id);
-        $funds = $user->getCofinancingFunds();
+        $funds = $user->getCofinancingComment();
         $userInfo = $user->getUserInfo();
         if(is_null($funds))
-            $funds = new CofinancingFunds($user);
+            $funds = new CofinancingComment($user);
 
         $form = $this->createFormBuilder($funds)
-            ->add('regionFunds', TextType::class, [
+            ->add('regionFunds', TextareaType::class, [
                'attr' => [
                    'class' => 'form-control',
-                   'step' => '.01',
-                   'min' => '0',
-                   'max' => '99999999999'
+
                ] ,
                 'required' => false,
                 'label' => 'Средства Субъекта'
             ])
-            ->add('educationFunds', TextType::class, [
+            ->add('educationFunds', TextareaType::class, [
                'attr' => [
                    'class' => 'form-control',
-                   'step' => '.01',
-                        'min' => '0',
-                        'max' => '99999999999'
+
                ] ,
                 'required' => false,
                 'label' => 'Средства ОО'
             ])
-            ->add('employerFunds', TextType::class, [
+            ->add('employerFunds', TextareaType::class, [
                'attr' => [
                    'class' => 'form-control',
-                   'step' => '.01',
-                        'min' => '0',
-                        'max' => '99999999999'
+
                ] ,
                 'required' => false,
                 'label' => 'Средства РД'

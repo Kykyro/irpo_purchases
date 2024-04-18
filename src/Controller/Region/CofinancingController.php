@@ -3,6 +3,7 @@
 namespace App\Controller\Region;
 
 use App\Entity\CertificateFunds;
+use App\Entity\CofinancingComment;
 use App\Entity\CofinancingFunds;
 use App\Entity\CofinancingScenario;
 use App\Entity\CofinancingScenarioFile;
@@ -53,9 +54,9 @@ class CofinancingController extends AbstractController
     {
         $user = $this->getUser();
         $userInfo = $user->getUserInfo();
-        $funds = $user->getCofinancingFunds();
+        $funds = $user->getCofinancingComment();
         if(is_null($funds))
-            $funds = new CofinancingFunds($user);
+            $funds = new CofinancingComment($user);
 
         $query = $em->getRepository(CofinancingScenario::class)
             ->createQueryBuilder('c')

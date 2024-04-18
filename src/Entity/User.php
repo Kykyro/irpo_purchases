@@ -126,6 +126,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=UAVsTypeEquipment::class, mappedBy="user")
      */
     private $uAVsTypeEquipment;
+
+    /**
+     * @ORM\OneToOne(targetEntity=CofinancingComment::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $cofinancingComment;
     
 
     public function getId(): ?int
@@ -1027,6 +1032,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $uAVsTypeEquipment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCofinancingComment(): ?CofinancingComment
+    {
+        return $this->cofinancingComment;
+    }
+
+    public function setCofinancingComment(?CofinancingComment $cofinancingComment): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($cofinancingComment === null && $this->cofinancingComment !== null) {
+            $this->cofinancingComment->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($cofinancingComment !== null && $cofinancingComment->getUser() !== $this) {
+            $cofinancingComment->setUser($this);
+        }
+
+        $this->cofinancingComment = $cofinancingComment;
 
         return $this;
     }

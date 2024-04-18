@@ -7,6 +7,7 @@ use App\Entity\ProcurementProcedures;
 use App\Entity\ReadinessMapSaves;
 use App\Entity\User;
 use App\Entity\UserTags;
+use App\Services\cofinancing\CofinancingTableService;
 use App\Services\ContractingXlsxService;
 use App\Services\FileService;
 use App\Services\ReadinessMapXlsxService;
@@ -36,7 +37,8 @@ class InspectorContractingController extends AbstractController
      * @Route("/contracting-actual", name="app_inspector_contracting")
      */
     public function index(Request $request, ContractingXlsxService $contractingXlsxService,
-                          ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService): Response
+                          ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService,
+                          CofinancingTableService $cofinancingTableService): Response
     {
 
         $arr = [];
@@ -65,6 +67,7 @@ class InspectorContractingController extends AbstractController
 //                    'Карта готовности(оборудование)' => 4,
                     'Показатели результативности' => 5,
                     'Ремработы и оборудование (новый)' => 6,
+                    'Софинансирование' => 11,
 
                 ],
             ])
@@ -149,6 +152,9 @@ class InspectorContractingController extends AbstractController
             }
             if($data['type'] == 6){
                 return $readinessMapXlsxService->downloadTableNew($data['year'], 'cluster', false, $data['start'], $data['step'], $tags);
+            }
+            if($data['type'] == 11){
+                return $cofinancingTableService->downloadTable($data['year'], 'ROLE_REGION', $tags);
             }
         }
 

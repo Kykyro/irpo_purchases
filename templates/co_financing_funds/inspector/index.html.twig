@@ -69,6 +69,42 @@
                 </table>
             </div>
             <div class="ibox-footer">
+
+            </div>
+        </div>
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    Комментарии
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <td class="col-md-3">
+                            Источник
+                        </td>
+                        <td class="col-md-9">
+                            Комментарий
+                        </td>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>РД</td>
+                            <td>{{ funds.getEmployerFunds()|nl2br }}</td>
+                        </tr>
+                        <tr>
+                            <td>Доп. средства субъекта РФ</td>
+                            <td>{{ funds.getRegionFunds()|nl2br }}</td>
+                        </tr>
+                        <tr>
+                            <td>ОО</td>
+                            <td>{{ funds.getEducationFunds()|nl2br }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ibox-footer">
                 <button class="btn btn-success col-sm-12" type="button" data-toggle="modal" data-target="#exampleModal">
                     <i class="fa fa-edit"></i>
                     Редактировать
@@ -191,9 +227,9 @@
                 </div>
                 {{ form_start(form) }}
                 <div class="modal-body">
-                    {{ form_row(form.employerFunds, {"type":"number"}) }}
-                    {{ form_row(form.regionFunds, {"type":"number"}) }}
-                    {{ form_row(form.educationFunds, {"type":"number"}) }}
+                    {{ form_row(form.employerFunds) }}
+                    {{ form_row(form.regionFunds) }}
+                    {{ form_row(form.educationFunds) }}
 
                 </div>
                 <div class="modal-footer">

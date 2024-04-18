@@ -50,6 +50,7 @@ parameters:
     compitence_profile_directory: '%kernel.project_dir%/public/uploads/compitenceProfile/'
     compitence_profile_template_directory: '%kernel.project_dir%/public/word/Шаблон_для_заполнения_Профиль_компетенций_выпускника.docx'
     uvas_sertificate_table_directory: '%kernel.project_dir%/public/excel/СВОД ЗАКУПКИ БАС ШАБЛОН.xlsx'
+    cofinancing_sertificate_table_directory: '%kernel.project_dir%/public/excel/Шаблон_Софинансирование.xlsx'
     json_directory: '%kernel.project_dir%/public/json/'
 
 
