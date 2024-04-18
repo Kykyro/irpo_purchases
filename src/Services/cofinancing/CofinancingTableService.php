@@ -34,13 +34,17 @@ class CofinancingTableService extends AbstractController
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
         $today = new \DateTime('now');
         $index = 1;
-        $users = $this->em->getRepository(User::class)->findByYearAndRole($year, $role);
+//        dd($tags);
+        $users = $this->em->getRepository(User::class)->getUsersByYearRoleTags($year, $role, $tags);
+
         $pages = [
             'Средства РД',
             'Средства субъекта РФ',
             'Средства ОО',
         ];
         $rowCount = 2;
+        $row_arr = ['E', 'F'];
+
         foreach ($users as $user)
         {
             $cofinancingSum = $user->getCofinancingSum();
@@ -62,6 +66,11 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getCurator(),
             ];
             $sheet->fromArray($row, null, 'A'.$rowCount, true);
+            foreach ($row_arr as $j){
+                $sheet->getStyle($j.$rowCount)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+            }
+            $sheet->getStyle("G".$rowCount)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+
 
             $sheet = $spreadsheet->getSheetByName('Средства субъекта РФ');
 
@@ -77,7 +86,10 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getCurator(),
             ];
             $sheet->fromArray($row, null, 'A'.$rowCount, true);
-
+            foreach ($row_arr as $j){
+                $sheet->getStyle($j.$rowCount)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+            }
+            $sheet->getStyle("G".$rowCount)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
 
 
             $sheet = $spreadsheet->getSheetByName('Средства ОО');
@@ -93,6 +105,10 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getCurator(),
             ];
             $sheet->fromArray($row, null, 'A'.$rowCount, true);
+            foreach ($row_arr as $j){
+                $sheet->getStyle($j.$rowCount)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+            }
+            $sheet->getStyle("G".$rowCount)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
 
             $rowCount++;
             $index++;

@@ -130,7 +130,32 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult()
             ;
     }
+    public function getUsersByYearRoleTags($year, $role, $tags = null){
 
+
+
+        $query = $this->createQueryBuilder('u')
+            ->leftJoin('u.user_info', 'uf')
+            ->andWhere('u.roles LIKE :role ')
+            ->andWhere('uf.year = :year')
+            ->setParameter('role', "%$role%")
+            ->setParameter('year', $year)
+            ->leftJoin('uf.rf_subject', 'rf')
+        ;
+
+        if($tags)
+        {
+            $query
+                ->leftJoin('u.userTags', 't')
+                ->andWhere('t.id = :tags')
+                ->setParameter('tags', $tags->getId());
+        }
+        return $query
+            ->orderBy('rf.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+    }
 
 //    public function findOneBySomeField($value): ?User
 //    {
