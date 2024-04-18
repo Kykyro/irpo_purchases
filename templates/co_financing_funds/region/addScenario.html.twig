@@ -27,10 +27,19 @@
                     {{ form_row(form.anotherScenario) }}
                     {{ form_row(form.comment) }}
                     {{ form_row(form.files) }}
+                <div>
                     <button type="submit" class="btn btn-success mt-3">
                         <i class="fa fa-save"></i>
                         Сохранить
                     </button>
+                    <a href="{{ path('app_region_cofinancing') }}">
+                        <button type="button" class="btn btn-danger mt-3">
+                            <i class="fa fa-close"></i>
+                            Отмена
+                        </button>
+                    </a>
+                </div>
+
                 {{ form_end(form) }}
             </div>
             <div class="ibox-footer"></div>
