@@ -25,20 +25,20 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr class="text-center">
-                            <td class="col-md-1">Источник</td>
-                            <td class="col-md-3">Фин. соглашение</td>
-                            <td class="col-md-3">Принято</td>
-                            <td class="col-md-3">%</td>
+                            <td class="col-md-1" style="vertical-align: inherit; text-align: center">Источник</td>
+                            <td class="col-md-3" style="vertical-align: inherit; text-align: center">Фин. соглашение</td>
+                            <td class="col-md-3" style="vertical-align: inherit; text-align: center">Принято</td>
+                            <td class="col-md-3" style="vertical-align: inherit; text-align: center">%</td>
                         </tr>
                     </thead>
                     <tbody>
                         {% set _funds = user.getCofinancingSum() %}
                         <tr class="text-center">
-                            <td>РД</td>
+                            <td style="vertical-align: inherit; text-align: center">РД</td>
                             {% set rd = userInfo.getExtraFundsEconomicSector()*1000 %}
-                            <td class="cell-number">{{ rd }}</td>
-                            <td class="cell-number">{{ _funds['employersFunds'] }}</td>
-                            <td class="">
+                            <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ rd }}</td>
+                            <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ _funds['employersFunds'] }}</td>
+                            <td class="" style="vertical-align: inherit; text-align: center">
                                 {% if rd > 0 %}
                                     {{ (_funds['employersFunds']/rd)*100 |round(2) }} %
                                 {% else %}
@@ -46,12 +46,12 @@
                                 {% endif %}
                             </td>
                         </tr>
-                        <tr class="text-center">
+                        <tr class="text-center" style="vertical-align: inherit; text-align: center">
                             <td>Доп. средства субъекта РФ</td>
                             {% set sub = userInfo.getFinancingFundsOfSubject()*1000 %}
-                            <td class="cell-number">{{ sub }}</td>
-                            <td class="cell-number">{{ _funds['subjectFunds'] }}</td>
-                            <td class="">
+                            <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ sub }}</td>
+                            <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ _funds['subjectFunds'] }}</td>
+                            <td class="" style="vertical-align: inherit; text-align: center">
                                 {% if sub > 0 %}
                                     {{ (_funds['subjectFunds']/sub)*100 |round(2) }} %
                                 {% else %}
@@ -59,12 +59,12 @@
                                 {% endif %}
                             </td>
                         </tr>
-                        <tr class="text-center">
-                            <td>ОО</td>
+                        <tr class="text-center" style="vertical-align: inherit; text-align: center">
+                            <td style="vertical-align: inherit; text-align: center">ОО</td>
                             {% set oo = userInfo.getExtraFundsOO()*1000 %}
-                            <td class="cell-number">{{ oo }}</td>
-                            <td class="cell-number">{{ _funds['OOFunds'] }}</td>
-                            <td class="">
+                            <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ oo }}</td>
+                            <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ _funds['OOFunds'] }}</td>
+                            <td class="" style="vertical-align: inherit; text-align: center">
                                 {% if oo > 0 %}
                                     {{ (_funds['OOFunds']/oo)*100 |round(2) }} %
                                 {% else %}
@@ -91,13 +91,13 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr class="text-center">
-                        <td class="col-md-1">№</td>
-                        <td class="col-md-2">Вид софинансирования</td>
-                        <td class="col-md-3">Файлы</td>
-                        <td class="col-md-2">Комментарий кластера</td>
-                        <td class="col-md-2">Комментарий куратора</td>
-                        <td class="col-md-1">Принятые средства</td>
-                        <td class="col-md-1">Статус</td>
+                        <td class="col-md-1" style="vertical-align: inherit; text-align: center">№</td>
+                        <td class="col-md-2" style="vertical-align: inherit; text-align: center">Вид софинансирования</td>
+                        <td class="col-md-3" style="vertical-align: inherit; text-align: center">Файлы</td>
+                        <td class="col-md-2" style="vertical-align: inherit; text-align: center">Комментарий кластера</td>
+                        <td class="col-md-2" style="vertical-align: inherit; text-align: center">Комментарий куратора</td>
+                        <td class="col-md-1" style="vertical-align: inherit; text-align: center">Принятые средства</td>
+                        <td class="col-md-1" style="vertical-align: inherit; text-align: center">Статус</td>
                         <td class="col-md-1"></td>
                     </tr>
 
@@ -111,12 +111,12 @@
                     } %}
                     {% for i in cofinancing_scenarion %}
                         <tr class="text-center">
-                            <td>{{ i.getId() }}</td>
-                            <td>
+                            <td style="vertical-align: inherit; text-align: center">{{ i.getId() }}</td>
+                            <td style="vertical-align: inherit; text-align: center">
                                 {{ i.getScenario() }} <br>
                                 {{ i.getAnotherScenario() }}
                             </td>
-                            <td>
+                            <td style="vertical-align: inherit; text-align: center">
                                 {% for file in i.getFiles() %}
                                 <div class="row mb-3">
                                     <div class="col-sm-6">
@@ -135,13 +135,13 @@
                                 <hr>
                                 {% endfor %}
                             </td>
-                            <td>
+                            <td style="vertical-align: inherit; text-align: center">
                                 {{ i.getComment()|nl2br }}
                             </td>
-                            <td>
+                            <td style="vertical-align: inherit; text-align: center">
                                 {{ i.getCuratorComment()|nl2br }}
                             </td>
-                            <td>
+                            <td style="vertical-align: inherit; text-align: center">
                                 {% if i.getEmployersFunds() > 0 %}
                                     РД: {{ i.getEmployersFunds() }} ₽<br>
                                 {% endif %}
@@ -152,12 +152,12 @@
                                     ОО: {{ i.getEducationFunds() }} ₽<br>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td style="vertical-align: inherit; text-align: center">
                                  <span class="badge badge{{ statusLib[i.getStatus()] }}">
                                     {{ i.getStatus() }}
                                 </span>
                             </td>
-                            <td>
+                            <td style="vertical-align: inherit; text-align: center">
                                 <a href="{{ path('app_region_cofinancing_edit', {'id': i.getId()}) }}">
                                     <button class="btn btn-success btn-lg">
                                         <i class="fa fa-edit"></i>
