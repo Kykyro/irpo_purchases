@@ -59,7 +59,7 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $userInfo->getExtraFundsEconomicSector(),
+                $userInfo->getExtraFundsEconomicSector()*1000,
                 $cofinancingSum['employersFunds'],
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEmployerFunds(),
@@ -79,7 +79,7 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $userInfo->getExtraFundsOO(),
+                $userInfo->getExtraFundsOO()*1000,
                 $cofinancingSum['subjectFunds'],
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getRegionFunds(),
@@ -98,7 +98,7 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $userInfo->getFinancingFundsOfSubject(),
+                $userInfo->getFinancingFundsOfSubject()*1000,
                 $cofinancingSum['OOFunds'],
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEducationFunds(),
@@ -138,6 +138,10 @@ class CofinancingTableService extends AbstractController
                 "=AVERAGE(G2:G$rowCount)",
             ];
             $sheet->fromArray($row, null, 'D'.($rowCount+1), true);
+            foreach ($row_arr as $j){
+                $sheet->getStyle($j.$rowCount)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+            }
+            $sheet->getStyle("G".$rowCount)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
 
             $end_cell = $sheet->getHighestRow();
             $rangeTotal = 'A2:I'.$end_cell;
