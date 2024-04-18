@@ -66,12 +66,13 @@
                             </tbody>
                         </table>
                         <hr>
+                        {{ form_row(form.status) }}
+                        {{ form_row(form.curatorComment) }}
+                        <hr>
                         {{ form_row(form.employersFunds, {"type":"number"}) }}
                         {{ form_row(form.regionFunds, {"type":"number"}) }}
                         {{ form_row(form.educationFunds, {"type":"number"}) }}
-                        <hr>
-                        {{ form_row(form.status) }}
-                        {{ form_row(form.curatorComment) }}
+
                     <button type="submit" class="btn btn-success mt-3">
                         <i class="fa fa-save"></i>
                         Сохранить
