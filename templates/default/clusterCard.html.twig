@@ -182,6 +182,9 @@
                         <button class="btn btn-light-yellow col-lg-12 mb-2">
                             <div class="fa fa-bookmark"></div>
                             Средства софинансирования
+                            <span class="badge cofinancing-badge" id="" data-id="{{ i.getId() }}">
+
+                            </span>
                         </button>
                     </a>
                     <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">

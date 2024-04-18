@@ -105,6 +105,31 @@
             });
         })
     </script>
+    <script>
+        $(document).ready(function(){
+
+            let cofinancingBadges = $('.cofinancing-badge');
+            console.log(cofinancingBadges);
+            cofinancingBadges.each(function (i) {
+                let id = $(this).data('id');
+                let badge = $(this);
+                fetch('/api/cofinancing-info/'+id).then(function(response) {
+                    response.json().then(function(data) {
+                        if(data > 0)
+                        {
+                            badge.show();
+                            badge.addClass('badge-danger');
+                            badge.html(data);
+                        }
+                        else {
+                            badge.hide();
+                        }
+                    })
+                });
+            });
+
+        })
+    </script>
 {% endif %}
 {% if is_granted('ROLE_REGION') or is_granted('ROLE_SMALL_CLUSTERS') or is_granted('ROLE_BAS') %}
     <script>

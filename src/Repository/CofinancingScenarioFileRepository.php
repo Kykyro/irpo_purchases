@@ -39,20 +39,25 @@ class CofinancingScenarioFileRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return CofinancingScenarioFile[] Returns an array of CofinancingScenarioFile objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return CofinancingScenarioFile[] Returns an array of CofinancingScenarioFile objects
+     */
+    public function findByStatusAndUser( $user, $status): array
+    {
+//        dd($user);
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.cofinancingScenario', 'cs')
+            ->leftJoin('cs.user', 'u')
+            ->andWhere('c.status = :status')
+            ->andWhere('u.id = :id')
+            ->setParameter('status', $status)
+            ->setParameter('id', $user->getId())
+            ->orderBy('c.id', 'ASC')
+//            ->getFirstResult()
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?CofinancingScenarioFile
 //    {
