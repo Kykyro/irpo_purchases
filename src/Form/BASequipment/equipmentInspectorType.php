@@ -111,6 +111,22 @@ class equipmentInspectorType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
+            ->add('provide', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+
+                ],
+                'required'   => false,
+                'label' => false
+            ])
+            ->add('manufacturec', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+
+                ],
+                'required'   => false,
+                'label' => false
+            ])
             ->add('mark', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',

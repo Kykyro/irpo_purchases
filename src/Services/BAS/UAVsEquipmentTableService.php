@@ -55,6 +55,8 @@ class UAVsEquipmentTableService extends AbstractController
                 $equipment->getPurchaseSum(),
                 $equipment->getPlanCount(),
                 $equipment->getPlanSum(),
+                $equipment->getProvide(),
+                $equipment->getManufacturec(),
                 $equipment->getMark(),
                 $equipment->getModel(),
             ];
@@ -258,6 +260,8 @@ class UAVsEquipmentTableService extends AbstractController
                     $equipment->getPurchaseSum(),
                     $equipment->getPlanCount(),
                     $equipment->getPlanSum(),
+                    $equipment->getProvide(),
+                    $equipment->getManufacturec(),
                     $equipment->getMark(),
                     $equipment->getModel(),
                 ];

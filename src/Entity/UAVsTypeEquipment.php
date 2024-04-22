@@ -77,6 +77,15 @@ class UAVsTypeEquipment
      */
     private $mark;
 
+//    /**
+//     * @ORM\Column(type="text", nullable=true)
+//     */
+//    private $provide;
+//
+//    /**
+//     * @ORM\Column(type="text", nullable=true)
+//     */
+//    private $manufacturec;
 
     public function getId(): ?int
     {
@@ -223,6 +232,30 @@ class UAVsTypeEquipment
     public function setMark(?string $mark): self
     {
         $this->mark = $mark;
+
+        return $this;
+    }
+
+    public function getProvide(): ?string
+    {
+        return $this->provide;
+    }
+
+    public function setProvide(?string $provide): self
+    {
+        $this->provide = $provide;
+
+        return $this;
+    }
+
+    public function getManufacturec(): ?string
+    {
+        return $this->manufacturec;
+    }
+
+    public function setManufacturec(?string $manufacturec): self
+    {
+        $this->manufacturec = $manufacturec;
 
         return $this;
     }

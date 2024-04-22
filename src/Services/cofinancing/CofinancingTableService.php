@@ -326,6 +326,8 @@ class CofinancingTableService extends AbstractController
                     $equipment->getPurchaseSum(),
                     $equipment->getPurchaseCount(),
                     $equipment->getPlanSum(),
+                    $equipment->getProvide(),
+                    $equipment->getManufacturec(),
                     $equipment->getMark(),
                     $equipment->getModel(),
                 ];
