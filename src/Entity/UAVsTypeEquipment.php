@@ -77,6 +77,7 @@ class UAVsTypeEquipment
      */
     private $mark;
 
+
     public function getId(): ?int
     {
         return $this->id;

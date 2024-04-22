@@ -422,8 +422,10 @@
                             <td colspan="2">В закупочных процедурах
                                 (объявлена закупка)</td>
                             <td colspan="2">План</td>
-                            <td  rowspan="2">Марка</td>
-                            <td  rowspan="2">Модель</td>
+                            <td rowspan="2">Поставщик</td>
+                            <td rowspan="2">Производитель</td>
+                            <td rowspan="2">Марка</td>
+                            <td rowspan="2">Модель</td>
                         </tr>
                         <tr>
                             <td>Количество, шт.</td>
@@ -449,6 +451,8 @@
                                 <td class="col-md-1">{{ i.getPurchaseSum }}</td>
                                 <td class="col-md-1">{{ i.getPlanCount() }}</td>
                                 <td class="col-md-1">{{ i.getPlanSum() }}</td>
+                                <td class="col-md-1">{{ i.getProvide }}</td>
+                                <td class="col-md-1">{{ i.getManufacturec }}</td>
                                 <td class="col-md-1">{{ i.getMark }}</td>
                                 <td class="col-md-1">{{ i.getModel }}</td>
 
