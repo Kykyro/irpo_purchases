@@ -80,11 +80,11 @@ class UAVsEquipmentTableService extends AbstractController
             ]
         ];
         $end_cell = $sheet->getHighestRow();
-        $rangeTotal = 'A5:L'.$end_cell;
+        $rangeTotal = 'A5:N'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:L')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:L')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:N')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:N')->getAlignment()->setVertical('center');
 
 
 
@@ -188,11 +188,11 @@ class UAVsEquipmentTableService extends AbstractController
             ]
         ];
         $end_cell = $sheet->getHighestRow();
-        $rangeTotal = 'A5:L'.$end_cell;
+        $rangeTotal = 'A5:N'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:L')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:L')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:N')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:N')->getAlignment()->setVertical('center');
 
 
 
@@ -289,11 +289,11 @@ class UAVsEquipmentTableService extends AbstractController
             ]
         ];
         $end_cell = $sheet->getHighestRow();
-        $rangeTotal = 'A5:L'.$end_cell;
+        $rangeTotal = 'A5:N'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:L')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:L')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:N')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:N')->getAlignment()->setVertical('center');
 
 
 
