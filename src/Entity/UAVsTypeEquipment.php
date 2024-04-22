@@ -77,15 +77,15 @@ class UAVsTypeEquipment
      */
     private $mark;
 
-//    /**
-//     * @ORM\Column(type="text", nullable=true)
-//     */
-//    private $provide;
-//
-//    /**
-//     * @ORM\Column(type="text", nullable=true)
-//     */
-//    private $manufacturec;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $provide;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $manufacturec;
 
     public function getId(): ?int
     {
