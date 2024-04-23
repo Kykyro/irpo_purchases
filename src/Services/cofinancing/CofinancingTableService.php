@@ -147,8 +147,8 @@ class CofinancingTableService extends AbstractController
             $rangeTotal = 'A2:I'.$end_cell;
             $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
             $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-            $sheet->getStyle('A:O')->getAlignment()->setHorizontal('center');
-            $sheet->getStyle('A:O')->getAlignment()->setVertical('center');
+            $sheet->getStyle('A:L')->getAlignment()->setHorizontal('center');
+            $sheet->getStyle('A:L')->getAlignment()->setVertical('center');
         }
 
 
