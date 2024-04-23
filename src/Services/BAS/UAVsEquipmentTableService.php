@@ -122,7 +122,12 @@ class UAVsEquipmentTableService extends AbstractController
         $initialSumFormulaRange = 'J5:J'.($end_cell);
         $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
 
-
+        $end_cell = $sheet->getHighestRow();
+        $rangeTotal = 'A5:O'.$end_cell;
+        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:O')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:O')->getAlignment()->setVertical('center');
 
 
         // Запись файла
