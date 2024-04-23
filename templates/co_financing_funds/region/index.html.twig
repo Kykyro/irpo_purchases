@@ -35,7 +35,7 @@
                         {% set _funds = user.getCofinancingSum() %}
                         <tr class="text-center">
                             <td style="vertical-align: inherit; text-align: center">РД</td>
-                            {% set rd = userInfo.getExtraFundsEconomicSector()*1000 %}
+                            {% set rd = funds.getEmployerFunds() %}
                             <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ rd }}</td>
                             <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ _funds['employersFunds'] }}</td>
                             <td class="" style="vertical-align: inherit; text-align: center">
@@ -48,7 +48,7 @@
                         </tr>
                         <tr class="text-center" style="vertical-align: inherit; text-align: center">
                             <td>Доп. средства субъекта РФ</td>
-                            {% set sub = userInfo.getFinancingFundsOfSubject()*1000 %}
+                            {% set sub = funds.getRegionFunds() %}
                             <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ sub }}</td>
                             <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ _funds['subjectFunds'] }}</td>
                             <td class="" style="vertical-align: inherit; text-align: center">
@@ -61,7 +61,7 @@
                         </tr>
                         <tr class="text-center" style="vertical-align: inherit; text-align: center">
                             <td style="vertical-align: inherit; text-align: center">ОО</td>
-                            {% set oo = userInfo.getExtraFundsOO()*1000 %}
+                            {% set oo = funds.getEducationFunds() %}
                             <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ oo }}</td>
                             <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ _funds['OOFunds'] }}</td>
                             <td class="" style="vertical-align: inherit; text-align: center">
@@ -99,15 +99,15 @@
                     <tbody>
                     <tr>
                         <td>РД</td>
-                        <td>{{ funds.getEmployerFunds()|nl2br }}</td>
+                        <td>{{ cofinancingComment.getEmployerFunds()|nl2br }}</td>
                     </tr>
                     <tr>
                         <td>Доп. средства субъекта РФ</td>
-                        <td>{{ funds.getRegionFunds()|nl2br }}</td>
+                        <td>{{ cofinancingComment.getRegionFunds()|nl2br }}</td>
                     </tr>
                     <tr>
                         <td>ОО</td>
-                        <td>{{ funds.getEducationFunds()|nl2br }}</td>
+                        <td>{{ cofinancingComment.getEducationFunds()|nl2br }}</td>
                     </tr>
                     </tbody>
                 </table>

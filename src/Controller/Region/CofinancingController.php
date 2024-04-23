@@ -54,9 +54,12 @@ class CofinancingController extends AbstractController
     {
         $user = $this->getUser();
         $userInfo = $user->getUserInfo();
-        $funds = $user->getCofinancingComment();
+        $cofinancingComment = $user->getCofinancingComment();
+        $funds = $user->getCofinancingFunds();
+        if(is_null($cofinancingComment))
+            $cofinancingComment = new CofinancingComment($user);
         if(is_null($funds))
-            $funds = new CofinancingComment($user);
+            $funds = new CofinancingFunds($user);
 
         $query = $em->getRepository(CofinancingScenario::class)
             ->createQueryBuilder('c')
@@ -74,8 +77,9 @@ class CofinancingController extends AbstractController
             'controller_name' => 'RegionController',
             'user' => $user,
             'cofinancing_scenarion' => $pagination,
-            'funds' => $funds,
+            'cofinancingComment' => $cofinancingComment,
             'userInfo' => $userInfo,
+            'funds' => $funds
 
         ]);
     }
