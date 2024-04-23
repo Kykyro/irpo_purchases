@@ -90,8 +90,8 @@ class UAVsEquipmentTableService extends AbstractController
         $sheet->getStyle('A:O')->getAlignment()->setVertical('center');
 
         $sheet->setCellValue('B' .($end_cell + 1), 'Итого:');
-        $initialSumCell = 'C'.$end_cell;
-        $initialSumFormulaRange = 'C5:C'.($end_cell + 1);
+        $initialSumCell = 'C'.($end_cell + 1);
+        $initialSumFormulaRange = 'C5:C'.($end_cell-1);
         $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
 
         $initialSumCell = 'D'.($end_cell + 1);
