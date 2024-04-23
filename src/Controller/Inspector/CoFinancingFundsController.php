@@ -7,6 +7,8 @@ use App\Entity\CofinancingFunds;
 use App\Entity\CofinancingScenario;
 use App\Entity\User;
 
+use App\Form\cofinancing\cofinancingCommentForm;
+use App\Form\cofinancing\cofinancingFundsForm;
 use App\Form\cofinancing\cofinancingScenarioEditForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -28,42 +30,24 @@ class CoFinancingFundsController extends AbstractController
     public function index(EntityManagerInterface $em, Request $request, int $id, PaginatorInterface $paginator): Response
     {
         $user = $em->getRepository(User::class)->find($id);
-        $funds = $user->getCofinancingComment();
+        $cofinancingComment = $user->getCofinancingComment();
+        $funds = $user->getCofinancingFunds();
         $userInfo = $user->getUserInfo();
+        if(is_null($cofinancingComment))
+            $cofinancingComment = new CofinancingComment($user);
         if(is_null($funds))
-            $funds = new CofinancingComment($user);
+            $funds = new CofinancingFunds($user);
 
-        $form = $this->createFormBuilder($funds)
-            ->add('regionFunds', TextareaType::class, [
-               'attr' => [
-                   'class' => 'form-control',
 
-               ] ,
-                'required' => false,
-                'label' => 'Средства Субъекта'
-            ])
-            ->add('educationFunds', TextareaType::class, [
-               'attr' => [
-                   'class' => 'form-control',
 
-               ] ,
-                'required' => false,
-                'label' => 'Средства ОО'
-            ])
-            ->add('employerFunds', TextareaType::class, [
-               'attr' => [
-                   'class' => 'form-control',
-
-               ] ,
-                'required' => false,
-                'label' => 'Средства РД'
-            ])
-        ->getForm();
+        $form = $this->createForm(cofinancingCommentForm::class, $cofinancingComment);
+        $formFunds = $this->createForm(cofinancingFundsForm::class, $funds);
 
 
         $form->handleRequest($request);
+        $formFunds->handleRequest($request);
 
-        if($form->isSubmitted() and $form->isValid())
+        if($formFunds->isSubmitted() and $formFunds->isValid())
         {
 
             $em->persist($funds);
@@ -73,6 +57,19 @@ class CoFinancingFundsController extends AbstractController
             $route = $request->headers->get('referer');
             return $this->redirect($route);
         }
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+
+            $em->persist($cofinancingComment);
+            $em->flush();
+
+
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
+        }
+
+
 
 
         $query = $em->getRepository(CofinancingScenario::class)
@@ -93,8 +90,10 @@ class CoFinancingFundsController extends AbstractController
             'user' => $user,
             'cofinancing_scenarion' => $pagination,
             'form' => $form->createView(),
+            'formFunds' => $formFunds->createView(),
+            'cofinancingComment' => $cofinancingComment,
+            'userInfo' => $userInfo,
             'funds' => $funds,
-            'userInfo' => $userInfo
         ]);
     }
 
