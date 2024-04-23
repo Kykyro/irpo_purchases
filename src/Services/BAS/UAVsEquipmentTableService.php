@@ -80,6 +80,17 @@ class UAVsEquipmentTableService extends AbstractController
                 'name'  => 'Times New Roman'
             ]
         ];
+
+        $initialFedFundSUM = "=";
+        $initialSubFundSUM = "=";
+        $initialEmpFundSUM = "=";
+        $initialOrgFundSUM = "=";
+
+        $finFedFundSUM = "=";
+        $finSubFundSUM = "=";
+        $finEmpFundSUM = "=";
+        $finOrgFundSUM = "=";
+
         $end_cell = $sheet->getHighestRow();
         $rangeTotal = 'A5:O'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
@@ -87,7 +98,16 @@ class UAVsEquipmentTableService extends AbstractController
         $sheet->getStyle('A:O')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:O')->getAlignment()->setVertical('center');
 
+        $sheet->setCellValue('C'.$end_cell, 'Итого:');
+        $initialSumCell = 'D'.$end_cell;
+        $initialSumFormulaRange = 'D14:D'.($end_cell-1);
 
+        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
+
+        $sheet->setCellValue('E'.$end_cell, $initialFedFundSUM);
+        $sheet->setCellValue('F'.$end_cell, $initialSubFundSUM);
+        $sheet->setCellValue('G'.$end_cell, $initialEmpFundSUM);
+        $sheet->setCellValue('H'.$end_cell, $initialOrgFundSUM);
 
 
         // Запись файла
