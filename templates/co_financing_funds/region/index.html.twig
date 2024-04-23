@@ -10,14 +10,6 @@
                 <i class="fa fa-plus"></i>
                 Добавить категорию софинансирования
             </button>
-
-            <div style="margin-top: 1rem">
-                {% if 'ROLE_BAS' in app.user.getRoles() %}
-                    {% include 'default/instruction_button.html.twig' with {'file': 'Инструкция_средства_софинансирования.pdf', 'button_text': 'Скачать инструкцию'} %}
-                {% else %}
-                    {% include 'default/instruction_button.html.twig' with {'file': 'Инструкция_средства_софинансирования.pdf', 'button_text': 'Скачать инструкцию'} %}
-                {% endif %}
-            </div>
         </a>
     </div>
 </row>
@@ -122,6 +114,14 @@
             </div>
             <div class="ibox-footer">
 
+            </div>
+
+            <div style="margin-top: 1rem">
+                {% if 'ROLE_BAS' in app.user.getRoles() %}
+                    {% include 'default/instruction_button.html.twig' with {'file': 'Инструкция_средства_софинансирования.pdf', 'button_text': 'Скачать инструкцию'} %}
+                {% else %}
+                    {% include 'default/instruction_button.html.twig' with {'file': 'Инструкция_средства_софинансирования.pdf', 'button_text': 'Скачать инструкцию'} %}
+                {% endif %}
             </div>
         </div>
     </div>
