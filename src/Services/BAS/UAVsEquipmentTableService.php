@@ -81,10 +81,6 @@ class UAVsEquipmentTableService extends AbstractController
             ]
         ];
 
-        $initialFedFundSUM = "=";
-        $initialSubFundSUM = "=";
-        $initialEmpFundSUM = "=";
-        $initialOrgFundSUM = "=";
 
         $end_cell = $sheet->getHighestRow();
         $rangeTotal = 'A5:O'.$end_cell;
@@ -95,14 +91,38 @@ class UAVsEquipmentTableService extends AbstractController
 
         $sheet->setCellValue('B'.$end_cell, 'Итого:');
         $initialSumCell = 'C'.$end_cell;
-        $initialSumFormulaRange = 'D5:C'.($end_cell-1);
-
+        $initialSumFormulaRange = 'C5:C'.($end_cell-1);
         $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
 
-        $sheet->setCellValue('D'.$end_cell, $initialFedFundSUM);
-        $sheet->setCellValue('E'.$end_cell, $initialSubFundSUM);
-        $sheet->setCellValue('F'.$end_cell, $initialEmpFundSUM);
-        $sheet->setCellValue('G'.$end_cell, $initialOrgFundSUM);
+        $initialSumCell = 'D'.$end_cell;
+        $initialSumFormulaRange = 'D5:D'.($end_cell-1);
+        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
+
+        $initialSumCell = 'E'.$end_cell;
+        $initialSumFormulaRange = 'E5:E'.($end_cell-1);
+        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
+
+        $initialSumCell = 'F'.$end_cell;
+        $initialSumFormulaRange = 'F5:F'.($end_cell-1);
+        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
+
+        $initialSumCell = 'G'.$end_cell;
+        $initialSumFormulaRange = 'G5:G'.($end_cell-1);
+        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
+
+        $initialSumCell = 'H'.$end_cell;
+        $initialSumFormulaRange = 'H5:H'.($end_cell-1);
+        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
+
+        $initialSumCell = 'I'.$end_cell;
+        $initialSumFormulaRange = 'I5:I'.($end_cell-1);
+        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
+
+        $initialSumCell = 'J'.$end_cell;
+        $initialSumFormulaRange = 'J5:J'.($end_cell-1);
+        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
+
+
 
 
         // Запись файла
