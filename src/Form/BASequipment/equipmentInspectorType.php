@@ -143,6 +143,14 @@ class equipmentInspectorType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
+            ->add('okpd2', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+
+                ],
+                'required'   => false,
+                'label' => false
+            ])
 
         ;
     }

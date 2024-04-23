@@ -87,6 +87,11 @@ class UAVsTypeEquipment
      */
     private $manufacturec;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $okpd2;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -256,6 +261,18 @@ class UAVsTypeEquipment
     public function setManufacturec(?string $manufacturec): self
     {
         $this->manufacturec = $manufacturec;
+
+        return $this;
+    }
+
+    public function getOkpd2(): ?string
+    {
+        return $this->okpd2;
+    }
+
+    public function setOkpd2(?string $okpd2): self
+    {
+        $this->okpd2 = $okpd2;
 
         return $this;
     }

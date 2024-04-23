@@ -59,6 +59,7 @@ class UAVsEquipmentTableService extends AbstractController
                 $equipment->getManufacturec(),
                 $equipment->getMark(),
                 $equipment->getModel(),
+                $equipment->getOkpd2(),
             ];
             $sheet->fromArray($row, null, 'A'.$rowCount, true);
             $rowCount++;
@@ -264,6 +265,7 @@ class UAVsEquipmentTableService extends AbstractController
                     $equipment->getManufacturec(),
                     $equipment->getMark(),
                     $equipment->getModel(),
+                    $equipment->getOkpd2(),
                 ];
 
                 $sheet->fromArray($row, null, 'A'.$rowCount, true);

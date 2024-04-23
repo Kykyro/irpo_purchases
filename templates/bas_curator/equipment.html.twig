@@ -17,7 +17,7 @@
             </div>
             <div class="ibox-content">
                 {{ form_start(form) }}
-                <table class="table table-bordered">
+                <table class="table table-bordered table-responsive horizontal-drag">
                     <thead class="text-center">
                         <tr>
                             <td rowspan="2">Наименование БПЛА</td>
@@ -32,6 +32,7 @@
                             <td rowspan="2">Производитель</td>
                             <td rowspan="2">Марка</td>
                             <td rowspan="2">Модель</td>
+                            <td rowspan="2">ОКПД 2</td>
                         </tr>
                     <tr>
                         <td>Количество, шт.</td>
@@ -63,6 +64,7 @@
                             <td class="col-md-1">{{ form_widget(i.manufacturec) }}</td>
                             <td class="col-md-1">{{ form_widget(i.mark) }}</td>
                             <td class="col-md-1">{{ form_widget(i.model) }}</td>
+                            <td class="col-md-1">{{ form_widget(i.okpd2) }}</td>
 
                         </tr>
                     {% endfor %}
@@ -87,6 +89,41 @@
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/inspinia.js') }}"></script>
 <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script>
+        const slider = document.querySelector('.horizontal-drag');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+
+            isDown = true;
+            slider.classList.add('active_scroll')
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mouseup', () => {
+
+            isDown = false;
+            slider.classList.remove('active_scroll')
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+
+            if (!isDown) return;
+            e.preventDefault()
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 3;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
 
 
 {% endblock %}
