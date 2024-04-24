@@ -40,7 +40,7 @@
                             <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ _funds['employersFunds'] }}</td>
                             <td class="" style="vertical-align: inherit; text-align: center">
                                 {% if rd > 0 %}
-                                    {{ (_funds['employersFunds']/rd)*100 |round(2) }} %
+                                    {{ (_funds['employersFunds']/rd)|round(4) *100  }} %
                                 {% else %}
                                     100 %
                                 {% endif %}
@@ -53,7 +53,7 @@
                             <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ _funds['subjectFunds'] }}</td>
                             <td class="" style="vertical-align: inherit; text-align: center">
                                 {% if sub > 0 %}
-                                    {{ (_funds['subjectFunds']/sub)*100 |round(2) }} %
+                                    {{ (_funds['subjectFunds']/sub)|round(4) *100  }} %
                                 {% else %}
                                     100 %
                                 {% endif %}
@@ -66,7 +66,7 @@
                             <td class="cell-number" style="vertical-align: inherit; text-align: center">{{ _funds['OOFunds'] }}</td>
                             <td class="" style="vertical-align: inherit; text-align: center">
                                 {% if oo > 0 %}
-                                    {{ (_funds['OOFunds']/oo)*100 |round(2) }} %
+                                    {{ (_funds['OOFunds']/oo)|round(4) *100 }} %
                                 {% else %}
                                     100 %
                                 {% endif %}
