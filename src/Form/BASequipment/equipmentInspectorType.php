@@ -34,37 +34,14 @@ class equipmentInspectorType  extends AbstractType
 
         $builder
 
-            ->add('deliveredCount', TextType::class, [
+            ->add('planCount', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'step' => '1',
-                    'min' => '0',
-                    'max' => '99999999999'
                 ],
                 'required'   => false,
                 'label' => false
             ])
-            ->add('deliveredSum', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'step' => '.01',
-                    'min' => '0',
-                    'max' => '99999999999'
-                ],
-                'required'   => false,
-                'label' => false
-            ])
-            ->add('contractedCount', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'step' => '1',
-                    'min' => '0',
-                    'max' => '99999999999'
-                ],
-                'required'   => false,
-                'label' => false
-            ])
-            ->add('contractedSum', TextType::class, [
+            ->add('planSum', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'step' => '.01',
@@ -94,14 +71,37 @@ class equipmentInspectorType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
-            ->add('planCount', TextType::class, [
+            ->add('contractedCount', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
+                    'step' => '1',
+                    'min' => '0',
+                    'max' => '99999999999'
                 ],
                 'required'   => false,
                 'label' => false
             ])
-            ->add('planSum', TextType::class, [
+            ->add('contractedSum', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '.01',
+                    'min' => '0',
+                    'max' => '99999999999'
+                ],
+                'required'   => false,
+                'label' => false
+            ])
+            ->add('deliveredCount', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '1',
+                    'min' => '0',
+                    'max' => '99999999999'
+                ],
+                'required'   => false,
+                'label' => false
+            ])
+            ->add('deliveredSum', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'step' => '.01',

@@ -444,14 +444,14 @@
                         {% for i in user.getUAVsTypeEquipment() %}
                             <tr>
                                 <td class="col-md-2">{{ i.getName() }}</td>
-                                <td class="col-md-1">{{ i.getDeliveredCount }}</td>
-                                <td class="col-md-1">{{ i.getDeliveredSum }}</td>
-                                <td class="col-md-1">{{ i.getContractedCount }}</td>
-                                <td class="col-md-1">{{ i.getContractedSum }}</td>
-                                <td class="col-md-1">{{ i.getPurchaseCount }}</td>
-                                <td class="col-md-1">{{ i.getPurchaseSum }}</td>
                                 <td class="col-md-1">{{ i.getPlanCount() }}</td>
                                 <td class="col-md-1">{{ i.getPlanSum() }}</td>
+                                <td class="col-md-1">{{ i.getPurchaseCount }}</td>
+                                <td class="col-md-1">{{ i.getPurchaseSum }}</td>
+                                <td class="col-md-1">{{ i.getContractedCount }}</td>
+                                <td class="col-md-1">{{ i.getContractedSum }}</td>
+                                <td class="col-md-1">{{ i.getDeliveredCount }}</td>
+                                <td class="col-md-1">{{ i.getDeliveredSum }}</td>
                                 <td class="col-md-1">{{ i.getProvide }}</td>
                                 <td class="col-md-1">{{ i.getManufacturec }}</td>
                                 <td class="col-md-1">{{ i.getMark }}</td>
