@@ -5,6 +5,7 @@ namespace App\Controller\Inspector;
 use App\Entity\CofinancingComment;
 use App\Entity\CofinancingFunds;
 use App\Entity\CofinancingScenario;
+use App\Entity\CofinancingScenarioFile;
 use App\Entity\User;
 
 use App\Form\cofinancing\cofinancingCommentForm;
@@ -95,6 +96,41 @@ class CoFinancingFundsController extends AbstractController
             'userInfo' => $userInfo,
             'funds' => $funds,
         ]);
+    }
+ /**
+     * @Route("/co-financing-funds/delete-file/{id}", name="app_inspector_co_financing_delete_file")
+     */
+    public function deleteFile(EntityManagerInterface $em, Request $request, int $id): Response
+    {
+        $file = $em->getRepository(CofinancingScenarioFile::class)->find($id);
+
+        $em->remove($file);
+        $em->flush();
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
+
+
+    }
+ /**
+     * @Route("/co-financing-funds/delete-scenario/{id}", name="app_inspector_co_financing_delete_scenario")
+     */
+    public function deleteScenario(EntityManagerInterface $em, Request $request, int $id): Response
+    {
+        $scenario = $em->getRepository(CofinancingScenario::class)->find($id);
+
+        foreach ($scenario->getFiles() as $file)
+        {
+            $em->remove($file);
+        }
+
+        $em->remove($scenario);
+        $em->flush();
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
+
+
     }
 
     /**
