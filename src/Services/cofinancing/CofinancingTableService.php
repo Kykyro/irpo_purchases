@@ -137,7 +137,7 @@ class CofinancingTableService extends AbstractController
                 "=SUM(F2:F$rowCount)",
                 "=AVERAGE(G2:G$rowCount)",
             ];
-            $sheet->fromArray($row, null, 'D'.($rowCount+1), true);
+            $sheet->fromArray($row, null, 'D'.($rowCount), true);
             foreach ($row_arr as $j){
                 $sheet->getStyle($j.$rowCount)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
             }
@@ -147,8 +147,8 @@ class CofinancingTableService extends AbstractController
             $rangeTotal = 'A2:I'.$end_cell;
             $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
             $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-            $sheet->getStyle('A:L')->getAlignment()->setHorizontal('center');
-            $sheet->getStyle('A:L')->getAlignment()->setVertical('center');
+            $sheet->getStyle('A:I')->getAlignment()->setHorizontal('center');
+            $sheet->getStyle('A:I')->getAlignment()->setVertical('center');
         }
 
 
