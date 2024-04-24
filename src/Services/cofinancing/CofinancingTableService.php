@@ -72,7 +72,7 @@ class CofinancingTableService extends AbstractController
             $sheet->getStyle("G".$rowCount)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
 
 
-            $sheet = $spreadsheet->getSheetByName('Средства субъекта РФ');
+            $sheet = $spreadsheet->getSheetByName('Средства ОО');
 
             $row = [
                 $index,
@@ -92,7 +92,7 @@ class CofinancingTableService extends AbstractController
             $sheet->getStyle("G".$rowCount)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
 
 
-            $sheet = $spreadsheet->getSheetByName('Средства ОО');
+            $sheet = $spreadsheet->getSheetByName('Средства субъекта РФ');
             $row = [
                 $index,
                 $userInfo->getRfSubject()->getName(),
