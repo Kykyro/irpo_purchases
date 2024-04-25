@@ -51,7 +51,7 @@
                         <tr>
                             <td class="col-md-2">{{ i.vars['data'].name }}</td>
                             <td class="col-md-1">{{ i.vars["data"].getPlanCount() }}</td>
-                            <td class="col-md-1">{{ i.vars["data"].getPlanSum() }}</td>
+                            <td class="col-md-1">{{ form_widget(i.planSum, {"type": "number"}) }}</td>
                             <td class="col-md-1">{{ form_widget(i.purchaseCount, {"type": "number"}) }}</td>
                             <td class="col-md-1">{{ form_widget(i.purchaseSum, {"type": "number"}) }}</td>
                             <td class="col-md-1">{{ form_widget(i.contractedCount, {"type": "number"}) }}</td>
