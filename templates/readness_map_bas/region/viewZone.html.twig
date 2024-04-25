@@ -179,7 +179,7 @@
                                                                     {#</a>#}
                                                                 {#{% endif %}#}
 
-                                                                {#{{ i.getVersion().getCreatedAt().format('d.m.Y') }}#}
+                                                                {{ i.getVersion().getCreatedAt().format('d.m.Y') }}
                                                                 {#{{ i.allowToDelete(today) }}#}
                                                                 <a href="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" title="{{ name }}" data-gallery="">
                                                                     <img src="{{ asset('/uploads/repairPhotos/'~i.getPhoto()) }}" class="col-lg-12">
