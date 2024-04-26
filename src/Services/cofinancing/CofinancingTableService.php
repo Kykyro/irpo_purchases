@@ -50,6 +50,7 @@ class CofinancingTableService extends AbstractController
             $cofinancingSum = $user->getCofinancingSum();
             $userInfo = $user->getUserInfo();
             $sheet = $spreadsheet->getSheetByName('Средства РД');
+            $funds = $user->getCofinancingFunds();
             $fundsComment = $user->getCofinancingComment();
             if(is_null($fundsComment))
                 $fundsComment = new CofinancingComment($user);
@@ -59,7 +60,7 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $userInfo->getExtraFundsEconomicSector()*1000,
+                $funds->getEmployerFunds(),
                 $cofinancingSum['employersFunds'],
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEmployerFunds(),
@@ -79,7 +80,7 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $userInfo->getExtraFundsOO()*1000,
+                $funds->getRegionFunds(),
                 $cofinancingSum['subjectFunds'],
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getRegionFunds(),
@@ -98,8 +99,8 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $userInfo->getFinancingFundsOfSubject()*1000,
                 $cofinancingSum['OOFunds'],
+                $funds->getEducationFunds(),
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEducationFunds(),
                 $userInfo->getCurator(),
