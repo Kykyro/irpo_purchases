@@ -89,38 +89,18 @@ class UAVsEquipmentTableService extends AbstractController
         $sheet->getStyle('A:O')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:O')->getAlignment()->setVertical('center');
 
-        $sheet->setCellValue('B' .($end_cell + 1), 'Итого:');
-        $initialSumCell = 'C'.($end_cell + 1);
-        $initialSumFormulaRange = 'C5:C'.($end_cell);
-        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
-
-        $initialSumCell = 'D'.($end_cell + 1);
-        $initialSumFormulaRange = 'D5:D'.($end_cell);
-        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
-
-        $initialSumCell = 'E'.($end_cell + 1);
-        $initialSumFormulaRange = 'E5:E'.($end_cell);
-        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
-
-        $initialSumCell = 'F'.($end_cell + 1);
-        $initialSumFormulaRange = 'F5:F'.($end_cell);
-        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
-
-        $initialSumCell = 'G'.($end_cell + 1);
-        $initialSumFormulaRange = 'G5:G'.($end_cell);
-        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
-
-        $initialSumCell = 'H'.($end_cell + 1);
-        $initialSumFormulaRange = 'H5:H'.($end_cell);
-        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
-
-        $initialSumCell = 'I'.($end_cell + 1);
-        $initialSumFormulaRange = 'I5:I'.($end_cell);
-        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
-
-        $initialSumCell = 'J'.($end_cell + 1);
-        $initialSumFormulaRange = 'J5:J'.($end_cell);
-        $sheet->setCellValue($initialSumCell , "=SUM($initialSumFormulaRange)");
+        $resultRow = [
+            'Итого:',
+            '=SUM(C5:C'.($end_cell).")",
+            '=SUM(D5:D'.($end_cell).")",
+            '=SUM(E5:E'.($end_cell).")",
+            '=SUM(F5:F'.($end_cell).")",
+            '=SUM(G5:G'.($end_cell).")",
+            '=SUM(H5:H'.($end_cell).")",
+            '=SUM(I5:I'.($end_cell).")",
+            '=SUM(J5:J'.($end_cell).")",
+        ];
+        $sheet->fromArray($resultRow, null, 'B'.($end_cell + 1), true);
 
         $end_cell = $sheet->getHighestRow();
         $rangeTotal = 'A5:O'.$end_cell;
