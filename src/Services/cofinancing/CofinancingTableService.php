@@ -63,8 +63,9 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
 
-                $cofinancingSum['employersFunds'],
+
                 $funds->getEmployerFunds(),
+                $cofinancingSum['employersFunds'],
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEmployerFunds(),
                 $userInfo->getCurator(),
@@ -83,9 +84,10 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $cofinancingSum['OOFunds'],
+
 
                 $funds->getEducationFunds(),
+                $cofinancingSum['OOFunds'],
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getRegionFunds(),
                 $userInfo->getCurator(),
@@ -103,8 +105,9 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $cofinancingSum['subjectFunds'],
+
                 $funds->getRegionFunds(),
+                $cofinancingSum['subjectFunds'],
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEducationFunds(),
                 $userInfo->getCurator(),
