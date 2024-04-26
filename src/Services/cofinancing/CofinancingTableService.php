@@ -4,6 +4,7 @@ namespace App\Services\cofinancing;
 
 use App\Entity\ClusterAddresses;
 use App\Entity\CofinancingComment;
+use App\Entity\CofinancingFunds;
 use App\Entity\ProcurementProcedures;
 use App\Entity\PurchasesDump;
 use App\Entity\RfSubject;
@@ -54,14 +55,16 @@ class CofinancingTableService extends AbstractController
             $fundsComment = $user->getCofinancingComment();
             if(is_null($fundsComment))
                 $fundsComment = new CofinancingComment($user);
-
+            if(is_null($funds))
+                $funds = new CofinancingFunds($user);
             $row = [
                 $index,
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $funds->getEmployerFunds(),
+
                 $cofinancingSum['employersFunds'],
+                $funds->getEmployerFunds(),
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEmployerFunds(),
                 $userInfo->getCurator(),
@@ -80,8 +83,9 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getRfSubject()->getName(),
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
-                $funds->getRegionFunds(),
+
                 $cofinancingSum['subjectFunds'],
+                $funds->getEducationFunds(),
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getRegionFunds(),
                 $userInfo->getCurator(),
@@ -100,7 +104,7 @@ class CofinancingTableService extends AbstractController
                 $userInfo->getDeclaredIndustry(),
                 $userInfo->getEducationalOrganization(),
                 $cofinancingSum['OOFunds'],
-                $funds->getEducationFunds(),
+                $funds->getRegionFunds(),
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEducationFunds(),
                 $userInfo->getCurator(),
