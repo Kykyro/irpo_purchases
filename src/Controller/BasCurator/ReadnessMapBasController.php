@@ -4,6 +4,7 @@ namespace App\Controller\BasCurator;
 
 use App\Entity\ClusterZone;
 use App\Entity\PhotosVersion;
+use App\Entity\UAVsCertificate;
 use App\Entity\User;
 use App\Entity\ZoneInfrastructureSheet;
 use App\Form\BASequipment\equipmentBasInspectorForm;
@@ -261,6 +262,33 @@ class ReadnessMapBasController extends AbstractController
             'zone' => $zone,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/bas-curator/readiness-map/approve-certificate/{id}", name="app_certificate_bas_approve")
+     */
+    public function approveCertificate(Request $request, int $id, EntityManagerInterface $em): Response
+    {
+        $submittedToken = $request->request->get('token');
+//        dd($submittedToken);
+        if ($this->isCsrfTokenValid('approve-certification', $submittedToken)) {
+
+            $user = $em->getRepository(User::class)->find($id);
+            $certificate = $user->getUAVsCertificate();
+            if(is_null($certificate))
+            {
+                $user->setUAVsCertificate(new UAVsCertificate());
+                $certificate = $user->getUAVsCertificate();
+            }
+
+            $status = $request->request->get('optionsRadios');
+            $certificate->setStatus($status);
+            $em->persist($user);
+            $em->persist($certificate);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_readness_map_bas_inspector', ['id' => $id]);
     }
 
 

@@ -7,6 +7,7 @@ use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
 use App\Entity\PurchaseNote;
 use App\Entity\RfSubject;
+use App\Entity\UAVsCertificate;
 use App\Form\ChoiceInputType;
 use App\Form\formWithDate;
 use App\Form\purchasesFormType;
@@ -69,6 +70,14 @@ class CertificateController extends AbstractController
             'Справка принята' => '-primary',
 
         ];
+
+        $UAVsCertificate = $user->getUAVsCertificate();
+
+        if(is_null($UAVsCertificate))
+            $UAVsCertificate = new UAVsCertificate();
+
+
+
         if(is_null($userInfo->getCertificateFunds()))
         {
             $certificateFunds = new CertificateFunds($userInfo);
@@ -166,7 +175,7 @@ class CertificateController extends AbstractController
             'form' => $form->createView(),
             'contract_certificate' => $contractCertificate,
             'status_lib' => $statusLib,
-
+            'UAVsCertificate' => $UAVsCertificate,
         ]);
     }
 

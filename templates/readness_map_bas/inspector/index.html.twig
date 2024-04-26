@@ -408,9 +408,20 @@
                     <h5>
                         Справка об оснащении специализированных классов (кружков) и центров практической подготовки БПЛА
                     </h5>
+
+                    {% if user.getUAVsCertificate() is not null %}
+                        <span class="badge">
+                            {{ user.getUAVsCertificate().getStatus() }}
+                        </span>
+
+                    {% endif %}
                 </div>
                 <div class="ibox-content table-responsive horizontal-drag">
 
+                    <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fa fa-search"></i>
+                        Проверка справки
+                    </button>
                     <table class="table table-bordered">
                         <thead class="text-center">
                         <tr>
@@ -475,6 +486,52 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+
+                        Справка об оснащении специализированных классов (кружков) и центров практической подготовки БПЛА
+
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ path('app_certificate_bas_approve', {'id': user.getId()}) }}" method="post">
+
+                    <input type="hidden" name="token" value="{{ csrf_token('approve-certification') }}"/>
+                <div class="modal-body">
+                    <div class="col-sm-10">
+                        <div>
+                            <label>
+                                <input type="radio" checked="" value="Справка принята"
+                                       id="optionsRadios1" name="optionsRadios">
+                                Принято
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="radio" value="На доработке" id="optionsRadios2"
+                                       name="optionsRadios">
+                                На доработку
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 
 {% endblock %}

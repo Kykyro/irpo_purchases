@@ -102,7 +102,13 @@
                                         </button>
                                     </a>
                                 </td>
-                                <td></td>
+                                <td>
+                                    <p>
+                                        <span class="badge col-sm-12">
+                                            {{ UAVsCertificate.getStatus() }}
+                                        </span>
+                                    </p>
+                                </td>
 
                                 {% if(contract_certificate) %}
                                 <td>

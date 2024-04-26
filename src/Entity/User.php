@@ -131,6 +131,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToOne(targetEntity=CofinancingComment::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $cofinancingComment;
+
+    /**
+     * @ORM\OneToOne(targetEntity=UAVsCertificate::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $uAVsCertificate;
     
 
     public function getId(): ?int
@@ -1054,6 +1059,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->cofinancingComment = $cofinancingComment;
+
+        return $this;
+    }
+
+    public function getUAVsCertificate(): ?UAVsCertificate
+    {
+        return $this->uAVsCertificate;
+    }
+
+    public function setUAVsCertificate(?UAVsCertificate $uAVsCertificate): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($uAVsCertificate === null && $this->uAVsCertificate !== null) {
+            $this->uAVsCertificate->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($uAVsCertificate !== null && $uAVsCertificate->getUser() !== $this) {
+            $uAVsCertificate->setUser($this);
+        }
+
+        $this->uAVsCertificate = $uAVsCertificate;
 
         return $this;
     }

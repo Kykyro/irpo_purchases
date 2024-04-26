@@ -6,6 +6,7 @@ use App\Entity\Log;
 use App\Entity\ProcurementProcedures;
 use App\Entity\PurchaseNote;
 use App\Entity\RfSubject;
+use App\Entity\UAVsCertificate;
 use App\Form\BASequipment\equipmentBasForm;
 use App\Form\ChoiceInputType;
 use App\Form\purchasesFormType;
@@ -49,6 +50,14 @@ class BASEquipmentController extends AbstractController
 
         if($form->isSubmitted() and $form->isValid())
         {
+            $UAVsCertificate = $user->getUAVsCertificate();
+            if(is_null($UAVsCertificate))
+            {
+                $UAVsCertificate = new UAVsCertificate();
+                $user->setUAVsCertificate($UAVsCertificate);
+            }
+
+            $UAVsCertificate->setStatus('Справка на проверке');
             $em->persist($user);
             $em->flush();
         }
