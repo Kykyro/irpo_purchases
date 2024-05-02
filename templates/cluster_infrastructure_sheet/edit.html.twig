@@ -33,7 +33,7 @@
                         {{ type }}
                     </h5>
                 </div>
-                {% macro printInfrastructureSheets(sheet, dis, comment) %}
+                {% macro printInfrastructureSheets(sheet, dis, comment, type) %}
                     
                     <td>
                         {{ form_widget(sheet.name) }}
@@ -54,6 +54,11 @@
                     </td>
                     <td>
                         {{ form_widget(sheet.funds) }}
+                    </td>
+                    <td>
+                        {% if type == 'Рабочее место учащегося' %}
+                        {{ form_widget(sheet.workplaceNum, {'type':'number'}) }}
+                        {% endif %}
                     </td>
                     <td>
                         {{ form_widget(sheet.clusterComment) }}
@@ -82,7 +87,8 @@
                             <td class="col-md-1">Количество</td>
                             <td class="col-md-1">Единица измерения</td>
                             <td class="col-md-1">Итоговое количество</td>
-                            <td class="col-md-1">Источник финансирования</td>
+                            <td >Источник финансирования</td>
+                            <td >Номер рабочего места</td>
                             <td class="col-md-2">Комментарий</td>
                             {#<td class="col-md-1">Комментарий от ИРПО</td>#}
                             <td></td>
@@ -105,7 +111,7 @@
                             {% endif %}
                                 <tr >
                                     <tr {% if dis %} style="display: none" {% endif %}>
-                                        {{ formMacros.printInfrastructureSheets(i, dis, i.vars.value.getCuratorComment) }}
+                                        {{ formMacros.printInfrastructureSheets(i, dis, i.vars.value.getCuratorComment, type) }}
                                     </tr>
                                 </tr>
                             {% if i.vars.value.getCuratorComment %}

@@ -163,6 +163,19 @@ class equipmentType  extends AbstractType
                 'label' => false,
             ])
         ;
+        if($options['vars']['type'] == 'Рабочее место учащегося')
+        {
+
+            $builder
+            ->add('workplaceNum', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'type' => 'number'
+                ],
+                'required'   => false,
+                'label' => false
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

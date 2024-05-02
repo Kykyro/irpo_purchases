@@ -93,6 +93,11 @@ class WorkzoneEquipment
      */
     private $unit;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $workplaceNum;
+
     public function __construct()
     {
         $this->equipmentLogs = new ArrayCollection();
@@ -308,6 +313,18 @@ class WorkzoneEquipment
     public function setUnit(?string $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getWorkplaceNum(): ?int
+    {
+        return $this->workplaceNum;
+    }
+
+    public function setWorkplaceNum(?int $workplaceNum): self
+    {
+        $this->workplaceNum = $workplaceNum;
 
         return $this;
     }
