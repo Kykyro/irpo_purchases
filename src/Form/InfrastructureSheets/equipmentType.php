@@ -165,7 +165,6 @@ class equipmentType  extends AbstractType
         ;
         if($options['vars']['type'] == 'Рабочее место учащегося')
         {
-
             $builder
             ->add('workplaceNum', TextType::class, [
                 'attr' => [
