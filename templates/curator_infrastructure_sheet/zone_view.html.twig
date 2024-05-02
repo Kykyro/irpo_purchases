@@ -77,6 +77,80 @@
                                         <button class="btn btn-outline-dark" data-id="{{ i.getId() }}"><i class="fa fa-edit"></i></button>
                                     </td>
                                 </tr>
+                                    {% for ii in i.getWorkzoneEquipmentDumps()|reverse %}
+                                        {% set changes = ii.getChanges() %}
+                                        <tr>
+                                            <td class="btn-warning"></td>
+                                            <td>
+                                                {% if changes.name is defined  %}
+                                                    <p class="text-danger">
+                                                        {{ changes.name.0 }}
+                                                    </p>
+                                                   <hr>
+                                                    <p>
+                                                        {{ changes.name.1 }}
+                                                    </p>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if changes.specification is defined  %}
+                                                    <p class="danger">
+                                                        {{ changes.specification.0 }}
+                                                    </p>
+                                                    <hr>
+                                                    <p>
+                                                        {{ changes.specification.1 }}
+                                                    </p>
+
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {#{% if changes.type is defined  %}#}
+                                                    {#{{ dump(changes) }}#}
+                                                {#{% endif %}#}
+                                            </td>
+                                            <td>
+                                                {% if changes.count is defined  %}
+                                                    <p class="danger">
+                                                        {{ changes.count.0 }}
+                                                    </p>
+                                                    <hr>
+                                                    <p>
+                                                        {{ changes.count.1 }}
+                                                    </p>
+
+                                                {% endif %}
+
+
+
+                                            </td>
+                                            <td>
+                                                {% if changes.name is defined  %}
+                                                    {{ changes.name.0 }}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if changes.name is defined  %}
+                                                    {{ changes.name.0 }}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if changes.funds is defined  %}
+                                                    {{ changes.funds.0 }}
+                                                {% endif %}
+
+                                            </td>
+                                            <td>
+                                                {% if changes.clusterComment is defined  %}
+                                                    {{ changes.clusterComment.0 }}
+                                                {% endif %}
+                                            </td>
+
+                                            <td>{{ ii.createdAt.format('d.m.Y') }}</td>
+                                            <td></td>
+                                        </tr>
+
+                                    {% endfor %}
                                 {% endfor %}
                             </tbody>
                         </table>

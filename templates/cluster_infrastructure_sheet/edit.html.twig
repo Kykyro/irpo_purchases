@@ -58,9 +58,9 @@
                     <td>
                         {{ form_widget(sheet.clusterComment) }}
                     </td>
-                    <td>
-                        {{ comment }}
-                    </td>
+                    {#<td>#}
+                        {#{{ comment }}#}
+                    {#</td>#}
                     <td>
                         {% if not sheet.vars.data %}
                             <button class="btn btn-danger delete-alert delete-row" type="button">
@@ -73,7 +73,7 @@
                 {% endmacro %}
                 <div class="ibox-content">
                     {{ form_start(form) }}
-                    <table class="table table-bordered">
+                    <table class="table table-bordered text-center">
                         <thead>
                         <tr>
                             <td class="col-md-2">Наименование	</td>
@@ -83,8 +83,8 @@
                             <td class="col-md-1">Единица измерения</td>
                             <td class="col-md-1">Итоговое количество</td>
                             <td class="col-md-1">Источник финансирования</td>
-                            <td class="col-md-3">Комментарий</td>
-                            <td class="col-md-3">Комментарий от ИРПО</td>
+                            <td class="col-md-2">Комментарий</td>
+                            {#<td class="col-md-1">Комментарий от ИРПО</td>#}
                             <td></td>
                         </tr>
                         </thead>
@@ -108,7 +108,16 @@
                                         {{ formMacros.printInfrastructureSheets(i, dis, i.vars.value.getCuratorComment) }}
                                     </tr>
                                 </tr>
-
+                            {% if i.vars.value.getCuratorComment %}
+                                <tr>
+                                    <td>
+                                        Комментарий от ИРПО
+                                    </td>
+                                    <td colspan="20">
+                                        {{ i.vars.value.getCuratorComment }}
+                                    </td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>

@@ -39,10 +39,7 @@ class WorkzoneEquipment
      */
     private $funds;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=EquipmentType::class, inversedBy="workzoneEquipment")
-     */
-    private $type;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=SheetWorkzone::class, inversedBy="workzoneEquipment")
@@ -54,10 +51,7 @@ class WorkzoneEquipment
      */
     private $zoneGroup;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=WorkzoneEqupmentUnit::class, inversedBy="workzoneEquipment")
-     */
-    private $unit;
+
 
     /**
      * @ORM\OneToMany(targetEntity=EquipmentLog::class, mappedBy="equipment")
@@ -88,6 +82,16 @@ class WorkzoneEquipment
      * @ORM\OneToMany(targetEntity=WorkzoneEquipmentDump::class, mappedBy="equipment")
      */
     private $workzoneEquipmentDumps;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $unit;
 
     public function __construct()
     {
@@ -148,17 +152,7 @@ class WorkzoneEquipment
         return $this;
     }
 
-    public function getType(): ?EquipmentType
-    {
-        return $this->type;
-    }
 
-    public function setType(?EquipmentType $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 
     public function getSheet(): ?SheetWorkzone
     {
@@ -184,17 +178,7 @@ class WorkzoneEquipment
         return $this;
     }
 
-    public function getUnit(): ?WorkzoneEqupmentUnit
-    {
-        return $this->unit;
-    }
 
-    public function setUnit(?WorkzoneEqupmentUnit $unit): self
-    {
-        $this->unit = $unit;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, EquipmentLog>
@@ -300,6 +284,30 @@ class WorkzoneEquipment
                 $workzoneEquipmentDump->setEquipment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getUnit(): ?string
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?string $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

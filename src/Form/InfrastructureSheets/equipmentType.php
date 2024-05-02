@@ -47,22 +47,22 @@ class equipmentType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
-            ->add('type', EntityType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'class' => \App\Entity\EquipmentType::class,
-                'choice_label' => 'name',
-                'required'   => false,
-                'label' => false,
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('eq')
-                        ->andWhere('eq.isHide = 0')
-                        ->andWhere('eq.type LIKE :type')
-                        ->setParameter('type', '%'.$options['vars']['type'].'%')
-                        ->orderBy('eq.name', 'ASC');
-                },
-            ])
+//            ->add('type', EntityType::class, [
+//                'attr' => [
+//                    'class' => 'form-control',
+//                ],
+//                'class' => \App\Entity\EquipmentType::class,
+//                'choice_label' => 'name',
+//                'required'   => false,
+//                'label' => false,
+//                'query_builder' => function (EntityRepository $er) use ($options) {
+//                    return $er->createQueryBuilder('eq')
+//                        ->andWhere('eq.isHide = 0')
+//                        ->andWhere('eq.type LIKE :type')
+//                        ->setParameter('type', '%'.$options['vars']['type'].'%')
+//                        ->orderBy('eq.name', 'ASC');
+//                },
+//            ])
             ->add('count', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -71,22 +71,22 @@ class equipmentType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
-            ->add('unit', EntityType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'class' => \App\Entity\WorkzoneEqupmentUnit::class,
-                'choice_label' => 'name',
-                'required'   => false,
-                'label' => false,
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('u')
-                        ->andWhere('u.isHide = 0')
-                        ->andWhere('u.type LIKE :type')
-                        ->setParameter('type', '%'.$options['vars']['type'].'%')
-                        ->orderBy('u.name', 'ASC');
-                },
-            ])
+//            ->add('unit', EntityType::class, [
+//                'attr' => [
+//                    'class' => 'form-control',
+//                ],
+//                'class' => \App\Entity\WorkzoneEqupmentUnit::class,
+//                'choice_label' => 'name',
+//                'required'   => false,
+//                'label' => false,
+//                'query_builder' => function (EntityRepository $er) use ($options) {
+//                    return $er->createQueryBuilder('u')
+//                        ->andWhere('u.isHide = 0')
+//                        ->andWhere('u.type LIKE :type')
+//                        ->setParameter('type', '%'.$options['vars']['type'].'%')
+//                        ->orderBy('u.name', 'ASC');
+//                },
+//            ])
             ->add('resultCount', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -97,6 +97,40 @@ class equipmentType  extends AbstractType
                 'mapped' => false
             ])
             ->add('funds', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'choices'  => [
+                    'ФБ' => 'ФБ',
+                    'БР' => 'БР',
+                    'ВБ' => 'ВБ',
+                    'РБ' => 'РБ',
+                    'В наличии' => 'В наличии'
+
+                ],
+                'multiple' => false,
+                'expanded' => false,
+                'required'   => false,
+                'label' => false
+            ])
+            ->add('type', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'choices'  => [
+                    'ФБ' => 'ФБ',
+                    'БР' => 'БР',
+                    'ВБ' => 'ВБ',
+                    'РБ' => 'РБ',
+                    'В наличии' => 'В наличии'
+
+                ],
+                'multiple' => false,
+                'expanded' => false,
+                'required'   => false,
+                'label' => false
+            ])
+            ->add('unit', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
