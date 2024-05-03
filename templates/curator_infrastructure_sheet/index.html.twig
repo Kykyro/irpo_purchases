@@ -42,7 +42,17 @@
                             <tr>
                                 <td>{{ loop.index }}</td>
                                 <td>{{ i.getName() }}</td>
-                                <td>{{ i.getFGOS() }}</td>
+                                <td>
+                                    <ul>
+                                        {% for ii in i.getFGOS() %}
+                                            <li>
+                                                {{ ii }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+
+
+                                </td>
                                 <td>
                                     <a href="{{ path('app_curator_infrastructure_sheet_view', {'id': i.getId()}) }}">
                                         <button class="btn btn-outline-dark col-sm-12">

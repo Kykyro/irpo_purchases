@@ -90,8 +90,25 @@ class equipmentType  extends AbstractType
                 'label' => false,
             ])
         ;
-        if($zoneGroup->getType() == 'Охрана труда и техника безопасности ')
+        if($zoneGroup->getType() == 'Охрана труда и техника безопасности')
         {
+            $builder
+                ->add('type', ChoiceType::class, [
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                    'choices' => [
+                        'Охрана труда' => 'Охрана труда',
+                        'Техника безопасности' => 'Техника безопасности',
+                    ],
+                    'multiple' => false,
+                    'expanded' => false,
+                    'required' => true,
+                    'label' => false
+                ]);
+
+        }
+        else{
             $builder
                 ->add('type', ChoiceType::class, [
                     'attr' => [
@@ -102,22 +119,6 @@ class equipmentType  extends AbstractType
                         'Оборудование' => 'Оборудование',
                         'Оборудование IT' => 'Оборудование IT',
                         'Программное обеспечение' => 'Программное обеспечение',
-                    ],
-                    'multiple' => false,
-                    'expanded' => false,
-                    'required' => true,
-                    'label' => false
-                ]);
-        }
-        else{
-            $builder
-                ->add('type', ChoiceType::class, [
-                    'attr' => [
-                        'class' => 'form-control',
-                    ],
-                    'choices' => [
-                        'Охрана труда' => 'Охрана труда',
-                        'Техника безопасности' => 'Техника безопасности',
                     ],
                     'multiple' => false,
                     'expanded' => false,

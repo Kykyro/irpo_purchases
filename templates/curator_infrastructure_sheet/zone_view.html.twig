@@ -26,23 +26,27 @@
                     </h5>
                 </div>
                 <div class="ibox-content">
-                    {% for group in zone.getWorkzoneEquipmentByGroup() %}
+                    {% for group in zone.getZoneGroups() %}
                         {% if group|length > 0 %}
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="text-center">
                                 <tr>
                                     <td colspan="20" class="text-center">
                                         <h3>
-                                            {{ group[0].getZoneGroup()}}
+                                            {{ group.getType() }}
+
+                                            {% if group.getWorkplaces() > 0 %}
+                                                (кол-во раб. мест: {{ group.getWorkplaces() }})
+                                            {% endif %}
                                         </h3>
 
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-0">№ п\п</td>
+                                    <td class="col-md-0">№</td>
                                     <td class="col-md-2">Наименование</td>
                                     <td class="col-md-3">Краткие (рамочные) технические характеристики</td>
-                                    <td class="col-md-2">Вид</td>
+                                    <td class="col-md-1">Вид</td>
                                     <td class="col-md-0">Количество</td>
                                     <td class="col-md-0">Единица измерения</td>
                                     <td class="col-md-0">Итоговое количество</td>
@@ -52,105 +56,108 @@
                                     <td></td>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {% for i in group %}
+                            <tbody class="text-center">
+                                {% for i in group.getEquipment() %}
                                 <tr {% if i.isDone() %}class="is-done"{% endif %}>
                                     <td>{{ loop.index }}</td>
                                     <td>{{ i.getName() }}</td>
                                     <td>{{ i.getSpecification() }}</td>
                                     <td>
-                                        {% if i.getType() %}
-                                            {{ i.getType().getName() }}
-                                        {% endif %}
+
+                                        {{ i.getType() }}
+
                                     </td>
                                     <td>{{ i.getCount() }}</td>
                                     <td>
-                                        {% if i.getUnit() %}
-                                            {{ i.getUnit().getName() }}
-                                        {% endif %}
+                                        {{ i.getUnit() }}
                                     </td>
                                     <td></td>
                                     <td>{{ i.getFunds() }}</td>
                                     <td>{{ i.getClusterComment() }}</td>
-                                    <td></td>
+                                    <td>
+                                        {% set dump = i.getWorkzoneEquipmentDumps().last() %}
+                                        {% if dump %}
+                                            {{ dump.getCreatedAt.format('d.m.Y') }}
+                                        {% endif %}
+                                                                            </td>
                                     <td>
                                         <button class="btn btn-outline-dark" data-id="{{ i.getId() }}"><i class="fa fa-edit"></i></button>
                                     </td>
                                 </tr>
-                                    {% for ii in i.getWorkzoneEquipmentDumps()|reverse %}
-                                        {% set changes = ii.getChanges() %}
-                                        <tr>
-                                            <td class="btn-warning"></td>
-                                            <td>
-                                                {% if changes.name is defined  %}
-                                                    <p class="text-danger">
-                                                        {{ changes.name.0 }}
-                                                    </p>
-                                                   <hr>
-                                                    <p>
-                                                        {{ changes.name.1 }}
-                                                    </p>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if changes.specification is defined  %}
-                                                    <p class="danger">
-                                                        {{ changes.specification.0 }}
-                                                    </p>
-                                                    <hr>
-                                                    <p>
-                                                        {{ changes.specification.1 }}
-                                                    </p>
+                                    {#{% for ii in i.getWorkzoneEquipmentDumps()|reverse %}#}
+                                        {#{% set changes = ii.getChanges() %}#}
+                                        {#<tr>#}
+                                            {#<td class="btn-warning"></td>#}
+                                            {#<td>#}
+                                                {#{% if changes.name is defined  %}#}
+                                                    {#<p class="text-danger">#}
+                                                        {#{{ changes.name.0 }}#}
+                                                    {#</p>#}
+                                                   {#<hr>#}
+                                                    {#<p>#}
+                                                        {#{{ changes.name.1 }}#}
+                                                    {#</p>#}
+                                                {#{% endif %}#}
+                                            {#</td>#}
+                                            {#<td>#}
+                                                {#{% if changes.specification is defined  %}#}
+                                                    {#<p class="danger">#}
+                                                        {#{{ changes.specification.0 }}#}
+                                                    {#</p>#}
+                                                    {#<hr>#}
+                                                    {#<p>#}
+                                                        {#{{ changes.specification.1 }}#}
+                                                    {#</p>#}
 
-                                                {% endif %}
-                                            </td>
-                                            <td>
+                                                {#{% endif %}#}
+                                            {#</td>#}
+                                            {#<td>#}
                                                 {#{% if changes.type is defined  %}#}
                                                     {#{{ dump(changes) }}#}
                                                 {#{% endif %}#}
-                                            </td>
-                                            <td>
-                                                {% if changes.count is defined  %}
-                                                    <p class="danger">
-                                                        {{ changes.count.0 }}
-                                                    </p>
-                                                    <hr>
-                                                    <p>
-                                                        {{ changes.count.1 }}
-                                                    </p>
+                                            {#</td>#}
+                                            {#<td>#}
+                                                {#{% if changes.count is defined  %}#}
+                                                    {#<p class="danger">#}
+                                                        {#{{ changes.count.0 }}#}
+                                                    {#</p>#}
+                                                    {#<hr>#}
+                                                    {#<p>#}
+                                                        {#{{ changes.count.1 }}#}
+                                                    {#</p>#}
 
-                                                {% endif %}
+                                                {#{% endif %}#}
 
 
 
-                                            </td>
-                                            <td>
-                                                {% if changes.name is defined  %}
-                                                    {{ changes.name.0 }}
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if changes.name is defined  %}
-                                                    {{ changes.name.0 }}
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if changes.funds is defined  %}
-                                                    {{ changes.funds.0 }}
-                                                {% endif %}
+                                            {#</td>#}
+                                            {#<td>#}
+                                                {#{% if changes.name is defined  %}#}
+                                                    {#{{ changes.name.0 }}#}
+                                                {#{% endif %}#}
+                                            {#</td>#}
+                                            {#<td>#}
+                                                {#{% if changes.name is defined  %}#}
+                                                    {#{{ changes.name.0 }}#}
+                                                {#{% endif %}#}
+                                            {#</td>#}
+                                            {#<td>#}
+                                                {#{% if changes.funds is defined  %}#}
+                                                    {#{{ changes.funds.0 }}#}
+                                                {#{% endif %}#}
 
-                                            </td>
-                                            <td>
-                                                {% if changes.clusterComment is defined  %}
-                                                    {{ changes.clusterComment.0 }}
-                                                {% endif %}
-                                            </td>
+                                            {#</td>#}
+                                            {#<td>#}
+                                                {#{% if changes.clusterComment is defined  %}#}
+                                                    {#{{ changes.clusterComment.0 }}#}
+                                                {#{% endif %}#}
+                                            {#</td>#}
 
-                                            <td>{{ ii.createdAt.format('d.m.Y') }}</td>
-                                            <td></td>
-                                        </tr>
+                                            {#<td>{{ ii.createdAt.format('d.m.Y') }}</td>#}
+                                            {#<td></td>#}
+                                        {#</tr>#}
 
-                                    {% endfor %}
+                                    {#{% endfor %}#}
                                 {% endfor %}
                             </tbody>
                         </table>
