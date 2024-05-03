@@ -150,7 +150,7 @@ class SmallCuratorContractingController extends AbstractController
                     return $cofinancingTableService->downloadTable($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_2', $tags);
 
             }
-            if($data['type'] == 11){
+            if($data['type'] == 12){
                 if($_role == 'lot_1')
                     return $statusService->tableGenerator($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_1', $tags);
                 if($_role == 'lot_2')
