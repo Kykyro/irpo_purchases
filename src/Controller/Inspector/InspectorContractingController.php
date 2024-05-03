@@ -11,6 +11,7 @@ use App\Services\cofinancing\CofinancingTableService;
 use App\Services\ContractingXlsxService;
 use App\Services\FileService;
 use App\Services\ReadinessMapXlsxService;
+use App\Services\status\statusService;
 use App\Services\XlsxPerformanceIndicatorService;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,7 +39,7 @@ class InspectorContractingController extends AbstractController
      */
     public function index(Request $request, ContractingXlsxService $contractingXlsxService,
                           ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService,
-                          CofinancingTableService $cofinancingTableService): Response
+                          CofinancingTableService $cofinancingTableService, statusService $statusService): Response
     {
 
         $arr = [];
@@ -68,6 +69,7 @@ class InspectorContractingController extends AbstractController
                     'Показатели результативности' => 5,
                     'Ремработы и оборудование (новый)' => 6,
                     'Софинансирование' => 11,
+                    'Состояние' => 12,
 
                 ],
             ])
@@ -155,6 +157,9 @@ class InspectorContractingController extends AbstractController
             }
             if($data['type'] == 11){
                 return $cofinancingTableService->downloadTable($data['year'], 'ROLE_REGION', $tags);
+            }
+            if($data['type'] == 12){
+                return $statusService->tableGenerator($data['year'], 'ROLE_REGION', $tags);
             }
         }
 

@@ -12,6 +12,7 @@ use App\Form\InspectorPurchasesFindFormType;
 use App\Services\cofinancing\CofinancingTableService;
 use App\Services\ContractingXlsxService;
 use App\Services\ReadinessMapXlsxService;
+use App\Services\status\statusService;
 use App\Services\XlsxPerformanceIndicatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -42,7 +43,7 @@ class SmallCuratorContractingController extends AbstractController
      * @Route("/small-cluster/contracting-actual", name="app_inspector_sc_contracting")
      */
     public function index(Request $request, ContractingXlsxService $contractingXlsxService, ReadinessMapXlsxService $readinessMapXlsxService, XlsxPerformanceIndicatorService $indicatorService,
-                          CofinancingTableService $cofinancingTableService): Response
+                          CofinancingTableService $cofinancingTableService, statusService $statusService): Response
     {
         $role = 'small';
         $arr = [];
@@ -73,6 +74,7 @@ class SmallCuratorContractingController extends AbstractController
                     'Ремработы и оборудование (новый)' => 6,
 //                    'Ремработы и оборудование (новый, частично)' => 7,
                     'Софинансирование' => 11,
+                    'Состояние' => 12,
 
                 ],
             ])
@@ -146,6 +148,13 @@ class SmallCuratorContractingController extends AbstractController
                     return $cofinancingTableService->downloadTable($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_1', $tags);
                 if($_role == 'lot_2')
                     return $cofinancingTableService->downloadTable($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_2', $tags);
+
+            }
+            if($data['type'] == 11){
+                if($_role == 'lot_1')
+                    return $statusService->tableGenerator($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_1', $tags);
+                if($_role == 'lot_2')
+                    return $statusService->tableGenerator($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_2', $tags);
 
             }
 
