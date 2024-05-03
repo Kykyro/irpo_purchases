@@ -201,7 +201,11 @@
 
             editBtn.on('click', function () {
                 let id = $(this).data('id');
-
+                fetch('/api/get-infrastructure-sheet-equipment/'+id).then(function(response) {
+                    response.json().then(function(data) {
+                        console.log(JSON.parse(data));
+                    })
+                });
 
                 $('#exampleModalLabel').html(id);
             });

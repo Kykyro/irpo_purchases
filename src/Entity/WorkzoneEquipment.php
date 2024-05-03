@@ -6,6 +6,7 @@ use App\Repository\WorkzoneEquipmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=WorkzoneEquipmentRepository::class)
@@ -16,51 +17,61 @@ class WorkzoneEquipment
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("equipment_json")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
+     * @Groups("equipment_json")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("equipment_json")
      */
     private $specification;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("equipment_json")
      */
     private $count;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("equipment_json")
      */
     private $funds;
 
     /**
      * @ORM\OneToMany(targetEntity=EquipmentLog::class, mappedBy="equipment")
+     *
      */
     private $equipmentLogs;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups("equipment_json")
      */
     private $done;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("equipment_json")
      */
     private $clusterComment;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("equipment_json")
      */
     private $curatorComment;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups("equipment_json")
      */
     private $deleted;
 
@@ -71,16 +82,19 @@ class WorkzoneEquipment
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("equipment_json")
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("equipment_json")
      */
     private $unit;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("equipment_json")
      */
     private $workplaceNum;
 
