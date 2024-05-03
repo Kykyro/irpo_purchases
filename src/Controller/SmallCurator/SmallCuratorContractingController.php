@@ -142,7 +142,11 @@ class SmallCuratorContractingController extends AbstractController
                 return $readinessMapXlsxService->downloadTableNew($data['year'], $_role, false, $data['start'], $data['step'], $tags);
             }
             if($data['type'] == 11){
-                return $cofinancingTableService->downloadTable($data['year'], 'ROLE_SMALL_CLUSTERS', $tags);
+                if($_role == 'lot_1')
+                    return $cofinancingTableService->downloadTable($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_1', $tags);
+                if($_role == 'lot_2')
+                    return $cofinancingTableService->downloadTable($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_2', $tags);
+
             }
 
 
