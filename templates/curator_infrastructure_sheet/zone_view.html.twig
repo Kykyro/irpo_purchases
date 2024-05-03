@@ -81,7 +81,9 @@
                                         {% endif %}
                                                                             </td>
                                     <td>
-                                        <button class="btn btn-outline-dark" data-id="{{ i.getId() }}"><i class="fa fa-edit"></i></button>
+                                        <button class="btn btn-outline-dark edit-btn" data-id="{{ i.getId() }}" data-toggle="modal" data-target="#exampleModal">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                     {#{% for ii in i.getWorkzoneEquipmentDumps()|reverse %}#}
@@ -168,4 +170,71 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function() {
+
+            let editBtn = $('.edit-btn');
+
+
+            editBtn.on('click', function () {
+                let id = $(this).data('id');
+
+
+                $('#exampleModalLabel').html(id);
+            });
+
+            // let groupType = $('.group-type');
+            //
+            // $(document).bind('DOMSubtreeModified', function () {
+            //     groupType = $('.group-type');
+            //
+            //     groupType.change(function (e) {
+            //         if ($(this).val() == 'Рабочее место учащегося') {
+            //             $(this).parent().next().show();
+            //         }
+            //         else {
+            //             $(this).parent().next().hide();
+            //         }
+            //
+            //         // console.log($(this).parent().next());
+            //     });
+            // });
+            //
+            // groupType.change(function (e) {
+            //     if ($(this).val() == 'Рабочее место учащегося') {
+            //         $(this).parent().next().show();
+            //     }
+            //     else {
+            //         $(this).parent().next().hide();
+            //     }
+            // });
+            // //
+            // groupType.trigger('change');
+
+
+        });
+    </script>
 {% endblock %}
