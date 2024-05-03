@@ -31,16 +31,17 @@ class zoneRequirementsType  extends AbstractType
         $builder
 
 
-            ->add('workplaceCount', NumberType::class, [
-                'attr' => [
-                    'class' => 'form-control mb-3',
-
-                ],
-                'required'   => false,
-                'html5' => true,
-
-                'label' => 'Количество рабочих мест:'
-            ])->add('area', NumberType::class, [
+//            ->add('workplaceCount', NumberType::class, [
+//                'attr' => [
+//                    'class' => 'form-control mb-3',
+//
+//                ],
+//                'required'   => false,
+//                'html5' => true,
+//
+//                'label' => 'Количество рабочих мест:'
+//            ])
+            ->add('area', NumberType::class, [
                 'attr' => [
                     'class' => 'form-control mb-3',
                 ],

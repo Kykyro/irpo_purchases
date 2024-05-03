@@ -29,7 +29,7 @@ class equipmentType  extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
+        $zoneGroup = $options['zoneGroup'][0];
         $builder
             ->add('name', TextareaType::class, [
                 'attr' => [
@@ -47,22 +47,6 @@ class equipmentType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
-//            ->add('type', EntityType::class, [
-//                'attr' => [
-//                    'class' => 'form-control',
-//                ],
-//                'class' => \App\Entity\EquipmentType::class,
-//                'choice_label' => 'name',
-//                'required'   => false,
-//                'label' => false,
-//                'query_builder' => function (EntityRepository $er) use ($options) {
-//                    return $er->createQueryBuilder('eq')
-//                        ->andWhere('eq.isHide = 0')
-//                        ->andWhere('eq.type LIKE :type')
-//                        ->setParameter('type', '%'.$options['vars']['type'].'%')
-//                        ->orderBy('eq.name', 'ASC');
-//                },
-//            ])
             ->add('count', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -71,22 +55,6 @@ class equipmentType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
-//            ->add('unit', EntityType::class, [
-//                'attr' => [
-//                    'class' => 'form-control',
-//                ],
-//                'class' => \App\Entity\WorkzoneEqupmentUnit::class,
-//                'choice_label' => 'name',
-//                'required'   => false,
-//                'label' => false,
-//                'query_builder' => function (EntityRepository $er) use ($options) {
-//                    return $er->createQueryBuilder('u')
-//                        ->andWhere('u.isHide = 0')
-//                        ->andWhere('u.type LIKE :type')
-//                        ->setParameter('type', '%'.$options['vars']['type'].'%')
-//                        ->orderBy('u.name', 'ASC');
-//                },
-//            ])
             ->add('resultCount', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -110,49 +78,8 @@ class equipmentType  extends AbstractType
                 ],
                 'multiple' => false,
                 'expanded' => false,
-                'required'   => false,
+                'required'   => true,
                 'label' => false
-            ])
-            ->add('type', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'choices'  => [
-                    'ФБ' => 'ФБ',
-                    'БР' => 'БР',
-                    'ВБ' => 'ВБ',
-                    'РБ' => 'РБ',
-                    'В наличии' => 'В наличии'
-
-                ],
-                'multiple' => false,
-                'expanded' => false,
-                'required'   => false,
-                'label' => false
-            ])
-            ->add('unit', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'choices'  => [
-                    'ФБ' => 'ФБ',
-                    'БР' => 'БР',
-                    'ВБ' => 'ВБ',
-                    'РБ' => 'РБ',
-                    'В наличии' => 'В наличии'
-
-                ],
-                'multiple' => false,
-                'expanded' => false,
-                'required'   => false,
-                'label' => false
-            ])
-            ->add('ZoneGroup', HiddenType::class,[
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'required'   => false,
-                'label' => false,
             ])
             ->add('clusterComment', TextareaType::class, [
                 'attr' => [
@@ -163,23 +90,82 @@ class equipmentType  extends AbstractType
                 'label' => false,
             ])
         ;
-        if($options['vars']['type'] == 'Рабочее место учащегося')
+        if($zoneGroup->getType() == 'Охрана труда и техника безопасности ')
         {
             $builder
-            ->add('workplaceNum', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'type' => 'number'
-                ],
-                'required'   => false,
-                'label' => false
-            ]);
+                ->add('type', ChoiceType::class, [
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                    'choices' => [
+                        'Мебель' => 'Мебель',
+                        'Оборудование' => 'Оборудование',
+                        'Оборудование IT' => 'Оборудование IT',
+                        'Программное обеспечение' => 'Программное обеспечение',
+                    ],
+                    'multiple' => false,
+                    'expanded' => false,
+                    'required' => true,
+                    'label' => false
+                ]);
         }
+        else{
+            $builder
+                ->add('type', ChoiceType::class, [
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                    'choices' => [
+                        'Охрана труда' => 'Охрана труда',
+                        'Техника безопасности' => 'Техника безопасности',
+                    ],
+                    'multiple' => false,
+                    'expanded' => false,
+                    'required' => true,
+                    'label' => false
+                ]);
+        }
+
+        if($zoneGroup->getType() == 'Рабочее место учащегося')
+        {
+            $builder
+                ->add('unit', ChoiceType::class, [
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                    'choices'  => [
+                        'шт. (на 1 раб. место)' => 'шт. (на 1 раб. место)',
+                        'шт. (на 2 раб. места)' => 'шт. (на 2 раб. места)',
+
+                    ],
+                    'multiple' => false,
+                    'expanded' => false,
+                    'required'   => true,
+                    'label' => false
+                ]);
+        }
+        else{
+            $builder
+                ->add('unit', ChoiceType::class, [
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                    'choices'  => [
+                        'шт.' => 'шт.',
+                    ],
+                    'multiple' => false,
+                    'expanded' => false,
+                    'required'   => true,
+                    'label' => false
+                ]);
+        }
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setRequired('vars');
+        $resolver->setRequired('zoneGroup');
         $resolver->setDefaults([
             'data_class' => WorkzoneEquipment::class,
         ]);

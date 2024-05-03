@@ -48,7 +48,7 @@
                                 </td>
                                 <td>
                                     {% for i in zone.getZoneGroupsSorted() %}
-                                        <a href="#">
+                                        <a href="{{ path('app_cluster_infrastructure_sheet_edit', {'id': i.getId()}) }}">
                                             <button class="btn btn-outline-dark">
                                                 {{ i.getType() }}
 

@@ -4,6 +4,7 @@ namespace App\Controller\Region;
 
 use App\Entity\SheetWorkzone;
 use App\Entity\WorkzoneEquipment;
+use App\Entity\ZoneGroup;
 use App\Form\InfrastructureSheets\infrastructureSheetForm;
 use App\Form\InfrastructureSheets\SheetWorkzoneForm;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,49 +17,46 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClusterInfrastructureSheetController extends AbstractController
 {
     /**
-     * @Route("/region/infrastructure-sheet/edit/{type}/{id}", name="app_cluster_infrastructure_sheet_edit")
+     * @Route("/region/infrastructure-sheet/edit/{id}", name="app_cluster_infrastructure_sheet_edit")
      * @throws \Exception
      */
-    public function edit(Request $request, EntityManagerInterface $em, int $id, string $type)
+    public function edit(Request $request, EntityManagerInterface $em, int $id)
     {
         $user = $this->getUser();
-        $sheet = $em->getRepository(SheetWorkzone::class)->find($id);
+        $zoneGroup = $em->getRepository(ZoneGroup::class)->find($id);
 
-        if($user->getId() != $sheet->getUser()->getId())
+        if($user->getId() != $zoneGroup->getSheetWorkzone()->getUser()->getId())
         {
             throw new \Exception("В доступе отказано", 403);
         }
 
-        $form = $this->createForm(infrastructureSheetForm::class, $sheet->getWorkzoneEquipmentByType($type),
-            [
-                'vars' => [
-                    'type' => $type
-                ]
-            ]
-        );
+
+
+        $form = $this->createForm(infrastructureSheetForm::class, $zoneGroup, ['zoneGroup' => [$zoneGroup]]);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() and $form->isValid())
         {
-            foreach ($form->getData()['workzoneEquipment'] as $i)
+            foreach($zoneGroup->getEquipment() as $equipment)
             {
-                if(!$i->getSheet())
+                if(!$equipment->getZoneGroup())
                 {
-                    $i->setSheet($sheet);
-                    $i->setZoneGroup($type);
+                    $equipment->setZoneGroup($zoneGroup);
                 }
 
-                $em->persist($i);
+                $em->persist($equipment);
             }
-            $em->persist($sheet);
+            $em->persist($zoneGroup);
+
             $em->flush();
         }
 
         return $this->render('cluster_infrastructure_sheet/edit.html.twig', [
             'controller_name' => 'ClusterInfrastructureSheetController',
             'form' => $form->createView(),
-            'type' => $type
+            'zone_group' => $zoneGroup,
+            'type' => $zoneGroup->getType(),
         ]);
     }
 

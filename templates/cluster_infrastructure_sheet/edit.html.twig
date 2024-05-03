@@ -30,7 +30,14 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>
-                        {{ type }}
+                        {{ zone_group.getSheetWorkzone().getName() }}
+                    </h5>
+                    <hr>
+                    <h5>
+                        {{ zone_group.getType() }}
+                        {% if zone_group.getWorkplaces() > 0 %}
+                            <b>(Кол-во раб. мест: {{ zone_group.getWorkplaces() }})</b>
+                        {% endif %}
                     </h5>
                 </div>
                 {% macro printInfrastructureSheets(sheet, dis, comment, type) %}
@@ -56,11 +63,6 @@
                         {{ form_widget(sheet.funds) }}
                     </td>
                     <td>
-                        {% if type == 'Рабочее место учащегося' %}
-                        {{ form_widget(sheet.workplaceNum, {'type':'number'}) }}
-                        {% endif %}
-                    </td>
-                    <td>
                         {{ form_widget(sheet.clusterComment) }}
                     </td>
                     {#<td>#}
@@ -74,7 +76,7 @@
                         {% endif %}
                     </td>
 
-                    {{ form_widget(sheet.ZoneGroup) }}
+                    {#{{ form_widget(sheet.ZoneGroup) }}#}
                 {% endmacro %}
                 <div class="ibox-content">
                     {{ form_start(form) }}
@@ -88,7 +90,6 @@
                             <td class="col-md-1">Единица измерения</td>
                             <td class="col-md-1">Итоговое количество</td>
                             <td >Источник финансирования</td>
-                            <td >Номер рабочего места</td>
                             <td class="col-md-2">Комментарий</td>
                             {#<td class="col-md-1">Комментарий от ИРПО</td>#}
                             <td></td>
@@ -96,14 +97,14 @@
                         </thead>
                         <tbody
                                 class="sheets " id="sheets"
-                                data-index="{{ form.workzoneEquipment|length > 0 ? form.workzoneEquipment|last.vars.name + 1 : 0 }}"
-                                data-prototype='{{ formMacros.printInfrastructureSheets(form.workzoneEquipment.vars.prototype|e) }}'
+                                data-index="{{ form.equipment|length > 0 ? form.equipment|last.vars.name + 1 : 0 }}"
+                                data-prototype='{{ formMacros.printInfrastructureSheets(form.equipment.vars.prototype|e) }}'
                                 data-widget-tags="{{
                                 '<tr></tr>'|e
                                 }}"
-                                data-widget-counter="{{ form.workzoneEquipment|length }}"
+                                data-widget-counter="{{ form.equipment|length }}"
                         >
-                        {% for i in form.workzoneEquipment %}
+                        {% for i in form.equipment %}
                             {% if i.vars.value.getZoneGroup != type %}
                                 {% set dis = false %}
                             {% else %}
@@ -195,8 +196,8 @@
                 );
 
                 newElem.appendTo(list);
-console.log(counter);
-                $('#infrastructure_sheet_form__workzoneEquipment_'+counter+'_ZoneGroup').val(zoneType);
+// console.log(counter);
+                // $('#infrastructure_sheet_form__workzoneEquipment_'+counter+'_ZoneGroup').val(zoneType);
             }
 
             $('.add-another-collection-widget').click(addRow);

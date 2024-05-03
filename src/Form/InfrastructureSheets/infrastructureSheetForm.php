@@ -32,13 +32,11 @@ class infrastructureSheetForm extends AbstractType
     {
 
         $builder
-            ->add('workzoneEquipment', CollectionType::class, [
+            ->add('equipment', CollectionType::class, [
                 'entry_type' => equipmentType::class,
                 'entry_options' => [
                     'label' => false,
-                    'vars' => [
-                        'type' => $options['vars']['type']
-                    ]
+                    'zoneGroup' => $options['zoneGroup']
                 ],
                 'allow_add' => true,
                 'label' => false,
@@ -49,7 +47,7 @@ class infrastructureSheetForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         // ...
-        $resolver->setRequired('vars');
+        $resolver->setRequired('zoneGroup');
         // type validation - User instance or int, you can also pick just one.
 //        $resolver->setAllowedTypes('user', array(User::class, 'int'));
     }
