@@ -107,6 +107,20 @@ class ClusterInfrastructureSheetController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() and $form->isValid())
         {
+            foreach ($zone->getZoneGroups() as $i)
+            {
+                if($i->getType())
+                {
+                    $i->setSheetWorkzone($zone);
+                    $em->persist($i);
+                }
+                else
+                {
+                    $em->remove($i);
+                }
+
+            }
+
 
             $em->persist($zone);
             $em->flush();

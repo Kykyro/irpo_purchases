@@ -39,20 +39,6 @@ class WorkzoneEquipment
      */
     private $funds;
 
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity=SheetWorkzone::class, inversedBy="workzoneEquipment")
-     */
-    private $sheet;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $zoneGroup;
-
-
-
     /**
      * @ORM\OneToMany(targetEntity=EquipmentLog::class, mappedBy="equipment")
      */
@@ -97,6 +83,11 @@ class WorkzoneEquipment
      * @ORM\Column(type="integer", nullable=true)
      */
     private $workplaceNum;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ZoneGroup::class, inversedBy="equipment")
+     */
+    private $zoneGroup;
 
     public function __construct()
     {
@@ -156,33 +147,6 @@ class WorkzoneEquipment
 
         return $this;
     }
-
-
-
-    public function getSheet(): ?SheetWorkzone
-    {
-        return $this->sheet;
-    }
-
-    public function setSheet(?SheetWorkzone $sheet): self
-    {
-        $this->sheet = $sheet;
-
-        return $this;
-    }
-
-    public function getZoneGroup(): ?string
-    {
-        return $this->zoneGroup;
-    }
-
-    public function setZoneGroup(?string $zoneGroup): self
-    {
-        $this->zoneGroup = $zoneGroup;
-
-        return $this;
-    }
-
 
 
     /**
@@ -325,6 +289,18 @@ class WorkzoneEquipment
     public function setWorkplaceNum(?int $workplaceNum): self
     {
         $this->workplaceNum = $workplaceNum;
+
+        return $this;
+    }
+
+    public function getZoneGroup(): ?ZoneGroup
+    {
+        return $this->zoneGroup;
+    }
+
+    public function setZoneGroup(?ZoneGroup $zoneGroup): self
+    {
+        $this->zoneGroup = $zoneGroup;
 
         return $this;
     }

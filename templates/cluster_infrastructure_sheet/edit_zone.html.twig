@@ -16,6 +16,26 @@
     </style>
 {% endblock %}
 {% block content %}
+
+
+    {% macro printInfrastructureSheets(i) %}
+        <div class="panel panel-success ">
+            <div class="m-3 row">
+                <div class="col-sm-11">
+                    {{ form_row(i.type) }}
+                    {{ form_row(i.workplaces) }}
+                    {{ form_row(i.isDeleted) }}
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-lg btn-danger delete-alert delete-row mt-3" type="button">
+                        <i class="fa fa-trash"></i> Удалить
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    {% endmacro %}
     <div class="row">
         <div class="col-sm-10 offset-sm-1 mt-3 mb-5">
             <a href="{{ path('app_cluster_infrastructure_sheet') }}">
@@ -37,8 +57,50 @@
                             {{ form_row(form.name) }}
                         </div>
                         <div class="form-group">
-                            {{ form_row(form.FGOS) }}
+                            <ul class="list-group">'
+                                {% for i in form.FGOS %}
+                                <li class="list-group-item">
+                                    {{ form_widget(i) }}
+                                    {{ form_label(i) }}
+
+                                </li>
+                                {% endfor %}
+                            </ul>
+
                         </div>
+                    <hr>
+                    <label>
+                        Подзоны
+                    </label>
+                        <div class="form-group sheets"
+                             id="sheets"
+                             data-index="{{ form.ZoneGroups|length > 0 ? form.ZoneGroups|last.vars.name + 1 : 0 }}"
+                             data-prototype='{{ _self.printInfrastructureSheets(form.ZoneGroups.vars.prototype|e) }}'
+                             data-widget-tags="{{
+                             '<div></div>'|e
+                             }}"
+                             data-widget-counter="{{ form.ZoneGroups|length }}"
+
+                        >
+                            {% for i in form.ZoneGroups %}
+
+                                {{ _self.printInfrastructureSheets(i) }}
+                                {#{{ form_row(i) }}#}
+                            {% endfor %}
+                            {#{{ form_row(form.ZoneGroups) }}#}
+                        </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary add-another-collection-widget"
+                                type="button"
+                                data-list-selector="#sheets"
+                                data-list="#sheets"
+
+                        >
+                            <i class="fa fa-plus"></i>
+                            Добавить строку
+                        </button>
+                    </div>
+
                     <hr>
                     <h5>
                         Требования к обеспечению зоны (коммуникации, площадь, сети, количество рабочих мест и др.):
@@ -60,4 +122,92 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            // $("textarea").each(function(textarea) {
+            //     $(this).height( $(this)[0].scrollHeight );
+            // });
+            //
+            // $('#rows-data').height( '200px' );
+            // $('#rows-data-2').height( '200px' );
+            // $('#rows-data-3').height( '200px' );
+
+
+            let groupType = $('.group-type');
+
+            $(document).bind('DOMSubtreeModified',function(){
+                groupType = $('.group-type');
+
+                groupType.change(function (e) {
+                    if($(this).val() == 'Рабочее место учащегося')
+                    {
+                        $(this).parent().next().show();
+                    }
+                    else
+                    {
+                        $(this).parent().next().hide();
+                    }
+
+                    // console.log($(this).parent().next());
+                });
+            });
+
+            groupType.change(function (e) {
+                if($(this).val() == 'Рабочее место учащегося')
+                {
+                    $(this).parent().next().show();
+                }
+                else
+                {
+                    $(this).parent().next().hide();
+                }
+            });
+            //
+            groupType.trigger('change');
+
+
+
+            let $wrapper = $('.sheets');
+            $wrapper.on('click', '.delete-row', function(e) {
+                e.preventDefault();
+                $(this).closest('.panel')
+                    .fadeOut()
+                    .remove();
+            });
+
+            function addRow()
+            {
+                let listSelector = $($(this).attr('data-list-selector'));
+                let list = $($(this).attr('data-list'));
+                // let zoneType = $(this).attr('data-zone-type');
+                // console.log(zoneType);
+
+                let counter = listSelector.data('widget-counter');
+
+                let newWidget = listSelector.attr('data-prototype');
+
+                counter++;
+                newWidget = newWidget.replace(/__name__/g, counter);
+
+                listSelector.data('widget-counter', counter);
+
+                let newElem = $(listSelector.attr('data-widget-tags')).html(
+                    // listSelector.attr('data-delete-btn') +
+                    newWidget +
+                    '</div>'
+                );
+
+                newElem.appendTo(list);
+                // console.log($('.group-type'));
+                groupType.trigger('change');
+                console.log(groupType);
+                // $('#infrastructure_sheet_form__workzoneEquipment_'+counter+'_ZoneGroup').val(zoneType);
+            }
+
+            $('.add-another-collection-widget').click(addRow);
+        });
+    </script>
 {% endblock %}

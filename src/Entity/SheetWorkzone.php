@@ -26,11 +26,6 @@ class SheetWorkzone
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=300, nullable=true)
-     */
-    private $FGOS;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="sheetWorkzones")
      */
     private $user;
@@ -41,10 +36,14 @@ class SheetWorkzone
     private $zoneRequirements;
 
     /**
-     * @ORM\OneToMany(targetEntity=WorkzoneEquipment::class, mappedBy="sheet")
+     * @ORM\OneToMany(targetEntity=ZoneGroup::class, mappedBy="sheetWorkzone")
      */
-    private $workzoneEquipment;
+    private $zoneGroups;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $FGOS = [];
 
 
     function __construct($user)
@@ -52,6 +51,7 @@ class SheetWorkzone
         $this->setUser($user);
         $this->setZoneRequirements(new ZoneRequirements());
         $this->workzoneEquipment = new ArrayCollection();
+        $this->zoneGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,17 +71,6 @@ class SheetWorkzone
         return $this;
     }
 
-    public function getFGOS(): ?string
-    {
-        return $this->FGOS;
-    }
-
-    public function setFGOS(?string $FGOS): self
-    {
-        $this->FGOS = $FGOS;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -118,73 +107,60 @@ class SheetWorkzone
     }
 
     /**
-     * @return Collection<int, WorkzoneEquipment>
+     * @return Collection<int, ZoneGroup>
      */
-    public function getWorkzoneEquipment(): Collection
+    public function getZoneGroups(): Collection
     {
-        return $this->workzoneEquipment;
+        return $this->zoneGroups;
     }
-
-    public function addWorkzoneEquipment(WorkzoneEquipment $workzoneEquipment): self
-    {
-        if (!$this->workzoneEquipment->contains($workzoneEquipment)) {
-            $this->workzoneEquipment[] = $workzoneEquipment;
-            $workzoneEquipment->setSheet($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWorkzoneEquipment(WorkzoneEquipment $workzoneEquipment): self
-    {
-        if ($this->workzoneEquipment->removeElement($workzoneEquipment)) {
-            // set the owning side to null (unless already changed)
-            if ($workzoneEquipment->getSheet() === $this) {
-                $workzoneEquipment->setSheet(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, WorkzoneEquipment>
+     * @return Collection<int, ZoneGroup>
      */
-    public function getWorkzoneEquipmentByType($type)
+    public function getZoneGroupsSorted(): Collection
     {
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('zoneGroup', $type))
+            ->orderBy(['workplaces' => 'ASC'])
         ;
+        return $this->zoneGroups->matching($criteria);
 
-        return ['workzoneEquipment' => $this->workzoneEquipment->matching($criteria)];
+
+        return $this->zoneGroups;
     }
 
-    public function getWorkzoneEquipmentByGroup()
+    public function addZoneGroup(ZoneGroup $zoneGroup): self
     {
-        $criteria = Criteria::create()
-            ->orderBy(['zoneGroup' => 'DESC']);
+        if (!$this->zoneGroups->contains($zoneGroup)) {
+            $this->zoneGroups[] = $zoneGroup;
+            $zoneGroup->setSheetWorkzone($this);
+        }
 
-        $equipment = $this->workzoneEquipment->matching($criteria);
-        $arr = ['Общая зона' => [],
-            'Рабочее место преподавателя' => [],
-            'Рабочее место учащегося' => [],
-            'Охрана труда и техника безопасности' => []
-        ];
+        return $this;
+    }
 
-        foreach ($equipment as $i)
-        {
-            $group = $i->getZoneGroup();
-            if($group)
-            {
-                if(!array_key_exists($group,$arr))
-                    $arr[$group] = [];
-                array_push($arr[$group], $i);
+    public function removeZoneGroup(ZoneGroup $zoneGroup): self
+    {
+        if ($this->zoneGroups->removeElement($zoneGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($zoneGroup->getSheetWorkzone() === $this) {
+                $zoneGroup->setSheetWorkzone(null);
             }
         }
 
-
-
-        return  $arr;
+        return $this;
     }
+
+    public function getFGOS(): ?array
+    {
+        return $this->FGOS;
+    }
+
+    public function setFGOS(?array $FGOS): self
+    {
+        $this->FGOS = $FGOS;
+
+        return $this;
+    }
+
+
 
 }

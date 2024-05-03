@@ -19,7 +19,7 @@
                 </div>
                 <div class="ibox-content">
                     <table class="table table-bordered">
-                        <thead>
+                        <thead class="text-center">
                             <tr>
                                 <td class="col-md-1">№ п/п</td>
                                 <td class="col-md-3">Наименование</td>
@@ -34,30 +34,45 @@
                                 <td>
                                     {{ zone.getName() }}
                                     <br>
-                                    {{ zone.getFGOS() }}
+                                    <br>
+                                    <ul  class="list-group list-group-flush">
+                                    {% for i in  zone.getFGOS()  %}
+
+                                            <li class="list-group-item">
+                                                {{ i }}
+                                            </li>
+
+                                    {% endfor %}
+                                    </ul>
+                                    {#{{ zone.getFGOS() }}#}
                                 </td>
                                 <td>
+                                    {% for i in zone.getZoneGroupsSorted() %}
+                                        <a href="#">
+                                            <button class="btn btn-outline-dark">
+                                                {{ i.getType() }}
 
-                                    <a href="{{ path('app_cluster_infrastructure_sheet_edit', {'id' : zone.getId(), 'type': 'Общая зона'}) }}">
-                                        <button class="btn btn-outline-dark">
-                                            Общая зона
-                                        </button>
-                                    </a>
-                                    <a href="{{ path('app_cluster_infrastructure_sheet_edit', {'id' : zone.getId(), 'type': 'Рабочее место учащегося'}) }}">
-                                    <button class="btn btn-outline-dark">
-                                        Рабочее место учащегося
-                                    </button>
-                                    </a>
-                                    <a href="{{ path('app_cluster_infrastructure_sheet_edit', {'id' : zone.getId(), 'type': 'Рабочее место преподавателя'}) }}">
-                                    <button class="btn btn-outline-dark">
-                                        Рабочее место преподавателя/мастера производственного обучения
-                                    </button>
-                                    </a>
-                                    <a href="{{ path('app_cluster_infrastructure_sheet_edit', {'id' : zone.getId(), 'type': 'Охрана труда и техника безопасности'}) }}">
-                                    <button class="btn btn-outline-dark">
-                                        Охрана труда и техника безопасности
-                                    </button>
-                                    </a>
+                                                {% if i.getWorkplaces() > 0 %}
+                                                <b>(Кол-во раб. мест: {{ i.getWorkplaces() }})</b>
+                                                {% endif %}
+                                            </button>
+                                        </a>
+                                    {% endfor %}
+                                    {#<a href="{{ path('app_cluster_infrastructure_sheet_edit', {'id' : zone.getId(), 'type': 'Рабочее место учащегося'}) }}">#}
+                                    {#<button class="btn btn-outline-dark">#}
+                                        {#Рабочее место учащегося#}
+                                    {#</button>#}
+                                    {#</a>#}
+                                    {#<a href="{{ path('app_cluster_infrastructure_sheet_edit', {'id' : zone.getId(), 'type': 'Рабочее место преподавателя'}) }}">#}
+                                    {#<button class="btn btn-outline-dark">#}
+                                        {#Рабочее место преподавателя/мастера производственного обучения#}
+                                    {#</button>#}
+                                    {#</a>#}
+                                    {#<a href="{{ path('app_cluster_infrastructure_sheet_edit', {'id' : zone.getId(), 'type': 'Охрана труда и техника безопасности'}) }}">#}
+                                    {#<button class="btn btn-outline-dark">#}
+                                        {#Охрана труда и техника безопасности#}
+                                    {#</button>#}
+                                    {#</a>#}
                                 </td>
                                 <td>
                                     <a href="{{ path('app_cluster_infrastructure_sheet_edit_zone', {'id': zone.getId()}) }}">

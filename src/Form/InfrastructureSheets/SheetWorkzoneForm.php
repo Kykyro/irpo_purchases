@@ -2,6 +2,8 @@
 
 namespace App\Form\InfrastructureSheets;
 
+use App\Entity\SheetWorkzone;
+use App\Form\InfrastructureSheets\zoneGroupType;
 use App\Entity\ZoneRequirements;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -48,8 +50,8 @@ class SheetWorkzoneForm extends AbstractType
                     return $value;
                 },
 
-                'multiple' => false,
-                'expanded' => false,
+                'multiple' => true,
+                'expanded' => true,
                 'label' => 'Код и наименование профессии или специальности согласно ФГОС СПО:',
             ])
             ->add('zoneRequirements', zoneRequirementsType::class, [
@@ -59,7 +61,25 @@ class SheetWorkzoneForm extends AbstractType
 
                 ]
             )
+            ->add('ZoneGroups', CollectionType::class, [
+                'entry_type' => zoneGroupType::class,
+                'entry_options' => [
+                    'label' => false,
+
+                ],
+                'allow_add' => true,
+                'label' => false,
+
+            ])
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+//        $resolver->setRequired('vars');
+        $resolver->setDefaults([
+            'data_class' => SheetWorkzone::class,
+        ]);
     }
 
 
