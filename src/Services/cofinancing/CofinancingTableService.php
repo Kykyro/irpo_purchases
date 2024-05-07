@@ -178,7 +178,17 @@ class CofinancingTableService extends AbstractController
 //            return $fileName;
 //        }
 //        else{
-            $fileName = 'Софинансирование_'.$year.'_'.$today->format('d-m-Y').'.xlsx';
+
+        $roleNames = [
+            'ROLE_SMALL_CLUSTERS_LOT_1' => 'СПО лот 1',
+            'ROLE_SMALL_CLUSTERS_LOT_2' => 'СПО лот 2',
+            'ROLE_SMALL_CLUSTERS' => 'СПО',
+            'ROLE_REGION' => 'ОПЦ(К)',
+        ];
+
+//        $fileName = "Состояние КГ СК ".$roleNames[$role]." ".$today->format('d-m-Y').".xlsx";
+
+            $fileName = 'Софинансирование_'.$roleNames[$role]." ".$year.'_'.$today->format('d-m-Y').'.xlsx';
             $fileName = $fileName.'.xlsx';
             $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 

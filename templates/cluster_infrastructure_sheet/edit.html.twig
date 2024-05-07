@@ -116,12 +116,12 @@
                                     </tr>
                                 </tr>
                             {% if i.vars.value.getCuratorComment %}
-                                <tr>
+                                <tr style="border-bottom: black solid 2px">
                                     <td>
                                         Комментарий от ИРПО
                                     </td>
-                                    <td colspan="20">
-                                        {{ i.vars.value.getCuratorComment }}
+                                    <td colspan="20" class="text-left">
+                                        {{ i.vars.value.getCuratorComment|nl2br }}
                                     </td>
                                 </tr>
                             {% endif %}

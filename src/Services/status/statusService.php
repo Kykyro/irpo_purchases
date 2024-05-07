@@ -70,7 +70,7 @@ class statusService extends AbstractController
 
         /** @var Worksheet $sheet */
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setTitle("Работадатели");
+        $sheet->setTitle("Состояние");
         $sheet->fromArray($headerRow);
 
         $index = 1;
@@ -107,7 +107,14 @@ class statusService extends AbstractController
         //write it again to Filesystem with the same name (=replace)
         $writer = new Xlsx($spreadsheet);
 
-        $fileName = "Статус.xlsx";
+        $roleNames = [
+            'ROLE_SMALL_CLUSTERS_LOT_1' => 'СПО лот 1',
+            'ROLE_SMALL_CLUSTERS_LOT_2' => 'СПО лот 2',
+            'ROLE_SMALL_CLUSTERS' => 'СПО',
+            'ROLE_REGION' => 'ОПЦ(К)',
+        ];
+        $today = new \DateTimeImmutable('now');
+        $fileName = "Состояние КГ СК ".$roleNames[$role]." ".$year." ".$today->format('d-m-Y').".xlsx";
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 
         $writer->save($temp_file);

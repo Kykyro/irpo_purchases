@@ -58,7 +58,7 @@
                             </thead>
                             <tbody class="text-center">
                                 {% for i in group.getEquipment() %}
-                                <tr {% if i.isDone() %}class="is-done"{% endif %}>
+                                <tr class="table-row-is" data-done="{{ i.isDone() }}">
                                     <td>{{ loop.index }}</td>
                                     <td>{{ i.getName() }}</td>
                                     <td>{{ i.getSpecification() }}</td>
@@ -73,7 +73,7 @@
                                     </td>
                                     <td></td>
                                     <td>{{ i.getFunds() }}</td>
-                                    <td>{{ i.getClusterComment() }}</td>
+                                    <td>{{ i.getClusterComment()|nl2br }}</td>
                                     <td>
                                         {% set dump = i.getWorkzoneEquipmentDumps().last() %}
                                         {% if dump %}
@@ -180,13 +180,30 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <form method="post" action="" id="equipment-form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="checkbox" name="is-done" id="is-done-input">
+                            <label>Все ОК</label>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label>
+                                Комментарий
+                            </label>
+                            <br>
+                            <textarea class="form-control" name="comment" id="comment-form">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                            </textarea>
+                        </div>
+                        <input type="hidden" name="token" value="{{ csrf_token('infrastructure-equipment') }}"/>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -197,18 +214,38 @@
         $(document).ready(function() {
 
             let editBtn = $('.edit-btn');
+            let tableRows = $('.table-row-is');
 
+            tableRows.each(function (i) {
+                if($(this).data('done'))
+                {
+                    $(this).addClass('is-done');
+                }
+            });
 
             editBtn.on('click', function () {
                 let id = $(this).data('id');
                 fetch('/api/get-infrastructure-sheet-equipment/'+id).then(function(response) {
                     response.json().then(function(data) {
-                        console.log(JSON.parse(data));
+                        let obj = JSON.parse(data);
+                        console.log(obj);
+                        $('#exampleModalLabel').html(obj.name);
+                        $('#equipment-form').prop('action', '/inspector/equipment/save/'+id);
+                        $('#comment-form').val(obj.curatorComment);
+                        if(obj.done)
+                        {
+                            $('#is-done-input').prop('checked', true);
+                        }
+                        else{
+                            $('#is-done-input').prop('checked', false);
+                        }
                     })
                 });
 
-                $('#exampleModalLabel').html(id);
+                // $('#exampleModalLabel').html(id);
             });
+
+
 
             // let groupType = $('.group-type');
             //
