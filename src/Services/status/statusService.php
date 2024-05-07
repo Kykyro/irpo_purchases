@@ -103,6 +103,15 @@ class statusService extends AbstractController
         $rangeTotal = 'A1:G'.($sheet->getHighestRow());
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getColumnDimension('A')->setWidth(10);
+        $sheet->getColumnDimension('B')->setWidth(30);
+        $sheet->getColumnDimension('C')->setWidth(30);
+        $sheet->getColumnDimension('D')->setWidth(50);
+        $sheet->getColumnDimension('E')->setWidth(30);
+        $sheet->getColumnDimension('F')->setWidth(30);
+        $sheet->getColumnDimension('G')->setWidth(30);
+        $sheet->setAutoFilter('A1:G1');
+//        $sheet->refreshRowDimensions();
 
         //write it again to Filesystem with the same name (=replace)
         $writer = new Xlsx($spreadsheet);
