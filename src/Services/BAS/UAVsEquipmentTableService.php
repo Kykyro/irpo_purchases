@@ -260,12 +260,13 @@ class UAVsEquipmentTableService extends AbstractController
         $rowCount = 5;
 
         $users = $this->em->getRepository(User::class)->findByYearAndRole($year, $role);
+        $resultRows = [];
         foreach ($users as $user)
         {
             $userInfo = $user->getUserInfo();
             $equipments = $user->getUAVsTypeEquipment();
             $sheet->fromArray([$userInfo->getRfSubject()->getName()], null, 'A'.$rowCount, true);
-            $sheet->mergeCells("A$rowCount:L$rowCount");
+            $sheet->mergeCells("A$rowCount:O$rowCount");
             $rowCount++;
             $index=1;
             foreach ($equipments as $equipment)
@@ -292,10 +293,59 @@ class UAVsEquipmentTableService extends AbstractController
                 $rowCount++;
                 $index++;
             }
+            $row = [
+                '',
+                'Итого:',
+                '=SUM(C'.($rowCount-count($equipments)).':C'.($rowCount-1).')',
+                '=SUM(D'.($rowCount-count($equipments)).':D'.($rowCount-1).')',
+                '=SUM(E'.($rowCount-count($equipments)).':E'.($rowCount-1).')',
+                '=SUM(F'.($rowCount-count($equipments)).':F'.($rowCount-1).')',
+                '=SUM(G'.($rowCount-count($equipments)).':G'.($rowCount-1).')',
+                '=SUM(H'.($rowCount-count($equipments)).':H'.($rowCount-1).')',
+                '=SUM(I'.($rowCount-count($equipments)).':I'.($rowCount-1).')',
+                '=SUM(J'.($rowCount-count($equipments)).':J'.($rowCount-1).')',
+            ];
+            array_push($resultRows, $rowCount);
+            $sheet->fromArray($row, null, 'A'.$rowCount, true);
+            $rowCount++;
 
         }
 
 
+
+        $row = [
+            '',
+            'Сумма:',
+            '=',
+            '=',
+            '=',
+            '=',
+            '=',
+            '=',
+            '=',
+            '=',
+
+        ];
+        foreach ($resultRows as $i){
+            $row[2] = $row[2]."C$i+";
+            $row[3] = $row[3]."D$i+";
+            $row[4] = $row[4]."E$i+";
+            $row[5] = $row[5]."F$i+";
+            $row[6] = $row[6]."G$i+";
+            $row[7] = $row[7]."H$i+";
+            $row[8] = $row[8]."I$i+";
+            $row[9] = $row[9]."J$i+";
+        }
+        $row[2] = substr($row[2], 0, -1);
+        $row[3] = substr($row[3], 0, -1);
+        $row[4] = substr($row[4], 0, -1);
+        $row[5] = substr($row[5], 0, -1);
+        $row[6] = substr($row[6], 0, -1);
+        $row[7] = substr($row[7], 0, -1);
+        $row[8] = substr($row[8], 0, -1);
+        $row[9] = substr($row[9], 0, -1);
+        $sheet->fromArray($row, null, 'A'.$rowCount, true);
+        $rowCount++;
 
 
 
