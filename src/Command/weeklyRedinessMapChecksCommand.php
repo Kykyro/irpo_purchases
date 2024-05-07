@@ -64,10 +64,14 @@ class weeklyRedinessMapChecksCommand extends Command
             if($ReadinessMapChecks)
             {
                $status_rm = $ReadinessMapChecks->getStatus()->last();
-               if($status_rm->getStatus() == 'На доработке')
+               if($status_rm)
                {
-                   continue;
+                   if($status_rm->getStatus() == 'На доработке')
+                   {
+                       continue;
+                   }
                }
+
             }
 
             $readinessMapCheck = new ReadinessMapCheck($cluster);
