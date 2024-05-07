@@ -253,7 +253,7 @@ class UAVsEquipmentTableService extends AbstractController
         $today = new \DateTime('now');
         $index = 1;
 
-
+//b4c7dc
 
         $sheet->setCellValue('A2',
             "Справка об оснащении специализированных классов (кружков) и центров практической подготовки БПЛА");
@@ -261,12 +261,19 @@ class UAVsEquipmentTableService extends AbstractController
 
         $users = $this->em->getRepository(User::class)->findByYearAndRole($year, $role);
         $resultRows = [];
+        $styleFill = array(
+            'fill' => array(
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array('argb' => 'b4c7dc')
+            )
+        );
         foreach ($users as $user)
         {
             $userInfo = $user->getUserInfo();
             $equipments = $user->getUAVsTypeEquipment();
             $sheet->fromArray([$userInfo->getRfSubject()->getName()], null, 'A'.$rowCount, true);
             $sheet->mergeCells("A$rowCount:O$rowCount");
+            $sheet->getStyle('A'.$rowCount)->applyFromArray($styleFill);
             $rowCount++;
             $index=1;
             foreach ($equipments as $equipment)
