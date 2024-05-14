@@ -38,13 +38,23 @@ class ClusterInfrastructureSheetController extends AbstractController
 
         if($form->isSubmitted() and $form->isValid())
         {
-            foreach($zoneGroup->getEquipment() as $equipment)
+            $data = $form->getData();
+//            dd($data);
+
+           $now = new \DateTimeImmutable('now');
+            foreach($form->get('equipment') as $_equipment)
             {
+                $equipment = $_equipment->getData();
                 if(!$equipment->getZoneGroup())
                 {
                     $equipment->setZoneGroup($zoneGroup);
                 }
-
+                if($_equipment->get('_comment'))
+                {
+                    $comment = $_equipment->get('_comment')->getData();
+                    $commentHead = " \r\nКомментарий от кластера от ".$now->format('d.m.Y').": \r\n";
+                    $equipment->setClusterComment($equipment->getClusterComment().$commentHead.$comment);
+                }
                 $em->persist($equipment);
             }
             $em->persist($zoneGroup);

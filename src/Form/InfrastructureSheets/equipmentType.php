@@ -81,13 +81,14 @@ class equipmentType  extends AbstractType
                 'required'   => true,
                 'label' => false
             ])
-            ->add('clusterComment', TextareaType::class, [
+            ->add('_comment', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'oninput' => 'this.style.height = "";this.style.height = this.scrollHeight + "px"',
                 ],
                 'required'   => false,
                 'label' => false,
+                'mapped' => false,
             ])
         ;
         if($zoneGroup->getType() == 'Охрана труда и техника безопасности')

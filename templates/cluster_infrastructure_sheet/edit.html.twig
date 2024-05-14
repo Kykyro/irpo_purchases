@@ -63,7 +63,11 @@
                         {{ form_widget(sheet.funds) }}
                     </td>
                     <td>
-                        {{ form_widget(sheet.clusterComment) }}
+                        {% if sheet.vars.data %}
+                            {{ sheet.vars.data.clusterComment }}
+                        {% endif %}
+                        <hr>
+                        {{ form_widget(sheet._comment) }}
                     </td>
                     {#<td>#}
                         {#{{ comment }}#}
