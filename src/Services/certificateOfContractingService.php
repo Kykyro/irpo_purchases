@@ -118,11 +118,7 @@ class certificateOfContractingService extends AbstractController
                 $sum['factRegionFunds'] += $purchase->getFactFundsOfSubject();
             }
         }
-//        <td>{{ user_info.getFedFundsGrant() }}</td>
-//                                </tr>
-//                                <tr>
-//                                    <td>Бюджет региона</td>
-//                                    <td>{{ user_info.getRegionFundsGrant() }}</td>
+
         $procent['contractFedFunds'] = ($sum['contractFedFunds'] * 100)/($grant);
 
         if(in_array('ROLE_BAS', $user->getRoles()))
