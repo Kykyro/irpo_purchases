@@ -119,7 +119,6 @@ class certificateOfContractingService extends AbstractController
             }
         }
 
-
         $procent['contractFedFunds'] = ($sum['contractFedFunds'] * 100)/($grant);
 
         if(in_array('ROLE_BAS', $user->getRoles()))
