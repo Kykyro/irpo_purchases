@@ -123,7 +123,7 @@ class certificateOfContractingService extends AbstractController
         $procent['contractFedFunds'] = ($sum['contractFedFunds'] * 100)/($grant);
 
         if(in_array('ROLE_BAS', $user->getRoles()))
-            $procent['contractRegionFunds'] = ($userInfo->getRegionFundsGrant() > 0) ? ($sum['contractRegionFunds'] * 100)/($userInfo->getRegionFundsGrant()) : 0;
+            $procent['contractRegionFunds'] = ($userInfo->getRegionFundsGrant() > 0) ? ($sum['contractRegionFunds'])/($userInfo->getRegionFundsGrant()) : 0;
         else
             $procent['contractRegionFunds'] = ($userInfo->getFinancingFundsOfSubject() > 0) ? ($sum['contractRegionFunds'] * 100)/($userInfo->getFinancingFundsOfSubject() * 1000) : 0;
 
