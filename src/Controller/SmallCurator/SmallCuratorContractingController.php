@@ -83,6 +83,7 @@ class SmallCuratorContractingController extends AbstractController
                     'class' => 'form-control'
                 ],
                 'choices' => [
+                    'Лот 1 + лот 2' => "lot_1+2",
                     'Лот 1' => "lot_1",
                     'Лот 2' => "lot_2",
 
@@ -126,35 +127,27 @@ class SmallCuratorContractingController extends AbstractController
             if ($data['type'] == 2) {
                 return $readinessMapXlsxService->downloadTable($data['year'], $_role, false, $tags);
             }
-            if($data['type'] == 3)
-            {
-                return $readinessMapXlsxService->downloadTableRepair($data['year'], $_role);
-            }
-            if($data['type'] == 4)
-            {
-                return $readinessMapXlsxService->downloadTableEquipment($data['year'], $_role, false, $data['start'], $data['step']);
-            }
             if($data['type'] == 5){
                 return $indicatorService->generateTable($data['year'], $_role);
             }
             if($data['type'] == 6){
                 return $readinessMapXlsxService->downloadTableNew($data['year'], $_role, false, 0, 200, $tags);
             }
-            if($data['type'] == 7){
-                return $readinessMapXlsxService->downloadTableNew($data['year'], $_role, false, $data['start'], $data['step'], $tags);
-            }
             if($data['type'] == 11){
                 if($_role == 'lot_1')
                     return $cofinancingTableService->downloadTable($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_1', $tags);
                 if($_role == 'lot_2')
                     return $cofinancingTableService->downloadTable($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_2', $tags);
-
+                if($_role == 'lot_1+2')
+                    return $cofinancingTableService->downloadTable($data['year'], 'ROLE_SMALL_CLUSTERS', $tags);
             }
             if($data['type'] == 12){
                 if($_role == 'lot_1')
                     return $statusService->tableGenerator($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_1', $tags);
                 if($_role == 'lot_2')
                     return $statusService->tableGenerator($data['year'], 'ROLE_SMALL_CLUSTERS_LOT_2', $tags);
+                if($_role == 'lot_1+2')
+                    return $statusService->tableGenerator($data['year'], 'ROLE_SMALL_CLUSTERS', $tags);
 
             }
 

@@ -62,7 +62,9 @@ class statusService extends AbstractController
             'Базовая ОО',
             'Справка по закупкам',
             'Стасус карт готовности',
-            'Куратор'
+            'Куратор',
+            'Роль'
+
 
         ];
         /** @var Spreadsheet $spreadsheet */
@@ -100,7 +102,7 @@ class statusService extends AbstractController
             $index++;
         }
 
-        $rangeTotal = 'A1:G'.($sheet->getHighestRow());
+        $rangeTotal = 'A1:H'.($sheet->getHighestRow());
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getColumnDimension('A')->setWidth(10);
@@ -110,7 +112,7 @@ class statusService extends AbstractController
         $sheet->getColumnDimension('E')->setWidth(30);
         $sheet->getColumnDimension('F')->setWidth(30);
         $sheet->getColumnDimension('G')->setWidth(30);
-        $sheet->setAutoFilter('A1:G1');
+        $sheet->setAutoFilter('A1:H1');
 //        $sheet->refreshRowDimensions();
 
         //write it again to Filesystem with the same name (=replace)
@@ -135,6 +137,15 @@ class statusService extends AbstractController
     private function getRow($user, $index){
         $user_info = $user->getUserInfo();
 
+        if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
+            $_role = 'СПО лот 1';
+        else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
+            $_role = 'СПО лот 2';
+        else if(in_array('ROLE_REGION' ,$user->getRoles()))
+            $_role = 'ОПЦ(К)';
+        else
+            $_role = '?';
+
         if($user_info->getContractCertifications()->last())
             $purchases = $user_info->getContractCertifications()->last()->getStatus();
         else
@@ -157,6 +168,7 @@ class statusService extends AbstractController
             $purchases,
             $readiness,
             $user_info->getCurator(),
+            $_role
 
         ];
 

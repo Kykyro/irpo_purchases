@@ -44,7 +44,7 @@ class XlsxPerformanceIndicatorService extends AbstractController
 
     }
 
-    public function generateTable($year, $role)
+    public function generateTableOld($year, $role)
     {
         if($role == "lot_1")
         {
@@ -65,6 +65,158 @@ class XlsxPerformanceIndicatorService extends AbstractController
 
 
         return $this->tableGenerator($users, $year, $this->getDict($role, $year), $this->getTitle($role));
+    }
+
+    public function generateTable($year, $role)
+    {
+        $sheet_template = "../public/excel/PerformanceIndicator.xlsx";
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
+        $sheet = $spreadsheet->getActiveSheet();
+        if($role == "lot_1")
+        {
+            $sheets = [
+                [
+                    'users' => $this->getUsers($year, "ROLE_SMALL_CLUSTERS_LOT_1"),
+                    'role' => 'ROLE_SMALL_CLUSTERS',
+                    'dict' => $this->getDict('ROLE_SMALL_CLUSTERS', $year),
+                    'title' => $this->getTitle('ROLE_SMALL_CLUSTERS'),
+                    'sheetTitle' => 'Лот 1',
+                    'sheet' => $sheet,
+                ]
+
+            ];
+        }
+        elseif($role == "lot_2")
+        {
+
+            $sheets = [
+                [
+                    'users' => $this->getUsers($year, "ROLE_SMALL_CLUSTERS_LOT_2"),
+                    'role' => 'ROLE_SMALL_CLUSTERS',
+                    'dict' => $this->getDict('ROLE_SMALL_CLUSTERS', $year),
+                    'title' => $this->getTitle('ROLE_SMALL_CLUSTERS'),
+                    'sheetTitle' => 'Лот 1',
+                    'sheet' => $sheet,
+                ]
+
+            ];
+        }
+        elseif($role == "lot_1+2")
+        {
+
+
+            $sheet->setTitle('Лот 1');
+
+            $clonedWorksheet = clone $sheet;
+            $clonedWorksheet->setTitle('Лот 2');
+            $spreadsheet->addSheet($clonedWorksheet);
+
+            $sheets = [
+                [
+                    'users' => $this->getUsers($year, "ROLE_SMALL_CLUSTERS_LOT_1"),
+                    'role' => 'ROLE_SMALL_CLUSTERS',
+                    'dict' => $this->getDict('ROLE_SMALL_CLUSTERS', $year),
+                    'title' => $this->getTitle('ROLE_SMALL_CLUSTERS'),
+                    'sheetTitle' => 'Лот 1',
+                    'sheet' => $sheet,
+                ],
+                [
+                    'users' => $this->getUsers($year, "ROLE_SMALL_CLUSTERS_LOT_2"),
+                    'role' => 'ROLE_SMALL_CLUSTERS',
+                    'dict' => $this->getDict('ROLE_SMALL_CLUSTERS', $year),
+                    'title' => $this->getTitle('ROLE_SMALL_CLUSTERS'),
+                    'sheetTitle' => 'Лот 1',
+                    'sheet' => $clonedWorksheet,
+                ]
+
+            ];
+        }
+        else
+        {
+            $sheets = [
+                [
+                    'users' => $this->getUsers($year, "ROLE_REGION"),
+                    'role' => 'ROLE_REGION',
+                    'dict' => $this->getDict('ROLE_REGION', $year),
+                    'title' => $this->getTitle('ROLE_REGION'),
+                    'sheetTitle' => 'ОПЦ(К)',
+                    'sheet' => $sheet,
+                ]
+
+            ];
+        }
+        foreach ($sheets as $sheet)
+        {
+
+            $dict = $sheet['dict'];
+            $title = $sheet['title'];
+            $sheetTitle = $sheet['sheetTitle'];
+            $users = $sheet['users'];
+            $sheet = $sheet['sheet'];
+
+
+            $styleArray = [
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    ],
+                ],
+                'font' => [
+                    'size'  => 11,
+                    'name'  => 'Times New Roman'
+                ],
+                'alignment' => [
+                    'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                ],
+            ];
+
+
+
+            $sheet->setCellValue("A1", $title);
+            $yearCol = ['E', 'M', 'U'];
+            $i = 0;
+
+            foreach ($yearCol as $col)
+            {
+                $sheet->setCellValue($col."3", $year+$i);
+                $sheet->fromArray($dict, null, $col."4");
+                $i++;
+            }
+            $index = 1;
+            foreach ($users as $user)
+            {
+                $row_index = $sheet->getHighestRow()+1;
+
+                $sheet->fromArray($this->getRow($user, $index), null, 'A'.$row_index, true);
+                $row_arr = ['K', 'L', 'S', 'T', 'AA', 'AB'];
+                foreach ($row_arr as $j){
+                    $sheet->getStyle($j.$row_index)->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
+                }
+                $index++;
+            }
+
+            $rangeTotal = 'A6:AB'.($sheet->getHighestRow());
+            $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+            $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        }
+
+
+
+
+
+        //write it again to Filesystem with the same name (=replace)
+        $writer = new Xlsx($spreadsheet);
+
+        $fileName = "Показатели результативности.xlsx";
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+        $writer->save($temp_file);
+
+
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+
+//        return $this->tableGenerator($users, $year, $this->getDict($role, $year), $this->getTitle($role));
     }
 
 

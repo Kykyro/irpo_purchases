@@ -111,33 +111,133 @@ class ContractingXlsxService extends AbstractController
         $sheet = $spreadsheet->getActiveSheet();
         if(is_null($today))
             $today = new \DateTime('now');
-        $grant = 100000000;
-        $index = 1;
 
         if($role == 'lot_1')
         {
             $fileName = 'Контрактация лот 1 '.$year." год ".$today->format('d-m-Y');
-            $grant = 70000000;
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $tags);
+            $sheets = [
+                [
+                    'grant' =>  70000000,
+                    'users' =>  $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $tags),
+                    'sheet' =>  $sheet,
+                    'role' =>  'lot_1',
+                ],
+            ];
         }
 
         else if($role == 'lot_2')
         {
             $fileName = 'Контрактация лот 2 '.$year." год ".$today->format('d-m-Y');
-            $grant = 60500000;
-            $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $tags);
+            $sheets = [
+                [
+                    'grant' =>  60500000,
+                    'users' =>  $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $tags),
+                    'sheet' =>  $sheet,
+                    'role' =>  'lot_2',
+                ],
+            ];
+        }
+        else if($role == 'lot_1+2')
+        {
+            $fileName = 'Контрактация Кластеры СПО '.$year." год ".$today->format('d-m-Y');
+
+            $sheet->setTitle('Лот 1');
+
+            $clonedWorksheet = clone $sheet;
+            $clonedWorksheet->setTitle('Лот 2');
+            $spreadsheet->addSheet($clonedWorksheet);
+
+
+            $sheets = [
+                [
+                    'grant' =>  70000000,
+                    'users' =>  $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $tags),
+                    'sheet' =>  $sheet,
+                    'role' =>  'lot_1',
+                ],
+                [
+                    'grant' =>  60500000,
+                    'users' =>  $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $tags),
+                    'sheet' =>  $clonedWorksheet,
+                    'role' =>  'lot_2',
+                ],
+            ];
         }
         else if($role == 'bas')
         {
             $fileName = 'Контрактация БАС '.$year." год ".$today->format('d-m-Y');
-            $grant = 60500000;
-            $users = $this->getUsersByYear($year, '%ROLE_BAS%', $tags);
+
+            $sheets = [
+                [
+                    'grant' =>  60500000,
+                    'users' =>  $this->getUsersByYear($year, '%ROLE_BAS%', $tags),
+                    'sheet' =>  $sheet,
+                    'role' =>  'ROLE_BAS',
+                ],
+            ];
         }
         else
         {
             $fileName = 'Контрактация ОПЦ '.$year." год ".$today->format('d-m-Y');
-            $users = $this->getUsersByYear($year, '%REGION%', $tags);
+
+            $sheets = [
+                [
+                    'grant' =>  100000000,
+                    'users' =>  $this->getUsersByYear($year, '%REGION%', $tags),
+                    'sheet' =>  $sheet,
+                    'role' =>  'cluster',
+                ],
+            ];
         }
+
+        foreach ($sheets as $sheet)
+        {
+            $grant = $sheet['grant'];
+            $role = $sheet['role'];
+            $users = $sheet['users'];
+            $sheet = $sheet['sheet'];
+
+            $this->addData($sheet, $users, $grant, $today, $role, $year);
+        }
+
+
+
+        // Запись файла
+        $writer = new Xlsx($spreadsheet);
+
+
+
+        if($save)
+        {
+//            dd();
+            $fileName = $fileName.'_'.uniqid().'.xlsx';
+            if (!file_exists($this->getParameter('contracting_tables_directory'))) {
+                mkdir($this->getParameter('contracting_tables_directory'), 0777, true);
+            }
+
+            $writer->save($this->getParameter('contracting_tables_directory').'/'.$fileName);
+
+            return $fileName;
+//            contracting_tables_directory
+//            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
+        else{
+//            dd();
+            $fileName = $fileName.'.xlsx';
+
+
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+            $writer->save($temp_file);
+
+            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
+
+    }
+
+    private function addData($sheet, $users, $grant, $today, $role, $year)
+    {
+        $index = 1;
         $curency_cell = ['E', 'G', 'I', 'K', 'M', 'N', 'O', 'P', 'L', 'Q', 'R', 'S', 'T'];
         foreach ($users as $user)
         {
@@ -244,24 +344,14 @@ class ContractingXlsxService extends AbstractController
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
 
         $sumRow = $end_cell + 1;
-//        $sheet->setCellValue('G'.$sumRow, "=SUM(G2:G$end_cell)");
-//        $sheet->setCellValue('I'.$sumRow, "=SUM(I2:I$end_cell)");
-//        $sheet->setCellValue('K'.$sumRow, "=SUM(K2:K$end_cell)");
-//        $sheet->setCellValue('M'.$sumRow, "=SUM(M2:M$end_cell)");
-//        $sheet->setCellValue('N'.$sumRow, "=SUM(N2:M$end_cell)");
-//        $sheet->setCellValue('O'.$sumRow, "=SUM(O2:O$end_cell)");
-//        $sheet->setCellValue('P'.$sumRow, "=SUM(P2:P$end_cell)");
-//        $sheet->setCellValue('Q'.$sumRow, "=SUM(Q2:Q$end_cell)");
-//        $sheet->setCellValue('R'.$sumRow, "=SUM(R2:R$end_cell)");
 
-//        $curency_cell = ['G', 'I', 'K', 'M', 'N', 'O', 'P', 'Q', 'R'];
         foreach ($curency_cell as $cell)
         {
             $sheet->setCellValue($cell.$sumRow, "=SUM({$cell}2:{$cell}$end_cell)");
             $sheet->getStyle("$cell$sumRow")->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
             $sheet->getStyle("$cell".($sumRow+1))->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_00);
         }
-        
+
         $sheet->getStyle('A:Z')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A:Z')->getAlignment()->setVertical('center');
 
@@ -275,41 +365,8 @@ class ContractingXlsxService extends AbstractController
 
 
         $sheet->fromArray($totalProcentageRow, null, 'E'.$totalProcentageCell);
-
-
-
-        // Запись файла
-        $writer = new Xlsx($spreadsheet);
-
-
-
-        if($save)
-        {
-//            dd();
-            $fileName = $fileName.'_'.uniqid().'.xlsx';
-            if (!file_exists($this->getParameter('contracting_tables_directory'))) {
-                mkdir($this->getParameter('contracting_tables_directory'), 0777, true);
-            }
-
-            $writer->save($this->getParameter('contracting_tables_directory').'/'.$fileName);
-
-            return $fileName;
-//            contracting_tables_directory
-//            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
-        }
-        else{
-//            dd();
-            $fileName = $fileName.'.xlsx';
-
-
-            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
-
-            $writer->save($temp_file);
-
-            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
-        }
-
     }
+
     public function downloadTableBAS(int $year, \DateTime $today = null, string $role = 'cluster', $save = null)
     {
 

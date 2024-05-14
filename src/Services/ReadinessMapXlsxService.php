@@ -120,6 +120,13 @@ class ReadinessMapXlsxService extends AbstractController
             $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $tags);
         }
+        else if($role == 'lot_1+2')
+        {
+            $fileName = 'Карта Кластеры СПО '.$year." год ".$today->format('d-m-Y');
+            $users1 = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $tags);
+            $users2 = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $tags);
+            $users = array_merge($users1, $users2);
+        }
 
         else
         {
@@ -130,6 +137,15 @@ class ReadinessMapXlsxService extends AbstractController
 
         foreach ($users as $user)
         {
+            if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
+                $_role = 'СПО лот 1';
+            else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
+                $_role = 'СПО лот 2';
+            else if(in_array('ROLE_REGION' ,$user->getRoles()))
+                $_role = 'ОПЦ(К)';
+            else
+                $_role = '?';
+
             $_data = [
                 'F' => 0,
                 'G' => 0,
@@ -267,6 +283,7 @@ class ReadinessMapXlsxService extends AbstractController
                 $nearestDate,
                 $lateDate,
                 $user_info->getCurator(),
+                $_role,
 
 
             ];
@@ -432,7 +449,8 @@ class ReadinessMapXlsxService extends AbstractController
                     $user->getEquipmentDeliveryDeadline(),
                     '-',
                     '',
-                    $user_info->getCurator()
+                    $user_info->getCurator(),
+                    $_role
 
                 ];
             else
@@ -459,7 +477,8 @@ class ReadinessMapXlsxService extends AbstractController
                     $user->getEquipmentDeliveryDeadline(),
                     '-',
                     '',
-                    $user_info->getCurator()
+                    $user_info->getCurator(),
+                    $_role
 
                 ];
             $sheet->fromArray($user_info_arr, "-", 'B'.$row, true);
@@ -528,6 +547,13 @@ class ReadinessMapXlsxService extends AbstractController
             $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
             $users = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $start, $step, $tags);
         }
+        else if($role == 'lot_1+2')
+        {
+            $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
+            $users1 = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $start, $step, $tags);
+            $users2 = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $start, $step, $tags);
+            $users = array_merge($users1, $users2);
+        }
 
         else
         {
@@ -538,6 +564,15 @@ class ReadinessMapXlsxService extends AbstractController
 
         foreach ($users as $user)
         {
+            if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
+                $_role = 'СПО лот 1';
+            else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
+                $_role = 'СПО лот 2';
+            else if(in_array('ROLE_REGION' ,$user->getRoles()))
+                $_role = 'ОПЦ(К)';
+            else
+                $_role = '?';
+
             $adresses = $user->getClusterAddresses();
 
             $nearestDate = '';
@@ -597,6 +632,7 @@ class ReadinessMapXlsxService extends AbstractController
                 "=(F$row+G$row)/2", // Средний % рем. работ в целом
                 $lateDate, // Крайняя дата окончания рем. работ
                 $user_info->getCurator(),
+                $_role,
 
 
             ];
@@ -644,6 +680,15 @@ class ReadinessMapXlsxService extends AbstractController
 
         foreach ($users as $user)
         {
+            if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
+                $_role = 'СПО лот 1';
+            else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
+                $_role = 'СПО лот 2';
+            else if(in_array('ROLE_REGION' ,$user->getRoles()))
+                $_role = 'ОПЦ(К)';
+            else
+                $_role = '?';
+
             $check = $user->getReadinessMapChecks()->last();
             if($check)
             {
@@ -725,7 +770,8 @@ class ReadinessMapXlsxService extends AbstractController
                 $user->getEquipmentDeliveryDeadline(), // Крайняя дата завершения комплектования
                 $status ? $status->getStatus() : '', // Статус проверки
                 $status ? $status->getComment() : '', // Комментарии куратора
-                $user_info->getCurator() // Куратор
+                $user_info->getCurator(), // Куратор
+                $_role,
             ];
 
             $sheet->fromArray($user_info_arr, "-", 'B'.$row, true);

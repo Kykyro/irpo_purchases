@@ -48,6 +48,15 @@ class CofinancingTableService extends AbstractController
 
         foreach ($users as $user)
         {
+            if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
+                $_role = 'СПО лот 1';
+            else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
+                $_role = 'СПО лот 2';
+            else if(in_array('ROLE_REGION' ,$user->getRoles()))
+                $_role = 'ОПЦ(К)';
+            else
+                $_role = '?';
+
             $cofinancingSum = $user->getCofinancingSum();
             $userInfo = $user->getUserInfo();
             $sheet = $spreadsheet->getSheetByName('Средства РД');
@@ -69,6 +78,7 @@ class CofinancingTableService extends AbstractController
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEmployerFunds(),
                 $userInfo->getCurator(),
+                $_role,
             ];
             $sheet->fromArray($row, null, 'A'.$rowCount, true);
             foreach ($row_arr as $j){
@@ -91,6 +101,7 @@ class CofinancingTableService extends AbstractController
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getRegionFunds(),
                 $userInfo->getCurator(),
+                $_role,
             ];
             $sheet->fromArray($row, null, 'A'.$rowCount, true);
             foreach ($row_arr as $j){
@@ -111,6 +122,7 @@ class CofinancingTableService extends AbstractController
                 "=F$rowCount/E$rowCount",
                 $fundsComment->getEducationFunds(),
                 $userInfo->getCurator(),
+                $_role,
             ];
             $sheet->fromArray($row, null, 'A'.$rowCount, true);
             foreach ($row_arr as $j){
