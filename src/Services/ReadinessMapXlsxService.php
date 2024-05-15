@@ -107,7 +107,12 @@ class ReadinessMapXlsxService extends AbstractController
         $sheet = $spreadsheet->getSheetByName('Ремонтные работы');
         $today = new \DateTime('now');
         $index = 1;
-
+        $styleFill = array(
+            'fill' => array(
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array('argb' => 'FF4F81BD')
+            )
+        );
 
         if($role == 'lot_1')
         {
@@ -125,7 +130,21 @@ class ReadinessMapXlsxService extends AbstractController
             $fileName = 'Карта Кластеры СПО '.$year." год ".$today->format('d-m-Y');
             $users1 = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $tags);
             $users2 = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $tags);
+            array_push($users1, '$$');
+            array_push($users2, '$$');
             $users = array_merge($users1, $users2);
+        }
+
+        else if($role == 'all')
+        {
+            $fileName = 'Карта Кластеры СПО '.$year." год ".$today->format('d-m-Y');
+            $users1 = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $tags);
+            $users2 = $this->getUsersByYear($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $tags);
+            $users3 = $this->getUsersByYear($year, '%ROLE_REGION%', $tags);
+            array_push($users1, '$$');
+            array_push($users2, '$$');
+            array_push($users3, '$$');
+            $users = array_merge($users1, $users2, $users3);
         }
 
         else
@@ -137,6 +156,23 @@ class ReadinessMapXlsxService extends AbstractController
 
         foreach ($users as $user)
         {
+            if($user == '$$')
+            {
+
+                $rowIndex = $sheet->getHighestRow()+1;
+                $cols = ['E','F','G','H','I','J','K','L','M','N','O','P'];
+                $row = [];
+                foreach ($cols as $col)
+                {
+                    $val = '=AVERAGE('.$col.($rowIndex-$index+1).':'.$col.($rowIndex-1).')';
+                    array_push($row, $val);
+                }
+
+                $sheet->fromArray($row, null, 'E'.$rowIndex, true);
+                $sheet->getStyle("A$rowIndex:R$rowIndex")->applyFromArray($styleFill);
+                $index = 1;
+                continue;
+            }
             if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
                 $_role = 'СПО лот 1';
             else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
@@ -313,12 +349,12 @@ class ReadinessMapXlsxService extends AbstractController
                 'name'  => 'Times New Roman'
             ]
         ];
-        $end_cell = $index;
-        $rangeTotal = 'A2:Q'.$end_cell;
+        $end_cell = $sheet->getHighestRow();
+        $rangeTotal = 'A2:R'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:Q')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:Q')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:R')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:R')->getAlignment()->setVertical('center');
         $sheet->removeColumn('E');
 
         $sheet = $spreadsheet->getSheetByName('Оборудование');
@@ -350,6 +386,34 @@ class ReadinessMapXlsxService extends AbstractController
 
         foreach ($users as $user)
         {
+            if($user == '$$')
+            {
+                $rowIndex = $sheet->getHighestRow()+1;
+                $cols = ['E','F','G','H','I','J','K','L','M','N','O','P'];
+                $row = [];
+                foreach ($cols as $col)
+                {
+                    $val = '=AVERAGE('.$col.($rowIndex-$index+1).':'.$col.($rowIndex-1).')';
+                    array_push($row, $val);
+                }
+
+//                $rowIndex++;
+                $sheet->fromArray($row, null, 'E'.$rowIndex, true);
+                $sheet->getStyle("A$rowIndex:X$rowIndex")->applyFromArray($styleFill);
+                $index = 1;
+                continue;
+            }
+
+            if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
+                $_role = 'СПО лот 1';
+            else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
+                $_role = 'СПО лот 2';
+            else if(in_array('ROLE_REGION' ,$user->getRoles()))
+                $_role = 'ОПЦ(К)';
+            else
+                $_role = '?';
+
+
             $adresses = $user->getClusterAddresses();
             $zoneCount = 0;
             $procentage = [
@@ -491,12 +555,12 @@ class ReadinessMapXlsxService extends AbstractController
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
         }
-        $end_cell = $index;
-        $rangeTotal = 'A2:V'.$end_cell;
+        $end_cell = $sheet->getHighestRow();
+        $rangeTotal = 'A2:X'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:V')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:V')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:X')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:X')->getAlignment()->setVertical('center');
 
 
         // Запись файла
