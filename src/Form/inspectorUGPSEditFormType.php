@@ -35,6 +35,8 @@ class inspectorUGPSEditFormType extends AbstractType
                 'prototype_data' => '',
                 'allow_delete' => true,
                 'by_reference' => false,
+                'empty_data' => '-',
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [

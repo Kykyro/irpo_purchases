@@ -3,11 +3,19 @@
 
 {% block styles %}
 
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet">
+
 {% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-lg-6 offset-lg-3">
+    <a href="{{ path('app_inspector_show_info_about_cluster', {'id': id}) }}">
+        <button class="btn btn-outline-dark" type="button">
+        Назад
+</button>
+    </a>
         <div class="ibox">
             <div class="ibox-title">
 
@@ -30,6 +38,9 @@
                                         <a href="#" class="js-remove-UGPS pull-right btn btn-danger">
                                             <span class="fa fa-close "></span>
                                         </a>
+                                        <a href="#" class="js-select2-search btn btn-primary pull-right">
+                                        <span class="fa fa-search "></span>
+                                    </a>
                                         <span class="badge badge-primary">Новый</span>
 
                                 '
@@ -40,7 +51,11 @@
                                     <a href="#" class="js-remove-UGPS pull-right btn btn-danger">
                                         <span class="fa fa-close "></span>
                                     </a>
-                                    {{ form_row(ugps, {'attr':{'class': 'form-control'}}) }}
+                                    <a href="#" class="js-select2-search btn btn-primary pull-right">
+                                        <span class="fa fa-search "></span>
+                                    </a>
+
+                                    {{ form_row(ugps, {'attr':{'class': 'form-control input-ugps select2'}}) }}
                                 </div>
 
                             </li>
@@ -107,7 +122,36 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+<script src="{{ asset('js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+<script src="{{ asset('js/plugins/typehead/bootstrap3-typeahead.min.js') }}"></script>
+{#<script src="{{ asset('js/scripts/tag_editor.js') }}"></script>#}
 <script>
+     $(document).ready(function(){
+        let _data = [];
+       fetch('/api/ugps').then(function(response) {
+           response.json().then(function(data) {
+               _data = JSON.parse(data);
+
+
+           })
+       });
+
+       $('.js-select2-search').on('click', function() {
+         $(this).next().children('input').select2({
+                tags: true,
+                closeOnSelect: true,
+                placeholder: "...",
+                allowHtml: true,
+                allowClear: true,
+                data: _data,
+            });
+       })
+
+       });
+</script>
+<script>
+ $(document).ready(function(){
     let listOfAnotherOrganizationWraper = $('.js-UGPS-wrapper');
     listOfAnotherOrganizationWraper.on('click', '.js-remove-UGPS', function(e) {
         e.preventDefault();
@@ -194,5 +238,6 @@
                 data.val('')
             }
             $('#add-many-row-ugps').click(addRowsByTable);
+    });
 </script>
 {% endblock %}

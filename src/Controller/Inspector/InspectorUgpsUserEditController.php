@@ -68,7 +68,7 @@ class InspectorUgpsUserEditController extends AbstractController
                 ->findBy([
                     'user_info' => $user_info,
                 ]);
-            return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id' => $user[0]->getId()]);
+//            return $this->redirectToRoute('app_inspector_show_info_about_cluster', ['id' => $user[0]->getId()]);
 
 
 
@@ -77,6 +77,7 @@ class InspectorUgpsUserEditController extends AbstractController
         return $this->render('inspector/templates/userUgpsEdit.html.twig', [
             'controller_name' => 'InspectorController',
             'form' => $form->createView(),
+            'id' => $id,
 
         ]);
     }
