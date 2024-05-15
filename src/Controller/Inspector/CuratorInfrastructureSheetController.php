@@ -52,7 +52,8 @@ class CuratorInfrastructureSheetController extends AbstractController
         if ($this->isCsrfTokenValid('infrastructure-equipment', $submittedToken)) {
             $equipment = $em->getRepository(WorkzoneEquipment::class)->find($id);
 
-            $equipment->setDone($request->request->get('is-done'));
+//            $equipment->setDone($request->request->get('is-done'));
+            $equipment->setDeleted($request->request->get('allow-deleted'));
             $equipment->setCuratorComment($request->request->get('comment'));
             $em->persist($equipment);
             $em->flush();

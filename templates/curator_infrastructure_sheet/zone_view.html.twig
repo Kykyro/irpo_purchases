@@ -182,9 +182,13 @@
                 </div>
                 <form method="post" action="" id="equipment-form">
                     <div class="modal-body">
+                        {#<div class="form-group">#}
+                            {#<input type="checkbox" name="is-done" id="is-done-input">#}
+                            {#<label>Все ОК</label>#}
+                        {#</div>#}
                         <div class="form-group">
-                            <input type="checkbox" name="is-done" id="is-done-input">
-                            <label>Все ОК</label>
+                            <input type="checkbox" name="allow-deleted" id="allow-delete-input">
+                            <label>Разрешить удаление</label>
                         </div>
                         <hr>
                         <div class="form-group">
@@ -216,12 +220,12 @@
             let editBtn = $('.edit-btn');
             let tableRows = $('.table-row-is');
 
-            tableRows.each(function (i) {
-                if($(this).data('done'))
-                {
-                    $(this).addClass('is-done');
-                }
-            });
+            // tableRows.each(function (i) {
+            //     if($(this).data('done'))
+            //     {
+            //         $(this).addClass('is-done');
+            //     }
+            // });
 
             editBtn.on('click', function () {
                 let id = $(this).data('id');
@@ -232,13 +236,16 @@
                         $('#exampleModalLabel').html(obj.name);
                         $('#equipment-form').prop('action', '/inspector/equipment/save/'+id);
                         $('#comment-form').val(obj.curatorComment);
-                        if(obj.done)
-                        {
-                            $('#is-done-input').prop('checked', true);
-                        }
-                        else{
-                            $('#is-done-input').prop('checked', false);
-                        }
+                        // if(obj.done)
+                        // {
+                        //     $('#is-done-input').prop('checked', true);
+                        // }
+                        // else{
+                        //     $('#is-done-input').prop('checked', false);
+                        // }
+
+                        $('#allow-delete-input').prop('checked', obj.deleted);
+
                     })
                 });
 

@@ -52,10 +52,27 @@ class ClusterInfrastructureSheetController extends AbstractController
                 if($_equipment->get('_comment'))
                 {
                     $comment = $_equipment->get('_comment')->getData();
-                    $commentHead = " \r\nКомментарий от кластера от ".$now->format('d.m.Y').": \r\n";
-                    $equipment->setClusterComment($equipment->getClusterComment().$commentHead.$comment);
+
+                    if($comment)
+                    {
+                        $commentHead = " \r\nКомментарий от кластера от ".$now->format('d.m.Y').": \r\n";
+                        $commentFooter = "\r\n --------------------------------------------";
+                        $equipment->setClusterComment($equipment->getClusterComment().$commentHead.$comment.$commentFooter);
+                    }
+
                 }
-                $em->persist($equipment);
+                if($equipment->getType())
+                    $em->persist($equipment);
+                else
+                {
+                    $dumps = $equipment->getWorkzoneEquipmentDumps();
+                    foreach ($dumps as $dump)
+                    {
+                        $em->remove($dump);
+                    }
+                    $em->remove($equipment);
+                }
+
             }
             $em->persist($zoneGroup);
 

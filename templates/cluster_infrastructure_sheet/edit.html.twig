@@ -56,15 +56,15 @@
                     <td>
                         {{ form_widget(sheet.unit) }}
                     </td>
-                    <td>
-                        {{ form_widget(sheet.resultCount, {'type':'number'}) }}
-                    </td>
+                    {#<td>#}
+                        {#{{ form_widget(sheet.resultCount, {'type':'number'}) }}#}
+                    {#</td>#}
                     <td>
                         {{ form_widget(sheet.funds) }}
                     </td>
                     <td>
                         {% if sheet.vars.data %}
-                            {{ sheet.vars.data.clusterComment }}
+                            {{ sheet.vars.data.clusterComment|nl2br }}
                         {% endif %}
                         <hr>
                         {{ form_widget(sheet._comment) }}
@@ -77,6 +77,13 @@
                             <button class="btn btn-danger delete-alert delete-row" type="button">
                                 <i class="fa fa-trash"></i>
                             </button>
+                        {% endif %}
+                        {% if sheet.vars.data %}
+                            {% if sheet.vars.data.deleted %}
+                                <button class="btn btn-danger delete-alert delete-row" type="button">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            {% endif %}
                         {% endif %}
                     </td>
 
@@ -92,11 +99,11 @@
                             <td class="col-md-1">Вид</td>
                             <td class="col-md-1">Количество</td>
                             <td class="col-md-1">Единица измерения</td>
-                            <td class="col-md-1">Итоговое количество</td>
-                            <td >Источник финансирования</td>
-                            <td class="col-md-2">Комментарий</td>
+                            {#<td class="col-md-1">Итоговое количество</td>#}
+                            <td class="col-md-1">Источник финансирования</td>
+                            <td class="col-md-3">Комментарий</td>
                             {#<td class="col-md-1">Комментарий от ИРПО</td>#}
-                            <td></td>
+                            <td class="col-md-1"></td>
                         </tr>
                         </thead>
                         <tbody
@@ -119,16 +126,7 @@
                                         {{ formMacros.printInfrastructureSheets(i, dis, i.vars.value.getCuratorComment, type) }}
                                     </tr>
                                 </tr>
-                            {% if i.vars.value.getCuratorComment %}
-                                <tr style="border-bottom: black solid 2px">
-                                    <td>
-                                        Комментарий от ИРПО
-                                    </td>
-                                    <td colspan="20" class="text-left">
-                                        {{ i.vars.value.getCuratorComment|nl2br }}
-                                    </td>
-                                </tr>
-                            {% endif %}
+
                         {% endfor %}
                         </tbody>
                     </table>
@@ -158,6 +156,12 @@
 {% block scripts %}
     <script>
         $(document).ready(function(){
+
+            let commentInput = $('.comment-input');
+            commentInput.each(function () {
+               $(this).val(null);
+            });
+
             $("textarea").each(function(textarea) {
                 $(this).height( $(this)[0].scrollHeight );
             });

@@ -55,15 +55,15 @@ class equipmentType  extends AbstractType
                 'required'   => false,
                 'label' => false
             ])
-            ->add('resultCount', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'type' => 'number'
-                ],
-                'required'   => false,
-                'label' => false,
-                'mapped' => false
-            ])
+//            ->add('resultCount', TextType::class, [
+//                'attr' => [
+//                    'class' => 'form-control',
+//                    'type' => 'number'
+//                ],
+//                'required'   => false,
+//                'label' => false,
+//                'mapped' => false
+//            ])
             ->add('funds', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -83,12 +83,13 @@ class equipmentType  extends AbstractType
             ])
             ->add('_comment', TextareaType::class, [
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control comment-input',
                     'oninput' => 'this.style.height = "";this.style.height = this.scrollHeight + "px"',
                 ],
                 'required'   => false,
                 'label' => false,
                 'mapped' => false,
+                'data' => null,
             ])
         ;
         if($zoneGroup->getType() == 'Охрана труда и техника безопасности')
