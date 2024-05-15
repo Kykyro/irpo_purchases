@@ -38,7 +38,7 @@
                                         <a href="#" class="js-remove-UGPS pull-right btn btn-danger">
                                             <span class="fa fa-close "></span>
                                         </a>
-                                        <a href="#" class="js-select2-search btn btn-primary pull-right">
+                                        <a href="#" class="js-select2-search-new btn btn-primary pull-right">
                                         <span class="fa fa-search "></span>
                                     </a>
                                         <span class="badge badge-primary">Новый</span>
@@ -128,7 +128,13 @@
 {#<script src="{{ asset('js/scripts/tag_editor.js') }}"></script>#}
 <script>
      $(document).ready(function(){
-        let _data = [];
+
+
+       });
+</script>
+<script>
+ $(document).ready(function(){
+      let _data = [];
        fetch('/api/ugps').then(function(response) {
            response.json().then(function(data) {
                _data = JSON.parse(data);
@@ -136,8 +142,8 @@
 
            })
        });
-
-       $('.js-select2-search').on('click', function() {
+        let search = $('.js-select2-search');
+       search.on('click', function() {
          $(this).next().children('input').select2({
                 tags: true,
                 closeOnSelect: true,
@@ -148,16 +154,24 @@
             });
        })
 
-       });
-</script>
-<script>
- $(document).ready(function(){
+
+
     let listOfAnotherOrganizationWraper = $('.js-UGPS-wrapper');
     listOfAnotherOrganizationWraper.on('click', '.js-remove-UGPS', function(e) {
         e.preventDefault();
         $(this).closest('.form-control')
             .fadeOut()
             .remove();
+    });
+    listOfAnotherOrganizationWraper.on('click', '.js-select2-search-new', function(e) {
+        $(this).next().next().select2({
+                tags: true,
+                closeOnSelect: true,
+                placeholder: "...",
+                allowHtml: true,
+                allowClear: true,
+                data: _data,
+            });
     });
     $('.add-another-collection-widget').click(function (e) {
         var list = $($(this).attr('data-list-selector'));
