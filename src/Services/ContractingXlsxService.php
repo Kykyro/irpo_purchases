@@ -383,8 +383,8 @@ class ContractingXlsxService extends AbstractController
         $grant = 60500000;
         $users = $this->getUsersByYear($year, '%ROLE_BAS%');
 //        dd($sheet->getHighestRow());
-        $curency_cell = ['C', 'D', 'F', 'H', 'J', 'K', 'M', 'O'];
-        $procent_cell = ['E', 'G', 'I', 'L', 'N', 'P'];
+        $curency_cell = ['C', 'D', 'F', 'H', 'J', 'K', 'L', 'N', 'P', 'R'];
+        $procent_cell = ['E', 'G', 'I', 'M', 'O', 'Q'];
         foreach ($users as $user)
         {
 
@@ -434,13 +434,15 @@ class ContractingXlsxService extends AbstractController
                 "=F$row/C$row",
                 "=D$row+F$row",
                 "=H$row/C$row",
+                "",
                 $user_info->getRegionFundsGrant(),
                 $_data['N'],
-                "=K$row/J$row",
+                "=L$row/K$row",
                 $_data['Q'],
-                "=M$row/J$row",
-                "=K$row+M$row",
-                "=O$row/J$row",
+                "=N$row/K$row",
+                "=L$row+N$row",
+                "=P$row/K$row",
+                "",
                 $user_info->getCurator(),
 
             ];
