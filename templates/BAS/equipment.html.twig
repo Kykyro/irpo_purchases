@@ -1,7 +1,7 @@
 {% extends "default/base.html.twig" %}
 
 {% block content %}
-<div class="row">
+{# <div class="row">
     <div class="col-sm-12">
         <a href="{{ path('app_region_certificate') }}">
             <button class="btn btn-outline-dark">
@@ -44,7 +44,7 @@
                         <td>Количество, шт.</td>
                         <td>Сумма, руб. </td>
                         {#<td>Количество, шт </td>#}
-                    </tr>
+                    {# </tr>
                     </thead>
                     <tbody>
                     {% for i in form.UAVsTypeEquipment %}
@@ -76,9 +76,80 @@
                 {{ form_end(form) }}
             </div>
         </div>
+    </div> #}
+{# </div>  #}
+<div class="row">
+    <div class="col-sm-12">
+    <a href="{{ path('app_region_certificate') }}">
+            <button class="btn btn-outline-dark mt-3 mb-3">
+                <i class="fa fa-arrow-left"></i>
+                Назад
+            </button>
+        </a>
+     {{ form_start(form) }}
+        {% for i in form.UAVsTypeEquipment %}
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+                    {{ i.vars['data'].name }}
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <h5>План</h5>
+                <label>Количество, шт.</label>
+                {{ form_widget(i.planCount, {"type": "number"}) }}
+                <label>Сумма, руб. </label>
+                {{ form_widget(i.planSum, {"type": "number"}) }}
+                
+                <hr>
+                <h5>В закупочных процедурах (объявлена закупка)</h5>
+                <label>Количество, шт.</label>
+                {{ form_widget(i.purchaseCount, {"type": "number"}) }}
+                <label>Сумма, руб. </label>
+                {{ form_widget(i.purchaseSum, {"type": "number"}) }}
+                
+                <hr>
+                <h5>
+                    Законтрактовано
+                                (подписан контракт,
+                                оборудование в поставке)
+                </h5>
+                <label>Количество, шт.</label>
+                {{ form_widget(i.contractedCount, {"type": "number"}) }}
+                <label>Сумма, руб. </label>
+                {{ form_widget(i.contractedSum, {"type": "number"}) }}
+                
+                <hr>
+                <h5>Поставлено в ОО</h5>
+                <label>Количество, шт.</label>
+                {{ form_widget(i.deliveredCount, {"type": "number"}) }}
+                <label>Сумма, руб. </label>
+                {{ form_widget(i.deliveredSum, {"type": "number"}) }}
+                
+                <hr>
+                <label>Поставщик</label>
+                {{ form_widget(i.provide) }}
+                <label>Производитель</label>
+                {{ form_widget(i.manufacturec) }}
+                <label>Марка</label>
+                {{ form_widget(i.mark) }}
+                <label>Модель</label>
+                {{ form_widget(i.model) }}
+                <label>ОКПД 2</label>
+                {{ form_widget(i.okpd2) }}
+
+
+            </div>
+        </div>
+        {% endfor %}
+        <button class="btn btn-success" type="submit">
+                    <i class="fa fa-save"></i>
+                    Сохранить
+                </button>
+    {{ form_end(form) }}
     </div>
 </div>
-
+<div class="row m-5"></div>
 
 
 {% endblock %}
