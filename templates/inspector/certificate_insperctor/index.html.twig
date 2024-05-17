@@ -236,6 +236,10 @@
                                         <b>Кластер:</b> {{ form_label(i) }} <br>
                                         <b>Год:</b> {{ i.vars.attr["data-year"] }} <br>
                                         <b>Округ:</b> {{ i.vars.attr["data-district"] }} <br>
+                                    {# {{dump(i.vars.attr["data-tags"])}} #}
+                                    </div>
+                                    <div class="col-lg-10 tags-box" data-tags="{{i.vars.attr["data-tags"]}}">
+                                    
                                     </div>
                                 </div>
 
@@ -533,7 +537,25 @@
 
                     // console.log(_ugps);
                     // console.log(_zone);
-
+                    $(".tags-box").each(function(){
+                        let tags = $(this).data('tags');
+                        
+                        if(tags.length > 0)
+                        {
+                            $(this).append("<hr><b>Теги: </b>");
+                            let tagsHtml = "";
+                            
+                           
+                            for(let i = 0; i < tags.length; i++)
+                            {
+                                $(this).append("<span class='badge badge-primary mr-1'>"+tags[i]+"</span>");
+                               
+                            }
+                           
+                            
+                            
+                        }
+                    });
                 }
 
 
