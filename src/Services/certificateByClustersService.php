@@ -724,7 +724,9 @@ class certificateByClustersService extends AbstractController
                     $user_info->getYear() < 2023 ? $this->arrayToStringList( $_zones) : $this->workzoneToString($_zones), // Зоны по виду работ, созданные в рамках проекта
                     $this->arrayToStringList( $user_info->getListOfAnotherOrganization()), // Иные организации
                     $user_info->getYear(),
-                    $user_info->getCity()
+                    $user_info->getCity(),
+                    $user->getRoleString(),
+                    $this->arrayToStringList( $user->getUserTagsArray()),
                 ]
             ;
             $row_arr = ['M', 'K', 'L'];
@@ -783,7 +785,7 @@ class certificateByClustersService extends AbstractController
         foreach ($row_arr as $j){
             $sheet->getStyle($j.($index))->getNumberFormat()->setFormatCode('#,##0.00_-"₽"');
         }
-        $rangeTotal = 'A2:R'.$index;
+        $rangeTotal = 'A2:T'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getRowDimension($index)->setRowHeight(-1);

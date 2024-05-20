@@ -1085,4 +1085,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getRoleString()
+    {
+        if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$this->getRoles()))
+            $_role = 'СПО лот 1';
+        else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$this->getRoles()))
+            $_role = 'СПО лот 2';
+        else if(in_array('ROLE_REGION' ,$this->getRoles()))
+            $_role = 'ОПЦ(К)';
+        else
+            $_role = '?';
+
+        return $_role;
+    }
+
 }
