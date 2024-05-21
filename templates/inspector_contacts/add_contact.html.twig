@@ -1,0 +1,65 @@
+{% extends "default/base.html.twig" %}
+
+{% block content %}
+
+    {{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+
+                </h5>
+            </div>
+            <div class="ibox-content">
+                {{ form_start(form) }}
+
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.post) }}
+                    {{ form_row(form.phoneNumber) }}
+                <button type="submit" class="btn btn-primary mt-3">
+                    Сохранить
+                </button>
+                {{ form_end(form) }}
+            </div>
+            <div class="ibox-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/mask-plugin/jquery.mask.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $("form").validate();
+            $.validator.messages.minlength = $.validator.format("Указан неполный код.");
+            // $.validator.addClassRules({
+            //     okpd2 : {
+            //         minlength: 12
+            //     },
+            //
+            // });
+            $("form").submit(function() {
+                $("#form_phoneNumber").unmask();
+            });
+
+            $('.select2').select2({
+                closeOnSelect : false,
+                placeholder : "...",
+                allowHtml: true,
+                allowClear: true
+            });
+        });
+    </script>
+{% endblock %}
+
+
+

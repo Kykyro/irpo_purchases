@@ -189,6 +189,14 @@
                         </button>
                     </a>
                     {% endif %}
+
+                    <a href="{{ path('app_inspector_view_contacts', {'id': i.getId()}) }}">
+                        <button class="btn btn-contact col-lg-12 mb-2">
+                            <div class="fa fa-pencil"></div>
+                            Контакты
+                        </button>
+                    </a>
+
                     <a href="{{ path('app_login', {'_switch_user': i.getUserIdentifier()}) }}">
                         <button class="btn btn-warning col-lg-12">
                             <div class="fa fa-leaf"></div>

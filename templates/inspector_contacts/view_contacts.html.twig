@@ -1,0 +1,99 @@
+{% extends "default/base.html.twig" %}
+
+{% block content %}
+    {{ include('default/cluster_info.html.twig', {'user_info': user.getUserInfo()}) }}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>
+
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <a href="{{ path('app_inspector_contact_add', {'id': user.getId()}) }}">
+                    <button class="btn btn-primary">
+                        <i class="fa fa-plus"></i>
+                        Добавить контакт
+                    </button>
+                </a>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="col-md-1">ФИО</td>
+                            <td class="col-md-1">Должность</td>
+                            <td class="col-md-1">Номер телефона</td>
+                            <td class="col-md-1"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in user.getClusterContacts() %}
+                        <tr>
+                           <td>{{ i.getName() }}</td>
+                           <td>{{ i.getPost() }}</td>
+                           <td class="phone-number">{{ i.getPhoneNumber() }}</td>
+                           <td>
+                               <a href="{{ path('app_inspector_contact_edit', {'contact_id': i.getId(), 'id': user.getId()}) }}">
+                                   <button class="btn btn-primary">
+                                       <i class="fa fa-edit"></i>
+                                   </button>
+                               </a>
+                               <a href="{{ path('app_inspector_remove_contact', {'id': i.getId()}) }}">
+                                   <button class="btn btn-danger delete-alert">
+                                       <i class="fa fa-trash"></i>
+                                   </button>
+                               </a>
+                           </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="ibox-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        console.log('aaaa');
+        function isFloat(n) {
+            return Number(n) === n && n % 1 !== 0;
+        }
+
+        function isInt(n) {
+            return n % 1 === 0;
+        }
+
+        function formatPhoneNumber(phoneNumberString) {
+            var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+            // var match = cleaned.match(/^(7|)?(\d{3})(\d{3})(\d{2})(\d{2})$/);
+            var match = cleaned.match(/(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})$/);
+            if (match) {
+                var intlCode = (match[1] == '7' ? '+7' : match[1] );
+                return [intlCode, ' (', match[2], ') ', match[3], '-', match[4], '-', match[5]].join('');
+            }
+            return phoneNumberString;
+        }
+
+        let numberCells = $('.phone-number');
+
+        numberCells.each((elem) => {
+            let _cell = $(numberCells[elem]);
+            let _text = _cell.text();
+
+            _cell.text(formatPhoneNumber(_text));
+
+        });
+    });
+</script>
+{% endblock %}
+
+
+

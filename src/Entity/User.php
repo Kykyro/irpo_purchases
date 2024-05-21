@@ -136,6 +136,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToOne(targetEntity=UAVsCertificate::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $uAVsCertificate;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ClusterContact::class, mappedBy="user")
+     */
+    private $clusterContacts;
     
 
     public function getId(): ?int
@@ -173,6 +178,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->compitenceProfiles = new ArrayCollection();
         $this->cofinancingScenarios = new ArrayCollection();
         $this->uAVsTypeEquipment = new ArrayCollection();
+        $this->clusterContacts = new ArrayCollection();
     }
 
 
@@ -1097,6 +1103,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $_role = '?';
 
         return $_role;
+    }
+
+    /**
+     * @return Collection<int, ClusterContact>
+     */
+    public function getClusterContacts(): Collection
+    {
+        return $this->clusterContacts;
+    }
+
+    public function addClusterContact(ClusterContact $clusterContact): self
+    {
+        if (!$this->clusterContacts->contains($clusterContact)) {
+            $this->clusterContacts[] = $clusterContact;
+            $clusterContact->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClusterContact(ClusterContact $clusterContact): self
+    {
+        if ($this->clusterContacts->removeElement($clusterContact)) {
+            // set the owning side to null (unless already changed)
+            if ($clusterContact->getUser() === $this) {
+                $clusterContact->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }
