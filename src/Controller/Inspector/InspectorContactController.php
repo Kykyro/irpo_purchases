@@ -152,6 +152,12 @@ class InspectorContactController extends AbstractController
                     'placeholder' => '+_ (___) ___-__-__',
                 ],
                 'label' => 'Номер телефона'
+            ])->add('addPhoneNumber', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => 'Добавочный номер',
+                'required' => false
             ])
             ->add('name', TextType::class, [
                 'attr' => [

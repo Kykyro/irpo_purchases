@@ -37,6 +37,11 @@ class ClusterContact
      */
     private $Name;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $addPhoneNumber;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class ClusterContact
     public function setName(?string $Name): self
     {
         $this->Name = $Name;
+
+        return $this;
+    }
+
+    public function getAddPhoneNumber(): ?string
+    {
+        return $this->addPhoneNumber;
+    }
+
+    public function setAddPhoneNumber(?string $addPhoneNumber): self
+    {
+        $this->addPhoneNumber = $addPhoneNumber;
 
         return $this;
     }
