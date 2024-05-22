@@ -8,6 +8,7 @@ use App\Entity\ReadinessMapCheckStatus;
 use App\Entity\RepairPhotos;
 use App\Form\editZoneRepairForm;
 use App\Form\infrastructureSheetZoneRegionEditForm;
+use App\Services\excel\InfrastructureSheetFromReadinessMapXlsxService;
 use App\Services\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -148,7 +149,13 @@ class RegionReadinessMapController extends AbstractController
             return 0;
         }
     }
-
+    /**
+     * @Route("/readiness-map/download-infratructure-sheet", name="app_region_download_infrastructure_sheet")
+     */
+    public function downloadInfrastructureSheet( InfrastructureSheetFromReadinessMapXlsxService $service)
+    {
+        return $service->generate($user = $this->getUser()->getId());
+    }
     /**
      * @Route("/readiness-map/view-zone/{id}", name="app_region_view_zone")
      */

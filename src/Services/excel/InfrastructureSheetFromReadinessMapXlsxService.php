@@ -44,7 +44,14 @@ class InfrastructureSheetFromReadinessMapXlsxService extends AbstractController
             'Тип',
             'Итоговое',
             'Фактическое',
-            'В эксплоатации',
+            'В эксплуатации',
+            'Итоговое = Фактическое',
+            'Итоговое = В эксплуатации',
+            'Дата поставки',
+            'ОКПД2',
+            'КТРУ',
+            'Марка / модель',
+            'Страна-производитель',
         ];
         $sheet->fromArray($rowTitle, '', 'A'.$sheet->getHighestRow());
         foreach ($user->getClusterAddresses() as $address)
@@ -53,6 +60,7 @@ class InfrastructureSheetFromReadinessMapXlsxService extends AbstractController
             {
                 foreach ($zones->getZoneInfrastructureSheets() as $_sheet)
                 {
+                    $rowIndex = $sheet->getHighestRow()+1;
                     $row = [
                         $address->getAddresses(),
                         $zones->getName(),
@@ -61,12 +69,40 @@ class InfrastructureSheetFromReadinessMapXlsxService extends AbstractController
                         $_sheet->getTotalNumber(),
                         $_sheet->getFactNumber(),
                         $_sheet->getPutIntoOperation(),
+                        "=IF(E$rowIndex=F$rowIndex,1,0)",
+                        "=IF(E$rowIndex=G$rowIndex,1,0)",
+                        $_sheet->getDeliveryDate() ? $_sheet->getDeliveryDate()->format('d.m.Y') : '',
+                        $_sheet->getOKPD2(),
+                        $_sheet->getKTRU(),
+                        $_sheet->getModel(),
+                        $_sheet->getCountryOfOrigin(),
                     ];
-                    $rowIndex = $sheet->getHighestRow()+1;
+
                     $sheet->fromArray($row, '', 'A'.$rowIndex);
                 }
             }
         }
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'font' => [
+                'size'  => 11,
+                'name'  => 'Times New Roman'
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+            ],
+        ];
+
+        $index = $sheet->getHighestRow()+1;
+        $rangeTotal = 'A1:N'.$index;
+        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+
         // Create Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
 
