@@ -18,22 +18,22 @@
                         Добавить контакт
                     </button>
                 </a>
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="margin-top: 1rem">
                     <thead>
-                        <tr>
-                            <td class="col-md-1">ФИО</td>
-                            <td class="col-md-1">Должность</td>
-                            <td class="col-md-1">Номер телефона</td>
-                            <td class="col-md-1"></td>
+                        <tr style="font-weight: bold; text-align: center">
+                            <td class="col-md-1" style="vertical-align: middle">ФИО</td>
+                            <td class="col-md-1" style="vertical-align: middle">Должность</td>
+                            <td class="col-md-1" style="vertical-align: middle">Номер телефона</td>
+                            <td class="col-md-1" style="vertical-align: middle"></td>
                         </tr>
                     </thead>
                     <tbody>
                     {% for i in user.getClusterContacts() %}
-                        <tr>
-                           <td>{{ i.getName() }}</td>
-                           <td>{{ i.getPost() }}</td>
-                           <td class="phone-number">{{ i.getPhoneNumber() }}</td>
-                           <td>
+                        <tr style="text-align: center">
+                           <td style="vertical-align: middle">{{ i.getName() }}</td>
+                           <td style="vertical-align: middle">{{ i.getPost() }}</td>
+                           <td class="phone-number" style="vertical-align: middle">{{ i.getPhoneNumber() }}</td>
+                           <td style="vertical-align: middle">
                                <a href="{{ path('app_inspector_contact_edit', {'contact_id': i.getId(), 'id': user.getId()}) }}">
                                    <button class="btn btn-primary">
                                        <i class="fa fa-edit"></i>
