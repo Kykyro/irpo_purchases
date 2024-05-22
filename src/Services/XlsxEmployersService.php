@@ -64,6 +64,7 @@ class XlsxEmployersService extends AbstractController
             'Регион',
             'Округ',
             'ОГРН',
+            'Теги',
         ];
         /** @var Spreadsheet $spreadsheet */
         $spreadsheet = new Spreadsheet();
@@ -80,11 +81,12 @@ class XlsxEmployersService extends AbstractController
             $sheet->fromArray($row, null, 'A'.$row_index);
 
             $sheet->setCellValue("N$row_index", $this->getRoles($employer));
+            $sheet->setCellValue("R$row_index", $this->getTags($employer));
             $spreadsheet->getActiveSheet()->getStyle('K'.$row_index)->getNumberFormat()
                 ->setFormatCode('@');
         }
         $index = $sheet->getHighestRow()+1;
-        $rangeTotal = 'A1:Q'.$index;
+        $rangeTotal = 'A1:R'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getColumnDimension('A')->setWidth(50);
@@ -102,7 +104,9 @@ class XlsxEmployersService extends AbstractController
         $sheet->getColumnDimension('O')->setWidth(35);
         $sheet->getColumnDimension('P')->setWidth(35);
         $sheet->getColumnDimension('Q')->setWidth(35);
+        $sheet->getColumnDimension('R')->setWidth(35);
 
+        $sheet->setAutoFilter("A1:R1");
         // Create Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
 
@@ -115,6 +119,29 @@ class XlsxEmployersService extends AbstractController
 
         // Return the excel file as an attachment
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    private function getTags($employer)
+    {
+        $userInfos = $employer->getUserInfos();
+        $tags = [];
+        foreach ($userInfos as $userInfo)
+        {
+            $user = $this->entity_manager->getRepository(User::class)->getUserByUserInfo($userInfo);
+
+            $_tags = $user->getUserTagsArray();
+            $tags = array_merge($tags, $_tags);
+        }
+        $tags = array_unique($tags);
+        $str = "";
+        $index = 1;
+
+        foreach ($tags as $tag)
+        {
+            $str = $str.$index.") ".$tag."\n";
+        }
+
+        return $str;
     }
 
     private function getRoles($employer)
