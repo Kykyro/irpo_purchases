@@ -139,6 +139,7 @@ class XlsxEmployersService extends AbstractController
         foreach ($tags as $tag)
         {
             $str = $str.$index.") ".$tag."\n";
+            $index++;
         }
 
         return $str;
