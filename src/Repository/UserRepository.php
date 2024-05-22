@@ -96,6 +96,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult()
             ;
     }
+    public function findAllCluster(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.user_info', 'uf')
+            ->andWhere('u.roles LIKE :role1 or u.roles LIKE :role2 or u.roles LIKE :role3')
+
+            ->andWhere('uf.year > :year')
+            ->setParameter('role1', "%ROLE_SMALL_CLUSTERS%")
+            ->setParameter('role2', "%ROLE_REGION%")
+            ->setParameter('role3', "%ROLE_BAS%")
+
+            ->setParameter('year', 2022)
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     public function getUserByUserInfo($userInfo): ?User
     {
         return $this->createQueryBuilder('u')

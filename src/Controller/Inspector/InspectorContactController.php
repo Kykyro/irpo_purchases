@@ -12,6 +12,7 @@ use App\Entity\UserInfo;
 use App\Form\clusterDocumentForm;
 use App\Form\InspectorPurchasesFindFormType;
 use App\Form\inspectorUserEditFormType;
+use App\Services\Contacts\ContactXlsxService;
 use App\Services\FileService;
 use App\Services\XlsxRepairNeededService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -82,6 +83,16 @@ class InspectorContactController extends AbstractController
 
         ]);
     }
+
+
+    /**
+     * @Route("/download-contacts", name="app_inspector_download_contacts")
+     */
+    public function downloadContact(ContactXlsxService $service): Response
+    {
+        return $service->generate();
+    }
+
 
     /**
      * @Route("/remove-contact/{id}", name="app_inspector_remove_contact")
