@@ -160,7 +160,7 @@ class ReadinessMapXlsxService extends AbstractController
             {
 
                 $rowIndex = $sheet->getHighestRow()+1;
-                $cols = ['E','F','G','H','I','J','K','L','M','N','O','P'];
+                $cols = ['E','F','G','H','I','J','K','L','M','N'];
                 $row = [];
                 foreach ($cols as $col)
                 {
@@ -169,6 +169,10 @@ class ReadinessMapXlsxService extends AbstractController
                 }
 
                 $sheet->fromArray($row, null, 'E'.$rowIndex, true);
+                $sheet->getStyle("A$rowIndex:R$rowIndex")->applyFromArray($styleFill);
+                $sheet->getStyle("A$rowIndex:R$rowIndex")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+                $rowIndex++;
+                $sheet->fromArray([''], null, 'E'.$rowIndex, true);
                 $sheet->getStyle("A$rowIndex:R$rowIndex")->applyFromArray($styleFill);
                 $index = 1;
                 continue;
@@ -396,9 +400,11 @@ class ReadinessMapXlsxService extends AbstractController
                     $val = '=AVERAGE('.$col.($rowIndex-$index+1).':'.$col.($rowIndex-1).')';
                     array_push($row, $val);
                 }
-
-//                $rowIndex++;
                 $sheet->fromArray($row, null, 'E'.$rowIndex, true);
+                $sheet->getStyle("A$rowIndex:X$rowIndex")->applyFromArray($styleFill);
+                $sheet->getStyle("A$rowIndex:X$rowIndex")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+                $rowIndex++;
+                $sheet->fromArray([''], null, 'E'.$rowIndex, true);
                 $sheet->getStyle("A$rowIndex:X$rowIndex")->applyFromArray($styleFill);
                 $index = 1;
                 continue;
@@ -598,7 +604,12 @@ class ReadinessMapXlsxService extends AbstractController
         $sheet = $spreadsheet->getSheetByName('Ремонтные работы');
         $today = new \DateTime('now');
         $index = 1;
-
+        $styleFill = array(
+            'fill' => array(
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array('argb' => 'FF4F81BD')
+            )
+        );
 
         if($role == 'lot_1')
         {
@@ -615,7 +626,11 @@ class ReadinessMapXlsxService extends AbstractController
         {
             $fileName = 'Карта готовности лот 2 '.$year." год ".$today->format('d-m-Y');
             $users1 = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_1%', $start, $step, $tags);
+
             $users2 = $this->getUsersByYearPaginator($year, '%ROLE_SMALL_CLUSTERS_LOT_2%', $start, $step, $tags);
+
+            array_push($users1, '$$');
+            array_push($users2, '$$');
             $users = array_merge($users1, $users2);
         }
 
@@ -628,6 +643,28 @@ class ReadinessMapXlsxService extends AbstractController
 
         foreach ($users as $user)
         {
+            if($user == '$$')
+            {
+
+                $rowIndex = $sheet->getHighestRow()+1;
+                $cols = ['F','G','H'];
+                $row = [];
+                foreach ($cols as $col)
+                {
+                    $val = '=AVERAGE('.$col.($rowIndex-$index+1).':'.$col.($rowIndex-1).')';
+                    array_push($row, $val);
+                }
+
+                $sheet->fromArray($row, null, 'F'.$rowIndex, true);
+                $sheet->getStyle("A$rowIndex:K$rowIndex")->applyFromArray($styleFill);
+                $sheet->getStyle("A$rowIndex:K$rowIndex")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+                $rowIndex++;
+                $sheet->fromArray([''], null, 'E'.$rowIndex, true);
+                $sheet->getStyle("A$rowIndex:K$rowIndex")->applyFromArray($styleFill);
+                $index = 1;
+                continue;
+            }
+
             if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
                 $_role = 'СПО лот 1';
             else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
@@ -726,8 +763,8 @@ class ReadinessMapXlsxService extends AbstractController
                 'name'  => 'Times New Roman'
             ]
         ];
-        $end_cell = $index;
-        $rangeTotal = 'A2:J'.$end_cell;
+        $end_cell = $sheet->getHighestRow();
+        $rangeTotal = 'A2:K'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getStyle('A:Q')->getAlignment()->setHorizontal('center');
@@ -744,6 +781,29 @@ class ReadinessMapXlsxService extends AbstractController
 
         foreach ($users as $user)
         {
+            if($user == '$$')
+            {
+
+                $rowIndex = $sheet->getHighestRow()+1;
+                $cols = ['F','G'];
+                $row = [];
+                foreach ($cols as $col)
+                {
+                    $val = '=AVERAGE('.$col.($rowIndex-$index+1).':'.$col.($rowIndex-1).')';
+                    array_push($row, $val);
+                }
+
+                $sheet->fromArray($row, null, 'F'.$rowIndex, true);
+
+                $sheet->getStyle("A$rowIndex:L$rowIndex")->applyFromArray($styleFill);
+                $sheet->getStyle("A$rowIndex:L$rowIndex")->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_PERCENTAGE_0);
+                $rowIndex++;
+                $sheet->fromArray([''], null, 'E'.$rowIndex, true);
+                $sheet->getStyle("A$rowIndex:L$rowIndex")->applyFromArray($styleFill);
+                $index = 1;
+                continue;
+            }
+
             if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
                 $_role = 'СПО лот 1';
             else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
@@ -848,8 +908,8 @@ class ReadinessMapXlsxService extends AbstractController
             $sheet->getRowDimension($index+1)->setRowHeight(65);
             $index++;
         }
-        $end_cell = $index;
-        $rangeTotal = 'A2:K'.$end_cell;
+        $end_cell = $sheet->getHighestRow();
+        $rangeTotal = 'A2:L'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         $sheet->getStyle('A:V')->getAlignment()->setHorizontal('center');
