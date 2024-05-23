@@ -57,7 +57,7 @@
                         {% set user = i.getUser() %}
                         {% set userInfo = user.getUserInfo() %}
                         <tr style="text-align: center">
-                            <td style="vertical-align: middle">{{ userInfo.getEducationalOrganization() }}</td>
+                            <td style="vertical-align: middle">{{ user.getRoleString() }}</td>
                             <td style="vertical-align: middle">{{ userInfo.getYear() }}</td>
                             <td style="vertical-align: middle">{{ userInfo.getRfSubject().getDistrict() }}</td>
                             <td style="vertical-align: middle">{{ userInfo.getRfSubject().getName() }}</td>
