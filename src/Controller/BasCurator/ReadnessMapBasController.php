@@ -4,6 +4,7 @@ namespace App\Controller\BasCurator;
 
 use App\Entity\ClusterZone;
 use App\Entity\PhotosVersion;
+use App\Entity\ReadinessMapCheckStatus;
 use App\Entity\UAVsCertificate;
 use App\Entity\User;
 use App\Entity\ZoneInfrastructureSheet;
@@ -14,9 +15,11 @@ use App\Services\BAS\AddTypicalBasService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -136,10 +139,45 @@ class ReadnessMapBasController extends AbstractController
 
         ];
 
-
+        $rmcs = new ReadinessMapCheckStatus();
+        $formReadinessMapChecks = $this->createFormBuilder($rmcs)
+            ->add('comment', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Комментарий',
+                'required' => false,
+            ])
+            ->add('status', ChoiceType::class, [
+                'choices'  => [
+//                    'На рассмотрении' => 'На рассмотрении',
+                    'На доработку' => 'На доработке',
+                    'Принято' => 'Принято',
+//                    'Исправлено' => 'Исправлено',
+                ],
+                'multiple' => false,
+                'expanded' => true,
+            ])
+            ->getForm();
 
 
         $form->handleRequest($request);
+
+        $formReadinessMapChecks->handleRequest($request);
+
+        if ($formReadinessMapChecks->isSubmitted() && $formReadinessMapChecks->isValid())
+        {
+            $readinessMapCheck = $user->getReadinessMapChecks()->last();
+            if($readinessMapCheck){
+                $readinessMapCheck->addStatus($rmcs);
+
+                $em->persist($rmcs);
+                $em->flush();
+            }
+
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
+        }
         if ($form->isSubmitted() && $form->isValid())
         {
             $data = $form->getData();
@@ -182,6 +220,7 @@ class ReadnessMapBasController extends AbstractController
             'proc' => $proc,
             'mtb_fact' => $mtb_fact,
             'mtb_put' => $mtb_put,
+            'form_checks' => $formReadinessMapChecks->createView(),
 
         ]);
     }

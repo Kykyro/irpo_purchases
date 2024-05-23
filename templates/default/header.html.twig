@@ -134,7 +134,13 @@
                         <a href="{{ path("app_region_certificate") }}"><i class="fa fa-file left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Справки <span id="certificate-notification" class="badge pull-right"><i class="fa m-0 p-0"></i></span></span></a>
                     </li>
                     <li>
-                        <a href="{{ path("app_region_readiness_map") }}"><i class="fa fa-check-circle left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Карта готовности <span class="badge badge-danger pull-right" id="zone-remarks"></span></span></a>
+                        <a href="{{ path("app_region_readiness_map") }}"><i class="fa fa-check-circle left-bar-color-text"></i> <span class="nav-label left-bar-color-text">Карта готовности
+                                {#<span class="badge badge-danger pull-right" id="zone-remarks"></span>#}
+                                <span id="rm-notification" class="badge pull-right"><i class="m-0 p-0 fa"></i></span>
+                                <span class="badge badge-danger pull-right" id="zone-remarks"></span>
+
+                            </span>
+                        </a>
                     </li>
 
                     <li>

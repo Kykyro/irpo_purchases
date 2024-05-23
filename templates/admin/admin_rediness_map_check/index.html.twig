@@ -22,6 +22,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td></td>
                         <td>
                             Есть проверка?
                         </td>
@@ -33,6 +34,7 @@
                         {% for i in users %}
                             <tr>
                                 <td>{{ i.getId() }}</td>
+                                <td>{{ i.getRoleString() }}</td>
                                 <td>{{ i.getUsername() }}</td>
                                 <td>{{ i.getUserInfo().getEducationalOrganization() }}</td>
                                 <td>

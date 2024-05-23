@@ -23,7 +23,46 @@
     {#{% if addresses|length > 0 %}#}
     {{ include('default/bas_info.html.twig', {'user_info': user.getUserInfo()}) }}
     <div class="row mt-3">
+        <div class="col-sm-6 offset-sm-3">
+            {% if user.getReadinessMapChecks()|length > 0 %}
+                <div class="ibox">
+                    <div class="ibox-title row">
+                        <h5>
+                            Проверка карт готовности
+                        </h5>
+                    </div>
+                    <div class="ibox-content row">
+                        <div class="col-sm-6 text-center">
+                            {% set ReadinessMapChecks = user.getReadinessMapChecks().last() %}
+                            {% if ReadinessMapChecks %}
+                                {% set status = ReadinessMapChecks.getStatus().last() %}
+                                {% if status %}
+                                    <b>
+                                        {{ status.getStatus() }}
+                                    </b>
+                                    <hr>
+                                    {{ status.getComment()|nl2br }}
+                                {% else %}
+                                    Нет замечаний
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-primary col-sm-12" data-toggle="modal" data-target="#exampleModal2">
+                                Комментарий по карте готовности
+                            </button>
+                            <a href="{{ path('app_inspector_checks_history', { 'id': user.getId() }) }}">
+                                <button type="button" class="btn btn-success col-sm-12 mt-3">
+                                    История
+                                </button>
+                            </a>
 
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+        </div>
     </div>
 
     <div class="row mt-3">
@@ -532,7 +571,34 @@
         </div>
     </div>
 
-
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{ form_start(form_checks) }}
+                <div class="modal-body">
+                    {% for i in form_checks.status %}
+                        {{ form_widget(i) }}
+                        {{ form_label(i) }}
+                        <br>
+                    {% endfor %}
+                    <hr>
+                    {{ form_row(form_checks.comment) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Сохранить и отправить</button>
+                </div>
+                {{ form_end(form_checks) }}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
