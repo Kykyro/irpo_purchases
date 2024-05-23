@@ -44,7 +44,7 @@ class InspectorContactController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('search', TextType::class,[
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control col-md-4',
                 ],
                 'label' => false,
                 'required' => false
@@ -56,6 +56,7 @@ class InspectorContactController extends AbstractController
 
         $query = $em->getRepository(ClusterContact::class)
             ->createQueryBuilder('p')
+
             ->orderBy('p.id', 'DESC')
             ;
         if($form->isSubmitted() and $form->isValid())
@@ -63,7 +64,9 @@ class InspectorContactController extends AbstractController
             $search = $form->getData()['search'];
 
             $query = $query
-                ->andWhere('p.Name LIKE :search or p.phoneNumber LIKE :search')
+                ->leftJoin('p.user', 'u')
+                ->leftJoin('u.user_info', 'uf')
+                ->andWhere('p.Name LIKE :search or p.phoneNumber LIKE :search or uf.educational_organization LIKE :search')
                 ->setParameter('search', "%$search%");
 
         }

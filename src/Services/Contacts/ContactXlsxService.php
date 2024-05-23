@@ -58,6 +58,7 @@ class ContactXlsxService extends AbstractController
                     $contact->getName(),
                     $contact->getPost(),
                     $contact->getPhoneNumber(),
+                    $contact->getAddPhoneNumber(),
                 ];
 
                 $sheet->fromArray($row1, '', 'A'.$nextRow, true);
@@ -82,7 +83,7 @@ class ContactXlsxService extends AbstractController
             ],
         ];
         $index = $sheet->getHighestRow()+1;
-        $rangeTotal = 'A2:K'.$index;
+        $rangeTotal = 'A2:L'.$index;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
         //write it again to Filesystem with the same name (=replace)

@@ -1,16 +1,20 @@
 {% extends "default/base.html.twig" %}
 
 {% block content %}
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-sm-12">
             <div class="ibox">
-                <div class="ibox-title" style="margin-top: 1rem"></div>
-                <div class="ibox-content" style="margin-top: 1rem">
+                <div class="ibox-title" ></div>
+                <div class="ibox-content" >
                     {{ form_start(form) }}
-                        {{ form_row(form.search) }}
-                        <button class="btn btn-primary" type="submit" style="margin-top: 1rem">
+                    <div class="form-inline">
+                        {{ form_widget(form.search) }}
+                        <button class="btn btn-primary ml-3" type="submit" >
+                            <i class="fa fa-search"></i>
                             Поиск
                         </button>
+                    </div>
+
                     {{ form_end(form) }}
                 </div>
             </div>
@@ -45,6 +49,7 @@
                             <td class="col-md-1" style="vertical-align: middle">ФИО</td>
                             <td class="col-md-1" style="vertical-align: middle">Должность</td>
                             <td class="col-md-1" style="vertical-align: middle">Номер телефона</td>
+                            <td class="col-md-1" style="vertical-align: middle">Добавочный номер</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,16 +58,18 @@
                         {% set userInfo = user.getUserInfo() %}
                         <tr style="text-align: center">
                             <td style="vertical-align: middle">{{ userInfo.getEducationalOrganization() }}</td>
-                            <td style="vertical-align: middle"></td>
-                            <td style="vertical-align: middle"></td>
+                            <td style="vertical-align: middle">{{ userInfo.getYear() }}</td>
+                            <td style="vertical-align: middle">{{ userInfo.getRfSubject().getDistrict() }}</td>
                             <td style="vertical-align: middle">{{ userInfo.getRfSubject().getName() }}</td>
-                            <td style="vertical-align: middle"></td>
-                            <td style="vertical-align: middle"></td>
-                            <td style="vertical-align: middle"></td>
-                            <td style="vertical-align: middle"></td>
+                            <td style="vertical-align: middle">{{ userInfo.getDeclaredIndustry() }}</td>
+                            <td style="vertical-align: middle">{{ userInfo.getEducationalOrganization() }}</td>
+                            <td style="vertical-align: middle">{{ userInfo.getOrganization() }}</td>
+                            <td style="vertical-align: middle">{{ userInfo.getCurator() }}</td>
+
                             <td style="vertical-align: middle">{{ i.getName() }}</td>
                             <td style="vertical-align: middle">{{ i.getPost() }}</td>
                             <td class="phone-number" style="vertical-align: middle">{{ i.getPhoneNumber() }}</td>
+                            <td class="phone-number" style="vertical-align: middle">{{ i.getAddPhoneNumber() }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
