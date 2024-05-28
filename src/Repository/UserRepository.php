@@ -107,7 +107,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('role2', "%ROLE_REGION%")
             ->setParameter('role3', "%ROLE_BAS%")
 
-            ->setParameter('year', 2022)
+            ->setParameter('year', 2021)
             ->orderBy('u.id', 'ASC')
             ->getQuery()
             ->getResult()

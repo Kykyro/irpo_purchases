@@ -56,13 +56,44 @@ class TestController extends AbstractController
      * @Route("/test", name="app_test")
      * @Route("/test/{id}", name="app_test_id")
      */
-    public function index(Request $request, int $id = null): Response
+    public function index(Request $request, int $id = null, FileService $fileService): Response
     {
+        $form = $this->createFormBuilder()
+            ->add('files', FileType::class, [
+                'multiple' => true,
+                'attr'     => [
+                    'class' => 'form-control',
+                    'multiple' => 'multiple'
+                ],
+                'required'   => false,
+                'mapped' => false,
+                'label' => 'Фаил'
+            ])
+            ->getForm();
 
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid())
+        {
+            $files = $file = $form->get('files')->getData();
+            if($files)
+            {
+                if(count($files) > 1)
+                {
+                    $fileService->UploadFilesZip( $file = $form->get('files')->getData(), 'test_upload_directory');
+                }
+                else
+                {
+                    $fileService->UploadFile( $file = $form->get('files')->getData()[0], 'test_upload_directory');
+                }
+            }
+
+//            dd( $file = $form->get('files')->getData());
+        }
 
         return $this->render('test/index.html.twig', [
             'controller_name' => 'RegionController',
-
+            'form' => $form->createView(),
 
 
         ]);
