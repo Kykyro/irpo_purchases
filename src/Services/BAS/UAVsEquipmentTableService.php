@@ -445,6 +445,27 @@ class UAVsEquipmentTableService extends AbstractController
             $sheet->fromArray($this->GetEqSum($user), null, 'B'.$end_cell, true);
         }
 
+        $end_cell = $sheet->getHighestRow()+1;
+        $row = [
+            "Итог:",
+            "=SUM(B3:B$end_cell)",
+            "=SUM(C3:C$end_cell)",
+            "=SUM(D3:D$end_cell)",
+            "",
+            "=SUM(F3:F$end_cell)",
+            "=SUM(G3:G$end_cell)",
+            "=SUM(H3:H$end_cell)",
+            "",
+            "=SUM(J3:J$end_cell)",
+            "=SUM(K3:K$end_cell)",
+            "=SUM(L3:L$end_cell)",
+            "",
+            "=SUM(N3:N$end_cell)",
+            "=SUM(O3:O$end_cell)",
+            "=SUM(P3:P$end_cell)",
+        ];
+        $sheet->fromArray($row, null, 'A'.$end_cell, true);
+
         $end_cell = $sheet->getHighestRow();
         $rangeTotal = 'A1:P'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
