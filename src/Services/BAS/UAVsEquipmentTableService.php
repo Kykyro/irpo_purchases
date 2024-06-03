@@ -47,6 +47,7 @@ class UAVsEquipmentTableService extends AbstractController
             $row = [
                 $index,
                 $equipment->getName(),
+                $equipment->getCategory(),
                 $equipment->getPlanCount(),
                 $equipment->getPlanSum(),
                 $equipment->getPurchaseCount(),
@@ -83,15 +84,16 @@ class UAVsEquipmentTableService extends AbstractController
 
 
         $end_cell = $sheet->getHighestRow();
-        $rangeTotal = 'A5:O'.$end_cell;
+        $rangeTotal = 'A5:P'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+        $sheet->getStyle('P5:AE5')->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:O')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:O')->getAlignment()->setVertical('center');
+        $sheet->getStyle('P5:AE5')->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:AE')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:AE')->getAlignment()->setVertical('center');
 
         $resultRow = [
             'Итого:',
-            '=SUM(C5:C'.($end_cell).")",
             '=SUM(D5:D'.($end_cell).")",
             '=SUM(E5:E'.($end_cell).")",
             '=SUM(F5:F'.($end_cell).")",
@@ -99,8 +101,9 @@ class UAVsEquipmentTableService extends AbstractController
             '=SUM(H5:H'.($end_cell).")",
             '=SUM(I5:I'.($end_cell).")",
             '=SUM(J5:J'.($end_cell).")",
+            '=SUM(K5:K'.($end_cell).")",
         ];
-        $sheet->fromArray($resultRow, null, 'B'.($end_cell + 1), true);
+        $sheet->fromArray($resultRow, null, 'C'.($end_cell + 1), true);
 
         $end_cell = $sheet->getHighestRow();
         $rangeTotal = 'A5:O'.$end_cell;
@@ -246,14 +249,11 @@ class UAVsEquipmentTableService extends AbstractController
     }
     public function downloadTableAllByRegion($year, $role)
     {
-//        $sheet_template = "../public/excel/readinessMap.xlsx";
         $sheet_template = $this->getParameter('uvas_sertificate_table_directory');
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($sheet_template);
         $sheet = $spreadsheet->getActiveSheet();
         $today = new \DateTime('now');
         $index = 1;
-
-//b4c7dc
 
         $sheet->setCellValue('A2',
             "Справка об оснащении специализированных классов (кружков) и центров практической подготовки БПЛА");
@@ -267,12 +267,18 @@ class UAVsEquipmentTableService extends AbstractController
                 'startColor' => array('argb' => 'b4c7dc')
             )
         );
+        $styleFill2 = array(
+            'fill' => array(
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array('argb' => 'c9daf8')
+            )
+        );
         foreach ($users as $user)
         {
             $userInfo = $user->getUserInfo();
             $equipments = $user->getUAVsTypeEquipment();
             $sheet->fromArray([$userInfo->getRfSubject()->getName()], null, 'A'.$rowCount, true);
-            $sheet->mergeCells("A$rowCount:O$rowCount");
+            $sheet->mergeCells("A$rowCount:P$rowCount");
             $sheet->getStyle('A'.$rowCount)->applyFromArray($styleFill);
             $rowCount++;
             $index=1;
@@ -281,6 +287,7 @@ class UAVsEquipmentTableService extends AbstractController
                 $row = [
                     $index,
                     $equipment->getName(),
+                    $equipment->getCategory(),
                     $equipment->getPlanCount(),
                     $equipment->getPlanSum(),
                     $equipment->getPurchaseCount(),
@@ -302,8 +309,8 @@ class UAVsEquipmentTableService extends AbstractController
             }
             $row = [
                 '',
+                '',
                 'Итого:',
-                '=SUM(C'.($rowCount-count($equipments)).':C'.($rowCount-1).')',
                 '=SUM(D'.($rowCount-count($equipments)).':D'.($rowCount-1).')',
                 '=SUM(E'.($rowCount-count($equipments)).':E'.($rowCount-1).')',
                 '=SUM(F'.($rowCount-count($equipments)).':F'.($rowCount-1).')',
@@ -311,6 +318,7 @@ class UAVsEquipmentTableService extends AbstractController
                 '=SUM(H'.($rowCount-count($equipments)).':H'.($rowCount-1).')',
                 '=SUM(I'.($rowCount-count($equipments)).':I'.($rowCount-1).')',
                 '=SUM(J'.($rowCount-count($equipments)).':J'.($rowCount-1).')',
+                '=SUM(K'.($rowCount-count($equipments)).':K'.($rowCount-1).')',
             ];
             array_push($resultRows, $rowCount);
             $sheet->fromArray($row, null, 'A'.$rowCount, true);
@@ -368,40 +376,165 @@ class UAVsEquipmentTableService extends AbstractController
             ]
         ];
         $end_cell = $sheet->getHighestRow();
-        $rangeTotal = 'A5:O'.$end_cell;
+        $rangeTotal = 'A5:P'.$end_cell;
         $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
         $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A:O')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:O')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:P')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:P')->getAlignment()->setVertical('center');
+        $sheet->removeColumn('Q', 15);
 
+        // СВОД КАТЕГОРИЙ
+        $title = 'СВОД КАТЕГОРИЙ';
+        $myWorkSheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, $title);
+        $sheet = $spreadsheet->addSheet($myWorkSheet);
 
+        $row = [
+            'Регион',
+            'План',
+            '',
+            '',
+            '',
+            'В закупочных процедурах (объявлена закупка)',
+            '',
+            '',
+            '',
+            'Законтрактовано (подписан контракт, оборудование в поставке)',
+            '',
+            '',
+            '',
+            'Поставлено в ОО',
+            '',
+            '',
+        ];
+        $sheet->fromArray($row, null, 'A1', true);
+        $sheet->mergeCells("A1:A2");
+        $sheet->mergeCells("B1:D1");
+        $sheet->mergeCells("F1:H1");
+        $sheet->mergeCells("J1:L1");
+        $sheet->mergeCells("N1:P1");
+        $row = [
+            '',
+            'Мультиротор легкий',
+            'Самолет легкий',
+            'Образовательные БАС',
+            '',
+            'Мультиротор легкий',
+            'Самолет легкий',
+            'Образовательные БАС',
+            '',
+            'Мультиротор легкий',
+            'Самолет легкий',
+            'Образовательные БАС',
+            '',
+            'Мультиротор легкий',
+            'Самолет легкий',
+            'Образовательные БАС',
+        ];
+        $sheet->fromArray($row, null, 'A2', true);
 
+        foreach ($users as $user)
+        {
+            $end_cell = $sheet->getHighestRow()+1;
+            $userInfo = $user->getUserInfo();
+            $rfSubject = $userInfo->getRfSubject();
+            $row = [
+                $rfSubject->getName(),
+            ];
 
+            $sheet->fromArray($row, null, 'A'.$end_cell, true);
+            $sheet->fromArray($this->GetEqSum($user), null, 'B'.$end_cell, true);
+        }
+
+        $end_cell = $sheet->getHighestRow();
+        $rangeTotal = 'A1:P'.$end_cell;
+        $sheet->getStyle($rangeTotal)->applyFromArray($styleArray);
+        $sheet->getStyle($rangeTotal)->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A:P')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:P')->getAlignment()->setVertical('center');
+
+        $dimension = 50;
+        $sheet->getColumnDimension('A')->setWidth($dimension);
+        $dimension = 15;
+        $sheet->getColumnDimension('B')->setWidth($dimension);
+        $sheet->getColumnDimension('C')->setWidth($dimension);
+        $sheet->getColumnDimension('D')->setWidth($dimension);
+        $sheet->getColumnDimension('F')->setWidth($dimension);
+        $sheet->getColumnDimension('G')->setWidth($dimension);
+        $sheet->getColumnDimension('H')->setWidth($dimension);
+        $sheet->getColumnDimension('J')->setWidth($dimension);
+        $sheet->getColumnDimension('K')->setWidth($dimension);
+        $sheet->getColumnDimension('L')->setWidth($dimension);
+        $sheet->getColumnDimension('N')->setWidth($dimension);
+        $sheet->getColumnDimension('O')->setWidth($dimension);
+        $sheet->getColumnDimension('P')->setWidth($dimension);
+        $sheet->getStyle("E3:E$end_cell")->applyFromArray($styleFill);
+        $sheet->getStyle("I3:I$end_cell")->applyFromArray($styleFill);
+        $sheet->getStyle("M3:M$end_cell")->applyFromArray($styleFill);
+        $sheet->getStyle("A1:P2")->applyFromArray($styleFill2);
         // Запись файла
         $writer = new Xlsx($spreadsheet);
 
-//        if($save)
-//        {
-//            $fileName = $fileName.'_'.uniqid().'.xlsx';
-//            if (!file_exists($this->getParameter('readiness_map_saves_directory'))) {
-//                mkdir($this->getParameter('readiness_map_saves_directory'), 0777, true);
-//            }
-//
-//            $writer->save($this->getParameter('readiness_map_saves_directory').'/'.$fileName);
-//
-//            return $fileName;
-//        }
-//        else{
-            $fileName = 'Свод_'.$today->format('d-m-Y').'.xlsx';
-            $fileName = $fileName.'.xlsx';
-            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+        $fileName = 'Свод_'.$today->format('d-m-Y').'.xlsx';
+        $fileName = $fileName.'.xlsx';
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 
-            $writer->save($temp_file);
+        $writer->save($temp_file);
 
 
-            return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
-//        }
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
 
+
+    }
+
+
+    private function GetEqSum($user)
+    {
+        $row = [
+            0,
+            0,
+            0,
+            '',
+            0,
+            0,
+            0,
+            '',
+            0,
+            0,
+            0,
+            '',
+            0,
+            0,
+            0,
+        ];
+
+        $equipments = $user->getUAVsTypeEquipment();
+        foreach ($equipments as $equipment)
+        {
+            switch ($equipment->getCategory())
+            {
+                case 'Мультиротор легкий':
+                    $row[0] += $equipment->getPlanCount();
+                    $row[4] += $equipment->getPurchaseCount();
+                    $row[8] += $equipment->getContractedCount();
+                    $row[12] += $equipment->getDeliveredCount();
+                    break;
+                case 'Самолет легкий':
+                    $row[1] += $equipment->getPlanCount();
+                    $row[5] += $equipment->getPurchaseCount();
+                    $row[9] += $equipment->getContractedCount();
+                    $row[13] += $equipment->getDeliveredCount();
+                    break;
+                case 'Образовательные БАС':
+                    $row[2] += $equipment->getPlanCount();
+                    $row[6] += $equipment->getPurchaseCount();
+                    $row[10] += $equipment->getContractedCount();
+                    $row[14] += $equipment->getDeliveredCount();
+                    break;
+            }
+        }
+
+
+        return $row;
     }
 
 

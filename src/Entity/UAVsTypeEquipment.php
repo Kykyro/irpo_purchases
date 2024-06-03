@@ -92,6 +92,11 @@ class UAVsTypeEquipment
      */
     private $okpd2;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -273,6 +278,18 @@ class UAVsTypeEquipment
     public function setOkpd2(?string $okpd2): self
     {
         $this->okpd2 = $okpd2;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
