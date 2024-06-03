@@ -92,6 +92,7 @@ class BasCuratorContractingController extends AbstractController
                 ],
                 'label' => 'Старт',
                 'empty_data' => 0,
+                'data' => 0,
                 'required'   => false,
 
             ])
@@ -104,6 +105,7 @@ class BasCuratorContractingController extends AbstractController
                 ],
                 'label' => 'Шаг',
                 'empty_data' => 0,
+                'data' => 0,
                 'required'   => false,
 
             ])
