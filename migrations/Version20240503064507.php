@@ -22,7 +22,7 @@ final class Version20240503064507 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE sheet_workzone DROP fgos');
         $this->addSql('ALTER TABLE sheet_workzone RENAME INDEX fk_22b23d45a76ed395 TO IDX_22B23D45A76ED395');
-        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649586DFF2 FOREIGN KEY (user_info_id) REFERENCES user_info (id)');
+//        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649586DFF2 FOREIGN KEY (user_info_id) REFERENCES user_info (id)');
 
         $this->addSql('ALTER TABLE workzone_equipment DROP FOREIGN KEY FK_B223BFEC8B1206A5');
         $this->addSql('DROP INDEX IDX_B223BFEC8B1206A5 ON workzone_equipment');
