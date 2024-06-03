@@ -683,10 +683,12 @@ class certificateByClustersService extends AbstractController
 
             $_ugps = $user_info->getUGPS();
             $_employeers = $user_info->getListOfEmployers();
-            if ($user_info->getYear() < 2023)
-                $_zones = $user_info->getZone();
-            else
-                $_zones = $user->getSortedWorkZones();
+//            if ($user_info->getYear() < 2023)
+//                $_zones = $user_info->getZone();
+//            else
+//                $_zones = $user->getSortedWorkZones();
+
+            $_zones = $user_info->getZone();
 
             if(count($ugps) > 0)
             {
@@ -721,7 +723,8 @@ class certificateByClustersService extends AbstractController
                     $user_info->getFinancingFundsOfSubject() * 1000, // Объём финансирования из средств субъекта РФ (руб.)
                     $user_info->getExtraFundsOO() * 1000, // Объём финансирования из средств субъекта РФ (руб.)
                     $this->arrayToStringList( $_ugps), // Наименование профессий и специальностей, реализуемых в кластере
-                    $user_info->getYear() < 2023 ? $this->arrayToStringList( $_zones) : $this->workzoneToString($_zones), // Зоны по виду работ, созданные в рамках проекта
+//                    $user_info->getYear() < 2023 ? $this->arrayToStringList( $_zones) : $this->workzoneToString($_zones), // Зоны по виду работ, созданные в рамках проекта
+                    $this->arrayToStringList( $_zones),
                     $this->arrayToStringList( $user_info->getListOfAnotherOrganization()), // Иные организации
                     $user_info->getYear(),
                     $user_info->getCity(),
