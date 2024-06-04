@@ -533,6 +533,7 @@ class InspectorReadinessMapController extends AbstractController
         $zone = $entity_manager->getRepository(ClusterZone::class)->find($zone_id);
         $addres = $zone->getAddres();
         $repair = $zone->getZoneRepair();
+        $repairDump = $repair->getRepairDumps();
         $zone->setZoneRepair(null);
         $photoVersion = $repair->getPhotosVersions();
         $infrastructureSheet = $zone->getZoneInfrastructureSheets();
@@ -550,6 +551,11 @@ class InspectorReadinessMapController extends AbstractController
         }
 
         foreach ($infrastructureSheet as $i)
+        {
+            $entity_manager->remove($i);
+        }
+
+        foreach ($repairDump as $i)
         {
             $entity_manager->remove($i);
         }
