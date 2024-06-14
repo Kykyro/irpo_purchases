@@ -1083,12 +1083,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ path('app_inspector_info_about_cluster_ogrn_edit', {'id': user.getId()}) }}" method="post">
+                <form id="ogrn-form" action="{{ path('app_inspector_info_about_cluster_ogrn_edit', {'id': user.getId()}) }}" method="post">
                     <div class="modal-body">
                         <label>
                             ОГРН
                         </label>
-                       <input class="form-control" name="ogrn">
+                       <input class="form-control" id="ogrn-input" name="ogrn" size="13" maxlength="13">
 
                         <input type="hidden" name="token" value="{{ csrf_token('ogrn-edit') }}"/>
                     </div>
@@ -1148,10 +1148,47 @@
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/plugins/fullcalendar/moment.min.js') }}"></script>
 <script src="{{ asset('js/plugins/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('js/plugins/validate/jquery.validate.min.js') }}"></script>
 <script>
     $('.custom-file-input').on('change', function() {
         let fileName = $(this).val().split('\\').pop();
         $(this).next('.custom-file-label').addClass("selected").html(fileName);
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $("#ogrn-form").validate(
+            {
+
+                rules: {
+                    'ogrn' : {
+                        maxlength: 13,
+                        minlength: 13
+                    }
+                }
+            }
+
+
+        );
+
+
+
+        // $.validator.messages.maxlength = $.validator.format("Указан неполный код.");
+        // $.validator.addClassRules({
+        //     ogrn : {
+        //         maxlength: 13
+        //     },
+        // });
+        // $("form").submit(function() {
+        //     $("#form_phoneNumber").unmask();
+        // });
+
+        // $('.select2').select2({
+        //     closeOnSelect : false,
+        //     placeholder : "...",
+        //     allowHtml: true,
+        //     allowClear: true
+        // });
     });
 </script>
 {#<script src=""></script>#}
