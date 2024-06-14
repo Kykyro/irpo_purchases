@@ -113,6 +113,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult()
             ;
     }
+    public function findAllClusterWithoutBAS(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.user_info', 'uf')
+            ->andWhere('u.roles LIKE :role1 or u.roles LIKE :role2 ')
+
+            ->andWhere('uf.year > :year')
+            ->setParameter('role1', "%ROLE_SMALL_CLUSTERS%")
+            ->setParameter('role2', "%ROLE_REGION%")
+
+            ->setParameter('year', 2021)
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     public function getUserByUserInfo($userInfo): ?User
     {
         return $this->createQueryBuilder('u')
