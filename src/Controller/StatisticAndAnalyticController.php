@@ -83,6 +83,16 @@ class StatisticAndAnalyticController extends AbstractController
     }
 
     /**
+     * @Route("/statistic-and-analytic/Count-Cluster-Industry-all", name="app_statistic_and_analytic_cluster_count_industry_all")
+     */
+    public function getCountClusterIndustryAll(XlsxClusterIndustryService $service)
+    {
+
+        return $service->generateAll();
+
+    }
+
+    /**
      * @Route("/statistic-and-analytic/Count-edu-orgs", name="app_statistic_and_analytic_cluster_edu_orgs")
      */
     public function getCountEduOrgs(Request $request, XlsxEducationOrganizationService $service)
