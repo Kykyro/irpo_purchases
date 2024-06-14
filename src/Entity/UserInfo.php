@@ -233,6 +233,11 @@ class UserInfo
      */
     private $readinessMapChecksRefresh;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $grandOGRN;
+
 
 
     function __construct()
@@ -904,6 +909,18 @@ class UserInfo
     public function setReadinessMapChecksRefresh(?bool $readinessMapChecksRefresh): self
     {
         $this->readinessMapChecksRefresh = $readinessMapChecksRefresh;
+
+        return $this;
+    }
+
+    public function getGrandOGRN(): ?string
+    {
+        return $this->grandOGRN;
+    }
+
+    public function setGrandOGRN(?string $grandOGRN): self
+    {
+        $this->grandOGRN = $grandOGRN;
 
         return $this;
     }

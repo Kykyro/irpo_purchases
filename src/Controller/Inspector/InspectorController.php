@@ -179,7 +179,6 @@ class InspectorController extends AbstractController
         $entity_manager = $this->getDoctrine()->getManager();
         $user = $entity_manager->getRepository(User::class)->find($id);
         $user_info = $user->getUserInfo();
-
         return $this->render('inspector/templates/infoAboutCluster.html.twig', [
             'controller_name' => 'InspectorController',
             'user_info' => $user_info,
@@ -187,6 +186,27 @@ class InspectorController extends AbstractController
 
         ]);
     }
+    /**
+     * @Route("/cluster-info/ogrn-edit/{id}", name="app_inspector_info_about_cluster_ogrn_edit")
+     */
+    public function editOGRN(int $id, Request $request, EntityManagerInterface $em){
+        $entity_manager = $this->getDoctrine()->getManager();
+        $submittedToken = $request->request->get('token');
+        $user = $entity_manager->getRepository(User::class)->find($id);
+//        dd($user->getUserInfo());
+        $userInfo = $user->getUserInfo();
+        if ($this->isCsrfTokenValid('ogrn-edit', $submittedToken)) {
+            $userInfo->setGrandOGRN($request->request->get('ogrn'));
+            $entity_manager->persist($userInfo);
+            $entity_manager->flush();
+        }
+
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
+    }
+
+
 
     /**
      * @Route("/monitoring-check-out-upload/{id}", name="app_inspector_monitoring_check_out_upload")

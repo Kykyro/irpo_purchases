@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $Name;
 
     /**
-     * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"}, fetch="EAGER")
      */
     private $user_info;
 
