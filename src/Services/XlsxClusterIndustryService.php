@@ -294,13 +294,6 @@ class XlsxClusterIndustryService extends AbstractController
             $endRow = $sheet->getHighestRow() +1;
             $sheet->fromArray($headerRow, '', 'A'.$endRow, true);
 
-
-            $func = function($value) {
-                return $value[0];
-            };
-
-
-
             $row = [
                 $key,
                 $this-> sumResult($sheet, 'B', $endRow),
@@ -312,6 +305,7 @@ class XlsxClusterIndustryService extends AbstractController
                  "=SUM(H2:H".($endRow-1).")",
                  "=SUM(I2:I".($endRow-1).")",
                 $this-> sumResult($sheet, 'J', $endRow),
+                $this-> sumResult2($sheet, 'K', $endRow)
              ];
             $sheet->fromArray($row, '', 'A'.($endRow+1), true);
             $index = $sheet->getHighestRow()+1;
@@ -395,15 +389,22 @@ class XlsxClusterIndustryService extends AbstractController
 
     private function sumResult($sheet, $l, $endRow)
     {
-
-
         $func = function($value) {
             return $value[0];
         };
-
         $_b = array_map($func, $sheet->rangeToArray("$l"."2:$l".($endRow-1)));
         $emptyRemoved_b = array_filter($_b);
 
         return count(array_unique($emptyRemoved_b));
+    }
+    private function sumResult2($sheet, $l, $endRow)
+    {
+        $func = function($value) {
+            return $value[0];
+        };
+        $_b = array_map($func, $sheet->rangeToArray("$l"."2:$l".($endRow-1)));
+        $emptyRemoved_b = array_filter($_b);
+
+        return count($emptyRemoved_b);
     }
 }
