@@ -51,7 +51,7 @@ class ClusterFinancingService extends AbstractController
             if(in_array('ROLE_SMALL_CLUSTERS_LOT_1' ,$user->getRoles()))
             {
                 $_role = 'СПО лот 1';
-                $_grand = 7000000;
+                $_grand = 70000000;
             }
 
             else if(in_array('ROLE_SMALL_CLUSTERS_LOT_2' ,$user->getRoles()))
