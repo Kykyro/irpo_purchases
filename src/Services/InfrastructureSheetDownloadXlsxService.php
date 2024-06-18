@@ -87,7 +87,7 @@ class InfrastructureSheetDownloadXlsxService extends AbstractController
                 $_sheet->getTotalNumber(),
                 '',
                 '',
-                '',
+                $_sheet->getFunds() ? implode(" ", $_sheet->getFunds()) : "",
                 $_sheet->getCountryOfOrigin(),
                 $_sheet->getOKPD2(),
                 $_sheet->getKTRU(),
